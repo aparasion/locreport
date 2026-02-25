@@ -5,17 +5,7 @@ client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 
 # === CONFIGURE YOUR SPECIFIC AREA HERE ===
 FEEDS = [
-    "https://news.google.com/rss/search?q=translation+OR+localization+OR+interpreter+when:1d",
-    "https://news.google.com/rss/search?q=machine+translation+OR+AI+translation+when:1d",
-    "https://news.google.com/rss/search?q=language+services+OR+translation+industry+when:1d",
-    "https://slator.com/feed/",                          # leading translation industry news site
-    "https://www.languagemagazine.com/feed/",            # language & translation magazine
     "https://multilingual.com/feed/",                    # translation & localization industry
-    "https://www.tcworld.info/rss.xml",                  # technical communication & translation
-    "https://www.atanet.org/feed/",                      # American Translators Association
-    "https://blog.sdl.com/feed/",                        # SDL/RWS translation tech blog
-    "https://www.nimdzi.com/feed/",                      # language industry research & insights
-    "https://lyndentraductions.com/blog/feed/",          # translation industry blog
 ]
 
 SEEN_FILE = "seen.json"
@@ -37,7 +27,7 @@ for feed_url in FEEDS:
         
         # AI gist
         prompt = f"Create a concise gist (3–5 bullets or 100–200 words) of this article. Focus on key facts, implications. End with source: {url}\n\n{text[:15000]}"
-        response = client.models.generate_content(model="gemini-2.5-flash", contents=prompt)
+        response = client.models.generate_content(model="gemini-2.0-flash", contents=prompt)
         gist = response.text
         time.sleep(15)  # 15s gap = max ~4 requests/min, safely under the limit
         
