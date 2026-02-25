@@ -1,49 +1,51 @@
 import feedparser, os, json, datetime, requests, trafilatura, time
-from google import genai  # pip install google-generativeai
-
+from google import genai
 client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 
-# === CONFIGURE YOUR SPECIFIC AREA HERE ===
 FEEDS = [
-    "https://multilingual.com/feed/",                    # translation & localization industry
+    "https://www.languagemagazine.com/feed/",
+    "https://multilingual.com/feed/",
 ]
 
 SEEN_FILE = "seen.json"
-YOUR_AREA = "Translation"  # change to whatever label you want
+YOUR_AREA = "Translation"
+MAX_ARTICLES = 18  # ← defined here before the loop
 
-# Load seen URLs
 seen = json.load(open(SEEN_FILE)) if os.path.exists(SEEN_FILE) else []
-
 posts = []
+count = 0  # ← counter initialized here before the loop
+
 for feed_url in FEEDS:
+    if count >= MAX_ARTICLES:  # ← check before each feed
+        break
     feed = feedparser.parse(feed_url)
-    for entry in feed.entries[:10]:  # limit per feed
+    for entry in feed.entries[:10]:
+        if count >= MAX_ARTICLES:  # ← check before each article
+            break
         url = entry.link
-        if url in seen: continue
-        
-        # Extract full clean text
+        if url in seen:
+            continue
+
         downloaded = trafilatura.fetch_url(url)
         text = trafilatura.extract(downloaded, include_comments=False) or entry.description
-        
-        # AI gist
+
         prompt = f"Create a concise gist (3–5 bullets or 100–200 words) of this article. Focus on key facts, implications. End with source: {url}\n\n{text[:15000]}"
         response = client.models.generate_content(model="gemini-2.0-flash", contents=prompt)
         gist = response.text
-        time.sleep(15)  # 15s gap = max ~4 requests/min, safely under the limit
-        
+        time.sleep(15)
+
         posts.append({"title": entry.title, "url": url, "gist": gist, "date": entry.published})
         seen.append(url)
+        count += 1  # ← increment after each successful API call
 
-# Generate Jekyll post (daily digest style)
+# Generate Jekyll post
 today = datetime.date.today().isoformat()
 md_content = f"""---
-title: "{your_area} News Gists - {today}"
+title: "{YOUR_AREA} News Gists - {today}"
 date: {today}
 layout: post
 ---
-
 ## Today's AI-curated gists
-
 """
 for p in posts:
     md_content += f"### [{p['title']}]({p['url']})\n\n{p['gist']}\n\n---\n\n"
@@ -51,5 +53,4 @@ for p in posts:
 with open(f"_posts/{today}-news-gist.md", "w") as f:
     f.write(md_content)
 
-# Save seen
-json.dump(seen[-500:], open(SEEN_FILE, "w"))  # keep last 500
+json.dump(seen[-500:], open(SEEN_FILE, "w"))
