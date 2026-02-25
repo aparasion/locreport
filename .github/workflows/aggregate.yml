@@ -1,0 +1,25 @@
+name: Daily News Gists
+on:
+  schedule:
+    - cron: '0 */6 * * *'   # every 6 hours
+  workflow_dispatch:        # manual trigger
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - run: pip install feedparser trafilatura google-generativeai
+      - run: python scripts/generate_gists.py
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      - name: Commit & push
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add _posts/ seen.json
+          git diff --quiet && git diff --staged --quiet || git commit -m "New AI gists $(date +%Y-%m-%d)"
+          git push
