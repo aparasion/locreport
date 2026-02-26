@@ -5,6 +5,7 @@ import datetime
 import requests
 import trafilatura
 import time
+from urllib.parse import urlparse
 from openai import OpenAI
 
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
@@ -12,11 +13,28 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 FEEDS = [
     "https://news.google.com/rss/search?q=translation+localization+OR+interpreting+when:7d&hl=en-US&gl=US&ceid=US:en",
     "https://multilingual.com/feed/",
+    # "https://www.languagemagazine.com/feed/",  # uncomment if you want to add it back
 ]
 
 SEEN_FILE = "seen.json"
 YOUR_AREA = "Translation"
 MAX_ARTICLES = 18
+
+
+def get_publisher_domain(url: str) -> str:
+    """Extract clean domain name from URL (e.g. 'distractify.com')"""
+    try:
+        parsed = urlparse(url)
+        domain = parsed.netloc.lower()
+        # Remove common prefixes
+        if domain.startswith(('www.', 'amp.', 'm.')):
+            domain = domain.split('.', 1)[1] if '.' in domain[4:] else domain[4:]
+        # Remove port if present (rare)
+        domain = domain.split(':', 1)[0]
+        return domain if domain else "Unknown Publisher"
+    except Exception:
+        return "Unknown Publisher"
+
 
 seen = json.load(open(SEEN_FILE)) if os.path.exists(SEEN_FILE) else []
 posts = []
@@ -39,7 +57,7 @@ for feed_url in FEEDS:
         text = trafilatura.extract(downloaded, include_comments=False) or entry.description
 
         prompt = f"""Create a concise gist (3–5 bullets or 100–200 words) of this article.
-Focus on key facts and implications. End with "Source: {url}".
+Focus on key facts and implications.
 
 Article text:
 {text[:15000]}"""
@@ -57,10 +75,10 @@ Article text:
             gist = response.choices[0].message.content.strip()
         except Exception as e:
             print(f"OpenAI API error for {url}: {e}")
-            gist = f"Summary generation failed due to API error.\n\nRead the full article: {url}"
+            gist = f"Summary generation failed due to API error.\n\nRead the full article below."
 
         # ────────────────────────────────────────────────
-        # Date handling — prefer article date, fallback to now
+        # Date handling
         # ────────────────────────────────────────────────
         if 'published_parsed' in entry and entry.published_parsed:
             pub_dt = datetime.datetime(*entry.published_parsed[:6])
@@ -70,17 +88,17 @@ Article text:
         post_date_str = pub_dt.strftime("%Y-%m-%d")
         time_str = pub_dt.strftime("%H:%M:%S")
 
-        # Simple slug (you can improve later with slugify if desired)
+        # Slug
         slug_raw = entry.title.lower().replace(" ", "-")
         slug = "".join(c for c in slug_raw if c.isalnum() or c == "-")[:60].rstrip("-")
-
         filename = f"_posts/{post_date_str}-{slug}.md"
 
-        # Clean source URL (use entry.link — usually the original)
+        # Source information
         source_url = entry.link if entry.link else url
+        publisher = get_publisher_domain(source_url)
 
         # ────────────────────────────────────────────────
-        # Individual post Markdown content
+        # Markdown content — one post per article
         # ────────────────────────────────────────────────
         md_content = f"""---
 title: "{entry.title.replace('"', '\\"')}"
@@ -88,24 +106,24 @@ date: {post_date_str}T{time_str}Z
 layout: post
 categories: [{YOUR_AREA.lower()}]
 tags: [translation, localization, news, gist]
-excerpt: "{gist[:160].replace('"', '\\"')}..."   # first ~160 chars for previews
+excerpt: "{gist[:160].replace('"', '\\"')}..."
+publisher: {publisher}
 source_url: {source_url}
 ---
 
 {gist}
 
-[→ Read the full article]({source_url})
+[→ Read full article on {publisher}]({source_url})
 """
 
-        # Ensure _posts directory exists
         os.makedirs("_posts", exist_ok=True)
 
-        # Write the file
         with open(filename, "w", encoding="utf-8") as f:
             f.write(md_content)
 
         posts.append({
             "title": entry.title,
+            "publisher": publisher,
             "url": source_url,
             "gist": gist,
             "date": post_date_str
@@ -114,12 +132,8 @@ source_url: {source_url}
         seen.append(url)
         count += 1
 
-        time.sleep(2)  # polite delay between API calls
+        time.sleep(2)
 
-# ────────────────────────────────────────────────
-# Summary & cleanup
 # ────────────────────────────────────────────────
 print(f"Generated {len(posts)} individual gist posts")
-
-# Keep only last 500 seen URLs
 json.dump(seen[-500:], open(SEEN_FILE, "w"), indent=2)
