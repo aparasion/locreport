@@ -117,7 +117,7 @@ source_url: {source_url}
 
 {gist}
 
-[→ Read full article on {publisher}]({source_url})
+[→ Read full article via {publisher}]({source_url})
 """
 
         os.makedirs("_posts", exist_ok=True)
