@@ -13,7 +13,11 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 FEEDS = [
     "https://news.google.com/rss/search?q=translation+localization+OR+interpreting+when:7d&hl=en-US&gl=US&ceid=US:en",
     "https://multilingual.com/feed/",
-    # "https://www.languagemagazine.com/feed/",  # uncomment if you want to add it back
+    "https://slator.com/feed/",                  # highest priority — very active & authoritative
+    "https://www.nimdzi.com/feed/",
+    "https://lokalise.com/blog/feed/",
+    "https://phrase.com/blog/feed/",
+    "https://www.daytranslations.com/blog/feed/",
 ]
 
 SEEN_FILE = "seen.json"
