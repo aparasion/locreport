@@ -60,7 +60,7 @@ for feed_url in FEEDS:
         downloaded = trafilatura.fetch_url(url)
         text = trafilatura.extract(downloaded, include_comments=False) or entry.description
 
-        prompt = f"""Create a concise gist (3–5 bullets or 100–200 words) of this article.
+        prompt = f"""Create a concise gist (100–200 words) of this article.
 Focus on key facts and implications.
 
 Article text:
@@ -107,7 +107,7 @@ Article text:
         md_content = f"""---
 title: "{entry.title.replace('"', '\\"')}"
 date: {post_date_str}T{time_str}Z
-layout: post
+layout: 
 categories: [{YOUR_AREA.lower()}]
 tags: [translation, localization, news, gist]
 excerpt: "{gist[:160].replace('"', '\\"')}..."
