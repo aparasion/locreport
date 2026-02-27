@@ -2,7 +2,7 @@
 
   <div class="wrapper">
     <div class="site-header-main">
-      <nav class="site-nav">
+      
       <a class="site-logo-link" href="{{ "/" | relative_url }}" aria-label="Go to homepage">
         <img src="{{ "/locreport_logo.png" | relative_url }}" alt="Locreport home" class="site-logo" />
       </a>
@@ -13,7 +13,7 @@
         <a class="site-title page-link" rel="author" href="{{ "/" | relative_url }}">{{ site.title | escape }}</a>
       {%- endif -%}
 
-      
+      <nav class="site-nav">
         <input type="checkbox" id="nav-trigger" class="nav-trigger" />
 
         <label for="nav-trigger">
