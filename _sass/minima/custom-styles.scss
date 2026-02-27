@@ -1,1 +1,17 @@
+.site-header .wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
 
+.site-logo-link {
+  display: inline-flex;
+  align-items: center;
+}
+
+.site-logo {
+  height: 42px;
+  width: auto;
+  max-width: 100%;
+  display: block;
+}
