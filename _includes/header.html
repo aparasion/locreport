@@ -1,7 +1,7 @@
 <header class="site-header" role="banner">
 
   <div class="wrapper">
-    {%- if page.title == site.title or page.title == page.title -%}
+    {%- if page.url == "/" -%}
       <h1 class="site-title">{{ site.title | escape }}</h1>
     {%- else -%}
       <a class="site-title" rel="author" href="{{ "/" | relative_url }}">{{ site.title | escape }}</a>
@@ -19,11 +19,8 @@
       </label>
 
       <div class="trigger">
-        {%- for my_page in site.pages -%}
-          {%- unless my_page.url == page.url -%}
-            <a class="page-link" href="{{ my_page.url | relative_url }}">{{ my_page.title | escape }}</a>
-          {%- endunless -%}
-        {%- endfor -%}
+        <a class="page-link" href="{{ "/" | relative_url }}">Locreport</a>
+        <a class="page-link" href="{{ "/about/" | relative_url }}">About</a>
       </div>
     </nav>
 
