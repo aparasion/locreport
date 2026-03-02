@@ -39,6 +39,5 @@ If you:
 We welcome contributions.
 Reach out through the Contact page and tell us what you’d like to share.
 
----
 
 LocReport is about tracking what drives global communication — and the people building it.
