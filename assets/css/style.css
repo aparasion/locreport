@@ -65,6 +65,11 @@ a:hover {
   color: var(--muted);
 }
 
+.post-date {
+  color: #2563eb; /* modern tech blue */
+  font-weight: 600;
+}
+
 .theme-toggle {
   background: none;
   border: none;
