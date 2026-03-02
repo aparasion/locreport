@@ -19,19 +19,25 @@
 
   {% include footer.html %}
 
-    <script>
-    const toggle = document.getElementById('theme-toggle');
-    const root = document.documentElement;
-    if (localStorage.getItem('theme')) {
-      root.setAttribute('data-theme', localStorage.getItem('theme'));
-    }
-    toggle.addEventListener('click', () => {
-      const current = root.getAttribute('data-theme');
-      const next = current === 'dark' ? 'light' : 'dark';
-      root.setAttribute('data-theme', next);
-      localStorage.setItem('theme', next);
-    });
-    </script>  
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const toggle = document.getElementById("theme-toggle");
+  const root = document.documentElement;
+
+  // Apply saved theme
+  const savedTheme = localStorage.getItem("theme");
+  if (savedTheme) {
+    root.setAttribute("data-theme", savedTheme);
+  }
+
+  toggle.addEventListener("click", function () {
+    const current = root.getAttribute("data-theme");
+    const next = current === "dark" ? "light" : "dark";
+    root.setAttribute("data-theme", next);
+    localStorage.setItem("theme", next);
+  });
+});
+</script>
 </body>
   
 </html>
