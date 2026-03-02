@@ -19,6 +19,7 @@
   margin: 0 auto;
   border-bottom: 1px color: #111;
 }
+.site-logo a { text-decoration: none;}
 
 .logo-image {
   max-width: 284px;
