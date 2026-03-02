@@ -25,6 +25,7 @@
   display: block;
   margin: 0 auto 1rem auto;
   transition: opacity 0.2s ease;
+  border: 0;
 }
 
 .site-logo:hover .logo-image {
