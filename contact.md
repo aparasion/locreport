@@ -34,5 +34,5 @@ Send a message below.
   <button type="submit" class="btn-submit">
     Send Message
   </button>
-
+<input type="hidden" name="_next" value="/thank-you/">
 </form>
