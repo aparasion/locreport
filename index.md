@@ -3,16 +3,25 @@ layout: default
 title: Home
 ---
 
+<section class="hero">
+  <h1>Modern insights on technology & design</h1>
+  <p>Thoughtful writing on engineering, systems, and the future of digital craft.</p>
+</section>
+
+<section class="post-list">
 {% for post in site.posts %}
 
-## [{{ post.title }}]({{ post.url | relative_url }})
+  <article class="post-preview">
+    <h2>
+      <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+    </h2>
 
-<small class="post-meta">
-{{ post.date | date: "%B %d, %Y" }}
-</small>
+    <p class="post-meta">
+      {{ post.date | date: "%B %d, %Y" }}
+    </p>
 
-{{ post.excerpt }}
-
----
+    <p>{{ post.excerpt }}</p>
+  </article>
 
 {% endfor %}
+</section>
