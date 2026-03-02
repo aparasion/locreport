@@ -114,7 +114,7 @@ h2 a:hover {
 /* Headings */
 h1, h2, h3 {
   font-family: 'Playfair Display', serif;
-  margin-top: 2.5rem;
+  margin-top: 1rem;
   margin-bottom: 1rem;
   line-height: 1.3;
 }
