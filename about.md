@@ -1,7 +1,13 @@
 ---
-layout: page
+layout: default
 title: About
 permalink: /about/
 ---
 
-Locreport shares translation and localization industry news curated from across the web.
+# About Us
+
+Welcome to **{{ site.title }}**.
+
+We publish news, analysis, and insights on topics that matter.
+
+Our mission is to provide clear, independent reporting.
