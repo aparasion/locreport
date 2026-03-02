@@ -16,8 +16,6 @@ We cover daily developments in translation, localization, global content strateg
 
 The language services industry evolves quickly. New platforms emerge. Workflows transform. Technology redefines what’s possible. LocReport exists to observe, document, and analyze those changes with clarity and perspective.
 
----
-
 ## Why This Exists
 
 LocReport is an experimental publishing project.
@@ -26,7 +24,6 @@ It was created to explore a focused, signal-over-noise approach to industry repo
 
 We are testing formats, tone, and frequency while building a resource that professionals in localization and translation can rely on.
 
----
 
 ## Contribute
 
@@ -40,7 +37,6 @@ If you:
 - Or simply believe this industry deserves sharper reporting  
 
 We welcome contributions.
-
 Reach out through the Contact page and tell us what you’d like to share.
 
 ---
