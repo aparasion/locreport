@@ -14,19 +14,25 @@
 
 /* Logo */
 .site-logo {
-  display: inline-block;
+  display: block;
 }
 
 .logo-image {
-  max-width: 180px;
+  width: 70%;
+  max-width: 100%;
   height: auto;
   display: block;
-  margin: 0 auto;
+  margin: 0 auto 2rem auto;
   transition: opacity 0.2s ease;
 }
 
 .site-logo:hover .logo-image {
   opacity: 0.8;
+}
+@media (max-width: 768px) {
+  .logo-image {
+    width: 85%;
+  }
 }
 
 body {
