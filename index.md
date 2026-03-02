@@ -7,7 +7,7 @@ nav_order: 1
 
 <section class="hero">
   <h1>Translation and localization news</h1>
-  <p>Articles and information digest delivered in on place.</p>
+  <p>Articles and information digest delivered in one place.</p>
 </section>
 
 <section class="post-list">
