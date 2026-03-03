@@ -6,8 +6,6 @@ nav: true
 nav_order: 4
 ---
 
-## Contact
-
 Have a tip, insight, correction, or contribution idea?
 
 Send a message below.
