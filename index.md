@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Home | LocReport - The pulse of the language services industry
+title: Home
 nav: true
 nav_order: 1
 ---
