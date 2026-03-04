@@ -11,7 +11,7 @@ from openai import OpenAI
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 FEEDS = [
-    "https://aparasion.github.io/rss-generator/rss/GALA-Global.xml"
+    "https://aparasion.github.io/rss-generator/rss/GALA-Global.xml",
     "https://news.google.com/rss/search?q=translation+localization+OR+interpreting+when:7d&hl=en-US&gl=US&ceid=US:en",
     "https://slator.com/feed/",
     "https://techcrunch.com/tag/translation/feed/",
@@ -20,10 +20,9 @@ FEEDS = [
     "https://techcrunch.com/tag/localization/feed/",
     "https://techcrunch.com/tag/translate/feed/",
     "https://techcrunch.com/tag/translations/feed/",
-    "https://rss.app/feeds/cNm8rHSnDFeEYLpt.xml", #gala-blobal news feed
     "https://www.atanet.org/news/industry-news/feed/",
     "https://elia-association.org/news/feed/",
-"https://multilingual.com/feed/",
+    "https://multilingual.com/feed/",
 ]
 
 SEEN_FILE = "seen.json"
