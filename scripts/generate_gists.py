@@ -11,6 +11,7 @@ from openai import OpenAI
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 FEEDS = [
+    "https://aparasion.github.io/rss-generator/rss/GALA-Global.xml"
     "https://news.google.com/rss/search?q=translation+localization+OR+interpreting+when:7d&hl=en-US&gl=US&ceid=US:en",
     "https://slator.com/feed/",
     "https://techcrunch.com/tag/translation/feed/",
