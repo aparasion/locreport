@@ -24,7 +24,7 @@ FEEDS = [
     "https://techcrunch.com/tag/translations/feed/",
     "https://www.atanet.org/news/industry-news/feed/",
     "https://elia-association.org/news/feed/",
-    "https://multilingual.com/feed/",
+    "https://multilingual.com/news/feed",
     "https://aparasion.github.io/rss-generator/rss/XTM%20Blog.xml"
 ]
 
