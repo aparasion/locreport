@@ -17,6 +17,10 @@
   box-sizing: border-box;
 }
 
+html {
+  overflow-x: hidden;
+}
+
 body {
   margin: 0;
   font-family: 'Inter', sans-serif;
@@ -24,6 +28,7 @@ body {
   color: var(--text);
   line-height: 1.7;
   transition: background 0.3s ease, color 0.3s ease;
+  overflow-x: hidden;
 }
 
 /* Links */
