@@ -7,6 +7,8 @@
   --surface-strong: #f7f9fc;
   --accent: #233fdb;
   --accent-soft: rgba(35, 63, 219, 0.1);
+  --site-max-width: 1040px;
+  --page-gutter: 1.2rem;
 }
 
 [data-theme="dark"] {
@@ -14,6 +16,7 @@
   --text: #eff3ff;
   --muted: #b5bdd4;
   --border: rgba(239, 243, 255, 0.17);
+  --surface: rgba(23, 26, 35, 0.9);
   --surface: rgba(23, 26, 35, 0.85);
   --surface-strong: #1f2430;
   --accent: #92abff;
@@ -53,6 +56,9 @@ a:hover {
 
 /* Container */
 .container {
+  max-width: var(--site-max-width);
+  margin: 1.5rem auto;
+  padding: 0 var(--page-gutter);
   max-width: 760px;
   margin: 1.5rem auto;
   padding: 0 1.5rem;
@@ -77,11 +83,22 @@ a:hover {
   position: sticky;
   top: 0;
   z-index: 40;
+  padding: 0.9rem var(--page-gutter) 0;
   padding: 0.9rem 1.2rem 0;
   backdrop-filter: blur(12px);
 }
 
 .header-shell {
+  max-width: var(--site-max-width);
+  margin: 0 auto;
+  padding: 0.62rem 0.85rem;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--surface);
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  column-gap: 1rem;
   max-width: 1040px;
   margin: 0 auto;
   padding: 0.65rem 1rem;
@@ -96,12 +113,26 @@ a:hover {
 }
 
 .site-logo,
-.site-logo:hover {
+.site-logo:hover,
+.site-brand-block,
+.site-brand-block:hover {
   border-bottom: none !important;
 }
 
 .site-logo {
   display: inline-flex;
+  margin: 0;
+  align-items: center;
+  justify-content: center;
+  width: 2.65rem;
+  height: 2.65rem;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface-strong);
+}
+
+.logo-image {
+  width: 1.8rem;
   width: fit-content;
   margin: 0;
   align-items: center;
@@ -117,6 +148,29 @@ a:hover {
   border: 0;
 }
 
+.site-brand-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
+}
+
+.site-brand {
+  font-size: 1rem;
+  letter-spacing: 0.02em;
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.site-tagline {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 .site-brand {
   font-size: 1rem;
   letter-spacing: 0.02em;
@@ -127,6 +181,16 @@ a:hover {
   opacity: 0.8;
 }
 
+/* Nav */
+.site-nav {
+  display: flex;
+  align-items: center;
+  justify-self: end;
+}
+
+.site-nav ul {
+  list-style: none;
+  padding: 0.25rem;
 @media (max-width: 768px) {
   .logo-image {
     width: 34px;
@@ -151,6 +215,11 @@ a:hover {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-wrap: nowrap;
+  gap: 0.25rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface-strong);
   flex-wrap: wrap;
   gap: 0.5rem;
 }
@@ -163,15 +232,22 @@ a:hover {
   border-radius: 999px;
   background: var(--surface-strong);
   color: var(--text);
-  font-size: 0.85rem;
-  letter-spacing: 0.05em;
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
+  font-weight: 700;
   cursor: pointer;
 }
 
 .site-nav a {
   display: inline-flex;
   align-items: center;
+  min-height: 2rem;
+  padding: 0 0.72rem;
+  border-radius: 999px;
+  border-bottom: none;
+  font-size: 0.78rem;
+  letter-spacing: 0.05em;
   min-height: 2.1rem;
   padding: 0 0.8rem;
   border-radius: 999px;
@@ -185,6 +261,7 @@ a:hover {
 
 .site-nav a:hover {
   color: var(--text);
+  background: var(--bg);
   background: var(--surface-strong);
 }
 
@@ -195,6 +272,11 @@ a:hover {
 
 /* Theme toggle */
 .theme-toggle {
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  width: 2rem;
+  height: 2rem;
   background: var(--surface-strong);
   border: 1px solid var(--border);
   border-radius: 999px;
@@ -205,6 +287,43 @@ a:hover {
   font-size: 0.95rem;
 }
 
+.theme-toggle:hover {
+  background: var(--bg);
+  border-color: var(--border);
+}
+
+@media (max-width: 900px) {
+  .header-shell {
+    grid-template-columns: auto 1fr;
+    row-gap: 0.65rem;
+  }
+
+  .site-nav {
+    grid-column: 1 / -1;
+    width: 100%;
+    justify-self: stretch;
+  }
+
+  .site-nav ul {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --page-gutter: 0.65rem;
+  }
+
+  .header-shell {
+    grid-template-columns: auto 1fr auto;
+    border-radius: 14px;
+    padding: 0.55rem 0.65rem;
+  }
+
+  .site-tagline {
+    display: none;
 @media (max-width: 768px) {
   .site-header {
     padding: 0.65rem 0.65rem 0;
@@ -222,8 +341,23 @@ a:hover {
     justify-content: center;
   }
 
+  .site-nav {
+    position: relative;
+  }
+
   .site-nav ul {
     display: none;
+    position: absolute;
+    top: calc(100% + 0.55rem);
+    right: 0;
+    width: min(260px, calc(100vw - (var(--page-gutter) * 2)));
+    padding: 0.5rem;
+    border-radius: 14px;
+    flex-direction: column;
+    gap: 0.35rem;
+    align-items: stretch;
+    background: var(--surface);
+    box-shadow: 0 14px 28px rgba(15, 23, 42, 0.14);
     width: 100%;
     margin-top: 0.6rem;
     padding-top: 0.6rem;
@@ -245,6 +379,13 @@ a:hover {
   .theme-toggle {
     width: 100%;
     justify-content: center;
+    min-height: 2.35rem;
+    border: 1px solid transparent;
+  }
+
+  .site-nav a:hover,
+  .theme-toggle:hover {
+    border-color: var(--border);
     min-height: 2.4rem;
   }
 }
