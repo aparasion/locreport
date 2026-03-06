@@ -109,6 +109,12 @@ def extract_links_from_html(text: str) -> list[str]:
     return re.findall(r'href=["\'](https?://[^"\']+)["\']', text)
 
 
+def is_google_news_url(url: str) -> bool:
+    try:
+        return urlparse(url or "").netloc.lower().endswith("news.google.com")
+    except Exception:
+        return False
+
 def candidate_urls_for_entry(entry) -> list[str]:
     candidates = []
 
@@ -255,6 +261,7 @@ def main() -> None:
                 continue
 
             url = candidate_urls[0]
+            google_news_source = is_google_news_url(url)
 
             if url in normalized_seen:
                 continue
@@ -266,10 +273,17 @@ def main() -> None:
                 if is_usable_article_text(extracted_text, entry.title):
                     url = candidate_url
                     break
+                if google_news_source and extracted_text:
+                    url = candidate_url
+                    break
 
             if is_usable_article_text(extracted_text, entry.title):
                 text = extracted_text
+            elif google_news_source and extracted_text:
+                text = extracted_text
             elif is_usable_article_text(fallback_description, entry.title):
+                text = fallback_description
+            elif google_news_source and fallback_description:
                 text = fallback_description
             else:
                 print(f"Skipping low-quality content for {url}")
