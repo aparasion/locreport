@@ -5,7 +5,7 @@ import datetime
 import trafilatura
 import time
 import re
-from urllib.parse import quote, urlparse, urlunparse
+from urllib.parse import urlparse
 from openai import OpenAI
 
 SIGNALS_FILE = "_data/signals.yml"
@@ -14,7 +14,6 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 FEEDS = [
     "https://aparasion.github.io/rss-generator/rss/GALA-Global.xml",
-    "https://news.google.com/rss/search?q=%22localization+industry%22+OR+%22translation+services%22+OR+%22LSP%22+OR+%22machine+translation%22+-DNA+-biological+when:90d&hl=en-US&gl=US&ceid=US:en",
     "https://slator.com/feed/",
     "https://techcrunch.com/tag/translation/feed/",
     "https://techcrunch.com/tag/ai-translation/feed/",
@@ -86,37 +85,12 @@ def extract_article_text(url: str) -> str:
     return normalize_text(extracted)
 
 
-def extract_links_from_html(text: str) -> list[str]:
-    if not text:
-        return []
-    return re.findall(r'href=["\'](https?://[^"\']+)["\']', text)
-
-
-def is_google_news_url(url: str) -> bool:
-    try:
-        return urlparse(url or "").netloc.lower().endswith("news.google.com")
-    except Exception:
-        return False
-
 def candidate_urls_for_entry(entry) -> list[str]:
     candidates = []
 
     primary_link = normalize_url(getattr(entry, "link", ""))
     if primary_link:
         candidates.append(primary_link)
-
-    parsed_primary = urlparse(primary_link) if primary_link else None
-    if parsed_primary and parsed_primary.netloc.endswith("news.google.com"):
-        source = getattr(entry, "source", None)
-        source_href = normalize_url(getattr(source, "href", "")) if source else ""
-        if source_href:
-            candidates.append(source_href)
-
-        summary_html = getattr(entry, "summary", "") or getattr(entry, "description", "")
-        for link in extract_links_from_html(summary_html):
-            normalized = normalize_url(link)
-            if normalized and "news.google.com" not in normalized:
-                candidates.append(normalized)
 
     deduped = []
     seen = set()
@@ -244,12 +218,8 @@ def main() -> None:
                 continue
 
             url = candidate_urls[0]
-            google_news_source = is_google_news_url(url)
 
             # Skip if ANY candidate URL for this entry has already been seen.
-            # This prevents re-processing the same article when the primary URL
-            # (e.g. a news.google.com redirect) differs from the resolved article
-            # URL that was saved in a previous run.
             if any(c in normalized_seen for c in candidate_urls):
                 continue
 
@@ -260,17 +230,10 @@ def main() -> None:
                 if is_usable_article_text(extracted_text, entry.title):
                     url = candidate_url
                     break
-                if google_news_source and extracted_text:
-                    url = candidate_url
-                    break
 
             if is_usable_article_text(extracted_text, entry.title):
                 text = extracted_text
-            elif google_news_source and extracted_text:
-                text = extracted_text
             elif is_usable_article_text(fallback_description, entry.title):
-                text = fallback_description
-            elif google_news_source and fallback_description:
                 text = fallback_description
             else:
                 print(f"Skipping low-quality content for {url}")
@@ -380,9 +343,6 @@ signal_confidence: {signal_confidence}
                 }
             )
 
-            # Mark ALL candidate URLs as seen so that any future run — whether it
-            # encounters the Google News redirect URL or the resolved article URL
-            # first — correctly skips this article.
             for candidate in candidate_urls:
                 if candidate not in normalized_seen:
                     seen.append(candidate)
