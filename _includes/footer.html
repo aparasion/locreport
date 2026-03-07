@@ -1,6 +1,6 @@
 <footer class="site-footer">
   <div class="footer-shell">
-    <p class="footer-brand">&copy; {{ site.time | date: "%Y" }} {% include brand-word.html %}</p>
+    <p class="footer-brand">&copy; {{ site.time | date: "%Y" }} {{ site.author | default: "LocReport" }}</p>
 
     <ul class="footer-links" aria-label="Footer navigation">
       {% assign nav_pages = site.pages | where: "nav", true | sort: "nav_order" %}
