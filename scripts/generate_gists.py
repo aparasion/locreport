@@ -5,6 +5,7 @@ import datetime
 import trafilatura
 import time
 import re
+import urllib.request
 from urllib.parse import urlparse
 from openai import OpenAI
 
@@ -14,6 +15,7 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 FEEDS = [
     "https://aparasion.github.io/rss-generator/rss/GALA-Global.xml",
+    "https://news.google.com/rss/search?q=%22localization+industry%22+OR+%22translation+services%22+OR+%22LSP%22+OR+%22machine+translation%22+-DNA+-biological+when:90d&hl=en-US&gl=US&ceid=US:en",
     "https://slator.com/feed/",
     "https://techcrunch.com/tag/translation/feed/",
     "https://techcrunch.com/tag/ai-translation/feed/",
@@ -85,12 +87,63 @@ def extract_article_text(url: str) -> str:
     return normalize_text(extracted)
 
 
+def is_google_news_url(url: str) -> bool:
+    try:
+        return urlparse(url or "").netloc.lower().endswith("news.google.com")
+    except Exception:
+        return False
+
+
+def resolve_google_news_url(url: str, timeout: int = 10) -> str:
+    """Follow the Google News redirect and return the final article URL.
+
+    Google News RSS links are redirect wrappers (news.google.com/rss/articles/…)
+    that issue a 301/302 to the real publisher URL. urllib follows redirects
+    automatically, so response.url is the resolved destination.
+    Falls back to the original URL on any error.
+    """
+    try:
+        opener = urllib.request.build_opener()
+        opener.addheaders = [("User-Agent", "Mozilla/5.0")]
+        with opener.open(url, timeout=timeout) as response:
+            final = response.url
+        resolved = normalize_url(final)
+        return resolved if resolved and not is_google_news_url(resolved) else url
+    except Exception:
+        return url
+
+
+def extract_links_from_html(text: str) -> list[str]:
+    if not text:
+        return []
+    return re.findall(r'href=["\'](https?://[^"\']+)["\']', text)
+
+
 def candidate_urls_for_entry(entry) -> list[str]:
     candidates = []
 
     primary_link = normalize_url(getattr(entry, "link", ""))
     if primary_link:
         candidates.append(primary_link)
+
+    if primary_link and is_google_news_url(primary_link):
+        # 1. Follow the redirect — most reliable, works for any Google News link.
+        resolved = resolve_google_news_url(primary_link)
+        if resolved and resolved != primary_link:
+            candidates.append(resolved)
+        else:
+            # 2. Fallback: source.href embedded in the feed XML.
+            source = getattr(entry, "source", None)
+            source_href = normalize_url(getattr(source, "href", "")) if source else ""
+            if source_href:
+                candidates.append(source_href)
+
+            # 3. Fallback: links scraped from the summary HTML.
+            summary_html = getattr(entry, "summary", "") or getattr(entry, "description", "")
+            for link in extract_links_from_html(summary_html):
+                normalized = normalize_url(link)
+                if normalized and not is_google_news_url(normalized):
+                    candidates.append(normalized)
 
     deduped = []
     seen = set()
@@ -218,8 +271,11 @@ def main() -> None:
                 continue
 
             url = candidate_urls[0]
+            google_news_source = is_google_news_url(candidate_urls[0])
 
             # Skip if ANY candidate URL for this entry has already been seen.
+            # This handles cases where the Google News redirect URL and the
+            # resolved article URL are both recorded across runs.
             if any(c in normalized_seen for c in candidate_urls):
                 continue
 
@@ -230,10 +286,17 @@ def main() -> None:
                 if is_usable_article_text(extracted_text, entry.title):
                     url = candidate_url
                     break
+                if google_news_source and extracted_text:
+                    url = candidate_url
+                    break
 
             if is_usable_article_text(extracted_text, entry.title):
                 text = extracted_text
+            elif google_news_source and extracted_text:
+                text = extracted_text
             elif is_usable_article_text(fallback_description, entry.title):
+                text = fallback_description
+            elif google_news_source and fallback_description:
                 text = fallback_description
             else:
                 print(f"Skipping low-quality content for {url}")
