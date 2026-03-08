@@ -1,6 +1,6 @@
 ---
 title: "Doug Zarkin on thinking human and why emotional connection builds enduring brands"
-date: 2026-03-08T22:49:26Z
+date: 2026-02-05T22:49:26Z
 layout: post
 categories: [translation]
 tags: [translation, localization, news, gist]
