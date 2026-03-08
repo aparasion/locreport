@@ -18,6 +18,7 @@ nav_order: 1
 </section>
 
 <section class="post-list">
+{% assign latest_date = site.posts.first.date | date: "%Y-%m-%d" %}
 {% for post in site.posts %}
   {% assign source_text = post.title | append: ' ' | append: post.excerpt | append: ' ' | append: post.content | downcase %}
   {% assign topics = '' %}
@@ -44,6 +45,7 @@ nav_order: 1
 
     <p class="post-meta">
       {{ post.date | date: "%B %d, %Y" }}
+      {% if post.date | date: "%Y-%m-%d" == latest_date %}<span class="new-badge">NEW!</span>{% endif %}
     </p>
 
     <p>{{ post.excerpt }}</p>

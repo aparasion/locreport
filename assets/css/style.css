@@ -322,6 +322,24 @@ hr {
   line-height: 1.6;
 }
 
+.new-badge {
+  display: inline-block;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  padding: 2px 5px;
+  border-radius: 3px;
+  vertical-align: middle;
+  margin-left: 0.4em;
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+[data-theme="dark"] .new-badge {
+  background: #450a0a;
+  color: #fca5a5;
+}
+
 /* ── Topic Filter ────────────────────────────────────────── */
 .topic-filter-panel {
   margin: var(--space-6) 0;
