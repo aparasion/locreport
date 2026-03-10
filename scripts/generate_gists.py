@@ -268,16 +268,69 @@ def parse_signal_ids_from_yaml(path: str) -> list[str]:
 
 KNOWN_SIGNAL_IDS = set(parse_signal_ids_from_yaml(SIGNALS_FILE))
 SIGNAL_KEYWORDS = {
-    "quality-gap-closure": ["quality", "human", "review", "post-edit", "validation", "mqm", "error"],
-    "governance-in-ai-workflows": ["governance", "audit", "compliance", "control", "policy", "risk", "guardrail"],
-    "localization-operating-system": ["platform", "end-to-end", "workflow", "integration", "api", "orchestration"],
-    "measurable-quality-evaluation": ["mqm", "metric", "evaluation", "benchmark", "score", "assessment"],
-    "translation-memory-obsolescence": ["TM", "CAT tool", "legacy", "segment", "translation memory", "fuzzy match"],
-    "human-post-editing-contraction": ["post-edit", "MTPE", "volume", "rates", "freelance", "job market", "demand"],
-    "agentic-localization-workflows": ["agent", "autonomous", "agentic", "pipeline", "automated workflow", "no-touch"],
-    "multimodal-content-localization": ["dubbing", "video", "audio", "subtitle", "multimodal", "image localization", "voice"],
-    "regulatory-fragmentation": ["regulation", "EU AI Act", "compliance", "legal", "mandate", "language law", "regional"],
-    "localization-first-content-design": ["transcreation", "locale-aware", "content design", "structured content", "internationalization", "i18n"],
+    # category: quality
+    "quality-gap-closure": [
+        "human-in-the-loop", "HITL", "human review", "post-editing quality",
+        "quality validation", "MQM", "LQA", "linguistic quality",
+        "quality assurance", "human evaluator", "error annotation",
+    ],
+    # category: quality
+    "measurable-quality-evaluation": [
+        "MQM", "COMET", "BLEU", "quality metric", "evaluation benchmark",
+        "quality score", "quality assessment", "error rate", "fluency score",
+        "adequacy", "quality framework", "automatic evaluation",
+    ],
+    # category: governance
+    "governance-in-ai-workflows": [
+        "AI governance", "audit trail", "guardrail", "content policy",
+        "responsible AI", "model oversight", "human oversight",
+        "approval workflow", "review gate", "AI risk", "explainability",
+    ],
+    # category: governance
+    "regulatory-fragmentation": [
+        "EU AI Act", "AI regulation", "language law", "language mandate",
+        "compliance requirement", "GDPR language", "accessibility law",
+        "regional regulation", "national AI policy",
+    ],
+    # category: operations
+    "localization-operating-system": [
+        "TMS", "translation management", "end-to-end platform",
+        "localization platform", "content orchestration", "connector",
+        "integrations hub", "localization stack", "vendor management system",
+        "unified workflow", "point tools",
+    ],
+    # category: operations
+    "translation-memory-obsolescence": [
+        "translation memory", "TM", "CAT tool", "fuzzy match",
+        "segment reuse", "TM leverage", "legacy TM", "TM discount",
+        "SDL Trados", "memoQ", "Wordfast", "TM-based",
+    ],
+    # category: operations
+    "agentic-localization-workflows": [
+        "agentic", "AI agent", "autonomous localization", "no-touch",
+        "fully automated", "self-managing", "agent pipeline",
+        "orchestration agent", "LLM agent", "multi-agent",
+    ],
+    # category: operations
+    "multimodal-content-localization": [
+        "dubbing", "voice-over", "subtitle", "audio localization",
+        "video localization", "image localization", "lip sync",
+        "visual localization", "multimedia localization", "screen content",
+    ],
+    # category: market
+    "human-post-editing-contraction": [
+        "MTPE", "post-editing rates", "freelance translator",
+        "translator demand", "job displacement", "post-editor",
+        "MTPE volume", "translator employment", "rate decline",
+        "post-editing market", "human translator market",
+    ],
+    # category: strategy
+    "localization-first-content-design": [
+        "localization-first", "i18n", "internationalization",
+        "locale-aware", "transcreation brief", "structured content",
+        "content design", "global content strategy",
+        "source content quality", "locale-ready",
+    ],
 }
 
 
