@@ -214,7 +214,6 @@ document.addEventListener("DOMContentLoaded", function () {
   const AUTOLOAD_BATCH = 10;
 
   topicFilterPanels.forEach(function (panel) {
-    const buttons = panel.querySelectorAll(".topic-filter-button");
     const postList = panel.nextElementSibling;
 
     if (!postList || !postList.classList.contains("post-list")) {
@@ -243,7 +242,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       function revealNextBatch() {
         const pending = postCards.filter(function (p) {
-          return p.classList.contains("autoload-hidden") && !p.classList.contains("topic-hidden");
+          return p.classList.contains("autoload-hidden");
         });
         if (pending.length === 0) return;
 
@@ -256,16 +255,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }, 150);
       }
 
-      function resetAutoload() {
-        // Unhide all, then re-hide beyond first AUTOLOAD_BATCH visible for current topic
-        postCards.forEach(function (p) { p.classList.remove("autoload-hidden"); });
-        const visible = postCards.filter(function (p) {
-          return !p.classList.contains("topic-hidden");
-        });
-        visible.slice(AUTOLOAD_BATCH).forEach(function (p) {
-          p.classList.add("autoload-hidden");
-        });
-      }
+
 
       autoloadObserver = new IntersectionObserver(function (entries) {
         if (entries[0].isIntersecting) {
@@ -276,26 +266,6 @@ document.addEventListener("DOMContentLoaded", function () {
       autoloadObserver.observe(sentinel);
     }
 
-    // ── Topic filter ────────────────────────────────────────
-    buttons.forEach(function (button) {
-      button.addEventListener("click", function () {
-        const selectedTopic = button.dataset.topicFilter;
-
-        buttons.forEach(function (btn) {
-          btn.classList.toggle("active", btn === button);
-        });
-
-        postCards.forEach(function (postCard) {
-          const topics = postCard.dataset.topics || "";
-          const shouldShow = selectedTopic === "all" || topics.includes(selectedTopic);
-          postCard.classList.toggle("topic-hidden", !shouldShow);
-        });
-
-        if (autoloadObserver) {
-          resetAutoload();
-        }
-      });
-    });
   });
 
   const glossaryItems = {{ site.data.glossary | jsonify }};
