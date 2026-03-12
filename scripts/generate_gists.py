@@ -40,6 +40,7 @@ FEEDS = [
     "https://www.deepl.com/en/blog/rss.xml",
     "https://aparasion.github.io/rss-generator/rss/transperfect-news-and-press.xml",
     "https://www.languageline.com/blog/rss.xml",
+    "https://www.smartling.com/company-news/rss.xml",
 ]
 
 SEEN_FILE = "seen.json"
