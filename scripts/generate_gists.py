@@ -41,6 +41,7 @@ FEEDS = [
     "https://aparasion.github.io/rss-generator/rss/transperfect-news-and-press.xml",
     "https://www.languageline.com/blog/rss.xml",
     "https://www.smartling.com/company-news/rss.xml",
+    "https://en-gb.thebigword.com/news-and-blogs/feed/",
 ]
 
 SEEN_FILE = "seen.json"
