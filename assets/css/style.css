@@ -686,6 +686,7 @@ details[open] .signal-accordion__chevron {
 .topic-filter-button {
   border: none;
   background: transparent;
+  text-decoration: none;
   color: var(--muted);
   padding: 0;
   font-size: 0.85rem;
@@ -702,10 +703,6 @@ details[open] .signal-accordion__chevron {
 .topic-filter-button.active {
   color: var(--text);
   font-weight: 700;
-}
-
-.topic-hidden {
-  display: none !important;
 }
 
 /* ── Article Pages ───────────────────────────────────────── */
