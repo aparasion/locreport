@@ -50,6 +50,7 @@ FEEDS = [
     "https://datawords.com/our-news/feed/",
     "https://www.cqfluency.com/who-we-are/news/feed/",
     "https://www.cqfluency.com/cqpedia-cultural-intelligence-encyclopedia/feed/",
+    "https://www.ecinnovations.com/blog/feed/",
 ]
 
 SEEN_FILE = "seen.json"
