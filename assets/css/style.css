@@ -440,7 +440,7 @@ hr {
   font-weight: 800;
   letter-spacing: -0.04em;
   line-height: 1.1;
-  margin: 0 0 var(--space-5);
+  margin: 0 0 var(--space-3);
   background: var(--gradient-accent);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
