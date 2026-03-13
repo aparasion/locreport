@@ -48,6 +48,8 @@ FEEDS = [
     "https://www.publicisgroupeuk.com/news-and-views/feed",
     "https://www.helloglobo.com/blog-old/rss.xml",
     "https://datawords.com/our-news/feed/",
+    "https://www.cqfluency.com/who-we-are/news/feed/",
+    "https://www.cqfluency.com/cqpedia-cultural-intelligence-encyclopedia/feed/",
 ]
 
 SEEN_FILE = "seen.json"
