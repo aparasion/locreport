@@ -45,6 +45,7 @@ FEEDS = [
     "https://www.vistatec.com/news-blog/feed/",
     "https://sorenson.com/company/blog/feed/",
     "https://propio.com/blogs/feed/",
+    "https://www.publicisgroupeuk.com/news-and-views/feed",
 ]
 
 SEEN_FILE = "seen.json"
