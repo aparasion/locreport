@@ -346,7 +346,7 @@ hr {
   width: 200%;
   height: 200%;
   background: radial-gradient(circle at 30% 40%, color-mix(in srgb, var(--accent) 8%, transparent) 0%, transparent 50%),
-              radial-gradient(circle at 70% 60%, color-mix(in srgb, var(--brand-report) 6%, transparent) 0%, transparent 50%);
+              radial-gradient(circle at 70% 60%, color-mix(in srgb, var(--brand-text) 6%, transparent) 0%, transparent 50%);
   animation: heroGlow 15s ease-in-out infinite alternate;
   z-index: -1;
 }
@@ -564,7 +564,7 @@ hr {
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--brand-report);
+  color: var(--brand-text);
   margin-bottom: var(--space-4);
 }
 
@@ -573,7 +573,7 @@ hr {
   display: inline-block;
   width: 8px;
   height: 8px;
-  background: var(--brand-report);
+  background: var(--brand-text);
   border-radius: 50%;
   animation: livePulse 2s ease-in-out infinite;
 }
