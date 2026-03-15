@@ -1096,7 +1096,7 @@ article.post h1 {
 
 .footer-top {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
   gap: var(--space-10);
   margin-bottom: var(--space-10);
 }
