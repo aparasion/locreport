@@ -83,6 +83,24 @@ nav_order: 1
       </div>
 </section>
 
+{% comment %} Newsletter signup banner {% endcomment %}
+<section class="newsletter-banner">
+  <div class="newsletter-banner-inner">
+    <div class="newsletter-banner-text">
+      <h3 class="newsletter-banner-title">Stay in the loop</h3>
+      <p class="newsletter-banner-desc">Weekly digest of localization news and signal shifts — every Monday.</p>
+    </div>
+    <form action="https://buttondown.com/api/emails/embed-subscribe/locreport"
+          method="post"
+          class="newsletter-banner-form">
+      <input type="email" name="email" required
+             placeholder="you@example.com"
+             class="newsletter-banner-input">
+      <button type="submit" class="newsletter-banner-btn">Subscribe</button>
+    </form>
+  </div>
+</section>
+
 {% comment %} Day 2 {% endcomment %}
 {% if day2 != "" %}
 <section class="day-section">

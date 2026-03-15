@@ -124,53 +124,22 @@ document.addEventListener("DOMContentLoaded", function () {
   var scrollTopButton = document.getElementById("scroll-top-button");
   var topicFilterPanels = document.querySelectorAll(".topic-filter-panel");
 
-  // ── Theme menu ───────────────────────────────────────────
-  var themeMenu       = document.getElementById("theme-menu");
-  var menuTrigger     = document.getElementById("theme-menu-trigger");
-  var menuDropdown    = document.getElementById("theme-menu-dropdown");
-  var currentIcon     = document.getElementById("theme-current-icon");
-  var themeOptions    = menuDropdown ? menuDropdown.querySelectorAll(".theme-option") : [];
-
-  var THEME_ICONS = { light: "\u2606", gray: "\u25D1", dark: "\u25D7" };
+  // ── Theme toggle ─────────────────────────────────────────
+  var themeToggle = document.getElementById("theme-toggle");
 
   function applyTheme(theme) {
     root.setAttribute("data-theme", theme);
     localStorage.setItem("theme", theme);
-    if (currentIcon) currentIcon.textContent = THEME_ICONS[theme] || THEME_ICONS.light;
-    themeOptions.forEach(function (btn) {
-      btn.classList.toggle("is-active", btn.dataset.themeValue === theme);
-    });
   }
 
   var savedTheme = localStorage.getItem("theme") || "light";
   applyTheme(savedTheme);
 
-  function closeMenu() {
-    if (!menuDropdown) return;
-    menuDropdown.classList.remove("is-open");
-    if (menuTrigger) menuTrigger.setAttribute("aria-expanded", "false");
-  }
-
-  if (menuTrigger && menuDropdown) {
-    menuTrigger.addEventListener("click", function (e) {
-      e.stopPropagation();
-      var isOpen = menuDropdown.classList.toggle("is-open");
-      menuTrigger.setAttribute("aria-expanded", isOpen ? "true" : "false");
-    });
-
-    themeOptions.forEach(function (btn) {
-      btn.addEventListener("click", function () {
-        applyTheme(btn.dataset.themeValue);
-        closeMenu();
-      });
-    });
-
-    document.addEventListener("click", function (e) {
-      if (themeMenu && !themeMenu.contains(e.target)) closeMenu();
-    });
-
-    document.addEventListener("keydown", function (e) {
-      if (e.key === "Escape") closeMenu();
+  if (themeToggle) {
+    themeToggle.addEventListener("click", function () {
+      var current = root.getAttribute("data-theme") || "light";
+      var next = current === "light" ? "dark" : "light";
+      applyTheme(next);
     });
   }
 
