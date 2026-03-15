@@ -2,8 +2,8 @@
 layout: page
 title: Newsletter
 permalink: /newsletter/
-nav: true
-nav_order: 3
+nav: false
+nav_order: 99
 ---
 
 Stay ahead of what's moving the localization and language technology industry.
