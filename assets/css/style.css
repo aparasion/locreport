@@ -1167,6 +1167,26 @@ article.post h1 {
   margin: 0;
 }
 
+.footer-legal {
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin: var(--space-2) 0 0;
+}
+
+.footer-legal a {
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.footer-legal a:hover {
+  color: var(--accent);
+  text-decoration: underline;
+}
+
+.footer-legal-sep {
+  margin: 0 0.4em;
+}
+
 /* ── Contact Form ────────────────────────────────────────── */
 .contact-form {
   margin-top: var(--space-6);
