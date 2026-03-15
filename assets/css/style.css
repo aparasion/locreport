@@ -1159,6 +1159,9 @@ article.post h1 {
 .footer-bottom {
   padding-top: var(--space-6);
   border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .footer-copyright {
@@ -1167,24 +1170,23 @@ article.post h1 {
   margin: 0;
 }
 
-.footer-legal {
-  font-size: 0.78rem;
-  color: var(--muted);
-  margin: var(--space-2) 0 0;
+.footer-legal-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  gap: 1em;
 }
 
-.footer-legal a {
+.footer-legal-links a {
+  font-size: 0.8rem;
   color: var(--muted);
   text-decoration: none;
 }
 
-.footer-legal a:hover {
+.footer-legal-links a:hover {
   color: var(--accent);
   text-decoration: underline;
-}
-
-.footer-legal-sep {
-  margin: 0 0.4em;
 }
 
 /* ── Contact Form ────────────────────────────────────────── */
