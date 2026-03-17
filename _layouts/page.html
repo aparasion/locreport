@@ -13,5 +13,7 @@ layout: default
     {{ content }}
   </div>
 
+  {% unless page.no_share %}
   {% include social-share.html %}
+  {% endunless %}
 </article>
