@@ -2,6 +2,7 @@
 layout: page
 title: Terms of Service
 permalink: /terms/
+no_share: true
 ---
 
 **Effective Date:** March 15, 2026

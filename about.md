@@ -4,6 +4,7 @@ title: About
 permalink: /about/
 nav: true
 nav_order: 4
+no_share: true
 ---
 
 ## About LocReport

@@ -2,6 +2,7 @@
 layout: page
 title: Privacy Policy
 permalink: /privacy/
+no_share: true
 ---
 
 **Effective Date:** March 15, 2026

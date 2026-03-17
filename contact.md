@@ -4,6 +4,7 @@ title: Contact
 permalink: /contact/
 nav: true
 nav_order: 5
+no_share: true
 ---
 
 Have a tip, insight, correction, or contribution idea?
