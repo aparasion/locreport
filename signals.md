@@ -36,6 +36,8 @@ A living tracker of high-impact claims in localization and AI, with linked evide
         {% else %}
           <p class="signal-card__empty">No linked evidence yet.</p>
         {% endif %}
+        {% assign signal_url = '/signals/#' | append: signal.id | absolute_url %}
+        {% include social-share.html title=signal.title url=signal_url description=signal.description class="social-share--compact" %}
       </div>
     </details>
   {% endfor %}
