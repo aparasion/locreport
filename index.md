@@ -77,7 +77,7 @@ nav_order: 1
 
       <div class="post-grid reveal-stagger">
     {% else %}
-      <article class="post-card" {% if post.affected_segments %}data-segments="{{ post.affected_segments | join: ' ' }}"{% endif %}>
+      <article class="post-card" {% if post.affected_segments %}data-segments="{{ post.affected_segments | join: '|' }}"{% endif %}>
         <p class="post-meta">{{ post.date | date: "%B %d, %Y" }}<span class="new-badge">NEW</span>{% if post.impact_score and post.impact_score >= 3 %}<span class="impact-dot impact-dot--{{ post.impact_score }}" title="Impact: {% if post.impact_score == 3 %}Significant{% elsif post.impact_score == 4 %}Major{% elsif post.impact_score == 5 %}Disruptive{% endif %}"></span>{% endif %}</p>
         <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
         <p>{{ post.excerpt | strip_html | truncate: 140 }}</p>
@@ -121,7 +121,7 @@ nav_order: 1
     {% for post in site.posts %}
       {% assign post_day = post.date | date: "%Y-%m-%d" %}
       {% if post_day != day2 %}{% continue %}{% endif %}
-      <article class="post-card" {% if post.affected_segments %}data-segments="{{ post.affected_segments | join: ' ' }}"{% endif %}>
+      <article class="post-card" {% if post.affected_segments %}data-segments="{{ post.affected_segments | join: '|' }}"{% endif %}>
         <p class="post-meta">{{ post.date | date: "%B %d, %Y" }}{% if post.impact_score and post.impact_score >= 3 %}<span class="impact-dot impact-dot--{{ post.impact_score }}" title="Impact: {% if post.impact_score == 3 %}Significant{% elsif post.impact_score == 4 %}Major{% elsif post.impact_score == 5 %}Disruptive{% endif %}"></span>{% endif %}</p>
         <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
         <p>{{ post.excerpt | strip_html | truncate: 140 }}</p>
@@ -147,7 +147,7 @@ nav_order: 1
     {% for post in site.posts %}
       {% assign post_day = post.date | date: "%Y-%m-%d" %}
       {% if post_day != day3 %}{% continue %}{% endif %}
-      <article class="post-card" {% if post.affected_segments %}data-segments="{{ post.affected_segments | join: ' ' }}"{% endif %}>
+      <article class="post-card" {% if post.affected_segments %}data-segments="{{ post.affected_segments | join: '|' }}"{% endif %}>
         <p class="post-meta">{{ post.date | date: "%B %d, %Y" }}{% if post.impact_score and post.impact_score >= 3 %}<span class="impact-dot impact-dot--{{ post.impact_score }}" title="Impact: {% if post.impact_score == 3 %}Significant{% elsif post.impact_score == 4 %}Major{% elsif post.impact_score == 5 %}Disruptive{% endif %}"></span>{% endif %}</p>
         <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
         <p>{{ post.excerpt | strip_html | truncate: 140 }}</p>

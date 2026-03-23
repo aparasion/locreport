@@ -93,7 +93,7 @@ description: "Browse all localization industry articles by topic — quality, op
 
       {% assign topics_trimmed = topics_list | strip %}
 
-      <article class="post-card" data-topics="{{ topics_trimmed }}" {% if post.affected_segments %}data-segments="{{ post.affected_segments | join: ' ' }}"{% endif %} {% if post.impact_score %}data-impact="{{ post.impact_score }}"{% endif %}>
+      <article class="post-card" data-topics="{{ topics_trimmed }}" {% if post.affected_segments %}data-segments="{{ post.affected_segments | join: '|' }}"{% endif %} {% if post.impact_score %}data-impact="{{ post.impact_score }}"{% endif %}>
         <p class="post-meta">{{ post.date | date: "%B %d, %Y" }}{% if post.impact_score and post.impact_score >= 3 %}<span class="impact-dot impact-dot--{{ post.impact_score }}" title="Impact: {% if post.impact_score == 3 %}Significant{% elsif post.impact_score == 4 %}Major{% elsif post.impact_score == 5 %}Disruptive{% endif %}"></span>{% endif %}</p>
         <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
         <p>{{ post.excerpt | strip_html | truncate: 140 }}</p>

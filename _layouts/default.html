@@ -436,7 +436,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
       } else {
         allTopicCards.forEach(function (card) {
-          var segs = (card.getAttribute("data-segments") || "").split(" ");
+          var segs = (card.getAttribute("data-segments") || "").split("|");
           card.classList.toggle("role-dimmed", segs.indexOf(role) === -1);
         });
       }
