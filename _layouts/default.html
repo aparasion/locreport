@@ -418,6 +418,39 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
+  // ── Role Picker on Topics Page ──────────────────────────
+  var topicsRoleButtons = document.getElementById("topics-role-buttons");
+  if (topicsRoleButtons && topicsGrid) {
+    var rolePillsSm = topicsRoleButtons.querySelectorAll(".role-pill-sm");
+    var savedRole = localStorage.getItem("locreport-role") || "all";
+
+    function applyTopicsRole(role) {
+      localStorage.setItem("locreport-role", role);
+      rolePillsSm.forEach(function (p) {
+        p.classList.toggle("active", p.getAttribute("data-role") === role);
+      });
+      // Re-order: move matching cards to top (visual priority, not hide)
+      if (role === "all") {
+        allTopicCards.forEach(function (card) {
+          card.classList.remove("role-dimmed");
+        });
+      } else {
+        allTopicCards.forEach(function (card) {
+          var segs = (card.getAttribute("data-segments") || "").split(" ");
+          card.classList.toggle("role-dimmed", segs.indexOf(role) === -1);
+        });
+      }
+    }
+
+    applyTopicsRole(savedRole);
+
+    rolePillsSm.forEach(function (pill) {
+      pill.addEventListener("click", function () {
+        applyTopicsRole(pill.getAttribute("data-role"));
+      });
+    });
+  }
+
   // ── Glossary annotation ──────────────────────────────────
   var glossaryItems = {{ site.data.glossary | jsonify }};
 

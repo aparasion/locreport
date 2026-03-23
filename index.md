@@ -65,6 +65,11 @@ nav_order: 1
       {% assign day1_first = false %}
       <article class="featured-article reveal">
         <span class="featured-badge">Latest</span>
+        {% if post.impact_score %}
+        <span class="impact-badge impact-badge--{{ post.impact_score }} impact-badge--inline">
+          {% if post.impact_score == 1 %}Routine{% elsif post.impact_score == 2 %}Notable{% elsif post.impact_score == 3 %}Significant{% elsif post.impact_score == 4 %}Major{% elsif post.impact_score == 5 %}Disruptive{% endif %}
+        </span>
+        {% endif %}
         <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
         <p class="post-meta">{{ post.date | date: "%B %d, %Y" }}</p>
         <p>{{ post.excerpt | strip_html | truncate: 200 }}</p>
@@ -72,8 +77,8 @@ nav_order: 1
 
       <div class="post-grid reveal-stagger">
     {% else %}
-      <article class="post-card">
-        <p class="post-meta">{{ post.date | date: "%B %d, %Y" }}<span class="new-badge">NEW</span></p>
+      <article class="post-card" {% if post.affected_segments %}data-segments="{{ post.affected_segments | join: ' ' }}"{% endif %}>
+        <p class="post-meta">{{ post.date | date: "%B %d, %Y" }}<span class="new-badge">NEW</span>{% if post.impact_score and post.impact_score >= 3 %}<span class="impact-dot impact-dot--{{ post.impact_score }}" title="Impact: {% if post.impact_score == 3 %}Significant{% elsif post.impact_score == 4 %}Major{% elsif post.impact_score == 5 %}Disruptive{% endif %}"></span>{% endif %}</p>
         <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
         <p>{{ post.excerpt | strip_html | truncate: 140 }}</p>
         <span class="read-more">Read more &rarr;</span>
@@ -116,8 +121,8 @@ nav_order: 1
     {% for post in site.posts %}
       {% assign post_day = post.date | date: "%Y-%m-%d" %}
       {% if post_day != day2 %}{% continue %}{% endif %}
-      <article class="post-card">
-        <p class="post-meta">{{ post.date | date: "%B %d, %Y" }}</p>
+      <article class="post-card" {% if post.affected_segments %}data-segments="{{ post.affected_segments | join: ' ' }}"{% endif %}>
+        <p class="post-meta">{{ post.date | date: "%B %d, %Y" }}{% if post.impact_score and post.impact_score >= 3 %}<span class="impact-dot impact-dot--{{ post.impact_score }}" title="Impact: {% if post.impact_score == 3 %}Significant{% elsif post.impact_score == 4 %}Major{% elsif post.impact_score == 5 %}Disruptive{% endif %}"></span>{% endif %}</p>
         <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
         <p>{{ post.excerpt | strip_html | truncate: 140 }}</p>
         <span class="read-more">Read more &rarr;</span>
@@ -142,8 +147,8 @@ nav_order: 1
     {% for post in site.posts %}
       {% assign post_day = post.date | date: "%Y-%m-%d" %}
       {% if post_day != day3 %}{% continue %}{% endif %}
-      <article class="post-card">
-        <p class="post-meta">{{ post.date | date: "%B %d, %Y" }}</p>
+      <article class="post-card" {% if post.affected_segments %}data-segments="{{ post.affected_segments | join: ' ' }}"{% endif %}>
+        <p class="post-meta">{{ post.date | date: "%B %d, %Y" }}{% if post.impact_score and post.impact_score >= 3 %}<span class="impact-dot impact-dot--{{ post.impact_score }}" title="Impact: {% if post.impact_score == 3 %}Significant{% elsif post.impact_score == 4 %}Major{% elsif post.impact_score == 5 %}Disruptive{% endif %}"></span>{% endif %}</p>
         <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
         <p>{{ post.excerpt | strip_html | truncate: 140 }}</p>
         <span class="read-more">Read more &rarr;</span>
@@ -155,4 +160,6 @@ nav_order: 1
 
 <div class="view-all-cta">
   <a href="/topics/" class="view-all-link">View all articles &rarr;</a>
+  <br><br>
+  <a href="/intelligence/" class="view-all-link view-all-link--secondary">Intelligence Dashboard &rarr;</a>
 </div>

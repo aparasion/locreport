@@ -406,6 +406,129 @@ def infer_signal_tags(title: str, gist: str) -> tuple[list[str], str, str]:
     return matched, stance, confidence
 
 
+SEGMENT_KEYWORDS = {
+    "LSPs": [
+        "language service", "LSP", "translation company", "vendor",
+        "translation agency", "service provider", "freelance",
+    ],
+    "In-House Teams": [
+        "in-house", "enterprise", "localization team", "localization manager",
+        "global content", "internal team", "brand", "product team",
+    ],
+    "Tech Vendors": [
+        "platform", "TMS", "tool", "software", "SaaS", "API",
+        "integration", "SDK", "plugin", "startup",
+    ],
+    "Translators": [
+        "translator", "linguist", "post-editor", "freelance",
+        "interpreter", "language professional", "MTPE",
+    ],
+}
+
+TIME_HORIZON_KEYWORDS = {
+    "now": [
+        "launched", "releases", "now available", "announces",
+        "rolls out", "deploys", "ships", "immediately",
+    ],
+    "6months": [
+        "pilot", "beta", "testing", "plans to", "roadmap",
+        "upcoming", "soon", "expected", "will launch",
+    ],
+    "2years": [
+        "research", "long-term", "vision", "future", "emerging",
+        "paradigm", "transformative", "fundamental shift",
+    ],
+}
+
+
+def infer_segments(title: str, gist: str) -> list[str]:
+    """Infer which industry segments are most affected."""
+    text = f"{title} {gist}".lower()
+    matched = []
+    for segment, keywords in SEGMENT_KEYWORDS.items():
+        hits = sum(1 for kw in keywords if kw.lower() in text)
+        if hits >= 1:
+            matched.append(segment)
+    return matched if matched else ["In-House Teams", "LSPs"]
+
+
+def infer_time_horizon(title: str, gist: str) -> str:
+    """Infer whether the news has immediate, medium, or long-term impact."""
+    text = f"{title} {gist}".lower()
+    scores = {}
+    for horizon, keywords in TIME_HORIZON_KEYWORDS.items():
+        scores[horizon] = sum(1 for kw in keywords if kw.lower() in text)
+    best = max(scores, key=scores.get)
+    return best if scores[best] > 0 else "now"
+
+
+def generate_intelligence(title: str, gist: str, article_text: str) -> dict:
+    """Call GPT-4o-mini to generate business implications and impact score."""
+    intelligence_prompt = (
+        "You are a localization industry strategist. Based on this article, provide:\n\n"
+        "1. impact_score: integer 1-5 (1=routine, 2=notable, 3=significant, 4=major, 5=disruptive)\n"
+        "2. business_implications: exactly 3 short bullet points (max 15 words each) "
+        "describing concrete business impact for localization professionals.\n\n"
+        "Respond ONLY in this exact format (no markdown, no extra text):\n"
+        "IMPACT: <number>\n"
+        "IMPLICATION: <first implication>\n"
+        "IMPLICATION: <second implication>\n"
+        "IMPLICATION: <third implication>\n\n"
+        f"Title: {title}\n\n"
+        f"Summary: {gist}\n\n"
+        f"Article excerpt: {article_text[:3000]}"
+    )
+
+    try:
+        resp = client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[
+                {"role": "system", "content": "You are a concise localization industry analyst. Follow the output format exactly."},
+                {"role": "user", "content": intelligence_prompt},
+            ],
+            max_tokens=200,
+            temperature=0.3,
+        )
+        raw = resp.choices[0].message.content.strip()
+
+        # Parse the structured response
+        impact_score = 2  # default
+        implications = []
+        for line in raw.split("\n"):
+            line = line.strip()
+            if line.upper().startswith("IMPACT:"):
+                try:
+                    score = int(line.split(":", 1)[1].strip().split()[0])
+                    impact_score = max(1, min(5, score))
+                except (ValueError, IndexError):
+                    pass
+            elif line.upper().startswith("IMPLICATION:"):
+                impl = line.split(":", 1)[1].strip()
+                if impl:
+                    implications.append(impl)
+
+        if not implications:
+            implications = ["Monitor for workflow impact", "Review vendor positioning", "Assess strategic relevance"]
+
+        time_horizon = infer_time_horizon(title, gist)
+        affected_segments = infer_segments(title, gist)
+
+        return {
+            "impact_score": impact_score,
+            "time_horizon": time_horizon,
+            "affected_segments": affected_segments,
+            "business_implications": implications[:3],
+        }
+    except Exception as e:
+        print(f"Intelligence generation error: {e}")
+        return {
+            "impact_score": 2,
+            "time_horizon": infer_time_horizon(title, gist),
+            "affected_segments": infer_segments(title, gist),
+            "business_implications": ["Monitor for workflow impact", "Review vendor positioning", "Assess strategic relevance"],
+        }
+
+
 def main() -> None:
     if os.path.exists(SEEN_FILE):
         with open(SEEN_FILE, "r", encoding="utf-8") as seen_file:
@@ -526,6 +649,10 @@ If the provided text is mostly cookie/privacy/legal notices rather than article 
                 print(f"OpenAI API error for {url}: {e}")
                 gist = "Summary generation failed due to API error.\n\nRead the full article below."
 
+            # ── Intelligence Layer: generate impact score, time horizon,
+            #    affected segments and business implications ──
+            intelligence = generate_intelligence(entry.title, gist, text[:15000])
+
             if "published_parsed" in entry and entry.published_parsed:
                 pub_dt = datetime.datetime(*entry.published_parsed[:6], tzinfo=datetime.timezone.utc)
             else:
@@ -564,6 +691,13 @@ If the provided text is mostly cookie/privacy/legal notices rather than article 
                         f"[{signal_title}](/signals/#{first_signal})*\n"
                     )
 
+            impact_score = intelligence["impact_score"]
+            time_horizon = intelligence["time_horizon"]
+            affected_segments_yaml = ", ".join(intelligence["affected_segments"])
+            implications_yaml = "\n".join(
+                f'  - "{yaml_escape(impl)}"' for impl in intelligence["business_implications"]
+            )
+
             md_content = f"""---
 title: "{safe_title}"
 date: {post_date_str}T{time_str}Z
@@ -576,6 +710,11 @@ source_url: "{safe_source_url}"
 signal_ids: [{signal_ids_yaml}]
 signal_stance: {signal_stance}
 signal_confidence: {signal_confidence}
+impact_score: {impact_score}
+time_horizon: "{time_horizon}"
+affected_segments: [{affected_segments_yaml}]
+business_implications:
+{implications_yaml}
 ---
 
 {gist}
