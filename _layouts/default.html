@@ -118,6 +118,34 @@
 
   <button id="scroll-top-button" class="scroll-top-button" type="button" aria-label="Back to top">&uarr;</button>
 
+  <!-- ── Search Overlay ───────────────────────────────────── -->
+  <div id="search-overlay" class="search-overlay" role="dialog" aria-modal="true" aria-label="Search">
+    <div class="search-overlay-box">
+      <div class="search-overlay-input-row">
+        <svg class="search-overlay-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input
+          type="search"
+          id="search-overlay-input"
+          class="search-overlay-input"
+          placeholder="Search articles…"
+          autocomplete="off"
+          aria-label="Search"
+        >
+        <button class="search-overlay-close" id="search-overlay-close" aria-label="Close search">Esc</button>
+      </div>
+      <div id="search-overlay-status" class="search-overlay-status" hidden></div>
+      <div id="search-overlay-results" class="search-overlay-results" role="listbox"></div>
+      <div class="search-overlay-footer">
+        <span class="search-overlay-footer-hint">
+          <span><kbd>&uarr;</kbd><kbd>&darr;</kbd> navigate</span>
+          <span><kbd>Enter</kbd> open</span>
+          <span><kbd>Esc</kbd> close</span>
+        </span>
+        <a href="{{ '/search/' | relative_url }}" class="search-overlay-all-results" id="search-overlay-all-link">View all results &rarr;</a>
+      </div>
+    </div>
+  </div>
+
   {% include footer.html %}
 
 <script>
@@ -567,6 +595,194 @@ document.addEventListener("DOMContentLoaded", function () {
       window.scrollTo({ top: 0, behavior: "smooth" });
     });
   }
+
+  // ── Search Overlay ────────────────────────────────────────
+  (function () {
+    var SEARCH_INDEX_URL = "{{ '/search.json' | relative_url }}";
+    var SEARCH_PAGE_URL = "{{ '/search/' | relative_url }}";
+    var MAX_OVERLAY_RESULTS = 8;
+
+    var searchToggle = document.getElementById("search-toggle");
+    var overlay = document.getElementById("search-overlay");
+    var overlayInput = document.getElementById("search-overlay-input");
+    var overlayClose = document.getElementById("search-overlay-close");
+    var overlayResults = document.getElementById("search-overlay-results");
+    var overlayStatus = document.getElementById("search-overlay-status");
+    var overlayAllLink = document.getElementById("search-overlay-all-link");
+
+    if (!searchToggle || !overlay) return;
+
+    var searchData = null;
+    var focusedIndex = -1;
+    var currentItems = [];
+
+    function loadIndex() {
+      if (searchData !== null) return Promise.resolve(searchData);
+      return fetch(SEARCH_INDEX_URL)
+        .then(function (r) { return r.json(); })
+        .then(function (data) { searchData = data; return data; });
+    }
+
+    function openOverlay() {
+      overlay.classList.add("is-open");
+      searchToggle.setAttribute("aria-expanded", "true");
+      document.body.style.overflow = "hidden";
+      overlayInput.focus();
+      loadIndex().then(function () {
+        if (overlayInput.value.trim()) performSearch(overlayInput.value.trim());
+      });
+    }
+
+    function closeOverlay() {
+      overlay.classList.remove("is-open");
+      searchToggle.setAttribute("aria-expanded", "false");
+      document.body.style.overflow = "";
+      focusedIndex = -1;
+    }
+
+    searchToggle.addEventListener("click", function () {
+      if (overlay.classList.contains("is-open")) {
+        closeOverlay();
+      } else {
+        openOverlay();
+      }
+    });
+
+    overlayClose.addEventListener("click", closeOverlay);
+
+    overlay.addEventListener("click", function (e) {
+      if (e.target === overlay) closeOverlay();
+    });
+
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") {
+        if (overlay.classList.contains("is-open")) { closeOverlay(); return; }
+      }
+      // Cmd/Ctrl + K
+      if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+        e.preventDefault();
+        if (overlay.classList.contains("is-open")) {
+          closeOverlay();
+        } else {
+          openOverlay();
+        }
+        return;
+      }
+      if (!overlay.classList.contains("is-open")) return;
+      if (e.key === "ArrowDown") {
+        e.preventDefault();
+        focusedIndex = Math.min(focusedIndex + 1, currentItems.length - 1);
+        updateFocused();
+      } else if (e.key === "ArrowUp") {
+        e.preventDefault();
+        focusedIndex = Math.max(focusedIndex - 1, -1);
+        updateFocused();
+      } else if (e.key === "Enter" && focusedIndex >= 0 && currentItems[focusedIndex]) {
+        e.preventDefault();
+        window.location.href = currentItems[focusedIndex].getAttribute("href");
+      }
+    });
+
+    function updateFocused() {
+      currentItems.forEach(function (el, i) {
+        el.classList.toggle("is-focused", i === focusedIndex);
+        if (i === focusedIndex) el.scrollIntoView({ block: "nearest" });
+      });
+    }
+
+    overlayInput.addEventListener("input", function () {
+      var q = overlayInput.value.trim();
+      focusedIndex = -1;
+      if (overlayAllLink) {
+        overlayAllLink.href = q ? SEARCH_PAGE_URL + "?q=" + encodeURIComponent(q) : SEARCH_PAGE_URL;
+      }
+      if (!q) {
+        overlayResults.innerHTML = "";
+        overlayStatus.hidden = true;
+        currentItems = [];
+        return;
+      }
+      if (!searchData) {
+        loadIndex().then(function () { performSearch(q); });
+      } else {
+        performSearch(q);
+      }
+    });
+
+    function scorePost(post, query) {
+      var q = query.toLowerCase();
+      var title = (post.title || "").toLowerCase();
+      var excerpt = (post.excerpt || "").toLowerCase();
+      var content = (post.content || "").toLowerCase();
+      var publisher = (post.publisher || "").toLowerCase();
+      var score = 0;
+      if (title.indexOf(q) !== -1) score += 10;
+      if (excerpt.indexOf(q) !== -1) score += 5;
+      if (content.indexOf(q) !== -1) score += 3;
+      if (publisher.indexOf(q) !== -1) score += 2;
+      if (score === 0) {
+        q.split(/\s+/).forEach(function (word) {
+          if (word.length < 2) return;
+          if (title.indexOf(word) !== -1) score += 4;
+          if (excerpt.indexOf(word) !== -1) score += 2;
+          if (content.indexOf(word) !== -1) score += 1;
+        });
+      }
+      return score;
+    }
+
+    function highlight(text, query) {
+      if (!query || !text) return text;
+      var escaped = query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      var words = escaped.split(/\s+/).filter(function (w) { return w.length > 1; });
+      if (!words.length) return text;
+      var pattern = new RegExp("(" + words.join("|") + ")", "gi");
+      return text.replace(pattern, '<mark class="search-highlight">$1</mark>');
+    }
+
+    function performSearch(query) {
+      var results = searchData
+        .map(function (post) { return { post: post, score: scorePost(post, query) }; })
+        .filter(function (item) { return item.score > 0; })
+        .sort(function (a, b) { return b.score - a.score; })
+        .slice(0, MAX_OVERLAY_RESULTS)
+        .map(function (item) { return item.post; });
+
+      overlayResults.innerHTML = "";
+      currentItems = [];
+      focusedIndex = -1;
+
+      if (results.length === 0) {
+        overlayStatus.hidden = false;
+        overlayStatus.textContent = "No results for \u201c" + query + "\u201d";
+        overlayResults.innerHTML = '<div class="search-overlay-empty">Try different keywords or browse by <a href="{{ "/topics/" | relative_url }}">topic</a>.</div>';
+        return;
+      }
+
+      overlayStatus.hidden = false;
+      var total = searchData.filter(function (p) { return scorePost(p, query) > 0; }).length;
+      overlayStatus.textContent = total + " result" + (total !== 1 ? "s" : "") + " \u2014 showing top " + results.length;
+
+      results.forEach(function (post) {
+        var a = document.createElement("a");
+        a.className = "search-overlay-item";
+        a.href = post.url;
+        a.setAttribute("role", "option");
+
+        var titleHtml = highlight(post.title, query);
+        var excerptHtml = highlight(post.excerpt, query);
+        var publisherText = post.publisher ? ' &middot; ' + post.publisher : '';
+
+        a.innerHTML =
+          '<div class="search-overlay-item-title">' + titleHtml + '</div>' +
+          '<div class="search-overlay-item-meta">' + post.date + publisherText + '</div>' +
+          '<div class="search-overlay-item-excerpt">' + excerptHtml + '</div>';
+
+        overlayResults.appendChild(a);
+        currentItems.push(a);
+      });
+    }
+  })();
 });
 </script>
 </body>
