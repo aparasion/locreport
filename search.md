@@ -132,39 +132,69 @@ nav: false
     return keywords.some(function (kw) { return haystack.indexOf(kw) !== -1; });
   }
 
+  // Parse query into quoted phrases (strict) and free terms (scored)
+  function parseQuery(query) {
+    var phrases = [];
+    var remaining = query.replace(/"([^"]+)"/g, function (_, phrase) {
+      var p = phrase.trim().toLowerCase();
+      if (p) phrases.push(p);
+      return " ";
+    });
+    var terms = remaining.split(/\s+/).filter(function (w) { return w.length > 1; }).map(function (w) { return w.toLowerCase(); });
+    return { phrases: phrases, terms: terms };
+  }
+
   function scorePost(post, query) {
     if (!query) return 1;
-    var q = query.toLowerCase();
-    var title = (post.title || "").toLowerCase();
-    var excerpt = (post.excerpt || "").toLowerCase();
-    var content = (post.content || "").toLowerCase();
+    var parsed = parseQuery(query);
+    var title    = (post.title      || "").toLowerCase();
+    var excerpt  = (post.excerpt    || "").toLowerCase();
+    var content  = (post.content    || "").toLowerCase();
     var publisher = (post.publisher || "").toLowerCase();
-    var signals = (post.signal_ids || "").toLowerCase();
-    var score = 0;
-    if (title.indexOf(q) !== -1) score += 10;
-    if (excerpt.indexOf(q) !== -1) score += 5;
-    if (content.indexOf(q) !== -1) score += 3;
-    if (publisher.indexOf(q) !== -1) score += 2;
-    if (signals.indexOf(q) !== -1) score += 2;
-    // Word-by-word fallback
-    if (score === 0) {
-      q.split(/\s+/).forEach(function (word) {
-        if (word.length < 2) return;
-        if (title.indexOf(word) !== -1) score += 4;
-        if (excerpt.indexOf(word) !== -1) score += 2;
-        if (content.indexOf(word) !== -1) score += 1;
-      });
+    var signals  = (post.signal_ids || "").toLowerCase();
+
+    // Strict: any quoted phrase must appear verbatim somewhere in the post
+    for (var i = 0; i < parsed.phrases.length; i++) {
+      var ph = parsed.phrases[i];
+      if (title.indexOf(ph) === -1 && excerpt.indexOf(ph) === -1 &&
+          content.indexOf(ph) === -1 && publisher.indexOf(ph) === -1 &&
+          signals.indexOf(ph) === -1) {
+        return 0;
+      }
     }
+
+    var score = 0;
+    // Score phrase matches
+    parsed.phrases.forEach(function (ph) {
+      if (title.indexOf(ph)    !== -1) score += 15;
+      if (excerpt.indexOf(ph)  !== -1) score += 8;
+      if (content.indexOf(ph)  !== -1) score += 5;
+      if (signals.indexOf(ph)  !== -1) score += 3;
+    });
+    // Score free-term matches
+    parsed.terms.forEach(function (word) {
+      if (title.indexOf(word)     !== -1) score += 4;
+      if (excerpt.indexOf(word)   !== -1) score += 2;
+      if (content.indexOf(word)   !== -1) score += 1;
+      if (publisher.indexOf(word) !== -1) score += 1;
+      if (signals.indexOf(word)   !== -1) score += 1;
+    });
     return score;
   }
 
   function highlight(text, query) {
     if (!query || !text) return text;
-    var escaped = query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-    var words = escaped.split(/\s+/).filter(function (w) { return w.length > 1; });
-    if (!words.length) return text;
-    var pattern = new RegExp("(" + words.join("|") + ")", "gi");
-    return text.replace(pattern, '<mark class="search-highlight">$1</mark>');
+    var parsed = parseQuery(query);
+    var patterns = [];
+    parsed.phrases.forEach(function (ph) {
+      patterns.push(ph.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
+    });
+    parsed.terms.forEach(function (w) {
+      patterns.push(w.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
+    });
+    if (!patterns.length) return text;
+    var re = new RegExp("(" + patterns.join("|") + ")", "gi");
+    return text.replace(re, '<mark class="search-highlight">$1</mark>');
   }
 
   function renderResults() {
