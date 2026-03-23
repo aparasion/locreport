@@ -20,6 +20,49 @@ layout: default
   </p>
   {% endif %}
 
+  {% if page.impact_score %}
+  <div class="intelligence-layer">
+    <div class="intelligence-header">
+      <span class="intelligence-label">Intelligence</span>
+      <span class="impact-badge impact-badge--{{ page.impact_score }}">
+        {% if page.impact_score == 1 %}Routine
+        {% elsif page.impact_score == 2 %}Notable
+        {% elsif page.impact_score == 3 %}Significant
+        {% elsif page.impact_score == 4 %}Major
+        {% elsif page.impact_score == 5 %}Disruptive
+        {% endif %}
+      </span>
+      {% if page.time_horizon %}
+      <span class="time-horizon-badge time-horizon-badge--{{ page.time_horizon }}">
+        {% if page.time_horizon == "now" %}Immediate
+        {% elsif page.time_horizon == "6months" %}6-Month Horizon
+        {% elsif page.time_horizon == "2years" %}Long-Term
+        {% endif %}
+      </span>
+      {% endif %}
+    </div>
+
+    {% if page.business_implications and page.business_implications.size > 0 %}
+    <div class="intelligence-implications">
+      <h4 class="intelligence-implications-title">Why this matters</h4>
+      <ul class="implications-list">
+        {% for impl in page.business_implications %}
+        <li>{{ impl }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
+
+    {% if page.affected_segments and page.affected_segments.size > 0 %}
+    <div class="intelligence-segments">
+      {% for seg in page.affected_segments %}
+      <span class="segment-tag" data-segment="{{ seg }}">{{ seg }}</span>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+  {% endif %}
+
   <div class="post-content">
     {{ content }}
   </div>

@@ -23,6 +23,17 @@ description: "Browse all localization industry articles by topic — quality, op
   </div>
 </section>
 
+<section class="role-picker-inline" id="topics-role-picker">
+  <span class="role-picker-inline-label">Your role:</span>
+  <div class="role-picker-inline-buttons" id="topics-role-buttons">
+    <button class="role-pill-sm active" data-role="all">All</button>
+    <button class="role-pill-sm" data-role="LSPs">LSPs</button>
+    <button class="role-pill-sm" data-role="In-House Teams">In-House</button>
+    <button class="role-pill-sm" data-role="Tech Vendors">Tech Vendors</button>
+    <button class="role-pill-sm" data-role="Translators">Translators</button>
+  </div>
+</section>
+
 {% comment %}
   Define signal IDs and keywords for each topic.
   We compute topic assignments at build time and store as data-topics attribute.
@@ -82,8 +93,8 @@ description: "Browse all localization industry articles by topic — quality, op
 
       {% assign topics_trimmed = topics_list | strip %}
 
-      <article class="post-card" data-topics="{{ topics_trimmed }}">
-        <p class="post-meta">{{ post.date | date: "%B %d, %Y" }}</p>
+      <article class="post-card" data-topics="{{ topics_trimmed }}" {% if post.affected_segments %}data-segments="{{ post.affected_segments | join: ' ' }}"{% endif %} {% if post.impact_score %}data-impact="{{ post.impact_score }}"{% endif %}>
+        <p class="post-meta">{{ post.date | date: "%B %d, %Y" }}{% if post.impact_score and post.impact_score >= 3 %}<span class="impact-dot impact-dot--{{ post.impact_score }}" title="Impact: {% if post.impact_score == 3 %}Significant{% elsif post.impact_score == 4 %}Major{% elsif post.impact_score == 5 %}Disruptive{% endif %}"></span>{% endif %}</p>
         <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
         <p>{{ post.excerpt | strip_html | truncate: 140 }}</p>
         <span class="read-more">Read more &rarr;</span>

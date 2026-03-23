@@ -1615,6 +1615,16 @@ a.internal-link:hover {
   transform: translateY(-2px);
 }
 
+.view-all-link--secondary {
+  background: var(--surface);
+  color: var(--accent);
+  border: 1.5px solid var(--accent);
+}
+
+.view-all-link--secondary:hover {
+  background: var(--accent-soft);
+}
+
 /* ── Topics Page Hero ──────────────────────────────────── */
 .topics-hero {
   text-align: center;
@@ -2172,5 +2182,540 @@ a.internal-link:hover {
 
   .search-overlay-footer-hint {
     display: none;
+  }
+}
+
+/* ============================================================
+   Intelligence Layer — Phase 1, 2, 3
+   ============================================================ */
+
+/* ── Impact Badge (used in post cards, article pages, dashboard) ── */
+.impact-badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 100px;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.impact-badge--1 { background: #f1f5f9; color: #64748b; }
+.impact-badge--2 { background: #e0f2fe; color: #0369a1; }
+.impact-badge--3 { background: #fef3c7; color: #92400e; }
+.impact-badge--4 { background: #fee2e2; color: #b91c1c; }
+.impact-badge--5 { background: linear-gradient(135deg, #dc2626, #9333ea); color: #ffffff; }
+
+[data-theme="dark"] .impact-badge--1 { background: #1e293b; color: #94a3b8; }
+[data-theme="dark"] .impact-badge--2 { background: #0c4a6e; color: #7dd3fc; }
+[data-theme="dark"] .impact-badge--3 { background: #451a03; color: #fcd34d; }
+[data-theme="dark"] .impact-badge--4 { background: #450a0a; color: #fca5a5; }
+[data-theme="dark"] .impact-badge--5 { background: linear-gradient(135deg, #dc2626, #9333ea); color: #ffffff; }
+
+.impact-badge--inline {
+  margin-left: var(--space-2);
+}
+
+.impact-badge--sm {
+  font-size: 0.6rem;
+  padding: 2px 8px;
+}
+
+/* ── Impact Dot (compact indicator on post cards) ─────── */
+.impact-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+
+.impact-dot--3 { background: #f59e0b; }
+.impact-dot--4 { background: #ef4444; }
+.impact-dot--5 { background: #9333ea; animation: livePulse 2s ease-in-out infinite; }
+
+/* ── Time Horizon Badge ───────────────────────────────── */
+.time-horizon-badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 100px;
+  vertical-align: middle;
+  margin-left: var(--space-1);
+}
+
+.time-horizon-badge--now { background: #dcfce7; color: #15803d; }
+.time-horizon-badge--6months { background: #e0f2fe; color: #0369a1; }
+.time-horizon-badge--2years { background: #f3e8ff; color: #7c3aed; }
+
+[data-theme="dark"] .time-horizon-badge--now { background: #14532d; color: #86efac; }
+[data-theme="dark"] .time-horizon-badge--6months { background: #0c4a6e; color: #7dd3fc; }
+[data-theme="dark"] .time-horizon-badge--2years { background: #3b0764; color: #c4b5fd; }
+
+.time-horizon-badge--sm {
+  font-size: 0.55rem;
+  padding: 2px 6px;
+}
+
+/* ── Segment Tag ──────────────────────────────────────── */
+.segment-tag {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.68rem;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 100px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  margin-right: var(--space-1);
+  margin-bottom: var(--space-1);
+}
+
+.segment-tag--sm {
+  font-size: 0.6rem;
+  padding: 2px 7px;
+}
+
+/* ── Intelligence Layer (on post pages) ──────────────── */
+.intelligence-layer {
+  margin: var(--space-4) 0 var(--space-5);
+  padding: var(--space-5);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius-md);
+}
+
+.intelligence-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+  margin-bottom: var(--space-3);
+}
+
+.intelligence-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  margin-right: var(--space-2);
+}
+
+.intelligence-implications {
+  margin-bottom: var(--space-3);
+}
+
+.intelligence-implications-title {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  margin: 0 0 var(--space-2);
+}
+
+.implications-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.implications-list li {
+  position: relative;
+  padding: var(--space-1) 0 var(--space-1) var(--space-5);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--text);
+}
+
+.implications-list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.65em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.intelligence-segments {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+}
+
+/* ── Intelligence Dashboard Hero ──────────────────────── */
+.intel-hero {
+  text-align: center;
+  padding: var(--space-8) 0 var(--space-4);
+}
+
+.intel-hero h1 {
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  margin: 0 0 var(--space-3);
+  background: var(--gradient-accent);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.intel-subtitle {
+  font-size: 1.05rem;
+  color: var(--muted);
+  margin: 0;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ── Stats Grid ───────────────────────────────────────── */
+.intel-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-4);
+  margin-bottom: var(--space-8);
+}
+
+.intel-stat-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--space-5) var(--space-4);
+  text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.intel-stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--card-shadow-hover);
+}
+
+.intel-stat-number {
+  display: block;
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--text);
+}
+
+.intel-stat-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+
+/* ── Section Headers ──────────────────────────────────── */
+.intel-section {
+  margin-bottom: var(--space-10);
+}
+
+.intel-section-title {
+  font-size: 1.3rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin: 0 0 var(--space-2);
+}
+
+.intel-section-desc {
+  font-size: 0.9rem;
+  color: var(--muted);
+  margin: 0 0 var(--space-5);
+}
+
+/* ── Signal Health Grid ───────────────────────────────── */
+.signal-health-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: var(--space-4);
+}
+
+.signal-health-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.signal-health-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--card-shadow-hover);
+  border-color: color-mix(in srgb, var(--accent) 25%, transparent);
+}
+
+.signal-health-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.signal-health-title {
+  font-size: 0.88rem;
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--text);
+  margin: 0;
+}
+
+/* ── Chart Container ──────────────────────────────────── */
+.intel-chart-container {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  position: relative;
+  height: 360px;
+}
+
+/* ── High Impact List ─────────────────────────────────── */
+.intel-high-impact-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: var(--space-4);
+}
+
+.intel-impact-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--space-4) var(--space-5);
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.intel-impact-item:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--card-shadow-hover);
+  border-color: color-mix(in srgb, var(--accent) 25%, transparent);
+}
+
+.intel-impact-item-top {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.intel-impact-date {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--muted);
+  margin-left: auto;
+}
+
+.intel-impact-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.35;
+  margin: 0;
+}
+
+.intel-impact-implication {
+  font-size: 0.82rem;
+  color: var(--muted);
+  line-height: 1.5;
+  margin: 0;
+  font-style: italic;
+}
+
+.intel-impact-segments {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+}
+
+.intel-empty {
+  color: var(--muted);
+  font-style: italic;
+  font-size: 0.9rem;
+  grid-column: 1 / -1;
+}
+
+/* ── Role Picker ──────────────────────────────────────── */
+.role-picker-section {
+  margin-bottom: var(--space-8);
+  text-align: center;
+}
+
+.role-picker-header {
+  margin-bottom: var(--space-4);
+}
+
+.role-picker-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  margin: 0 0 var(--space-1);
+}
+
+.role-picker-desc {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin: 0;
+}
+
+.role-picker-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  justify-content: center;
+}
+
+.role-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  font-family: inherit;
+  color: var(--muted);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.role-pill:hover {
+  color: var(--text);
+  border-color: color-mix(in srgb, var(--accent) 30%, transparent);
+  background: var(--accent-soft);
+}
+
+.role-pill.active {
+  color: #fff;
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+/* ── Inline Role Picker (Topics Page) ─────────────────── */
+.role-picker-inline {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-5);
+  flex-wrap: wrap;
+}
+
+.role-picker-inline-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+
+.role-picker-inline-buttons {
+  display: flex;
+  gap: var(--space-1);
+  flex-wrap: wrap;
+}
+
+.role-pill-sm {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 14px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  font-family: inherit;
+  color: var(--muted);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.role-pill-sm:hover {
+  color: var(--text);
+  border-color: color-mix(in srgb, var(--accent) 30%, transparent);
+  background: var(--accent-soft);
+}
+
+.role-pill-sm.active {
+  color: #fff;
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+/* ── Role-dimmed cards (not hidden, just visually de-prioritized) ── */
+.post-card.role-dimmed {
+  opacity: 0.45;
+  order: 999;
+}
+
+.post-card.role-dimmed:hover {
+  opacity: 0.85;
+}
+
+/* ── Mobile Responsive: Intelligence ──────────────────── */
+@media (max-width: 768px) {
+  .intel-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .intel-chart-container {
+    height: 280px;
+  }
+
+  .intel-high-impact-list {
+    grid-template-columns: 1fr;
+  }
+
+  .signal-health-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .intel-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-2);
+  }
+
+  .intel-stat-card {
+    padding: var(--space-3);
+  }
+
+  .intel-stat-number {
+    font-size: 1.5rem;
+  }
+
+  .role-picker-inline {
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .intelligence-layer {
+    padding: var(--space-4);
+  }
+
+  .intelligence-header {
+    flex-direction: column;
+    align-items: flex-start;
   }
 }

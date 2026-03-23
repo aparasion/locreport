@@ -14,7 +14,10 @@ layout: null
     "publisher": {{ post.publisher | default: "" | jsonify }},
     "signal_ids": {{ post.signal_ids | join: " " | jsonify }},
     "categories": {{ post.categories | join: " " | jsonify }},
-    "tags": {{ post.tags | join: " " | jsonify }}
+    "tags": {{ post.tags | join: " " | jsonify }},
+    "impact_score": {{ post.impact_score | default: 0 }},
+    "time_horizon": {{ post.time_horizon | default: "" | jsonify }},
+    "affected_segments": {{ post.affected_segments | join: " " | jsonify }}
   }{% unless forloop.last %},{% endunless %}
   {% endfor %}
 ]
