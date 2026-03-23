@@ -111,7 +111,7 @@ description: "Actionable localization intelligence — trend signals, impact sco
     {% for post in site.posts %}
       {% if post.impact_score >= 3 and impact_count < 12 %}
         {% assign impact_count = impact_count | plus: 1 %}
-        <a href="{{ post.url | relative_url }}" class="intel-impact-item" data-segments="{{ post.affected_segments | join: ' ' }}" data-impact="{{ post.impact_score }}">
+        <a href="{{ post.url | relative_url }}" class="intel-impact-item" data-segments="{{ post.affected_segments | join: '|' }}" data-impact="{{ post.impact_score }}">
           <div class="intel-impact-item-top">
             <span class="impact-badge impact-badge--{{ post.impact_score }} impact-badge--sm">
               {% if post.impact_score == 3 %}Significant{% elsif post.impact_score == 4 %}Major{% elsif post.impact_score == 5 %}Disruptive{% endif %}
@@ -190,7 +190,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (role === "all") {
         item.style.display = "";
       } else {
-        var segments = (item.getAttribute("data-segments") || "").split(" ");
+        var segments = (item.getAttribute("data-segments") || "").split("|");
         item.style.display = segments.indexOf(role) !== -1 ? "" : "none";
       }
     });
