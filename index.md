@@ -26,6 +26,8 @@ nav_order: 1
   </div>
 </section>
 
+{% include sources-bar.html %}
+
 {% comment %}
   Collect the last 3 unique days that have published content.
   Posts are already sorted newest-first by Jekyll.

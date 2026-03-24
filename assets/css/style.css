@@ -5,23 +5,23 @@
 
 /* ── Tokens ─────────────────────────────────────────────── */
 :root {
-  /* Colour - Light (soft gray base) */
-  --bg:             #f0f2f5;
-  --bg-secondary:   #e4e7ec;
+  /* Colour - Light (bright, airy base) */
+  --bg:             #f6f7fb;
+  --bg-secondary:   #eceef5;
   --surface:        #ffffff;
   --text:           #1a1f2e;
   --muted:          #5a6478;
   --accent:         #1e5faa;
   --accent-soft:    rgba(30, 95, 170, 0.08);
   --brand-text:     #1a3a6e;
-  --border:         rgba(0, 0, 0, 0.08);
-  --card-shadow:    0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04);
-  --card-shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.08), 0 12px 40px rgba(0, 0, 0, 0.06);
-  --gradient-hero:  linear-gradient(135deg, #e8eef6 0%, #e4f0f8 30%, #eaf0f4 60%, #f0f2f5 100%);
+  --border:         rgba(0, 0, 0, 0.07);
+  --card-shadow:    0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 16px rgba(0, 0, 0, 0.03);
+  --card-shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.07), 0 12px 40px rgba(0, 0, 0, 0.05);
+  --gradient-hero:  linear-gradient(135deg, #edf2f9 0%, #e8f4fb 30%, #edf3f7 60%, #f6f7fb 100%);
   --gradient-accent: linear-gradient(135deg, #1a3a6e, #1e5faa, #38b6cc);
-  --glass-bg:       rgba(240, 242, 245, 0.85);
-  --glass-border:   rgba(255, 255, 255, 0.5);
-  --featured-bg:    linear-gradient(135deg, #dce6f2 0%, #d8eef2 100%);
+  --glass-bg:       rgba(246, 247, 251, 0.85);
+  --glass-border:   rgba(255, 255, 255, 0.6);
+  --featured-bg:    linear-gradient(135deg, #e2ecf8 0%, #ddf0f8 100%);
   --featured-text:  #1a2a4a;
   --featured-muted: #4a5a7a;
 
@@ -320,7 +320,7 @@ hr {
 /* ── Hero Section ───────────────────────────────────────── */
 .hero {
   position: relative;
-  padding: var(--space-8) 0 var(--space-6);
+  padding: var(--space-8) 0 0;
   text-align: center;
   overflow: hidden;
   width: 100vw;
@@ -1569,6 +1569,7 @@ a.internal-link:hover {
 
 /* ── Day Sections (Homepage) ────────────────────────────── */
 .day-section {
+  padding-top: var(--space-8);
   padding-bottom: var(--space-8);
   margin-bottom: var(--space-6);
   border-bottom: 1px solid var(--border);
@@ -2216,7 +2217,9 @@ a.internal-link:hover {
 [data-theme="dark"] .impact-badge--5 { background: linear-gradient(135deg, #dc2626, #9333ea); color: #ffffff; }
 
 .impact-badge--inline {
-  margin-left: var(--space-2);
+  margin-left: 0;
+  align-self: flex-start;
+  margin-bottom: var(--space-3);
 }
 
 .impact-badge--sm {
@@ -3239,4 +3242,110 @@ a.internal-link:hover {
   .signal-modal-title {
     font-size: 1.05rem;
   }
+}
+
+/* ── Sources Bar (Homepage — between Hero and Day sections) ─ */
+.sources-bar {
+  position: relative;
+  width: 100vw;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  overflow: hidden;
+  background: var(--bg-secondary);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 0;
+  /* fade edges */
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+}
+
+.sources-bar-track {
+  display: flex;
+  align-items: center;
+  gap: 52px;
+  padding: 18px 0;
+  width: max-content;
+  animation: sourcesMarquee 60s linear infinite;
+  will-change: transform;
+}
+
+.sources-bar-track:hover {
+  animation-play-state: paused;
+}
+
+@keyframes sourcesMarquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+.source-logo {
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+  font-family: 'Manrope', -apple-system, sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: rgba(26, 31, 46, 0.28);
+  transition: color 0.3s ease;
+  flex-shrink: 0;
+  user-select: none;
+}
+
+.source-logo:hover {
+  color: var(--muted);
+}
+
+[data-theme="dark"] .source-logo {
+  color: rgba(232, 236, 244, 0.22);
+}
+
+[data-theme="dark"] .source-logo:hover {
+  color: var(--muted);
+}
+
+/* Per-brand style variants */
+.source-logo--techcrunch {
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  font-size: 0.88rem;
+}
+
+.source-logo--xtm,
+.source-logo--gala,
+.source-logo--elia {
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+}
+
+.source-logo--deepl {
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+.source-logo--slator {
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.source-logo--languageline,
+.source-logo--transperfect {
+  font-weight: 500;
+  font-size: 0.8rem;
+}
+
+.source-logo--nimdzi {
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-size: 0.72rem;
+}
+
+.source-logo--prnewswire {
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  font-size: 0.78rem;
 }
