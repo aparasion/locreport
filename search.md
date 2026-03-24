@@ -35,14 +35,14 @@ nav: false
     <button class="topic-pill" data-search-topic="strategy">Strategy</button>
   </div>
 
-  <div class="search-page-status" id="search-page-status"></div>
+
 
   <div class="post-grid" id="search-page-results" aria-live="polite" aria-atomic="true"></div>
 
   <div class="search-page-empty" id="search-page-empty" hidden>
     <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
     <p>No articles found for <strong id="search-page-empty-term"></strong></p>
-    <p class="search-page-empty-hint">Try different keywords or browse by <a href="{{ '/topics/' | relative_url }}">topic</a>.</p>
+    <p class="search-page-empty-hint">Try different keywords or broaden your search.</p>
   </div>
 </div>
 
