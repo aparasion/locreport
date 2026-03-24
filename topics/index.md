@@ -2,8 +2,7 @@
 layout: default
 title: Topics
 permalink: /topics/
-nav: true
-nav_order: 1
+nav: false
 description: "Browse all localization industry articles by topic — quality, operations, governance, market dynamics, and strategy."
 ---
 
