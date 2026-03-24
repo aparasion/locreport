@@ -26,8 +26,16 @@ nav: false
     <span class="search-page-clear" id="search-page-clear" aria-label="Clear search" role="button" tabindex="0">&#x2715;</span>
   </div>
 
+  <div class="search-page-filters" id="search-page-filters">
+    <button class="topic-pill active" data-search-topic="all">All Topics</button>
+    <button class="topic-pill" data-search-topic="quality">Quality</button>
+    <button class="topic-pill" data-search-topic="operations">Operations</button>
+    <button class="topic-pill" data-search-topic="governance">Governance</button>
+    <button class="topic-pill" data-search-topic="market">Market</button>
+    <button class="topic-pill" data-search-topic="strategy">Strategy</button>
+  </div>
 
-  <div class="search-page-status" id="search-page-status"></div>
+
 
   <div class="post-grid" id="search-page-results" aria-live="polite" aria-atomic="true"></div>
 
