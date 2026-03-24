@@ -11,8 +11,6 @@ Stay ahead of what's moving the localization and language technology industry.
 **What you'll get:**
 
 - **Weekly digest** — The most important news gists and signal shifts from the past week, delivered every Monday.
-- **Monthly report** — Our editorial summary of the month's key themes, notable developments, and forward-looking market signals.
-- **Signal alerts** — When a tracked signal changes status (emerging → supported, or flips to challenged), you'll hear about it first.
 
 No spam, no filler. Unsubscribe anytime.
 
