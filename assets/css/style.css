@@ -381,7 +381,7 @@ hr {
   font-size: clamp(1rem, 2vw, 1.25rem);
   color: var(--muted);
   line-height: 1.6;
-  margin: 0 0 var(--space-8);
+  margin: 0 0 var(--space-4);
   font-weight: 400;
   animation: fadeInUp 0.8s ease 0.15s both;
 }
