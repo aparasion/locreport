@@ -10,7 +10,7 @@ source_url: "https://phrase.com/blog/posts/global-retail-challenges-2026"
 signal_ids: []
 signal_stance: mixed
 signal_confidence: low
-impact_score: 4
+impact_score: 2
 time_horizon: "now"
 affected_segments: [In-House Teams, Tech Vendors]
 business_implications:

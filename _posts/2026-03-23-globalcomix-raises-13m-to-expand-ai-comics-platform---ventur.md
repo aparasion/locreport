@@ -10,7 +10,7 @@ source_url: "https://ventureburn.com"
 signal_ids: []
 signal_stance: mentions
 signal_confidence: low
-impact_score: 4
+impact_score: 1
 time_horizon: "now"
 affected_segments: [Tech Vendors]
 business_implications:

@@ -10,7 +10,7 @@ source_url: "https://slator.com/european-parliament-proofreaders"
 signal_ids: []
 signal_stance: mentions
 signal_confidence: low
-impact_score: 3
+impact_score: 2
 time_horizon: "now"
 affected_segments: [LSPs, Tech Vendors, Translators]
 business_implications:

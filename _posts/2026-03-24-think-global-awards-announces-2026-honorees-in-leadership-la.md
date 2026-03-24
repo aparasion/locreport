@@ -10,7 +10,7 @@ source_url: "https://www.vistatec.com/think-global-awards-announces-2026-honoree
 signal_ids: []
 signal_stance: mentions
 signal_confidence: low
-impact_score: 4
+impact_score: 1
 time_horizon: "now"
 affected_segments: [In-House Teams, LSPs]
 business_implications:

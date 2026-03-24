@@ -10,7 +10,7 @@ source_url: "https://www.vistatec.com/vistatec-ai-wins-2026-artificial-intellige
 signal_ids: []
 signal_stance: mixed
 signal_confidence: low
-impact_score: 4
+impact_score: 2
 time_horizon: "now"
 affected_segments: [In-House Teams]
 business_implications:
