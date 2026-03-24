@@ -45,6 +45,6 @@ Coverage of AI governance frameworks, regulatory compliance, the EU AI Act, and 
 
 {% for signal in site.data.signals %}
   {% if signal.category == "governance" %}
-- [{{ signal.title }}](/signals/#{{ signal.id }})
+- [{{ signal.title }}](/intelligence/#signals-section)
   {% endif %}
 {% endfor %}

@@ -2,7 +2,7 @@
 layout: page
 title: Signal Tracker
 permalink: /signals/
-nav: true
+nav: false
 nav_order: 2
 ---
 

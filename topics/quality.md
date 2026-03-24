@@ -45,6 +45,6 @@ Coverage of quality evaluation frameworks, human-in-the-loop review, MQM scoring
 
 {% for signal in site.data.signals %}
   {% if signal.category == "quality" %}
-- [{{ signal.title }}](/signals/#{{ signal.id }})
+- [{{ signal.title }}](/intelligence/#signals-section)
   {% endif %}
 {% endfor %}

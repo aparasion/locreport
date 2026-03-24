@@ -45,6 +45,6 @@ Coverage of market dynamics in language services — post-editing demand, transl
 
 {% for signal in site.data.signals %}
   {% if signal.category == "market" %}
-- [{{ signal.title }}](/signals/#{{ signal.id }})
+- [{{ signal.title }}](/intelligence/#signals-section)
   {% endif %}
 {% endfor %}

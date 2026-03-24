@@ -13,7 +13,7 @@ layout: default
     {% for sid in page.signal_ids %}
       {% for signal in site.data.signals %}
         {% if signal.id == sid %}
-          <a href="{{ '/signals/#' | append: signal.id | relative_url }}">{{ signal.title }}</a>{% unless forloop.last %}, {% endunless %}
+          <a href="{{ '/intelligence/#signals-section' | relative_url }}">{{ signal.title }}</a>{% unless forloop.last %}, {% endunless %}
         {% endif %}
       {% endfor %}
     {% endfor %}
