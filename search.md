@@ -26,14 +26,6 @@ nav: false
     <span class="search-page-clear" id="search-page-clear" aria-label="Clear search" role="button" tabindex="0">&#x2715;</span>
   </div>
 
-  <div class="search-page-filters" id="search-page-filters">
-    <button class="topic-pill active" data-search-topic="all">All Topics</button>
-    <button class="topic-pill" data-search-topic="quality">Quality</button>
-    <button class="topic-pill" data-search-topic="operations">Operations</button>
-    <button class="topic-pill" data-search-topic="governance">Governance</button>
-    <button class="topic-pill" data-search-topic="market">Market</button>
-    <button class="topic-pill" data-search-topic="strategy">Strategy</button>
-  </div>
 
   <div class="search-page-status" id="search-page-status"></div>
 
@@ -42,7 +34,7 @@ nav: false
   <div class="search-page-empty" id="search-page-empty" hidden>
     <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
     <p>No articles found for <strong id="search-page-empty-term"></strong></p>
-    <p class="search-page-empty-hint">Try different keywords or browse by <a href="{{ '/topics/' | relative_url }}">topic</a>.</p>
+    <p class="search-page-empty-hint">Try different keywords or broaden your search.</p>
   </div>
 </div>
 
