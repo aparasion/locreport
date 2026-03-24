@@ -10,7 +10,7 @@ source_url: "https://xtm.ai/blog/software-localization-process"
 signal_ids: []
 signal_stance: mixed
 signal_confidence: low
-impact_score: 4
+impact_score: 2
 time_horizon: "now"
 affected_segments: [Tech Vendors, Translators]
 business_implications:

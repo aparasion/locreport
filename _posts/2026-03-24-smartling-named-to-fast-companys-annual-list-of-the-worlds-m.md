@@ -10,7 +10,7 @@ source_url: "https://www.smartling.com/company-news/smartling-named-fast-company
 signal_ids: [quality-gap-closure]
 signal_stance: mixed
 signal_confidence: medium
-impact_score: 4
+impact_score: 3
 time_horizon: "6months"
 affected_segments: [LSPs, In-House Teams, Tech Vendors, Translators]
 business_implications:
