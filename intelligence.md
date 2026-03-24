@@ -4,12 +4,12 @@ title: Intelligence
 permalink: /intelligence/
 nav: true
 nav_order: 2
-description: "Actionable localization intelligence — trend signals, impact scoring, and role-based insights for strategic decision-making."
+description: "Actionable localization intelligence — trend signals, impact scoring, and strategic decision-making."
 ---
 
 <section class="intel-hero">
   <h1>Localization Intelligence</h1>
-  <p class="intel-subtitle">Less noise, more clarity. Structured, role-specific, decision-ready intelligence for the localization industry.</p>
+  <p class="intel-subtitle">Less noise, more clarity. Structured, decision-ready intelligence for the localization industry.</p>
 </section>
 
 {% comment %} ── Dashboard Section Navigation ────────────────────── {% endcomment %}
@@ -17,23 +17,8 @@ description: "Actionable localization intelligence — trend signals, impact sco
   <a href="#overview-section" class="intel-dash-nav-item active" data-section="overview-section">Overview</a>
   <a href="#signals-section" class="intel-dash-nav-item" data-section="signals-section">Signals</a>
   <a href="#trends-section" class="intel-dash-nav-item" data-section="trends-section">Trends</a>
-  <a href="#articles-section" class="intel-dash-nav-item" data-section="articles-section">Articles</a>
+  <a href="#high-impact-section" class="intel-dash-nav-item" data-section="high-impact-section">High Impact Articles</a>
 </nav>
-
-{% comment %} ── Role Picker ─────────────────────────────────────── {% endcomment %}
-<section class="role-picker-section" id="role-picker-section">
-  <div class="role-picker-header">
-    <h3 class="role-picker-title">Personalize your view</h3>
-    <p class="role-picker-desc">Select your role to see the most relevant insights first.</p>
-  </div>
-  <div class="role-picker-buttons" id="role-picker-buttons">
-    <button class="role-pill active" data-role="all">All Roles</button>
-    <button class="role-pill" data-role="LSPs">LSPs</button>
-    <button class="role-pill" data-role="In-House Teams">In-House Teams</button>
-    <button class="role-pill" data-role="Tech Vendors">Tech Vendors</button>
-    <button class="role-pill" data-role="Translators">Translators</button>
-  </div>
-</section>
 
 {% comment %} ── Impact Overview Stats ─────────────────────────────── {% endcomment %}
 {% assign total_posts = 0 %}
@@ -164,7 +149,7 @@ description: "Actionable localization intelligence — trend signals, impact sco
 </section>
 
 {% comment %} ── High Impact Articles ─────────────────────────────── {% endcomment %}
-<section class="intel-section">
+<section class="intel-section" id="high-impact-section">
   <h2 class="intel-section-title">High Impact Articles</h2>
   <p class="intel-section-desc">Recent articles scoring 3+ on the Localization Impact Scale.</p>
   <div class="intel-high-impact-list" id="intel-high-impact-list">
@@ -201,48 +186,6 @@ description: "Actionable localization intelligence — trend signals, impact sco
     {% if impact_count == 0 %}
     <p class="intel-empty">No high-impact articles yet. Intelligence scoring applies to new articles as they are published.</p>
     {% endif %}
-  </div>
-</section>
-
-{% comment %} ── Full Article Feed ────────────────────────────────── {% endcomment %}
-<section class="intel-section" id="articles-section">
-  <h2 class="intel-section-title">All Articles</h2>
-  <p class="intel-section-desc">Complete feed of all {{ total_posts }} tracked articles. Newest first.</p>
-
-  <div class="intel-feed-controls">
-    <input type="search" class="intel-feed-search" id="intel-feed-search" placeholder="Filter articles..." autocomplete="off" aria-label="Filter articles">
-    <select class="intel-feed-sort" id="intel-feed-sort" aria-label="Sort articles">
-      <option value="date">Newest First</option>
-      <option value="impact">Highest Impact</option>
-    </select>
-  </div>
-
-  <div class="intel-article-feed" id="intel-article-feed">
-    {% for post in site.posts %}
-    <a href="{{ post.url | relative_url }}" class="intel-feed-item" data-title="{{ post.title | downcase }}" data-impact="{{ post.impact_score | default: 0 }}" data-date="{{ post.date | date: '%Y%m%d' }}" data-segments="{{ post.affected_segments | join: '|' }}" data-signals="{{ post.signal_ids | join: '|' }}">
-      <div class="intel-feed-item-left">
-        <span class="intel-feed-date">{{ post.date | date: "%b %d, %Y" }}</span>
-        {% if post.impact_score and post.impact_score >= 3 %}
-        <span class="impact-dot impact-dot--{{ post.impact_score }}" title="Impact: {{ post.impact_score }}"></span>
-        {% endif %}
-      </div>
-      <div class="intel-feed-item-main">
-        <h4 class="intel-feed-title">{{ post.title }}</h4>
-        <p class="intel-feed-excerpt">{{ post.excerpt | strip_html | truncate: 120 }}</p>
-      </div>
-      <div class="intel-feed-item-right">
-        {% if post.publisher %}
-        <span class="intel-feed-publisher">{{ post.publisher }}</span>
-        {% endif %}
-        {% if post.signal_ids and post.signal_ids.size > 0 %}
-        <span class="intel-feed-signal-count" title="Linked to {{ post.signal_ids.size }} signal(s)">{{ post.signal_ids.size }}S</span>
-        {% endif %}
-      </div>
-    </a>
-    {% endfor %}
-  </div>
-  <div class="intel-feed-load-more" id="intel-feed-load-more">
-    <button class="intel-feed-load-btn" id="intel-feed-load-btn" type="button">Show more articles</button>
   </div>
 </section>
 
@@ -285,44 +228,6 @@ description: "Actionable localization intelligence — trend signals, impact sco
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-  // ── Role Picker ──────────────────────────────────────────
-  var rolePills = document.querySelectorAll("#role-picker-buttons .role-pill");
-  var savedRole = localStorage.getItem("locreport-role") || "all";
-
-  function applyRole(role) {
-    localStorage.setItem("locreport-role", role);
-    rolePills.forEach(function (p) {
-      p.classList.toggle("active", p.getAttribute("data-role") === role);
-    });
-    // Filter high-impact list
-    var items = document.querySelectorAll("#intel-high-impact-list .intel-impact-item");
-    items.forEach(function (item) {
-      if (role === "all") {
-        item.style.display = "";
-      } else {
-        var segments = (item.getAttribute("data-segments") || "").split("|");
-        item.style.display = segments.indexOf(role) !== -1 ? "" : "none";
-      }
-    });
-    // Dim feed items
-    var feedItems = document.querySelectorAll("#intel-article-feed .intel-feed-item");
-    feedItems.forEach(function (item) {
-      if (role === "all") {
-        item.classList.remove("role-dimmed");
-      } else {
-        var segments = (item.getAttribute("data-segments") || "").split("|");
-        item.classList.toggle("role-dimmed", segments.indexOf(role) === -1);
-      }
-    });
-  }
-
-  applyRole(savedRole);
-  rolePills.forEach(function (pill) {
-    pill.addEventListener("click", function () {
-      applyRole(pill.getAttribute("data-role"));
-    });
-  });
-
   // ── Dashboard Navigation ─────────────────────────────────
   var dashNavItems = document.querySelectorAll(".intel-dash-nav-item");
   var sections = {};
@@ -457,78 +362,6 @@ document.addEventListener("DOMContentLoaded", function () {
       closeSignalModal();
     }
   });
-
-  // ── Article Feed: search, sort, and load-more ────────────
-  var feedItems = Array.from(document.querySelectorAll("#intel-article-feed .intel-feed-item"));
-  var feedSearch = document.getElementById("intel-feed-search");
-  var feedSort = document.getElementById("intel-feed-sort");
-  var feedLoadBtn = document.getElementById("intel-feed-load-btn");
-  var feedLoadMore = document.getElementById("intel-feed-load-more");
-  var FEED_BATCH = 20;
-  var feedVisible = FEED_BATCH;
-
-  function applyFeedVisibility() {
-    var query = (feedSearch.value || "").trim().toLowerCase();
-    var sortBy = feedSort.value;
-    var visibleItems = feedItems.filter(function (item) {
-      if (!query) return true;
-      var title = item.getAttribute("data-title") || "";
-      return title.indexOf(query) !== -1;
-    });
-
-    if (sortBy === "impact") {
-      visibleItems.sort(function (a, b) {
-        return parseInt(b.getAttribute("data-impact") || "0", 10) - parseInt(a.getAttribute("data-impact") || "0", 10);
-      });
-    } else {
-      visibleItems.sort(function (a, b) {
-        return (b.getAttribute("data-date") || "").localeCompare(a.getAttribute("data-date") || "");
-      });
-    }
-
-    // Re-order in DOM
-    var parent = document.getElementById("intel-article-feed");
-    visibleItems.forEach(function (item) {
-      parent.appendChild(item);
-    });
-
-    // Hide non-matching
-    feedItems.forEach(function (item) {
-      if (visibleItems.indexOf(item) === -1) {
-        item.style.display = "none";
-      }
-    });
-
-    // Show/hide based on batch
-    visibleItems.forEach(function (item, idx) {
-      item.style.display = idx < feedVisible ? "" : "none";
-    });
-
-    // Show/hide load more button
-    if (feedLoadMore) {
-      feedLoadMore.style.display = visibleItems.length > feedVisible ? "" : "none";
-    }
-  }
-
-  // Initial hide
-  applyFeedVisibility();
-
-  feedSearch.addEventListener("input", function () {
-    feedVisible = FEED_BATCH;
-    applyFeedVisibility();
-  });
-
-  feedSort.addEventListener("change", function () {
-    feedVisible = FEED_BATCH;
-    applyFeedVisibility();
-  });
-
-  if (feedLoadBtn) {
-    feedLoadBtn.addEventListener("click", function () {
-      feedVisible += FEED_BATCH;
-      applyFeedVisibility();
-    });
-  }
 
   // ── Charts ───────────────────────────────────────────────
   // Generate last 6 months labels
