@@ -9,20 +9,7 @@ nav_order: 1
   <div class="hero-content">
     <h1>The pulse of the language services industry</h1>
     <p class="hero-subtitle">Daily coverage of translation, localization, and AI — curated, analyzed, and tracked through the signals that matter.</p>
-    <div class="hero-stats">
-      <div class="hero-stat">
-        <span class="hero-stat-number">{{ site.posts.size }}</span>
-        <span class="hero-stat-label">Articles</span>
-      </div>
-      <div class="hero-stat">
-        <span class="hero-stat-number">{{ site.data.signals.size }}</span>
-        <span class="hero-stat-label">Signals</span>
-      </div>
-      <div class="hero-stat">
-        <span class="hero-stat-number">5</span>
-        <span class="hero-stat-label">Topics</span>
-      </div>
-    </div>
+
   </div>
 </section>
 
