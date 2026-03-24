@@ -45,6 +45,6 @@ Coverage of localization tooling, TMS platforms, translation memory evolution, a
 
 {% for signal in site.data.signals %}
   {% if signal.category == "operations" %}
-- [{{ signal.title }}](/signals/#{{ signal.id }})
+- [{{ signal.title }}](/intelligence/#signals-section)
   {% endif %}
 {% endfor %}

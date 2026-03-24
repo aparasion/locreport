@@ -2719,3 +2719,524 @@ a.internal-link:hover {
     align-items: flex-start;
   }
 }
+
+/* ================================================================
+   Intelligence Dashboard — Enhanced Components
+   ================================================================ */
+
+/* ── Dashboard Section Navigation ────────────────────── */
+.intel-dash-nav {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-1);
+  margin-bottom: var(--space-6);
+  position: sticky;
+  top: 0;
+  z-index: 90;
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--glass-border);
+}
+
+.intel-dash-nav-item {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 20px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--muted);
+  text-decoration: none;
+  border-radius: 100px;
+  transition: all 0.2s ease;
+}
+
+.intel-dash-nav-item:hover {
+  color: var(--text);
+  background: var(--accent-soft);
+}
+
+.intel-dash-nav-item.active {
+  color: #fff;
+  background: var(--accent);
+}
+
+/* ── Signal Category Filters ─────────────────────────── */
+.intel-signal-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-bottom: var(--space-5);
+}
+
+.intel-filter-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 16px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  font-family: inherit;
+  color: var(--muted);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.intel-filter-pill:hover {
+  color: var(--text);
+  border-color: color-mix(in srgb, var(--accent) 30%, transparent);
+  background: var(--accent-soft);
+}
+
+.intel-filter-pill.active {
+  color: #fff;
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+/* ── Clickable Signal Cards ──────────────────────────── */
+.signal-health-card--clickable {
+  cursor: pointer;
+  text-align: left;
+  font-family: inherit;
+  width: 100%;
+}
+
+.signal-health-card--clickable:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.signal-health-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+}
+
+.signal-stance-summary {
+  display: flex;
+  gap: var(--space-2);
+  align-items: center;
+}
+
+.stance-dot {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 100px;
+}
+
+.stance-dot--supports {
+  background: rgba(76, 175, 80, 0.12);
+  color: #4caf50;
+}
+
+.stance-dot--mixed {
+  background: rgba(255, 193, 7, 0.12);
+  color: #ffc107;
+}
+
+.stance-dot--contradicts {
+  background: rgba(244, 67, 54, 0.12);
+  color: #f44336;
+}
+
+/* ── Signal Modal ────────────────────────────────────── */
+.signal-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+  padding: var(--space-4);
+}
+
+.signal-modal-overlay.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.signal-modal {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  max-width: 680px;
+  width: 100%;
+  max-height: 85vh;
+  overflow-y: auto;
+  padding: var(--space-6);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  transform: translateY(12px) scale(0.98);
+  transition: transform 0.25s ease;
+}
+
+.signal-modal-overlay.is-open .signal-modal {
+  transform: translateY(0) scale(1);
+}
+
+.signal-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-3);
+  gap: var(--space-2);
+}
+
+.signal-modal-header > div {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.signal-modal-close {
+  background: none;
+  border: none;
+  font-size: 1.6rem;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  line-height: 1;
+  transition: color 0.2s ease, background 0.2s ease;
+}
+
+.signal-modal-close:hover {
+  color: var(--text);
+  background: var(--accent-soft);
+}
+
+.signal-modal-title {
+  font-size: 1.2rem;
+  font-weight: 800;
+  line-height: 1.3;
+  margin: 0 0 var(--space-3);
+  color: var(--text);
+}
+
+.signal-modal-desc {
+  font-size: 0.9rem;
+  color: var(--muted);
+  line-height: 1.6;
+  margin: 0 0 var(--space-4);
+}
+
+.signal-modal-meta {
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin-bottom: var(--space-5);
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid var(--border);
+}
+
+.signal-modal-articles-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  margin: 0 0 var(--space-3);
+}
+
+.signal-modal-articles-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.signal-modal-article-item {
+  display: block;
+  padding: var(--space-3) var(--space-4);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.signal-modal-article-item:hover {
+  border-color: color-mix(in srgb, var(--accent) 30%, transparent);
+  background: var(--accent-soft);
+}
+
+.signal-modal-article-top {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-1);
+  flex-wrap: wrap;
+}
+
+.signal-modal-article-date {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.signal-modal-article-publisher {
+  font-size: 0.7rem;
+  color: var(--muted);
+  margin-left: auto;
+}
+
+.signal-modal-article-title {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.4;
+}
+
+.signal-modal-empty {
+  font-size: 0.85rem;
+  color: var(--muted);
+  font-style: italic;
+}
+
+/* ── Charts Row ──────────────────────────────────────── */
+.intel-charts-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: var(--space-4);
+}
+
+.intel-chart-container--wide,
+.intel-chart-container--narrow {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  position: relative;
+  height: 360px;
+}
+
+/* ── Article Feed ────────────────────────────────────── */
+.intel-feed-controls {
+  display: flex;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.intel-feed-search {
+  flex: 1;
+  min-width: 200px;
+  padding: 10px 16px;
+  font-size: 0.88rem;
+  font-family: inherit;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.intel-feed-search:focus {
+  border-color: var(--accent);
+}
+
+.intel-feed-sort {
+  padding: 10px 16px;
+  font-size: 0.85rem;
+  font-family: inherit;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  cursor: pointer;
+  outline: none;
+}
+
+.intel-article-feed {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  background: var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.intel-feed-item {
+  display: grid;
+  grid-template-columns: 120px 1fr auto;
+  gap: var(--space-4);
+  align-items: center;
+  padding: var(--space-3) var(--space-4);
+  background: var(--surface);
+  text-decoration: none;
+  transition: background 0.15s ease;
+}
+
+.intel-feed-item:hover {
+  background: var(--accent-soft);
+}
+
+.intel-feed-item.role-dimmed {
+  opacity: 0.4;
+}
+
+.intel-feed-item-left {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.intel-feed-date {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.impact-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.impact-dot--3 { background: #d19a66; }
+.impact-dot--4 { background: #e06c75; }
+.impact-dot--5 { background: #c678dd; }
+
+.intel-feed-item-main {
+  min-width: 0;
+}
+
+.intel-feed-title {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text);
+  margin: 0;
+  line-height: 1.35;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.intel-feed-excerpt {
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin: 2px 0 0;
+  line-height: 1.4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.intel-feed-item-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+
+.intel-feed-publisher {
+  font-size: 0.7rem;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.intel-feed-signal-count {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--accent);
+  background: var(--accent-soft);
+  padding: 2px 6px;
+  border-radius: 100px;
+}
+
+.intel-feed-load-more {
+  text-align: center;
+  margin-top: var(--space-4);
+}
+
+.intel-feed-load-btn {
+  padding: 10px 32px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  font-family: inherit;
+  color: var(--accent);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.intel-feed-load-btn:hover {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+}
+
+/* ── Mobile Responsive: Enhanced Intelligence ────────── */
+@media (max-width: 768px) {
+  .intel-dash-nav {
+    gap: 0;
+    padding: var(--space-2);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    justify-content: flex-start;
+  }
+
+  .intel-dash-nav-item {
+    padding: 6px 14px;
+    font-size: 0.78rem;
+    white-space: nowrap;
+  }
+
+  .intel-charts-row {
+    grid-template-columns: 1fr;
+  }
+
+  .intel-chart-container--wide,
+  .intel-chart-container--narrow {
+    height: 280px;
+  }
+
+  .intel-feed-item {
+    grid-template-columns: 1fr;
+    gap: var(--space-1);
+  }
+
+  .intel-feed-item-left {
+    order: -1;
+  }
+
+  .intel-feed-item-right {
+    flex-direction: row;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .intel-feed-title {
+    white-space: normal;
+  }
+
+  .intel-feed-excerpt {
+    display: none;
+  }
+
+  .signal-modal {
+    padding: var(--space-4);
+    max-height: 90vh;
+  }
+
+  .signal-modal-title {
+    font-size: 1.05rem;
+  }
+}
