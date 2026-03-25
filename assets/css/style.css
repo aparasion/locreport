@@ -3270,7 +3270,7 @@ a.internal-link:hover {
   display: flex;
   align-items: center;
   gap: 52px;
-  padding: 18px 0;
+  padding: 15px 0;
   width: max-content;
   animation: sourcesMarquee 60s linear infinite;
   will-change: transform;
