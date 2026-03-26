@@ -1,7 +1,4 @@
 [
-  "https://aparc.fsi.stanford.edu",
-  "https://www.prnewswire.com",
-  "https://www.webwire.com",
   "https://www.pressdemocrat.com",
   "https://news.google.com/rss/articles/CBMipwFBVV95cUxNNVJldXdQTW1acnJOaE5yNHlLVVhPNzNzODQyQnNXMUJNeTVxaG1YNXZGV2JFdmNZdlVzUWxSVzN1MFlTdXRtWHdZVlNlZndIUFRMTlZqNGc4cUREWUJsaGtkOWozTk12UUhtU04xYkRXSmtJTFRUTkxObnc5VmF1aXBKSmc0S0xDSXZHQmtJMmE5TWxTY0txZHhHdFdsNVh0dk5ldzNxMNIBuwFBVV95cUxQY2tZWV9MUjhZeC0wLWJJSElKVjBXeGNaaTVCMVp6TzM4aXVjNTd1TUtTWW5HMTB1LU1JWldVa3lyem5BbGlXbkhYQVJYVE1ndldJQjJsOTFVUkJlcVVFWFp3eGF6S29Ec0hUTG9GM0hrZWFZdUxJYlNEYW0tSkhzRGE2cWFpTGxNZ1JKcjJwd1dPUUVYbTVqeTFjMUJrVFZFLTZwVHc5bGNRekpQTlJoaHh1dHoteXp3REVv?oc=5",
   "https://www.wdam.com",
@@ -498,5 +495,8 @@
   "https://xtm.cloud/blog/content-translation",
   "title::content translation definition databacked benefits and howto strategy",
   "https://xtm.cloud/blog/gaming-localization",
-  "title::gaming localization definition benefits how to get started and mistakes"
+  "title::gaming localization definition benefits how to get started and mistakes",
+  "https://news.google.com/rss/articles/CBMiiAFBVV95cUxNZmlUX1FMbHhjYXZYUFltaG1QZFd5Mlk3MDZpRS15cHVQdkFON0d4VERfX2JMcm41bm1iQ2VSRW1ud2xYUHluSGUtWFNKNnhHc1JoU0JFZjlfdExkWXhmMS1VVkRkMHpzU3hmaWlwNGlMOWhYNHpTbXlBMEplU3RsbEVJSFZQcEVO?oc=5",
+  "https://slator.com",
+  "title::openai quietly launches chatgpt translate as a standalone translation tool slator"
 ]
