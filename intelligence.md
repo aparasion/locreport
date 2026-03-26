@@ -75,6 +75,24 @@ description: "Actionable localization intelligence — trend signals, impact sco
     <button class="intel-filter-pill" data-signal-cat="strategy">Strategy</button>
   </div>
 
+  {% comment %} Signal legend {% endcomment %}
+  <div class="intel-legend">
+    <div class="intel-legend-group">
+      <span class="intel-legend-label">Signal status</span>
+      <span class="status-badge status-badge--supported" title="Broad consensus across tracked articles">Supported</span>
+      <span class="status-badge status-badge--emerging" title="Building evidence, not yet dominant">Emerging</span>
+      <span class="status-badge status-badge--challenged" title="Contradictory or weakening evidence">Challenged</span>
+      <span class="status-badge status-badge--mixed" title="Divided evidence">Mixed</span>
+    </div>
+    <div class="intel-legend-sep"></div>
+    <div class="intel-legend-group">
+      <span class="intel-legend-label">Article stance</span>
+      <span class="stance-badge stance-badge--supports" title="Article supports the signal">Supports</span>
+      <span class="stance-badge stance-badge--mixed" title="Article presents mixed evidence">Mixed</span>
+      <span class="stance-badge stance-badge--contradicts" title="Article contradicts the signal">Contradicts</span>
+    </div>
+  </div>
+
   <div class="signal-health-grid">
     {% for signal in site.data.signals %}
       {% assign evidence_count = 0 %}
@@ -152,6 +170,24 @@ description: "Actionable localization intelligence — trend signals, impact sco
 <section class="intel-section" id="high-impact-section">
   <h2 class="intel-section-title">High Impact Articles</h2>
   <p class="intel-section-desc">Recent articles scoring 3+ on the Localization Impact Scale.</p>
+
+  {% comment %} Impact legend {% endcomment %}
+  <div class="intel-legend">
+    <div class="intel-legend-group">
+      <span class="intel-legend-label">Impact</span>
+      <span class="impact-badge impact-badge--3 impact-badge--sm" title="Notable shift requiring attention">Significant</span>
+      <span class="impact-badge impact-badge--4 impact-badge--sm" title="Major change requiring strategic adaptation">Major</span>
+      <span class="impact-badge impact-badge--5 impact-badge--sm" title="Fundamentally reshapes the industry">Disruptive</span>
+    </div>
+    <div class="intel-legend-sep"></div>
+    <div class="intel-legend-group">
+      <span class="intel-legend-label">Time horizon</span>
+      <span class="time-horizon-badge time-horizon-badge--now time-horizon-badge--sm" title="Immediate impact">Now — Immediate</span>
+      <span class="time-horizon-badge time-horizon-badge--6months time-horizon-badge--sm" title="Impact expected within 6 months">6mo — Near-term</span>
+      <span class="time-horizon-badge time-horizon-badge--2years time-horizon-badge--sm" title="Long-term impact over 2 years">2yr — Long-term</span>
+    </div>
+  </div>
+
   <div class="intel-high-impact-list" id="intel-high-impact-list">
     {% assign impact_count = 0 %}
     {% for post in site.posts %}
