@@ -1,6 +1,4 @@
 [
-  "https://lokalise.com/blog/best-translation-memory-tools",
-  "https://lokalise.com/blog/fine-tuning-trap-ai-translation-context",
   "https://lokalise.com/blog/term-base",
   "https://lokalise.com/blog/chatgpt-vs-localization-platform",
   "https://lokalise.com/blog/automate-context-management",
@@ -498,5 +496,7 @@
   "https://phrase.com/blog/posts/hybrid-cloud-edge-ai-localization-infrastructure",
   "title::the cloud nexus localized infrastructure and the next tech revolution",
   "https://www.ecinnovations.com/blog/why-translation-quality-matters-in-global-clinical-trial-patient-recruitment",
-  "title::why translation quality matters in global clinical trial patient recruitment"
+  "title::why translation quality matters in global clinical trial patient recruitment",
+  "https://lokalise.com/blog/headless-cms-localization-tools",
+  "title::headless cms localization tools build a handsoff translation workflow"
 ]
