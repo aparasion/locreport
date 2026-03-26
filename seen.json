@@ -1,10 +1,4 @@
 [
-  "https://lokalise.com/blog/term-base",
-  "https://lokalise.com/blog/chatgpt-vs-localization-platform",
-  "https://lokalise.com/blog/automate-context-management",
-  "https://lokalise.com/blog/in-context-editor-tools",
-  "https://lokalise.com/blog/7-bold-predictions-for-the-future-of-localization-in-2026",
-  "https://crowdin.com/blog/agile-localization-podcast-with-nicola-calabrese",
   "https://crowdin.com/blog/myheritage-localization-with-crowdin",
   "https://crowdin.com/blog/translation-quality-without-speaking-language",
   "https://crowdin.com/blog/agile-localization-podcast-with-szymon-metkowski",
@@ -498,5 +492,11 @@
   "https://www.ecinnovations.com/blog/why-translation-quality-matters-in-global-clinical-trial-patient-recruitment",
   "title::why translation quality matters in global clinical trial patient recruitment",
   "https://lokalise.com/blog/headless-cms-localization-tools",
-  "title::headless cms localization tools build a handsoff translation workflow"
+  "title::headless cms localization tools build a handsoff translation workflow",
+  "https://slator.com/llms-multilingual-synthetic-data",
+  "title::rws benchmarks llms for multilingual synthetic data",
+  "https://lokalise.com/blog/best-translation-memory-tools",
+  "title::6 best translation memory software for every use case",
+  "https://lokalise.com/blog/fine-tuning-trap-ai-translation-context",
+  "title::the finetuning trap in ai translation"
 ]
