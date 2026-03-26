@@ -86,7 +86,7 @@ description: "Browse all localization industry articles by topic — quality, op
       {% assign topics_trimmed = topics_list | strip %}
 
     <a href="{{ post.url | relative_url }}" class="intel-feed-item"
-       data-title="{{ post.title | downcase }}"
+       data-title="{{ post.title | downcase | escape }}"
        data-impact="{{ post.impact_score | default: 0 }}"
        data-date="{{ post.date | date: '%Y%m%d' }}"
        data-topics="{{ topics_trimmed }}"
