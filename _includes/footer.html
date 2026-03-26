@@ -29,6 +29,17 @@
             </li>
         </ul>
       </div>
+      <div class="footer-nav-col">
+        <h4 class="footer-nav-title">Topics</h4>
+        <ul class="footer-links" aria-label="Footer topics">
+          <li><a href="{{ '/topics/' | relative_url }}">All Topics</a></li>
+          <li><a href="{{ '/topics/quality/' | relative_url }}">Quality</a></li>
+          <li><a href="{{ '/topics/operations/' | relative_url }}">Operations</a></li>
+          <li><a href="{{ '/topics/governance/' | relative_url }}">Governance</a></li>
+          <li><a href="{{ '/topics/market/' | relative_url }}">Market</a></li>
+          <li><a href="{{ '/topics/strategy/' | relative_url }}">Strategy</a></li>
+        </ul>
+      </div>
     </div>
     <div class="footer-bottom">
       <p class="footer-copyright">&copy; {{ site.time | date: "%Y" }} {{ site.author | default: "LocReport" }}. All rights reserved.</p>
