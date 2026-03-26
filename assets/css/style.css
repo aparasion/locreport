@@ -2805,6 +2805,46 @@ a.internal-link:hover {
   border-color: var(--accent);
 }
 
+/* ── Intelligence Legend ──────────────────────────────── */
+.intel-legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  margin-bottom: var(--space-5);
+}
+
+.intel-legend-group {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.intel-legend-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+.intel-legend-sep {
+  width: 1px;
+  height: 20px;
+  background: var(--border);
+  flex-shrink: 0;
+}
+
+@media (max-width: 640px) {
+  .intel-legend-sep { display: none; }
+}
+
 /* ── Clickable Signal Cards ──────────────────────────── */
 .signal-health-card--clickable {
   cursor: pointer;
