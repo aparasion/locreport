@@ -3190,6 +3190,49 @@ a.internal-link:hover {
   border-color: var(--accent);
 }
 
+/* ── Feed count label ─────────────────────────────────── */
+.feed-count-label {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--muted);
+  margin: 0 0 var(--space-3);
+  min-height: 1em;
+}
+
+/* ── Topic tags on feed items ─────────────────────────── */
+.intel-feed-topics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 5px;
+}
+
+.feed-topic-tag {
+  display: inline-block;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 2px 7px;
+  border-radius: 100px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  transition: background 0.15s ease;
+}
+
+/* Per-topic colour tints */
+.feed-topic-tag--quality   { background: color-mix(in srgb, #4ade80 12%, transparent); color: #16a34a; }
+.feed-topic-tag--operations{ background: color-mix(in srgb, #60a5fa 12%, transparent); color: #2563eb; }
+.feed-topic-tag--governance{ background: color-mix(in srgb, #f472b6 12%, transparent); color: #db2777; }
+.feed-topic-tag--market    { background: color-mix(in srgb, #fb923c 12%, transparent); color: #ea580c; }
+.feed-topic-tag--strategy  { background: color-mix(in srgb, #a78bfa 12%, transparent); color: #7c3aed; }
+
+[data-theme="dark"] .feed-topic-tag--quality   { background: color-mix(in srgb, #4ade80 15%, transparent); color: #4ade80; }
+[data-theme="dark"] .feed-topic-tag--operations{ background: color-mix(in srgb, #60a5fa 15%, transparent); color: #60a5fa; }
+[data-theme="dark"] .feed-topic-tag--governance{ background: color-mix(in srgb, #f472b6 15%, transparent); color: #f472b6; }
+[data-theme="dark"] .feed-topic-tag--market    { background: color-mix(in srgb, #fb923c 15%, transparent); color: #fb923c; }
+[data-theme="dark"] .feed-topic-tag--strategy  { background: color-mix(in srgb, #a78bfa 15%, transparent); color: #a78bfa; }
+
 /* ── Mobile Responsive: Enhanced Intelligence ────────── */
 @media (max-width: 768px) {
   .intel-dash-nav {
