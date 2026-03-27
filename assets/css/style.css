@@ -190,12 +190,11 @@ hr {
 
 .logo-text {
   font-size: 1.2rem;
-  font-weight: 400;
-  letter-spacing: -0.03em;
+  font-weight: 200;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--brand-text);
 }
-
-.brand-loc    { color: var(--brand-text); }
-.brand-report { color: var(--brand-text); }
 
 /* ── Navigation — Right Aligned ────────────────────────── */
 .site-nav {
@@ -1116,8 +1115,10 @@ article.post h1 {
 
 .footer-logo-text {
   font-size: 1.1rem;
-  font-weight: 800;
-  letter-spacing: -0.03em;
+  font-weight: 200;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--brand-text);
 }
 
 .footer-tagline {
