@@ -1064,9 +1064,12 @@ article.post h1 {
 }
 
 .author-name {
-  margin: 0;
-  font-size: 1rem;
-  font-weight: 700;
+  font-size: 0.9rem;
+  font-weight: 200;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--brand-text);
+  margin: 0px;
 }
 
 .author-contact-link {
