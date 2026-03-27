@@ -5,25 +5,25 @@
 
 /* ── Tokens ─────────────────────────────────────────────── */
 :root {
-  /* Colour - Light (bright, airy base) */
-  --bg:             #f6f7fb;
-  --bg-secondary:   #eceef5;
+  /* Colour - Light (clean, near-white professional base) */
+  --bg:             #fbfcfe;
+  --bg-secondary:   #f3f6fb;
   --surface:        #ffffff;
-  --text:           #1a1f2e;
-  --muted:          #5a6478;
-  --accent:         #1e5faa;
-  --accent-soft:    rgba(30, 95, 170, 0.08);
-  --brand-text:     #1a3a6e;
-  --border:         rgba(0, 0, 0, 0.07);
-  --card-shadow:    0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 16px rgba(0, 0, 0, 0.03);
-  --card-shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.07), 0 12px 40px rgba(0, 0, 0, 0.05);
-  --gradient-hero:  linear-gradient(135deg, #edf2f9 0%, #e8f4fb 30%, #edf3f7 60%, #f6f7fb 100%);
-  --gradient-accent: linear-gradient(135deg, #1a3a6e, #1e5faa, #38b6cc);
-  --glass-bg:       rgba(246, 247, 251, 0.85);
-  --glass-border:   rgba(255, 255, 255, 0.6);
-  --featured-bg:    linear-gradient(135deg, #e2ecf8 0%, #ddf0f8 100%);
-  --featured-text:  #1a2a4a;
-  --featured-muted: #4a5a7a;
+  --text:           #101a2b;
+  --muted:          #4d5d76;
+  --accent:         #0f4aa7;
+  --accent-soft:    rgba(15, 74, 167, 0.09);
+  --brand-text:     #0f3b82;
+  --border:         rgba(16, 26, 43, 0.09);
+  --card-shadow:    0 1px 3px rgba(10, 22, 44, 0.05), 0 8px 26px rgba(10, 22, 44, 0.04);
+  --card-shadow-hover: 0 6px 16px rgba(10, 22, 44, 0.09), 0 20px 48px rgba(10, 22, 44, 0.08);
+  --gradient-hero:  linear-gradient(135deg, #f9fbff 0%, #f2f7ff 35%, #eff5fd 70%, #fbfcfe 100%);
+  --gradient-accent: linear-gradient(135deg, #0f3b82, #0f4aa7, #2f7bd9);
+  --glass-bg:       rgba(251, 252, 254, 0.86);
+  --glass-border:   rgba(255, 255, 255, 0.75);
+  --featured-bg:    linear-gradient(135deg, #ecf3ff 0%, #e8f1ff 100%);
+  --featured-text:  #12294e;
+  --featured-muted: #425677;
 
   /* Spacing */
   --space-1: 0.25rem;
@@ -51,24 +51,24 @@
 }
 
 [data-theme="dark"] {
-  --bg:             #0c0f18;
-  --bg-secondary:   #141824;
-  --surface:        #1a1f30;
-  --text:           #e8ecf4;
-  --muted:          #8a95b0;
-  --accent:         #4db8cc;
-  --accent-soft:    rgba(77, 184, 204, 0.1);
-  --brand-text:     #4db8cc;
-  --border:         rgba(255, 255, 255, 0.07);
-  --card-shadow:    0 1px 3px rgba(0, 0, 0, 0.3), 0 4px 16px rgba(0, 0, 0, 0.2);
-  --card-shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.35), 0 12px 40px rgba(0, 0, 0, 0.25);
-  --gradient-hero:  linear-gradient(135deg, #0c0f18 0%, #101828 30%, #0e1a2a 60%, #0c0f18 100%);
-  --gradient-accent: linear-gradient(135deg, #4db8cc, #60a5fa, #38b6cc);
-  --glass-bg:       rgba(12, 15, 24, 0.85);
-  --glass-border:   rgba(255, 255, 255, 0.06);
-  --featured-bg:    linear-gradient(135deg, #162032 0%, #142838 100%);
-  --featured-text:  #e0e8f0;
-  --featured-muted: #8a95b0;
+  --bg:             #151c28;
+  --bg-secondary:   #1b2432;
+  --surface:        #212c3e;
+  --text:           #ebf1fb;
+  --muted:          #a4b2ca;
+  --accent:         #7fb0ff;
+  --accent-soft:    rgba(127, 176, 255, 0.14);
+  --brand-text:     #9fc1ff;
+  --border:         rgba(223, 234, 255, 0.12);
+  --card-shadow:    0 2px 8px rgba(6, 10, 18, 0.25), 0 10px 28px rgba(6, 10, 18, 0.2);
+  --card-shadow-hover: 0 8px 20px rgba(6, 10, 18, 0.35), 0 20px 46px rgba(6, 10, 18, 0.3);
+  --gradient-hero:  linear-gradient(135deg, #182131 0%, #1d2737 35%, #202d41 70%, #151c28 100%);
+  --gradient-accent: linear-gradient(135deg, #9fc1ff, #7fb0ff, #76a6ef);
+  --glass-bg:       rgba(21, 28, 40, 0.82);
+  --glass-border:   rgba(223, 234, 255, 0.1);
+  --featured-bg:    linear-gradient(135deg, #222f43 0%, #24364f 100%);
+  --featured-text:  #e9f0fc;
+  --featured-muted: #afbdd2;
 }
 
 /* ── Reset ──────────────────────────────────────────────── */
@@ -185,6 +185,18 @@ hr {
 .logo-image {
   width: 36px;
   height: auto;
+  display: block;
+}
+
+.theme-logo--dark {
+  display: none;
+}
+
+[data-theme="dark"] .theme-logo--light {
+  display: none;
+}
+
+[data-theme="dark"] .theme-logo--dark {
   display: block;
 }
 
