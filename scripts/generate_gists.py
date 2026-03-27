@@ -53,6 +53,7 @@ FEEDS = [
     "https://www.ecinnovations.com/blog/feed/",
     "https://multilingual.com/author/multilingualstaff/feed/",
     "https://imminent.translated.com/feed",
+    "https://news.google.com/rss/search?q=rws+group&hl=en-US&gl=US&ceid=US:en",
 ]
 
 SEEN_FILE = "seen.json"
