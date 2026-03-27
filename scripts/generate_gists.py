@@ -732,7 +732,7 @@ business_implications:
 
 {gist}
 {signal_ref}
-[Source: {safe_publisher}]({safe_source_url})
+Source: [{safe_publisher}]({safe_source_url})
 """
 
             os.makedirs("_posts", exist_ok=True)
