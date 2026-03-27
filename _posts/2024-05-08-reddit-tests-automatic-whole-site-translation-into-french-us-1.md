@@ -25,4 +25,4 @@ This strategic pivot highlights the growing importance of AI-driven translation 
 
 For localization professionals, Reddit's approach underscores the potential of real-time translation as a key factor in scaling user bases and enhancing content accessibility. This move not only illustrates the value of integrating advanced language technologies but also serves as a reminder of the competitive advantages that come from prioritizing internationalization in digital platforms.
 
-[Source: techcrunch.com](https://techcrunch.com/2024/05/08/reddit-tests-automatic-whole-site-translation-into-french-using-llm-based-ai)
+Source: [techcrunch.com](https://techcrunch.com/2024/05/08/reddit-tests-automatic-whole-site-translation-into-french-using-llm-based-ai)

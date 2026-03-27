@@ -18,4 +18,4 @@ This shift is crucial as Bitvavo navigates increasing localization demands drive
 
 For a deeper dive into Bitvavo's localization journey and insights, I recommend checking out the full report in the Nimdzi Lessons in Localization series.
 
-[Source: nimdzi.com](https://www.nimdzi.com/lessons-in-localization-bitvavo/?utm_source=rss&utm_medium=rss&utm_campaign=lessons-in-localization-bitvavo)
+Source: [nimdzi.com](https://www.nimdzi.com/lessons-in-localization-bitvavo/?utm_source=rss&utm_medium=rss&utm_campaign=lessons-in-localization-bitvavo)

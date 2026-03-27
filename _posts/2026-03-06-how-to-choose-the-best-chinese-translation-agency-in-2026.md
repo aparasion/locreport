@@ -18,4 +18,4 @@ For localization professionals, understanding the importance of selecting the ri
 
 In navigating the complexities of the Chinese market, businesses must prioritize quality over cost to avoid long-term repercussions. For a deeper dive into choosing the best Chinese translation agency, I highly recommend reading the full article.
 
-[Source: ecinnovations.com](https://www.ecinnovations.com/blog/choose-the-best-chinese-translation-agency)
+Source: [ecinnovations.com](https://www.ecinnovations.com/blog/choose-the-best-chinese-translation-agency)

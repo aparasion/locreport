@@ -25,4 +25,4 @@ For localization and language services professionals, these developments signal 
 
 As thebigword continues to innovate, these certifications serve as a benchmark for quality and security in the industry, encouraging other companies to pursue similar standards to meet evolving client demands.
 
-[Source: en-gb.thebigword.com](https://en-gb.thebigword.com/news/thebigword-strengthens-global-standards-with-renewed-iso-certifications-and-two-new-certifications-in-2025)
+Source: [en-gb.thebigword.com](https://en-gb.thebigword.com/news/thebigword-strengthens-global-standards-with-renewed-iso-certifications-and-two-new-certifications-in-2025)

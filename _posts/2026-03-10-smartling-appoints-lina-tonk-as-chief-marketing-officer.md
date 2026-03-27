@@ -18,4 +18,4 @@ This leadership change comes at a pivotal time for Smartling, which reported a r
 
 Localization professionals should take note of how Smartling's strategic marketing initiatives under Tonk could influence industry trends and customer engagement. For a deeper dive into this development, I recommend checking out the full article.
 
-[Source: smartling.com](https://www.smartling.com/company-news/smartling-appoints-lina-tonk-as-chief-marketing-officer)
+Source: [smartling.com](https://www.smartling.com/company-news/smartling-appoints-lina-tonk-as-chief-marketing-officer)

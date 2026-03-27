@@ -18,4 +18,4 @@ This shift from automation to orchestration is crucial for localization professi
 
 For localization teams looking to enhance their global operations, understanding and implementing this orchestration model could be key to unlocking AI's full potential. I recommend reading the full article for deeper insights into how this approach can transform your localization strategy.
 
-[Source: xtm.ai](https://xtm.ai/blog/ai-orchestrated-globalization-building-an-enterprise-intelligence-layer)
+Source: [xtm.ai](https://xtm.ai/blog/ai-orchestrated-globalization-building-an-enterprise-intelligence-layer)

@@ -25,4 +25,4 @@ This focus on practical needs reflects a growing trend in the localization indus
 
 For localization professionals, the key takeaway is that the most effective translation AI tools are those that not only provide accurate translations but also enhance overall workflow efficiency. As the demand for high-quality, rapid translations continues to rise, selecting AI that meets these five criteria can significantly impact productivity and quality in localization projects.
 
-[Source: deepl.com](https://www.deepl.com/en/blog/5-things-professional-translators-need)
+Source: [deepl.com](https://www.deepl.com/en/blog/5-things-professional-translators-need)

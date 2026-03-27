@@ -18,4 +18,4 @@ This event highlights the increasing complexity of international SEO as brands n
 
 A key takeaway is the emphasis on aligning SEO strategies with broader business goals, ensuring that every click contributes to meaningful outcomes. For a deeper dive into these transformative strategies, I highly recommend checking out the full article.
 
-[Source: transperfect.com](https://www.transperfect.com/blog/international-search-summit)
+Source: [transperfect.com](https://www.transperfect.com/blog/international-search-summit)

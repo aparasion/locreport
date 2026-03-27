@@ -18,4 +18,4 @@ Her reflections underscore the impact of AI on the interpretation profession, no
 
 For localization and language services professionals, Fabres' experiences serve as a reminder of the complexities within the interpreting field and the necessity of continuous learning. Her advice to future interpreters to adapt and stay informed is particularly relevant. I highly recommend reading the full article for deeper insights into the profession and its challenges.
 
-[Source: en-gb.thebigword.com](https://en-gb.thebigword.com/news/interpreter-spotlight-meet-anna-a-spanish-portuguese-and-french-interpreter)
+Source: [en-gb.thebigword.com](https://en-gb.thebigword.com/news/interpreter-spotlight-meet-anna-a-spanish-portuguese-and-french-interpreter)

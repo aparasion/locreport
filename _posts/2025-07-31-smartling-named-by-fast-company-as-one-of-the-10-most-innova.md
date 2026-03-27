@@ -18,4 +18,4 @@ This recognition underscores the growing importance of AI in the localization in
 
 For localization professionals, Smartling’s achievements serve as a reminder of the potential impact of integrating AI into translation management systems. I encourage you to read the full article to gain deeper insights into how Smartling is shaping the future of localization.
 
-[Source: smartling.com](https://www.smartling.com/company-news/smartling-fast-company-most-innovative-companies-for-2025)
+Source: [smartling.com](https://www.smartling.com/company-news/smartling-fast-company-most-innovative-companies-for-2025)

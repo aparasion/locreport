@@ -18,4 +18,4 @@ The VCC streamlines the video production process by directly integrating structu
 
 For localization professionals, adopting the VCC means embracing a more dynamic approach to video content that keeps pace with documentation updates. Explore the full details of this game-changing solution in the original article.
 
-[Source: xtm.ai](https://xtm.ai/blog/turn-technical-documentation-into-multilingual-videos)
+Source: [xtm.ai](https://xtm.ai/blog/turn-technical-documentation-into-multilingual-videos)

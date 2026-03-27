@@ -18,4 +18,4 @@ For professionals in the localization and language services industry, thebigword
 
 As thebigword continues to grow, its dedication to maintaining rigorous standards serves as a reminder of the value of certification in building client trust and operational excellence. I encourage you to read the full article for deeper insights into these significant developments.
 
-[Source: en-gb.thebigword.com](https://en-gb.thebigword.com/news/thebigword-strengthens-global-standards-with-renewed-iso-certifications-and-two-new-certifications-in-2025)
+Source: [en-gb.thebigword.com](https://en-gb.thebigword.com/news/thebigword-strengthens-global-standards-with-renewed-iso-certifications-and-two-new-certifications-in-2025)

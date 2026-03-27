@@ -25,4 +25,4 @@ As AI continues to transform business models, the integration of agentic AI—ca
 
 For localization professionals, the imperative is clear: embrace the integration of AI into workflows and rethink traditional processes to leverage the full potential of emerging technologies. Understanding these trends will be essential for staying competitive and meeting the demands of a rapidly changing market.
 
-[Source: imminent.translated.com](https://imminent.translated.com/8-stories-to-watch-in-2026)
+Source: [imminent.translated.com](https://imminent.translated.com/8-stories-to-watch-in-2026)

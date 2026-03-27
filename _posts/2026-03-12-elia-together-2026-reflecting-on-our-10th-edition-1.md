@@ -25,4 +25,4 @@ The event's atmosphere fostered genuine connection, with participants sharing in
 
 A key takeaway for localization professionals is the renewed emphasis on human connection and intentional collaboration, which can drive growth and innovation in an evolving landscape. The ELIA Together 2026 event not only explored these themes but also demonstrated their importance through meaningful interactions among participants.
 
-[Source: elia-association.org](https://elia-association.org/2026/03/elia-together-2026-reflecting-on-our-10th-edition/?utm_source=rss&utm_medium=rss&utm_campaign=elia-together-2026-reflecting-on-our-10th-edition)
+Source: [elia-association.org](https://elia-association.org/2026/03/elia-together-2026-reflecting-on-our-10th-edition/?utm_source=rss&utm_medium=rss&utm_campaign=elia-together-2026-reflecting-on-our-10th-edition)

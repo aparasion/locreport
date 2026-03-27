@@ -18,4 +18,4 @@ Each of the highlighted tools—ranging from Lokalise and Trados Studio to Smart
 
 Localization professionals should carefully assess their specific requirements and team dynamics when selecting a TM tool. For a deeper dive into the features and capabilities of these platforms, I recommend checking out the full article.
 
-[Source: lokalise.com](https://lokalise.com/blog/best-translation-memory-tools)
+Source: [lokalise.com](https://lokalise.com/blog/best-translation-memory-tools)

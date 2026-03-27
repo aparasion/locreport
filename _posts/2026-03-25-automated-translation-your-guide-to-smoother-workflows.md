@@ -25,4 +25,4 @@ The importance of this guide lies in its potential to transform localization wor
 
 For localization professionals, the key takeaway is the necessity of implementing automated workflows that balance machine efficiency with human insight. By leveraging the right technology and integrating systems, teams can optimize their processes, ultimately leading to improved productivity and consistency in translation quality.
 
-[Source: xtm.cloud](https://xtm.cloud/blog/automated-translation)
+Source: [xtm.cloud](https://xtm.cloud/blog/automated-translation)

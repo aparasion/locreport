@@ -25,4 +25,4 @@ Despite a slight dip in overall optimism—averaging 6.2 for the industry compar
 
 Localization professionals should prepare for the full Nimdzi 100 report, which promises deeper insights into industry dynamics and revenue trends, set to release at the end of March.
 
-[Source: nimdzi.com](https://www.nimdzi.com/preliminary-2026-nimdzi-100-ranking/?utm_source=rss&utm_medium=rss&utm_campaign=preliminary-2026-nimdzi-100-ranking)
+Source: [nimdzi.com](https://www.nimdzi.com/preliminary-2026-nimdzi-100-ranking/?utm_source=rss&utm_medium=rss&utm_campaign=preliminary-2026-nimdzi-100-ranking)

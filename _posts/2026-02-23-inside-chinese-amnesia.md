@@ -25,4 +25,4 @@ This shift poses significant challenges for the localization and language servic
 
 To combat Character Amnesia, initiatives such as calligraphy clubs and educational programs are gaining traction, emphasizing the importance of preserving cultural heritage through technology. Localization professionals should consider integrating these cultural elements into their workflows to enhance the authenticity and depth of their projects.
 
-[Source: imminent.translated.com](https://imminent.translated.com/inside-chinese-amnesia-digitization-and-the-fading-memory-of-characters)
+Source: [imminent.translated.com](https://imminent.translated.com/inside-chinese-amnesia-digitization-and-the-fading-memory-of-characters)

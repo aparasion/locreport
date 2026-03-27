@@ -18,4 +18,4 @@ This recognition is particularly significant as Vistatec approaches its 30th ann
 
 For localization professionals, this serves as a reminder of the importance of cultivating a supportive work environment that empowers teams to excel. I encourage you to read more about Vistatec's achievements and initiatives in the full article.
 
-[Source: vistatec.com](https://www.vistatec.com/vistatec-has-been-named-one-of-ragans-2026-top-places-to-work-in-communications)
+Source: [vistatec.com](https://www.vistatec.com/vistatec-has-been-named-one-of-ragans-2026-top-places-to-work-in-communications)

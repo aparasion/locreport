@@ -25,4 +25,4 @@ This award underscores the growing importance of eDiscovery expertise in the loc
 
 For localization professionals, the implications are clear: as legal technology evolves, there will be a rising demand for specialized language services that can navigate complex legal datasets, making it essential to stay ahead of these trends and invest in relevant capabilities.
 
-[Source: transperfect.com](https://www.transperfect.com/about/press/transperfect-legals-michael-kriegal-named-excellence-ediscovery-award-finalist)
+Source: [transperfect.com](https://www.transperfect.com/about/press/transperfect-legals-michael-kriegal-named-excellence-ediscovery-award-finalist)

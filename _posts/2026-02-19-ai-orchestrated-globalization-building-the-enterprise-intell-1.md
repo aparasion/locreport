@@ -25,4 +25,4 @@ The introduction of an intelligence layer can revolutionize how AI operates with
 
 For localization professionals, the key takeaway is clear: investing in an intelligence layer can unlock AI's full potential, enabling more cohesive and scalable globalization strategies that adapt to the complexities of modern enterprise needs.
 
-[Source: xtm.ai](https://xtm.ai/blog/ai-orchestrated-globalization-building-an-enterprise-intelligence-layer)
+Source: [xtm.ai](https://xtm.ai/blog/ai-orchestrated-globalization-building-an-enterprise-intelligence-layer)

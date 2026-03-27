@@ -18,4 +18,4 @@ For localization professionals, the findings emphasize the increasing reliance o
 
 To delve deeper into how AI localization can transform e-learning and meet the rising demand for multilingual content, I recommend exploring the full whitepaper.
 
-[Source: nimdzi.com](https://www.nimdzi.com/scaling-multilingual-e-learning-efficiently-whitepaper/?utm_source=rss&utm_medium=rss&utm_campaign=scaling-multilingual-e-learning-efficiently-whitepaper)
+Source: [nimdzi.com](https://www.nimdzi.com/scaling-multilingual-e-learning-efficiently-whitepaper/?utm_source=rss&utm_medium=rss&utm_campaign=scaling-multilingual-e-learning-efficiently-whitepaper)

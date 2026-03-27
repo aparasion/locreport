@@ -18,4 +18,4 @@ This perspective is crucial for the localization and language services industry,
 
 The key takeaway for localization professionals is the urgent need to advocate for systemic integration of language access in healthcare workflows. For a deeper understanding of these insights and their implications for the future of healthcare delivery, I recommend exploring the full article.
 
-[Source: languageline.com](https://www.languageline.com/blog/human-in-the-lead-not-in-the-loop-navigating-ai-risk-in-modern-patient-care)
+Source: [languageline.com](https://www.languageline.com/blog/human-in-the-lead-not-in-the-loop-navigating-ai-risk-in-modern-patient-care)

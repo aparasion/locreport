@@ -25,4 +25,4 @@ The challenge lies in the gap between what localization professionals are told t
 
 A practical takeaway for localization professionals is to cultivate a collaborative approach with stakeholders across the organization. By understanding their priorities and demonstrating how localization aligns with broader business goals, teams can enhance their credibility and influence, ultimately shifting the conversation from cost to value.
 
-[Source: nimdzi.com](https://www.nimdzi.com/localization-roi-data-attribution/?utm_source=rss&utm_medium=rss&utm_campaign=localization-roi-data-attribution)
+Source: [nimdzi.com](https://www.nimdzi.com/localization-roi-data-attribution/?utm_source=rss&utm_medium=rss&utm_campaign=localization-roi-data-attribution)

@@ -18,4 +18,4 @@ The growth in non-translation business units, including media, legal, and AI con
 
 For localization professionals, this development signals a crucial shift in service offerings and market dynamics. As TransPerfect expands its technology portfolio and vertical-specific solutions, it’s essential to stay informed about how these trends may influence your own strategies. I recommend checking out the full article for deeper insights into these industry changes.
 
-[Source: transperfect.com](https://www.transperfect.com/about/press/slator-transperfect-posts-7-growth-in-2025)
+Source: [transperfect.com](https://www.transperfect.com/about/press/slator-transperfect-posts-7-growth-in-2025)

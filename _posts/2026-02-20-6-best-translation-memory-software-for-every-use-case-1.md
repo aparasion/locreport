@@ -25,4 +25,4 @@ Each tool offers unique features tailored to different localization needs. For i
 
 Localization professionals should consider the specific capabilities of each TM tool to align with their workflow requirements. Choosing the right TM solution can lead to substantial efficiency gains and cost savings, making it a critical decision for any organization engaged in global communications.
 
-[Source: lokalise.com](https://lokalise.com/blog/best-translation-memory-tools)
+Source: [lokalise.com](https://lokalise.com/blog/best-translation-memory-tools)

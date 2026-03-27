@@ -18,4 +18,4 @@ A notable trend from this year's summit was the shift towards controlled adoptio
 
 For localization professionals, the summit underscored the critical need for high-quality, compliant multilingual communication in clinical trials. As the industry evolves, partnering with trusted language experts will be essential to navigate regulatory complexities and enhance patient engagement. I highly recommend exploring the full article for deeper insights into these emerging trends.
 
-[Source: vistatec.com](https://www.vistatec.com/vistatec-life-sciences-at-scope-summit-2026)
+Source: [vistatec.com](https://www.vistatec.com/vistatec-life-sciences-at-scope-summit-2026)

@@ -18,4 +18,4 @@ This development is significant for the localization and language services indus
 
 For localization professionals, becoming a Customization Admin is a valuable opportunity to leverage AI tools for better translation management. I recommend checking out the full article to explore the detailed steps for setting up and maximizing the benefits of the DeepL Customization Hub.
 
-[Source: deepl.com](https://www.deepl.com/en/blog/elevate-language-expertise-5-steps)
+Source: [deepl.com](https://www.deepl.com/en/blog/elevate-language-expertise-5-steps)

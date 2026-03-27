@@ -18,4 +18,4 @@ This rebranding includes a new logo, website, and a refreshed mission that highl
 
 Localization professionals should take note of Rheinschrift's shift towards a more holistic and personalized service model, which could serve as a blueprint for adapting to market dynamics. For a deeper dive into their transformation, I recommend checking out the full article on their new website.
 
-[Source: gala-global.org](https://www.gala-global.org/news/rheinschrift-rebrands-as-next-generation-boutique-consulting-partner)
+Source: [gala-global.org](https://www.gala-global.org/news/rheinschrift-rebrands-as-next-generation-boutique-consulting-partner)

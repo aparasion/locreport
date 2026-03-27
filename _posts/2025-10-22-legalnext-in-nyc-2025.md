@@ -18,4 +18,4 @@ For localization and language services professionals, LegalNEXT presents an oppo
 
 Attendees can earn CLE credits while engaging with leading experts who will share real-world experiences and strategies. If you’re looking to deepen your understanding of the intersection between legal practice and localization, I highly recommend checking out the full details of LegalNEXT for a chance to expand your professional network and expertise.
 
-[Source: transperfect.com](https://www.transperfect.com/blog/legalnext)
+Source: [transperfect.com](https://www.transperfect.com/blog/legalnext)

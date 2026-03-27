@@ -18,4 +18,4 @@ The crux of the issue lies in the multifaceted nature of AI evaluation, where tr
 
 For localization professionals, understanding how to evaluate AI effectively is crucial to harnessing its full potential while mitigating risks. I highly recommend exploring the detailed guide on AI evaluation for multilingual content to gain practical insights that can drive your team's success.
 
-[Source: phrase.com](https://phrase.com/blog/posts/evaluate-ai-multilingual-content)
+Source: [phrase.com](https://phrase.com/blog/posts/evaluate-ai-multilingual-content)

@@ -25,4 +25,4 @@ This program is significant for the localization and language services industry 
 
 Localization professionals should consider engaging with this initiative, as it presents an opportunity to contribute to the development of AI systems that better understand and respond to a wider range of languages and cultural contexts.
 
-[Source: techcrunch.com](https://techcrunch.com/2025/02/07/meta-launches-new-program-to-improve-speech-and-translation-ai)
+Source: [techcrunch.com](https://techcrunch.com/2025/02/07/meta-launches-new-program-to-improve-speech-and-translation-ai)

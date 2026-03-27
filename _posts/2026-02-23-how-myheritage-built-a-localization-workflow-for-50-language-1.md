@@ -25,4 +25,4 @@ The integration of advanced AI tools, including DeepL and GPT-4o mini, alongside
 
 As MyHeritage continues to expand, localization professionals can glean insights on the importance of centralizing workflows and leveraging both technology and community expertise to enhance translation quality. This case highlights the need for careful planning and collaboration in managing large-scale localization projects.
 
-[Source: crowdin.com](https://crowdin.com/blog/myheritage-localization-with-crowdin)
+Source: [crowdin.com](https://crowdin.com/blog/myheritage-localization-with-crowdin)

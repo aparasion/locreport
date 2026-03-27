@@ -18,4 +18,4 @@ This partnership highlights a significant trend toward orchestration in the loca
 
 For localization professionals, this collaboration signifies an opportunity to enhance content operations and drive innovation. I recommend checking out the full article to explore how this partnership could impact your workflows and strategies.
 
-[Source: gala-global.org](https://www.gala-global.org/news/creative-words-and-blackbird-partner-to-automate-enterprise-content-operations)
+Source: [gala-global.org](https://www.gala-global.org/news/creative-words-and-blackbird-partner-to-automate-enterprise-content-operations)

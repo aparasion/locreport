@@ -25,4 +25,4 @@ This development is significant for the localization and language services indus
 
 For localization professionals, the emergence of such AI-driven tools underscores the importance of adapting content and workflows to accommodate evolving language learning preferences, potentially reshaping how language services are delivered in the future.
 
-[Source: techcrunch.com](https://techcrunch.com/2024/04/26/google-improve-english-new-speaking-practice-feature)
+Source: [techcrunch.com](https://techcrunch.com/2024/04/26/google-improve-english-new-speaking-practice-feature)

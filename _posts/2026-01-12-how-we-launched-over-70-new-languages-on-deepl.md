@@ -18,4 +18,4 @@ This expansion not only enhances DeepL's capabilities but also reflects broader 
 
 For localization professionals, this development underscores the significance of cross-functional collaboration and innovative technology in meeting customer needs. I encourage you to read the full article for a deeper understanding of how DeepL's new strategies will influence future language services.
 
-[Source: deepl.com](https://www.deepl.com/en/blog/how-we-launched-70-new-languages-on-deepl)
+Source: [deepl.com](https://www.deepl.com/en/blog/how-we-launched-70-new-languages-on-deepl)

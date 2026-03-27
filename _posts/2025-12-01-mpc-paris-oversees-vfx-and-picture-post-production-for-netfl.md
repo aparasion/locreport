@@ -18,4 +18,4 @@ This development underscores the growing importance of high-quality visual effec
 
 For professionals in the industry, the success of Néro the Assassin serves as a reminder of the critical role that effective collaboration and technical expertise play in delivering compelling content. I recommend checking out the full article for deeper insights into this impressive project.
 
-[Source: transperfect.com](https://www.transperfect.com/about/press/mpc-paris-oversees-vfx-and-picture-post-production-netflixs-nero-assassin)
+Source: [transperfect.com](https://www.transperfect.com/about/press/mpc-paris-oversees-vfx-and-picture-post-production-netflixs-nero-assassin)

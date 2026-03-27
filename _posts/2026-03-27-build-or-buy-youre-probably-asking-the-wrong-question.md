@@ -25,4 +25,4 @@ This shift towards DIY translation solutions can have substantial business impac
 
 For localization professionals, the key takeaway is to evaluate the long-term viability of any translation solution. Investing in a robust platform not only streamlines workflows but also ensures that teams can focus on strategic initiatives rather than getting bogged down in the complexities of translation management.
 
-[Source: phrase.com](https://phrase.com/blog/posts/build-vs-buy-translation-platform)
+Source: [phrase.com](https://phrase.com/blog/posts/build-vs-buy-translation-platform)

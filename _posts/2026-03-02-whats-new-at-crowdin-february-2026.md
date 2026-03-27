@@ -18,4 +18,4 @@ These updates are significant for the localization industry as they streamline w
 
 For professionals looking to stay ahead in the localization landscape, these innovations represent valuable opportunities to enhance efficiency and quality. I encourage you to explore the full details of these updates in the original article for a deeper understanding of how they can benefit your workflows.
 
-[Source: crowdin.com](https://crowdin.com/blog/whats-new-at-crowdin-february-2026)
+Source: [crowdin.com](https://crowdin.com/blog/whats-new-at-crowdin-february-2026)

@@ -18,4 +18,4 @@ For localization and language services professionals, this trend underscores the
 
 The takeaway for industry professionals is clear: creating a luxury voice playbook and leveraging AI tools can significantly enhance the localization process, ensuring that luxury brands maintain their distinctiveness while resonating with local audiences. For a deeper dive into these strategies, I recommend exploring the full article.
 
-[Source: vistatec.com](https://www.vistatec.com/how-luxury-travel-localization-protects-global-storytelling-with-ai-and-human-expertise)
+Source: [vistatec.com](https://www.vistatec.com/how-luxury-travel-localization-protects-global-storytelling-with-ai-and-human-expertise)

@@ -18,4 +18,4 @@ This approach is particularly vital as poor localization can detract from user c
 
 For localization professionals, the key takeaway is to prioritize language in the design process to enhance user experience and foster trust. I highly recommend listening to the full podcast episode for deeper insights into this transformative approach to localization.
 
-[Source: crowdin.com](https://crowdin.com/blog/agile-localization-podcast-with-szymon-metkowski)
+Source: [crowdin.com](https://crowdin.com/blog/agile-localization-podcast-with-szymon-metkowski)

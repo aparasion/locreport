@@ -25,4 +25,4 @@ These advancements are set to streamline workflows for localization and language
 
 For localization teams, these tools represent a shift towards more intelligent, context-aware language processing, potentially reducing the time spent on editing and proofreading. Embracing these innovations could lead to more effective communication and collaboration across multilingual projects.
 
-[Source: techcrunch.com](https://techcrunch.com/2019/11/21/g-suite-users-get-more-ai-writing-help-google-assistant-calendar-integration-and-more)
+Source: [techcrunch.com](https://techcrunch.com/2019/11/21/g-suite-users-get-more-ai-writing-help-google-assistant-calendar-integration-and-more)

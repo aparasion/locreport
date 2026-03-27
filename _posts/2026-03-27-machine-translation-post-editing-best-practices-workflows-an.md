@@ -25,4 +25,4 @@ The implications for the localization industry are significant. With advancement
 
 For localization professionals, the key takeaway is the importance of adopting a hybrid approach. By leveraging MTPE selectively, organizations can enhance their translation strategies, ensuring that they meet both speed and quality demands across diverse markets.
 
-[Source: phrase.com](https://phrase.com/blog/posts/machine-translation-post-editing)
+Source: [phrase.com](https://phrase.com/blog/posts/machine-translation-post-editing)

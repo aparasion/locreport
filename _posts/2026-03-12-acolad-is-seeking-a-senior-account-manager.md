@@ -18,4 +18,4 @@ This position is significant for the localization and language services industry
 
 For professionals in the industry, this opportunity underscores the growing demand for skilled account managers who can navigate complex client needs and foster long-term partnerships. If you're interested in learning more about this role and Acolad's mission, I recommend checking out the full job listing.
 
-[Source: gala-global.org](https://www.gala-global.org/news/acolad-is-seeking-a-senior-account-manager)
+Source: [gala-global.org](https://www.gala-global.org/news/acolad-is-seeking-a-senior-account-manager)

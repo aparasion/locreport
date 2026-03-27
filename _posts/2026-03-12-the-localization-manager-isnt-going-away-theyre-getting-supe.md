@@ -18,4 +18,4 @@ This shift highlights an emerging trend in enterprise localization: the integrat
 
 For localization professionals, embracing this technology means becoming more effective and impactful in their roles. I recommend exploring the full article for deeper insights into how AI can enhance your localization strategies.
 
-[Source: xtm.ai](https://xtm.ai/blog/localization-manager-isnt-going-away)
+Source: [xtm.ai](https://xtm.ai/blog/localization-manager-isnt-going-away)

@@ -25,4 +25,4 @@ This development is crucial for the localization and language services industry 
 
 Localization professionals should take note of this trend toward supporting diverse languages, as it presents new opportunities for translation services and underscores the importance of addressing the needs of underserved linguistic communities in global markets.
 
-[Source: techcrunch.com](https://techcrunch.com/2022/05/11/google-translate-adds-24-new-languages-including-its-first-indigenous-languages-of-the-americas)
+Source: [techcrunch.com](https://techcrunch.com/2022/05/11/google-translate-adds-24-new-languages-including-its-first-indigenous-languages-of-the-americas)

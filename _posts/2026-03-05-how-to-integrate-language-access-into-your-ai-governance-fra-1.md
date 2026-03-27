@@ -25,4 +25,4 @@ The implications for localization and language services professionals are signif
 
 Ultimately, integrating language access into clinical systems from the outset—not as an afterthought—will be crucial in mitigating risks and advancing equitable care. This proactive approach will not only strengthen AI governance but also foster trust in AI tools among clinicians and patients alike.
 
-[Source: languageline.com](https://www.languageline.com/blog/ai-governance-isnt-just-about-algorithms.-its-about-communication-equity)
+Source: [languageline.com](https://www.languageline.com/blog/ai-governance-isnt-just-about-algorithms.-its-about-communication-equity)

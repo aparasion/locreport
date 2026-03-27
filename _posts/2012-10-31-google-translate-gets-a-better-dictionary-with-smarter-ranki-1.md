@@ -25,4 +25,4 @@ This update is particularly relevant for localization and language services prof
 
 Localization professionals should consider integrating these new features into their workflows, as they can enhance translation quality and efficiency, ultimately leading to better localized content.
 
-[Source: techcrunch.com](https://techcrunch.com/2012/10/31/google-translate-gets-a-better-dictionary-with-smarter-rankings-reverse-translations-and-grouped-synonyms)
+Source: [techcrunch.com](https://techcrunch.com/2012/10/31/google-translate-gets-a-better-dictionary-with-smarter-rankings-reverse-translations-and-grouped-synonyms)

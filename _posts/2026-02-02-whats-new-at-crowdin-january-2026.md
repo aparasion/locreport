@@ -18,4 +18,4 @@ These developments highlight a growing trend towards automation and AI-driven so
 
 Localization professionals should consider how these tools can enhance their workflows and improve collaboration across teams. For a deeper dive into these updates, I recommend checking out the full article.
 
-[Source: crowdin.com](https://crowdin.com/blog/whats-new-at-crowdin-january-2026)
+Source: [crowdin.com](https://crowdin.com/blog/whats-new-at-crowdin-january-2026)

@@ -25,4 +25,4 @@ To capitalize on this trend, IMAX has partnered with Dubai-based Camb.ai to impl
 
 For localization professionals, the IMAX-Camb.ai partnership highlights the potential of AI in scaling translation efforts, particularly in addressing the rising demand for diverse language content. Embracing such technologies could be key for companies looking to stay competitive in a rapidly evolving media landscape.
 
-[Source: techcrunch.com](https://techcrunch.com/2024/11/25/imax-embraces-ai-to-expand-original-content-reach)
+Source: [techcrunch.com](https://techcrunch.com/2024/11/25/imax-embraces-ai-to-expand-original-content-reach)

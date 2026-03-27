@@ -18,4 +18,4 @@ For localization professionals, selecting the right technology platform is now a
 
 To navigate this complex landscape, localization leaders should focus on platforms that unify workflows and leverage shared language assets. For a deeper understanding of how leading localization platforms compare and what to prioritize for a sustainable strategy, I recommend checking out the full article.
 
-[Source: phrase.com](https://phrase.com/blog/posts/localization-platform-comparison-2026)
+Source: [phrase.com](https://phrase.com/blog/posts/localization-platform-comparison-2026)

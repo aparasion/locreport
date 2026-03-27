@@ -18,4 +18,4 @@ This partnership highlights the growing importance of corporate social responsib
 
 For localization professionals, this story serves as a reminder of the impact that socially responsible practices can have on both communities and corporate culture. I encourage you to read the full article to explore how you can get involved with Zarach's mission.
 
-[Source: en-gb.thebigword.com](https://en-gb.thebigword.com/news/thebigword-teams-up-with-zarach-to-support-families-nationwide)
+Source: [en-gb.thebigword.com](https://en-gb.thebigword.com/news/thebigword-teams-up-with-zarach-to-support-families-nationwide)

@@ -18,4 +18,4 @@ This trend reflects a broader shift towards rapid experimentation with language 
 
 For localization professionals, the key takeaway is to carefully evaluate the long-term implications of building versus buying translation solutions. I encourage you to explore the full article for deeper insights into optimizing your localization strategy.
 
-[Source: phrase.com](https://phrase.com/blog/posts/build-vs-buy-translation-platform)
+Source: [phrase.com](https://phrase.com/blog/posts/build-vs-buy-translation-platform)

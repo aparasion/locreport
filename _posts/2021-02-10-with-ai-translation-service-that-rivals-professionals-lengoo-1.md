@@ -25,4 +25,4 @@ The localization and language services industry stands to benefit from Lengoo's 
 
 For localization professionals, the key takeaway is the importance of integrating AI-driven solutions that enhance human capabilities rather than replace them. As Lengoo continues to innovate, companies must consider how to leverage such technologies to meet the growing demands of multilingual content in a competitive landscape.
 
-[Source: techcrunch.com](https://techcrunch.com/2021/02/09/with-ai-translation-service-that-rivals-professionals-lengoo-attracts-new-20m-round)
+Source: [techcrunch.com](https://techcrunch.com/2021/02/09/with-ai-translation-service-that-rivals-professionals-lengoo-attracts-new-20m-round)

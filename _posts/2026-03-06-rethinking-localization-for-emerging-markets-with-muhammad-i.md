@@ -18,4 +18,4 @@ This conversation sheds light on the disconnect between localization efforts and
 
 For localization professionals, Ikram’s insights underscore the importance of understanding cultural nuances and user preferences. His recommendations for fixing vocabulary, retraining linguistic ecosystems, and embedding cultural knowledge into leadership decisions are essential for creating effective localized products. For a deeper dive into these critical themes, I highly recommend checking out the full conversation.
 
-[Source: vistatec.com](https://www.vistatec.com/rethinking-localization-for-emerging-markets-with-muhammad-ikram-vistatalks-ep-190)
+Source: [vistatec.com](https://www.vistatec.com/rethinking-localization-for-emerging-markets-with-muhammad-ikram-vistatalks-ep-190)

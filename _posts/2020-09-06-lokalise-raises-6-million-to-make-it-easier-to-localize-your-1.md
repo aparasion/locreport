@@ -25,4 +25,4 @@ The significance of Lokalise's approach lies in its ability to automate and simp
 
 For localization professionals, Lokalise underscores the growing need for integrated tools that enhance productivity and reduce time-to-market for multilingual content, particularly for companies with global reach.
 
-[Source: techcrunch.com](https://techcrunch.com/2020/09/06/lokalise-raises-6-million-to-make-it-easier-to-localize-your-product)
+Source: [techcrunch.com](https://techcrunch.com/2020/09/06/lokalise-raises-6-million-to-make-it-easier-to-localize-your-product)

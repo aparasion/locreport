@@ -25,4 +25,4 @@ This surge in AI-driven translation underscores a broader trend within the local
 
 For localization professionals, the key takeaway is the necessity of adopting robust AI translation tools that streamline operations and enhance output quality, ultimately enabling organizations to scale their global reach more effectively.
 
-[Source: smartling.com](https://www.smartling.com/company-news/growth-in-ai-translation-in-2025)
+Source: [smartling.com](https://www.smartling.com/company-news/growth-in-ai-translation-in-2025)

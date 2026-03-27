@@ -18,4 +18,4 @@ For localization professionals, the importance of subtitling cannot be overstate
 
 As organizations expand their e-learning offerings, integrating multilingual subtitles should be a priority rather than an afterthought. For a deeper dive into the best practices for effective subtitle translation, I highly recommend exploring the full article.
 
-[Source: ecinnovations.com](https://www.ecinnovations.com/blog/translate-subtitles-for-e-learning)
+Source: [ecinnovations.com](https://www.ecinnovations.com/blog/translate-subtitles-for-e-learning)

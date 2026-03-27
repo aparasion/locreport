@@ -25,4 +25,4 @@ This development is significant for the localization and language services indus
 
 Localization professionals should consider the implications of these advancements on their workflows, particularly in adapting content for diverse audiences and leveraging AI tools to enhance engagement in global markets.
 
-[Source: techcrunch.com](https://techcrunch.com/2025/10/09/meta-adds-hindi-and-portuguese-support-for-its-ai-translation-feature-for-reels)
+Source: [techcrunch.com](https://techcrunch.com/2025/10/09/meta-adds-hindi-and-portuguese-support-for-its-ai-translation-feature-for-reels)

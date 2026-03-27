@@ -25,4 +25,4 @@ For localization and language services professionals, understanding the intricac
 
 The key takeaway for industry professionals is that successful localization in China demands a comprehensive approach that includes optimizing game size, refining monetization strategies, and ensuring wide distribution. This multifaceted strategy is essential for capturing the attention of Chinese gamers and maximizing revenue potential in this lucrative market.
 
-[Source: techcrunch.com](https://techcrunch.com/2013/12/07/gamelocalizationchina)
+Source: [techcrunch.com](https://techcrunch.com/2013/12/07/gamelocalizationchina)

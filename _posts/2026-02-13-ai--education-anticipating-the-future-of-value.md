@@ -25,4 +25,4 @@ For localization and language services professionals, this shift towards AI-driv
 
 A key takeaway is the importance of human-AI collaboration in education. As AI systems are adopted, the role of educators will evolve, necessitating localized training and resources that empower teachers to effectively integrate AI into their pedagogical practices while maintaining their essential role in the learning process.
 
-[Source: imminent.translated.com](https://imminent.translated.com/ai-education-anticipating-the-future-of-value)
+Source: [imminent.translated.com](https://imminent.translated.com/ai-education-anticipating-the-future-of-value)

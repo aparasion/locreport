@@ -25,4 +25,4 @@ This development is significant for the localization and language services indus
 
 For localization professionals, this role exemplifies the critical intersection of sales strategy and operational execution, reinforcing the need for skilled individuals who can navigate complex client requirements while driving innovation in language services.
 
-[Source: gala-global.org](https://www.gala-global.org/news/acolad-is-seeking-a-pre-sales-manager-for-interpreting-solutions)
+Source: [gala-global.org](https://www.gala-global.org/news/acolad-is-seeking-a-pre-sales-manager-for-interpreting-solutions)

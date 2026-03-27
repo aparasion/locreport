@@ -25,4 +25,4 @@ This move is significant for the localization and language services industry as 
 
 Localization professionals should take note of this trend toward multilingual support in social media platforms, as it highlights the increasing demand for language services that cater to diverse user bases. This shift presents opportunities for language technology providers to innovate and adapt their offerings to meet evolving market needs.
 
-[Source: techcrunch.com](https://techcrunch.com/2025/04/28/reddit-now-supports-translation-of-posts-and-comments-into-hindi)
+Source: [techcrunch.com](https://techcrunch.com/2025/04/28/reddit-now-supports-translation-of-posts-and-comments-into-hindi)

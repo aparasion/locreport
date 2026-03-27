@@ -25,4 +25,4 @@ The report outlines six critical transformations that can unlock the full potent
 
 For localization professionals, embracing these AI-driven transformations is essential not only for keeping pace with growing demands but also for ensuring that translation processes contribute positively to overall business strategies. Adopting advanced AI solutions can help mitigate the risks associated with outdated workflows and position organizations for success in a competitive global landscape.
 
-[Source: deepl.com](https://www.deepl.com/en/blog/six-translation-transformations)
+Source: [deepl.com](https://www.deepl.com/en/blog/six-translation-transformations)

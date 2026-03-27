@@ -18,4 +18,4 @@ This conference is particularly relevant as it addresses pressing questions abou
 
 For professionals in localization and translation, TC47 presents a valuable opportunity to contribute to vital conversations on AI integration and its effects on the industry. I encourage you to check out the full details and consider submitting your insights to help shape the future of our field.
 
-[Source: gala-global.org](https://www.gala-global.org/news/call-for-presentations-for-the-translating-and-the-computer-conference)
+Source: [gala-global.org](https://www.gala-global.org/news/call-for-presentations-for-the-translating-and-the-computer-conference)

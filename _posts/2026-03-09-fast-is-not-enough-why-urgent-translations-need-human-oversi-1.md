@@ -25,4 +25,4 @@ The localization and language services industry faces increasing pressure to del
 
 For professionals in the field, the key takeaway is the importance of matching translation workflows to content stakes. TranslateExpress offers a viable option for high-importance, time-sensitive documents, ensuring that organizations can scale their translation efforts without compromising on quality or compliance.
 
-[Source: languageline.com](https://www.languageline.com/blog/fast-is-not-enough-why-urgent-translations-need-human-oversight)
+Source: [languageline.com](https://www.languageline.com/blog/fast-is-not-enough-why-urgent-translations-need-human-oversight)

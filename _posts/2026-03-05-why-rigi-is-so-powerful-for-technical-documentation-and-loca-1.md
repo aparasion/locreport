@@ -25,4 +25,4 @@ The impact on the localization industry is profound. Organizations using Rigi ha
 
 For localization professionals, the key takeaway is clear: adopting a platform like Rigi can transform your workflows by providing the visual context necessary for effective collaboration. This shift not only improves operational efficiency but also fosters better relationships between localization and development teams, ultimately leading to more successful global product launches.
 
-[Source: xtm.ai](https://xtm.ai/blog/why-rigi-is-powerful-for-documentation-and-localization)
+Source: [xtm.ai](https://xtm.ai/blog/why-rigi-is-powerful-for-documentation-and-localization)

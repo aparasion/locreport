@@ -25,4 +25,4 @@ This shift to a hands-off localization approach is crucial for businesses aiming
 
 For localization professionals, the key takeaway is the importance of integrating a TMS with a headless CMS to eliminate manual handoffs. This not only accelerates the localization process but also enhances content accuracy and consistency, ultimately supporting smoother global launches.
 
-[Source: lokalise.com](https://lokalise.com/blog/headless-cms-localization-tools)
+Source: [lokalise.com](https://lokalise.com/blog/headless-cms-localization-tools)

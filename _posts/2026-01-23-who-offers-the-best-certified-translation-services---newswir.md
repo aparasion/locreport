@@ -18,4 +18,4 @@ This development is significant for the localization and language services indus
 
 For localization professionals, this means an opportunity to collaborate with platforms like Newswire to enhance content effectiveness across different markets. To learn more about how these services can impact your localization strategies, I recommend checking out the full article.
 
-[Source: newswire.com](https://www.newswire.com)
+Source: [newswire.com](https://www.newswire.com)

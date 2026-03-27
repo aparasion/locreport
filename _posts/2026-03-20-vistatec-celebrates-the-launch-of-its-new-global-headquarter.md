@@ -18,4 +18,4 @@ The launch underscores Vistatec's commitment to adapting to the changing global 
 
 For localization professionals, Vistatec’s expansion signals a robust future in AI-driven services, reinforcing the importance of collaboration between technical and linguistic experts. I encourage you to read the full article for deeper insights into Vistatec's journey and future plans.
 
-[Source: vistatec.com](https://www.vistatec.com/vistatec-celebrates-the-launch-of-its-new-global-headquarters)
+Source: [vistatec.com](https://www.vistatec.com/vistatec-celebrates-the-launch-of-its-new-global-headquarters)

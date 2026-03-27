@@ -18,4 +18,4 @@ This reflection underscores the importance of community and collaboration in the
 
 As the industry continues to adapt, the takeaway is clear: strong professional networks are essential for navigating uncertainty and fostering innovation. For a deeper dive into these insights, I recommend listening to the full podcast episode on Localization Today.
 
-[Source: elia-association.org](https://elia-association.org/2026/03/elias-journey-and-the-evolution-of-the-language-industry/?utm_source=rss&utm_medium=rss&utm_campaign=elias-journey-and-the-evolution-of-the-language-industry)
+Source: [elia-association.org](https://elia-association.org/2026/03/elias-journey-and-the-evolution-of-the-language-industry/?utm_source=rss&utm_medium=rss&utm_campaign=elias-journey-and-the-evolution-of-the-language-industry)

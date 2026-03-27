@@ -25,4 +25,4 @@ The project faced unique challenges due to the Marq publishing platform, which l
 
 For localization professionals, this case highlights the importance of adapting workflows to specific technological constraints and emphasizes the value of collaboration and expert consultancy in achieving high-quality translations in educational contexts.
 
-[Source: en-gb.thebigword.com](https://en-gb.thebigword.com/news/stand-for-children-case-study)
+Source: [en-gb.thebigword.com](https://en-gb.thebigword.com/news/stand-for-children-case-study)

@@ -25,4 +25,4 @@ This discussion highlights a critical shift in the localization landscape, where
 
 For localization professionals, the key takeaway is the importance of integrating strategy, skilled resources, and technology to create scalable localization efforts. Embracing a structured approach not only enhances efficiency but also positions localization as a growth enabler rather than a cost center.
 
-[Source: crowdin.com](https://crowdin.com/blog/agile-localization-podcast-with-nicola-calabrese)
+Source: [crowdin.com](https://crowdin.com/blog/agile-localization-podcast-with-nicola-calabrese)

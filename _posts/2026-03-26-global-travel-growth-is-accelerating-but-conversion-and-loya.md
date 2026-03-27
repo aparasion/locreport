@@ -25,4 +25,4 @@ For localization and language services professionals, this landscape underscores
 
 The key takeaway for industry professionals is that effective localization goes beyond translation; it requires a comprehensive understanding of local markets. Brands that prioritize culturally relevant content and user experience will likely see increased customer loyalty and sustainable growth in new regions.
 
-[Source: phrase.com](https://phrase.com/blog/posts/local-experience-global-travel-growth)
+Source: [phrase.com](https://phrase.com/blog/posts/local-experience-global-travel-growth)

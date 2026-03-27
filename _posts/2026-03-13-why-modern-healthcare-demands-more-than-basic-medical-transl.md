@@ -18,4 +18,4 @@ The conference also addressed the ethical complexities interpreters face, advoca
 
 One key takeaway is that sight translation requires distinct competencies and should not be treated as a routine extension of general interpreting. Organizations must empower interpreters to decline out-of-scope requests to protect all parties involved. For a deeper dive into these vital insights and strategies for enhancing language access, I highly recommend exploring the full article.
 
-[Source: languageline.com](https://www.languageline.com/blog/why-modern-healthcare-demands-more-than-basic-medical-translation)
+Source: [languageline.com](https://www.languageline.com/blog/why-modern-healthcare-demands-more-than-basic-medical-translation)

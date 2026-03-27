@@ -25,4 +25,4 @@ As the e-learning landscape expands, traditional human-only localization workflo
 
 For localization professionals, the key takeaway is the growing importance of integrating AI localization into e-learning strategies to meet the demands of a diverse learner base and capitalize on the industry's rapid growth.
 
-[Source: nimdzi.com](https://www.nimdzi.com/scaling-multilingual-e-learning-efficiently-whitepaper/?utm_source=rss&utm_medium=rss&utm_campaign=scaling-multilingual-e-learning-efficiently-whitepaper)
+Source: [nimdzi.com](https://www.nimdzi.com/scaling-multilingual-e-learning-efficiently-whitepaper/?utm_source=rss&utm_medium=rss&utm_campaign=scaling-multilingual-e-learning-efficiently-whitepaper)

@@ -18,4 +18,4 @@ This shift is significant for the localization and language services sector, as 
 
 For localization professionals, the wxrks rebranding serves as a reminder that embracing change while prioritizing human expertise can lead to a more resilient and innovative future in translation services.
 
-[Source: slator.com](https://slator.com/bureau-works-is-now-wxrks)
+Source: [slator.com](https://slator.com/bureau-works-is-now-wxrks)

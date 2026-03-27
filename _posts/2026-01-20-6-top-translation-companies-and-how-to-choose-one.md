@@ -18,4 +18,4 @@ This guide is particularly relevant as organizations increasingly seek to optimi
 
 Ultimately, the article serves as a valuable resource for localization professionals aiming to enhance their translation strategies. I recommend checking out the full story for deeper insights into selecting the ideal translation service for your specific needs.
 
-[Source: xtm.ai](https://xtm.ai/blog/top-translation-companies)
+Source: [xtm.ai](https://xtm.ai/blog/top-translation-companies)

@@ -25,4 +25,4 @@ This development is significant for the localization and language services indus
 
 Localization professionals should consider how this evolution in mobile translation technology could influence user expectations and the demand for high-quality, contextually relevant translations, particularly in travel and tourism sectors.
 
-[Source: techcrunch.com](https://techcrunch.com/2019/12/12/interpreter-googles-real-time-translator-comes-to-mobile)
+Source: [techcrunch.com](https://techcrunch.com/2019/12/12/interpreter-googles-real-time-translator-comes-to-mobile)

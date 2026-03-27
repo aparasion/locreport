@@ -25,4 +25,4 @@ This funding round highlights a growing interest in solutions that bridge langua
 
 For localization professionals, Palabra AI's advancements suggest a shift toward more integrated, real-time translation solutions that can enhance user engagement across platforms, making it crucial to stay informed about emerging technologies in this competitive landscape.
 
-[Source: techcrunch.com](https://techcrunch.com/2025/08/14/ai-translation-tech-palabra-gets-backing-from-reddit-co-founders-venture-firm)
+Source: [techcrunch.com](https://techcrunch.com/2025/08/14/ai-translation-tech-palabra-gets-backing-from-reddit-co-founders-venture-firm)

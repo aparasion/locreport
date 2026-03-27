@@ -18,4 +18,4 @@ The collaboration is significant for the localization and language services indu
 
 For localization professionals, this partnership highlights the importance of language accessibility in driving social impact and expanding market reach. It’s a compelling case study in how language solutions can facilitate meaningful connections in specialized sectors. I encourage you to read the full article to explore the broader implications of this collaboration.
 
-[Source: transperfect.com](https://www.transperfect.com/about/press/nammba-selects-transperfect-preferred-language-partner)
+Source: [transperfect.com](https://www.transperfect.com/about/press/nammba-selects-transperfect-preferred-language-partner)

@@ -25,4 +25,4 @@ The localization and language services industry must recognize that effective cu
 
 The takeaway for localization professionals is clear: investing in automated multilingual video solutions can streamline the creation process, ensuring that instructional content is accessible to all customers. By prioritizing language coverage, companies can enhance customer satisfaction and drive business growth.
 
-[Source: xtm.ai](https://xtm.ai/blog/the-business-case-for-multilingual-instructional-video)
+Source: [xtm.ai](https://xtm.ai/blog/the-business-case-for-multilingual-instructional-video)

@@ -25,4 +25,4 @@ For localization and language services professionals, this trend highlights the 
 
 In this dynamic environment, localization experts should focus on helping businesses navigate the complexities of regional tastes and preferences, ensuring that their offerings resonate with local audiences while maintaining a competitive edge.
 
-[Source: techcrunch.com](https://techcrunch.com/2016/12/18/technology-dispersion-is-accelerating)
+Source: [techcrunch.com](https://techcrunch.com/2016/12/18/technology-dispersion-is-accelerating)

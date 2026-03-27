@@ -18,4 +18,4 @@ This recognition is significant for the localization and language services indus
 
 For localization professionals, Smartling's recognition by G2 serves as a reminder of the value of leveraging innovative technology in translation management. I encourage you to read the full article for deeper insights into this development and its implications for the industry.
 
-[Source: smartling.com](https://www.smartling.com/company-news/smartling-named-2025-best-software-g2)
+Source: [smartling.com](https://www.smartling.com/company-news/smartling-named-2025-best-software-g2)

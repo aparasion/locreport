@@ -18,4 +18,4 @@ The panel advocates for a more ecosystem-oriented approach, where vendors share 
 
 As the industry evolves, especially with the rapid advancements in AI, fostering collaboration among specialized partners may become a necessity rather than a choice. This model empowers small localization teams to leverage external expertise while maintaining flexibility, ultimately transforming how global content operations are managed. For a deeper dive into this innovative approach, I highly recommend checking out the full webinar.
 
-[Source: phrase.com](https://phrase.com/blog/posts/localization-ecosystems-vs-traditional-vendor-models)
+Source: [phrase.com](https://phrase.com/blog/posts/localization-ecosystems-vs-traditional-vendor-models)

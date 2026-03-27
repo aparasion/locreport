@@ -18,4 +18,4 @@ For localization professionals, this means a significant reduction in manual ove
 
 The key takeaway is that leveraging tools like DatoCMS and Crowdin can transform your localization workflow, making it more efficient and reliable. I highly recommend checking out the full article to explore how this integration can benefit your localization strategy.
 
-[Source: crowdin.com](https://crowdin.com/blog/translation-quality-without-speaking-language)
+Source: [crowdin.com](https://crowdin.com/blog/translation-quality-without-speaking-language)

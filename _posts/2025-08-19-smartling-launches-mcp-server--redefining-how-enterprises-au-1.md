@@ -25,4 +25,4 @@ The MCP server is significant for the localization and language services industr
 
 A key takeaway for localization professionals is that the Smartling MCP server represents a shift towards more integrated and context-aware translation solutions, making it easier to maintain quality and consistency across diverse content channels and markets.
 
-[Source: smartling.com](https://www.smartling.com/company-news/smartling-launches-mcp-server)
+Source: [smartling.com](https://www.smartling.com/company-news/smartling-launches-mcp-server)

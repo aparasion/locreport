@@ -18,4 +18,4 @@ The localization and language services industry is witnessing a transformative s
 
 For localization professionals, this development signals the importance of adopting AI tools to enhance service offerings and meet client needs. I encourage you to read the full article to gain deeper insights into TransPerfect's strategies and the implications for the industry.
 
-[Source: news.google.com](https://news.google.com/rss/articles/CBMi0wFBVV95cUxPbFM0bzVPVGFaWkt5Z2o4eVpnaHFBWUphQlRudWVLQWk1alVHOU1GV2VDV3lRdnpYelBjTnlFYlZ0YmhmTFpaOTNpblk2d2psdWx4QkdGVVlBNjl3Q2hqaXk5cF94OFFZZ0RJQ3ZjTmh6em94YjhFUGoxMUNsblg1MmNaWnhxVFRKXzZzVVZyUDVna2lIRWtOT3FSdnEteFljNk9YMTdMTWNwcURpOTc4RmtEVFRTOGs2WmR5aEU4amVSY0FlZkE1aWxqcmN2d0VNSllR?oc=5)
+Source: [news.google.com](https://news.google.com/rss/articles/CBMi0wFBVV95cUxPbFM0bzVPVGFaWkt5Z2o4eVpnaHFBWUphQlRudWVLQWk1alVHOU1GV2VDV3lRdnpYelBjTnlFYlZ0YmhmTFpaOTNpblk2d2psdWx4QkdGVVlBNjl3Q2hqaXk5cF94OFFZZ0RJQ3ZjTmh6em94YjhFUGoxMUNsblg1MmNaWnhxVFRKXzZzVVZyUDVna2lIRWtOT3FSdnEteFljNk9YMTdMTWNwcURpOTc4RmtEVFRTOGs2WmR5aEU4amVSY0FlZkE1aWxqcmN2d0VNSllR?oc=5)

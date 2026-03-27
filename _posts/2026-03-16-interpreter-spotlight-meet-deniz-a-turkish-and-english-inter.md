@@ -18,4 +18,4 @@ Atalar emphasizes the importance of adaptability and continuous learning in the 
 
 For those in the industry, Atalar's experiences underscore the need for interpreters to maintain professional boundaries and ethical standards while embracing technological advancements. I recommend reading the full interview to gain deeper insights into the challenges and rewards of a career in interpretation.
 
-[Source: en-gb.thebigword.com](https://en-gb.thebigword.com/news/interpreter-spotlight-meet-deniz-a-turkish-and-english-interpreter)
+Source: [en-gb.thebigword.com](https://en-gb.thebigword.com/news/interpreter-spotlight-meet-deniz-a-turkish-and-english-interpreter)

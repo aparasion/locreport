@@ -25,4 +25,4 @@ However, relying solely on ChatGPT poses significant risks, especially regarding
 
 For localization professionals, the key takeaway is to balance the speed of ChatGPT with the need for quality and consistency. While it can serve as a useful tool for quick translations, integrating it into a structured workflow is essential to mitigate risks and ensure reliable output.
 
-[Source: lokalise.com](https://lokalise.com/blog/chatgpt-vs-localization-platform)
+Source: [lokalise.com](https://lokalise.com/blog/chatgpt-vs-localization-platform)

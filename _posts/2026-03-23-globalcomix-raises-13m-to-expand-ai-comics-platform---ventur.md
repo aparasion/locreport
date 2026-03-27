@@ -25,4 +25,4 @@ The influx of capital highlights a growing trend in the language technology sect
 
 For localization professionals, this development underscores the importance of staying abreast of technological advancements that can streamline workflows. Embracing such innovations may lead to more efficient project management and enhanced service offerings in an increasingly competitive market.
 
-[Source: ventureburn.com](https://ventureburn.com)
+Source: [ventureburn.com](https://ventureburn.com)

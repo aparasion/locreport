@@ -25,4 +25,4 @@ This contract is pivotal for the localization and language services industry, as
 
 For localization professionals, this development emphasizes the importance of building partnerships with public sector entities. It also presents an opportunity for qualified interpreters to engage with a growing market, reinforcing the critical role of language services in community safety and public service efficiency.
 
-[Source: en-gb.thebigword.com](https://en-gb.thebigword.com/news/thebigword-secures-new-language-services-contract-with-thames-valley-police)
+Source: [en-gb.thebigword.com](https://en-gb.thebigword.com/news/thebigword-secures-new-language-services-contract-with-thames-valley-police)

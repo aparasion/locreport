@@ -18,4 +18,4 @@ This discussion is crucial for localization and language services professionals,
 
 For teams considering migration, the key takeaway is to prioritize alignment with business objectives and invest in thorough workflow mapping. This approach fosters a smoother transition and positions organizations for long-term success. I highly recommend checking out the full webinar for deeper insights and practical strategies.
 
-[Source: phrase.com](https://phrase.com/blog/posts/language-tech-migration-lessons-kayak-pega)
+Source: [phrase.com](https://phrase.com/blog/posts/language-tech-migration-lessons-kayak-pega)

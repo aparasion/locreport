@@ -25,4 +25,4 @@ As companies eye high-growth regions like Latin America and Southeast Asia, they
 
 For localization professionals, the key takeaway is clear: integrating localization into the core of growth strategies is essential. Companies that prioritize localization as a revenue driver rather than a cost will be better positioned to capitalize on new market opportunities and enhance their competitive edge.
 
-[Source: lokalise.com](https://lokalise.com/blog/global-expansion-localization-revenue-gap)
+Source: [lokalise.com](https://lokalise.com/blog/global-expansion-localization-revenue-gap)

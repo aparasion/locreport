@@ -18,4 +18,4 @@ These developments are significant for the localization and language services in
 
 For localization professionals, Smartling's enhancements signal a shift towards more accessible and cost-effective solutions that prioritize quality and brand compliance. I highly recommend checking out the full article to explore how these advancements can impact your localization strategies.
 
-[Source: smartling.com](https://www.smartling.com/company-news/smartling-ai-translation-qa-tools)
+Source: [smartling.com](https://www.smartling.com/company-news/smartling-ai-translation-qa-tools)

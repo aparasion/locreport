@@ -18,4 +18,4 @@ The implications for the localization industry are significant. By reducing cont
 
 For localization teams looking to optimize their workflows, Rigi presents a compelling solution. I recommend diving into the full article to explore how this innovative platform can reshape your localization processes and drive measurable business impact.
 
-[Source: xtm.ai](https://xtm.ai/blog/why-rigi-is-powerful-for-documentation-and-localization)
+Source: [xtm.ai](https://xtm.ai/blog/why-rigi-is-powerful-for-documentation-and-localization)

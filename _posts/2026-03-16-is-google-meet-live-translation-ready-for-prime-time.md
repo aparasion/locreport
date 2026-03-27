@@ -18,4 +18,4 @@ This development highlights significant challenges and opportunities in the loca
 
 For localization professionals, the implications are clear: as AI tools evolve, understanding their limitations and capabilities will be crucial for optimizing workflows. I recommend checking out the full article for a deeper dive into these developments and their potential impact on our industry.
 
-[Source: slator.com](https://slator.com/google-meet-live-translation)
+Source: [slator.com](https://slator.com/google-meet-live-translation)

@@ -25,4 +25,4 @@ The importance of this approach lies in its potential to streamline operations a
 
 Localization professionals should consider implementing this structured approach to context management. By measuring the impact on rework and developer time, teams can demonstrate the value of improved context, leading to more efficient workflows and better translation outcomes.
 
-[Source: lokalise.com](https://lokalise.com/blog/automate-context-management)
+Source: [lokalise.com](https://lokalise.com/blog/automate-context-management)

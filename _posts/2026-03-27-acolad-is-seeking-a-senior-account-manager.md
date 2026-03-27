@@ -25,4 +25,4 @@ This development is noteworthy for the localization and language services indust
 
 For localization professionals, this opening underscores the growing demand for skilled account managers who can navigate complex client needs and contribute to strategic growth initiatives within the industry.
 
-[Source: gala-global.org](https://www.gala-global.org/news/acolad-is-seeking-a-senior-account-manager)
+Source: [gala-global.org](https://www.gala-global.org/news/acolad-is-seeking-a-senior-account-manager)

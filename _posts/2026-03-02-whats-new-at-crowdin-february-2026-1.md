@@ -25,4 +25,4 @@ This update is significant for localization professionals as it enhances the cla
 
 For localization teams, the key takeaway is the potential for increased efficiency and accuracy in translation workflows through improved context management and AI integration, making it essential to stay updated on these evolving tools.
 
-[Source: crowdin.com](https://crowdin.com/blog/whats-new-at-crowdin-february-2026)
+Source: [crowdin.com](https://crowdin.com/blog/whats-new-at-crowdin-february-2026)

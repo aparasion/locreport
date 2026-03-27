@@ -18,4 +18,4 @@ For localization and language services professionals, this shift underscores the
 
 To explore the full implications of these governance strategies and their impact on language access in healthcare, I highly recommend reading the complete article.
 
-[Source: languageline.com](https://www.languageline.com/blog/ai-governance-isnt-just-about-algorithms.-its-about-communication-equity)
+Source: [languageline.com](https://www.languageline.com/blog/ai-governance-isnt-just-about-algorithms.-its-about-communication-equity)

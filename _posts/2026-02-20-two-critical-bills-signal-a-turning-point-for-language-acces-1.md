@@ -25,4 +25,4 @@ These legislative efforts are crucial for the localization and language services
 
 Localization professionals should actively engage in shaping the implementation of the SPEAK Act by providing data and case studies to HHS, as their insights can directly influence the development of effective multilingual healthcare practices.
 
-[Source: languageline.com](https://www.languageline.com/blog/two-critical-bills-signal-a-turning-point-for-language-access-in-america)
+Source: [languageline.com](https://www.languageline.com/blog/two-critical-bills-signal-a-turning-point-for-language-access-in-america)

@@ -25,4 +25,4 @@ The introduction of DeepL Agent is significant for the localization and language
 
 For localization professionals, the key takeaway is the potential for AI-driven solutions like DeepL Agent to enhance operational efficiency in customer service, ultimately leading to better customer experiences and a more effective use of human resources in language-focused roles.
 
-[Source: deepl.com](https://www.deepl.com/en/blog/customer-service-at-scale)
+Source: [deepl.com](https://www.deepl.com/en/blog/customer-service-at-scale)

@@ -18,4 +18,4 @@ LQA goes beyond basic translation; it ensures linguistic accuracy, functional in
 
 For localization professionals, the takeaway is clear: neglecting LQA can lead to disastrous outcomes. Emphasizing quality from the outset not only mitigates risks but also strengthens brand consistency and supports sustainable growth. For a deeper dive into the nuances of LQA and its best practices, I highly recommend exploring the full article.
 
-[Source: ecinnovations.com](https://www.ecinnovations.com/blog/localization-quality-assurance-lqa)
+Source: [ecinnovations.com](https://www.ecinnovations.com/blog/localization-quality-assurance-lqa)

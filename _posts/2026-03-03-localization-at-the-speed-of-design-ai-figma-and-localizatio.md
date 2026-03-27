@@ -18,4 +18,4 @@ This shift not only reduces costs associated with late-stage fixes but also enha
 
 For localization professionals, the key takeaway is clear: prioritize early integration of localization in design and development to foster collaboration and efficiency. I highly recommend checking out the full discussion for deeper insights and actionable strategies.
 
-[Source: vistatec.com](https://www.vistatec.com/localization-at-the-speed-of-design-ai-figma-and-localization)
+Source: [vistatec.com](https://www.vistatec.com/localization-at-the-speed-of-design-ai-figma-and-localization)

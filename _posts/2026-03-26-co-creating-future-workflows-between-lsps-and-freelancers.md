@@ -23,4 +23,4 @@ Tiago Cruz, a speaker at ELIA Together 2026, emphasizes the urgent need for lang
 
 The key takeaway from Cruz's insights is the importance of rebuilding trust and collaboration within the localization ecosystem. By streamlining workflows and fostering open communication, companies like SMARTIDIOM have demonstrated that investing in relationships and training can lead to improved quality and a sense of shared purpose. As AI continues to reshape the industry, the interdependence between LSPs and freelancers will only grow stronger, highlighting the need for a cooperative approach to thrive in this changing environment.
 
-[Source: elia-association.org](https://elia-association.org/2026/03/co-creating-future-workflows-between-lsps-and-freelancers/?utm_source=rss&utm_medium=rss&utm_campaign=co-creating-future-workflows-between-lsps-and-freelancers)
+Source: [elia-association.org](https://elia-association.org/2026/03/co-creating-future-workflows-between-lsps-and-freelancers/?utm_source=rss&utm_medium=rss&utm_campaign=co-creating-future-workflows-between-lsps-and-freelancers)

@@ -25,4 +25,4 @@ The introduction of DeepL Agent is particularly relevant for localization and la
 
 For localization teams, the key takeaway is the potential for AI agents like DeepL Agent to transform customer service operations. By automating routine tasks, teams can focus on delivering personalized support, ultimately fostering greater customer loyalty and retention.
 
-[Source: deepl.com](https://www.deepl.com/en/blog/agent-refunds-returns)
+Source: [deepl.com](https://www.deepl.com/en/blog/agent-refunds-returns)

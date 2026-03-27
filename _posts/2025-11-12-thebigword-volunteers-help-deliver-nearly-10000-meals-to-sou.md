@@ -18,4 +18,4 @@ This collaboration not only addresses immediate food needs but also showcases ho
 
 For localization and language services professionals, this story serves as a reminder of the impact that corporate initiatives can have on community welfare. Explore the full details of this inspiring partnership at the original source.
 
-[Source: en-gb.thebigword.com](https://en-gb.thebigword.com/news/thebigword-volunteers-help-deliver-nearly-10000-meals-to-south-florida-families-facing-hunger)
+Source: [en-gb.thebigword.com](https://en-gb.thebigword.com/news/thebigword-volunteers-help-deliver-nearly-10000-meals-to-south-florida-families-facing-hunger)

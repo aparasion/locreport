@@ -25,4 +25,4 @@ This recognition underscores the growing importance of AI and machine learning i
 
 For localization professionals, Smartling's achievements serve as a reminder of the transformative potential of AI in enhancing translation workflows and meeting the demands of a rapidly evolving digital landscape.
 
-[Source: smartling.com](https://www.smartling.com/company-news/smartling-fast-company-most-innovative-companies-for-2025)
+Source: [smartling.com](https://www.smartling.com/company-news/smartling-fast-company-most-innovative-companies-for-2025)

@@ -18,4 +18,4 @@ The findings indicate that the cost of translating different content types varie
 
 For localization professionals, the key takeaway is the value of using a comprehensive platform like Crowdin, which not only minimizes costs but also integrates AI capabilities with human proofreading and seamless content syncing. I recommend checking out the full article for a deeper dive into the experiment and its implications for your localization strategy.
 
-[Source: crowdin.com](https://crowdin.com/blog/ai-translation-cost)
+Source: [crowdin.com](https://crowdin.com/blog/ai-translation-cost)

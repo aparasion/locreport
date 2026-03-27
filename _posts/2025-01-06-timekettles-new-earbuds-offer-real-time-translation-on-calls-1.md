@@ -25,4 +25,4 @@ This development is significant for the localization and language services indus
 
 For localization professionals, the W4 Pro represents a potential shift in how multilingual interactions are handled, emphasizing the importance of integrating advanced technology into workflows to enhance communication efficiency and effectiveness in global markets.
 
-[Source: techcrunch.com](https://techcrunch.com/2025/01/05/timekettles-new-earbuds-offer-real-time-translation-on-calls)
+Source: [techcrunch.com](https://techcrunch.com/2025/01/05/timekettles-new-earbuds-offer-real-time-translation-on-calls)

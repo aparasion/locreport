@@ -25,4 +25,4 @@ For localization professionals, this means embedding localization into developme
 
 Ultimately, treating localization as a foundational element of infrastructure not only mitigates risk but also accelerates global growth. Organizations that prioritize infrastructure-layer localization will be better positioned to navigate the complexities of compliance and deliver seamless, trustworthy experiences to users worldwide.
 
-[Source: phrase.com](https://phrase.com/blog/posts/hybrid-cloud-edge-ai-localization-infrastructure)
+Source: [phrase.com](https://phrase.com/blog/posts/hybrid-cloud-edge-ai-localization-infrastructure)

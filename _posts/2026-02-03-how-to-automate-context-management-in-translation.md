@@ -18,4 +18,4 @@ By standardizing what constitutes "good context" and centralizing it within a Tr
 
 For localization professionals, this approach not only minimizes rework and developer time but also provides measurable KPIs to track improvements. I highly recommend checking out the full article for a deeper dive into implementing these strategies effectively.
 
-[Source: lokalise.com](https://lokalise.com/blog/automate-context-management)
+Source: [lokalise.com](https://lokalise.com/blog/automate-context-management)

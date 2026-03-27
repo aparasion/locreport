@@ -25,4 +25,4 @@ Reson8’s focus on hyper-specific models caters to the linguistic diversity of 
 
 For localization professionals, Reson8's approach highlights the growing demand for adaptive language technologies that cater to niche markets, underscoring the importance of linguistic diversity in the evolving landscape of speech AI.
 
-[Source: slator.com](https://slator.com/reson8-build-europe-centric-speech-ai-platform)
+Source: [slator.com](https://slator.com/reson8-build-europe-centric-speech-ai-platform)

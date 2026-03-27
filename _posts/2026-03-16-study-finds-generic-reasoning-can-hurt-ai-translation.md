@@ -18,4 +18,4 @@ The findings emphasize that generic reasoning lacks the depth needed for effecti
 
 For localization professionals, these insights underscore the importance of integrating structured workflows into AI translation systems. I recommend diving deeper into the full study for a comprehensive understanding of these dynamics.
 
-[Source: slator.com](https://slator.com/generic-reasoning-ai-translation)
+Source: [slator.com](https://slator.com/generic-reasoning-ai-translation)

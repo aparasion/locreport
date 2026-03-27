@@ -18,4 +18,4 @@ Dell's insights highlight the need for localization and content leaders to move 
 
 For localization professionals, the key takeaway is to treat content as a strategic asset rather than a reactive function. By prioritizing thoughtful design and measurement frameworks, leaders can better connect their efforts to tangible business outcomes. For a deeper dive into Dell's perspective, I recommend checking out the full podcast episode.
 
-[Source: phrase.com](https://phrase.com/blog/posts/chris-dell-booking-content-global-scale-operating-system)
+Source: [phrase.com](https://phrase.com/blog/posts/chris-dell-booking-content-global-scale-operating-system)

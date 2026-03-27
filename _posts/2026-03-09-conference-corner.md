@@ -25,4 +25,4 @@ These conferences highlight a significant shift in the language services industr
 
 For localization professionals, the insights gained from these events underscore the importance of adopting advanced methodologies and tools that enhance model efficiency and ethical deployment, ensuring that language services can meet the evolving demands of global markets.
 
-[Source: imminent.translated.com](https://imminent.translated.com/conference-corner)
+Source: [imminent.translated.com](https://imminent.translated.com/conference-corner)

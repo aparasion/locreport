@@ -18,4 +18,4 @@ For localization and language services professionals, this trend underscores the
 
 To navigate these complexities effectively, travel brands must prioritize seamless market adaptation and leverage technology to maintain consistency across diverse customer touchpoints. I encourage you to explore the full article for deeper insights into how these strategies are shaping the future of global travel.
 
-[Source: phrase.com](https://phrase.com/blog/posts/local-experience-global-travel-growth)
+Source: [phrase.com](https://phrase.com/blog/posts/local-experience-global-travel-growth)

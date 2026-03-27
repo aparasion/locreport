@@ -25,4 +25,4 @@ For localization and language services professionals, this development highlight
 
 The takeaway for industry professionals is the opportunity to engage with educational institutions to provide localized content that meets legal requirements while also addressing the varied linguistic needs of students, ultimately fostering an inclusive environment.
 
-[Source: wafb.com](https://www.wafb.com)
+Source: [wafb.com](https://www.wafb.com)

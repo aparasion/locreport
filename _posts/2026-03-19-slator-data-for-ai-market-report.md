@@ -18,4 +18,4 @@ Understanding the dynamics of this market is essential for localization and lang
 
 For localization professionals, the report underscores the importance of integrating language solutions into AI data production workflows. I highly recommend diving into the full report for a comprehensive analysis of this evolving market and its implications for your work in localization and AI.
 
-[Source: slator.com](https://slator.com/data-for-ai-market-report)
+Source: [slator.com](https://slator.com/data-for-ai-market-report)

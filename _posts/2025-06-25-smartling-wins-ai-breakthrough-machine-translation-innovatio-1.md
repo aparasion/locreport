@@ -25,4 +25,4 @@ This recognition underscores the growing importance of AI in the localization an
 
 For localization professionals, the implication is clear: leveraging AI-driven solutions like Smartling’s can significantly enhance operational efficiency and scalability, allowing businesses to maintain a competitive edge in an increasingly globalized market.
 
-[Source: smartling.com](https://www.smartling.com/company-news/smartling-wins-machine-translation-innovation-award)
+Source: [smartling.com](https://www.smartling.com/company-news/smartling-wins-machine-translation-innovation-award)

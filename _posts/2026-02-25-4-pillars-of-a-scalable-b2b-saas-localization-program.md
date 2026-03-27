@@ -18,4 +18,4 @@ For localization professionals, the discussion highlights the importance of alig
 
 The key takeaway is that successful localization requires more than just technology; it demands a comprehensive framework that integrates strategy, people, and processes. For a deeper dive into these insights, I highly recommend listening to the full podcast episode.
 
-[Source: crowdin.com](https://crowdin.com/blog/agile-localization-podcast-with-nicola-calabrese)
+Source: [crowdin.com](https://crowdin.com/blog/agile-localization-podcast-with-nicola-calabrese)

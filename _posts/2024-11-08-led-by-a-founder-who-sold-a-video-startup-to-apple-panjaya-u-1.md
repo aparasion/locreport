@@ -25,4 +25,4 @@ This innovation is significant for the localization industry as it addresses the
 
 For localization professionals, the rise of AI-driven dubbing solutions like BodyTalk presents an opportunity to enhance content accessibility and engagement. As demand for localized video content grows, embracing such technologies could be key to staying competitive in an evolving landscape.
 
-[Source: techcrunch.com](https://techcrunch.com/2024/11/08/led-by-a-founder-who-sold-a-video-startup-to-apple-panjaya-uses-deepfake-techniques-to-bite-into-video-dubbing)
+Source: [techcrunch.com](https://techcrunch.com/2024/11/08/led-by-a-founder-who-sold-a-video-startup-to-apple-panjaya-uses-deepfake-techniques-to-bite-into-video-dubbing)

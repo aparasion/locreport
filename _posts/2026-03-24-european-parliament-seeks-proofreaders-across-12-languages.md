@@ -25,4 +25,4 @@ This development highlights the growing demand for skilled language professional
 
 For localization professionals, this call represents an opportunity to engage with institutional language services and emphasizes the importance of maintaining high standards in multilingual communication. It also underscores the need for ongoing professional development in areas like terminology management and AI content evaluation, as these skills are increasingly valuable in competitive language markets.
 
-[Source: slator.com](https://slator.com/european-parliament-proofreaders)
+Source: [slator.com](https://slator.com/european-parliament-proofreaders)

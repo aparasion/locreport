@@ -25,4 +25,4 @@ The findings highlight a significant trend: multi-provider strategies are becomi
 
 For localization professionals, the key takeaway is clear: as AI translation becomes integral to workflows, prioritizing governance, quality controls, and a platform-centric approach will be essential for managing risks and maximizing operational efficiency.
 
-[Source: crowdin.com](https://crowdin.com/blog/ai-translation-enterprise-survey-2026)
+Source: [crowdin.com](https://crowdin.com/blog/ai-translation-enterprise-survey-2026)

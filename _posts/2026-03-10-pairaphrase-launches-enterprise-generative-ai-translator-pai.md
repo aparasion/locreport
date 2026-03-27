@@ -18,4 +18,4 @@ This development is significant for the localization industry as it enhances wor
 
 For localization professionals, PairaphraseGPT represents a leap forward in AI-driven translation technology. I highly recommend checking out the full details of this exciting release at Pairaphrase’s website.
 
-[Source: slator.com](https://slator.com/pairaphrase-launches-pairaphrasegpt)
+Source: [slator.com](https://slator.com/pairaphrase-launches-pairaphrasegpt)

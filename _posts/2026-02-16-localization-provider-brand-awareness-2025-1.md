@@ -25,4 +25,4 @@ This study is significant for localization and language services professionals a
 
 For industry players, the key takeaway is that success will hinge on understanding the preferences of this advanced buyer cohort. As localization becomes more integrated into product development, aligning service offerings with the expectations of these decision-makers will be essential for future growth and relevance.
 
-[Source: nimdzi.com](https://www.nimdzi.com/localization-provider-brand-awareness-2025-study/?utm_source=rss&utm_medium=rss&utm_campaign=localization-provider-brand-awareness-2025-study)
+Source: [nimdzi.com](https://www.nimdzi.com/localization-provider-brand-awareness-2025-study/?utm_source=rss&utm_medium=rss&utm_campaign=localization-provider-brand-awareness-2025-study)

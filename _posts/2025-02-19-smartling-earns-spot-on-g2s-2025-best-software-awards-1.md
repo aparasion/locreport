@@ -25,4 +25,4 @@ This recognition is significant for the localization and language services indus
 
 For localization professionals, the key takeaway is the increasing value of user-driven feedback in software selection, emphasizing the need to stay informed about the tools that can enhance efficiency and effectiveness in translation management.
 
-[Source: smartling.com](https://www.smartling.com/company-news/smartling-named-2025-best-software-g2)
+Source: [smartling.com](https://www.smartling.com/company-news/smartling-named-2025-best-software-g2)

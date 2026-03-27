@@ -25,4 +25,4 @@ The guide highlights how TM systems integrate with computer-assisted translation
 
 For localization professionals, the key takeaway is the importance of selecting an enterprise-ready TM tool that aligns with their current and future needs. By leveraging advanced TM features and integrations, companies can enhance productivity, maintain quality, and ultimately gain a competitive edge in the rapidly evolving localization landscape.
 
-[Source: xtm.cloud](https://xtm.cloud/blog/translation-memory-software)
+Source: [xtm.cloud](https://xtm.cloud/blog/translation-memory-software)

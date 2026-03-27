@@ -25,4 +25,4 @@ This development highlights a significant trend in the localization industry: th
 
 For localization professionals, the takeaway is clear: as AI technology continues to evolve, integrating human expertise with automated solutions will be crucial in maintaining translation quality and meeting client expectations in an increasingly competitive market.
 
-[Source: techcrunch.com](https://techcrunch.com/2024/09/10/smartcat-secures-43m-for-its-ai-powered-translation-platform)
+Source: [techcrunch.com](https://techcrunch.com/2024/09/10/smartcat-secures-43m-for-its-ai-powered-translation-platform)

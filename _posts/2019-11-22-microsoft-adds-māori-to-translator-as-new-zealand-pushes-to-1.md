@@ -25,4 +25,4 @@ This development highlights the growing role of machine translation technology n
 
 For localization professionals, this case exemplifies the potential of AI-driven tools to support linguistic diversity and cultural heritage, reinforcing the importance of collaboration in language technology projects.
 
-[Source: techcrunch.com](https://techcrunch.com/2019/11/22/microsoft-adds-maori-to-translator-as-new-zealand-pushes-to-revitalize-the-language)
+Source: [techcrunch.com](https://techcrunch.com/2019/11/22/microsoft-adds-maori-to-translator-as-new-zealand-pushes-to-revitalize-the-language)

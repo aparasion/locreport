@@ -18,4 +18,4 @@ Poly's reflections underscore the emotional challenges interpreters face, such a
 
 For localization professionals, Poly’s experiences serve as a reminder of the vital role interpreters play in ensuring effective communication across cultures. To gain further insights into his journey and the realities of interpreting, I recommend reading the full article.
 
-[Source: en-gb.thebigword.com](https://en-gb.thebigword.com/news/interpreter-spotlight-yussuf-poly-somali-swahili-and-english-interpreter)
+Source: [en-gb.thebigword.com](https://en-gb.thebigword.com/news/interpreter-spotlight-yussuf-poly-somali-swahili-and-english-interpreter)

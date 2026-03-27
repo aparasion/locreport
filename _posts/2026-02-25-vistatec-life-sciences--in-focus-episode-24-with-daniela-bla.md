@@ -18,4 +18,4 @@ Blanco's AI platform enables scientists to conduct experiments with minimal data
 
 For localization professionals, Blanco's insights on building intuitive tools and fostering partnerships resonate deeply, as they underscore the importance of user experience in technology adoption. I encourage you to listen to the full podcast episode for a deeper understanding of her impactful journey and the future of AI in scientific research.
 
-[Source: vistatec.com](https://www.vistatec.com/vistatec-life-sciences-in-focus-ep-24-karen-tkaczyk-daniela-blanco)
+Source: [vistatec.com](https://www.vistatec.com/vistatec-life-sciences-in-focus-ep-24-karen-tkaczyk-daniela-blanco)

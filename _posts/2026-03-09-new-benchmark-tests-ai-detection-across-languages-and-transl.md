@@ -18,4 +18,4 @@ This research underscores critical challenges for the localization and language 
 
 For localization professionals, the key takeaway is the necessity of rigorously testing AI systems in the specific languages they will be used in, rather than relying on performance metrics from high-resource languages. I highly recommend exploring the full study for deeper insights into these findings.
 
-[Source: slator.com](https://slator.com/ai-detection-across-languages)
+Source: [slator.com](https://slator.com/ai-detection-across-languages)

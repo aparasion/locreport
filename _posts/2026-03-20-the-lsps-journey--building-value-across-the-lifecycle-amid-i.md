@@ -18,4 +18,4 @@ This initiative is particularly relevant as the language services market evolves
 
 For localization professionals, the key takeaway is the importance of intentional decision-making from the outset, which can significantly impact future growth and market positioning. Engaging in these discussions will equip leaders with the tools to navigate the complexities of the language industry effectively.
 
-[Source: elia-association.org](https://elia-association.org/2026/03/the-lsps-journey-building-value-across-the-lifecycle-amid-industry-transformation/?utm_source=rss&utm_medium=rss&utm_campaign=the-lsps-journey-building-value-across-the-lifecycle-amid-industry-transformation)
+Source: [elia-association.org](https://elia-association.org/2026/03/the-lsps-journey-building-value-across-the-lifecycle-amid-industry-transformation/?utm_source=rss&utm_medium=rss&utm_campaign=the-lsps-journey-building-value-across-the-lifecycle-amid-industry-transformation)

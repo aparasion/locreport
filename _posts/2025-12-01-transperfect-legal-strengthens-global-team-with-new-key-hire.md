@@ -18,4 +18,4 @@ These strategic hires underscore TransPerfect's commitment to expanding its serv
 
 For localization and language services professionals, this development highlights the importance of integrating legal expertise with technology solutions in multilingual contexts. Explore the full story to understand how these changes may impact your work in the industry.
 
-[Source: transperfect.com](https://www.transperfect.com/about/press/transperfect-legal-strengthens-global-team-new-key-hires-seattle-and-dubai)
+Source: [transperfect.com](https://www.transperfect.com/about/press/transperfect-legal-strengthens-global-team-new-key-hires-seattle-and-dubai)

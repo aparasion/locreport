@@ -25,4 +25,4 @@ This shift has significant implications for the localization and language servic
 
 Ultimately, Roncaglia's insights highlight the importance of balancing structured educational frameworks with the adaptability that GenAI offers. Localization experts should consider how to leverage AI's capabilities while maintaining common standards and shared objectives in educational content, fostering a more cohesive and inclusive learning environment.
 
-[Source: imminent.translated.com](https://imminent.translated.com/between-the-architect-and-the-oracle)
+Source: [imminent.translated.com](https://imminent.translated.com/between-the-architect-and-the-oracle)

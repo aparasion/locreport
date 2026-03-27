@@ -18,4 +18,4 @@ This role is significant for the localization and language services industry as 
 
 For professionals in the localization sector, this opportunity highlights the growing demand for strategic roles that bridge sales and operational capabilities. If you're interested in learning more about this position and its implications for the industry, I recommend checking out the full article linked above.
 
-[Source: gala-global.org](https://www.gala-global.org/news/acolad-is-seeking-a-pre-sales-manager-for-interpreting-solutions)
+Source: [gala-global.org](https://www.gala-global.org/news/acolad-is-seeking-a-pre-sales-manager-for-interpreting-solutions)

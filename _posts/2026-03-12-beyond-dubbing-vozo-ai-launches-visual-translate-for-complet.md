@@ -18,4 +18,4 @@ The launch of Visual Translate is significant for the localization and language 
 
 For localization professionals, the introduction of Visual Translate presents an opportunity to leverage cutting-edge tools that can enhance productivity and improve the quality of localized content. I encourage you to read the full article to explore how this innovation could impact your localization strategies.
 
-[Source: news.google.com](https://news.google.com/rss/articles/CBMi0wFBVV95cUxNOFBQdVNZSG9fN19TZjJ2N3JRQW10TmtHTUMxcmVmdVJMOUY5OXB0WVhEbFlJWm1Mc3JFenVmU3REZ2Y4TGhOM1RqZ2l5WTJTNzZQUjh1MTdCLUpVcm44eU9ITUVVbm1tUG1MUVRuUmpBNGRWWlFqRXZvdmVKLThTT3dyTHAwZWJ3WFlRaGI5Z0V4Y0FQcjhyeWllNFAxWjk1UlBGd1FMdHBzd2RhOTZrc01SZUN6aGlhOGFjeTc5V0x6V3JTZnF2NTBfcmJncjlIWF9z?oc=5)
+Source: [news.google.com](https://news.google.com/rss/articles/CBMi0wFBVV95cUxNOFBQdVNZSG9fN19TZjJ2N3JRQW10TmtHTUMxcmVmdVJMOUY5OXB0WVhEbFlJWm1Mc3JFenVmU3REZ2Y4TGhOM1RqZ2l5WTJTNzZQUjh1MTdCLUpVcm44eU9ITUVVbm1tUG1MUVRuUmpBNGRWWlFqRXZvdmVKLThTT3dyTHAwZWJ3WFlRaGI5Z0V4Y0FQcjhyeWllNFAxWjk1UlBGd1FMdHBzd2RhOTZrc01SZUN6aGlhOGFjeTc5V0x6V3JTZnF2NTBfcmJncjlIWF9z?oc=5)

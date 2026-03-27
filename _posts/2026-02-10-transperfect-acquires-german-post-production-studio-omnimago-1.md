@@ -25,4 +25,4 @@ The integration of Omnimago into TransPerfect Media is significant for the local
 
 For localization professionals, this acquisition underscores the importance of partnerships that enhance service offerings and expand geographic reach. As the industry evolves, staying informed about such strategic moves can provide valuable insights into emerging trends and opportunities for collaboration.
 
-[Source: transperfect.com](https://www.transperfect.com/about/press/transperfect-acquires-german-post-production-studio-omnimago)
+Source: [transperfect.com](https://www.transperfect.com/about/press/transperfect-acquires-german-post-production-studio-omnimago)

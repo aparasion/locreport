@@ -18,4 +18,4 @@ The need for meticulous TM management is underscored by the potential pitfalls o
 
 For localization professionals, the takeaway is clear: a proactive focus on TM cleanliness can mitigate risks and enhance project outcomes. I recommend checking out the full article for deeper insights into best practices for managing TMs in life sciences.
 
-[Source: vistatec.com](https://www.vistatec.com/why-clean-translation-memories-are-critical-in-life-sciences)
+Source: [vistatec.com](https://www.vistatec.com/why-clean-translation-memories-are-critical-in-life-sciences)

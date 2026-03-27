@@ -25,4 +25,4 @@ This development underscores a growing trend in the localization and language se
 
 Localization professionals should take note of this trend, as it suggests a potential pivot in client expectations and service offerings. Emphasizing technology-driven solutions and expanding service portfolios may be essential for staying competitive in this evolving landscape.
 
-[Source: transperfect.com](https://www.transperfect.com/about/press/slator-transperfect-posts-7-growth-in-2025)
+Source: [transperfect.com](https://www.transperfect.com/about/press/slator-transperfect-posts-7-growth-in-2025)

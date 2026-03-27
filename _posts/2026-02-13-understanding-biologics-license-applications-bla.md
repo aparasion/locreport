@@ -18,4 +18,4 @@ This emphasis on accurate translation and localization is crucial, as poor trans
 
 For localization professionals, the takeaway is clear: investing in accurate and compliant documentation can significantly streamline the BLA process and reduce the risk of regulatory setbacks. I recommend reading the full article for a deeper understanding of the BLA submission process and the role of translation in achieving compliance.
 
-[Source: ecinnovations.com](https://www.ecinnovations.com/blog/biologics-license-applications-bla)
+Source: [ecinnovations.com](https://www.ecinnovations.com/blog/biologics-license-applications-bla)

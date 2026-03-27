@@ -18,4 +18,4 @@ For localization professionals, these certifications highlight the increasing im
 
 This development serves as a reminder of the necessity for language service providers to adopt robust quality frameworks to meet the demands of regulated markets. For a deeper dive into Ciklopea’s achievements and their implications for the industry, I recommend checking out the full article.
 
-[Source: gala-global.org](https://www.gala-global.org/news/ciklopea-achieves-iso-13485-certification)
+Source: [gala-global.org](https://www.gala-global.org/news/ciklopea-achieves-iso-13485-certification)

@@ -25,4 +25,4 @@ For localization professionals, the event underscored the importance of multilin
 
 The key takeaway is that as the technology landscape evolves, localization must be embedded in the development process. Vistatec’s approach combines language expertise with AI-driven workflows, ensuring that organizations can scale internationally while maintaining quality and regulatory compliance.
 
-[Source: vistatec.com](https://www.vistatec.com/vistatec-at-mwc-barcelona-2026)
+Source: [vistatec.com](https://www.vistatec.com/vistatec-at-mwc-barcelona-2026)

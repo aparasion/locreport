@@ -25,4 +25,4 @@ This development underscores the increasing importance of corporate philanthropy
 
 For localization professionals, this serves as a reminder of the potential for team-building and brand enhancement through community initiatives, encouraging companies to engage their employees in meaningful ways that extend beyond the workplace.
 
-[Source: transperfect.com](https://www.transperfect.com/about/press/transperfect-raises-more-90k-toys-tots)
+Source: [transperfect.com](https://www.transperfect.com/about/press/transperfect-raises-more-90k-toys-tots)

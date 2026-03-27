@@ -18,4 +18,4 @@ This reframing is crucial as companies increasingly leverage AI and aim for rapi
 
 For localization professionals, the key takeaway is to prioritize clarity over volume, engage proactively, and tailor quality efforts to context. This strategic mindset will position localization teams as essential players in achieving business success. For more insights, I recommend checking out the full discussion in the original article.
 
-[Source: phrase.com](https://phrase.com/blog/posts/how-localization-leaders-are-redefining-their-role)
+Source: [phrase.com](https://phrase.com/blog/posts/how-localization-leaders-are-redefining-their-role)

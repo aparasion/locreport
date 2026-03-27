@@ -25,4 +25,4 @@ This funding is significant for the localization and language services industry 
 
 Localization professionals should take note of this development as it signals a shift toward larger, tech-savvy players in the market, potentially influencing competitive dynamics and service offerings in the industry.
 
-[Source: techcrunch.com](https://techcrunch.com/2021/04/09/softbank-vision-fund-2-invests-160m-in-media-localization-provider-iyuno-sdi-group)
+Source: [techcrunch.com](https://techcrunch.com/2021/04/09/softbank-vision-fund-2-invests-160m-in-media-localization-provider-iyuno-sdi-group)

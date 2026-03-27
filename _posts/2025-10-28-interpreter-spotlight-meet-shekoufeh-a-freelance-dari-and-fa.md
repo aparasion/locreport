@@ -18,4 +18,4 @@ Her insights shed light on the evolving challenges interpreters face, including 
 
 For localization and language services professionals, Nejad’s experiences underline the necessity of understanding the nuanced demands of interpreting work. Her journey serves as a reminder of the profound impact language access can have, making it essential for industry stakeholders to recognize and support the vital role of interpreters. I highly recommend reading the full article for a deeper dive into these important themes.
 
-[Source: en-gb.thebigword.com](https://en-gb.thebigword.com/news/interpreter-spotlight-shekoufeh-freelance-dari-and-farsi-interpreter)
+Source: [en-gb.thebigword.com](https://en-gb.thebigword.com/news/interpreter-spotlight-shekoufeh-freelance-dari-and-farsi-interpreter)

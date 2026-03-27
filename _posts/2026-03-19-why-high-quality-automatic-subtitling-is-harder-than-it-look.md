@@ -18,4 +18,4 @@ For localization and language services professionals, understanding the nuances 
 
 The key takeaway is that producing high-quality subtitles is a multifaceted challenge that requires expertise in speech recognition, linguistics, and typography. For a deeper dive into the intricacies of automatic subtitling and its implications for our industry, I highly recommend exploring the full article.
 
-[Source: phrase.com](https://phrase.com/blog/posts/why-high-quality-automatic-subtitling-is-harder-than-it-looks)
+Source: [phrase.com](https://phrase.com/blog/posts/why-high-quality-automatic-subtitling-is-harder-than-it-looks)

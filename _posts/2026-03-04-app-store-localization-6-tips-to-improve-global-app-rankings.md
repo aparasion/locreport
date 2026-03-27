@@ -18,4 +18,4 @@ For localization and language services professionals, this trend emphasizes the 
 
 To stay competitive, localization experts must prioritize app store localization as a core component of their strategies. For a deeper dive into actionable tips and insights, I highly recommend checking out the full article.
 
-[Source: ecinnovations.com](https://www.ecinnovations.com/blog/app-store-localization)
+Source: [ecinnovations.com](https://www.ecinnovations.com/blog/app-store-localization)

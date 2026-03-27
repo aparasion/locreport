@@ -25,4 +25,4 @@ The VCC automates video creation by directly ingesting structured content from s
 
 For localization professionals, the key takeaway is the potential for significant operational efficiency gains. By adopting automated video workflows, teams can enhance user experience and compliance while reducing costs and production timelines, ultimately enabling faster global releases.
 
-[Source: xtm.ai](https://xtm.ai/blog/turn-technical-documentation-into-multilingual-videos)
+Source: [xtm.ai](https://xtm.ai/blog/turn-technical-documentation-into-multilingual-videos)

@@ -25,4 +25,4 @@ This shift underscores the growing prominence of women in leadership roles withi
 
 For localization professionals, this trend signals the importance of fostering inclusive leadership and mentorship within their organizations, which can drive both business success and industry evolution.
 
-[Source: nimdzi.com](https://www.nimdzi.com/international-womens-day-2026/?utm_source=rss&utm_medium=rss&utm_campaign=international-womens-day-2026)
+Source: [nimdzi.com](https://www.nimdzi.com/international-womens-day-2026/?utm_source=rss&utm_medium=rss&utm_campaign=international-womens-day-2026)

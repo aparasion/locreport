@@ -25,4 +25,4 @@ This guide is particularly relevant as organizations increasingly seek to optimi
 
 Localization professionals should consider investing in a tailored mix of these technologies to build a cohesive workflow that meets their specific needs. Embracing these tools can lead to more efficient project management and ultimately drive better business outcomes in the competitive landscape of global communication.
 
-[Source: xtm.cloud](https://xtm.cloud/blog/best-software-for-translators)
+Source: [xtm.cloud](https://xtm.cloud/blog/best-software-for-translators)

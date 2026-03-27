@@ -18,4 +18,4 @@ This recognition is significant for the localization and language services indus
 
 For localization professionals, VistatecSpeech exemplifies how AI can enhance efficiency while maintaining quality and human oversight. I encourage you to read the full article to explore the implications of this innovation for your own workflows and strategies.
 
-[Source: vistatec.com](https://www.vistatec.com/vistatec-named-top-finalist-for-boldest-ai-at-the-2026-bold-awards)
+Source: [vistatec.com](https://www.vistatec.com/vistatec-named-top-finalist-for-boldest-ai-at-the-2026-bold-awards)

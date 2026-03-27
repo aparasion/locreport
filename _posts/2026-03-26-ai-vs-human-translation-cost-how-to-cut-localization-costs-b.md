@@ -25,4 +25,4 @@ This transformation is significant for the localization industry as it redefines
 
 The key takeaway for localization teams is to embrace AI orchestration to significantly cut costs and improve efficiency. By grounding AI translations in structured context and leveraging automated workflows, organizations can maintain high-quality multilingual content while minimizing the burden of manual oversight.
 
-[Source: lokalise.com](https://lokalise.com/blog/translation-cost-human-vs-ai-orchestration)
+Source: [lokalise.com](https://lokalise.com/blog/translation-cost-human-vs-ai-orchestration)

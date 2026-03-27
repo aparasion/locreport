@@ -25,4 +25,4 @@ For localization professionals, this award signifies a pivotal shift in how AI c
 
 The key takeaway for industry professionals is the validation of a human-guided AI approach, which balances speed with accountability, setting a new standard for quality in enterprise localization.
 
-[Source: vistatec.com](https://www.vistatec.com/vistatec-ai-wins-2026-artificial-intelligence-excellence-award)
+Source: [vistatec.com](https://www.vistatec.com/vistatec-ai-wins-2026-artificial-intelligence-excellence-award)

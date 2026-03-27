@@ -18,4 +18,4 @@ The significance of MTPE lies in its adaptability to various content types, from
 
 For localization professionals, understanding the nuances between light and full post-editing is essential for crafting effective workflows. This article provides valuable insights into optimizing MTPE practices, and I highly recommend exploring it further for a deeper understanding of these emerging trends.
 
-[Source: phrase.com](https://phrase.com/blog/posts/machine-translation-post-editing)
+Source: [phrase.com](https://phrase.com/blog/posts/machine-translation-post-editing)

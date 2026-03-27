@@ -25,4 +25,4 @@ This comprehensive approach not only enhances communication for non-English spea
 
 For localization professionals, New Jersey’s framework signals a shift toward data-driven decision-making in language access, paving the way for scalable solutions that meet compliance requirements. Understanding these developments can help vendors anticipate procurement opportunities and align their services with evolving state mandates.
 
-[Source: languageline.com](https://www.languageline.com/blog/analysis-new-jersey-treats-language-access-as-infrastructure-not-a-courtesy)
+Source: [languageline.com](https://www.languageline.com/blog/analysis-new-jersey-treats-language-access-as-infrastructure-not-a-courtesy)

@@ -25,4 +25,4 @@ The panel discussed how a shared Solutions Architect role between Argos and Phra
 
 For localization professionals, embracing ecosystem partnerships can significantly enhance operational capacity and efficiency. By leveraging the strengths of multiple vendors, teams can focus on strategic objectives rather than getting mired in logistical challenges.
 
-[Source: phrase.com](https://phrase.com/blog/posts/localization-ecosystems-vs-traditional-vendor-models)
+Source: [phrase.com](https://phrase.com/blog/posts/localization-ecosystems-vs-traditional-vendor-models)

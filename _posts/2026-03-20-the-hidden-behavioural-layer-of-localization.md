@@ -18,4 +18,4 @@ This insight is particularly relevant for localization professionals, as it shif
 
 For localization experts, the takeaway is clear: effective digital marketing requires more than translation; it demands a deep understanding of cultural context and behavioral design. I encourage you to explore the full article for practical frameworks that can elevate your international messaging strategies.
 
-[Source: vistatec.com](https://www.vistatec.com/the-hidden-behavioural-layer-of-localization)
+Source: [vistatec.com](https://www.vistatec.com/the-hidden-behavioural-layer-of-localization)

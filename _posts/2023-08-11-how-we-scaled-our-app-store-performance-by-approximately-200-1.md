@@ -25,4 +25,4 @@ For localization and language services professionals, the implications of this s
 
 A key takeaway for industry professionals is the necessity of continuous iteration and learning from both successes and mistakes in ASO/ASA efforts. Embracing this iterative process can lead to significant improvements in app performance and user engagement across diverse markets.
 
-[Source: techcrunch.com](https://techcrunch.com/2023/08/11/how-we-scaled-our-app-store-performance-by-approximately-200-in-1-year)
+Source: [techcrunch.com](https://techcrunch.com/2023/08/11/how-we-scaled-our-app-store-performance-by-approximately-200-in-1-year)

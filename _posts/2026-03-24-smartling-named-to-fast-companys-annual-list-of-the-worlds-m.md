@@ -25,4 +25,4 @@ The implications for the localization and language services industry are profoun
 
 As Smartling prepares to launch its Linguistic Quality Assurance Agent in Q2, localization teams can expect even greater efficiency and quality assurance in their AI translation workflows, making it essential for professionals to stay informed about these advancements.
 
-[Source: smartling.com](https://www.smartling.com/company-news/smartling-named-fast-companys-most-innovative-companies-of-2026)
+Source: [smartling.com](https://www.smartling.com/company-news/smartling-named-fast-companys-most-innovative-companies-of-2026)

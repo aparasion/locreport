@@ -18,4 +18,4 @@ This transition highlights a significant trend in the localization industry: the
 
 For localization professionals, the key takeaway is the importance of engineering trust in AI systems while retaining human oversight for quality assurance. I highly recommend checking out the full podcast episode for a deeper dive into their innovative strategies.
 
-[Source: crowdin.com](https://crowdin.com/blog/agile-localization-podcast-with-putri-kumala-and-arshaad-mohiadeen)
+Source: [crowdin.com](https://crowdin.com/blog/agile-localization-podcast-with-putri-kumala-and-arshaad-mohiadeen)

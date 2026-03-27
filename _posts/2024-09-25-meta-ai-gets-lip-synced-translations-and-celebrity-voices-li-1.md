@@ -25,4 +25,4 @@ This development is significant for the localization and language services indus
 
 Localization teams should keep an eye on Meta’s advancements, particularly the potential for voice translation in social media, as it may reshape how brands communicate in multilingual markets.
 
-[Source: techcrunch.com](https://techcrunch.com/2024/09/25/meta-ai-gets-lip-synced-translations-and-celebrity-voices-like-judi-dench-and-john-cena)
+Source: [techcrunch.com](https://techcrunch.com/2024/09/25/meta-ai-gets-lip-synced-translations-and-celebrity-voices-like-judi-dench-and-john-cena)

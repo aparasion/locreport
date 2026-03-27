@@ -18,4 +18,4 @@ This acquisition is significant for the localization and language services indus
 
 For localization professionals, this partnership signals an opportunity to leverage enhanced capabilities in film and media projects. I encourage you to read the full article for deeper insights into how this acquisition could impact your work in the industry.
 
-[Source: transperfect.com](https://www.transperfect.com/about/press/transperfect-acquires-german-post-production-studio-omnimago)
+Source: [transperfect.com](https://www.transperfect.com/about/press/transperfect-acquires-german-post-production-studio-omnimago)

@@ -18,4 +18,4 @@ This recognition is crucial for the localization and language services industry,
 
 For localization professionals, the takeaway is clear: leveraging award-winning technologies like GlobalLink can significantly enhance workflow efficiency and client satisfaction. I encourage you to delve deeper into the details of this achievement by exploring the full story at the original source.
 
-[Source: transperfect.com](https://www.transperfect.com/about/press/transperfects-globallink-technology-honored-13-categories-g2s-winter-2026-report)
+Source: [transperfect.com](https://www.transperfect.com/about/press/transperfects-globallink-technology-honored-13-categories-g2s-winter-2026-report)

@@ -25,4 +25,4 @@ The study benchmarks eight leading large language models (LLMs) across various t
 
 Ultimately, the findings suggest that while synthetic data generation is becoming more viable across diverse languages, human expertise remains essential. The interplay between model outputs and human oversight will shape future workflows, reinforcing the idea that high-quality human data is indispensable for effective AI deployment in localization efforts.
 
-[Source: slator.com](https://slator.com/llms-multilingual-synthetic-data)
+Source: [slator.com](https://slator.com/llms-multilingual-synthetic-data)

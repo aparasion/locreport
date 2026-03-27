@@ -25,4 +25,4 @@ This development is significant for the localization and language services indus
 
 Localization professionals should consider the implications of DeepL Voice for their workflows, particularly in sectors where real-time communication is essential. As AI-driven translation services evolve, staying informed about these advancements will be crucial for maintaining competitive advantage in the industry.
 
-[Source: techcrunch.com](https://techcrunch.com/2024/11/13/deepl-launches-deepl-voice-real-time-text-based-translations-from-voices-and-videos)
+Source: [techcrunch.com](https://techcrunch.com/2024/11/13/deepl-launches-deepl-voice-real-time-text-based-translations-from-voices-and-videos)

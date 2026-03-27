@@ -25,4 +25,4 @@ The G2 award is significant for the localization and language services industry 
 
 For localization professionals, this recognition serves as a reminder of the critical role AI plays in transforming workflows, enabling teams to meet global demands more effectively and efficiently.
 
-[Source: smartling.com](https://www.smartling.com/company-news/smartling-named-g2s-2026-best-software-for-content-management)
+Source: [smartling.com](https://www.smartling.com/company-news/smartling-named-g2s-2026-best-software-for-content-management)

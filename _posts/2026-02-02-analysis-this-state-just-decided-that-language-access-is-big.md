@@ -18,4 +18,4 @@ This initiative matters significantly for the localization and language services
 
 For localization professionals, understanding New Jersey’s model is crucial as it may serve as a template for other states. The implications extend beyond compliance; they redefine operational efficiency and create a framework for data-driven decision-making in language access. I encourage you to read the full article to explore how this initiative could influence your strategies and opportunities in the industry.
 
-[Source: languageline.com](https://www.languageline.com/blog/analysis-new-jersey-treats-language-access-as-infrastructure-not-a-courtesy)
+Source: [languageline.com](https://www.languageline.com/blog/analysis-new-jersey-treats-language-access-as-infrastructure-not-a-courtesy)

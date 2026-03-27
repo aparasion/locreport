@@ -18,4 +18,4 @@ Ignoring language gaps in AI strategies can have far-reaching consequences, impa
 
 To mitigate these risks, healthcare leaders should prioritize integrating communication integrity into their AI governance frameworks. This approach will ensure that multilingual encounters are accurately captured and utilized, fostering safer and more effective healthcare delivery. For a deeper dive into these critical insights, I recommend checking out the full article.
 
-[Source: languageline.com](https://www.languageline.com/blog/embedded-ehr-ai-where-language-access-becomes-a-clinical-risk-variable)
+Source: [languageline.com](https://www.languageline.com/blog/embedded-ehr-ai-where-language-access-becomes-a-clinical-risk-variable)

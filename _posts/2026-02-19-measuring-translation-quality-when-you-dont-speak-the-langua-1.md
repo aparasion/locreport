@@ -25,4 +25,4 @@ This development is significant for the localization and language services indus
 
 For localization professionals, the key takeaway is the importance of integrating tools that enhance visibility and efficiency in translation workflows. By leveraging automated systems like DatoCMS and Crowdin, teams can maintain quality and consistency, ultimately leading to better user experiences across diverse markets.
 
-[Source: crowdin.com](https://crowdin.com/blog/translation-quality-without-speaking-language)
+Source: [crowdin.com](https://crowdin.com/blog/translation-quality-without-speaking-language)
