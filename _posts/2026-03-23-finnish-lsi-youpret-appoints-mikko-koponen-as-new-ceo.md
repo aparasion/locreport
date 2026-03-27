@@ -18,4 +18,4 @@ This transition signals a significant shift for Youpret as it aims to leverage K
 
 Localization professionals should take note of Youpret's strategic direction, as it highlights the growing importance of combining technology with human insight in language services, setting a precedent for future industry developments.
 
-[Source: slator.com](https://slator.com/youpret-mikko-koponen-new-ceo)
+Source: [slator.com](https://slator.com/youpret-mikko-koponen-new-ceo)

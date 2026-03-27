@@ -18,4 +18,4 @@ For localization professionals, the implications are profound. OMT's specialized
 
 As the industry moves towards more effective multilingual workflows, the introduction of OMT highlights the need for continuous innovation in translation technology. For a deeper dive into Meta's approach and its potential impact on the localization landscape, I highly recommend exploring the full article.
 
-[Source: slator.com](https://slator.com/meta-1600-languages-ai-translation)
+Source: [slator.com](https://slator.com/meta-1600-languages-ai-translation)

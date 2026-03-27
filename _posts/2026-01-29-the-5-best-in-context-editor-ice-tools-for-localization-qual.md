@@ -18,4 +18,4 @@ The significance of this development lies in its potential to eliminate context 
 
 For localization professionals, the key takeaway is the importance of adopting effective ICE tools to streamline workflows and improve translation quality. To dive deeper into the features and comparisons of various ICE tools, I highly recommend checking out the full article.
 
-[Source: lokalise.com](https://lokalise.com/blog/in-context-editor-tools)
+Source: [lokalise.com](https://lokalise.com/blog/in-context-editor-tools)

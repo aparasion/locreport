@@ -18,4 +18,4 @@ Effective SaaS localization involves more than just translation; it requires ada
 
 For localization professionals, the key takeaway is that investing in comprehensive SaaS localization strategies is no longer optional but a necessity for long-term success. I encourage you to read the full article for deeper insights and actionable strategies on this critical topic.
 
-[Source: ecinnovations.com](https://www.ecinnovations.com/blog/saas-localization)
+Source: [ecinnovations.com](https://www.ecinnovations.com/blog/saas-localization)

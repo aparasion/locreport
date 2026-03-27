@@ -18,4 +18,4 @@ For localization and language services professionals, these developments undersc
 
 To gain deeper insights into how these financial dynamics could influence your industry, I recommend exploring the full article for a comprehensive analysis.
 
-[Source: markets.businessinsider.com](https://markets.businessinsider.com)
+Source: [markets.businessinsider.com](https://markets.businessinsider.com)

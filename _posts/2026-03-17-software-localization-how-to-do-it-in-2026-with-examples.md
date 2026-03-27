@@ -18,4 +18,4 @@ This shift is crucial for the localization and language services industry, as tr
 
 For localization professionals, the key takeaway is the importance of adopting a parallel workflow model to streamline processes and improve product quality. I highly recommend exploring the full article for deeper insights into these transformative strategies.
 
-[Source: xtm.ai](https://xtm.ai/blog/software-localization)
+Source: [xtm.ai](https://xtm.ai/blog/software-localization)

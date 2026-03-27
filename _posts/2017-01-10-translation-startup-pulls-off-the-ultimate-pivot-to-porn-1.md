@@ -25,4 +25,4 @@ This development highlights a growing trend in the localization industry toward 
 
 For localization professionals, this case serves as a reminder of the potential for growth in specialized sectors. Embracing niche markets can lead to significant business opportunities, particularly when combined with innovative technology solutions that enhance client engagement and streamline processes.
 
-[Source: techcrunch.com](https://techcrunch.com/2017/01/10/translation-startup-pulls-off-the-ultimate-pivot-to-porn)
+Source: [techcrunch.com](https://techcrunch.com/2017/01/10/translation-startup-pulls-off-the-ultimate-pivot-to-porn)

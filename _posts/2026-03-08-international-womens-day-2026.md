@@ -18,4 +18,4 @@ These developments underscore a broader trend of female leadership in the locali
 
 For localization professionals, this evolving landscape presents opportunities for collaboration and growth. I encourage you to dive deeper into the full story to understand the implications of these leadership changes.
 
-[Source: nimdzi.com](https://www.nimdzi.com/international-womens-day-2026/?utm_source=rss&utm_medium=rss&utm_campaign=international-womens-day-2026)
+Source: [nimdzi.com](https://www.nimdzi.com/international-womens-day-2026/?utm_source=rss&utm_medium=rss&utm_campaign=international-womens-day-2026)

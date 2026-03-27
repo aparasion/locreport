@@ -25,4 +25,4 @@ This trend signifies a structural transformation in how governments prioritize m
 
 For localization professionals, this evolving landscape presents an opportunity to engage with government entities that are increasingly seeking robust language service partnerships. As states and localities formalize their language access commitments, there is a growing demand for expertise in providing comprehensive, scalable language solutions.
 
-[Source: languageline.com](https://www.languageline.com/blog/why-state-and-local-language-access-policies-have-grown-50-since-2020)
+Source: [languageline.com](https://www.languageline.com/blog/why-state-and-local-language-access-policies-have-grown-50-since-2020)

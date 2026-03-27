@@ -18,4 +18,4 @@ This perspective is particularly relevant for localization professionals, as it 
 
 For industry leaders, Braun’s insights underscore the importance of investing in localization early and empowering local experts to adapt content meaningfully. This approach fosters a sense of belonging among users and ultimately strengthens brand trust. I highly recommend checking out the full podcast episode to explore these ideas in greater depth.
 
-[Source: phrase.com](https://phrase.com/blog/posts/designing-trust-fintech-global-localization-strategy)
+Source: [phrase.com](https://phrase.com/blog/posts/designing-trust-fintech-global-localization-strategy)

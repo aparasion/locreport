@@ -18,4 +18,4 @@ This trend underscores the importance of adopting AI technologies in the localiz
 
 For localization professionals, this presents an opportunity to leverage AI technologies to streamline workflows and improve service offerings. Embracing these advancements will be essential for staying relevant in a rapidly evolving market landscape.
 
-[Source: precedenceresearch.com](https://www.precedenceresearch.com)
+Source: [precedenceresearch.com](https://www.precedenceresearch.com)

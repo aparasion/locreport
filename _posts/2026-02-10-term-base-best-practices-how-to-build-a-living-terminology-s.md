@@ -18,4 +18,4 @@ The article underscores the operational advantages of a term base, particularly 
 
 For localization professionals, the takeaway is clear: transitioning from a glossary to a term base can enhance quality and efficiency, particularly in multi-team and multi-language scenarios. I recommend diving into the full article for a deeper understanding of these concepts and their implications for your workflows.
 
-[Source: lokalise.com](https://lokalise.com/blog/term-base)
+Source: [lokalise.com](https://lokalise.com/blog/term-base)

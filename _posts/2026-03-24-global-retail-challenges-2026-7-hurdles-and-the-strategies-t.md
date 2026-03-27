@@ -25,4 +25,4 @@ As retailers face competition from direct-to-consumer brands, they must leverage
 
 For localization professionals, the takeaway is clear: effective localization strategies are not just beneficial but essential for retailers aiming to thrive in volatile markets. Tailoring communications and operational responses to regional contexts can significantly enhance brand resilience and customer trust.
 
-[Source: phrase.com](https://phrase.com/blog/posts/global-retail-challenges-2026)
+Source: [phrase.com](https://phrase.com/blog/posts/global-retail-challenges-2026)

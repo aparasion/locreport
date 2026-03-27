@@ -18,4 +18,4 @@ For localization and language services professionals, the article highlights the
 
 Ultimately, the article underscores that effective communication and precise localization are vital for regulatory confidence and expedited review processes. For a deeper dive into best practices for IND submissions, I highly recommend checking out the full article.
 
-[Source: ecinnovations.com](https://www.ecinnovations.com/blog/ind-submission)
+Source: [ecinnovations.com](https://www.ecinnovations.com/blog/ind-submission)

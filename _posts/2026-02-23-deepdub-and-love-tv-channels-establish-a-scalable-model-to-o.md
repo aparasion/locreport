@@ -18,4 +18,4 @@ This development is particularly relevant for the localization and language serv
 
 For localization professionals, this is a timely reminder to stay informed about evolving regulations that could affect employee relations and operational workflows. I recommend checking out the full article for a deeper dive into these tax changes and their implications for your business.
 
-[Source: finance.yahoo.com](https://finance.yahoo.com)
+Source: [finance.yahoo.com](https://finance.yahoo.com)

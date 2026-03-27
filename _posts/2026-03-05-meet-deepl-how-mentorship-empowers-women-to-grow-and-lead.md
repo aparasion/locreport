@@ -25,4 +25,4 @@ The significance of mentorship in the localization and language services industr
 
 The key takeaway for localization professionals is to actively engage in mentorship, both as mentors and mentees. This practice not only strengthens individual capabilities but also contributes to a more resilient and inclusive industry, ultimately leading to greater innovation and growth.
 
-[Source: deepl.com](https://www.deepl.com/en/blog/meet-deepl-atrayee-de)
+Source: [deepl.com](https://www.deepl.com/en/blog/meet-deepl-atrayee-de)

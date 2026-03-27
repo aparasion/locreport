@@ -25,4 +25,4 @@ WGE distinguishes itself through its Synergistic Client Collaboration model, whi
 
 One key takeaway is the growing necessity for a hybrid approach in translation, combining AI efficiencies with the irreplaceable insights of human linguists. As the industry evolves, this balance will be vital for meeting the complex demands of specialized fields like legal and medical translation.
 
-[Source: elia-association.org](https://elia-association.org/2026/02/the-voices-behind-the-words-member-spotlight-with-julia-goncharik-from-world-global-eyes/?utm_source=rss&utm_medium=rss&utm_campaign=the-voices-behind-the-words-member-spotlight-with-julia-goncharik-from-world-global-eyes)
+Source: [elia-association.org](https://elia-association.org/2026/02/the-voices-behind-the-words-member-spotlight-with-julia-goncharik-from-world-global-eyes/?utm_source=rss&utm_medium=rss&utm_campaign=the-voices-behind-the-words-member-spotlight-with-julia-goncharik-from-world-global-eyes)

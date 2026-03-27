@@ -25,4 +25,4 @@ The benefits of effective localization are clear: it increases discoverability i
 
 For localization professionals, the key takeaway is to prioritize localization early in the development cycle. By leveraging the right tools and strategies, such as using context-rich strings and thorough testing processes, studios can avoid pitfalls and ensure their games resonate with players worldwide.
 
-[Source: xtm.cloud](https://xtm.cloud/blog/gaming-localization)
+Source: [xtm.cloud](https://xtm.cloud/blog/gaming-localization)

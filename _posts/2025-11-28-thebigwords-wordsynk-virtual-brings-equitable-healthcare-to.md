@@ -18,4 +18,4 @@ This development is crucial for the localization and language services industry,
 
 For localization professionals, the success of WordSynk Virtual underscores the importance of integrating language access into service delivery models. I encourage you to read the full article to explore how this platform is transforming patient care and setting benchmarks for future innovations.
 
-[Source: en-gb.thebigword.com](https://en-gb.thebigword.com/news/thebigwords-wordsynk-virtual-brings-equitable-healthcare-to-millions-of-patients)
+Source: [en-gb.thebigword.com](https://en-gb.thebigword.com/news/thebigwords-wordsynk-virtual-brings-equitable-healthcare-to-millions-of-patients)

@@ -18,4 +18,4 @@ This conversation highlights the growing importance of culturally sensitive tech
 
 For localization professionals, Ahlya serves as a compelling case study in how thoughtful design and cultural awareness can drive user engagement. I recommend diving into the full conversation to explore the nuances of building technology that truly serves its audience.
 
-[Source: vistatec.com](https://www.vistatec.com/ai-and-the-future-of-womens-health-with-lynda-wilkes-green-vistatalks-ep-189)
+Source: [vistatec.com](https://www.vistatec.com/ai-and-the-future-of-womens-health-with-lynda-wilkes-green-vistatalks-ep-189)

@@ -18,4 +18,4 @@ The report underscores the shortcomings of current language technology in school
 
 For localization professionals, this highlights the urgent need for improved language technology and educational resources to support Norwegian language standards. I recommend checking out the full article for a deeper understanding of these critical issues.
 
-[Source: slator.com](https://slator.com/norwegian-language-preservation)
+Source: [slator.com](https://slator.com/norwegian-language-preservation)

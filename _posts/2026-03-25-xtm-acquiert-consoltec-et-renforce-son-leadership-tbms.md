@@ -25,4 +25,4 @@ This acquisition is significant as it addresses the growing demand for rapid, hi
 
 For localization professionals, this development highlights the increasing importance of integrated solutions that can adapt to complex operational needs while ensuring compliance and security. The synergy between XTM and Consoltec could set a new standard for TBMS offerings, making it essential for LSPs to stay informed about these advancements to remain competitive.
 
-[Source: xtm.cloud](https://xtm.cloud/blog/fr-ca-xtm-acquiert-consoltec)
+Source: [xtm.cloud](https://xtm.cloud/blog/fr-ca-xtm-acquiert-consoltec)

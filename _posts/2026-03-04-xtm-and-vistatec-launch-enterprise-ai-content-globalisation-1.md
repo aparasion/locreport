@@ -18,4 +18,4 @@ This partnership addresses a critical need in the localization industry: the cha
 
 For localization professionals, this collaboration represents a significant step towards operational maturity in AI-driven workflows. I encourage you to explore the full details of this partnership for insights into how it can enhance your global content strategy.
 
-[Source: vistatec.com](https://www.vistatec.com/xtm-and-vistatec-launch-enterprise-ai-content-globalisation-partnership)
+Source: [vistatec.com](https://www.vistatec.com/xtm-and-vistatec-launch-enterprise-ai-content-globalisation-partnership)

@@ -25,4 +25,4 @@ The integration of TBU into EasyTranslate’s LangOps infrastructure will transf
 
 Localization professionals should note that this acquisition exemplifies a growing trend of integrating AI technology into traditional language services, potentially reshaping workflows and client interactions across the industry.
 
-[Source: slator.com](https://slator.com/denmarks-easytranslate-acquires-translated-by-us)
+Source: [slator.com](https://slator.com/denmarks-easytranslate-acquires-translated-by-us)

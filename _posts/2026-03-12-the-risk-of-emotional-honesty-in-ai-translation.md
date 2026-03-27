@@ -25,4 +25,4 @@ This discussion is particularly relevant for localization and language services 
 
 The key takeaway for industry professionals is the necessity of critically evaluating AI-generated translations, considering not only linguistic accuracy but also the broader contextual implications that could influence public perception and international relations.
 
-[Source: imminent.translated.com](https://imminent.translated.com/the-risk-of-emotional-honesty-in-ai-translation)
+Source: [imminent.translated.com](https://imminent.translated.com/the-risk-of-emotional-honesty-in-ai-translation)

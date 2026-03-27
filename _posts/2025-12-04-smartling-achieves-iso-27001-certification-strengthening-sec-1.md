@@ -25,4 +25,4 @@ The ISO 27001 certification not only enhances Smartling's credibility but also a
 
 For localization professionals, Smartling's achievement highlights the necessity of integrating security compliance into AI workflows. As the industry evolves, ensuring data protection will be critical for maintaining client trust and facilitating smoother collaborations.
 
-[Source: smartling.com](https://www.smartling.com/company-news/smartling-achieves-iso-27001)
+Source: [smartling.com](https://www.smartling.com/company-news/smartling-achieves-iso-27001)

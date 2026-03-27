@@ -18,4 +18,4 @@ The findings underscore a demand for practical, actionable content, particularly
 
 For localization professionals, the survey emphasizes the importance of evolving membership models and delivering grounded content. I encourage you to explore the full findings to better understand how these trends might shape your strategies moving forward.
 
-[Source: gala-global.org](https://www.gala-global.org/news/gala-annual-survey-2026-findings)
+Source: [gala-global.org](https://www.gala-global.org/news/gala-annual-survey-2026-findings)

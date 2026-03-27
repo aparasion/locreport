@@ -25,4 +25,4 @@ Understanding the right software for various translation tasks can significantly
 
 The key takeaway for localization professionals is the importance of choosing a solution that aligns with their specific translation requirements and business growth stages. Investing in the right tools can streamline processes, reduce errors, and ultimately enhance the global customer experience.
 
-[Source: xtm.cloud](https://xtm.cloud/blog/best-translation-software)
+Source: [xtm.cloud](https://xtm.cloud/blog/best-translation-software)

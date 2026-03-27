@@ -18,4 +18,4 @@ This evolution underscores a critical need for localization teams to redefine qu
 
 As AI continues to transform content production, localization professionals must embrace a more strategic role in shaping content that drives audience behavior. I encourage you to explore the full article for deeper insights on how to navigate this evolving landscape and enhance your content's effectiveness.
 
-[Source: slator.com](https://slator.com/when-ai-scales-content-what-defines-quality)
+Source: [slator.com](https://slator.com/when-ai-scales-content-what-defines-quality)

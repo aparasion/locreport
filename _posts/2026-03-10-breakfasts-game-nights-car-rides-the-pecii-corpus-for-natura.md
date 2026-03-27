@@ -18,4 +18,4 @@ The PECII corpus stands out for its focus on real-life interactions, providing i
 
 For localization professionals, PECII represents an opportunity to deepen understanding of cultural nuances in language use. The dataset's accessibility for research purposes opens avenues for innovative applications in language technology. I highly recommend exploring the full story to appreciate the depth and implications of this significant development.
 
-[Source: slator.com](https://slator.com/pecii-corpus-natural-language-interactions)
+Source: [slator.com](https://slator.com/pecii-corpus-natural-language-interactions)

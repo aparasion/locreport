@@ -25,4 +25,4 @@ This shift highlights the importance of orchestration in localization workflows.
 
 For localization professionals, the key takeaway is that AI should enhance, not replace, their roles. By leveraging AI to reduce operational burdens, managers can concentrate on strategic initiatives that drive business success, ultimately transforming the localization landscape into a more dynamic and impactful field.
 
-[Source: xtm.ai](https://xtm.ai/blog/localization-manager-isnt-going-away)
+Source: [xtm.ai](https://xtm.ai/blog/localization-manager-isnt-going-away)

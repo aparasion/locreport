@@ -25,4 +25,4 @@ These enhancements are crucial for the localization and language services indust
 
 For industry professionals, the key takeaway is that integrating accessibility into product design is essential for creating tools that support diverse working styles. As Phrase continues to evolve its platform, these improvements set a precedent for prioritizing user experience and inclusivity in localization technology.
 
-[Source: phrase.com](https://phrase.com/blog/posts/why-accessibility-matters-translation-tools)
+Source: [phrase.com](https://phrase.com/blog/posts/why-accessibility-matters-translation-tools)

@@ -18,4 +18,4 @@ The company’s recent growth has necessitated a robust localization strategy, l
 
 As MyHeritage continues to expand its language offerings, localization professionals can glean valuable insights from their multi-step translation process and the integration of AI tools. For a deeper dive into their innovative approach, I encourage you to read the full article.
 
-[Source: crowdin.com](https://crowdin.com/blog/myheritage-localization-with-crowdin)
+Source: [crowdin.com](https://crowdin.com/blog/myheritage-localization-with-crowdin)

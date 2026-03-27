@@ -18,4 +18,4 @@ Perthen's appointment is particularly relevant as the industry increasingly embr
 
 Localization professionals should pay attention to how this leadership shift might influence LSP GmbH’s strategic direction and service innovations. For a deeper understanding of this development and its potential implications for the language services sector, I recommend checking out the full article.
 
-[Source: news.google.com](https://news.google.com/rss/articles/CBMid0FVX3lxTFBzd1ZTQnpySmd3R2JMSEI1NGFLOUMtRVhId1Z0RnZUXzBNS2RJSUNNd3JtX3UtZnRMaG1wYWtENU9HT2pxcFc5aGJQNExYZ05qNUo4MndwMzNoaEZjQkpGQVZZa2ZZMXFYbi1Ja3BzMEhKYVlUUVBB?oc=5)
+Source: [news.google.com](https://news.google.com/rss/articles/CBMid0FVX3lxTFBzd1ZTQnpySmd3R2JMSEI1NGFLOUMtRVhId1Z0RnZUXzBNS2RJSUNNd3JtX3UtZnRMaG1wYWtENU9HT2pxcFc5aGJQNExYZ05qNUo4MndwMzNoaEZjQkpGQVZZa2ZZMXFYbi1Ja3BzMEhKYVlUUVBB?oc=5)

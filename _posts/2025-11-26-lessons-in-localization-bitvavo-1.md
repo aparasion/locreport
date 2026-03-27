@@ -25,4 +25,4 @@ This evolution is significant for the localization and language services industr
 
 For localization professionals, the key takeaway is the importance of establishing localization as a consultative function that fosters collaboration across departments, ultimately driving a more cohesive and effective global strategy.
 
-[Source: nimdzi.com](https://www.nimdzi.com/lessons-in-localization-bitvavo/?utm_source=rss&utm_medium=rss&utm_campaign=lessons-in-localization-bitvavo)
+Source: [nimdzi.com](https://www.nimdzi.com/lessons-in-localization-bitvavo/?utm_source=rss&utm_medium=rss&utm_campaign=lessons-in-localization-bitvavo)

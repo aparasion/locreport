@@ -25,4 +25,4 @@ This shift has profound implications for the localization and language services 
 
 One key takeaway for localization professionals is the importance of fostering a nuanced understanding of cultural differences in content creation. By embracing the collaborative nature of knowledge production and resisting the urge to conform to homogenized outputs, localization teams can enhance creativity and preserve the richness of diverse linguistic and cultural landscapes.
 
-[Source: imminent.translated.com](https://imminent.translated.com/the-collective-mind)
+Source: [imminent.translated.com](https://imminent.translated.com/the-collective-mind)

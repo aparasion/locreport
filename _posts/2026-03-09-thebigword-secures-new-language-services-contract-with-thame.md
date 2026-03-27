@@ -18,4 +18,4 @@ This development is crucial for the localization and language services industry 
 
 For localization professionals, this contract signals the importance of specialized language solutions in public sector contexts. I encourage you to explore the full story to gain deeper insights into the implications for our industry.
 
-[Source: en-gb.thebigword.com](https://en-gb.thebigword.com/news/thebigword-secures-new-language-services-contract-with-thames-valley-police)
+Source: [en-gb.thebigword.com](https://en-gb.thebigword.com/news/thebigword-secures-new-language-services-contract-with-thames-valley-police)

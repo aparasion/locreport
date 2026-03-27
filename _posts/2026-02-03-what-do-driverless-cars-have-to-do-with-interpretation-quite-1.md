@@ -25,4 +25,4 @@ Yoxon-Grant notes that recent changes in administration have altered demand patt
 
 The key takeaway for localization professionals is to remain vigilant about the implications of automation. As the pressure to adopt AI solutions grows, it’s essential to prioritize human oversight and ensure that language access continues to be treated as a fundamental human right.
 
-[Source: languageline.com](https://www.languageline.com/blog/what-do-driverless-cars-have-to-do-with-interpretation-quite-a-bit)
+Source: [languageline.com](https://www.languageline.com/blog/what-do-driverless-cars-have-to-do-with-interpretation-quite-a-bit)

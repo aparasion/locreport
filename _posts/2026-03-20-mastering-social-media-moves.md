@@ -18,4 +18,4 @@ Jacinto's practical framework encourages LSPs to identify their target audience,
 
 For localization professionals looking to elevate their social media strategies, Jacinto's insights offer valuable guidance. I recommend exploring the full article to gain a deeper understanding of how to effectively build your online presence.
 
-[Source: elia-association.org](https://elia-association.org/2026/03/mastering-social-media-moves/?utm_source=rss&utm_medium=rss&utm_campaign=mastering-social-media-moves)
+Source: [elia-association.org](https://elia-association.org/2026/03/mastering-social-media-moves/?utm_source=rss&utm_medium=rss&utm_campaign=mastering-social-media-moves)

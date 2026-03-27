@@ -18,4 +18,4 @@ This guide is significant for localization professionals as it addresses the inc
 
 For those looking to optimize their translation management processes, this article provides valuable insights into selecting the right TBMS. I encourage you to explore the full guide to find the best fit for your organization's needs.
 
-[Source: xtm.ai](https://xtm.ai/blog/blog/the-best-translation-business-management-systems)
+Source: [xtm.ai](https://xtm.ai/blog/blog/the-best-translation-business-management-systems)

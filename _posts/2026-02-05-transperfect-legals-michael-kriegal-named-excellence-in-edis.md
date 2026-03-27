@@ -18,4 +18,4 @@ Kriegal's team has expanded significantly, now comprising over 20 specialists de
 
 For localization professionals, this recognition emphasizes the critical role of language services in eDiscovery processes. As legal technology continues to evolve, understanding these advancements can enhance your strategies. I encourage you to read the full story for deeper insights into this significant achievement.
 
-[Source: transperfect.com](https://www.transperfect.com/about/press/transperfect-legals-michael-kriegal-named-excellence-ediscovery-award-finalist)
+Source: [transperfect.com](https://www.transperfect.com/about/press/transperfect-legals-michael-kriegal-named-excellence-ediscovery-award-finalist)

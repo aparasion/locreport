@@ -18,4 +18,4 @@ The significance of this award extends beyond recognition; it reflects a broader
 
 For localization professionals, this development signals a growing trust in AI technologies to optimize translation processes. I encourage you to explore the full story to understand the implications of Smartling's recognition and the evolving role of AI in our industry.
 
-[Source: smartling.com](https://www.smartling.com/company-news/smartling-named-g2s-2026-best-software-for-content-management)
+Source: [smartling.com](https://www.smartling.com/company-news/smartling-named-g2s-2026-best-software-for-content-management)

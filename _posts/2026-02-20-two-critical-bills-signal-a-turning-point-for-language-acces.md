@@ -18,4 +18,4 @@ The SPEAK Act's swift implementation reflects a growing recognition of the impor
 
 For localization professionals, the ongoing developments surrounding the Language Access for All Act and the SPEAK Act present an opportunity to engage in shaping best practices and standards. I encourage you to explore the full article for deeper insights into these legislative changes and their implications for our industry.
 
-[Source: languageline.com](https://www.languageline.com/blog/two-critical-bills-signal-a-turning-point-for-language-access-in-america)
+Source: [languageline.com](https://www.languageline.com/blog/two-critical-bills-signal-a-turning-point-for-language-access-in-america)

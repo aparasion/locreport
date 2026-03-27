@@ -18,4 +18,4 @@ The discussion dives into innovative AI advancements, particularly Google Transl
 
 For localization professionals, the insights from the Slator Pro Guide on scaling language technology platforms (LTPs) are particularly valuable, emphasizing strategies like go-to-market execution and partnerships. For a deeper understanding of these trends and their implications for the industry, I recommend checking out the full podcast episode.
 
-[Source: slator.com](https://slator.com/10-ltp-growth-hacks)
+Source: [slator.com](https://slator.com/10-ltp-growth-hacks)

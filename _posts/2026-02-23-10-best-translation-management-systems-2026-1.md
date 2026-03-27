@@ -25,4 +25,4 @@ This development is significant for localization professionals as it highlights 
 
 For localization professionals, the key takeaway is the importance of selecting a TMS that aligns with specific business needs. As companies scale globally, investing in a versatile platform like XTM can facilitate smoother workflows and improve translation quality, making it an essential tool for successful international expansion.
 
-[Source: xtm.ai](https://xtm.ai/blog/best-translation-management-system)
+Source: [xtm.ai](https://xtm.ai/blog/best-translation-management-system)

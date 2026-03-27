@@ -23,4 +23,4 @@ The Think Global Awards has unveiled its 2026 honorees, celebrating remarkable a
 
 These awards highlight the critical intersection of leadership, language, and technology in driving global progress. As localization professionals, understanding these trends can inform strategies that align with the evolving demands of international markets. The honorees exemplify how cultural awareness and technological innovation can create sustainable growth and foster deeper connections across borders.
 
-[Source: vistatec.com](https://www.vistatec.com/think-global-awards-announces-2026-honorees-in-leadership-language-and-ai-impact)
+Source: [vistatec.com](https://www.vistatec.com/think-global-awards-announces-2026-honorees-in-leadership-language-and-ai-impact)

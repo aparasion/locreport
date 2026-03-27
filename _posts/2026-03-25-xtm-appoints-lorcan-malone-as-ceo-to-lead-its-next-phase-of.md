@@ -25,4 +25,4 @@ This leadership change is crucial for the localization and language services ind
 
 For localization professionals, the key takeaway is the potential for XTM to further innovate its platform, presenting new opportunities for organizations to leverage localization as a competitive advantage in an evolving market.
 
-[Source: xtm.cloud](https://xtm.cloud/blog/xtm-appoints-lorcan-malone-as-ceo)
+Source: [xtm.cloud](https://xtm.cloud/blog/xtm-appoints-lorcan-malone-as-ceo)

@@ -25,4 +25,4 @@ This strategic shift comes at a time when the localization industry is increasin
 
 For localization professionals, this development highlights the significance of agile leadership and teamwork in navigating industry changes. As companies like RWS evolve, staying attuned to these shifts can provide insights into best practices for enhancing service delivery and operational effectiveness.
 
-[Source: news.google.com](https://news.google.com/rss/articles/CBMi0AFBVV95cUxQX2lwWGJ6ZmdDS0NNWXV4WTA0bFFiZ3RZSWU3bDh6cHR0MWotT2wyOHg5MHI4QWRPN1JrSlJxZjZ0ZEN5VGNLNU1pdU5kMktIZzNpRzhlRlcydzhDUFFrYktqZHRIVGNCNjB4LUk0YnpVZEZTdFVXZUkxZlNjbDg5RUdscnJhV1pxT2JRQ094MVVFNk1ubUVPQ3ZqaXNTNUVLU3dKY0JmbHFNR1paSDhrMk9wdnduMEV6a2tMOElna2RNT2ZvaXlsTVgyc3cxR2hq?oc=5)
+Source: [news.google.com](https://news.google.com/rss/articles/CBMi0AFBVV95cUxQX2lwWGJ6ZmdDS0NNWXV4WTA0bFFiZ3RZSWU3bDh6cHR0MWotT2wyOHg5MHI4QWRPN1JrSlJxZjZ0ZEN5VGNLNU1pdU5kMktIZzNpRzhlRlcydzhDUFFrYktqZHRIVGNCNjB4LUk0YnpVZEZTdFVXZUkxZlNjbDg5RUdscnJhV1pxT2JRQ094MVVFNk1ubUVPQ3ZqaXNTNUVLU3dKY0JmbHFNR1paSDhrMk9wdnduMEV6a2tMOElna2RNT2ZvaXlsTVgyc3cxR2hq?oc=5)

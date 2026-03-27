@@ -25,4 +25,4 @@ The article emphasizes the importance of dynamic context orchestration, particul
 
 Localization professionals should consider implementing RAG strategies to enhance the accuracy of their translations, ensuring that they meet the high standards required in these sensitive fields. This not only improves compliance but also builds trust with end-users.
 
-[Source: lokalise.com](https://lokalise.com/blog/fine-tuning-trap-ai-translation-context)
+Source: [lokalise.com](https://lokalise.com/blog/fine-tuning-trap-ai-translation-context)

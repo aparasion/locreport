@@ -18,4 +18,4 @@ The findings emphasize that localization is no longer a secondary function but a
 
 For localization professionals, the key takeaway is to integrate localization into growth strategies from the outset, rather than treating it as an afterthought. This proactive approach can help close the gap between ambition and execution, ensuring that localization efforts align with market opportunities. I recommend diving into the full article for deeper insights and actionable strategies.
 
-[Source: lokalise.com](https://lokalise.com/blog/global-expansion-localization-revenue-gap)
+Source: [lokalise.com](https://lokalise.com/blog/global-expansion-localization-revenue-gap)

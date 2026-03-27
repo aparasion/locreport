@@ -18,4 +18,4 @@ This shift in ranking criteria underscores the impact of AI on the localization 
 
 For a deeper dive into the data and insights shaping the future of our industry, I highly recommend checking out the full article and staying tuned for the complete Nimdzi 100 report coming soon.
 
-[Source: nimdzi.com](https://www.nimdzi.com/preliminary-2026-nimdzi-100-ranking/?utm_source=rss&utm_medium=rss&utm_campaign=preliminary-2026-nimdzi-100-ranking)
+Source: [nimdzi.com](https://www.nimdzi.com/preliminary-2026-nimdzi-100-ranking/?utm_source=rss&utm_medium=rss&utm_campaign=preliminary-2026-nimdzi-100-ranking)

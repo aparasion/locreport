@@ -18,4 +18,4 @@ These advancements reflect a broader trend in the localization industry toward i
 
 For localization professionals, the key takeaway is the potential for AI tools like Crowdin Copilot to transform the management of translation projects, minimizing ambiguity and maximizing translation accuracy while also significantly reducing the workload on human managers.
 
-[Source: crowdin.com](https://crowdin.com/blog/new-at-crowdin-march-2026)
+Source: [crowdin.com](https://crowdin.com/blog/new-at-crowdin-march-2026)

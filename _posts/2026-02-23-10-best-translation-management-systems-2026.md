@@ -18,4 +18,4 @@ The significance of XTM lies in its ability to reduce human error and improve tr
 
 For localization professionals, choosing the right TMS can make or break a project. XTM’s all-in-one approach offers a compelling option for teams looking to improve efficiency and quality in their translation efforts. I recommend checking out the full article for an in-depth comparison of top TMS options and insights into selecting the best tool for your needs.
 
-[Source: xtm.ai](https://xtm.ai/blog/best-translation-management-system)
+Source: [xtm.ai](https://xtm.ai/blog/best-translation-management-system)

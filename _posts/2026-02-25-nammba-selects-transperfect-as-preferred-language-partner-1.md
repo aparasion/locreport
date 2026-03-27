@@ -25,4 +25,4 @@ The collaboration addresses the increasing demand for responsible AI deployment 
 
 Localization professionals should take note of this partnership as a model for how language services can play a crucial role in advancing social impact and community engagement within specialized sectors.
 
-[Source: transperfect.com](https://www.transperfect.com/about/press/nammba-selects-transperfect-preferred-language-partner)
+Source: [transperfect.com](https://www.transperfect.com/about/press/nammba-selects-transperfect-preferred-language-partner)

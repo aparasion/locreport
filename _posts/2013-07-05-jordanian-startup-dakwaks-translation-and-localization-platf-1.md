@@ -25,4 +25,4 @@ This development is significant for the localization industry as it addresses a 
 
 For localization professionals, Dakwak represents a shift towards more accessible and efficient translation solutions, emphasizing the importance of adapting to a multilingual world. As the company seeks to expand its reach in the U.S., it highlights the growing demand for localization services that can keep pace with global digital content needs.
 
-[Source: techcrunch.com](https://techcrunch.com/2013/07/04/dakwak)
+Source: [techcrunch.com](https://techcrunch.com/2013/07/04/dakwak)

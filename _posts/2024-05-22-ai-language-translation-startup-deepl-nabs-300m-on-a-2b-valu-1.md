@@ -25,4 +25,4 @@ For localization and language services professionals, DeepL's evolution signals 
 
 The key takeaway for industry professionals is the importance of adapting to the evolving demands of enterprise clients. As companies seek to control communication standards, localization providers must stay agile and responsive, ensuring they can meet the growing expectations for AI-driven language solutions.
 
-[Source: techcrunch.com](https://techcrunch.com/2024/05/22/deepl-the-ai-language-translation-startup-nabs-300m-on-a-2b-valuation-to-focus-on-b2b-growth)
+Source: [techcrunch.com](https://techcrunch.com/2024/05/22/deepl-the-ai-language-translation-startup-nabs-300m-on-a-2b-valuation-to-focus-on-b2b-growth)

@@ -25,4 +25,4 @@ For localization and language services professionals, this highlights the urgent
 
 The takeaway for industry leaders is clear: to harness the full potential of embedded AI in healthcare, a robust strategy for language access must be woven into the fabric of clinical systems. This integration is essential for safeguarding patient care and ensuring the reliability of AI-generated insights.
 
-[Source: languageline.com](https://www.languageline.com/blog/embedded-ehr-ai-where-language-access-becomes-a-clinical-risk-variable)
+Source: [languageline.com](https://www.languageline.com/blog/embedded-ehr-ai-where-language-access-becomes-a-clinical-risk-variable)

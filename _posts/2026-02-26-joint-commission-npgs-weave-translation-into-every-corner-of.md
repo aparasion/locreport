@@ -18,4 +18,4 @@ This development is crucial for the localization and language services industry,
 
 As healthcare organizations adapt to these requirements, the need for robust language access programs will grow. This is an excellent time for localization professionals to explore how they can support healthcare providers in achieving compliance and improving patient outcomes. For a deeper dive into these transformative changes, I recommend reading the full article.
 
-[Source: languageline.com](https://www.languageline.com/blog/joint-commission-npgs-weave-translation-into-every-corner-of-patient-safety)
+Source: [languageline.com](https://www.languageline.com/blog/joint-commission-npgs-weave-translation-into-every-corner-of-patient-safety)

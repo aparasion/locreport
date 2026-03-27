@@ -18,4 +18,4 @@ This conference serves as a vital platform for professionals in healthcare commu
 
 For localization and language services professionals, SMLC 2026 represents a chance to engage with cutting-edge discussions and network with experts in medical linguistics. I encourage you to explore the full details and consider participating by visiting the conference website.
 
-[Source: gala-global.org](https://www.gala-global.org/news/semmelweis-medical-linguistics-conference-2026-last-call-for-papers)
+Source: [gala-global.org](https://www.gala-global.org/news/semmelweis-medical-linguistics-conference-2026-last-call-for-papers)

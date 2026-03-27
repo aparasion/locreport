@@ -25,4 +25,4 @@ This approach is particularly crucial as users increasingly prefer content in th
 
 For localization professionals, the key takeaway is clear: prioritize localization in the design phase to enhance user experience and foster trust. By considering language from the outset, companies can reduce costly fixes later and improve global adoption.
 
-[Source: crowdin.com](https://crowdin.com/blog/agile-localization-podcast-with-szymon-metkowski)
+Source: [crowdin.com](https://crowdin.com/blog/agile-localization-podcast-with-szymon-metkowski)

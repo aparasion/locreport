@@ -18,4 +18,4 @@ This development is crucial for the localization and language services industry 
 
 For localization professionals, the Software Recorder represents a significant leap forward in efficiency and effectiveness. I highly recommend exploring the full story to understand how this innovation can impact your workflows and drive global growth.
 
-[Source: gala-global.org](https://www.gala-global.org/news/xtm-introduces-multilingual-software-video-generation-for-enterprise-teams)
+Source: [gala-global.org](https://www.gala-global.org/news/xtm-introduces-multilingual-software-video-generation-for-enterprise-teams)

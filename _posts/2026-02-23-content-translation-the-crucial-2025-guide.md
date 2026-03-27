@@ -18,4 +18,4 @@ For localization and language services professionals, the guide underscores the 
 
 To maximize the impact of your localization strategies, consider auditing your existing content and prioritizing high-value assets. For a deeper dive into effective content translation and localization strategies, I highly recommend checking out the full article.
 
-[Source: xtm.ai](https://xtm.ai/blog/content-translation)
+Source: [xtm.ai](https://xtm.ai/blog/content-translation)

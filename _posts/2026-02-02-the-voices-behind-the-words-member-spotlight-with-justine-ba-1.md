@@ -25,4 +25,4 @@ This approach not only enhances client relationships but also aligns with emergi
 
 For localization professionals, the key takeaway is the importance of building a company culture that prioritizes client engagement and social impact, positioning LSPs like Loop as leaders in a rapidly changing market.
 
-[Source: elia-association.org](https://elia-association.org/2026/02/the-voices-behind-the-words-member-spotlight-with-justine-bastos-from-loop-translations/?utm_source=rss&utm_medium=rss&utm_campaign=the-voices-behind-the-words-member-spotlight-with-justine-bastos-from-loop-translations)
+Source: [elia-association.org](https://elia-association.org/2026/02/the-voices-behind-the-words-member-spotlight-with-justine-bastos-from-loop-translations/?utm_source=rss&utm_medium=rss&utm_campaign=the-voices-behind-the-words-member-spotlight-with-justine-bastos-from-loop-translations)

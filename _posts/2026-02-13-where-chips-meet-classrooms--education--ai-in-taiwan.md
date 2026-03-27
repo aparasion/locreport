@@ -25,4 +25,4 @@ This shift is not just about technology; it emphasizes the need for teachers to 
 
 For localization and language service professionals, the implications are clear: as AI tools become integral to education, there is a growing demand for resources that support language learning through innovative technologies. Understanding how AI can enhance language acquisition will be crucial for developing effective localization strategies in educational content.
 
-[Source: imminent.translated.com](https://imminent.translated.com/cultivating-learning-in-a-global-ai-hub)
+Source: [imminent.translated.com](https://imminent.translated.com/cultivating-learning-in-a-global-ai-hub)

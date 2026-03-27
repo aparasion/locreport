@@ -18,4 +18,4 @@ This trend marks a pivotal change in how governments view multilingual service d
 
 For language service providers, this evolution presents both challenges and opportunities. Governments are seeking partners who can offer scalable, human-led services and training to meet these new standards. I encourage you to explore the full article to gain deeper insights into this transformative landscape.
 
-[Source: languageline.com](https://www.languageline.com/blog/why-state-and-local-language-access-policies-have-grown-50-since-2020)
+Source: [languageline.com](https://www.languageline.com/blog/why-state-and-local-language-access-policies-have-grown-50-since-2020)

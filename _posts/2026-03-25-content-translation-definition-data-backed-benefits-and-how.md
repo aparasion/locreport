@@ -25,4 +25,4 @@ The guide highlights key benefits of effective localization, including increased
 
 A critical takeaway for localization professionals is the need to prioritize content based on strategic business goals. By aligning translation efforts with measurable outcomes, companies can optimize their resources and enhance their global presence effectively.
 
-[Source: xtm.cloud](https://xtm.cloud/blog/content-translation)
+Source: [xtm.cloud](https://xtm.cloud/blog/content-translation)

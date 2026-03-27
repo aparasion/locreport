@@ -18,4 +18,4 @@ For localization and language services professionals, this highlights the critic
 
 To thrive in this competitive environment, retailers must prioritize coherence in their omnichannel strategies and invest in localized, context-aware experiences. I encourage you to explore the full article for deeper insights into how precision and adaptation can drive measurable growth in retail.
 
-[Source: phrase.com](https://phrase.com/blog/posts/retail-growth-precision-over-scale)
+Source: [phrase.com](https://phrase.com/blog/posts/retail-growth-precision-over-scale)

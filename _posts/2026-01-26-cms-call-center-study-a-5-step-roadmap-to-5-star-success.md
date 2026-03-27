@@ -18,4 +18,4 @@ This evaluation is crucial for the localization and language services industry b
 
 To navigate this compliance landscape successfully, organizations must prioritize interpreter access, streamline call processes, and train staff effectively. For a deeper dive into strategies for achieving a 5-star rating, I highly recommend checking out the full article and the accompanying CMS Strategy eBook.
 
-[Source: languageline.com](https://www.languageline.com/blog/cms-call-center-study-a-5-step-roadmap-to-5-star-success)
+Source: [languageline.com](https://www.languageline.com/blog/cms-call-center-study-a-5-step-roadmap-to-5-star-success)

@@ -18,4 +18,4 @@ However, relying solely on ChatGPT can introduce significant risks, particularly
 
 For localization professionals, the key takeaway is to weigh the speed and accessibility of ChatGPT against the potential pitfalls of using it in isolation. For a deeper dive into the pros and cons, I recommend checking out the full article.
 
-[Source: lokalise.com](https://lokalise.com/blog/chatgpt-vs-localization-platform)
+Source: [lokalise.com](https://lokalise.com/blog/chatgpt-vs-localization-platform)

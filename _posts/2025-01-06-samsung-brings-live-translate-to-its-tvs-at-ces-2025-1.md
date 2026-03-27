@@ -25,4 +25,4 @@ This development highlights a growing trend in the localization and language ser
 
 Localization professionals should consider the implications of such advancements, as they may influence content creation and adaptation strategies for multimedia platforms. Staying informed about these trends will be crucial for leveraging new technologies in translation and localization workflows.
 
-[Source: techcrunch.com](https://techcrunch.com/2025/01/05/samsung-brings-live-translate-to-its-tvs-at-ces-2025)
+Source: [techcrunch.com](https://techcrunch.com/2025/01/05/samsung-brings-live-translate-to-its-tvs-at-ces-2025)

@@ -25,4 +25,4 @@ The discussion underscored the need for a strategic approach to translation qual
 
 Localization professionals should recognize that the future of translation lies in elevating their roles to strategic partners in AI implementation. By establishing robust processes and clear quality expectations, teams can harness AI's potential while safeguarding their brand voice and trust with customers.
 
-[Source: deepl.com](https://www.deepl.com/en/blog/brand-reputation-at-scale)
+Source: [deepl.com](https://www.deepl.com/en/blog/brand-reputation-at-scale)

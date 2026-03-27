@@ -25,4 +25,4 @@ The discussions highlighted that language access should not be an afterthought b
 
 For localization and language services professionals, the key takeaway is clear: as healthcare systems evolve, there is a growing demand for integrated language solutions that prioritize equity and accessibility. This presents a significant opportunity for service providers to align their offerings with the needs of healthcare organizations striving for comprehensive, patient-centered care.
 
-[Source: languageline.com](https://www.languageline.com/blog/human-in-the-lead-not-in-the-loop-navigating-ai-risk-in-modern-patient-care)
+Source: [languageline.com](https://www.languageline.com/blog/human-in-the-lead-not-in-the-loop-navigating-ai-risk-in-modern-patient-care)

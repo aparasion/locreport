@@ -18,4 +18,4 @@ Shields highlights the prevalence of "shadow AI," where employees use AI tools w
 
 For localization professionals, the key takeaway is that AI adoption is not merely about implementing new technology but about cultivating a culture of clarity and trust. Explore the full conversation for deeper insights into navigating AI responsibly in your organization.
 
-[Source: vistatec.com](https://www.vistatec.com/the-realities-of-ai-adoption-in-business-with-patrick-shields-vistatalks-ep-188)
+Source: [vistatec.com](https://www.vistatec.com/the-realities-of-ai-adoption-in-business-with-patrick-shields-vistatalks-ep-188)

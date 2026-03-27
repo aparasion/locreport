@@ -18,4 +18,4 @@ This perspective is particularly relevant for localization and language services
 
 For localization experts, the takeaway is clear: prioritize emotional resonance and cultural relevance in your messaging. To dive deeper into Zarkin's insights and explore actionable strategies for your brand, I highly recommend checking out the full article.
 
-[Source: phrase.com](https://phrase.com/blog/posts/doug-zarkin-thinking-human-emotional-brand-value)
+Source: [phrase.com](https://phrase.com/blog/posts/doug-zarkin-thinking-human-emotional-brand-value)

@@ -25,4 +25,4 @@ Localization plays a pivotal role in this landscape, as 76% of online consumers 
 
 For localization professionals, the key takeaway is clear: mastering the nuances of cross-border e-commerce through effective localization strategies is essential for driving international sales and improving customer experiences in diverse markets.
 
-[Source: ecinnovations.com](https://www.ecinnovations.com/blog/cross-border-ecommerce)
+Source: [ecinnovations.com](https://www.ecinnovations.com/blog/cross-border-ecommerce)

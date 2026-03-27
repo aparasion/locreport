@@ -18,4 +18,4 @@ As workplace dynamics evolve, leaders from various organizations are sharing str
 
 For localization and language services professionals, this highlights the critical need for clear communication of benefits in multiple languages and formats to ensure all employees can access and understand their options. I highly recommend reading the full article for deeper insights into how these trends can shape workplace culture and productivity.
 
-[Source: benefitnews.com](https://www.benefitnews.com)
+Source: [benefitnews.com](https://www.benefitnews.com)

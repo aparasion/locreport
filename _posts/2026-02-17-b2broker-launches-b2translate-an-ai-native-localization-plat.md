@@ -18,4 +18,4 @@ This development is significant for the localization and language services indus
 
 For localization professionals, the SOAR framework offers a practical approach to crafting press releases that resonate with both AI algorithms and human readers. I encourage you to explore the full details of this innovative framework in the original article.
 
-[Source: globenewswire.com](https://www.globenewswire.com)
+Source: [globenewswire.com](https://www.globenewswire.com)

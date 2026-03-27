@@ -25,4 +25,4 @@ For localization and language services professionals, this ruling underscores th
 
 The key takeaway for professionals in our field is the potential shift in how social media companies approach their global communication strategies. As they adapt to legal pressures, there may be new opportunities for localization services that ensure compliance and resonate effectively with diverse audiences.
 
-[Source: finance.yahoo.com](https://finance.yahoo.com)
+Source: [finance.yahoo.com](https://finance.yahoo.com)

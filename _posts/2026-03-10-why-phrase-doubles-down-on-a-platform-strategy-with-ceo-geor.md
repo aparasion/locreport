@@ -18,4 +18,4 @@ Ell highlights that while core AI translation quality may be plateauing, advance
 
 For a deeper dive into these insights and trends shaping the localization landscape, I recommend checking out the full discussion.
 
-[Source: slator.com](https://slator.com/phrase-ceo-platform-strategy)
+Source: [slator.com](https://slator.com/phrase-ceo-platform-strategy)

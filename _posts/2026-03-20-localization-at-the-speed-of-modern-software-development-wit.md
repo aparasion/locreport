@@ -18,4 +18,4 @@ Asnes highlights the importance of integrating localization from the design phas
 
 For localization professionals, this discussion underscores the necessity of adapting to faster development cycles and embracing automation. I highly recommend exploring the full conversation to gain deeper insights into how these changes can benefit your localization strategy.
 
-[Source: vistatec.com](https://www.vistatec.com/localization-at-the-speed-of-modern-software-development-with-adam-asnes-vistatalks-ep-191)
+Source: [vistatec.com](https://www.vistatec.com/localization-at-the-speed-of-modern-software-development-with-adam-asnes-vistatalks-ep-191)

@@ -18,4 +18,4 @@ The history of Cretan Greek, which absorbed elements from various cultures, mirr
 
 For localization professionals, engaging with the local dialect not only fosters connection but also embodies the spirit of adaptability essential in today's fast-evolving market. Understanding these nuances can enhance communication and collaboration in an increasingly globalized industry.
 
-[Source: elia-association.org](https://elia-association.org/2026/03/cretan-greek-a-language-shaped-by-decisions-exchange-and-influence/?utm_source=rss&utm_medium=rss&utm_campaign=cretan-greek-a-language-shaped-by-decisions-exchange-and-influence)
+Source: [elia-association.org](https://elia-association.org/2026/03/cretan-greek-a-language-shaped-by-decisions-exchange-and-influence/?utm_source=rss&utm_medium=rss&utm_campaign=cretan-greek-a-language-shaped-by-decisions-exchange-and-influence)

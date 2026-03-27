@@ -25,4 +25,4 @@ The Software Recorder's intelligent UI capture process not only streamlines vide
 
 For localization professionals, the key takeaway is that adopting tools like Software Recorder can transform video production into a scalable and efficient process, allowing teams to focus on strategic initiatives while maintaining high-quality multilingual content.
 
-[Source: gala-global.org](https://www.gala-global.org/news/xtm-introduces-multilingual-software-video-generation-for-enterprise-teams)
+Source: [gala-global.org](https://www.gala-global.org/news/xtm-introduces-multilingual-software-video-generation-for-enterprise-teams)

@@ -25,4 +25,4 @@ This development is significant for the localization and language services indus
 
 Localization professionals should consider the implications of such features on client expectations and service offerings. As automated translation becomes more integrated into everyday tools, it may necessitate a reevaluation of quality assurance processes and the role of human translators in ensuring nuanced and culturally appropriate communication.
 
-[Source: techcrunch.com](https://techcrunch.com/2012/05/01/googles-automatic-email-translation-feature-graduates-from-gmail-labs)
+Source: [techcrunch.com](https://techcrunch.com/2012/05/01/googles-automatic-email-translation-feature-graduates-from-gmail-labs)

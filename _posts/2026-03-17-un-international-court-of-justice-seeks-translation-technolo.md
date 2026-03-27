@@ -18,4 +18,4 @@ This recruitment reflects a significant trend in the localization and language s
 
 For localization professionals, this vacancy presents a concrete example of how AI and technology are reshaping traditional roles. I encourage you to explore the full details of this opportunity and its implications for the industry in the original article.
 
-[Source: slator.com](https://slator.com/un-translation-technologist)
+Source: [slator.com](https://slator.com/un-translation-technologist)

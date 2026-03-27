@@ -18,4 +18,4 @@ In regulated industries such as healthcare and finance, the risks of relying sol
 
 For localization professionals, integrating a service like TranslateExpress into your workflow can enhance your strategy for managing urgent, compliance-sensitive content. This approach not only speeds up delivery but also safeguards against the pitfalls of AI-only translations. For more insights on optimizing your urgent content strategy, I recommend checking out the full article.
 
-[Source: languageline.com](https://www.languageline.com/blog/fast-is-not-enough-why-urgent-translations-need-human-oversight)
+Source: [languageline.com](https://www.languageline.com/blog/fast-is-not-enough-why-urgent-translations-need-human-oversight)

@@ -18,4 +18,4 @@ The integration allows designers to see translations in real time within design 
 
 For localization professionals, this partnership signifies a critical evolution in how localization can be operationalized within product cycles. I encourage you to explore the full story to understand the implications for your workflows and how you can leverage these advancements.
 
-[Source: vistatec.com](https://www.vistatec.com/vistatec-and-lingoport-launch-shift-left-localization-with-localyzer-and-vistatecverifier)
+Source: [vistatec.com](https://www.vistatec.com/vistatec-and-lingoport-launch-shift-left-localization-with-localyzer-and-vistatecverifier)

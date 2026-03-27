@@ -25,4 +25,4 @@ This transformation is crucial as businesses face rising consumer expectations f
 
 The key takeaway for localization professionals is to embrace this orchestrated mindset. By integrating tools and using intelligent automation, teams can enhance their efficiency and responsiveness, ultimately delivering high-quality localized content at scale in a rapidly evolving market.
 
-[Source: xtm.ai](https://xtm.ai/blog/the-future-of-language-intelligence)
+Source: [xtm.ai](https://xtm.ai/blog/the-future-of-language-intelligence)

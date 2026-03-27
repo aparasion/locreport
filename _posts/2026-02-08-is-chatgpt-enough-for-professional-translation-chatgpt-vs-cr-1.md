@@ -25,4 +25,4 @@ The localization industry is witnessing a shift towards AI-driven workflows, yet
 
 For localization professionals, the key takeaway is clear: while AI tools can accelerate translation tasks, they should be integrated within a specialized localization platform like Crowdin to maximize efficiency and ensure high-quality outcomes in global markets.
 
-[Source: crowdin.com](https://crowdin.com/blog/chatgpt-for-translation-vs-crowdin)
+Source: [crowdin.com](https://crowdin.com/blog/chatgpt-for-translation-vs-crowdin)

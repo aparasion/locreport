@@ -25,4 +25,4 @@ Bojčić emphasizes the importance of balance in her leadership approach, priori
 
 For localization professionals, Bojčić’s story highlights the value of personalized service and expertise in a competitive landscape. As the industry evolves, maintaining a focus on quality and client relationships remains crucial for success.
 
-[Source: elia-association.org](https://elia-association.org/2026/01/the-voices-behind-the-words-member-spotlight-with-ivana-bojcic-from-bolingo-d-o-o/?utm_source=rss&utm_medium=rss&utm_campaign=the-voices-behind-the-words-member-spotlight-with-ivana-bojcic-from-bolingo-d-o-o)
+Source: [elia-association.org](https://elia-association.org/2026/01/the-voices-behind-the-words-member-spotlight-with-ivana-bojcic-from-bolingo-d-o-o/?utm_source=rss&utm_medium=rss&utm_campaign=the-voices-behind-the-words-member-spotlight-with-ivana-bojcic-from-bolingo-d-o-o)

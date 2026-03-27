@@ -18,4 +18,4 @@ This project highlights the increasing demand for localized educational resource
 
 For localization professionals, this case underscores the importance of adaptable workflows and comprehensive glossaries in educational projects. It also illustrates how technology can be leveraged to enhance productivity and cost-effectiveness. For a deeper dive into the intricacies of this project, I recommend exploring the full article.
 
-[Source: en-gb.thebigword.com](https://en-gb.thebigword.com/news/stand-for-children-case-study)
+Source: [en-gb.thebigword.com](https://en-gb.thebigword.com/news/stand-for-children-case-study)

@@ -25,4 +25,4 @@ For localization and language services professionals, this shift towards HITL wo
 
 A key takeaway for industry professionals is the imperative to reassess data strategies to align with evolving AI capabilities. Embracing HITL frameworks not only enhances accuracy but also ensures that localization efforts remain relevant and effective in a rapidly changing landscape.
 
-[Source: towardsdatascience.com](https://towardsdatascience.com)
+Source: [towardsdatascience.com](https://towardsdatascience.com)

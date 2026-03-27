@@ -18,4 +18,4 @@ This approach is critical as consumer expectations rise for multilingual content
 
 For localization professionals, the key takeaway is the importance of integrating tools within a cohesive framework to enhance productivity and responsiveness. To dive deeper into Malone's insights and the future of language intelligence, I encourage you to read the full article.
 
-[Source: xtm.ai](https://xtm.ai/blog/the-future-of-language-intelligence)
+Source: [xtm.ai](https://xtm.ai/blog/the-future-of-language-intelligence)

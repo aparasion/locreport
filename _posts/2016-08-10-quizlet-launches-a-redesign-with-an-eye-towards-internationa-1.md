@@ -25,4 +25,4 @@ This strategic move is crucial for the localization and language services indust
 
 For localization professionals, Quizlet's approach serves as a valuable case study in integrating cultural context into product design, underscoring the necessity of comprehensive localization strategies that resonate with diverse audiences.
 
-[Source: techcrunch.com](https://techcrunch.com/2016/08/10/quizlet-launches-a-redesign-with-an-eye-towards-international-expansion)
+Source: [techcrunch.com](https://techcrunch.com/2016/08/10/quizlet-launches-a-redesign-with-an-eye-towards-international-expansion)

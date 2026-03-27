@@ -25,4 +25,4 @@ These new standards elevate language access to a critical component of patient s
 
 For localization and language services professionals, the 2026 standards underscore the importance of developing robust language access programs that align with healthcare quality metrics. This presents an opportunity to collaborate with healthcare organizations to enhance patient safety and improve overall care quality through effective communication strategies.
 
-[Source: languageline.com](https://www.languageline.com/blog/joint-commission-npgs-weave-translation-into-every-corner-of-patient-safety)
+Source: [languageline.com](https://www.languageline.com/blog/joint-commission-npgs-weave-translation-into-every-corner-of-patient-safety)

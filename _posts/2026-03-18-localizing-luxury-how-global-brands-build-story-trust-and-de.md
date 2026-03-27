@@ -18,4 +18,4 @@ This event revealed that while AI can enhance efficiency in content creation, hu
 
 For localization professionals, the key takeaway is clear: to succeed in the luxury sector, brands must treat localization as a strategic discipline, integrating human insight with technological advancements. I encourage you to explore the full discussion for deeper insights into this evolving landscape.
 
-[Source: vistatec.com](https://www.vistatec.com/localizing-luxury-how-global-brands-build-story-trust-and-desire-without-losing-exclusivity)
+Source: [vistatec.com](https://www.vistatec.com/localizing-luxury-how-global-brands-build-story-trust-and-desire-without-losing-exclusivity)

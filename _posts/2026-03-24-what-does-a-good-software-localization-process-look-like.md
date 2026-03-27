@@ -25,4 +25,4 @@ For localization professionals, understanding these principles is crucial, parti
 
 The key takeaway is that embedding localization into the development pipeline from the start—along with leveraging AI for efficiency—can significantly improve outcomes. Teams are encouraged to audit their workflows against these best practices to identify and address gaps early.
 
-[Source: xtm.ai](https://xtm.ai/blog/software-localization-process)
+Source: [xtm.ai](https://xtm.ai/blog/software-localization-process)

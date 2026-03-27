@@ -25,4 +25,4 @@ For localization and language services professionals, this experience underscore
 
 As you prepare for your Porto adventure, remember that small gestures in language can lead to significant connections. Embrace the local dialect and enjoy the rich tapestry of experiences that Porto has to offer.
 
-[Source: elia-association.org](https://elia-association.org/2026/02/getting-lost-and-loving-it-in-porto/?utm_source=rss&utm_medium=rss&utm_campaign=getting-lost-and-loving-it-in-porto)
+Source: [elia-association.org](https://elia-association.org/2026/02/getting-lost-and-loving-it-in-porto/?utm_source=rss&utm_medium=rss&utm_campaign=getting-lost-and-loving-it-in-porto)

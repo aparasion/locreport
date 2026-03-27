@@ -25,4 +25,4 @@ This role is crucial for the localization and language services industry, partic
 
 For localization professionals, this development highlights the importance of strong leadership in driving business growth and innovation. The emphasis on strategic sales management and market expansion underscores the evolving landscape of the language services industry, where effective sales strategies can significantly impact overall success.
 
-[Source: gala-global.org](https://www.gala-global.org/news/acolad-is-seeking-a-head-of-business-development-manager)
+Source: [gala-global.org](https://www.gala-global.org/news/acolad-is-seeking-a-head-of-business-development-manager)

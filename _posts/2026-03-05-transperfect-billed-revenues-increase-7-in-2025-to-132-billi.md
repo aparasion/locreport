@@ -18,4 +18,4 @@ This growth highlights significant trends in the localization and language servi
 
 For localization professionals, the key takeaway is the importance of embracing technology to enhance service offerings and operational efficiency. I recommend exploring the full article for deeper insights into TransPerfect's strategic moves and their implications for the industry.
 
-[Source: transperfect.com](https://www.transperfect.com/about/press/transperfect-billed-revenues-increase)
+Source: [transperfect.com](https://www.transperfect.com/about/press/transperfect-billed-revenues-increase)

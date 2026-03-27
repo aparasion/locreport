@@ -18,4 +18,4 @@ For localization and language services professionals, these updates represent a 
 
 As enterprises look to harness AI's potential, the ability to govern and manage AI workflows effectively will be paramount. For a deeper dive into how these capabilities can transform your organization's approach to AI deployment, I highly recommend exploring the full article.
 
-[Source: slator.com](https://slator.com/phrase-launches-platform-innovations)
+Source: [slator.com](https://slator.com/phrase-launches-platform-innovations)

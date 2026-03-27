@@ -18,4 +18,4 @@ This issue highlights the importance of dynamic context orchestration and Retrie
 
 For localization professionals, understanding these nuances is vital. Embracing advanced AI solutions like RAG can enhance translation accuracy and reliability. I encourage you to explore the full article for deeper insights into these critical developments.
 
-[Source: lokalise.com](https://lokalise.com/blog/fine-tuning-trap-ai-translation-context)
+Source: [lokalise.com](https://lokalise.com/blog/fine-tuning-trap-ai-translation-context)

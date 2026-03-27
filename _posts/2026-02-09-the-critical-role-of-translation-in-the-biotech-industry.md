@@ -18,4 +18,4 @@ The stakes are particularly high in biotech, where mistranslations can result in
 
 The takeaway is clear: treating translation as a strategic advantage rather than a mere procurement exercise is vital for success in the biotech industry. For a deeper dive into how to leverage translation for competitive gain, I recommend reading the full article.
 
-[Source: ecinnovations.com](https://www.ecinnovations.com/blog/biotech-translation)
+Source: [ecinnovations.com](https://www.ecinnovations.com/blog/biotech-translation)

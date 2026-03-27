@@ -18,4 +18,4 @@ The platform's emphasis on authenticity and user-generated content allows brands
 
 For localization and language services professionals, Xiaohongshu represents an essential channel for reaching China's affluent, digitally-savvy demographics. To delve deeper into how to leverage this platform for your marketing strategy, I recommend exploring the full article for actionable insights.
 
-[Source: ecinnovations.com](https://www.ecinnovations.com/blog/xiaohongshu-marketing)
+Source: [ecinnovations.com](https://www.ecinnovations.com/blog/xiaohongshu-marketing)

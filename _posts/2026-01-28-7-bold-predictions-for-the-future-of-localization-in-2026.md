@@ -18,4 +18,4 @@ This evolution signals a significant change in how localization teams operate. R
 
 For localization professionals, the key takeaway is to adapt to these changes by rethinking their strategies and infrastructure. Embrace AI, prioritize governance, and shift metrics from cost to revenue impact. For a deeper dive into these predictions and actionable insights, I recommend checking out the full article.
 
-[Source: lokalise.com](https://lokalise.com/blog/7-bold-predictions-for-the-future-of-localization-in-2026)
+Source: [lokalise.com](https://lokalise.com/blog/7-bold-predictions-for-the-future-of-localization-in-2026)

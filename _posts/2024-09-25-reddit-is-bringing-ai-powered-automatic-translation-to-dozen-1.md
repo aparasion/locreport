@@ -25,4 +25,4 @@ This development is significant for the localization and language services indus
 
 For localization professionals, this move underscores the necessity of integrating advanced translation technologies into platforms to cater to global audiences. As Reddit continues to roll out these features in additional languages, it sets a precedent for other social networks to follow suit, emphasizing the role of language accessibility in user retention and growth.
 
-[Source: techcrunch.com](https://techcrunch.com/2024/09/25/reddit-is-bringing-ai-powered-automatic-translation-to-dozens-of-new-countries)
+Source: [techcrunch.com](https://techcrunch.com/2024/09/25/reddit-is-bringing-ai-powered-automatic-translation-to-dozens-of-new-countries)

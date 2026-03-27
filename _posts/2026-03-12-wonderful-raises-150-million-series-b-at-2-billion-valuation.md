@@ -18,4 +18,4 @@ This development is significant for the localization and language services indus
 
 For localization professionals, the rise of such startups underscores the necessity to stay updated on AI advancements that could impact their workflows. I encourage you to explore the full story for deeper insights into the implications of this funding round on the broader tech landscape.
 
-[Source: calcalistech.com](https://www.calcalistech.com)
+Source: [calcalistech.com](https://www.calcalistech.com)

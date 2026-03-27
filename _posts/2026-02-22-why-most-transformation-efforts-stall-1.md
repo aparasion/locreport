@@ -25,4 +25,4 @@ This stagnation is rooted in an organizational dynamic where fear and uncertaint
 
 The key takeaway for localization professionals is to rethink the audit process as a catalyst for change rather than a mere diagnostic tool. By designing audits that prioritize collaboration, early wins, and clear communication, organizations can build the capability to adapt and thrive in an ever-evolving landscape.
 
-[Source: nimdzi.com](https://www.nimdzi.com/why-most-transformation-efforts-stall/?utm_source=rss&utm_medium=rss&utm_campaign=why-most-transformation-efforts-stall)
+Source: [nimdzi.com](https://www.nimdzi.com/why-most-transformation-efforts-stall/?utm_source=rss&utm_medium=rss&utm_campaign=why-most-transformation-efforts-stall)

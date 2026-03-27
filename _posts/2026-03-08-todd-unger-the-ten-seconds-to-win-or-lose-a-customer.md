@@ -18,4 +18,4 @@ This perspective is particularly relevant for localization and language services
 
 Ultimately, Unger's philosophy suggests that organizations must prioritize continuous testing and improvement to stay relevant and responsive to customer needs. For a deeper dive into his transformative ideas, I recommend checking out the full episode.
 
-[Source: phrase.com](https://phrase.com/blog/posts/todd-unger-ten-second-customer-journey)
+Source: [phrase.com](https://phrase.com/blog/posts/todd-unger-ten-second-customer-journey)

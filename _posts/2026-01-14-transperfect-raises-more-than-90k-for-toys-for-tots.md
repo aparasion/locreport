@@ -18,4 +18,4 @@ This significant donation not only highlights TransPerfect's commitment to corpo
 
 For localization professionals, this campaign serves as a reminder of the positive impact their organizations can have beyond business. To learn more about TransPerfect’s charitable efforts and the Toys for Tots campaign, I recommend checking out the full story.
 
-[Source: transperfect.com](https://www.transperfect.com/about/press/transperfect-raises-more-90k-toys-tots)
+Source: [transperfect.com](https://www.transperfect.com/about/press/transperfect-raises-more-90k-toys-tots)

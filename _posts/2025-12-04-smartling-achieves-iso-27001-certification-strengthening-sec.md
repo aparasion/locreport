@@ -18,4 +18,4 @@ This development is crucial for the localization and language services industry,
 
 For localization professionals, this certification signals a growing emphasis on security compliance in AI translation workflows. It’s a compelling reason to explore how Smartling’s certified processes can benefit your organization. I recommend checking out the full article for deeper insights into this important development.
 
-[Source: smartling.com](https://www.smartling.com/company-news/smartling-achieves-iso-27001)
+Source: [smartling.com](https://www.smartling.com/company-news/smartling-achieves-iso-27001)

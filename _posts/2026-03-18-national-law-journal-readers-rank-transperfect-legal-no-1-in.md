@@ -18,4 +18,4 @@ For localization and language services professionals, this recognition underscor
 
 This achievement serves as a reminder of the significant role that quality and innovation play in the legal industry. For further insights into TransPerfect’s award-winning services and their impact, I encourage you to read the full article.
 
-[Source: transperfect.com](https://www.transperfect.com/about/press/national-law-journal-readers-rank-transperfect-legal-no-1-six-categories)
+Source: [transperfect.com](https://www.transperfect.com/about/press/national-law-journal-readers-rank-transperfect-legal-no-1-six-categories)

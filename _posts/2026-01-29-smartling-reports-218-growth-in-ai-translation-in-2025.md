@@ -18,4 +18,4 @@ This shift reflects a broader trend in the localization industry where organizat
 
 For localization professionals, Smartling’s advancements signal a pivotal moment in AI-driven translation capabilities. I encourage you to explore the full article to understand how these developments can impact your localization strategies.
 
-[Source: smartling.com](https://www.smartling.com/company-news/growth-in-ai-translation-in-2025)
+Source: [smartling.com](https://www.smartling.com/company-news/growth-in-ai-translation-in-2025)

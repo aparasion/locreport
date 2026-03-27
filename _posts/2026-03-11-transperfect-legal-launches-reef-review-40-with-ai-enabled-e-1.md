@@ -25,4 +25,4 @@ The integration of AI into Reef Review is significant for the localization and l
 
 For localization professionals, this development underscores the growing importance of AI-driven solutions in managing multilingual content and legal documentation, highlighting the need for seamless integration of language services within legal tech platforms.
 
-[Source: transperfect.com](https://www.transperfect.com/about/press/transperfect-legal-launches-reef-review-40-ai-enabled-ediscovery-tools)
+Source: [transperfect.com](https://www.transperfect.com/about/press/transperfect-legal-launches-reef-review-40-ai-enabled-ediscovery-tools)

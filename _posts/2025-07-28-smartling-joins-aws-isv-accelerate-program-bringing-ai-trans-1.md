@@ -25,4 +25,4 @@ This partnership is significant for the localization and language services indus
 
 For localization professionals, this development highlights the increasing necessity of integrating AI and cloud solutions into workflows, suggesting that adopting such technologies could enhance service offerings and improve client satisfaction.
 
-[Source: smartling.com](https://www.smartling.com/company-news/smartling-joins-aws-isv-accelerate-program)
+Source: [smartling.com](https://www.smartling.com/company-news/smartling-joins-aws-isv-accelerate-program)

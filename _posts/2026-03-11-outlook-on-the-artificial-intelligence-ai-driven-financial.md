@@ -18,4 +18,4 @@ This development is significant for the localization and language services indus
 
 For localization professionals, the implementation of such technologies underscores the importance of adapting to digital transformation trends. Staying informed about these advancements can help businesses leverage similar solutions to improve their own operations. I recommend checking out the full article for a deeper dive into this impactful case study.
 
-[Source: openpr.com](https://www.openpr.com)
+Source: [openpr.com](https://www.openpr.com)

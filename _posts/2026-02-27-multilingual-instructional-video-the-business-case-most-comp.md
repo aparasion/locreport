@@ -18,4 +18,4 @@ This development is significant for the localization and language services indus
 
 Localization professionals should consider how integrating automated video solutions can elevate their customer engagement strategies. For a deeper dive into this innovative approach, I recommend checking out the full article for valuable insights.
 
-[Source: xtm.ai](https://xtm.ai/blog/the-business-case-for-multilingual-instructional-video)
+Source: [xtm.ai](https://xtm.ai/blog/the-business-case-for-multilingual-instructional-video)

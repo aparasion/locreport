@@ -25,4 +25,4 @@ These monthly meetings are designed to foster community ties and support continu
 
 For localization professionals, participating in these sessions can enhance your understanding of market dynamics and help build meaningful relationships within the community. Engaging in peer-to-peer discussions can inspire new ideas and approaches to navigating the evolving landscape of language services.
 
-[Source: elia-association.org](https://elia-association.org/2026/03/elia-coffee-break-monthly-member-catch-up/?utm_source=rss&utm_medium=rss&utm_campaign=elia-coffee-break-monthly-member-catch-up)
+Source: [elia-association.org](https://elia-association.org/2026/03/elia-coffee-break-monthly-member-catch-up/?utm_source=rss&utm_medium=rss&utm_campaign=elia-coffee-break-monthly-member-catch-up)

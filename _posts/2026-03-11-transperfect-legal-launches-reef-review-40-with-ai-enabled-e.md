@@ -18,4 +18,4 @@ This development is significant for the localization and language services indus
 
 For localization professionals, the integration of AI in legal processes signifies a shift towards more agile and responsive workflows. I encourage you to read the full article for deeper insights into how this innovation could impact your operations in the legal localization space.
 
-[Source: transperfect.com](https://www.transperfect.com/about/press/transperfect-legal-launches-reef-review-40-ai-enabled-ediscovery-tools)
+Source: [transperfect.com](https://www.transperfect.com/about/press/transperfect-legal-launches-reef-review-40-ai-enabled-ediscovery-tools)

@@ -18,4 +18,4 @@ The MCP standard, developed by Anthropic, facilitates secure connections between
 
 For localization professionals, the Smartling MCP server represents a significant advancement in integrating AI-driven translation within existing tech stacks. This integration promises to streamline workflows and enhance translation quality, making it a valuable asset for teams looking to optimize their localization processes. For a deeper dive into this development, I recommend checking out the full article on Smartling’s website.
 
-[Source: smartling.com](https://www.smartling.com/company-news/smartling-launches-mcp-server)
+Source: [smartling.com](https://www.smartling.com/company-news/smartling-launches-mcp-server)

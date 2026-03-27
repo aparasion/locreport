@@ -25,4 +25,4 @@ This shift is significant for the localization and language services industry, a
 
 For localization professionals, the key takeaway is the importance of integrating cultural sensitivity into AI development. As AI systems evolve, understanding and adapting to the nuances of different cultures will be crucial for creating effective and equitable language solutions.
 
-[Source: gala-global.org](https://www.gala-global.org/news/translated-announces-the-2026-imminent-research-report-the-age-of-experience-in-ai)
+Source: [gala-global.org](https://www.gala-global.org/news/translated-announces-the-2026-imminent-research-report-the-age-of-experience-in-ai)

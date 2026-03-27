@@ -25,4 +25,4 @@ High-quality translation is essential for ensuring that patients understand the 
 
 Localization professionals should recognize that investing in quality translation not only mitigates risks but also accelerates enrollment timelines and fosters trust with diverse patient populations. This focus on communication clarity can significantly influence the success of clinical trials in an increasingly global landscape.
 
-[Source: ecinnovations.com](https://www.ecinnovations.com/blog/why-translation-quality-matters-in-global-clinical-trial-patient-recruitment)
+Source: [ecinnovations.com](https://www.ecinnovations.com/blog/why-translation-quality-matters-in-global-clinical-trial-patient-recruitment)

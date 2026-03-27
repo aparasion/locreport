@@ -18,4 +18,4 @@ The researchers propose a tiered validation system that prioritizes functional u
 
 For localization professionals, this research underscores the critical need for robust validation methodologies in AI-driven translation, particularly in sensitive fields like healthcare. I recommend exploring the full article for a deeper understanding of these urgent implications for patient safety and health equity.
 
-[Source: slator.com](https://slator.com/medical-ai-translation-validation)
+Source: [slator.com](https://slator.com/medical-ai-translation-validation)

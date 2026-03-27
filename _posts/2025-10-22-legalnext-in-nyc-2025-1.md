@@ -25,4 +25,4 @@ For localization and language services professionals, LegalNEXT presents a uniqu
 
 Attendees can also earn Continuing Legal Education (CLE) credits while engaging in meaningful discussions. The emphasis on practical, real-world applications makes LegalNEXT a must-attend event for those looking to deepen their expertise and expand their professional networks in the legal sector.
 
-[Source: transperfect.com](https://www.transperfect.com/blog/legalnext)
+Source: [transperfect.com](https://www.transperfect.com/blog/legalnext)

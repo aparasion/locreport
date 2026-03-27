@@ -25,4 +25,4 @@ The growth underscores significant trends in the localization and language servi
 
 For localization professionals, the key takeaway is the importance of embracing AI and automation to remain competitive. As demonstrated by TransPerfect, leveraging advanced technology not only drives revenue growth but also enhances client satisfaction by delivering faster, more efficient services.
 
-[Source: transperfect.com](https://www.transperfect.com/about/press/transperfect-billed-revenues-increase)
+Source: [transperfect.com](https://www.transperfect.com/about/press/transperfect-billed-revenues-increase)

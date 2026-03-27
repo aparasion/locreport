@@ -25,4 +25,4 @@ This development is crucial for localization and language services professionals
 
 For localization professionals, the takeaway is clear: embracing these advancements can streamline workflows and enhance operational efficiency, positioning organizations to leverage AI more effectively in their multilingual strategies.
 
-[Source: gala-global.org](https://www.gala-global.org/news/phrase-launches-platform-innovations-to-take-ai-from-playground-to-production)
+Source: [gala-global.org](https://www.gala-global.org/news/phrase-launches-platform-innovations-to-take-ai-from-playground-to-production)

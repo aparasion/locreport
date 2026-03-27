@@ -18,4 +18,4 @@ The implications for the localization and language services industry are substan
 
 For localization professionals looking to improve efficiency and reduce rework, Rigi offers a compelling solution. I highly recommend exploring the full article to understand how this innovative platform can reshape your localization workflows.
 
-[Source: xtm.ai](https://xtm.ai/blog/how-to-eliminate-rework-in-software-localization)
+Source: [xtm.ai](https://xtm.ai/blog/how-to-eliminate-rework-in-software-localization)

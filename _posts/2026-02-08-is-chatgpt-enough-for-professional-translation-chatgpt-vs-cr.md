@@ -18,4 +18,4 @@ The key distinction lies in how these tools handle context. ChatGPT operates as 
 
 For localization professionals, the takeaway is clear: while AI tools like ChatGPT can be useful for quick translations, they cannot replace the robust capabilities of a dedicated localization ecosystem. For a deeper understanding of how to leverage both OpenAI and Crowdin effectively, I recommend checking out the full article.
 
-[Source: crowdin.com](https://crowdin.com/blog/chatgpt-for-translation-vs-crowdin)
+Source: [crowdin.com](https://crowdin.com/blog/chatgpt-for-translation-vs-crowdin)

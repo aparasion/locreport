@@ -25,4 +25,4 @@ For the localization and language services industry, this development signifies 
 
 One key takeaway for professionals in the field is the potential of the DeepL Voice API to transform contact center operations into a more agile, responsive, and customer-centric model, ultimately leading to improved service delivery and operational efficiency.
 
-[Source: deepl.com](https://www.deepl.com/en/blog/borderless-contact-center)
+Source: [deepl.com](https://www.deepl.com/en/blog/borderless-contact-center)

@@ -25,4 +25,4 @@ This development is significant for the localization and language services indus
 
 For localization professionals, the key takeaway is the importance of investing in technology that not only meets immediate demands but also builds long-term trust and value. As DeepL exemplifies, sustainable growth in AI requires a careful balance of innovation, financial discipline, and a focus on customer outcomes.
 
-[Source: deepl.com](https://www.deepl.com/en/blog/scaling-trust-deepl-cfo-martino-cadoni)
+Source: [deepl.com](https://www.deepl.com/en/blog/scaling-trust-deepl-cfo-martino-cadoni)

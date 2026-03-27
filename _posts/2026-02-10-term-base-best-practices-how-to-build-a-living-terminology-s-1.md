@@ -25,4 +25,4 @@ The article emphasizes that as AI-generated content proliferates, the risk of te
 
 For localization professionals, the key takeaway is the importance of implementing a term base to maintain quality and consistency, especially as AI plays a larger role in content creation. This proactive approach can save time and reduce costly rework, ensuring that all output aligns with brand standards.
 
-[Source: lokalise.com](https://lokalise.com/blog/term-base)
+Source: [lokalise.com](https://lokalise.com/blog/term-base)

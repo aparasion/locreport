@@ -18,4 +18,4 @@ The landscape of language services is evolving rapidly, driven by transformative
 
 As the pressure to automate increases, Yoxon-Grant urges professionals to prioritize equity alongside efficiency. He invites readers to explore the full article for deeper insights into navigating these challenges and maintaining a commitment to responsible language access.
 
-[Source: languageline.com](https://www.languageline.com/blog/what-do-driverless-cars-have-to-do-with-interpretation-quite-a-bit)
+Source: [languageline.com](https://www.languageline.com/blog/what-do-driverless-cars-have-to-do-with-interpretation-quite-a-bit)

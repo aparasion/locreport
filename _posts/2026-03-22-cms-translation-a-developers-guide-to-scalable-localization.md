@@ -25,4 +25,4 @@ For localization professionals, this shift is significant. It not only streamlin
 
 A key takeaway for industry professionals is the importance of structuring content for reuse and accessibility from the outset. By leveraging headless CMS and TMS integrations, localization teams can manage multilingual content more effectively, ensuring that new languages can be added without proportional increases in workload.
 
-[Source: crowdin.com](https://crowdin.com/blog/cms-translation)
+Source: [crowdin.com](https://crowdin.com/blog/cms-translation)

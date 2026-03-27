@@ -18,4 +18,4 @@ The significance of these tools lies in their ability to reduce turnaround times
 
 For localization professionals, the rise of AI dubbing tools presents a crucial opportunity to elevate their service offerings and improve workflow efficiency. To dive deeper into the specifics of these innovative tools and their potential impact, I highly recommend checking out the full article.
 
-[Source: news.google.com](https://news.google.com/rss/articles/CBMimwFBVV95cUxNUUhwZ0dRR2hRcnczbHFDRElCVTl3MGg2SG04QXpvNGxwWlNVbXAwdTlVSkVMWVFrcm5lV053eEhiZ0ZfM3NTblNPd3JsQUtwNVZuTktncm03TXJPSEVMODlBWlVQQ0luZFQ0aUstbDZnSGNsMGFET1BIUlJPcHE5MC1lalVQaEk0aVFQNERxTzZmZWFVZjdCREc1Yw?oc=5)
+Source: [news.google.com](https://news.google.com/rss/articles/CBMimwFBVV95cUxNUUhwZ0dRR2hRcnczbHFDRElCVTl3MGg2SG04QXpvNGxwWlNVbXAwdTlVSkVMWVFrcm5lV053eEhiZ0ZfM3NTblNPd3JsQUtwNVZuTktncm03TXJPSEVMODlBWlVQQ0luZFQ0aUstbDZnSGNsMGFET1BIUlJPcHE5MC1lalVQaEk0aVFQNERxTzZmZWFVZjdCREc1Yw?oc=5)

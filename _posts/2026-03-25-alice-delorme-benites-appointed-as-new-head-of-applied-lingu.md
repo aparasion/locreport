@@ -25,4 +25,4 @@ This leadership change is significant for the localization and language services
 
 A key takeaway for localization professionals is Delorme Benites' vision of fostering accountability in AI-driven processes. As AI becomes more prevalent, the need for skilled professionals who can navigate the complexities of technology and human communication will be paramount, highlighting the importance of education that bridges theory and practice.
 
-[Source: slator.com](https://slator.com/alice-delorme-benites-head-applied-linguistics-zhaw)
+Source: [slator.com](https://slator.com/alice-delorme-benites-head-applied-linguistics-zhaw)

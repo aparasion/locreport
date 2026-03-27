@@ -25,4 +25,4 @@ As the localization and language services industry adapts to the rise of hybrid 
 
 For localization professionals, the takeaway is clear: as remote work becomes entrenched, the demand for reliable, scalable interpretation services will continue to grow, highlighting the importance of human interpreters in conveying nuanced communication that machines may miss.
 
-[Source: techcrunch.com](https://techcrunch.com/2021/05/25/interactio-a-remote-interpretation-platform-grabs-30m-after-seeing-12x-growth-during-covid-19)
+Source: [techcrunch.com](https://techcrunch.com/2021/05/25/interactio-a-remote-interpretation-platform-grabs-30m-after-seeing-12x-growth-during-covid-19)

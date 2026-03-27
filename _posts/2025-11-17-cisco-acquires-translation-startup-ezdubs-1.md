@@ -25,4 +25,4 @@ This acquisition highlights a growing trend where major tech players are investi
 
 For localization professionals, this acquisition signals an important shift towards AI-driven translation solutions in enterprise settings, emphasizing the need to adapt to evolving technologies and market dynamics.
 
-[Source: techcrunch.com](https://techcrunch.com/2025/11/17/cisco-acquires-translation-startup-ezdubs)
+Source: [techcrunch.com](https://techcrunch.com/2025/11/17/cisco-acquires-translation-startup-ezdubs)

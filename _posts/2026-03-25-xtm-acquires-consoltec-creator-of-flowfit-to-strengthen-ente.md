@@ -25,4 +25,4 @@ The acquisition is significant for the localization and language services indust
 
 Localization professionals should note that this partnership aims to create a robust ecosystem that not only meets current market needs but also positions enterprises for future growth. The integration of FlowFit with XTM's technology could redefine how organizations approach their localization strategies, emphasizing the importance of agility and security in a rapidly evolving landscape.
 
-[Source: xtm.cloud](https://xtm.cloud/blog/xtm-acquires-consoltec)
+Source: [xtm.cloud](https://xtm.cloud/blog/xtm-acquires-consoltec)

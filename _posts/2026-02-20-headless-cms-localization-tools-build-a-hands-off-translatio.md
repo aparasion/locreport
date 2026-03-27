@@ -18,4 +18,4 @@ This integration is crucial for localization professionals, as it transforms the
 
 For localization teams looking to streamline their workflows, embracing a hands-off approach with headless CMS tools is essential. I highly recommend exploring the full article for a detailed guide on setting up effective continuous localization strategies.
 
-[Source: lokalise.com](https://lokalise.com/blog/headless-cms-localization-tools)
+Source: [lokalise.com](https://lokalise.com/blog/headless-cms-localization-tools)

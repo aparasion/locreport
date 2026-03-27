@@ -25,4 +25,4 @@ This survey seeks input from both clients and suppliers to gather diverse perspe
 
 For localization professionals, this is an opportunity to influence the future language of our industry. Participating in the survey not only allows you to express your views but also ensures that the terminology we use accurately reflects the dynamic nature of our work.
 
-[Source: gala-global.org](https://www.gala-global.org/news/vote-in-the-whats-in-a-name-survey)
+Source: [gala-global.org](https://www.gala-global.org/news/vote-in-the-whats-in-a-name-survey)

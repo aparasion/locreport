@@ -18,4 +18,4 @@ The article highlights a critical disconnect between localization efforts and bu
 
 For localization professionals looking to enhance their influence, the key takeaway is to shift the conversation from ROI to broader business questions that highlight risks and opportunities. This approach fosters collaboration and positions localization as a vital contributor to overall business success. I highly recommend reading the full article for deeper insights and practical strategies.
 
-[Source: nimdzi.com](https://www.nimdzi.com/localization-roi-data-attribution/?utm_source=rss&utm_medium=rss&utm_campaign=localization-roi-data-attribution)
+Source: [nimdzi.com](https://www.nimdzi.com/localization-roi-data-attribution/?utm_source=rss&utm_medium=rss&utm_campaign=localization-roi-data-attribution)

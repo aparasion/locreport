@@ -18,4 +18,4 @@ For localization and language services professionals, the emphasis on accurate T
 
 Overall, Thailand presents lucrative opportunities for medical device companies, but success hinges on thorough preparation and compliance. For a deeper dive into the registration process and regulatory requirements, I recommend checking out the full article.
 
-[Source: ecinnovations.com](https://www.ecinnovations.com/blog/thailand-medical-device-registration)
+Source: [ecinnovations.com](https://www.ecinnovations.com/blog/thailand-medical-device-registration)

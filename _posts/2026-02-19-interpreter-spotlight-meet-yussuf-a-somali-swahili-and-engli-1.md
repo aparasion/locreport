@@ -25,4 +25,4 @@ This shift towards technology-driven interpreting presents both challenges and o
 
 For those considering a career in interpreting, Yussuf advises that it requires more than bilingualism; it demands a commitment to empathy and responsibility. His experiences serve as a reminder of the vital role interpreters play in ensuring equitable access to services across cultures.
 
-[Source: en-gb.thebigword.com](https://en-gb.thebigword.com/news/interpreter-spotlight-yussuf-poly-somali-swahili-and-english-interpreter)
+Source: [en-gb.thebigword.com](https://en-gb.thebigword.com/news/interpreter-spotlight-yussuf-poly-somali-swahili-and-english-interpreter)

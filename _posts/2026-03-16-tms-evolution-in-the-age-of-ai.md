@@ -18,4 +18,4 @@ The growing complexity of TMS functionalities reflects a broader trend in langua
 
 As the industry moves towards AI-native TMS, localization professionals should consider how these advancements can optimize their workflows and enhance content quality. For a deeper dive into the evolution of TMS and its implications for the localization sector, I highly recommend checking out the full article.
 
-[Source: nimdzi.com](https://www.nimdzi.com/tms-evolution-in-the-age-of-ai/?utm_source=rss&utm_medium=rss&utm_campaign=tms-evolution-in-the-age-of-ai)
+Source: [nimdzi.com](https://www.nimdzi.com/tms-evolution-in-the-age-of-ai/?utm_source=rss&utm_medium=rss&utm_campaign=tms-evolution-in-the-age-of-ai)

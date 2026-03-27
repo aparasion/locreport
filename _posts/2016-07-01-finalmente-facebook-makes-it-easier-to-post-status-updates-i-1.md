@@ -25,4 +25,4 @@ This development is significant for the localization and language services indus
 
 A key takeaway for localization professionals is the increasing importance of user-driven multilingual solutions in social media, which could influence how businesses approach content localization and audience engagement across diverse linguistic markets.
 
-[Source: techcrunch.com](https://techcrunch.com/2016/07/01/facebook-makes-it-endlich-easier-for-page-owners-to-post-in-multiple-languages)
+Source: [techcrunch.com](https://techcrunch.com/2016/07/01/facebook-makes-it-endlich-easier-for-page-owners-to-post-in-multiple-languages)

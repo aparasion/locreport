@@ -25,4 +25,4 @@ This shift is particularly relevant as businesses increasingly seek cost-effecti
 
 For localization professionals, the key takeaway is the potential of AI to streamline workflows while maintaining quality through human intervention. As EasyTranslate demonstrates, the integration of advanced technology with human expertise can lead to significant productivity gains and cost reductions in translation services.
 
-[Source: techcrunch.com](https://techcrunch.com/2024/06/26/easytranslate-thinks-augmenting-llms-with-humans-will-give-it-an-edge-over-pure-ai-translation-services)
+Source: [techcrunch.com](https://techcrunch.com/2024/06/26/easytranslate-thinks-augmenting-llms-with-humans-will-give-it-an-edge-over-pure-ai-translation-services)

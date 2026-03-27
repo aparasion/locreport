@@ -25,4 +25,4 @@ The rise of generative AI and advancements in machine learning and cloud platfor
 
 For localization professionals, the emergence of devices like the X1 underscores the need to stay ahead of technological trends and consider how AI-driven tools can enhance service offerings and improve client experiences.
 
-[Source: techcrunch.com](https://techcrunch.com/2024/01/08/timekettles-699-translation-hardware-handles-multiple-languages-at-once)
+Source: [techcrunch.com](https://techcrunch.com/2024/01/08/timekettles-699-translation-hardware-handles-multiple-languages-at-once)

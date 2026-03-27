@@ -18,4 +18,4 @@ For localization and language services professionals, this development underscor
 
 As New Orleans navigates these changes, localization experts should consider how they can contribute to public engagement and information dissemination efforts. For a deeper understanding of the implications of these developments, I recommend checking out the full article.
 
-[Source: nola.com](https://www.nola.com)
+Source: [nola.com](https://www.nola.com)

@@ -25,4 +25,4 @@ This funding will enable Unbabel to enhance its AI capabilities and support its 
 
 For localization professionals, the implications are clear: the integration of AI with human translation is not just a trend but a transformative approach that can drive efficiency and customer satisfaction in global service delivery.
 
-[Source: techcrunch.com](https://techcrunch.com/2019/09/25/unbabel-gets-60m-for-its-blended-approach-to-business-translation)
+Source: [techcrunch.com](https://techcrunch.com/2019/09/25/unbabel-gets-60m-for-its-blended-approach-to-business-translation)

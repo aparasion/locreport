@@ -18,4 +18,4 @@ Understanding these trends is vital for localization and language service provid
 
 For localization professionals, the key takeaway is the importance of brand awareness in influencing procurement decisions. As the market continues to evolve, leveraging insights from this study can help providers refine their strategies and enhance their visibility. I highly recommend exploring the full findings for a deeper understanding of these trends and their implications for your business.
 
-[Source: nimdzi.com](https://www.nimdzi.com/localization-provider-brand-awareness-2025-study/?utm_source=rss&utm_medium=rss&utm_campaign=localization-provider-brand-awareness-2025-study)
+Source: [nimdzi.com](https://www.nimdzi.com/localization-provider-brand-awareness-2025-study/?utm_source=rss&utm_medium=rss&utm_campaign=localization-provider-brand-awareness-2025-study)

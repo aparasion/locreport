@@ -25,4 +25,4 @@ This development is crucial for the localization and language services industry,
 
 Localization professionals should take note of the innovative approaches being employed in Mali, particularly the use of AI to bridge gaps in language resources and literacy. This case serves as a reminder of the importance of culturally appropriate content creation and the role of technology in transforming language education.
 
-[Source: imminent.translated.com](https://imminent.translated.com/ai-as-the-elias-lonnrot-of-malis-bambara-language)
+Source: [imminent.translated.com](https://imminent.translated.com/ai-as-the-elias-lonnrot-of-malis-bambara-language)

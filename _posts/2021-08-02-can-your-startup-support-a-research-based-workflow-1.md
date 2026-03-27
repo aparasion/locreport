@@ -25,4 +25,4 @@ This investment in AI research is crucial as it can lead to significant competit
 
 For localization professionals, the key takeaway is to integrate research into product development strategically. By aligning research goals with business objectives and ensuring continuous feedback loops between researchers and product teams, companies can maximize the impact of their AI initiatives.
 
-[Source: techcrunch.com](https://techcrunch.com/2021/08/02/can-your-startup-support-a-research-based-workflow)
+Source: [techcrunch.com](https://techcrunch.com/2021/08/02/can-your-startup-support-a-research-based-workflow)

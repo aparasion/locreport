@@ -18,4 +18,4 @@ The Software Recorder not only reduces the time spent on video creation by at le
 
 For localization professionals, the implication is clear: integrating video creation with translation workflows can enhance efficiency and consistency across global content. I highly recommend exploring the full details of this development at the original source.
 
-[Source: slator.com](https://slator.com/xtm-multilingual-software-video-generation)
+Source: [slator.com](https://slator.com/xtm-multilingual-software-video-generation)

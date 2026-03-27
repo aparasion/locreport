@@ -18,4 +18,4 @@ This initiative is significant for the localization and language services indust
 
 For localization professionals, this project presents a valuable opportunity to understand emerging career paths and the integration of AI in language services. I recommend checking out the full article for a deeper insight into this important development.
 
-[Source: slator.com](https://slator.com/european-commission-ai-language-models)
+Source: [slator.com](https://slator.com/european-commission-ai-language-models)

@@ -18,4 +18,4 @@ The localization and language services industry must recognize that traditional 
 
 To truly benefit from audit findings, organizations should prioritize creating a narrative that connects insights to opportunities, engage cross-functional teams early in the process, and focus on generating meaningful early wins. For a deeper dive into these strategies and how they can enhance your localization efforts, I recommend checking out the full article by Roman Civin.
 
-[Source: nimdzi.com](https://www.nimdzi.com/why-most-transformation-efforts-stall/?utm_source=rss&utm_medium=rss&utm_campaign=why-most-transformation-efforts-stall)
+Source: [nimdzi.com](https://www.nimdzi.com/why-most-transformation-efforts-stall/?utm_source=rss&utm_medium=rss&utm_campaign=why-most-transformation-efforts-stall)

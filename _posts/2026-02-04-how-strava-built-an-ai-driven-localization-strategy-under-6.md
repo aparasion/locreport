@@ -18,4 +18,4 @@ The localization journey highlights the importance of speed, flexibility, and co
 
 For localization professionals, Strava's experience is a compelling case study in how the right technology can accelerate global expansion. I encourage you to read the full story to gain deeper insights into their successful strategy.
 
-[Source: crowdin.com](https://crowdin.com/blog/strava-localization-with-crowdin)
+Source: [crowdin.com](https://crowdin.com/blog/strava-localization-with-crowdin)

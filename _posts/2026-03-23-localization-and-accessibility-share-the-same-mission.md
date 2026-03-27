@@ -18,4 +18,4 @@ For localization professionals, the implications are significant. As digital con
 
 The key takeaway is that integrating accessibility into localization strategies is no longer optional; it is essential for reaching wider audiences and enhancing user experience. Organizations that prioritize both localization and accessibility will not only comply with evolving regulations but also gain a competitive edge in the global marketplace.
 
-[Source: phrase.com](https://phrase.com/blog/posts/localization-and-accessibility-global-content)
+Source: [phrase.com](https://phrase.com/blog/posts/localization-and-accessibility-global-content)

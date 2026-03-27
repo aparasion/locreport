@@ -18,4 +18,4 @@ This evolution underscores the necessity for organizations to integrate localiza
 
 For localization professionals, the key takeaway is clear: treating localization as an infrastructure-layer requirement is essential for managing compliance and content risk effectively. I highly recommend exploring the full article to understand how these trends are shaping the future of localization and what strategies can be employed to navigate this complex environment.
 
-[Source: phrase.com](https://phrase.com/blog/posts/hybrid-cloud-edge-ai-localization-infrastructure)
+Source: [phrase.com](https://phrase.com/blog/posts/hybrid-cloud-edge-ai-localization-infrastructure)

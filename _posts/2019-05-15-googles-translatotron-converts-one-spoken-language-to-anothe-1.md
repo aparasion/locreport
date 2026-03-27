@@ -25,4 +25,4 @@ For localization and language services professionals, this development highlight
 
 The key takeaway is that while the accuracy of Translatotron may not yet rival established systems, its potential to deliver expressive and contextually rich translations could reshape workflows and expectations in the industry. This innovation invites localization professionals to consider how such technologies can be integrated into their services to improve communication across languages.
 
-[Source: techcrunch.com](https://techcrunch.com/2019/05/15/googles-translatotron-converts-one-spoken-language-to-another-no-text-involved)
+Source: [techcrunch.com](https://techcrunch.com/2019/05/15/googles-translatotron-converts-one-spoken-language-to-another-no-text-involved)

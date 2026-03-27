@@ -18,4 +18,4 @@ This development is significant for the localization and language services indus
 
 For localization professionals, this partnership represents a pivotal shift towards more efficient and scalable translation solutions. I highly recommend checking out the full article to explore the implications of this collaboration further.
 
-[Source: smartling.com](https://www.smartling.com/company-news/smartling-joins-aws-isv-accelerate-program)
+Source: [smartling.com](https://www.smartling.com/company-news/smartling-joins-aws-isv-accelerate-program)

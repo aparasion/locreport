@@ -25,4 +25,4 @@ The establishment of this commission highlights a growing recognition of the imp
 
 For industry stakeholders, this development underscores the necessity of aligning language services with public policy initiatives, emphasizing the role of localization in fostering inclusivity and accessibility in government communications.
 
-[Source: slator.com](https://slator.com)
+Source: [slator.com](https://slator.com)

@@ -18,4 +18,4 @@ The event featured a diverse program that included a keynote on adaptability, pr
 
 For localization professionals, the key takeaway is the renewed focus on building genuine relationships and co-creating solutions. I highly recommend exploring the full insights from ELIA Together 2026 to understand how these discussions can influence your work and partnerships.
 
-[Source: elia-association.org](https://elia-association.org/2026/03/elia-together-2026-reflecting-on-our-10th-edition/?utm_source=rss&utm_medium=rss&utm_campaign=elia-together-2026-reflecting-on-our-10th-edition)
+Source: [elia-association.org](https://elia-association.org/2026/03/elia-together-2026-reflecting-on-our-10th-edition/?utm_source=rss&utm_medium=rss&utm_campaign=elia-together-2026-reflecting-on-our-10th-edition)

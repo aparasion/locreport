@@ -25,4 +25,4 @@ For localization and language services professionals, this trend underscores the
 
 The key takeaway for the industry is the importance of proactive AI governance. Legal professionals need clear guidance on approved tools that meet security and compliance requirements, while language service providers must develop AI solutions that cater specifically to the legal context, ensuring both accuracy and regulatory adherence.
 
-[Source: deepl.com](https://www.deepl.com/en/blog/legal-ai-strategies-ai-adoption)
+Source: [deepl.com](https://www.deepl.com/en/blog/legal-ai-strategies-ai-adoption)

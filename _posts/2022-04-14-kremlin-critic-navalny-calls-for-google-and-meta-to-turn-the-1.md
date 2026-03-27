@@ -25,4 +25,4 @@ This initiative highlights the intersection of technology and geopolitics, demon
 
 For localization professionals, Navalny's appeal underscores the importance of understanding the power of language technology in global communication strategies. As companies navigate these complex landscapes, they must consider both the opportunities and responsibilities that come with deploying their tools in politically sensitive situations.
 
-[Source: techcrunch.com](https://techcrunch.com/2022/04/14/navalny-anti-war-ads)
+Source: [techcrunch.com](https://techcrunch.com/2022/04/14/navalny-anti-war-ads)

@@ -18,4 +18,4 @@ This development is significant for the localization and language services indus
 
 For professionals in the localization field, this is a chance to consider how leadership roles in sales can impact growth and innovation. If you're interested in the details of this opportunity, I recommend checking out the full job description on Acolad's website.
 
-[Source: gala-global.org](https://www.gala-global.org/news/acolad-is-seeking-a-head-of-business-development-manager)
+Source: [gala-global.org](https://www.gala-global.org/news/acolad-is-seeking-a-head-of-business-development-manager)

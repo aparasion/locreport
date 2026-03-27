@@ -25,4 +25,4 @@ The introduction of Translate reflects a growing trend towards integrated langua
 
 For localization professionals, the launch of Translate underscores the importance of mobile-first strategies and the need to consider how offline capabilities can enhance user experience in translation workflows. As Apple expands its language offerings, staying informed about these developments will be crucial for adapting services to meet evolving user needs.
 
-[Source: techcrunch.com](https://techcrunch.com/2020/06/22/apples-new-translate-app-works-offline-with-11-languages)
+Source: [techcrunch.com](https://techcrunch.com/2020/06/22/apples-new-translate-app-works-offline-with-11-languages)

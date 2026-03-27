@@ -18,4 +18,4 @@ This transition is critical for the localization and language services industry 
 
 For localization professionals, Suitsupply's experience underscores the importance of adopting AI and automation early in the localization process. It serves as a compelling case study for integrating design and translation systems to streamline workflows. I highly recommend exploring the full story for deeper insights into their innovative approach.
 
-[Source: crowdin.com](https://crowdin.com/blog/suitsupply-localization-with-crowdin)
+Source: [crowdin.com](https://crowdin.com/blog/suitsupply-localization-with-crowdin)

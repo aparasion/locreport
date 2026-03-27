@@ -25,4 +25,4 @@ For localization and language services professionals, this insight underscores t
 
 The key takeaway is that localization strategies must evolve to incorporate not just linguistic differences but also deep cultural understandings of intelligence, which will ultimately shape the success of AI solutions in diverse markets.
 
-[Source: imminent.translated.com](https://imminent.translated.com/no-single-intelligence-fits-all)
+Source: [imminent.translated.com](https://imminent.translated.com/no-single-intelligence-fits-all)

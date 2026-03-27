@@ -25,4 +25,4 @@ This surge in activity reflects broader trends in the localization industry, whe
 
 A key takeaway for localization experts is the importance of aligning automation with regulatory demands, as well as the need to focus on the qualitative aspects of localization, ensuring that customer needs are met through effective communication strategies.
 
-[Source: slator.com](https://slator.com/key-takeaways-slatorcon-remote-march-2026)
+Source: [slator.com](https://slator.com/key-takeaways-slatorcon-remote-march-2026)

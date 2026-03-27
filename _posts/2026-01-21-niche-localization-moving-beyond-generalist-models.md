@@ -18,4 +18,4 @@ This discussion highlights a significant shift in localization strategies for br
 
 For localization professionals, the key takeaway is the necessity of cultural fluency over mere accuracy. Engaging with partners who truly understand the sport can enhance brand authenticity and foster trust. I highly recommend listening to the full episode for deeper insights into this vital aspect of localization.
 
-[Source: crowdin.com](https://crowdin.com/blog/agile-localization-podcast-with-martina-russo)
+Source: [crowdin.com](https://crowdin.com/blog/agile-localization-podcast-with-martina-russo)

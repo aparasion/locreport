@@ -18,4 +18,4 @@ This recognition highlights the growing importance of AI in the localization and
 
 For localization professionals, Smartling's innovations represent a significant shift towards more efficient translation processes. I recommend reading the full article to explore how these developments could impact your workflows and business strategies.
 
-[Source: smartling.com](https://www.smartling.com/company-news/smartling-wins-machine-translation-innovation-award)
+Source: [smartling.com](https://www.smartling.com/company-news/smartling-wins-machine-translation-innovation-award)

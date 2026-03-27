@@ -25,4 +25,4 @@ For localization and language services professionals, the guide underscores the 
 
 In summary, the article serves as a reminder that successful global expansion hinges on a thoughtful localization strategy that goes beyond mere translation, ultimately fostering trust and connection with international customers.
 
-[Source: xtm.ai](https://xtm.ai/blog/content-translation)
+Source: [xtm.ai](https://xtm.ai/blog/content-translation)

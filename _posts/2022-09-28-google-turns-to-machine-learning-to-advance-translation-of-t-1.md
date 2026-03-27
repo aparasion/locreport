@@ -25,4 +25,4 @@ This development is significant for the localization and language services indus
 
 One key takeaway is the potential for this technology to enhance user experience in augmented reality applications, suggesting that localization strategies may need to adapt to accommodate new formats and platforms as they emerge.
 
-[Source: techcrunch.com](https://techcrunch.com/2022/09/28/google-turns-to-machine-learning-to-advance-translation-of-text-out-in-the-real-world)
+Source: [techcrunch.com](https://techcrunch.com/2022/09/28/google-turns-to-machine-learning-to-advance-translation-of-text-out-in-the-real-world)
