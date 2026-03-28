@@ -3452,3 +3452,146 @@ a.internal-link:hover {
   letter-spacing: 0.01em;
   font-size: 0.78rem;
 }
+
+/* ── Community Signal Proposals ───────────────────────────── */
+.proposal-intro {
+  margin: 1rem 0 1.5rem;
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--card-bg);
+}
+
+.proposal-section {
+  margin-top: 2rem;
+}
+
+.proposal-section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.proposal-form,
+.proposal-admin-controls {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.proposal-form input,
+.proposal-form textarea,
+.proposal-form select,
+.proposal-admin-controls input {
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  font: inherit;
+}
+
+.proposal-list {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.proposal-card {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--card-bg);
+  padding: 0.9rem 1rem;
+}
+
+.proposal-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.proposal-card-head h3 {
+  margin: 0;
+  font-size: 1.02rem;
+}
+
+.proposal-meta,
+.proposal-muted {
+  color: var(--muted);
+}
+
+.proposal-links {
+  margin: 0.5rem 0;
+  padding-left: 1.2rem;
+}
+
+.proposal-votes {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.7rem;
+}
+
+.proposal-vote,
+.proposal-refresh,
+.proposal-moderation button {
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.35rem 0.7rem;
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.proposal-vote:hover,
+.proposal-refresh:hover,
+.proposal-moderation button:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.proposal-score {
+  margin-right: 0.35rem;
+}
+
+.proposal-status {
+  font-size: 0.78rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.2rem 0.5rem;
+  text-transform: capitalize;
+  white-space: nowrap;
+}
+
+.proposal-status--published,
+.proposal-status--promoted {
+  border-color: #1f9d52;
+  color: #1f9d52;
+}
+
+.proposal-status--pending_review {
+  border-color: #c98a1f;
+  color: #c98a1f;
+}
+
+.proposal-status--rejected {
+  border-color: #bf3d3d;
+  color: #bf3d3d;
+}
+
+.proposal-promotion {
+  margin-top: 0.6rem;
+  font-size: 0.92rem;
+}
+
+.proposal-moderation {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.7rem;
+}
+
+.proposal-error {
+  color: #bf3d3d;
+}
