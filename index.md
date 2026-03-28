@@ -5,31 +5,20 @@ nav: true
 nav_order: 1
 ---
 
-<section class="ai-hero">
-  <div class="ai-hero-grid">
-    <div class="ai-hero-content">
-      <p class="ai-kicker">AI-first intelligence for localization leaders</p>
-      <h1>Signal-rich coverage for teams scaling multilingual products.</h1>
-      <p class="ai-hero-subtitle">LocReport tracks enterprise language strategy across AI, market shifts, quality operations, and governance. Built for operators who need clear context—not noise.</p>
-      <div class="ai-hero-cta-row">
-        <a href="{{ '/all-articles/' | relative_url }}" class="ai-cta-primary">Explore latest coverage</a>
-        <a href="{{ '/intelligence/' | relative_url }}" class="ai-cta-secondary">Open intelligence dashboard</a>
-      </div>
-    </div>
-    <aside class="ai-hero-panel" aria-label="LocReport summary panel">
-      <img src="{{ '/assets/images/lrlogo.png' | relative_url }}" alt="LocReport" class="ai-hero-logo" loading="eager">
-      <h2>Built for modern global content systems</h2>
-      <ul>
-        <li>Daily briefings on language AI and localization operations.</li>
-        <li>Structured impact signals to prioritize what matters now.</li>
-        <li>Text-first format optimized for fast executive reading.</li>
-      </ul>
-    </aside>
+<section class="hero">
+  <div class="hero-content">
+    <h1>The pulse of the language services industry</h1>
+    <p class="hero-subtitle">Daily coverage of translation, localization, and AI — curated, analyzed, and tracked through the signals that matter.</p>
+
   </div>
 </section>
 
 {% include sources-bar.html %}
 
+{% comment %}
+  Collect the last 3 unique days that have published content.
+  Posts are already sorted newest-first by Jekyll.
+{% endcomment %}
 {% assign day_count = 0 %}
 {% assign current_day = "" %}
 {% assign day1 = "" %}
@@ -52,12 +41,10 @@ nav_order: 1
   {% if day_count > 3 %}{% break %}{% endif %}
 {% endfor %}
 
+{% comment %} Day 1: Most recent — featured first article + grid of remaining {% endcomment %}
 {% assign day1_first = true %}
-<section class="day-section day-section--primary">
-  <div class="day-section-heading-row">
-    <h2 class="day-header">{{ site.posts.first.date | date: "%B %d, %Y" }}</h2>
-    <p class="day-section-note">Most recent publishing cycle</p>
-  </div>
+<section class="day-section">
+  <h2 class="day-header">{{ site.posts.first.date | date: "%B %d, %Y" }}</h2>
 
   {% for post in site.posts %}
     {% assign post_day = post.date | date: "%Y-%m-%d" %}
@@ -66,7 +53,7 @@ nav_order: 1
     {% if day1_first %}
       {% assign day1_first = false %}
       <article class="featured-article reveal">
-        <span class="featured-badge">Latest briefing</span>
+        <span class="featured-badge">Latest</span>
         {% if post.impact_score %}
         <span class="impact-badge impact-badge--{{ post.impact_score }} impact-badge--inline">
           {% if post.impact_score == 1 %}Routine{% elsif post.impact_score == 2 %}Notable{% elsif post.impact_score == 3 %}Significant{% elsif post.impact_score == 4 %}Major{% elsif post.impact_score == 5 %}Disruptive{% endif %}
@@ -74,7 +61,7 @@ nav_order: 1
         {% endif %}
         <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
         <p class="post-meta">{{ post.date | date: "%B %d, %Y" }}</p>
-        <p>{{ post.excerpt | strip_html | truncate: 240 }}</p>
+        <p>{{ post.excerpt | strip_html | truncate: 200 }}</p>
       </article>
 
       <div class="post-grid reveal-stagger">
@@ -82,19 +69,20 @@ nav_order: 1
       <article class="post-card" {% if post.affected_segments %}data-segments="{{ post.affected_segments | join: '|' }}"{% endif %}>
         <p class="post-meta">{{ post.date | date: "%B %d, %Y" }}<span class="new-badge">NEW</span>{% if post.impact_score and post.impact_score >= 3 %}<span class="impact-dot impact-dot--{{ post.impact_score }}" title="Impact: {% if post.impact_score == 3 %}Significant{% elsif post.impact_score == 4 %}Major{% elsif post.impact_score == 5 %}Disruptive{% endif %}"></span>{% endif %}</p>
         <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
-        <p>{{ post.excerpt | strip_html | truncate: 150 }}</p>
-        <span class="read-more">Read intelligence note &rarr;</span>
+        <p>{{ post.excerpt | strip_html | truncate: 140 }}</p>
+        <span class="read-more">Read more &rarr;</span>
       </article>
     {% endif %}
   {% endfor %}
       </div>
 </section>
 
+{% comment %} Newsletter signup banner {% endcomment %}
 <section class="newsletter-banner">
   <div class="newsletter-banner-inner">
     <div class="newsletter-banner-text">
-      <h3 class="newsletter-banner-title">Weekly AI + localization briefing</h3>
-      <p class="newsletter-banner-desc">One concise Monday email covering market moves, operational lessons, and strategic watchpoints.</p>
+      <h3 class="newsletter-banner-title">Stay in the loop</h3>
+      <p class="newsletter-banner-desc">Weekly digest of localization news and signal shifts — every Monday.</p>
     </div>
     <form action="https://buttondown.com/api/emails/embed-subscribe/locreport"
           method="post"
@@ -107,6 +95,7 @@ nav_order: 1
   </div>
 </section>
 
+{% comment %} Day 2 {% endcomment %}
 {% if day2 != "" %}
 <section class="day-section">
   {% for post in site.posts %}
@@ -116,10 +105,7 @@ nav_order: 1
       {% break %}
     {% endif %}
   {% endfor %}
-  <div class="day-section-heading-row">
-    <h2 class="day-header">{{ day2_display }}</h2>
-    <p class="day-section-note">Recent archive</p>
-  </div>
+  <h2 class="day-header">{{ day2_display }}</h2>
   <div class="post-grid reveal-stagger">
     {% for post in site.posts %}
       {% assign post_day = post.date | date: "%Y-%m-%d" %}
@@ -127,14 +113,15 @@ nav_order: 1
       <article class="post-card" {% if post.affected_segments %}data-segments="{{ post.affected_segments | join: '|' }}"{% endif %}>
         <p class="post-meta">{{ post.date | date: "%B %d, %Y" }}{% if post.impact_score and post.impact_score >= 3 %}<span class="impact-dot impact-dot--{{ post.impact_score }}" title="Impact: {% if post.impact_score == 3 %}Significant{% elsif post.impact_score == 4 %}Major{% elsif post.impact_score == 5 %}Disruptive{% endif %}"></span>{% endif %}</p>
         <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
-        <p>{{ post.excerpt | strip_html | truncate: 145 }}</p>
-        <span class="read-more">Read intelligence note &rarr;</span>
+        <p>{{ post.excerpt | strip_html | truncate: 140 }}</p>
+        <span class="read-more">Read more &rarr;</span>
       </article>
     {% endfor %}
   </div>
 </section>
 {% endif %}
 
+{% comment %} Day 3 {% endcomment %}
 {% if day3 != "" %}
 <section class="day-section">
   {% for post in site.posts %}
@@ -144,10 +131,7 @@ nav_order: 1
       {% break %}
     {% endif %}
   {% endfor %}
-  <div class="day-section-heading-row">
-    <h2 class="day-header">{{ day3_display }}</h2>
-    <p class="day-section-note">Recent archive</p>
-  </div>
+  <h2 class="day-header">{{ day3_display }}</h2>
   <div class="post-grid reveal-stagger">
     {% for post in site.posts %}
       {% assign post_day = post.date | date: "%Y-%m-%d" %}
@@ -155,8 +139,8 @@ nav_order: 1
       <article class="post-card" {% if post.affected_segments %}data-segments="{{ post.affected_segments | join: '|' }}"{% endif %}>
         <p class="post-meta">{{ post.date | date: "%B %d, %Y" }}{% if post.impact_score and post.impact_score >= 3 %}<span class="impact-dot impact-dot--{{ post.impact_score }}" title="Impact: {% if post.impact_score == 3 %}Significant{% elsif post.impact_score == 4 %}Major{% elsif post.impact_score == 5 %}Disruptive{% endif %}"></span>{% endif %}</p>
         <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
-        <p>{{ post.excerpt | strip_html | truncate: 145 }}</p>
-        <span class="read-more">Read intelligence note &rarr;</span>
+        <p>{{ post.excerpt | strip_html | truncate: 140 }}</p>
+        <span class="read-more">Read more &rarr;</span>
       </article>
     {% endfor %}
   </div>
