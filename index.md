@@ -129,7 +129,7 @@ nav_order: 1
   <div class="newsletter-banner-inner">
     <div class="newsletter-banner-text">
       <h3 class="newsletter-banner-title">Stay in the loop</h3>
-      <p class="newsletter-banner-desc">Weekly digest of localization news and signal shifts — every Monday.</p>
+      <p class="newsletter-banner-desc">Weekly digest of localization news and signal shifts — every Friday.</p>
     </div>
     <form action="https://buttondown.com/api/emails/embed-subscribe/locreport"
           method="post"
@@ -221,7 +221,7 @@ nav_order: 1
     <div class="capability-card">
       <span class="capability-number">04</span>
       <h3>Weekly Newsletter</h3>
-      <p>A curated weekly digest of the most important localization news and signal shifts, delivered every Monday.</p>
+      <p>A curated weekly digest of the most important localization news and signal shifts, delivered every Friday.</p>
       <a href="/newsletter/" class="capability-link">Subscribe &rarr;</a>
     </div>
   </div>
