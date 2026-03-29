@@ -8,7 +8,6 @@ nav_order: 1
 <section class="hero">
   <div class="hero-content">
     <div class="hero-eyebrow">
-      <img src="{{ '/assets/images/icon.png' | relative_url }}" alt="" class="hero-eyebrow-icon">
       <span>Industry Intelligence Platform</span>
     </div>
     <h1>The pulse of the language<br>services industry</h1>
