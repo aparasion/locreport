@@ -648,7 +648,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // ── Newsletter Popup ──────────────────────────────────────
   (function () {
-    var POPUP_DELAY_MS = 45000;        // 45 seconds on page
+    var POPUP_DELAY_MS = 5000;         // 5 seconds on page
     var DISMISS_COOLDOWN_DAYS = 14;    // Don't show again for 14 days after dismiss
     var SUBSCRIBED_KEY  = "locreport-nl-subscribed";
     var DISMISSED_KEY   = "locreport-nl-dismissed";
@@ -729,19 +729,36 @@ document.addEventListener("DOMContentLoaded", function () {
           submitBtn.textContent = "Subscribing\u2026";
         }
 
-        fetch("https://buttondown.com/api/emails/embed-subscribe/locreport", {
-          method: "POST",
-          headers: { "Content-Type": "application/x-www-form-urlencoded" },
-          body: "email=" + encodeURIComponent(email)
-        }).then(function () {
+        // Buttondown embed endpoint doesn't support CORS fetch;
+        // submit via a hidden iframe so the POST goes through natively.
+        var iframeName = "nl-popup-iframe-" + Date.now();
+        var iframe = document.createElement("iframe");
+        iframe.name = iframeName;
+        iframe.style.display = "none";
+        document.body.appendChild(iframe);
+
+        var hiddenForm = document.createElement("form");
+        hiddenForm.method = "POST";
+        hiddenForm.action = "https://buttondown.com/api/emails/embed-subscribe/locreport";
+        hiddenForm.target = iframeName;
+        var hiddenEmail = document.createElement("input");
+        hiddenEmail.type = "hidden";
+        hiddenEmail.name = "email";
+        hiddenEmail.value = email;
+        hiddenForm.appendChild(hiddenEmail);
+        document.body.appendChild(hiddenForm);
+        hiddenForm.submit();
+
+        // Show success state after a short delay for the POST to go through
+        setTimeout(function () {
           localStorage.setItem(SUBSCRIBED_KEY, "1");
           if (bodyEl) bodyEl.style.display = "none";
           if (successEl) successEl.style.display = "block";
           setTimeout(closePopup, 3500);
-        }).catch(function () {
-          // Fallback: redirect to newsletter page
-          window.location.href = "{{ '/newsletter/' | relative_url }}";
-        });
+          // Clean up
+          document.body.removeChild(hiddenForm);
+          document.body.removeChild(iframe);
+        }, 1500);
       });
     }
   })();
