@@ -147,6 +147,37 @@
     </div>
   </div>
 
+  <!-- ── Newsletter Signup Popup ────────────────────────── -->
+  <div id="nl-popup-overlay" class="nl-popup-overlay" role="dialog" aria-modal="true" aria-label="Newsletter signup">
+    <div class="nl-popup">
+      <div class="nl-popup-accent"></div>
+      <button id="nl-popup-close" class="nl-popup-close" aria-label="Close newsletter popup">&times;</button>
+
+      <div id="nl-popup-body" class="nl-popup-body">
+        <div class="nl-popup-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        </div>
+        <h3 class="nl-popup-title">Don't miss what's shaping the industry</h3>
+        <p class="nl-popup-desc">
+          Get the <strong>weekly localization intelligence brief</strong> every Friday — key signals, market shifts, and strategic insights curated for leaders who need to stay ahead.
+        </p>
+        <form id="nl-popup-form" class="nl-popup-form">
+          <input type="email" id="nl-popup-email" class="nl-popup-input" name="email" required placeholder="your@email.com" aria-label="Email address">
+          <button type="submit" class="nl-popup-submit">Subscribe</button>
+        </form>
+        <p class="nl-popup-hint">Every Friday. No spam. Unsubscribe anytime.</p>
+      </div>
+
+      <div id="nl-popup-success" class="nl-popup-success" style="display:none;">
+        <div class="nl-popup-success-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <h3 class="nl-popup-success-title">You're in!</h3>
+        <p class="nl-popup-success-desc">Your first brief arrives next Friday. Welcome aboard.</p>
+      </div>
+    </div>
+  </div>
+
   {% include footer.html %}
 
 <script>
@@ -614,6 +645,106 @@ document.addEventListener("DOMContentLoaded", function () {
     btn.classList.add("is-copied");
     setTimeout(function () { btn.classList.remove("is-copied"); }, 2000);
   }
+
+  // ── Newsletter Popup ──────────────────────────────────────
+  (function () {
+    var POPUP_DELAY_MS = 45000;        // 45 seconds on page
+    var DISMISS_COOLDOWN_DAYS = 14;    // Don't show again for 14 days after dismiss
+    var SUBSCRIBED_KEY  = "locreport-nl-subscribed";
+    var DISMISSED_KEY   = "locreport-nl-dismissed";
+
+    // Don't show if already subscribed
+    if (localStorage.getItem(SUBSCRIBED_KEY)) return;
+
+    // Don't show if dismissed recently
+    var dismissedAt = parseInt(localStorage.getItem(DISMISSED_KEY) || "0", 10);
+    if (dismissedAt && (Date.now() - dismissedAt) < DISMISS_COOLDOWN_DAYS * 86400000) return;
+
+    // Don't show on the newsletter page itself
+    if (window.location.pathname.indexOf("/newsletter") !== -1) return;
+
+    var overlay = document.getElementById("nl-popup-overlay");
+    var closeBtn = document.getElementById("nl-popup-close");
+    var form = document.getElementById("nl-popup-form");
+    var emailInput = document.getElementById("nl-popup-email");
+    var bodyEl = document.getElementById("nl-popup-body");
+    var successEl = document.getElementById("nl-popup-success");
+
+    if (!overlay) return;
+
+    function openPopup() {
+      overlay.classList.add("is-open");
+      document.body.style.overflow = "hidden";
+      if (emailInput) emailInput.focus();
+    }
+
+    function closePopup() {
+      overlay.classList.remove("is-open");
+      document.body.style.overflow = "";
+    }
+
+    function dismiss() {
+      localStorage.setItem(DISMISSED_KEY, String(Date.now()));
+      closePopup();
+    }
+
+    // Open after delay, only if user has scrolled (shows engagement)
+    var hasScrolled = false;
+    var scrollListener = function () { hasScrolled = true; };
+    window.addEventListener("scroll", scrollListener, { passive: true });
+
+    var popupTimer = setTimeout(function () {
+      window.removeEventListener("scroll", scrollListener);
+      if (hasScrolled) {
+        openPopup();
+      } else {
+        // Wait for first scroll if user hasn't scrolled yet
+        var waitForScroll = function () {
+          window.removeEventListener("scroll", waitForScroll);
+          setTimeout(openPopup, 3000);
+        };
+        window.addEventListener("scroll", waitForScroll, { passive: true });
+      }
+    }, POPUP_DELAY_MS);
+
+    // Close handlers
+    if (closeBtn) closeBtn.addEventListener("click", dismiss);
+    overlay.addEventListener("click", function (e) {
+      if (e.target === overlay) dismiss();
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && overlay.classList.contains("is-open")) dismiss();
+    });
+
+    // Form submission
+    if (form) {
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        var email = emailInput ? emailInput.value.trim() : "";
+        if (!email) return;
+
+        var submitBtn = form.querySelector(".nl-popup-submit");
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.textContent = "Subscribing\u2026";
+        }
+
+        fetch("https://buttondown.com/api/emails/embed-subscribe/locreport", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: "email=" + encodeURIComponent(email)
+        }).then(function () {
+          localStorage.setItem(SUBSCRIBED_KEY, "1");
+          if (bodyEl) bodyEl.style.display = "none";
+          if (successEl) successEl.style.display = "block";
+          setTimeout(closePopup, 3500);
+        }).catch(function () {
+          // Fallback: redirect to newsletter page
+          window.location.href = "{{ '/newsletter/' | relative_url }}";
+        });
+      });
+    }
+  })();
 
   // ── Scroll-to-top button ─────────────────────────────────
   if (scrollTopButton) {
