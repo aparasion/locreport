@@ -7,14 +7,61 @@ nav_order: 1
 
 <section class="hero">
   <div class="hero-content">
-    <h1>The pulse of the language services industry</h1>
+    <div class="hero-eyebrow">
+      <img src="{{ '/assets/images/icon.png' | relative_url }}" alt="" class="hero-eyebrow-icon">
+      <span>Industry Intelligence Platform</span>
+    </div>
+    <h1>The pulse of the language<br>services industry</h1>
     <p class="hero-subtitle">Daily coverage of translation, localization, and AI — curated, analyzed, and tracked through the signals that matter.</p>
-
+    <div class="hero-actions">
+      <a href="/all-articles/" class="btn btn--primary">Browse articles</a>
+      <a href="/intelligence/" class="btn btn--secondary">Intelligence Dashboard</a>
+    </div>
   </div>
 </section>
 
 {% include sources-bar.html %}
 
+<!-- Features Grid -->
+<section class="features-section">
+  <div class="features-header">
+    <h2 class="section-label">Why LocReport</h2>
+    <p class="section-title">Built for localization professionals</p>
+    <p class="section-desc">Everything you need to stay ahead of industry shifts — in one place.</p>
+  </div>
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+      </div>
+      <h3>Daily Coverage</h3>
+      <p>Curated news from 15+ industry sources, published every day with context that matters.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      </div>
+      <h3>Signal Tracking</h3>
+      <p>Articles are mapped to industry signals so you can see trends forming across the landscape.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      </div>
+      <h3>Impact Scoring</h3>
+      <p>Every article is assessed for business impact — from routine updates to disruptive shifts.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      </div>
+      <h3>Segment Targeting</h3>
+      <p>Filter by role — LSP, Technology Provider, Enterprise Client, or Brand/Marketplace.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Latest Articles -->
 {% comment %}
   Collect the last 3 unique days that have published content.
   Posts are already sorted newest-first by Jekyll.
@@ -147,8 +194,47 @@ nav_order: 1
 </section>
 {% endif %}
 
-<div class="view-all-cta">
-  <a href="/all-articles/" class="view-all-link">View all articles &rarr;</a>
-  <br><br>
-  <a href="/intelligence/" class="view-all-link view-all-link--secondary">Intelligence Dashboard &rarr;</a>
-</div>
+<!-- Capabilities Section -->
+<section class="capabilities-section">
+  <div class="capabilities-header">
+    <h2 class="section-label">Capabilities</h2>
+    <p class="section-title">Intelligence at every layer</p>
+  </div>
+  <div class="capabilities-grid">
+    <div class="capability-card">
+      <span class="capability-number">01</span>
+      <h3>Topic Streams</h3>
+      <p>Coverage organized into five strategic pillars — Quality, Operations, Governance, Market, and Strategy — so you can focus on what you care about.</p>
+      <a href="/topics/" class="capability-link">Explore topics &rarr;</a>
+    </div>
+    <div class="capability-card">
+      <span class="capability-number">02</span>
+      <h3>Intelligence Dashboard</h3>
+      <p>Visual overview of signal health, impact distribution, and segment-specific trends across the entire article corpus.</p>
+      <a href="/intelligence/" class="capability-link">View dashboard &rarr;</a>
+    </div>
+    <div class="capability-card">
+      <span class="capability-number">03</span>
+      <h3>Smart Search</h3>
+      <p>Full-text search with phrase matching, smart scoring, and keyboard navigation. Press <kbd>Cmd+K</kbd> to try it.</p>
+    </div>
+    <div class="capability-card">
+      <span class="capability-number">04</span>
+      <h3>Weekly Newsletter</h3>
+      <p>A curated weekly digest of the most important localization news and signal shifts, delivered every Monday.</p>
+      <a href="/newsletter/" class="capability-link">Subscribe &rarr;</a>
+    </div>
+  </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section">
+  <div class="cta-inner">
+    <h2>Ready to stay ahead?</h2>
+    <p>Join localization professionals who rely on LocReport for daily industry intelligence.</p>
+    <div class="cta-actions">
+      <a href="/all-articles/" class="btn btn--primary btn--lg">View all articles</a>
+      <a href="/intelligence/" class="btn btn--ghost btn--lg">Intelligence Dashboard</a>
+    </div>
+  </div>
+</section>
