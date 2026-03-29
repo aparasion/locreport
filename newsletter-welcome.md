@@ -9,7 +9,7 @@ Your subscription is confirmed — welcome to LocReport.
 
 **Here's what to expect:**
 
-- A **weekly digest** every Monday with the top stories and signal shifts from the localization and language technology industry.
+- A **weekly digest** every Friday with the top stories and signal shifts from the localization and language technology industry.
 - A **monthly report** with our editorial take on the trends shaping the sector.
 
 While you wait for the first issue, catch up on what you've missed:
