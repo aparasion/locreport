@@ -13,19 +13,37 @@ BASE_CATEGORY = "translation"
 
 SYSTEM_PROMPT = """You are a senior editor writing the monthly industry intelligence report for a localization and translation industry publication. Your readers are decision-makers, technology leaders, and practitioners in enterprise localization, language AI, and language services.
 
-This report synthesizes the month's developments into a coherent narrative — not a list of events, but an editorial interpretation of what moved the industry forward, what created uncertainty, and what professionals should track.
+This report is a full editorial article of approximately 2000 words — not a list of events, but a deeply synthesized, narrative-driven analysis of what moved the industry forward this month, what created uncertainty, and what every professional in this space should understand and act on.
 
-Format and structure (400–550 words):
-- Open with a single, strong paragraph that captures the defining theme or tension of the month — one clear editorial takeaway a reader will remember.
-- ## Key Themes — 2–3 cross-cutting patterns observed across multiple sources. Describe the pattern and what it signals, not individual events.
-- ## Notable Developments — Specific, significant events or announcements worth highlighting individually. Keep each entry tight: what happened, who was involved, why it matters (2–3 sentences each).
-- ## Business and Market Signals — What does this month's activity suggest about where investment, adoption, or competitive dynamics are heading in localization and language technology?
-- ## What to Watch Next Month — 2–3 forward-looking observations grounded in trends visible in this month's data. Be specific, not generic.
+FORMAT AND STRUCTURE:
 
-Editorial standards:
-• Synthesize — connect dots across sources, surface patterns and tensions rather than summarizing each article independently.
-• Only draw on information present in the provided source summaries.
-• Write in a confident editorial voice: clear, direct, and specific. Not dry or listy.
+**Opening (200–250 words)**
+Begin with a compelling, essay-style introduction that captures the defining theme or tension of the month. State a clear editorial argument — one idea a reader will remember and share. Set the stakes. Do not summarize what follows; instead, frame why this month matters.
+
+## Key Themes
+Identify 3–4 cross-cutting patterns observed across multiple sources. For each theme, describe what the pattern is, what evidence supports it (cite specific articles or findings using inline markdown links: [anchor text](source_url)), and what it signals about where the industry is heading. Each theme should be a short paragraph, not a bullet point.
+
+## Notable Developments
+Cover 4–6 specific, significant events or announcements. For each, write 3–5 sentences: what happened, who was involved, why it matters, and what was surprising or consequential. Where a source article is available, hyperlink the relevant company name, product, or finding directly: e.g., [DeepL expanded its API](source_url). Surface breaking or unexpected findings prominently — flag them with **Breaking:** if they represent a significant shift from prior expectations.
+
+## Major Implications & Breaking Findings
+This is the analytical core of the report. Dedicate 350–450 words to examining the second- and third-order consequences of this month's developments. What are the structural shifts — in competitive dynamics, technology adoption curves, workforce impacts, or regulatory environment — that practitioners may be underestimating? Highlight any findings that contradict prevailing assumptions or signal an inflection point. Use inline links to anchor specific claims to source material.
+
+## Globalization Strategy: What Companies Should Know
+Write 300–400 words of practical, actionable guidance for enterprise and mid-market companies navigating globalization in the current environment. Draw directly from this month's evidence: what recent findings, new tools, or emerging approaches should companies be evaluating? Cover at least two of: localization technology adoption, language coverage decisions, vendor or build-vs-buy dynamics, market entry or expansion considerations, or AI-assisted translation quality and governance. Make tips specific and grounded — not generic best practices.
+
+## Business and Market Signals
+In 200–250 words, analyze what this month's activity reveals about investment flows, competitive positioning, and adoption dynamics in language technology and services. Where is money moving? What partnerships, acquisitions, or product launches signal a strategic bet? What is conspicuously absent?
+
+## What to Watch Next Month
+Offer 3–4 specific, forward-looking observations grounded in trends visible this month. Each should name a concrete development to track, not a vague category. Explain briefly why it matters and what outcome would confirm or challenge the trend.
+
+EDITORIAL STANDARDS:
+• Target approximately 2000 words total across all sections.
+• Synthesize — connect dots across sources; surface patterns and tensions rather than summarizing articles one by one.
+• Use inline markdown hyperlinks [anchor text](url) to link specific findings, company names, product names, or claims to their source articles whenever a source_url is available. Do not list sources separately — weave them into the prose.
+• Only draw on information present in the provided source summaries. No invented facts or external knowledge.
+• Write in a confident, expert editorial voice: clear, direct, and specific. Not dry, not listy.
 • Avoid generic industry clichés ("AI is transforming...", "companies are increasingly...").
 • Prefer concrete observations: what specific things happened, what shifted, what was notably absent or accelerated.
 • No hype and no speculation beyond what the sources support.
@@ -261,13 +279,13 @@ def generate_monthly_summary(period: str, force: bool = False) -> Path | None:
     user_prompt = USER_PROMPT_TEMPLATE.format(period=period, article_summaries=article_summaries)
 
     response = client.chat.completions.create(
-        model="gpt-4o-mini",
+        model="gpt-4o",
         messages=[
             {"role": "system", "content": SYSTEM_PROMPT},
             {"role": "user", "content": user_prompt},
         ],
-        max_tokens=900,
-        temperature=0.4,
+        max_tokens=1800,
+        temperature=0.5,
     )
     monthly_content = response.choices[0].message.content.strip()
     signal_updates_section = build_signal_updates_section(period)
