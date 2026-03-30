@@ -1,6 +1,6 @@
 ---
 layout: default
-title: All Topics
+title: All articles
 permalink: /all-articles/
 nav: true
 nav_order: 1.5
@@ -25,34 +25,71 @@ description: "Browse all localization industry articles by topic — quality, op
 
 {% assign total_posts = site.posts.size %}
 
-<section class="intel-hero">
-  <h1>All Topics</h1>
-  <p class="intel-subtitle">{{ total_posts }} articles — filter by topic, search, and browse the full archive.</p>
+<section class="all-articles-hero">
+  <h1>All articles</h1>
+  <p class="all-articles-subtitle">{{ total_posts }} articles across the localization intelligence archive.</p>
 </section>
 
-<section class="topic-filter-panel" aria-label="Filter by topic">
-  <div class="topic-filter-buttons" role="group" aria-label="Topic filters">
-    <button class="topic-pill active" data-topic="all">All</button>
-    <button class="topic-pill" data-topic="quality">Quality</button>
-    <button class="topic-pill" data-topic="operations">Operations</button>
-    <button class="topic-pill" data-topic="governance">Governance</button>
-    <button class="topic-pill" data-topic="market">Market</button>
-    <button class="topic-pill" data-topic="strategy">Strategy</button>
+<section class="all-articles-filter-bar" id="filter-bar">
+  <div class="filter-bar-inner">
+
+    <div class="filter-group">
+      <label class="filter-label">Topic</label>
+      <div class="filter-chips" id="topic-chips" role="group" aria-label="Filter by topic">
+        <button class="filter-chip active" data-topic="all">All</button>
+        <button class="filter-chip" data-topic="quality"><span class="chip-dot chip-dot--quality"></span>Quality</button>
+        <button class="filter-chip" data-topic="operations"><span class="chip-dot chip-dot--operations"></span>Operations</button>
+        <button class="filter-chip" data-topic="governance"><span class="chip-dot chip-dot--governance"></span>Governance</button>
+        <button class="filter-chip" data-topic="market"><span class="chip-dot chip-dot--market"></span>Market</button>
+        <button class="filter-chip" data-topic="strategy"><span class="chip-dot chip-dot--strategy"></span>Strategy</button>
+      </div>
+    </div>
+
+    <div class="filter-group">
+      <label class="filter-label">Impact</label>
+      <div class="filter-chips" id="impact-chips" role="group" aria-label="Filter by impact">
+        <button class="filter-chip active" data-impact="all">Any</button>
+        <button class="filter-chip" data-impact="4"><span class="chip-impact-icon chip-impact--high"></span>Major+</button>
+        <button class="filter-chip" data-impact="3"><span class="chip-impact-icon chip-impact--mid"></span>Significant+</button>
+        <button class="filter-chip" data-impact="2"><span class="chip-impact-icon chip-impact--low"></span>Notable+</button>
+      </div>
+    </div>
+
+    <div class="filter-group">
+      <label class="filter-label">Date</label>
+      <select class="filter-select" id="date-filter" aria-label="Filter by date">
+        <option value="all">All time</option>
+        <option value="7">Last 7 days</option>
+        <option value="30">Last 30 days</option>
+        <option value="90">Last 3 months</option>
+        <option value="365">Last year</option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <label class="filter-label">Source</label>
+      <select class="filter-select" id="source-filter" aria-label="Filter by source">
+        <option value="all">All sources</option>
+      </select>
+    </div>
+
+    <div class="filter-group filter-group--sort">
+      <label class="filter-label">Sort</label>
+      <select class="filter-select" id="sort-select" aria-label="Sort articles">
+        <option value="date">Newest first</option>
+        <option value="impact">Highest impact</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="filter-status-row">
+    <p class="filter-count" id="feed-count" aria-live="polite"></p>
+    <button class="filter-reset-btn" id="filter-reset" style="display:none;">Clear filters</button>
   </div>
 </section>
 
-<section class="intel-section" id="articles-section">
-  <div class="intel-feed-controls">
-    <input type="search" class="intel-feed-search" id="intel-feed-search" placeholder="Search articles…" autocomplete="off" aria-label="Search articles">
-    <select class="intel-feed-sort" id="intel-feed-sort" aria-label="Sort articles">
-      <option value="date">Newest First</option>
-      <option value="impact">Highest Impact</option>
-    </select>
-  </div>
-
-  <p class="feed-count-label" id="feed-count" aria-live="polite"></p>
-
-  <div class="intel-article-feed" id="intel-article-feed">
+<section class="all-articles-feed-section" id="articles-section">
+  <div class="all-articles-feed" id="intel-article-feed">
     {% for post in site.posts %}
       {% assign signal_ids_str = post.signal_ids | join: ',' | downcase %}
       {% assign source_text = post.title | append: ' ' | append: post.excerpt | downcase %}
@@ -85,31 +122,30 @@ description: "Browse all localization industry articles by topic — quality, op
 
       {% assign topics_trimmed = topics_list | strip %}
 
-    <a href="{{ post.url | relative_url }}" class="intel-feed-item"
+    <a href="{{ post.url | relative_url }}" class="article-card"
        data-title="{{ post.title | downcase | escape }}"
        data-impact="{{ post.impact_score | default: 0 }}"
        data-date="{{ post.date | date: '%Y%m%d' }}"
+       data-date-iso="{{ post.date | date: '%Y-%m-%d' }}"
        data-topics="{{ topics_trimmed }}"
+       data-source="{{ post.publisher | downcase | default: '' }}"
        data-segments="{{ post.affected_segments | join: '|' }}">
-      <div class="intel-feed-item-left">
-        <span class="intel-feed-date">{{ post.date | date: "%b %d, %Y" }}</span>
-        {% if post.impact_score and post.impact_score >= 3 %}
-        <span class="impact-dot impact-dot--{{ post.impact_score }}" title="Impact: {{ post.impact_score }}"></span>
-        {% endif %}
-      </div>
-      <div class="intel-feed-item-main">
-        <h4 class="intel-feed-title">{{ post.title }}</h4>
-        <p class="intel-feed-excerpt">{{ post.excerpt | strip_html | truncate: 120 }}</p>
+      <div class="article-card-body">
+        <h3 class="article-card-title">{{ post.title }}</h3>
+        <p class="article-card-excerpt">{{ post.excerpt | strip_html | truncate: 160 }}</p>
         {% if topics_trimmed != "" %}
-        <div class="intel-feed-topics">{% assign tlist = topics_trimmed | split: " " %}{% for t in tlist %}<span class="feed-topic-tag feed-topic-tag--{{ t }}">{{ t }}</span>{% endfor %}</div>
+        <div class="article-card-tags">{% assign tlist = topics_trimmed | split: " " %}{% for t in tlist %}<span class="article-tag article-tag--{{ t }}">{{ t }}</span>{% endfor %}</div>
         {% endif %}
       </div>
-      <div class="intel-feed-item-right">
-        {% if post.publisher %}
-        <span class="intel-feed-publisher">{{ post.publisher }}</span>
+      <div class="article-card-meta">
+        <time class="article-card-date">{{ post.date | date: "%b %d, %Y" }}</time>
+        {% if post.impact_score and post.impact_score >= 2 %}
+        <span class="article-card-impact article-card-impact--{{ post.impact_score }}">
+          {% if post.impact_score == 4 %}Major{% elsif post.impact_score == 3 %}Significant{% elsif post.impact_score == 2 %}Notable{% else %}Routine{% endif %}
+        </span>
         {% endif %}
-        {% if post.signal_ids and post.signal_ids.size > 0 %}
-        <span class="intel-feed-signal-count" title="Linked to {{ post.signal_ids.size }} signal(s)">{{ post.signal_ids.size }}S</span>
+        {% if post.publisher %}
+        <span class="article-card-source">{{ post.publisher }}</span>
         {% endif %}
       </div>
     </a>
@@ -122,33 +158,82 @@ description: "Browse all localization industry articles by topic — quality, op
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-  var allItems = Array.from(document.querySelectorAll("#intel-article-feed .intel-feed-item"));
-  var feedSearch = document.getElementById("intel-feed-search");
-  var feedSort = document.getElementById("intel-feed-sort");
+  var allItems = Array.from(document.querySelectorAll("#intel-article-feed .article-card"));
   var feedLoader = document.getElementById("feed-loader");
   var feedSentinel = document.getElementById("feed-sentinel");
   var feedCount = document.getElementById("feed-count");
-  var topicPills = Array.from(document.querySelectorAll(".topic-filter-panel [data-topic]"));
+  var topicChips = Array.from(document.querySelectorAll("#topic-chips [data-topic]"));
+  var impactChips = Array.from(document.querySelectorAll("#impact-chips [data-impact]"));
+  var dateFilter = document.getElementById("date-filter");
+  var sourceFilter = document.getElementById("source-filter");
+  var sortSelect = document.getElementById("sort-select");
+  var resetBtn = document.getElementById("filter-reset");
+
   var BATCH = 30;
   var activeTopic = "all";
+  var activeImpact = "all";
   var observer = null;
   var currentItems = [];
   var loadedCount = 0;
 
+  // Populate source filter from actual data
+  var sources = {};
+  allItems.forEach(function (item) {
+    var src = item.getAttribute("data-source");
+    if (src && src !== "") {
+      var display = item.querySelector(".article-card-source");
+      var label = display ? display.textContent.trim() : src;
+      if (!sources[src]) sources[src] = { label: label, count: 0 };
+      sources[src].count++;
+    }
+  });
+  var sortedSources = Object.keys(sources).sort(function (a, b) {
+    return sources[b].count - sources[a].count;
+  });
+  sortedSources.forEach(function (src) {
+    var opt = document.createElement("option");
+    opt.value = src;
+    opt.textContent = sources[src].label + " (" + sources[src].count + ")";
+    sourceFilter.appendChild(opt);
+  });
+
+  function hasActiveFilters() {
+    return activeTopic !== "all" || activeImpact !== "all" ||
+           dateFilter.value !== "all" || sourceFilter.value !== "all";
+  }
+
   function getFiltered() {
-    var query = (feedSearch.value || "").trim().toLowerCase();
-    var sortBy = feedSort.value;
+    var sortBy = sortSelect.value;
+    var dateDays = dateFilter.value;
+    var source = sourceFilter.value;
+    var now = new Date();
+
+    var cutoff = null;
+    if (dateDays !== "all") {
+      cutoff = new Date(now.getTime() - parseInt(dateDays, 10) * 86400000);
+      cutoff = parseInt(cutoff.toISOString().slice(0, 10).replace(/-/g, ""), 10);
+    }
 
     var filtered = allItems.filter(function (item) {
+      // Topic filter
       if (activeTopic !== "all") {
         var itemTopics = (item.getAttribute("data-topics") || "").trim().split(/\s+/);
         if (itemTopics.indexOf(activeTopic) === -1) return false;
       }
-      if (query) {
-        var title = item.getAttribute("data-title") || "";
-        var excerptEl = item.querySelector(".intel-feed-excerpt");
-        var excerpt = excerptEl ? excerptEl.textContent.toLowerCase() : "";
-        return title.indexOf(query) !== -1 || excerpt.indexOf(query) !== -1;
+      // Impact filter
+      if (activeImpact !== "all") {
+        var imp = parseInt(item.getAttribute("data-impact") || "0", 10);
+        if (imp < parseInt(activeImpact, 10)) return false;
+      }
+      // Date filter
+      if (cutoff) {
+        var itemDate = parseInt(item.getAttribute("data-date") || "0", 10);
+        if (itemDate < cutoff) return false;
+      }
+      // Source filter
+      if (source !== "all") {
+        var itemSource = item.getAttribute("data-source") || "";
+        if (itemSource !== source) return false;
       }
       return true;
     });
@@ -172,7 +257,7 @@ document.addEventListener("DOMContentLoaded", function () {
       item.style.display = "";
       if (start > 0) {
         item.style.opacity = "0";
-        item.style.transform = "translateY(10px)";
+        item.style.transform = "translateY(8px)";
         (function (el) {
           requestAnimationFrame(function () {
             el.style.transition = "opacity 0.3s ease, transform 0.3s ease";
@@ -213,7 +298,6 @@ document.addEventListener("DOMContentLoaded", function () {
     loadedCount = 0;
 
     allItems.forEach(function (item) { item.style.display = "none"; });
-
     loadedCount = showBatch(currentItems, 0);
 
     if (feedCount) {
@@ -222,29 +306,58 @@ document.addEventListener("DOMContentLoaded", function () {
         : currentItems.length + " of " + allItems.length + " articles";
     }
 
+    resetBtn.style.display = hasActiveFilters() ? "" : "none";
+
     feedLoader.classList.remove("is-active");
     setupObserver();
   }
 
-  topicPills.forEach(function (pill) {
-    pill.addEventListener("click", function () {
-      topicPills.forEach(function (p) { p.classList.remove("active"); });
-      pill.classList.add("active");
-      activeTopic = pill.getAttribute("data-topic");
-      history.replaceState(null, "", activeTopic === "all" ? window.location.pathname : "#" + activeTopic);
+  // Topic chips
+  topicChips.forEach(function (chip) {
+    chip.addEventListener("click", function () {
+      topicChips.forEach(function (c) { c.classList.remove("active"); });
+      chip.classList.add("active");
+      activeTopic = chip.getAttribute("data-topic");
       applyFilter();
     });
   });
 
-  feedSearch.addEventListener("input", function () { applyFilter(); });
-  feedSort.addEventListener("change", function () { applyFilter(); });
+  // Impact chips
+  impactChips.forEach(function (chip) {
+    chip.addEventListener("click", function () {
+      impactChips.forEach(function (c) { c.classList.remove("active"); });
+      chip.classList.add("active");
+      activeImpact = chip.getAttribute("data-impact");
+      applyFilter();
+    });
+  });
 
+  // Dropdowns
+  dateFilter.addEventListener("change", function () { applyFilter(); });
+  sourceFilter.addEventListener("change", function () { applyFilter(); });
+  sortSelect.addEventListener("change", function () { applyFilter(); });
+
+  // Reset
+  resetBtn.addEventListener("click", function () {
+    activeTopic = "all";
+    activeImpact = "all";
+    topicChips.forEach(function (c) { c.classList.remove("active"); });
+    topicChips[0].classList.add("active");
+    impactChips.forEach(function (c) { c.classList.remove("active"); });
+    impactChips[0].classList.add("active");
+    dateFilter.value = "all";
+    sourceFilter.value = "all";
+    sortSelect.value = "date";
+    applyFilter();
+  });
+
+  // URL hash support
   var hash = window.location.hash.replace("#", "");
   if (["quality", "operations", "governance", "market", "strategy"].indexOf(hash) !== -1) {
     activeTopic = hash;
-    topicPills.forEach(function (p) { p.classList.remove("active"); });
-    var match = document.querySelector('.topic-filter-panel [data-topic="' + hash + '"]');
-    if (match) match.classList.add("active");
+    topicChips.forEach(function (c) { c.classList.remove("active"); });
+    var m = document.querySelector('#topic-chips [data-topic="' + hash + '"]');
+    if (m) m.classList.add("active");
   }
 
   applyFilter();
