@@ -11,18 +11,18 @@
   --surface:        #ffffff;
   --text:           #1a1d23;
   --muted:          #6b7280;
-  --accent:         #3A7C96;
-  --accent-hover:   #2E6A82;
-  --accent-soft:    rgba(58, 124, 150, 0.07);
-  --brand-text:     #2E6A82;
-  --border:         rgba(20, 25, 35, 0.08);
+  --accent:         #0AABBD;
+  --accent-hover:   #0898A9;
+  --accent-soft:    rgba(10, 171, 189, 0.09);
+  --brand-text:     #0898A9;
+  --border:         rgba(20, 25, 35, 0.13);
   --card-shadow:    0 1px 3px rgba(0, 0, 0, 0.04), 0 6px 24px rgba(0, 0, 0, 0.03);
   --card-shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.07), 0 16px 40px rgba(0, 0, 0, 0.05);
-  --gradient-hero:  linear-gradient(160deg, #fafbfc 0%, #f1f4f6 40%, #edf1f3 70%, #fafbfc 100%);
-  --gradient-accent: linear-gradient(135deg, #1E3A5F, #3A7C96, #4A9BAA);
+  --gradient-hero:  linear-gradient(160deg, #fafbfc 0%, #edf4f7 40%, #e6f4f7 70%, #fafbfc 100%);
+  --gradient-accent: linear-gradient(135deg, #1B2D7A, #0AABBD, #1ECCD8);
   --glass-bg:       rgba(250, 251, 252, 0.88);
   --glass-border:   rgba(255, 255, 255, 0.8);
-  --featured-bg:    linear-gradient(135deg, #edf0f3 0%, #e8ecf0 100%);
+  --featured-bg:    linear-gradient(135deg, #e8f4f7 0%, #dff0f4 100%);
   --featured-text:  #1a1d23;
   --featured-muted: #6b7280;
 
@@ -54,15 +54,15 @@
   --surface:        #1e2129;
   --text:           #e4e7ec;
   --muted:          #8d93a0;
-  --accent:         #6AB4C4;
-  --accent-hover:   #82C4D2;
-  --accent-soft:    rgba(106, 180, 196, 0.10);
-  --brand-text:     #82C4D2;
-  --border:         rgba(228, 231, 236, 0.09);
+  --accent:         #26C4D4;
+  --accent-hover:   #3DD0DE;
+  --accent-soft:    rgba(38, 196, 212, 0.12);
+  --brand-text:     #3DD0DE;
+  --border:         rgba(228, 231, 236, 0.15);
   --card-shadow:    0 2px 8px rgba(0, 0, 0, 0.3), 0 10px 28px rgba(0, 0, 0, 0.25);
   --card-shadow-hover: 0 6px 16px rgba(0, 0, 0, 0.4), 0 20px 44px rgba(0, 0, 0, 0.35);
   --gradient-hero:  linear-gradient(160deg, #111318 0%, #121820 40%, #141c22 70%, #111318 100%);
-  --gradient-accent: linear-gradient(135deg, #82C4D2, #6AB4C4, #5A9DAD);
+  --gradient-accent: linear-gradient(135deg, #3DD0DE, #26C4D4, #1AAFBE);
   --glass-bg:       rgba(17, 19, 24, 0.85);
   --glass-border:   rgba(228, 231, 236, 0.07);
   --featured-bg:    linear-gradient(135deg, #171c24 0%, #1a2028 100%);
@@ -1338,12 +1338,12 @@ details[open] .signal-accordion__chevron { transform: rotate(180deg); }
 /* ── Impact Badge ───────────────────────────────────────── */
 .impact-badge { display: inline-flex; align-items: center; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 10px; border-radius: 100px; vertical-align: middle; white-space: nowrap; }
 .impact-badge--1 { background: #eef0f2; color: #6b7280; }
-.impact-badge--2 { background: #e4edf1; color: #3A7C96; }
+.impact-badge--2 { background: #daeef2; color: #0898A9; }
 .impact-badge--3 { background: #eeebe4; color: #7a6d55; }
 .impact-badge--4 { background: #fee2e2; color: #b91c1c; }
 .impact-badge--5 { background: linear-gradient(135deg, #dc2626, #9333ea); color: #ffffff; }
 [data-theme="dark"] .impact-badge--1 { background: #1e2128; color: #8d93a0; }
-[data-theme="dark"] .impact-badge--2 { background: #152530; color: #6AB4C4; }
+[data-theme="dark"] .impact-badge--2 { background: #0d2830; color: #26C4D4; }
 [data-theme="dark"] .impact-badge--3 { background: #2a2518; color: #c8b98e; }
 [data-theme="dark"] .impact-badge--4 { background: #450a0a; color: #fca5a5; }
 [data-theme="dark"] .impact-badge--5 { background: linear-gradient(135deg, #dc2626, #9333ea); color: #ffffff; }
@@ -1359,10 +1359,10 @@ details[open] .signal-accordion__chevron { transform: rotate(180deg); }
 /* ── Time Horizon Badge ─────────────────────────────────── */
 .time-horizon-badge { display: inline-flex; align-items: center; font-size: 0.6rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; padding: 2px 8px; border-radius: 100px; vertical-align: middle; margin-left: var(--space-1); }
 .time-horizon-badge--now { background: #e6ece7; color: #4d6650; }
-.time-horizon-badge--6months { background: #e4edf1; color: #3A7C96; }
+.time-horizon-badge--6months { background: #daeef2; color: #0898A9; }
 .time-horizon-badge--2years { background: #e6ecea; color: #556b65; }
 [data-theme="dark"] .time-horizon-badge--now { background: #1e2b20; color: #8aad8e; }
-[data-theme="dark"] .time-horizon-badge--6months { background: #152530; color: #6AB4C4; }
+[data-theme="dark"] .time-horizon-badge--6months { background: #0d2830; color: #26C4D4; }
 [data-theme="dark"] .time-horizon-badge--2years { background: #1c2825; color: #8aada5; }
 .time-horizon-badge--sm { font-size: 0.55rem; padding: 2px 6px; }
 
@@ -1506,12 +1506,12 @@ details[open] .signal-accordion__chevron { transform: rotate(180deg); }
 .intel-feed-topics { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 5px; }
 .feed-topic-tag { display: inline-block; font-size: 0.6rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; padding: 2px 7px; border-radius: 100px; background: var(--accent-soft); color: var(--accent); transition: background 0.15s ease; }
 .feed-topic-tag--quality    { background: color-mix(in srgb, #6b8a6e 10%, transparent); color: #5a7d5e; }
-.feed-topic-tag--operations { background: color-mix(in srgb, #3A7C96 10%, transparent); color: #3A7C96; }
+.feed-topic-tag--operations { background: color-mix(in srgb, #0AABBD 12%, transparent); color: #0898A9; }
 .feed-topic-tag--governance { background: color-mix(in srgb, #9e7a8a 10%, transparent); color: #8a6b78; }
 .feed-topic-tag--market     { background: color-mix(in srgb, #9e8a6b 10%, transparent); color: #8a7a5e; }
 .feed-topic-tag--strategy   { background: color-mix(in srgb, #6b9e95 10%, transparent); color: #556b65; }
 [data-theme="dark"] .feed-topic-tag--quality    { background: color-mix(in srgb, #8aad8e 12%, transparent); color: #8aad8e; }
-[data-theme="dark"] .feed-topic-tag--operations { background: color-mix(in srgb, #6AB4C4 12%, transparent); color: #6AB4C4; }
+[data-theme="dark"] .feed-topic-tag--operations { background: color-mix(in srgb, #26C4D4 14%, transparent); color: #26C4D4; }
 [data-theme="dark"] .feed-topic-tag--governance { background: color-mix(in srgb, #b49aaa 12%, transparent); color: #b49aaa; }
 [data-theme="dark"] .feed-topic-tag--market     { background: color-mix(in srgb, #b4a48a 12%, transparent); color: #b4a48a; }
 [data-theme="dark"] .feed-topic-tag--strategy   { background: color-mix(in srgb, #8aada5 12%, transparent); color: #8aada5; }
@@ -1607,7 +1607,7 @@ details[open] .signal-accordion__chevron { transform: rotate(180deg); }
   flex-shrink: 0;
 }
 .chip-dot--quality    { background: #5a7d5e; }
-.chip-dot--operations { background: #3A7C96; }
+.chip-dot--operations { background: #0AABBD; }
 .chip-dot--governance { background: #8a6b78; }
 .chip-dot--market     { background: #8a7a5e; }
 .chip-dot--strategy   { background: #556b65; }
@@ -1756,12 +1756,12 @@ details[open] .signal-accordion__chevron { transform: rotate(180deg); }
   color: var(--accent);
 }
 .article-tag--quality    { background: color-mix(in srgb, #6b8a6e 10%, transparent); color: #5a7d5e; }
-.article-tag--operations { background: color-mix(in srgb, #3A7C96 10%, transparent); color: #3A7C96; }
+.article-tag--operations { background: color-mix(in srgb, #0AABBD 12%, transparent); color: #0898A9; }
 .article-tag--governance { background: color-mix(in srgb, #9e7a8a 10%, transparent); color: #8a6b78; }
 .article-tag--market     { background: color-mix(in srgb, #9e8a6b 10%, transparent); color: #8a7a5e; }
 .article-tag--strategy   { background: color-mix(in srgb, #6b9e95 10%, transparent); color: #556b65; }
 [data-theme="dark"] .article-tag--quality    { background: color-mix(in srgb, #8aad8e 12%, transparent); color: #8aad8e; }
-[data-theme="dark"] .article-tag--operations { background: color-mix(in srgb, #6AB4C4 12%, transparent); color: #6AB4C4; }
+[data-theme="dark"] .article-tag--operations { background: color-mix(in srgb, #26C4D4 14%, transparent); color: #26C4D4; }
 [data-theme="dark"] .article-tag--governance { background: color-mix(in srgb, #b49aaa 12%, transparent); color: #b49aaa; }
 [data-theme="dark"] .article-tag--market     { background: color-mix(in srgb, #b4a48a 12%, transparent); color: #b4a48a; }
 [data-theme="dark"] .article-tag--strategy   { background: color-mix(in srgb, #8aada5 12%, transparent); color: #8aada5; }
