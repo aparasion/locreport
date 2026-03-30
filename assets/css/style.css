@@ -164,32 +164,14 @@ hr {
   flex-shrink: 0;
   text-decoration: none;
 }
-
-/* ── Logo Wordmark ─────────────────────────────────────────── */
-.logo {
-  display: flex;
-  align-items: center;
+.logo-image {
+  width: auto;
+  height: 34px;
+  display: block;
 }
-.logo__wordmark {
-  display: flex;
-  align-items: baseline;
-  font-size: 1.35rem;
-  line-height: 1;
-  letter-spacing: -0.01em;
-}
-.logo__loc {
-  font-family: 'DM Sans', -apple-system, sans-serif;
-  font-weight: 700;
-  color: var(--text);
-}
-.logo__report {
-  font-family: 'Space Mono', monospace;
-  font-weight: 700;
-  color: var(--accent);
-}
-
-.footer-logo .logo__wordmark { font-size: 1.15rem; }
-.post-author-footer .logo__wordmark { font-size: 1.25rem; }
+.theme-logo--dark { display: none; }
+[data-theme="dark"] .theme-logo--light { display: none; }
+[data-theme="dark"] .theme-logo--dark { display: block; }
 
 /* ── Navigation ─────────────────────────────────────────── */
 .site-nav {

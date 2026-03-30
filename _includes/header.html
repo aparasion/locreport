@@ -1,11 +1,13 @@
 <header class="site-header">
   <div class="header-shell">
     <a href="{{ '/' | relative_url }}" class="site-logo" aria-label="{{ site.title }} home">
-      <div class="logo">
-        <div class="logo__wordmark">
-          <span class="logo__loc">Loc</span><span class="logo__report">Report</span>
-        </div>
-      </div>
+      <img src="{{ '/assets/images/lrlogo.png' | relative_url }}"
+           alt="{{ site.title }}"
+           class="logo-image theme-logo theme-logo--light">
+      <img src="{{ '/assets/images/lrlogo.png' | relative_url }}"
+           alt="{{ site.title }}"
+           class="logo-image theme-logo theme-logo--dark">
+      <span>LocReport</span>
     </a>
 
     {% include nav.html %}
