@@ -190,39 +190,6 @@ nav_order: 1
 </section>
 {% endif %}
 
-<!-- Capabilities Section -->
-<section class="capabilities-section">
-  <div class="capabilities-header">
-    <h2 class="section-label">Capabilities</h2>
-    <p class="section-title">Intelligence at every layer</p>
-  </div>
-  <div class="capabilities-grid">
-    <div class="capability-card">
-      <span class="capability-number">01</span>
-      <h3>Topic Streams</h3>
-      <p>Coverage organized into five strategic pillars — Quality, Operations, Governance, Market, and Strategy — so you can focus on what you care about.</p>
-      <a href="/topics/" class="capability-link">Explore topics &rarr;</a>
-    </div>
-    <div class="capability-card">
-      <span class="capability-number">02</span>
-      <h3>Intelligence Dashboard</h3>
-      <p>Visual overview of signal health, impact distribution, and segment-specific trends across the entire article corpus.</p>
-      <a href="/intelligence/" class="capability-link">View dashboard &rarr;</a>
-    </div>
-    <div class="capability-card">
-      <span class="capability-number">03</span>
-      <h3>Smart Search</h3>
-      <p>Full-text search with phrase matching, smart scoring, and keyboard navigation. Press <kbd>Cmd+K</kbd> to try it.</p>
-    </div>
-    <div class="capability-card">
-      <span class="capability-number">04</span>
-      <h3>Weekly Newsletter</h3>
-      <p>A curated weekly digest of the most important localization news and signal shifts, delivered every Friday.</p>
-      <a href="/newsletter/" class="capability-link">Subscribe &rarr;</a>
-    </div>
-  </div>
-</section>
-
 <!-- CTA Section -->
 <section class="cta-section">
   <div class="cta-inner">
