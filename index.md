@@ -7,9 +7,6 @@ nav_order: 1
 
 <section class="hero">
   <div class="hero-content">
-    <div class="hero-eyebrow">
-      <span>Industry Intelligence Platform</span>
-    </div>
     <h1>The pulse of the language<br>services industry</h1>
     <p class="hero-subtitle">Daily coverage of translation, localization, and AI — curated, analyzed, and tracked through the signals that matter.</p>
     <div class="hero-actions">
