@@ -31,60 +31,71 @@ description: "Browse all localization industry articles by topic — quality, op
 </section>
 
 <section class="all-articles-filter-bar" id="filter-bar">
-  <div class="filter-bar-inner">
+  <button class="filter-bar-toggle" id="filter-bar-toggle" aria-expanded="false" aria-controls="filter-bar-collapsible">
+    <span class="filter-bar-toggle-left">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M1 3h12M3 7h8M5 11h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      <span class="filter-bar-toggle-label">Filters</span>
+      <span class="filter-bar-toggle-badge" id="filter-bar-badge"></span>
+    </span>
+    <svg class="filter-bar-toggle-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
 
-    <div class="filter-group">
-      <label class="filter-label">Topic</label>
-      <div class="filter-chips" id="topic-chips" role="group" aria-label="Filter by topic">
-        <button class="filter-chip active" data-topic="all">All</button>
-        <button class="filter-chip" data-topic="quality"><span class="chip-dot chip-dot--quality"></span>Quality</button>
-        <button class="filter-chip" data-topic="operations"><span class="chip-dot chip-dot--operations"></span>Operations</button>
-        <button class="filter-chip" data-topic="governance"><span class="chip-dot chip-dot--governance"></span>Governance</button>
-        <button class="filter-chip" data-topic="market"><span class="chip-dot chip-dot--market"></span>Market</button>
-        <button class="filter-chip" data-topic="strategy"><span class="chip-dot chip-dot--strategy"></span>Strategy</button>
+  <div class="filter-bar-collapsible" id="filter-bar-collapsible">
+    <div class="filter-bar-inner">
+
+      <div class="filter-group">
+        <label class="filter-label">Topic</label>
+        <div class="filter-chips" id="topic-chips" role="group" aria-label="Filter by topic">
+          <button class="filter-chip active" data-topic="all">All</button>
+          <button class="filter-chip" data-topic="quality"><span class="chip-dot chip-dot--quality"></span>Quality</button>
+          <button class="filter-chip" data-topic="operations"><span class="chip-dot chip-dot--operations"></span>Operations</button>
+          <button class="filter-chip" data-topic="governance"><span class="chip-dot chip-dot--governance"></span>Governance</button>
+          <button class="filter-chip" data-topic="market"><span class="chip-dot chip-dot--market"></span>Market</button>
+          <button class="filter-chip" data-topic="strategy"><span class="chip-dot chip-dot--strategy"></span>Strategy</button>
+        </div>
+      </div>
+
+      <div class="filter-group">
+        <label class="filter-label">Impact</label>
+        <div class="filter-chips" id="impact-chips" role="group" aria-label="Filter by impact">
+          <button class="filter-chip active" data-impact="all">Any</button>
+          <button class="filter-chip" data-impact="4"><span class="chip-impact-icon chip-impact--high"></span>Major+</button>
+          <button class="filter-chip" data-impact="3"><span class="chip-impact-icon chip-impact--mid"></span>Significant+</button>
+          <button class="filter-chip" data-impact="2"><span class="chip-impact-icon chip-impact--low"></span>Notable+</button>
+        </div>
+      </div>
+
+      <div class="filter-group">
+        <label class="filter-label">Date</label>
+        <select class="filter-select" id="date-filter" aria-label="Filter by date">
+          <option value="all">All time</option>
+          <option value="7">Last 7 days</option>
+          <option value="30">Last 30 days</option>
+          <option value="90">Last 3 months</option>
+          <option value="365">Last year</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label class="filter-label">Source</label>
+        <select class="filter-select" id="source-filter" aria-label="Filter by source">
+          <option value="all">All sources</option>
+        </select>
+      </div>
+
+      <div class="filter-group filter-group--sort">
+        <label class="filter-label">Sort</label>
+        <select class="filter-select" id="sort-select" aria-label="Sort articles">
+          <option value="date">Newest first</option>
+          <option value="impact">Highest impact</option>
+        </select>
       </div>
     </div>
 
-    <div class="filter-group">
-      <label class="filter-label">Impact</label>
-      <div class="filter-chips" id="impact-chips" role="group" aria-label="Filter by impact">
-        <button class="filter-chip active" data-impact="all">Any</button>
-        <button class="filter-chip" data-impact="4"><span class="chip-impact-icon chip-impact--high"></span>Major+</button>
-        <button class="filter-chip" data-impact="3"><span class="chip-impact-icon chip-impact--mid"></span>Significant+</button>
-        <button class="filter-chip" data-impact="2"><span class="chip-impact-icon chip-impact--low"></span>Notable+</button>
-      </div>
+    <div class="filter-status-row">
+      <p class="filter-count" id="feed-count" aria-live="polite"></p>
+      <button class="filter-reset-btn" id="filter-reset" style="display:none;">Clear filters</button>
     </div>
-
-    <div class="filter-group">
-      <label class="filter-label">Date</label>
-      <select class="filter-select" id="date-filter" aria-label="Filter by date">
-        <option value="all">All time</option>
-        <option value="7">Last 7 days</option>
-        <option value="30">Last 30 days</option>
-        <option value="90">Last 3 months</option>
-        <option value="365">Last year</option>
-      </select>
-    </div>
-
-    <div class="filter-group">
-      <label class="filter-label">Source</label>
-      <select class="filter-select" id="source-filter" aria-label="Filter by source">
-        <option value="all">All sources</option>
-      </select>
-    </div>
-
-    <div class="filter-group filter-group--sort">
-      <label class="filter-label">Sort</label>
-      <select class="filter-select" id="sort-select" aria-label="Sort articles">
-        <option value="date">Newest first</option>
-        <option value="impact">Highest impact</option>
-      </select>
-    </div>
-  </div>
-
-  <div class="filter-status-row">
-    <p class="filter-count" id="feed-count" aria-live="polite"></p>
-    <button class="filter-reset-btn" id="filter-reset" style="display:none;">Clear filters</button>
   </div>
 </section>
 
@@ -169,12 +180,33 @@ document.addEventListener("DOMContentLoaded", function () {
   var sortSelect = document.getElementById("sort-select");
   var resetBtn = document.getElementById("filter-reset");
 
+  var filterBarToggle = document.getElementById("filter-bar-toggle");
+  var filterBarEl = document.getElementById("filter-bar");
+  var filterBarBadge = document.getElementById("filter-bar-badge");
+
+  filterBarToggle.addEventListener("click", function () {
+    var isOpen = filterBarEl.classList.toggle("is-open");
+    filterBarToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+  });
+
   var BATCH = 30;
   var activeTopic = "all";
   var activeImpact = "all";
   var observer = null;
   var currentItems = [];
   var loadedCount = 0;
+
+  function updateMobileBadge() {
+    var count = 0;
+    if (activeTopic !== "all") count++;
+    if (activeImpact !== "all") count++;
+    if (dateFilter.value !== "all") count++;
+    if (sourceFilter.value !== "all") count++;
+    if (filterBarBadge) {
+      filterBarBadge.textContent = count > 0 ? count : "";
+      filterBarBadge.style.display = count > 0 ? "" : "none";
+    }
+  }
 
   // Populate source filter from actual data
   var sources = {};
@@ -307,6 +339,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     resetBtn.style.display = hasActiveFilters() ? "" : "none";
+    updateMobileBadge();
 
     feedLoader.classList.remove("is-active");
     setupObserver();
