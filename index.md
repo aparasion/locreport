@@ -18,45 +18,6 @@ nav_order: 1
 
 {% include sources-bar.html %}
 
-<!-- Features Grid -->
-<section class="features-section">
-  <div class="features-header">
-    <h2 class="section-label">Why LocReport</h2>
-    <p class="section-title">Built for localization professionals</p>
-    <p class="section-desc">Everything you need to stay ahead of industry shifts — in one place.</p>
-  </div>
-  <div class="features-grid">
-    <div class="feature-card">
-      <div class="feature-icon">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
-      </div>
-      <h3>Daily Coverage</h3>
-      <p>Curated news from 15+ industry sources, published every day with context that matters.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-      </div>
-      <h3>Signal Tracking</h3>
-      <p>Articles are mapped to industry signals so you can see trends forming across the landscape.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-      </div>
-      <h3>Impact Scoring</h3>
-      <p>Every article is assessed for business impact — from routine updates to disruptive shifts.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-      </div>
-      <h3>Segment Targeting</h3>
-      <p>Filter by role — LSP, Technology Provider, Enterprise Client, or Brand/Marketplace.</p>
-    </div>
-  </div>
-</section>
-
 <!-- Latest Articles -->
 {% comment %}
   Collect the last 3 unique days that have published content.
