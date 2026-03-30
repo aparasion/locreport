@@ -1545,6 +1545,25 @@ details[open] .signal-accordion__chevron { transform: rotate(180deg); }
   margin-bottom: var(--space-6);
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
 }
+
+/* Mobile toggle button — hidden on desktop */
+.filter-bar-toggle {
+  display: none;
+}
+.filter-bar-toggle-badge {
+  display: none;
+  font-size: 0.65rem;
+  font-weight: 700;
+  line-height: 1;
+  color: #fff;
+  background: var(--accent);
+  border-radius: 100px;
+  padding: 2px 6px;
+}
+/* Collapsible always visible on desktop */
+.filter-bar-collapsible {
+  display: block;
+}
 .filter-bar-inner {
   display: flex;
   flex-wrap: wrap;
@@ -1833,6 +1852,38 @@ details[open] .signal-accordion__chevron { transform: rotate(180deg); }
   .intel-feed-item-right { flex-direction: row; align-items: center; gap: var(--space-2); }
   .intel-feed-title { white-space: normal; }
   .intel-feed-excerpt { display: none; }
+  .all-articles-filter-bar { padding: var(--space-3) var(--space-4); }
+  .filter-bar-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    font-family: inherit;
+    color: var(--text);
+    gap: var(--space-2);
+  }
+  .filter-bar-toggle-left {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+  .filter-bar-toggle-chevron {
+    color: var(--muted);
+    flex-shrink: 0;
+    transition: transform 0.2s ease;
+  }
+  .all-articles-filter-bar.is-open .filter-bar-toggle-chevron { transform: rotate(180deg); }
+  .filter-bar-collapsible {
+    display: none;
+    margin-top: var(--space-3);
+  }
+  .all-articles-filter-bar.is-open .filter-bar-collapsible { display: block; }
   .filter-bar-inner { gap: var(--space-3); }
   .filter-group--sort { margin-left: 0; }
   .article-card { flex-direction: column; gap: var(--space-2); padding: var(--space-3) var(--space-4); }
