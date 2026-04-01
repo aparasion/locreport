@@ -1,6 +1,6 @@
 ---
-title: "How Official English Language Changes US Policy On March 1st US President Trump signed an executive order (EO) designating English as the official language of the United States. This action takes the first step to reverse a decades-long federal policy of providing critical government, he... Peter Coleman - March 5, 2025 Business climate Country/region data Interpreting Industry news"
-date: 2026-04-01T22:07:12Z
+title: "How Official English Language Changes US Policy"
+date: 2025-03-05T22:07:12Z
 layout: post
 categories: [translation]
 tags: [translation, localization, news, gist]
