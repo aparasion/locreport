@@ -31,11 +31,10 @@ nav_order: 1
   var INIT_H1_HTML    = 'The pulse of the language<br>services industry';
   var INIT_SUBTITLE   = 'Daily coverage of translation, localization, and AI \u2014 curated, analyzed, and tracked through the signals that matter.';
 
-  var h1      = document.getElementById('hero-title');
-  var sub     = document.getElementById('hero-subtitle');
-  var actions = document.getElementById('hero-actions');
+  var h1  = document.getElementById('hero-title');
+  var sub = document.getElementById('hero-subtitle');
 
-  if (!h1 || !sub || !actions) return;
+  if (!h1 || !sub) return;
 
   function setOpacity(el, val, ms, cb) {
     el.style.transition = 'opacity ' + ms + 'ms ease';
@@ -64,11 +63,9 @@ nav_order: 1
     // ── phase 1: show initial content for 10 s ────────────
     setTimeout(function () {
 
-      // ── phase 2: fade out all three elements ─────────────
-      setOpacity(h1,      0, FADE_MS);
-      setOpacity(sub,     0, FADE_MS);
-      setOpacity(actions, 0, FADE_MS, function () {
-        actions.style.visibility = 'hidden';
+      // ── phase 2: fade out h1 and subtitle only ───────────
+      setOpacity(h1,  0, FADE_MS);
+      setOpacity(sub, 0, FADE_MS, function () {
 
         // ── phase 3: type alt h1 ─────────────────────────
         h1.style.transition = '';
@@ -100,20 +97,16 @@ nav_order: 1
                   h1.innerHTML         = INIT_H1_HTML;
                   sub.textContent      = INIT_SUBTITLE;
 
-                  actions.style.visibility = 'visible';
-                  actions.style.opacity    = '0';
-                  h1.style.opacity         = '0';
-                  sub.style.opacity        = '0';
+                  h1.style.opacity  = '0';
+                  sub.style.opacity = '0';
 
                   // small rAF pause to let browser register opacity:0
                   requestAnimationFrame(function () {
                     requestAnimationFrame(function () {
-                      setOpacity(h1,      1, FADE_MS);
-                      setOpacity(sub,     1, FADE_MS);
-                      setOpacity(actions, 1, FADE_MS, function () {
-                        h1.style.transition      = '';
-                        sub.style.transition     = '';
-                        actions.style.transition = '';
+                      setOpacity(h1,  1, FADE_MS);
+                      setOpacity(sub, 1, FADE_MS, function () {
+                        h1.style.transition  = '';
+                        sub.style.transition = '';
                         loop(); // restart
                       });
                     });
