@@ -52,6 +52,7 @@ FEEDS = [
     "https://www.cqfluency.com/cqpedia-cultural-intelligence-encyclopedia/feed/",
     "https://www.ecinnovations.com/blog/feed/",
     "https://multilingual.com/author/multilingualstaff/feed/",
+    "https://multilingual.com/feed/",
     "https://imminent.translated.com/feed",
     "https://news.google.com/rss/search?q=rws+group&hl=en-US&gl=US&ceid=US:en",
 ]
