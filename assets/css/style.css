@@ -2190,9 +2190,107 @@ details[open] .signal-accordion__chevron { transform: rotate(180deg); }
   .nl-popup-title { font-size: 1.18rem; }
 }
 
+/* ── Cookies Banner ─────────────────────────────────────── */
+.cookies-banner {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1500;
+  padding: var(--space-3) var(--page-gutter);
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  border-top: 1px solid var(--border);
+  opacity: 0;
+  transform: translateY(100%);
+  transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+.cookies-banner.is-visible {
+  opacity: 0.94;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+.cookies-banner:hover {
+  opacity: 1;
+}
+.cookies-banner-inner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  max-width: var(--site-max-width);
+  margin: 0 auto;
+  flex-wrap: wrap;
+}
+.cookies-banner-text {
+  flex: 1;
+  font-size: 0.8rem;
+  color: var(--muted);
+  line-height: 1.5;
+  min-width: 200px;
+}
+.cookies-banner-text a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  text-decoration-color: color-mix(in srgb, var(--accent) 40%, transparent);
+}
+.cookies-banner-text a:hover {
+  text-decoration-color: var(--accent);
+}
+.cookies-banner-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-shrink: 0;
+}
+.cookies-banner-accept {
+  padding: 0.4rem 1rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  font-family: inherit;
+  color: #fff;
+  background: var(--accent);
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+  white-space: nowrap;
+}
+.cookies-banner-accept:hover {
+  background: var(--accent-hover);
+  transform: translateY(-1px);
+}
+.cookies-banner-accept:active {
+  transform: translateY(0);
+}
+.cookies-banner-dismiss {
+  padding: 0.4rem 0.75rem;
+  font-size: 0.78rem;
+  font-weight: 500;
+  font-family: inherit;
+  color: var(--muted);
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+  white-space: nowrap;
+}
+.cookies-banner-dismiss:hover {
+  color: var(--text);
+  border-color: color-mix(in srgb, var(--border) 200%, transparent);
+}
+@media (max-width: 480px) {
+  .cookies-banner-inner { gap: var(--space-3); }
+  .cookies-banner-text { font-size: 0.75rem; }
+  .cookies-banner-actions { width: 100%; justify-content: flex-end; }
+}
+
 /* ── Print ──────────────────────────────────────────────── */
 @media print {
-  .site-header, .site-footer, .scroll-top-button, .search-overlay, .social-share, .newsletter-banner, .sources-bar, .hero-actions, .cta-section, .features-section, .capabilities-section, .nl-popup-overlay { display: none !important; }
+  .site-header, .site-footer, .scroll-top-button, .search-overlay, .social-share, .newsletter-banner, .sources-bar, .hero-actions, .cta-section, .features-section, .capabilities-section, .nl-popup-overlay, .cookies-banner { display: none !important; }
   body { background: #fff; color: #000; }
   .post-card, .featured-article { break-inside: avoid; }
 }

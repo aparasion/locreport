@@ -321,6 +321,21 @@
 
   {% include footer.html %}
 
+  <!-- ── Cookies Banner (EU/GDPR) ────────────────────────── -->
+  <div id="cookies-banner" class="cookies-banner" role="region" aria-label="Cookie notice" hidden>
+    <div class="cookies-banner-inner">
+      <p class="cookies-banner-text">
+        We use cookies to understand how you use this site and to improve your experience.
+        By continuing to browse, you agree to our use of cookies.
+        <a href="/privacy/" target="_self">Privacy policy</a>
+      </p>
+      <div class="cookies-banner-actions">
+        <button id="cookies-dismiss" class="cookies-banner-dismiss" type="button">Decline</button>
+        <button id="cookies-accept" class="cookies-banner-accept" type="button">Got it</button>
+      </div>
+    </div>
+  </div>
+
 <script>
 document.addEventListener("DOMContentLoaded", function () {
   var root = document.documentElement;
@@ -900,6 +915,52 @@ document.addEventListener("DOMContentLoaded", function () {
           document.body.removeChild(hiddenForm);
           document.body.removeChild(iframe);
         }, 1500);
+      });
+    }
+  })();
+
+  // ── Cookies Banner (EU/GDPR) ─────────────────────────────
+  (function () {
+    var COOKIE_KEY = "locreport-cookies-consent";
+    if (localStorage.getItem(COOKIE_KEY)) return;
+
+    // Detect European timezone as GDPR region proxy
+    var tz = "";
+    try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ""; } catch (e) {}
+    var isEU = tz.indexOf("Europe/") === 0;
+    if (!isEU) return;
+
+    var banner = document.getElementById("cookies-banner");
+    var acceptBtn = document.getElementById("cookies-accept");
+    var dismissBtn = document.getElementById("cookies-dismiss");
+    if (!banner) return;
+
+    banner.hidden = false;
+    // Slight delay so it slides in after page settles
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () {
+        banner.classList.add("is-visible");
+      });
+    });
+
+    function closeBanner() {
+      banner.classList.remove("is-visible");
+      banner.addEventListener("transitionend", function handler() {
+        banner.hidden = true;
+        banner.removeEventListener("transitionend", handler);
+      });
+    }
+
+    if (acceptBtn) {
+      acceptBtn.addEventListener("click", function () {
+        localStorage.setItem(COOKIE_KEY, "accepted");
+        closeBanner();
+      });
+    }
+    if (dismissBtn) {
+      dismissBtn.addEventListener("click", function () {
+        localStorage.setItem(COOKIE_KEY, "declined");
+        closeBanner();
       });
     }
   })();
