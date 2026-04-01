@@ -56,6 +56,7 @@ FEEDS = [
     "https://imminent.translated.com/feed",
     "https://news.google.com/rss/search?q=rws+group&hl=en-US&gl=US&ceid=US:en",
     "https://blog.google/products-and-platforms/products/translate/rss/",
+    "https://rss.sciencedirect.com/publication/science/29497191",
 ]
 
 SEEN_FILE = "seen.json"
