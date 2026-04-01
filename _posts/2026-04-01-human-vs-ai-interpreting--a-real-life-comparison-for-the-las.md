@@ -1,6 +1,6 @@
 ---
-title: "Human Vs. AI Interpreting – a Real-Life Comparison For the last 10 years, I have written hundreds of pages of research on interpreting in its various forms. I personally tested countless interpreting technologies, but I had never been lucky enough to have to rely on interpreting as a true u... Helene Pielmeier - December 5, 2024 Interpreting Interpreting technology"
-date: 2026-04-01T22:07:22Z
+title: "Human Vs. AI Interpreting – a Real-Life Comparison"
+date: 2024-12-05T22:07:22Z
 layout: post
 categories: [translation]
 tags: [translation, localization, news, gist]
