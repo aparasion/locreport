@@ -1,6 +1,6 @@
 ---
-title: "Powerling and OXO Merge: A Partnership towards A Global Content Service Provider (GCSP) On April 10, 2025, Powerling and OXO (ranked #73 and #93, respectively, on CSA’s Ranking of the Largest LSPs in the World for 2024) announced their strategic merger. Long in the works through a “soft merger”, it results in a combined compan... Peter Coleman - April 11, 2025 Industry news LSP business management LSP growth M&A"
-date: 2026-04-01T22:07:05Z
+title: "Powerling and OXO Merge: A Partnership towards A Global Content Service Provider (GCSP)"
+date: 2025-04-11T22:07:05Z
 layout: post
 categories: [translation]
 tags: [translation, localization, news, gist]
