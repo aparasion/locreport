@@ -945,14 +945,15 @@ hr {
   align-items: center;
   justify-content: space-between;
   gap: var(--space-6);
-  background: var(--surface);
+  background: color-mix(in srgb, #dce4ff 24%, var(--surface));
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   padding: var(--space-5) var(--space-6);
-  border-left: 3px solid var(--accent);
+  box-shadow: inset 0 1px 0 color-mix(in srgb, #ffffff 88%, transparent);
+  backdrop-filter: blur(1px);
 }
 .newsletter-banner-text { flex: 1; min-width: 0; }
-.newsletter-banner-title { font-size: 1rem; font-weight: 700; margin: 0 0 var(--space-1); color: var(--text); }
+.newsletter-banner-title { font-size: 1rem; font-weight: 700; margin: 0 0 var(--space-1); color: color-mix(in srgb, var(--text) 92%, #5f6fc5); }
 .newsletter-banner-desc { font-size: 0.85rem; color: var(--muted); margin: 0; line-height: 1.4; }
 .newsletter-banner-form { display: flex; gap: var(--space-2); flex-shrink: 0; }
 .newsletter-banner-input {
