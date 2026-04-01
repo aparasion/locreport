@@ -945,13 +945,7 @@ hr {
   align-items: center;
   justify-content: space-between;
   gap: var(--space-6);
-  background:
-    linear-gradient(
-      140deg,
-      color-mix(in srgb, #cfd6ff 28%, var(--surface)) 0%,
-      color-mix(in srgb, #dce8ff 18%, var(--surface)) 48%,
-      color-mix(in srgb, #ffffff 92%, var(--surface)) 100%
-    );
+  background: color-mix(in srgb, #dce4ff 24%, var(--surface));
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   padding: var(--space-5) var(--space-6);
