@@ -31,10 +31,29 @@ nav_order: 1
   var INIT_H1_HTML    = 'The pulse of the language<br>services industry';
   var INIT_SUBTITLE   = 'Daily coverage of translation, localization, and AI \u2014 curated, analyzed, and tracked through the signals that matter.';
 
-  var h1  = document.getElementById('hero-title');
-  var sub = document.getElementById('hero-subtitle');
+  var h1   = document.getElementById('hero-title');
+  var sub  = document.getElementById('hero-subtitle');
+  var hero = document.querySelector('.hero');
 
-  if (!h1 || !sub) return;
+  if (!h1 || !sub || !hero) return;
+
+  // Lock hero height before any text changes so the section never jumps
+  function lockHeroHeight() {
+    var h = hero.offsetHeight;
+    if (h > 0) {
+      hero.style.minHeight = h + 'px';
+      // Also fix h1 and sub heights so swapping text doesn't reflow the banner
+      h1.style.minHeight  = h1.offsetHeight  + 'px';
+      sub.style.minHeight = sub.offsetHeight + 'px';
+    }
+  }
+
+  // Wait for fonts to settle (one rAF after load) then lock
+  if (document.readyState === 'complete') {
+    requestAnimationFrame(lockHeroHeight);
+  } else {
+    window.addEventListener('load', function () { requestAnimationFrame(lockHeroHeight); });
+  }
 
   function setOpacity(el, val, ms, cb) {
     el.style.transition = 'opacity ' + ms + 'ms ease';
