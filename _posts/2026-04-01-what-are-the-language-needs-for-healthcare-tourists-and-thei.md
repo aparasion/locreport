@@ -1,5 +1,5 @@
 ---
-title: "What Are the Language Needs for Healthcare Tourists and Their Providers The language needs of healthcare tourists are straightforward in theory but surprisingly difficult in practice. Patients must understand procedures and risks, describe symptoms and pain, ask questions about medication and recovery, and navi... Alison Toon - March 12, 2026 Translation technology Interpreting Automated"
+title: "What Are the Language Needs for Healthcare Tourists and Their Providers"
 date: 2026-04-01T22:06:48Z
 layout: post
 categories: [translation]
