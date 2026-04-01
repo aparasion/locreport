@@ -941,26 +941,62 @@ hr {
 /* ── Newsletter Banner ──────────────────────────────────── */
 .newsletter-banner { margin: var(--space-6) 0; padding: 0; }
 .newsletter-banner-inner {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: var(--space-6);
-  background: color-mix(in srgb, #dce4ff 24%, var(--surface));
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
+  background: color-mix(in srgb, var(--accent) 5%, var(--surface));
+  border: 1px solid color-mix(in srgb, var(--accent) 18%, var(--border));
+  border-left: 3px solid var(--accent);
+  border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
   padding: var(--space-5) var(--space-6);
-  box-shadow: inset 0 1px 0 color-mix(in srgb, #ffffff 88%, transparent);
-  backdrop-filter: blur(1px);
+  overflow: hidden;
+}
+.newsletter-banner-inner::after {
+  content: '';
+  position: absolute;
+  right: -40px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, color-mix(in srgb, var(--accent) 10%, transparent) 0%, transparent 65%);
+  pointer-events: none;
 }
 .newsletter-banner-text { flex: 1; min-width: 0; }
-.newsletter-banner-title { font-size: 1rem; font-weight: 700; margin: 0 0 var(--space-1); color: color-mix(in srgb, var(--text) 92%, #5f6fc5); }
-.newsletter-banner-desc { font-size: 0.85rem; color: var(--muted); margin: 0; line-height: 1.4; }
+.newsletter-banner-eyebrow { display: flex; align-items: center; gap: var(--space-2); margin: 0 0 var(--space-2); }
+.newsletter-banner-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  padding: 3px 9px 3px 7px;
+  border-radius: 100px;
+}
+.newsletter-banner-tag::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  background: var(--accent);
+  border-radius: 50%;
+  animation: livePulse 2.4s ease infinite;
+  flex-shrink: 0;
+}
+.newsletter-banner-title { font-size: 1.05rem; font-weight: 700; margin: 0 0 var(--space-1); color: var(--text); line-height: 1.3; }
+.newsletter-banner-desc { font-size: 0.83rem; color: var(--muted); margin: 0; line-height: 1.45; }
 .newsletter-banner-form { display: flex; gap: var(--space-2); flex-shrink: 0; }
 .newsletter-banner-input {
-  padding: 8px 14px;
+  padding: 9px 14px;
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
-  background: var(--bg);
+  background: var(--surface);
   color: var(--text);
   font-size: 0.85rem;
   font-family: inherit;
@@ -970,7 +1006,7 @@ hr {
 .newsletter-banner-input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
 .newsletter-banner-input::placeholder { color: var(--muted); opacity: 0.7; }
 .newsletter-banner-btn {
-  padding: 8px 20px;
+  padding: 9px 20px;
   border: none;
   background: var(--accent);
   color: #ffffff;
@@ -980,9 +1016,14 @@ hr {
   border-radius: var(--radius-sm);
   cursor: pointer;
   white-space: nowrap;
-  transition: background 0.2s ease, transform 0.2s ease;
+  letter-spacing: 0.01em;
+  transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
-.newsletter-banner-btn:hover { background: var(--accent-hover); transform: translateY(-1px); }
+.newsletter-banner-btn:hover {
+  background: var(--accent-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px color-mix(in srgb, var(--accent) 28%, transparent);
+}
 
 /* ── View All CTA ───────────────────────────────────────── */
 .view-all-cta { text-align: center; padding: var(--space-8) 0 var(--space-12); }
@@ -1924,7 +1965,8 @@ details[open] .signal-accordion__chevron { transform: rotate(180deg); }
   .features-grid { grid-template-columns: 1fr; }
   .post-author-footer { flex-direction: column; align-items: flex-start; gap: var(--space-3); }
   .topic-filter-buttons { justify-content: flex-start; }
-  .newsletter-banner-inner { flex-direction: column; align-items: stretch; text-align: center; }
+  .newsletter-banner-inner { flex-direction: column; align-items: stretch; text-align: center; border-left: none; border-top: 3px solid var(--accent); border-radius: 0 0 var(--radius-lg) var(--radius-lg); }
+  .newsletter-banner-eyebrow { justify-content: center; }
   .newsletter-banner-form { flex-direction: column; }
   .newsletter-banner-input { width: 100%; }
   .footer-bottom { flex-direction: column; gap: var(--space-3); text-align: center; }

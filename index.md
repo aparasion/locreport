@@ -85,16 +85,19 @@ nav_order: 1
 <section class="newsletter-banner">
   <div class="newsletter-banner-inner">
     <div class="newsletter-banner-text">
-      <h3 class="newsletter-banner-title">Stay in the loop</h3>
-      <p class="newsletter-banner-desc">Weekly digest of localization news and signal shifts — every Friday.</p>
+      <div class="newsletter-banner-eyebrow">
+        <span class="newsletter-banner-tag">Weekly · Every Friday</span>
+      </div>
+      <h3 class="newsletter-banner-title">Stay ahead of the signal</h3>
+      <p class="newsletter-banner-desc">Localization news, market moves, and industry shifts — curated and delivered every Friday.</p>
     </div>
     <form action="https://buttondown.com/api/emails/embed-subscribe/locreport"
           method="post"
           class="newsletter-banner-form">
       <input type="email" name="email" required
-             placeholder="you@example.com"
+             placeholder="your@email.com"
              class="newsletter-banner-input">
-      <button type="submit" class="newsletter-banner-btn">Subscribe</button>
+      <button type="submit" class="newsletter-banner-btn">Subscribe →</button>
     </form>
   </div>
 </section>
