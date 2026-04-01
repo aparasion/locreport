@@ -21,10 +21,10 @@ FORMAT AND STRUCTURE:
 Begin with a compelling, essay-style introduction that captures the defining theme or tension of the month. State a clear editorial argument — one idea a reader will remember and share. Set the stakes. Do not summarize what follows; instead, frame why this month matters.
 
 ## Key Themes
-Identify 3–4 cross-cutting patterns observed across multiple sources. For each theme, describe what the pattern is, what evidence supports it (cite specific articles or findings using inline markdown links: [anchor text](source_url)), and what it signals about where the industry is heading. Each theme should be a short paragraph, not a bullet point.
+Identify 3–4 cross-cutting patterns observed across multiple sources. For each theme, describe what the pattern is, what evidence supports it (cite specific articles or findings using inline markdown links: [anchor text](internal_article_url)), and what it signals about where the industry is heading. Each theme should be a short paragraph, not a bullet point.
 
 ## Notable Developments
-Cover 4–6 specific, significant events or announcements. For each, write 3–5 sentences: what happened, who was involved, why it matters, and what was surprising or consequential. Where a source article is available, hyperlink the relevant company name, product, or finding directly: e.g., [DeepL expanded its API](source_url). Surface breaking or unexpected findings prominently — flag them with **Breaking:** if they represent a significant shift from prior expectations.
+Cover 4–6 specific, significant events or announcements. For each, write 3–5 sentences: what happened, who was involved, why it matters, and what was surprising or consequential. Where an internal article is available, hyperlink the relevant company name, product, or finding directly: e.g., [DeepL expanded its API](internal_article_url). Surface breaking or unexpected findings prominently — flag them with **Breaking:** if they represent a significant shift from prior expectations.
 
 ## Major Implications & Breaking Findings
 This is the analytical core of the report. Dedicate 350–450 words to examining the second- and third-order consequences of this month's developments. What are the structural shifts — in competitive dynamics, technology adoption curves, workforce impacts, or regulatory environment — that practitioners may be underestimating? Highlight any findings that contradict prevailing assumptions or signal an inflection point. Use inline links to anchor specific claims to source material.
@@ -41,7 +41,7 @@ Offer 3–4 specific, forward-looking observations grounded in trends visible th
 EDITORIAL STANDARDS:
 • Target approximately 2000 words total across all sections.
 • Synthesize — connect dots across sources; surface patterns and tensions rather than summarizing articles one by one.
-• Use inline markdown hyperlinks [anchor text](url) to link specific findings, company names, product names, or claims to their source articles whenever a source_url is available. Do not list sources separately — weave them into the prose.
+• Use inline markdown hyperlinks [anchor text](url) to link specific findings, company names, product names, or claims to internal LocReport article/gist URLs only (the provided Internal Link values). Do not link to external source URLs in the report body.
 • Only draw on information present in the provided source summaries. No invented facts or external knowledge.
 • Write in a confident, expert editorial voice: clear, direct, and specific. Not dry, not listy.
 • Avoid generic industry clichés ("AI is transforming...", "companies are increasingly...").
@@ -90,6 +90,14 @@ def post_month_from_filename(path: Path) -> str | None:
     return f"{match.group(1)}-{match.group(2)}"
 
 
+def internal_article_url_from_path(path: Path) -> str | None:
+    match = re.match(r"^(\d{4})-(\d{2})-(\d{2})-(.+)\.md$", path.name)
+    if not match:
+        return None
+    year, month, day, slug = match.groups()
+    return f"/articles/{year}/{month}/{day}/{slug}.html"
+
+
 def is_monthly_post(front_matter: dict) -> bool:
     categories = front_matter.get("categories", "")
     return MONTHLY_CATEGORY in categories
@@ -121,6 +129,7 @@ def collect_month_articles(period: str) -> list[dict]:
                 "title": title,
                 "publisher": publisher,
                 "source_url": source_url,
+                "internal_url": internal_article_url_from_path(path) or "N/A",
                 "summary": summary_text,
             }
         )
@@ -133,6 +142,7 @@ def build_article_prompt_rows(articles: list[dict]) -> str:
         chunks.append(
             f"{idx}. Title: {article['title']}\n"
             f"Publisher: {article['publisher'] or 'Unknown'}\n"
+            f"Internal Link: {article['internal_url']}\n"
             f"Source: {article['source_url'] or 'N/A'}\n"
             f"Summary: {article['summary']}\n"
         )
