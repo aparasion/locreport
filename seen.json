@@ -1,6 +1,4 @@
 [
-  "https://www.vistatec.com/localization-at-the-speed-of-modern-software-development-with-adam-asnes-vistatalks-ep-191",
-  "title::localization at the speed of modern software development with adam asnes vistatalks ep 191",
   "https://www.vistatec.com/vistatec-celebrates-the-launch-of-its-new-global-headquarters",
   "title::vistatec celebrates the launch of its new global headquarters",
   "https://news.google.com/rss/articles/CBMigAFBVV95cUxOcS1yUnc2blNYMERJc1FmTTZjb0pyODBQaExNYl9PLWFNM3J0TVJiSUZBUl83UFNxSjRpLUZDNHpvbElVcXNqaTQwZnNJQ2NWd3BhYm5nWFd2VVB0eWFHYlJiMFZrRnRscEt4TUwxbHNKOUFqRDJDN0RQMEgyUTVuWA?oc=5",
@@ -498,5 +496,7 @@
   "https://elia-association.org/2026/03/mastering-social-media-moves/?utm_source=rss&utm_medium=rss&utm_campaign=mastering-social-media-moves",
   "title::mastering social media moves",
   "https://crowdin.com/blog/turo-localization-with-crowdin",
-  "title::how turo localized an entire ecosystem into spanish in one week"
+  "title::how turo localized an entire ecosystem into spanish in one week",
+  "https://phrase.com/blog/posts/chris-dell-booking-content-global-scale-operating-system",
+  "title::chris dell former bookingcom exec on the hidden operating system behind global scale"
 ]
