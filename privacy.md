@@ -2,6 +2,7 @@
 layout: page
 title: Privacy Policy
 permalink: /privacy/
+description: "LocReport privacy policy — how we collect, use, and protect your data on locreport.com."
 no_share: true
 ---
 

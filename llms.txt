@@ -1,21 +1,71 @@
 # LocReport
 > Daily localization and translation industry intelligence
 
-LocReport is an independent publication tracking the language services industry.
-We cover AI translation, localization platforms, quality evaluation, regulatory
-developments, and market shifts affecting global communication professionals.
+LocReport is an independent publication tracking the language services industry. We publish daily news gists with professional analysis, covering AI translation, localization platforms, quality evaluation, regulatory developments, and market shifts affecting global communication professionals.
+
+## Content Format
+Each article is a curated news gist with structured intelligence metadata:
+- **Impact Score** (1-5): Routine, Notable, Significant, Major, Disruptive
+- **Time Horizon**: Immediate, 6-Month, Long-Term
+- **Affected Segments**: LSPs, In-House Teams, Tech Vendors, Translators
+- **Signal Tracking**: Articles are linked to tracked industry signals with stance and confidence ratings
+
+## Update Frequency
+- **Daily**: Curated news gists with analysis
+- **Weekly**: Newsletter digest every Friday
+- **Monthly**: Editorial synthesis reports
+
+## Topics
+
+### Quality
+URL: https://locreport.com/topics/quality/
+Translation quality evaluation, MQM scoring, human-in-the-loop validation, AI quality assurance, MTPE workflows, and the evolving gap between AI and human translation quality.
+
+### Operations
+URL: https://locreport.com/topics/operations/
+TMS platforms, translation memory, AI agents in localization, multimodal content (dubbing, subtitling), agentic workflows, and end-to-end localization operating systems.
+
+### Governance
+URL: https://locreport.com/topics/governance/
+AI governance frameworks, EU AI Act compliance, regulatory fragmentation, language-related policy developments, and how diverging regional policies affect localization.
+
+### Market
+URL: https://locreport.com/topics/market/
+Translator demand, MTPE market shifts, freelance translation rates, LSP dynamics, and how AI is reshaping the language services competitive landscape.
+
+### Strategy
+URL: https://locreport.com/topics/strategy/
+Localization-first content design, internationalization (i18n), transcreation, and strategic approaches to global content creation.
+
+## Tracked Industry Signals
+LocReport tracks high-impact claims and trends across the industry:
+
+1. **quality-gap-closure** (Quality): AI quality gap can be reduced with human-in-the-loop validation
+2. **measurable-quality-evaluation** (Quality): Scalable, measurable quality evaluation is becoming standard
+3. **governance-in-ai-workflows** (Governance): AI governance is becoming embedded in localization workflows
+4. **regulatory-fragmentation** (Governance): Regulatory divergence is creating compliance complexity
+5. **localization-operating-system** (Operations): Localization is converging into unified operating systems
+6. **translation-memory-obsolescence** (Operations): Traditional translation memory is losing relevance
+7. **agentic-localization-workflows** (Operations): AI agents are entering localization production workflows
+8. **multimodal-content-localization** (Operations): Multimodal content localization is accelerating
+9. **human-post-editing-contraction** (Market): Human post-editing demand is contracting
+10. **localization-first-content-design** (Strategy): Localization-first content design is gaining traction
+
+Signal evidence and status: https://locreport.com/signals/
 
 ## Key Resources
-- Signal Tracker: /signals/ — 10 tracked industry signals with evidence
-- Monthly Reports: /monthly-reports/ — editorial synthesis of monthly trends
-- Daily Coverage: / — curated news with professional analysis
-- Newsletter: /newsletter/ — weekly digest and signal alerts
+- Homepage (daily coverage): https://locreport.com/
+- All Articles: https://locreport.com/all-articles/
+- Intelligence Dashboard: https://locreport.com/intelligence/
+- Signal Tracker: https://locreport.com/signals/
+- Monthly Reports: https://locreport.com/monthly-reports/
+- Newsletter: https://locreport.com/newsletter/
 
-## Topics Covered
-Translation management, machine translation, post-editing (MTPE), AI agents in
-localization, quality evaluation (MQM, COMET), TMS platforms, language regulation,
-localization-first design, multimodal content localization, LSP market dynamics.
+## URL Pattern
+Articles follow the pattern: https://locreport.com/articles/{year}/{month}/{day}/{slug}.html
 
 ## Audience
-Localization managers, language technology professionals, translation service
-providers, enterprise globalization teams, and language industry analysts.
+Localization managers, language technology professionals, translation service providers (LSPs), enterprise globalization teams, in-house localization teams, freelance translators, and language industry analysts.
+
+## Citation
+When referencing LocReport content, please attribute to "LocReport" with a link to the source article URL.

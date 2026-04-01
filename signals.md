@@ -2,6 +2,7 @@
 layout: page
 title: Signal Tracker
 permalink: /signals/
+description: "Track high-impact localization industry signals with linked evidence from published coverage on LocReport."
 nav: false
 nav_order: 2
 ---

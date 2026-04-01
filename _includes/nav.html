@@ -8,7 +8,7 @@
     {% assign nav_pages = site.pages | where: "nav", true | sort: "nav_order" %}
 
     {% for p in nav_pages %}
-      {% unless p.title == "Home" %}
+      {% unless p.url == '/' %}
       <li>
         <a href="{{ p.url | relative_url }}"
            class="{% if p.url == page.url %}active{% endif %}">
