@@ -1,8 +1,4 @@
 [
-  "title::chris dell former bookingcom exec on the hidden operating system behind global scale",
-  "https://news.google.com/rss/articles/CBMimAFBVV95cUxOMTF4cTNlWEo5ak1ncmdJOTVKTHZtNmY0aW5Fd2YtVE5zUXV1MEpuejdjNFV4MG0wUGd3R0hKbEgwZXVHVXFOXzBENHF2VmQ1a21WTnFhNXE3OURUc2ctZmo2eXZNOHpwUS1ENng0UGlTX1o5MXVYUThkMmNJTm5mNnhwWGFBOXJ5OFRNWlVfUTFMYU55NlVqeQ?oc=5",
-  "https://www.benefitnews.com",
-  "title::could office stationery improve workplace wellbeing this company says yes employee benefit news",
   "https://www.vistatec.com/localization-at-the-speed-of-modern-software-development-with-adam-asnes-vistatalks-ep-191",
   "title::localization at the speed of modern software development with adam asnes vistatalks ep 191",
   "https://www.vistatec.com/vistatec-celebrates-the-launch-of-its-new-global-headquarters",
@@ -498,5 +494,9 @@
   "https://lokalise.com/blog/localization-and-aeo",
   "title::your aeo strategy is invisible to almost 80 of the world",
   "https://www.vistatec.com/the-hidden-behavioural-layer-of-localization",
-  "title::the hidden behavioural layer of localization"
+  "title::the hidden behavioural layer of localization",
+  "https://elia-association.org/2026/03/mastering-social-media-moves/?utm_source=rss&utm_medium=rss&utm_campaign=mastering-social-media-moves",
+  "title::mastering social media moves",
+  "https://crowdin.com/blog/turo-localization-with-crowdin",
+  "title::how turo localized an entire ecosystem into spanish in one week"
 ]
