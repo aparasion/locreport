@@ -7,14 +7,129 @@ nav_order: 1
 
 <section class="hero">
   <div class="hero-content">
-    <h1>The pulse of the language<br>services industry</h1>
-    <p class="hero-subtitle">Daily coverage of translation, localization, and AI — curated, analyzed, and tracked through the signals that matter.</p>
-    <div class="hero-actions">
+    <h1 id="hero-title">The pulse of the language<br>services industry</h1>
+    <p class="hero-subtitle" id="hero-subtitle">Daily coverage of translation, localization, and AI — curated, analyzed, and tracked through the signals that matter.</p>
+    <div class="hero-actions" id="hero-actions">
       <a href="/all-articles/" class="btn btn--primary">Browse articles</a>
       <a href="/intelligence/" class="btn btn--secondary">Intelligence Dashboard</a>
     </div>
   </div>
 </section>
+
+<script>
+(function () {
+  var INITIAL_WAIT    = 10000;
+  var FADE_MS         = 700;
+  var TYPE_SPEED      = 55;
+  var COMMA_DELAY     = 3000;
+  var ALT_SHOW        = 10000;
+
+  var ALT_H1_PRE      = 'No ';
+  var ALT_H1_POST     = 'AI has been used to create this service.';
+  var ALT_SUBTITLE    = "Thats why language and it\u2019s rules matter.";
+
+  var INIT_H1_HTML    = 'The pulse of the language<br>services industry';
+  var INIT_SUBTITLE   = 'Daily coverage of translation, localization, and AI \u2014 curated, analyzed, and tracked through the signals that matter.';
+
+  var h1      = document.getElementById('hero-title');
+  var sub     = document.getElementById('hero-subtitle');
+  var actions = document.getElementById('hero-actions');
+
+  if (!h1 || !sub || !actions) return;
+
+  function setOpacity(el, val, ms, cb) {
+    el.style.transition = 'opacity ' + ms + 'ms ease';
+    el.style.opacity    = String(val);
+    if (cb) setTimeout(cb, ms);
+  }
+
+  function typeInto(el, text, speed, done) {
+    el.innerHTML = '<span class="hero-cursor" aria-hidden="true">\u2502</span>';
+    var cursor = el.querySelector('.hero-cursor');
+    var i = 0;
+    function tick() {
+      if (i < text.length) {
+        cursor.insertAdjacentText('beforebegin', text[i]);
+        i++;
+        setTimeout(tick, speed);
+      } else {
+        cursor.remove();
+        if (done) done();
+      }
+    }
+    tick();
+  }
+
+  function loop() {
+    // ── phase 1: show initial content for 10 s ────────────
+    setTimeout(function () {
+
+      // ── phase 2: fade out all three elements ─────────────
+      setOpacity(h1,      0, FADE_MS);
+      setOpacity(sub,     0, FADE_MS);
+      setOpacity(actions, 0, FADE_MS, function () {
+        actions.style.visibility = 'hidden';
+
+        // ── phase 3: type alt h1 ─────────────────────────
+        h1.style.transition = '';
+        h1.style.opacity    = '1';
+        typeInto(h1, ALT_H1_PRE + ALT_H1_POST, TYPE_SPEED, function () {
+
+          // ── phase 4: insert glowing comma after 3 s ─────
+          setTimeout(function () {
+            h1.innerHTML =
+              ALT_H1_PRE +
+              '<span class="hero-comma" aria-hidden="true">,</span> ' +
+              ALT_H1_POST;
+
+            // ── phase 5: type alt subtitle ───────────────
+            sub.style.transition = '';
+            sub.style.opacity    = '1';
+            typeInto(sub, ALT_SUBTITLE, TYPE_SPEED, function () {
+
+              // ── phase 6: hold alt banner for 10 s ───────
+              setTimeout(function () {
+
+                // ── phase 7: fade out alt content ───────────
+                setOpacity(h1,  0, FADE_MS);
+                setOpacity(sub, 0, FADE_MS, function () {
+
+                  // ── phase 8: restore initial content ────────
+                  h1.style.transition  = '';
+                  sub.style.transition = '';
+                  h1.innerHTML         = INIT_H1_HTML;
+                  sub.textContent      = INIT_SUBTITLE;
+
+                  actions.style.visibility = 'visible';
+                  actions.style.opacity    = '0';
+                  h1.style.opacity         = '0';
+                  sub.style.opacity        = '0';
+
+                  // small rAF pause to let browser register opacity:0
+                  requestAnimationFrame(function () {
+                    requestAnimationFrame(function () {
+                      setOpacity(h1,      1, FADE_MS);
+                      setOpacity(sub,     1, FADE_MS);
+                      setOpacity(actions, 1, FADE_MS, function () {
+                        h1.style.transition      = '';
+                        sub.style.transition     = '';
+                        actions.style.transition = '';
+                        loop(); // restart
+                      });
+                    });
+                  });
+                });
+              }, ALT_SHOW);
+            });
+          }, COMMA_DELAY);
+        });
+      });
+    }, INITIAL_WAIT);
+  }
+
+  loop();
+}());
+</script>
 
 {% include sources-bar.html %}
 
