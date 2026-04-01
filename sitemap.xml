@@ -13,7 +13,7 @@ permalink: /sitemap.xml
       <loc>{{ page.url | replace:'index.html','' | absolute_url }}</loc>
       <lastmod>{{ site.time | date_to_xmlschema }}</lastmod>
       <changefreq>weekly</changefreq>
-      <priority>{% if page.url == '/' %}1.0{% else %}0.7{% endif %}</priority>
+      <priority>{% if page.url == '/' %}1.0{% elsif page.url == '/intelligence/' or page.url == '/topics/' or page.url == '/signals/' %}0.9{% elsif page.topic or page.url == '/all-articles/' or page.url == '/monthly-reports/' %}0.8{% elsif page.url == '/about/' or page.url == '/contact/' or page.url == '/newsletter/' or page.url == '/search/' %}0.6{% elsif page.url == '/privacy/' or page.url == '/terms/' %}0.3{% else %}0.7{% endif %}</priority>
     </url>
     {% endif %}
   {% endfor %}
@@ -23,7 +23,7 @@ permalink: /sitemap.xml
       <loc>{{ post.url | replace:'index.html','' | absolute_url }}</loc>
       <lastmod>{{ post.last_modified_at | default: post.date | date_to_xmlschema }}</lastmod>
       <changefreq>daily</changefreq>
-      <priority>0.8</priority>
+      <priority>{% if post.impact_score >= 4 %}0.9{% elsif post.impact_score >= 3 %}0.8{% else %}0.7{% endif %}</priority>
     </url>
   {% endfor %}
 </urlset>

@@ -44,6 +44,58 @@
 - term: "localization-first"
   url: "/topics/strategy/"
 
+# Strategy topic
+- term: "transcreation"
+  url: "/topics/strategy/"
+- term: "internationalization"
+  url: "/topics/strategy/"
+- term: "i18n"
+  url: "/topics/strategy/"
+- term: "content localization"
+  url: "/topics/strategy/"
+- term: "global content strategy"
+  url: "/topics/strategy/"
+
+# Quality topic (additional)
+- term: "machine translation"
+  url: "/topics/quality/"
+- term: "AI translation"
+  url: "/topics/quality/"
+- term: "translation quality"
+  url: "/topics/quality/"
+- term: "neural machine translation"
+  url: "/topics/quality/"
+- term: "NMT"
+  url: "/topics/quality/"
+
+# Operations topic (additional)
+- term: "TMS"
+  url: "/topics/operations/"
+- term: "localization platform"
+  url: "/topics/operations/"
+- term: "CAT tool"
+  url: "/topics/operations/"
+- term: "dubbing"
+  url: "/topics/operations/"
+- term: "subtitling"
+  url: "/topics/operations/"
+- term: "localization workflow"
+  url: "/topics/operations/"
+
+# Market topic (additional)
+- term: "language service provider"
+  url: "/topics/market/"
+
 # Other internal pages
 - term: "monthly report"
   url: "/monthly-reports/"
+- term: "monthly summary"
+  url: "/monthly-reports/"
+- term: "intelligence dashboard"
+  url: "/intelligence/"
+- term: "impact score"
+  url: "/intelligence/"
+- term: "language technology"
+  url: "/intelligence/"
+- term: "newsletter"
+  url: "/newsletter/"

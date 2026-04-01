@@ -2,6 +2,7 @@
 layout: page
 title: Terms of Service
 permalink: /terms/
+description: "LocReport terms of service — usage rights, content permissions, and AI training policies for locreport.com."
 no_share: true
 ---
 

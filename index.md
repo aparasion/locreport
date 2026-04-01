@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Home
+title: "Localization & Translation Industry News"
 nav: true
 nav_order: 1
 ---

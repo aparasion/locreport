@@ -2,6 +2,7 @@
 layout: page
 title: Newsletter
 permalink: /newsletter/
+description: "Subscribe to the LocReport newsletter — weekly localization industry news, signal updates, and market analysis every Friday."
 nav: false
 nav_order: 99
 ---
