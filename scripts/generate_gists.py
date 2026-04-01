@@ -55,6 +55,7 @@ FEEDS = [
     "https://multilingual.com/feed/",
     "https://imminent.translated.com/feed",
     "https://news.google.com/rss/search?q=rws+group&hl=en-US&gl=US&ceid=US:en",
+    "https://blog.google/products-and-platforms/products/translate/rss/",
 ]
 
 SEEN_FILE = "seen.json"
