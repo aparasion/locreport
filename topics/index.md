@@ -96,7 +96,7 @@ description: "Browse all localization industry articles by topic — quality, op
         <p class="post-meta">{{ post.date | date: "%B %d, %Y" }}{% if post.impact_score and post.impact_score >= 3 %}<span class="impact-dot impact-dot--{{ post.impact_score }}" title="Impact: {% if post.impact_score == 3 %}Significant{% elsif post.impact_score == 4 %}Major{% elsif post.impact_score == 5 %}Disruptive{% endif %}"></span>{% endif %}</p>
         <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
         <p>{{ post.excerpt | strip_html | truncate: 140 }}</p>
-        <span class="read-more">Read more &rarr;</span>
+        <a class="read-more" href="{{ post.url | relative_url }}">Read more &rarr;</a>
       </article>
     {% endfor %}
   </div>
