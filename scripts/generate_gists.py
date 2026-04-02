@@ -60,6 +60,7 @@ FEEDS = [
     "https://aparasion.github.io/rss-generator/rss/CSA-blog.xml",
     "https://aparasion.github.io/rss-generator/rss/OpenAI-News-L10N.xml",
     "https://inten.to/blog/feed/",
+    "https://propio.com/blogs/feed/",
 ]
 
 SEEN_FILE = "seen.json"
