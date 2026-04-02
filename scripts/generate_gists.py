@@ -61,6 +61,7 @@ FEEDS = [
 ]
 
 SEEN_FILE = "seen.json"
+SEEN_HISTORY_CAP = 5000
 YOUR_AREA = "Translation"
 MAX_ARTICLES = 18
 MIN_ARTICLE_CHARS = 500
@@ -113,6 +114,52 @@ def normalize_title(title: str) -> str:
     lowered = (title or "").lower()
     stripped = re.sub(r"[^a-z0-9\s]", "", lowered)
     return re.sub(r"\s+", " ", stripped).strip()
+
+
+def load_existing_post_dedup_index(posts_dir: str = "_posts") -> tuple[set[str], set[str]]:
+    """Load normalized source URLs and titles from existing post front matter."""
+    existing_urls: set[str] = set()
+    existing_titles: set[str] = set()
+
+    if not os.path.isdir(posts_dir):
+        return existing_urls, existing_titles
+
+    source_re = re.compile(r'^source_url:\s*"?(.+?)"?\s*$')
+    title_re = re.compile(r'^title:\s*"?(.+?)"?\s*$')
+
+    for name in os.listdir(posts_dir):
+        if not name.endswith(".md"):
+            continue
+        path = os.path.join(posts_dir, name)
+        try:
+            with open(path, "r", encoding="utf-8") as f:
+                lines = f.readlines()
+
+            if not lines or lines[0].strip() != "---":
+                continue
+
+            front_matter = []
+            for line in lines[1:]:
+                if line.strip() == "---":
+                    break
+                front_matter.append(line.strip())
+
+            for line in front_matter:
+                source_match = source_re.match(line)
+                if source_match:
+                    normalized = normalize_url(source_match.group(1).strip())
+                    if normalized:
+                        existing_urls.add(normalized)
+                    continue
+                title_match = title_re.match(line)
+                if title_match:
+                    normalized_title = normalize_title(title_match.group(1).strip())
+                    if normalized_title:
+                        existing_titles.add(normalized_title)
+        except Exception as e:
+            print(f"Warning: failed to read post {path}: {e}")
+
+    return existing_urls, existing_titles
 
 
 def strip_html(text: str) -> str:
@@ -556,6 +603,9 @@ def main() -> None:
     # Separate URL entries from title entries (title entries use "title::" prefix).
     normalized_seen = {normalize_url(e) for e in seen if not e.startswith("title::")}
     seen_titles = {e[len("title::"):] for e in seen if e.startswith("title::")}
+    existing_post_urls, existing_post_titles = load_existing_post_dedup_index("_posts")
+    normalized_seen.update(existing_post_urls)
+    seen_titles.update(existing_post_titles)
     posts = []
     count = 0
 
@@ -765,7 +815,7 @@ Source: [{safe_publisher}]({safe_source_url})
 
     print(f"Generated {len(posts)} individual gist posts")
     with open(SEEN_FILE, "w", encoding="utf-8") as seen_file:
-        json.dump(seen[-500:], seen_file, indent=2)
+        json.dump(seen[-SEEN_HISTORY_CAP:], seen_file, indent=2)
 
 
 if __name__ == "__main__":
