@@ -19,7 +19,7 @@ One prominent theme this month is the increasing emphasis on AI-driven localizat
 
 Another recurring theme is the strategic shift towards ecosystem collaborations over traditional vendor models. This is highlighted by the partnership between [XTM and Vistatec](https://locreport.com/articles/2026/03/04/xtm-and-vistatec-launch-enterprise-ai-content-globalisation.html), which aims to streamline global content operations through an integrated AI globalization service. Such partnerships indicate a trend towards more holistic solutions that leverage combined technological and human expertise.
 
-The industry also saw a focus on addressing clinical risk variables in AI-driven healthcare systems, as discussed in [LanguageLine's blog](https://locreport.com/articles/2026/03/02/embedded-ehr-ai-where-language-access-becomes-a-clinical-ris.html). This highlights the growing recognition of language access as a critical component of healthcare delivery, with implications for patient safety and care quality.
+The industry also saw a focus on addressing clinical risk variables in AI-driven healthcare systems, as discussed in [LanguageLine's blog](https://locreport.com/articles/2026/03/02/embedded-ehr-ai-where-language-access-becomes-a-clinical-ris-1.html). This highlights the growing recognition of language access as a critical component of healthcare delivery, with implications for patient safety and care quality.
 
 ## Notable Developments
 
@@ -27,7 +27,7 @@ The industry also saw a focus on addressing clinical risk variables in AI-driven
 
 [EasyTranslate's acquisition of Translated By Us](https://locreport.com/articles/2026/03/27/denmarks-easytranslate-acquires-translated-by-us.html) represents a strategic consolidation within the Nordic language services market. This move is expected to enhance EasyTranslate's service offerings and expand its regional footprint.
 
-[Vozo AI's launch of Visual Translate](https://locreport.com/articles/2026/03/12/beyond-dubbing-vozo-ai-launches-visual-translate-for-complet.html) tool is set to transform video localization by integrating AI-driven visual elements, offering a more immersive and engaging user experience.
+[Vozo AI's launch of Visual Translate](https://locreport.com/articles/2026/03/12/beyond-dubbing-vozo-ai-launches-visual-translate-for-complet-1.html) tool is set to transform video localization by integrating AI-driven visual elements, offering a more immersive and engaging user experience.
 
 [TransPerfect's revenue growth](https://locreport.com/articles/2026/03/03/transperfect-posts-7-growth-in-2025-as-language-services-fal.html) of 7% in 2025 highlights a strategic pivot towards AI-driven localization platforms, reducing reliance on traditional language services. This shift underscores the growing importance of technology in driving business growth.
 
@@ -41,7 +41,7 @@ Moreover, the focus on language as a clinical risk variable in healthcare indica
 
 ## Globalization Strategy: What Companies Should Know
 
-As companies navigate the complexities of globalization, several strategic considerations emerge from this month's findings. First, the adoption of AI-driven localization tools, such as those developed by [Meta](https://locreport.com/articles/2026/03/19/meta-targets-1600-languages-in-ai-translation.html) and [Vozo AI](https://locreport.com/articles/2026/03/12/beyond-dubbing-vozo-ai-launches-visual-translate-for-complet.html), can significantly enhance scalability and efficiency. However, companies must also ensure that these tools are integrated with robust quality assurance processes to maintain translation accuracy and cultural relevance.
+As companies navigate the complexities of globalization, several strategic considerations emerge from this month's findings. First, the adoption of AI-driven localization tools, such as those developed by [Meta](https://locreport.com/articles/2026/03/19/meta-targets-1600-languages-in-ai-translation.html) and [Vozo AI](https://locreport.com/articles/2026/03/12/beyond-dubbing-vozo-ai-launches-visual-translate-for-complet-1.html), can significantly enhance scalability and efficiency. However, companies must also ensure that these tools are integrated with robust quality assurance processes to maintain translation accuracy and cultural relevance.
 
 Second, the shift towards ecosystem partnerships, as demonstrated by [XTM and Vistatec's collaboration](https://locreport.com/articles/2026/03/04/xtm-and-vistatec-launch-enterprise-ai-content-globalisation.html), highlights the value of leveraging complementary strengths to deliver comprehensive solutions. Companies should evaluate potential partnerships that can enhance their service offerings and provide a competitive advantage.
 
