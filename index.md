@@ -19,14 +19,14 @@ nav_order: 1
 <script>
 (function () {
   var INITIAL_WAIT    = 5000;
-  var FADE_MS         = 1000;
+  var FADE_MS         = 1300;
   var TYPE_SPEED      = 55;
   var COMMA_DELAY     = 3000;
   var ALT_SHOW        = 10000;
 
   var ALT_H1_PRE      = 'No ';
   var ALT_H1_POST     = 'AI has been used to create this service.';
-  var ALT_SUBTITLE    = "That\u2019s why language and its rules matter\nas much as technology—and their coexistence.";
+  var ALT_SUBTITLE    = "That\u2019s why language and its rules matter\r\nas much as technology—and their coexistence.";
 
   var INIT_H1_HTML    = 'The pulse of the language<br>services industry';
   var INIT_SUBTITLE   = 'Daily coverage of translation, localization, and AI \u2014 curated, analyzed, and tracked through the signals that matter.';
