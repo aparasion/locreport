@@ -18,8 +18,8 @@ nav_order: 1
 
 <script>
 (function () {
-  var INITIAL_WAIT    = 10000;
-  var FADE_MS         = 700;
+  var INITIAL_WAIT    = 5000;
+  var FADE_MS         = 1000;
   var TYPE_SPEED      = 55;
   var COMMA_DELAY     = 3000;
   var ALT_SHOW        = 10000;
@@ -79,7 +79,7 @@ nav_order: 1
   }
 
   function loop() {
-    // ── phase 1: show initial content for 10 s ────────────
+    // ── phase 1: show initial content for 5 s ────────────
     setTimeout(function () {
 
       // ── phase 2: fade out h1 and subtitle only ───────────
