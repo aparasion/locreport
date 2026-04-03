@@ -21,7 +21,7 @@ nav_order: 1
   var INITIAL_WAIT    = 5000;
   var FADE_MS         = 1300;
   var TYPE_SPEED      = 55;
-  var COMMA_DELAY     = 3000;
+  var COMMA_DELAY     = 1500;
   var ALT_SHOW        = 10000;
 
   var ALT_H1_PRE      = 'No';
