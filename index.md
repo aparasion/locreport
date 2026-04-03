@@ -26,7 +26,7 @@ nav_order: 1
 
   var ALT_H1_PRE      = 'No';
   var ALT_H1_POST     = ' AI has been used to build this service.';
-  var ALT_SUBTITLE    = "Language matters <br />as much as technology.";
+  var ALT_SUBTITLE    = "Language matters  as much as technology.";
 
   var INIT_H1_HTML    = 'The pulse of the language<br>services industry';
   var INIT_SUBTITLE   = 'Daily coverage of translation, localization, and AI \u2014 curated, analyzed, and tracked through the signals that matter.';
