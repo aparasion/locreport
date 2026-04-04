@@ -62,6 +62,7 @@ FEEDS = [
     "https://inten.to/blog/feed/",
     "https://propio.com/blogs/feed/",
     "https://www.helloglobo.com/blog/rss.xml",
+"https://www.annualreviews.org/rss/content/journals/linguistics/latestarticles?fmt=rss",
 ]
 
 SEEN_FILE = "seen.json"
