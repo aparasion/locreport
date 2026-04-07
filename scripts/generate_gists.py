@@ -17,6 +17,10 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 FEEDS = [
     "crossref:2949-7191",  # Natural Language Processing Journal (ScienceDirect blocks datacenter IPs)
     "https://www.annualreviews.org/rss/content/journals/linguistics/latestarticles?fmt=rss",
+    "https://www.cambridge.org/core/rss/product/id/CB4469A0E10303A62565A388519063AA",
+    "https://www.mdpi.com/rss/journal/languages",
+    "https://onlinelibrary.wiley.com/feed/14679841/most-recent",
+    "https://www.glossa-journal.org/rss/",
     "https://translation.ec.europa.eu/node/27/rss_en",
     "https://www.nimdzi.com/feed/",
     "https://slator.com/feed/",
@@ -70,7 +74,7 @@ SEEN_HISTORY_CAP = 5000
 YOUR_AREA = "Translation"
 
 # ── Theory vs Industry classification ──
-THEORY_SOURCES = {"annualreviews.org", "sciencedirect.com"}
+THEORY_SOURCES = {"annualreviews.org", "sciencedirect.com", "cambridge.org", "glossa-journal.org", "mdpi.com", "wiley.com"}
 
 THEORY_CONTENT_KEYWORDS = [
     "abstract", "methodology", "corpus analysis", "morphosyntax",
