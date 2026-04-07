@@ -23,37 +23,48 @@ nav_order: 3.5
   Looking for industry articles? Visit <a href="/all-articles/" style="color: var(--accent); font-weight: 600;">All articles</a>
 </p>
 
-<section class="research-filter-bar" id="research-filter-bar">
+<section class="all-articles-filter-bar research-filter-panel" id="research-filter-bar">
+  <button class="filter-bar-toggle" id="research-filter-toggle" aria-expanded="false" aria-controls="research-filter-collapsible">
+    <span class="filter-bar-toggle-left">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M1 3h12M3 7h8M5 11h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      <span class="filter-bar-toggle-label">Filters</span>
+      <span class="filter-bar-toggle-badge" id="research-filter-badge"></span>
+    </span>
+    <svg class="filter-bar-toggle-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
 
-  <div class="research-filter-row">
-    <span class="research-filter-label">Domain</span>
-    <div class="research-pills" id="domain-pills" role="group" aria-label="Filter by domain">
-      <button class="intel-filter-pill active" data-domain="all">All</button>
+  <div class="filter-bar-collapsible" id="research-filter-collapsible">
+    <div class="filter-bar-inner">
+      <div class="filter-group">
+        <label class="filter-label" for="domain-filter">Domain</label>
+        <select class="filter-select" id="domain-filter" aria-label="Filter by domain">
+          <option value="all">All domains</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label class="filter-label" for="date-filter">Date</label>
+        <select class="filter-select" id="date-filter" aria-label="Filter by date">
+          <option value="all">All time</option>
+          <option value="30">Last 30 days</option>
+          <option value="90">Last 3 months</option>
+          <option value="365">Last year</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label class="filter-label" for="source-filter">Source</label>
+        <select class="filter-select" id="source-filter" aria-label="Filter by source">
+          <option value="all">All sources</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="filter-status-row">
+      <p class="filter-count" id="feed-count" aria-live="polite"></p>
+      <button class="filter-reset-btn" id="filter-reset" style="display:none;">Clear filters</button>
     </div>
   </div>
-
-  <div class="research-filter-row">
-    <span class="research-filter-label">Date</span>
-    <div class="research-pills" role="group" aria-label="Filter by date">
-      <button class="intel-filter-pill active" data-date="all">All time</button>
-      <button class="intel-filter-pill" data-date="30">Last 30 days</button>
-      <button class="intel-filter-pill" data-date="90">Last 3 months</button>
-      <button class="intel-filter-pill" data-date="365">Last year</button>
-    </div>
-  </div>
-
-  <div class="research-filter-row">
-    <span class="research-filter-label">Source</span>
-    <div class="research-pills" id="source-pills" role="group" aria-label="Filter by source">
-      <button class="intel-filter-pill active" data-source="all">All</button>
-    </div>
-  </div>
-
-  <div class="filter-status-row">
-    <p class="filter-count" id="feed-count" aria-live="polite"></p>
-    <button class="filter-reset-btn" id="filter-reset" style="display:none;">Clear filters</button>
-  </div>
-
 </section>
 
 <section class="all-articles-feed-section" id="articles-section">
@@ -96,86 +107,82 @@ document.addEventListener("DOMContentLoaded", function () {
   var feedSentinel = document.getElementById("feed-sentinel");
   var feedCount = document.getElementById("feed-count");
   var resetBtn = document.getElementById("filter-reset");
+  var domainFilter = document.getElementById("domain-filter");
+  var dateFilter = document.getElementById("date-filter");
+  var sourceFilter = document.getElementById("source-filter");
+
+  var filterBarEl = document.getElementById("research-filter-bar");
+  var filterBarToggle = document.getElementById("research-filter-toggle");
+  var filterBarBadge = document.getElementById("research-filter-badge");
+
+  filterBarToggle.addEventListener("click", function () {
+    var isOpen = filterBarEl.classList.toggle("is-open");
+    filterBarToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+  });
 
   var BATCH = 30;
-  var activeDomain = "all";
-  var activeDate = "all";
-  var activeSource = "all";
   var observer = null;
   var currentItems = [];
   var loadedCount = 0;
 
-  // ── Populate domain pills ──────────────────────────────────
+  function updateMobileBadge() {
+    var count = 0;
+    if (domainFilter.value !== "all") count++;
+    if (dateFilter.value !== "all") count++;
+    if (sourceFilter.value !== "all") count++;
+    if (filterBarBadge) {
+      filterBarBadge.textContent = count > 0 ? count : "";
+      filterBarBadge.style.display = count > 0 ? "" : "none";
+    }
+  }
+
+  // ── Populate domain dropdown ───────────────────────────────
   var domains = {};
   allItems.forEach(function (item) {
     var d = item.getAttribute("data-domain");
     if (d) domains[d] = (domains[d] || 0) + 1;
   });
-  var domainPills = document.getElementById("domain-pills");
   Object.keys(domains).sort().forEach(function (d) {
-    var btn = document.createElement("button");
-    btn.className = "intel-filter-pill";
-    btn.setAttribute("data-domain", d);
-    btn.textContent = d.charAt(0).toUpperCase() + d.slice(1);
-    domainPills.appendChild(btn);
+    var opt = document.createElement("option");
+    opt.value = d;
+    opt.textContent = d.charAt(0).toUpperCase() + d.slice(1) + " (" + domains[d] + ")";
+    domainFilter.appendChild(opt);
   });
 
-  // ── Populate source pills ──────────────────────────────────
+  // ── Populate source dropdown ───────────────────────────────
   var sources = {};
   allItems.forEach(function (item) {
     var src = item.getAttribute("data-source");
     var label = item.querySelector(".segment-tag");
     if (src) sources[src] = { label: label ? label.textContent.trim() : src, count: (sources[src] ? sources[src].count : 0) + 1 };
   });
-  var sourcePills = document.getElementById("source-pills");
   Object.keys(sources).sort(function (a, b) { return sources[b].count - sources[a].count; }).forEach(function (src) {
-    var btn = document.createElement("button");
-    btn.className = "intel-filter-pill";
-    btn.setAttribute("data-source", src);
-    btn.textContent = sources[src].label;
-    sourcePills.appendChild(btn);
+    var opt = document.createElement("option");
+    opt.value = src;
+    opt.textContent = sources[src].label + " (" + sources[src].count + ")";
+    sourceFilter.appendChild(opt);
   });
 
-  // ── Pill click handlers ────────────────────────────────────
-  function bindPills(container, attr, getCurrent, setCurrent) {
-    container.addEventListener("click", function (e) {
-      var btn = e.target.closest(".intel-filter-pill");
-      if (!btn) return;
-      Array.from(container.querySelectorAll(".intel-filter-pill")).forEach(function (p) { p.classList.remove("active"); });
-      btn.classList.add("active");
-      setCurrent(btn.getAttribute(attr));
-      applyFilter();
-    });
-  }
-
-  bindPills(domainPills, "data-domain",
-    function () { return activeDomain; },
-    function (v) { activeDomain = v; });
-
-  bindPills(document.querySelector("[data-date='all']").parentElement, "data-date",
-    function () { return activeDate; },
-    function (v) { activeDate = v; });
-
-  bindPills(sourcePills, "data-source",
-    function () { return activeSource; },
-    function (v) { activeSource = v; });
+  [domainFilter, dateFilter, sourceFilter].forEach(function (el) {
+    el.addEventListener("change", applyFilter);
+  });
 
   // ── Filter logic ───────────────────────────────────────────
   function hasActiveFilters() {
-    return activeDomain !== "all" || activeDate !== "all" || activeSource !== "all";
+    return domainFilter.value !== "all" || dateFilter.value !== "all" || sourceFilter.value !== "all";
   }
 
   function getFiltered() {
     var now = new Date();
     var cutoff = null;
-    if (activeDate !== "all") {
-      cutoff = parseInt(new Date(now.getTime() - parseInt(activeDate, 10) * 86400000)
+    if (dateFilter.value !== "all") {
+      cutoff = parseInt(new Date(now.getTime() - parseInt(dateFilter.value, 10) * 86400000)
         .toISOString().slice(0, 10).replace(/-/g, ""), 10);
     }
 
     return allItems.filter(function (item) {
-      if (activeDomain !== "all" && item.getAttribute("data-domain") !== activeDomain) return false;
-      if (activeSource !== "all" && item.getAttribute("data-source") !== activeSource) return false;
+      if (domainFilter.value !== "all" && item.getAttribute("data-domain") !== domainFilter.value) return false;
+      if (sourceFilter.value !== "all" && item.getAttribute("data-source") !== sourceFilter.value) return false;
       if (cutoff) {
         var d = parseInt(item.getAttribute("data-date") || "0", 10);
         if (d < cutoff) return false;
@@ -234,19 +241,14 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     resetBtn.style.display = hasActiveFilters() ? "" : "none";
     feedLoader.classList.remove("is-active");
+    updateMobileBadge();
     setupObserver();
   }
 
   resetBtn.addEventListener("click", function () {
-    activeDomain = "all";
-    activeDate = "all";
-    activeSource = "all";
-    document.querySelectorAll("#research-filter-bar .intel-filter-pill").forEach(function (p) {
-      var isAll = p.getAttribute("data-domain") === "all" ||
-                  p.getAttribute("data-date") === "all" ||
-                  p.getAttribute("data-source") === "all";
-      p.classList.toggle("active", isAll);
-    });
+    domainFilter.value = "all";
+    dateFilter.value = "all";
+    sourceFilter.value = "all";
     applyFilter();
   });
 
