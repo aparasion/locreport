@@ -1,0 +1,47 @@
+name: Migrate Theory Articles (one-time)
+
+on:
+  workflow_dispatch:        # manual trigger only
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install feedparser trafilatura openai requests
+
+      - name: Run theory article migration
+        run: python scripts/migrate_theory_articles.py
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+      - name: Update signal statuses
+        run: python scripts/update_signal_status.py
+
+      - name: Commit and push changes
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add _posts/ seen.json _data/signals.yml
+          if ! git diff --cached --quiet; then
+            git commit -m "Migrate theory articles to new research pipeline"
+            git push
+          else
+            echo "No new theory articles to commit"
+          fi
