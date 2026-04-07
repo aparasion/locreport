@@ -316,6 +316,15 @@ def extract_article_text(url: str) -> str:
     return normalize_text(extracted)
 
 
+def is_bare_domain_url(url: str) -> bool:
+    """Return True if the URL resolves to a site root with no article path."""
+    try:
+        path = urlparse(url).path.strip("/")
+        return not path
+    except Exception:
+        return False
+
+
 def is_google_news_url(url: str) -> bool:
     try:
         return urlparse(url or "").netloc.lower().endswith("news.google.com")
@@ -343,7 +352,7 @@ def resolve_google_news_url(url: str, timeout: int = 10) -> str:
                 with opener.open(url, timeout=timeout) as response:
                     final = response.url
             resolved = normalize_url(final)
-            if resolved and not is_google_news_url(resolved):
+            if resolved and not is_google_news_url(resolved) and not is_bare_domain_url(resolved):
                 return resolved
         except Exception:
             continue
@@ -874,17 +883,19 @@ def main() -> None:
                 if is_usable_article_text(extracted_text, entry.title):
                     url = candidate_url
                     break
-                if (google_news_source or is_theory_feed) and extracted_text:
+                # Lenient path for Google News / theory feeds: accept any text that
+                # at least contains a title keyword — guards against homepage scrapes.
+                if (google_news_source or is_theory_feed) and extracted_text and has_title_overlap(extracted_text, entry.title):
                     url = candidate_url
                     break
 
             if is_usable_article_text(extracted_text, entry.title):
                 text = extracted_text
-            elif (google_news_source or is_theory_feed) and extracted_text:
+            elif (google_news_source or is_theory_feed) and extracted_text and has_title_overlap(extracted_text, entry.title):
                 text = extracted_text
             elif is_usable_article_text(fallback_description, entry.title):
                 text = fallback_description
-            elif (google_news_source or is_theory_feed) and fallback_description:
+            elif (google_news_source or is_theory_feed) and fallback_description and has_title_overlap(fallback_description, entry.title):
                 text = fallback_description
             elif is_theory_feed:
                 # Last resort for theory feeds: use title + any feed metadata as context.
