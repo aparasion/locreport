@@ -2,12 +2,13 @@
 title: "A hybrid systematic literature review and automated content analysis for named entity recognition in disaster information management"
 date: 2026-04-07T00:00:00Z
 layout: post
-categories: [translation]
-tags: [translation, localization, news, gist]
-article_type: "industry"
+categories: [translation, research]
+tags: [translation, localization, news, gist, research, NLP, named-entity-recognition]
+article_type: "theory"
+research_domain: "Computational Linguistics"
 excerpt: "Researchers have conducted a hybrid systematic literature review combined with automated content analysis to enhance named entity recognition (NER) in disaster..."
-publisher: "doi.org"
-source_url: "https://doi.org/10.1016/j.nlp.2026.100207"
+publisher: "sciencedirect.com"
+source_url: "https://www.sciencedirect.com/science/article/pii/S2949719126000207"
 signal_ids: []
 signal_stance: mentions
 signal_confidence: low
@@ -26,4 +27,4 @@ The findings highlight the importance of integrating advanced NER techniques wit
 
 For localization professionals, this research underscores the need to adopt innovative approaches to entity recognition, which can significantly enhance the quality and efficiency of translations in urgent scenarios. Embracing these advancements could lead to better-informed decision-making and improved outcomes in disaster management efforts.
 
-Source: [doi.org](https://doi.org/10.1016/j.nlp.2026.100207)
+Source: [sciencedirect.com](https://www.sciencedirect.com/science/article/pii/S2949719126000207)
