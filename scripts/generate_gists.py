@@ -773,6 +773,7 @@ def main() -> None:
             break
 
         feed = fetch_feed(feed_url)
+        is_theory_feed = any(ts in feed_url.lower() for ts in THEORY_SOURCES)
 
         for entry in feed.entries[:10]:
             if count >= MAX_ARTICLES:
@@ -811,18 +812,26 @@ def main() -> None:
                 if is_usable_article_text(extracted_text, entry.title):
                     url = candidate_url
                     break
-                if google_news_source and extracted_text:
+                if (google_news_source or is_theory_feed) and extracted_text:
                     url = candidate_url
                     break
 
             if is_usable_article_text(extracted_text, entry.title):
                 text = extracted_text
-            elif google_news_source and extracted_text:
+            elif (google_news_source or is_theory_feed) and extracted_text:
                 text = extracted_text
             elif is_usable_article_text(fallback_description, entry.title):
                 text = fallback_description
-            elif google_news_source and fallback_description:
+            elif (google_news_source or is_theory_feed) and fallback_description:
                 text = fallback_description
+            elif is_theory_feed:
+                # Last resort for theory feeds: use title + any feed metadata as context.
+                # Abstracts embedded in RSS may be very short; still attempt a gist.
+                entry_title = getattr(entry, "title", "")
+                text = normalize_text(f"{entry_title}. {fallback_description}").strip()
+                if not text:
+                    print(f"Skipping (no content at all): '{entry_title[:70]}'")
+                    continue
             else:
                 print(
                     f"Skipping (no usable content): '{getattr(entry, 'title', url)[:70]}' | "
