@@ -81,7 +81,7 @@ body {
   background: var(--bg);
   color: var(--text);
   line-height: 1.7;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   transition: background 0.3s ease, color 0.3s ease;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
