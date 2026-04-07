@@ -15,7 +15,7 @@ SIGNALS_FILE = "_data/signals.yml"
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 FEEDS = [
-    "https://rss.sciencedirect.com/publication/science/29497191",
+    "crossref:2949-7191",  # Natural Language Processing Journal (ScienceDirect blocks datacenter IPs)
     "https://www.annualreviews.org/rss/content/journals/linguistics/latestarticles?fmt=rss",
     "https://translation.ec.europa.eu/node/27/rss_en",
     "https://www.nimdzi.com/feed/",
@@ -236,6 +236,63 @@ _BROWSER_HEADERS = {
     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
     "Accept-Language": "en-US,en;q=0.9",
 }
+
+
+def fetch_crossref_feed(issn: str) -> feedparser.FeedParserDict:
+    """Query CrossRef API for recent articles from a journal by ISSN.
+
+    Returns a feedparser.FeedParserDict with entries populated from the API
+    response, so the rest of the pipeline can treat it identically to an RSS feed.
+    CrossRef is freely accessible from any IP, unlike rss.sciencedirect.com.
+    """
+    url = f"https://api.crossref.org/journals/{issn}/works?sort=published&order=desc&rows=10&mailto=locreport@locreport.com"
+    try:
+        resp = req_lib.get(url, timeout=15)
+        resp.raise_for_status()
+        data = resp.json()
+    except Exception as e:
+        print(f"Failed to fetch CrossRef feed for ISSN {issn}: {e}")
+        return feedparser.FeedParserDict(entries=[])
+
+    items = data.get("message", {}).get("items", [])
+    entries = []
+    for item in items:
+        titles = item.get("title", [])
+        if not titles:
+            continue
+        title = titles[0]
+
+        doi_url = item.get("URL", "")
+        if not doi_url:
+            continue
+
+        # Extract publication date
+        published = item.get("published", item.get("published-print", item.get("published-online", {})))
+        date_parts = published.get("date-parts", [[]])[0] if published else []
+        if len(date_parts) >= 3:
+            pub_dt = datetime.datetime(date_parts[0], date_parts[1], date_parts[2], tzinfo=datetime.timezone.utc)
+        elif len(date_parts) == 2:
+            pub_dt = datetime.datetime(date_parts[0], date_parts[1], 1, tzinfo=datetime.timezone.utc)
+        elif len(date_parts) == 1:
+            pub_dt = datetime.datetime(date_parts[0], 1, 1, tzinfo=datetime.timezone.utc)
+        else:
+            pub_dt = datetime.datetime.now(datetime.timezone.utc)
+
+        # Abstract (JATS XML tags stripped)
+        abstract_raw = item.get("abstract", "")
+        abstract = re.sub(r"<[^>]+>", " ", abstract_raw).strip()
+
+        entry = feedparser.FeedParserDict(
+            title=title,
+            link=doi_url,
+            summary=abstract,
+            published_parsed=pub_dt.timetuple(),
+        )
+        entries.append(entry)
+
+    result = feedparser.FeedParserDict(entries=entries)
+    print(f"CrossRef ISSN {issn}: fetched {len(entries)} entries")
+    return result
 
 
 def extract_article_text(url: str) -> str:
@@ -772,8 +829,13 @@ def main() -> None:
         if count >= MAX_ARTICLES:
             break
 
-        feed = fetch_feed(feed_url)
-        is_theory_feed = any(ts in feed_url.lower() for ts in THEORY_SOURCES)
+        if feed_url.startswith("crossref:"):
+            issn = feed_url[len("crossref:"):]
+            feed = fetch_crossref_feed(issn)
+            is_theory_feed = True
+        else:
+            feed = fetch_feed(feed_url)
+            is_theory_feed = any(ts in feed_url.lower() for ts in THEORY_SOURCES)
 
         for entry in feed.entries[:10]:
             if count >= MAX_ARTICLES:
