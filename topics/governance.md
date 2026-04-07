@@ -13,6 +13,7 @@ Coverage of AI governance frameworks, regulatory compliance, the EU AI Act, and 
 
 <section class="post-list">
 {% for post in site.posts %}
+  {% if post.article_type == "theory" %}{% continue %}{% endif %}
   {% assign dominated = false %}
   {% assign signal_ids_str = post.signal_ids | join: ',' | downcase %}
 

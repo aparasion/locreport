@@ -99,9 +99,14 @@ description: "Browse all localization industry articles by topic — quality, op
   </div>
 </section>
 
+<p class="theory-crosslink" style="margin-bottom: var(--space-4); padding: var(--space-3) var(--space-4); background: var(--surface); border: 1px solid var(--border); border-left: 3px solid #0d9488; border-radius: var(--radius-md); font-size: 0.9rem;">
+  Looking for research articles? Visit <a href="/research/" style="color: #0d9488; font-weight: 600;">Linguistic &amp; Communication Theory</a>
+</p>
+
 <section class="all-articles-feed-section" id="articles-section">
   <div class="all-articles-feed" id="intel-article-feed">
     {% for post in site.posts %}
+      {% if post.article_type == "theory" %}{% continue %}{% endif %}
       {% assign signal_ids_str = post.signal_ids | join: ',' | downcase %}
       {% assign source_text = post.title | append: ' ' | append: post.excerpt | downcase %}
       {% assign topics_list = "" %}
