@@ -15,6 +15,8 @@ SIGNALS_FILE = "_data/signals.yml"
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 FEEDS = [
+    "https://rss.sciencedirect.com/publication/science/29497191",
+    "https://www.annualreviews.org/rss/content/journals/linguistics/latestarticles?fmt=rss",
     "https://translation.ec.europa.eu/node/27/rss_en",
     "https://www.nimdzi.com/feed/",
     "https://slator.com/feed/",
@@ -56,13 +58,11 @@ FEEDS = [
     "https://imminent.translated.com/feed",
     "https://news.google.com/rss/search?q=rws+group&hl=en-US&gl=US&ceid=US:en",
     "https://blog.google/products-and-platforms/products/translate/rss/",
-    "https://rss.sciencedirect.com/publication/science/29497191",
     "https://aparasion.github.io/rss-generator/rss/CSA-blog.xml",
     "https://aparasion.github.io/rss-generator/rss/OpenAI-News-L10N.xml",
     "https://inten.to/blog/feed/",
     "https://propio.com/blogs/feed/",
     "https://www.helloglobo.com/blog/rss.xml",
-    "https://www.annualreviews.org/rss/content/journals/linguistics/latestarticles?fmt=rss",
 ]
 
 SEEN_FILE = "seen.json"
@@ -203,6 +203,7 @@ def fetch_feed(url: str) -> feedparser.FeedParserDict:
 
     Using urllib to pre-fetch allows sites that block feedparser's default
     User-Agent (e.g. returning 403) to be reached normally.
+    Falls back to requests with full browser headers for stricter sites (e.g. ScienceDirect).
     """
     try:
         req = urllib.request.Request(
@@ -212,9 +213,18 @@ def fetch_feed(url: str) -> feedparser.FeedParserDict:
         with urllib.request.urlopen(req, timeout=15) as resp:
             content = resp.read()
         return feedparser.parse(content)
+    except Exception:
+        pass
+
+    # Fallback: full browser headers via requests (handles stricter host checks)
+    try:
+        resp = req_lib.get(url, headers=_BROWSER_HEADERS, timeout=15, allow_redirects=True)
+        if resp.ok:
+            return feedparser.parse(resp.content)
+        print(f"Failed to fetch feed {url}: HTTP {resp.status_code}")
     except Exception as e:
         print(f"Failed to fetch feed {url}: {e}")
-        return feedparser.FeedParserDict(entries=[])
+    return feedparser.FeedParserDict(entries=[])
 
 
 _BROWSER_HEADERS = {
