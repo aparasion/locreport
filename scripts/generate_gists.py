@@ -963,6 +963,12 @@ If the provided text is mostly cookie/privacy/legal notices rather than article 
             else:
                 pub_dt = datetime.datetime.now(datetime.timezone.utc)
 
+            # Cap future dates to today — Jekyll skips future-dated posts by default,
+            # and CrossRef often returns scheduled print dates ahead of today.
+            now = datetime.datetime.now(datetime.timezone.utc)
+            if pub_dt > now:
+                pub_dt = now
+
             post_date_str = pub_dt.strftime("%Y-%m-%d")
             time_str = pub_dt.strftime("%H:%M:%S")
 
