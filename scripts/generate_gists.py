@@ -288,6 +288,8 @@ def fetch_crossref_feed(issn: str) -> feedparser.FeedParserDict:
             summary=abstract,
             published_parsed=pub_dt.timetuple(),
         )
+        # Store real publisher — DOI URLs would otherwise resolve to "doi.org"
+        entry["_publisher_override"] = "sciencedirect.com"
         entries.append(entry)
 
     result = feedparser.FeedParserDict(entries=entries)
@@ -914,7 +916,7 @@ def main() -> None:
                 continue
 
             # ── Classify article type ──
-            publisher = get_publisher_domain(url)
+            publisher = entry.get("_publisher_override") or get_publisher_domain(url)
             article_type = classify_article_type(publisher, text)
 
             if article_type == "theory":

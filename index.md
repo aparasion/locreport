@@ -10,8 +10,9 @@ nav_order: 1
     <h1 id="hero-title">The pulse of the language<br>services industry</h1>
     <p class="hero-subtitle" id="hero-subtitle">Daily coverage of translation, localization, and AI — curated, analyzed, and tracked through the signals that matter.</p>
     <div class="hero-actions" id="hero-actions">
-      <a href="/all-articles/" class="btn btn--primary">Browse articles</a>
-      <a href="/intelligence/" class="btn btn--secondary">Intelligence Dashboard</a>
+      <a href="/all-articles/" class="btn btn--hero-articles">Browse articles</a>
+      <a href="/intelligence/" class="btn btn--hero-intel">Intelligence Dashboard</a>
+      <a href="/research/" class="btn btn--hero-research">Language Science</a>
     </div>
   </div>
 </section>
