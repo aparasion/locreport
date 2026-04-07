@@ -1519,11 +1519,11 @@ details[open] .signal-accordion__chevron { transform: rotate(180deg); }
 .intel-hero { text-align: center; padding: var(--space-8) 0 var(--space-4); }
 .intel-hero h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); margin: 0 0 var(--space-3); background: var(--gradient-accent); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 .intel-subtitle { font-size: 1.05rem; color: var(--muted); margin: 0; max-width: 600px; margin-left: auto; margin-right: auto; }
-.intel-stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-4); margin-bottom: var(--space-8); }
-.intel-stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); padding: var(--space-5) var(--space-4); text-align: center; transition: transform 0.2s ease, box-shadow 0.2s ease; }
+.intel-stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-2); margin-bottom: var(--space-6); }
+.intel-stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); padding: var(--space-3) var(--space-3); text-align: center; transition: transform 0.2s ease, box-shadow 0.2s ease; }
 .intel-stat-card:hover { transform: translateY(-2px); box-shadow: var(--card-shadow-hover); }
-.intel-stat-number { display: block; font-size: 2rem; font-weight: 800; letter-spacing: -0.03em; color: var(--text); }
-.intel-stat-label { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
+.intel-stat-number { display: block; font-size: 1.4rem; font-weight: 800; letter-spacing: -0.03em; color: var(--text); }
+.intel-stat-label { font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
 .intel-section { margin-bottom: var(--space-10); }
 .intel-section-title { font-size: 1.3rem; font-weight: 800; letter-spacing: -0.02em; margin: 0 0 var(--space-2); }
 .intel-section-desc { font-size: 0.9rem; color: var(--muted); margin: 0 0 var(--space-5); }
