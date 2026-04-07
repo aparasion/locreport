@@ -1879,6 +1879,8 @@ details[open] .signal-accordion__chevron { transform: rotate(180deg); }
 [data-theme="dark"] .article-tag--governance { background: color-mix(in srgb, #b49aaa 12%, transparent); color: #b49aaa; }
 [data-theme="dark"] .article-tag--market     { background: color-mix(in srgb, #b4a48a 12%, transparent); color: #b4a48a; }
 [data-theme="dark"] .article-tag--strategy   { background: color-mix(in srgb, #8aada5 12%, transparent); color: #8aada5; }
+.article-tag--theory     { background: color-mix(in srgb, #0d9488 10%, transparent); color: #0d9488; }
+[data-theme="dark"] .article-tag--theory     { background: color-mix(in srgb, #2dd4bf 14%, transparent); color: #2dd4bf; }
 
 /* Article meta column */
 .article-card-meta {

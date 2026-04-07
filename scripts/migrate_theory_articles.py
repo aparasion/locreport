@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""One-time migration script: re-fetch theory articles from annualreviews.org
-and sciencedirect.com using the new theory pipeline (scholarly gist prompt,
-research intelligence, theory front matter).
+"""One-time migration script: re-fetch Language Science articles from
+annualreviews.org and sciencedirect.com using the theory pipeline
+(scholarly gist prompt, research intelligence, theory front matter).
 
 Processes ALL available RSS entries (no MAX_ARTICLES cap) and writes them as
 theory posts to _posts/.  Updates seen.json so the daily pipeline skips them.
