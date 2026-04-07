@@ -27,4 +27,4 @@ The findings highlight the importance of integrating advanced NER techniques wit
 
 For localization professionals, this research underscores the need to adopt innovative approaches to entity recognition, which can significantly enhance the quality and efficiency of translations in urgent scenarios. Embracing these advancements could lead to better-informed decision-making and improved outcomes in disaster management efforts.
 
-Source: [sciencedirect.com](https://www.sciencedirect.com/science/article/pii/S2949719126000207)
+Source: [sciencedirect.com](https://www.sciencedirect.com/science/article/pii/S2949719126000129)
