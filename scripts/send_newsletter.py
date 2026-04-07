@@ -84,6 +84,10 @@ def collect_recent_posts(since: datetime.date) -> list[dict]:
         if "monthly-summary" in fm.get("categories", ""):
             continue
 
+        # Skip theory/research articles (they have their own section)
+        if fm.get("article_type", "").strip('"') == "theory":
+            continue
+
         title = fm.get("title", "").strip()
         if not title:
             continue

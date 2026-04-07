@@ -20,7 +20,35 @@ layout: default
   </p>
   {% endif %}
 
-  {% if page.impact_score %}
+  {% if page.article_type == "theory" %}
+  <div class="intelligence-layer theory-intelligence-layer">
+    <div class="intelligence-header">
+      <span class="intelligence-label">Research</span>
+      <span class="relevance-badge relevance-badge--{{ page.relevance_score }}">
+        {% if page.relevance_score == 1 %}Peripheral
+        {% elsif page.relevance_score == 2 %}Relevant
+        {% elsif page.relevance_score == 3 %}Notable
+        {% elsif page.relevance_score == 4 %}Major
+        {% elsif page.relevance_score == 5 %}Groundbreaking
+        {% endif %}
+      </span>
+      {% if page.research_domain %}
+      <span class="research-domain-tag">{{ page.research_domain }}</span>
+      {% endif %}
+    </div>
+
+    {% if page.research_implications and page.research_implications.size > 0 %}
+    <div class="intelligence-implications">
+      <h4 class="intelligence-implications-title">Research significance</h4>
+      <ul class="implications-list">
+        {% for impl in page.research_implications %}
+        <li>{{ impl }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
+  </div>
+  {% elsif page.impact_score %}
   <div class="intelligence-layer">
     <div class="intelligence-header">
       <span class="intelligence-label">Intelligence</span>
@@ -69,36 +97,48 @@ layout: default
 
   {% include social-share.html %}
 
-  {% comment %} Related articles by shared signal IDs, fallback to same category {% endcomment %}
+  {% comment %} Related articles: theory articles match by category, industry articles by signal IDs {% endcomment %}
   {% assign related = "" | split: "" %}
-  {% if page.signal_ids and page.signal_ids.size > 0 %}
+  {% if page.article_type == "theory" %}
     {% for post in site.posts %}
       {% if post.url == page.url %}{% continue %}{% endif %}
-      {% if post.signal_ids %}
-        {% for sid in page.signal_ids %}
-          {% if post.signal_ids contains sid %}
+      {% if post.article_type == "theory" %}
+        {% assign related = related | push: post %}
+      {% endif %}
+      {% if related.size >= 5 %}{% break %}{% endif %}
+    {% endfor %}
+  {% else %}
+    {% if page.signal_ids and page.signal_ids.size > 0 %}
+      {% for post in site.posts %}
+        {% if post.url == page.url %}{% continue %}{% endif %}
+        {% if post.article_type == "theory" %}{% continue %}{% endif %}
+        {% if post.signal_ids %}
+          {% for sid in page.signal_ids %}
+            {% if post.signal_ids contains sid %}
+              {% assign related = related | push: post %}
+              {% break %}
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+        {% if related.size >= 5 %}{% break %}{% endif %}
+      {% endfor %}
+    {% endif %}
+    {% if related.size < 3 %}
+      {% for post in site.posts %}
+        {% if post.url == page.url %}{% continue %}{% endif %}
+        {% if post.article_type == "theory" %}{% continue %}{% endif %}
+        {% assign already = false %}
+        {% for r in related %}{% if r.url == post.url %}{% assign already = true %}{% break %}{% endif %}{% endfor %}
+        {% if already %}{% continue %}{% endif %}
+        {% for cat in page.categories %}
+          {% if post.categories contains cat %}
             {% assign related = related | push: post %}
             {% break %}
           {% endif %}
         {% endfor %}
-      {% endif %}
-      {% if related.size >= 5 %}{% break %}{% endif %}
-    {% endfor %}
-  {% endif %}
-  {% if related.size < 3 %}
-    {% for post in site.posts %}
-      {% if post.url == page.url %}{% continue %}{% endif %}
-      {% assign already = false %}
-      {% for r in related %}{% if r.url == post.url %}{% assign already = true %}{% break %}{% endif %}{% endfor %}
-      {% if already %}{% continue %}{% endif %}
-      {% for cat in page.categories %}
-        {% if post.categories contains cat %}
-          {% assign related = related | push: post %}
-          {% break %}
-        {% endif %}
+        {% if related.size >= 5 %}{% break %}{% endif %}
       {% endfor %}
-      {% if related.size >= 5 %}{% break %}{% endif %}
-    {% endfor %}
+    {% endif %}
   {% endif %}
 
   {% if related.size > 0 %}

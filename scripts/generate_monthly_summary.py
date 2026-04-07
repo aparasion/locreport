@@ -115,6 +115,9 @@ def collect_month_articles(period: str) -> list[dict]:
         if is_monthly_post(front_matter):
             continue
 
+        if front_matter.get("article_type", "").strip('"') == "theory":
+            continue
+
         title = front_matter.get("title", "").strip().strip('"')
         source_url = front_matter.get("source_url", "").strip().strip('"')
         publisher = front_matter.get("publisher", "").strip().strip('"')

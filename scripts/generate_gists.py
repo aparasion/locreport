@@ -68,6 +68,31 @@ FEEDS = [
 SEEN_FILE = "seen.json"
 SEEN_HISTORY_CAP = 5000
 YOUR_AREA = "Translation"
+
+# ── Theory vs Industry classification ──
+THEORY_SOURCES = {"annualreviews.org", "sciencedirect.com"}
+
+THEORY_CONTENT_KEYWORDS = [
+    "abstract", "methodology", "corpus analysis", "morphosyntax",
+    "psycholinguistics", "sociolinguistics", "phonology", "syntax",
+    "pragmatics", "computational linguistics", "peer-reviewed",
+    "linguistic typology", "language acquisition", "discourse analysis",
+    "semantics", "morphology", "phonetics", "prosody", "lexicon",
+    "diachronic", "synchronic", "generative grammar", "cognitive linguistics",
+]
+
+
+def classify_article_type(publisher: str, text: str) -> str:
+    """Classify an article as 'theory' (linguistic/communication science) or 'industry'."""
+    # Primary: source-based classification
+    if any(ts in publisher.lower() for ts in THEORY_SOURCES):
+        return "theory"
+    # Fallback: content-based keyword heuristic
+    sample = text[:3000].lower()
+    hits = sum(1 for kw in THEORY_CONTENT_KEYWORDS if kw in sample)
+    if hits >= 3:
+        return "theory"
+    return "industry"
 MAX_ARTICLES = 18
 MIN_ARTICLE_CHARS = 500
 MIN_ARTICLE_WORDS = 90
@@ -598,6 +623,125 @@ def generate_intelligence(title: str, gist: str, article_text: str) -> dict:
         }
 
 
+# ── Theory article prompts and intelligence ──
+
+THEORY_GIST_SYSTEM_PROMPT = """You are a science writer summarizing research for language professionals. \
+Your readers are linguists, computational linguists, and localization researchers who want to understand \
+new findings in linguistic and communication theory.
+
+Write a clear, engaging summary in 3 short paragraphs (140–250 words total).
+
+Opening paragraph: State the research question or finding and who conducted the study. Lead with the core contribution.
+
+Middle paragraph: Explain the methodology and key results. Use precise terminology but remain accessible to \
+adjacent disciplines. Highlight what is novel compared to prior work.
+
+Closing paragraph: Note the theoretical significance and any practical implications for language technology, \
+translation studies, or communication science.
+
+Tone and style:
+• Scholarly but accessible — no jargon without context.
+• Precise and evidence-based — cite numbers and methods from the source.
+• No business framing, no market language, no industry impact.
+• Neutral and informative — present findings, not opinions.
+• The summary should make a language researcher curious enough to read the full paper.
+
+If the provided text is mostly cookie/privacy/legal notices rather than article content, respond exactly with: UNUSABLE_CONTENT"""
+
+RESEARCH_DOMAINS = [
+    "phonetics", "phonology", "morphology", "syntax", "semantics",
+    "pragmatics", "psycholinguistics", "sociolinguistics", "neurolinguistics",
+    "computational linguistics", "corpus linguistics", "historical linguistics",
+    "linguistic typology", "language acquisition", "discourse analysis",
+    "translation studies", "communication theory", "applied linguistics",
+]
+
+
+def generate_theory_intelligence(title: str, gist: str, article_text: str) -> dict:
+    """Generate research-oriented intelligence for theory articles."""
+    intelligence_prompt = (
+        "You are an academic reviewer assessing a linguistics or communication theory article.\n\n"
+        "RELEVANCE SCORE CRITERIA:\n"
+        "  1 = Peripheral: Tangentially related to language/communication, narrow scope.\n"
+        "  2 = Relevant: Contributes to a specific subfield of linguistics or communication theory.\n"
+        "  3 = Notable: Significant finding with cross-disciplinary implications within language sciences.\n"
+        "  4 = Major: Substantial contribution to theoretical understanding with broad relevance to multiple subfields.\n"
+        "  5 = Groundbreaking: Paradigm-shifting finding that redefines understanding in linguistic or communication theory.\n\n"
+        "RESEARCH DOMAIN — choose the single best match from this list:\n"
+        f"  {', '.join(RESEARCH_DOMAINS)}\n\n"
+        "Provide:\n"
+        "1. relevance_score: integer 1-5 using the criteria above\n"
+        "2. research_domain: one domain from the list above\n"
+        "3. research_implications: exactly 3 short bullet points (max 15 words each) "
+        "describing the theoretical or methodological significance.\n\n"
+        "Respond ONLY in this exact format (no markdown, no extra text):\n"
+        "RELEVANCE: <number>\n"
+        "DOMAIN: <domain>\n"
+        "IMPLICATION: <first implication>\n"
+        "IMPLICATION: <second implication>\n"
+        "IMPLICATION: <third implication>\n\n"
+        f"Title: {title}\n\n"
+        f"Summary: {gist}\n\n"
+        f"Article excerpt: {article_text[:3000]}"
+    )
+
+    try:
+        resp = client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[
+                {"role": "system", "content": "You are a concise academic reviewer specializing in linguistics and communication theory. Follow the output format exactly."},
+                {"role": "user", "content": intelligence_prompt},
+            ],
+            max_tokens=200,
+            temperature=0.3,
+        )
+        raw = resp.choices[0].message.content.strip()
+
+        relevance_score = 2
+        research_domain = "applied linguistics"
+        implications = []
+        for line in raw.split("\n"):
+            line = line.strip()
+            if line.upper().startswith("RELEVANCE:"):
+                try:
+                    score = int(line.split(":", 1)[1].strip().split()[0])
+                    relevance_score = max(1, min(5, score))
+                except (ValueError, IndexError):
+                    pass
+            elif line.upper().startswith("DOMAIN:"):
+                domain = line.split(":", 1)[1].strip().lower()
+                if domain in RESEARCH_DOMAINS:
+                    research_domain = domain
+            elif line.upper().startswith("IMPLICATION:"):
+                impl = line.split(":", 1)[1].strip()
+                if impl:
+                    implications.append(impl)
+
+        if not implications:
+            implications = [
+                "Advances theoretical understanding in the field",
+                "Introduces novel methodology for future research",
+                "Bridges gap between theory and language technology",
+            ]
+
+        return {
+            "relevance_score": relevance_score,
+            "research_domain": research_domain,
+            "research_implications": implications[:3],
+        }
+    except Exception as e:
+        print(f"Theory intelligence generation error: {e}")
+        return {
+            "relevance_score": 2,
+            "research_domain": "applied linguistics",
+            "research_implications": [
+                "Advances theoretical understanding in the field",
+                "Introduces novel methodology for future research",
+                "Bridges gap between theory and language technology",
+            ],
+        }
+
+
 def main() -> None:
     if os.path.exists(SEEN_FILE):
         with open(SEEN_FILE, "r", encoding="utf-8") as seen_file:
@@ -677,19 +821,26 @@ def main() -> None:
                 )
                 continue
 
-            prompt = (
-                "Write a gist for this article (120–160 words).\n"
-                "Frame it for a localization and language services professional audience.\n\n"
-                f"Article text:\n{text[:15000]}"
-            )
+            # ── Classify article type ──
+            publisher = get_publisher_domain(url)
+            article_type = classify_article_type(publisher, text)
 
-            try:
-                response = client.chat.completions.create(
-                    model="gpt-4o-mini",
-                    messages=[
-                        {
-                            "role": "system",
-                            "content": """You are a skilled editorial writer for a localization and translation industry news platform. Your readers are professionals working in enterprise localization, language technology, translation services, and AI-driven language workflows.
+            if article_type == "theory":
+                # ── Theory article: scientific gist prompt ──
+                prompt = (
+                    "Write a gist for this research article (120–160 words).\n"
+                    "Frame it for linguists and language science researchers.\n\n"
+                    f"Article text:\n{text[:15000]}"
+                )
+                gist_system_prompt = THEORY_GIST_SYSTEM_PROMPT
+            else:
+                # ── Industry article: business gist prompt ──
+                prompt = (
+                    "Write a gist for this article (120–160 words).\n"
+                    "Frame it for a localization and language services professional audience.\n\n"
+                    f"Article text:\n{text[:15000]}"
+                )
+                gist_system_prompt = """You are a skilled editorial writer for a localization and translation industry news platform. Your readers are professionals working in enterprise localization, language technology, translation services, and AI-driven language workflows.
 
 Write a clear, engaging gist in 3 short paragraphs (140–250 words total).
 
@@ -706,8 +857,13 @@ Tone and style:
 • Neutral and factual — no editorial opinion, no speculation beyond what the source states.
 • The gist should make a localization professional curious enough to click through to the original article.
 
-If the provided text is mostly cookie/privacy/legal notices rather than article content, respond exactly with: UNUSABLE_CONTENT""",
-                        },
+If the provided text is mostly cookie/privacy/legal notices rather than article content, respond exactly with: UNUSABLE_CONTENT"""
+
+            try:
+                response = client.chat.completions.create(
+                    model="gpt-4o-mini",
+                    messages=[
+                        {"role": "system", "content": gist_system_prompt},
                         {"role": "user", "content": prompt},
                     ],
                     max_tokens=300,
@@ -720,10 +876,6 @@ If the provided text is mostly cookie/privacy/legal notices rather than article 
             except Exception as e:
                 print(f"OpenAI API error for {url}: {e}")
                 gist = "Summary generation failed due to API error.\n\nRead the full article below."
-
-            # ── Intelligence Layer: generate impact score, time horizon,
-            #    affected segments and business implications ──
-            intelligence = generate_intelligence(entry.title, gist, text[:15000])
 
             if "published_parsed" in entry and entry.published_parsed:
                 pub_dt = datetime.datetime(*entry.published_parsed[:6], tzinfo=datetime.timezone.utc)
@@ -744,38 +896,70 @@ If the provided text is mostly cookie/privacy/legal notices rather than article 
                 filename = f"_posts/{post_date_str}-{slug}-{suffix}.md"
                 suffix += 1
 
-            publisher = get_publisher_domain(url)
             safe_title = yaml_escape(entry.title)
             safe_excerpt = yaml_escape(gist[:160])
             safe_publisher = yaml_escape(publisher)
             safe_source_url = yaml_escape(url)
-            signal_ids, signal_stance, signal_confidence = infer_signal_tags(entry.title, gist)
-            signal_ids_yaml = ", ".join(signal_ids)
 
-            # Build optional signal reference for high-confidence matches
-            signal_ref = ""
-            if signal_confidence == "high" and signal_ids:
-                first_signal = signal_ids[0]
-                signal_title = SIGNAL_TITLES.get(first_signal, "")
-                if signal_title:
-                    signal_ref = (
-                        f"\n*LocReport tracks this as an industry signal: "
-                        f"[{signal_title}](/signals/#{first_signal})*\n"
-                    )
+            if article_type == "theory":
+                # ── Theory intelligence and front matter ──
+                theory_intel = generate_theory_intelligence(entry.title, gist, text[:15000])
+                relevance_score = theory_intel["relevance_score"]
+                research_domain = theory_intel["research_domain"]
+                implications_yaml = "\n".join(
+                    f'  - "{yaml_escape(impl)}"' for impl in theory_intel["research_implications"]
+                )
 
-            impact_score = intelligence["impact_score"]
-            time_horizon = intelligence["time_horizon"]
-            affected_segments_yaml = ", ".join(intelligence["affected_segments"])
-            implications_yaml = "\n".join(
-                f'  - "{yaml_escape(impl)}"' for impl in intelligence["business_implications"]
-            )
+                md_content = f"""---
+title: "{safe_title}"
+date: {post_date_str}T{time_str}Z
+layout: post
+categories: [theory]
+tags: [linguistics, research, theory, gist]
+article_type: "theory"
+excerpt: "{safe_excerpt}..."
+publisher: "{safe_publisher}"
+source_url: "{safe_source_url}"
+relevance_score: {relevance_score}
+research_domain: "{research_domain}"
+research_implications:
+{implications_yaml}
+---
 
-            md_content = f"""---
+{gist}
+
+Source: [{safe_publisher}]({safe_source_url})"""
+
+            else:
+                # ── Industry intelligence and front matter ──
+                intelligence = generate_intelligence(entry.title, gist, text[:15000])
+                signal_ids, signal_stance, signal_confidence = infer_signal_tags(entry.title, gist)
+                signal_ids_yaml = ", ".join(signal_ids)
+
+                signal_ref = ""
+                if signal_confidence == "high" and signal_ids:
+                    first_signal = signal_ids[0]
+                    signal_title = SIGNAL_TITLES.get(first_signal, "")
+                    if signal_title:
+                        signal_ref = (
+                            f"\n*LocReport tracks this as an industry signal: "
+                            f"[{signal_title}](/signals/#{first_signal})*\n"
+                        )
+
+                impact_score = intelligence["impact_score"]
+                time_horizon = intelligence["time_horizon"]
+                affected_segments_yaml = ", ".join(intelligence["affected_segments"])
+                implications_yaml = "\n".join(
+                    f'  - "{yaml_escape(impl)}"' for impl in intelligence["business_implications"]
+                )
+
+                md_content = f"""---
 title: "{safe_title}"
 date: {post_date_str}T{time_str}Z
 layout: post
 categories: [{YOUR_AREA.lower()}]
 tags: [translation, localization, news, gist]
+article_type: "industry"
 excerpt: "{safe_excerpt}..."
 publisher: "{safe_publisher}"
 source_url: "{safe_source_url}"

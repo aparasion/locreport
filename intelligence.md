@@ -28,6 +28,7 @@ description: "Actionable localization intelligence — trend signals, impact sco
 {% assign posts_with_signals = 0 %}
 
 {% for post in site.posts %}
+  {% if post.article_type == "theory" %}{% continue %}{% endif %}
   {% assign total_posts = total_posts | plus: 1 %}
   {% if post.impact_score >= 4 %}
     {% assign high_impact_posts = high_impact_posts | plus: 1 %}
@@ -100,6 +101,7 @@ description: "Actionable localization intelligence — trend signals, impact sco
       {% assign mixed_count = 0 %}
       {% assign contradicts_count = 0 %}
       {% for post in site.posts %}
+        {% if post.article_type == "theory" %}{% continue %}{% endif %}
         {% if post.signal_ids contains signal.id %}
           {% assign evidence_count = evidence_count | plus: 1 %}
           {% if post.signal_stance == "supports" %}
@@ -191,6 +193,7 @@ description: "Actionable localization intelligence — trend signals, impact sco
   <div class="intel-high-impact-list" id="intel-high-impact-list">
     {% assign impact_count = 0 %}
     {% for post in site.posts %}
+      {% if post.article_type == "theory" %}{% continue %}{% endif %}
       {% if post.impact_score >= 3 and impact_count < 12 %}
         {% assign impact_count = impact_count | plus: 1 %}
         <a href="{{ post.url | relative_url }}" class="intel-impact-item" data-segments="{{ post.affected_segments | join: '|' }}" data-impact="{{ post.impact_score }}">
@@ -242,6 +245,7 @@ description: "Actionable localization intelligence — trend signals, impact sco
   ],
   "posts": [
     {% for post in site.posts %}
+    {% if post.article_type == "theory" %}{% continue %}{% endif %}
     {% if post.signal_ids and post.signal_ids.size > 0 %}
     {
       "date": {{ post.date | date: "%Y-%m" | jsonify }},

@@ -157,6 +157,7 @@ nav_order: 1
 {% assign day3 = "" %}
 
 {% for post in site.posts %}
+  {% if post.article_type == "theory" %}{% continue %}{% endif %}
   {% assign post_day = post.date | date: "%Y-%m-%d" %}
   {% if post_day != current_day %}
     {% assign current_day = post_day %}
@@ -178,6 +179,7 @@ nav_order: 1
   <h2 class="day-header">{{ site.posts.first.date | date: "%B %d, %Y" }}</h2>
 
   {% for post in site.posts %}
+    {% if post.article_type == "theory" %}{% continue %}{% endif %}
     {% assign post_day = post.date | date: "%Y-%m-%d" %}
     {% if post_day != day1 %}{% continue %}{% endif %}
 
@@ -233,6 +235,7 @@ nav_order: 1
 {% if day2 != "" %}
 <section class="day-section">
   {% for post in site.posts %}
+    {% if post.article_type == "theory" %}{% continue %}{% endif %}
     {% assign post_day = post.date | date: "%Y-%m-%d" %}
     {% if post_day == day2 %}
       {% assign day2_display = post.date | date: "%B %d, %Y" %}
@@ -242,6 +245,7 @@ nav_order: 1
   <h2 class="day-header">{{ day2_display }}</h2>
   <div class="post-grid reveal-stagger">
     {% for post in site.posts %}
+      {% if post.article_type == "theory" %}{% continue %}{% endif %}
       {% assign post_day = post.date | date: "%Y-%m-%d" %}
       {% if post_day != day2 %}{% continue %}{% endif %}
       <article class="post-card" {% if post.affected_segments %}data-segments="{{ post.affected_segments | join: '|' }}"{% endif %}>
@@ -259,6 +263,7 @@ nav_order: 1
 {% if day3 != "" %}
 <section class="day-section">
   {% for post in site.posts %}
+    {% if post.article_type == "theory" %}{% continue %}{% endif %}
     {% assign post_day = post.date | date: "%Y-%m-%d" %}
     {% if post_day == day3 %}
       {% assign day3_display = post.date | date: "%B %d, %Y" %}
@@ -268,6 +273,7 @@ nav_order: 1
   <h2 class="day-header">{{ day3_display }}</h2>
   <div class="post-grid reveal-stagger">
     {% for post in site.posts %}
+      {% if post.article_type == "theory" %}{% continue %}{% endif %}
       {% assign post_day = post.date | date: "%Y-%m-%d" %}
       {% if post_day != day3 %}{% continue %}{% endif %}
       <article class="post-card" {% if post.affected_segments %}data-segments="{{ post.affected_segments | join: '|' }}"{% endif %}>

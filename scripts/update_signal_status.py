@@ -57,6 +57,8 @@ def tally_stances(signal_ids: list[str]) -> dict[str, dict]:
 
     for path in POSTS_DIR.glob("*.md"):
         fm = parse_front_matter(path.read_text(encoding="utf-8"))
+        if fm.get("article_type", "").strip('"') == "theory":
+            continue
         ids = parse_inline_list(fm.get("signal_ids", ""))
         if not ids:
             continue
