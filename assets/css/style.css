@@ -1794,6 +1794,39 @@ details[open] .signal-accordion__chevron { transform: rotate(180deg); }
   background: var(--accent-soft);
 }
 
+/* Research filter bar (pill-only, no collapse) */
+.research-filter-bar {
+  margin-bottom: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.research-filter-row {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+}
+.research-filter-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  white-space: nowrap;
+  padding-top: 7px;
+  min-width: 52px;
+}
+.research-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.research-filter-bar .filter-status-row {
+  border-top: none;
+  margin-top: 0;
+  padding-top: 0;
+}
+
 /* Article Feed */
 .all-articles-feed-section {
   margin-bottom: var(--space-10);
