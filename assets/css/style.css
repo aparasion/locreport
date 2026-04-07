@@ -696,7 +696,7 @@ hr {
 }
 .cta-inner {
   text-align: center;
-  padding: var(--space-4) var(--space-4);
+  padding: var(--space-6) var(--space-6);
   background: var(--featured-bg);
   border-radius: var(--radius-xl);
   position: relative;
