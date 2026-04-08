@@ -37,4 +37,5 @@ Send a message below.
 <input type="hidden" name="_next" value="/thank-you/">
 </form>
 
+Follow us also on X: <a href="https://x.com/locreport target="_blank">x.com/locreport</a>
 
