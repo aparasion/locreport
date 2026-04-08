@@ -2109,6 +2109,10 @@ details[open] .signal-accordion__chevron { transform: rotate(180deg); }
   .hero { padding: var(--space-5) 0 var(--space-4); }
   .hero h1 { font-size: 1.9rem; }
   .hero-actions { flex-direction: column; align-items: center; }
+  .hero-actions .btn {
+    padding: 10px 20px;
+    font-size: 0.82rem;
+  }
   .features-grid { grid-template-columns: 1fr; }
   .post-author-footer { flex-direction: column; align-items: flex-start; gap: var(--space-3); }
   .topic-filter-buttons { justify-content: flex-start; }
