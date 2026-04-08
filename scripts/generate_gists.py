@@ -74,7 +74,7 @@ SEEN_HISTORY_CAP = 5000
 YOUR_AREA = "Translation"
 
 # ── Theory vs Industry classification ──
-THEORY_SOURCES = {"annualreviews.org", "sciencedirect.com", "cambridge.org", "glossa-journal.org", "mdpi.com", "wiley.com"}
+THEORY_SOURCES = {"annualreviews.org", "sciencedirect.com", "cambridge.org", "glossa-journal.org", "mdpi.com", "wiley.com", "dx.doi.org"}
 
 THEORY_CONTENT_KEYWORDS = [
     "abstract", "methodology", "corpus analysis", "morphosyntax",
