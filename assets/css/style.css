@@ -2445,3 +2445,262 @@ details[open] .signal-accordion__chevron { transform: rotate(180deg); }
   body { background: #fff; color: #000; }
   .post-card, .featured-article { break-inside: avoid; }
 }
+
+/* ============================================================
+   LocReport Design System — Minimalist High-Contrast Override
+   ============================================================ */
+:root,
+[data-theme="dark"] {
+  --bg: #FFFFFF;
+  --bg-secondary: #FFFFFF;
+  --surface: #FFFFFF;
+  --text: #000000;
+  --muted: #000000;
+  --accent: #0085FF;
+  --accent-hover: #006fe0;
+  --accent-soft: rgba(0, 133, 255, 0.12);
+  --brand-text: #000000;
+  --brand-wordmark-color: #000000;
+  --border: #000000;
+  --card-shadow: none;
+  --card-shadow-hover: none;
+  --gradient-hero: none;
+  --gradient-accent: none;
+  --glass-bg: #FFFFFF;
+  --glass-border: #000000;
+  --featured-bg: #FFFFFF;
+  --featured-text: #000000;
+  --featured-muted: #000000;
+
+  --radius-sm: 0;
+  --radius-md: 0;
+  --radius-lg: 0;
+  --radius-xl: 0;
+}
+
+html,
+body {
+  background: #FFFFFF;
+  color: #000000;
+}
+
+body,
+button,
+input,
+textarea,
+select {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  letter-spacing: 0.02em;
+}
+
+h1, h2, h3, h4, h5, h6,
+p,
+li,
+label,
+input,
+textarea,
+select,
+button,
+a,
+small,
+span {
+  letter-spacing: 0.02em;
+}
+
+* {
+  box-shadow: none !important;
+  text-shadow: none !important;
+}
+
+.hero::before,
+.hero::after,
+.cta-inner::before,
+.featured-article::before,
+.featured-article::after,
+.newsletter-banner-inner::after {
+  content: none !important;
+}
+
+.site-header,
+.search-overlay,
+.intel-dash-nav {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.site-nav a.active,
+.topic-pill.active,
+.role-pill.active,
+.role-pill-sm.active,
+.intel-dash-nav-item.active,
+.intel-filter-pill.active,
+.status-badge,
+.stance-badge,
+.post-signal-badge,
+.new-badge,
+.impact-badge,
+.relevance-badge,
+.time-horizon-badge,
+.segment-tag {
+  background: #0085FF !important;
+  color: #FFFFFF !important;
+  border: 1px solid #000000 !important;
+}
+
+.btn,
+.btn-submit,
+.newsletter-banner-btn,
+.view-all-link,
+.search-overlay-close,
+.theme-toggle,
+.search-toggle,
+.nav-toggle,
+input,
+textarea,
+select,
+table,
+th,
+td,
+.post-card,
+.post-preview,
+.feature-card,
+.capability-card,
+.signal-health-card,
+.intel-impact-item,
+.intel-stat-card,
+.intel-chart-container,
+.related-articles,
+.intelligence-layer,
+.search-overlay-box,
+.search-page-input-wrap,
+.signal-accordion,
+.glossary-card {
+  border: 1px solid #000000 !important;
+  border-radius: 0 !important;
+  background: #FFFFFF !important;
+  color: #000000 !important;
+}
+
+.btn--primary,
+.btn--hero-articles,
+.btn--hero-intel,
+.btn--hero-research,
+.btn-submit,
+.newsletter-banner-btn,
+.view-all-link,
+.view-all-link--secondary,
+.hero-actions .btn:first-child {
+  background: #0085FF !important;
+  color: #FFFFFF !important;
+  border: 1px solid #000000 !important;
+}
+
+.btn--secondary,
+.btn--ghost,
+.hero-actions .btn {
+  background: #FFFFFF !important;
+  color: #000000 !important;
+  border: 1px solid #000000 !important;
+}
+
+.btn:hover,
+.btn-submit:hover,
+.newsletter-banner-btn:hover,
+.view-all-link:hover,
+.site-nav a:hover,
+.topic-pill:hover,
+.role-pill:hover,
+.role-pill-sm:hover,
+.intel-filter-pill:hover,
+.intel-dash-nav-item:hover,
+.search-overlay-item:hover,
+.search-overlay-item.is-focused,
+.post-card:hover,
+.post-preview:hover,
+.feature-card:hover,
+.capability-card:hover,
+.signal-health-card:hover,
+.intel-impact-item:hover,
+.social-share__btn:hover,
+.search-toggle:hover,
+.theme-toggle:hover,
+.nav-toggle:hover {
+  background: #0085FF !important;
+  color: #FFFFFF !important;
+  transform: none !important;
+  border-color: #000000 !important;
+}
+
+.hero h1,
+.intel-hero h1 {
+  background: none !important;
+  -webkit-text-fill-color: #000000 !important;
+  color: #000000 !important;
+}
+
+.container,
+.header-shell,
+.footer-shell,
+.page,
+.post {
+  max-width: 1200px;
+}
+
+.features-grid,
+.capabilities-grid,
+.post-grid,
+.intel-stats-grid,
+.signal-health-grid,
+.intel-high-impact-list,
+.footer-top {
+  gap: 1rem;
+}
+
+hr,
+.social-share,
+.day-section,
+.footer-bottom,
+.related-articles li + li,
+.search-overlay-status,
+.search-overlay-footer,
+.search-overlay-item,
+.signal-evidence-list li + li {
+  border-color: #000000 !important;
+}
+
+a,
+a:visited,
+.post-card h2 a,
+.post-preview h2 a,
+.related-articles li a,
+.footer-links a,
+.footer-legal-links a,
+.capability-link,
+.search-overlay-all-results {
+  color: #000000;
+}
+
+a:hover,
+a:focus,
+.author-contact-link,
+a.internal-link,
+p a,
+li a:not(.site-nav a):not(.footer-links a):not(.topic-pill) {
+  color: #0085FF !important;
+}
+
+:focus-visible {
+  outline: 2px solid #0085FF;
+  outline-offset: 2px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 0.75rem;
+  text-align: left;
+}
