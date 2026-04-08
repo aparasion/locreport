@@ -67,6 +67,20 @@ def parse_front_matter(content: str) -> tuple[dict, str]:
     return fm, body.strip()
 
 
+def parse_post_datetime(date_str: str | None) -> datetime.datetime | None:
+    if not date_str:
+        return None
+    candidate = date_str.strip()
+    if not candidate:
+        return None
+    if candidate.endswith("Z"):
+        candidate = candidate[:-1] + "+00:00"
+    try:
+        return datetime.datetime.fromisoformat(candidate)
+    except ValueError:
+        return None
+
+
 def collect_recent_posts(since: datetime.date) -> list[dict]:
     posts = []
     for path in sorted(POSTS_DIR.glob("*.md")):
@@ -93,7 +107,9 @@ def collect_recent_posts(since: datetime.date) -> list[dict]:
             continue
 
         slug = path.stem[11:]  # strip date prefix
-        post_url = f"{SITE_URL}/articles/{post_date.strftime('%Y/%m/%d')}/{slug}.html"
+        post_datetime = parse_post_datetime(fm.get("date"))
+        canonical_date = post_datetime.date() if post_datetime else post_date
+        post_url = f"{SITE_URL}/articles/{canonical_date.strftime('%Y/%m/%d')}/{slug}.html"
 
         posts.append({
             "title": title,
