@@ -107,6 +107,7 @@ def collect_recent_posts(since: datetime.date) -> list[dict]:
             continue
 
         slug = path.stem[11:]  # strip date prefix
+        slug = re.sub(r"-{2,}", "-", slug).strip("-")
         post_datetime = parse_post_datetime(fm.get("date"))
         canonical_date = post_datetime.date() if post_datetime else post_date
         post_url = f"{SITE_URL}/articles/{canonical_date.strftime('%Y/%m/%d')}/{slug}.html"
