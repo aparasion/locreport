@@ -57,7 +57,14 @@ jobs:
             args+=(--days "$INPUT_DAYS")
           fi
 
-          mode="${INPUT_MODE:-draft}"
+          mode="${INPUT_MODE:-}"
+          if [ -z "$mode" ]; then
+            if [ "${GITHUB_EVENT_NAME:-}" = "schedule" ]; then
+              mode="send"
+            else
+              mode="draft"
+            fi
+          fi
           if [ "$mode" = "preview" ]; then
             args+=(--dry-run)
           elif [ "$mode" = "send" ]; then
