@@ -2,22 +2,18 @@
 title: "Intransparent-Gap Relatives in Japanese"
 date: 2026-04-07T22:43:58Z
 layout: post
-categories: [translation]
-tags: [translation, localization, news, gist]
-article_type: "industry"
+categories: [theory]
+tags: [linguistics, research, theory, gist]
+article_type: "theory"
 excerpt: "A recent study introduces Intransparent-Gap Relatives (IGRs) in Japanese, a unique type of relative clause that diverges from traditional head-external relative..."
 publisher: "dx.doi.org"
 source_url: "https://dx.doi.org/10.1017/S0022226723000373?rft_dat=source%3Ddrss"
-signal_ids: []
-signal_stance: mixed
-signal_confidence: low
-impact_score: 2
-time_horizon: "now"
-affected_segments: [LSPs, Translators]
-business_implications:
-  - "Increased need for nuanced translation in Japanese and Korean."
-  - "Localization professionals must adapt to complex syntactic structures."
-  - "Understanding IGRs can enhance cultural relevance in translations."
+relevance_score: 4
+research_domain: "syntax"
+research_implications:
+  - "Introduces a new relative-clause subtype with non-canonical gap licensing."
+  - "Expands cross-linguistic accounts of metonymy in clause structure."
+  - "Prompts re-evaluation of Japanese and Korean relative-clause typology."
 ---
 
 A recent study introduces Intransparent-Gap Relatives (IGRs) in Japanese, a unique type of relative clause that diverges from traditional head-external relatives. Unlike the latter, where the head noun is clearly linked to a gap within the relative clause, IGRs exhibit a more complex relationship, suggesting a metonymic connection rather than a straightforward syntactic one. This distinction is crucial as it not only challenges existing syntactic theories but also highlights the intricate nature of Japanese relative constructions.
