@@ -5,129 +5,136 @@ nav: true
 nav_order: 1
 ---
 
-<section class="brand-hero" aria-labelledby="brand-hero-title">
-  <div class="container brand-hero__inner">
-    <div class="brand-hero__content">
-      <p class="brand-kicker">LOCREPORT SIGNAL DESK</p>
-      <h1 id="brand-hero-title">The pulse of global localization intelligence.</h1>
-      <p class="brand-hero__subtitle" id="brand-hero-subtitle">Daily, structured coverage of translation, localization, and AI—organized so leaders can move from noise to action in minutes.</p>
-      <div class="brand-hero__actions">
-        <a href="/all-articles/" class="btn btn--primary">Browse Articles</a>
-        <a href="/intelligence/" class="btn btn--secondary">Open Intelligence Dashboard</a>
-      </div>
-    </div>
-    <div class="brand-hero__panel" aria-hidden="true">
-      <div class="brand-square-motif">
-        <span></span><span></span>
-      </div>
-      <p>Monitoring</p>
-      <h2>1,500+ signals tracked</h2>
-      <ul>
-        <li>Market shifts and vendor moves</li>
-        <li>Policy, regulation, and governance updates</li>
-        <li>AI quality, risk, and workflow benchmarks</li>
-      </ul>
+<section class="hero">
+  <div class="hero-content">
+    <h1 id="hero-title">The pulse of the language<br>services industry</h1>
+    <p class="hero-subtitle" id="hero-subtitle">Daily coverage of translation, localization, and AI — curated, analyzed, and tracked through the signals that matter.</p>
+    <div class="hero-actions" id="hero-actions">
+      <a href="/all-articles/" class="btn btn--hero-articles">Browse articles</a>
+      <a href="/intelligence/" class="btn btn--hero-intel">Intelligence Dashboard</a>
+      <a href="/research/" class="btn btn--hero-research">Language Science</a>
     </div>
   </div>
 </section>
-
-<section class="data-features" aria-labelledby="data-features-title">
-  <div class="container">
-    <h2 id="data-features-title">Data Features</h2>
-    <div class="data-features__grid">
-      <article class="data-feature-card">
-        <h3>Signal Clustering</h3>
-        <p>Articles are grouped into high-impact themes so your team can scan what changed and why it matters.</p>
-      </article>
-      <article class="data-feature-card">
-        <h3>Impact Scoring</h3>
-        <p>Each development is tagged by strategic weight to prioritize what deserves immediate decision-level attention.</p>
-      </article>
-      <article class="data-feature-card">
-        <h3>Executive Filters</h3>
-        <p>Slice by market, operations, governance, quality, and strategy to produce role-specific intelligence views.</p>
-      </article>
-    </div>
-  </div>
-</section>
-
 
 <script>
 (function () {
-  var INITIAL_WAIT = 4500;
-  var FADE_MS = 550;
-  var TYPE_SPEED = 40;
-  var HOLD_ALT_MS = 6500;
+  var INITIAL_WAIT    = 5000;
+  var FADE_MS         = 1300;
+  var TYPE_SPEED      = 55;
+  var COMMA_DELAY     = 750;
+  var ALT_SHOW        = 10000;
 
-  var INIT_H1 = 'The pulse of global localization intelligence.';
-  var INIT_SUB = 'Daily, structured coverage of translation, localization, and AI—organized so leaders can move from noise to action in minutes.';
+  var ALT_H1_PRE      = 'No';
+  var ALT_H1_POST     = ' AI has been used to build this service.';
+  var ALT_SUBTITLE    = "Language matters  as much as technology.";
 
-  var ALT_H1_PRE = 'No';
-  var ALT_H1_POST = ' AI has been used to build this service.';
-  var ALT_SUB = 'Human-curated, signal-first reporting built for clarity, trust, and action.';
+  var INIT_H1_HTML    = 'The pulse of the language<br>services industry';
+  var INIT_SUBTITLE   = 'Daily coverage of translation, localization, and AI \u2014 curated, analyzed, and tracked through the signals that matter.';
 
-  var h1 = document.getElementById('brand-hero-title');
-  var sub = document.getElementById('brand-hero-subtitle');
-  if (!h1 || !sub) return;
+  var h1   = document.getElementById('hero-title');
+  var sub  = document.getElementById('hero-subtitle');
+  var hero = document.querySelector('.hero');
+
+  if (!h1 || !sub || !hero) return;
+
+  // Lock hero height before any text changes so the section never jumps
+  function lockHeroHeight() {
+    var h = hero.offsetHeight;
+    if (h > 0) {
+      hero.style.minHeight = h + 'px';
+      // Also fix h1 and sub heights so swapping text doesn't reflow the banner
+      h1.style.minHeight  = h1.offsetHeight  + 'px';
+      sub.style.minHeight = sub.offsetHeight + 'px';
+    }
+  }
+
+  // Wait for fonts to settle (one rAF after load) then lock
+  if (document.readyState === 'complete') {
+    requestAnimationFrame(lockHeroHeight);
+  } else {
+    window.addEventListener('load', function () { requestAnimationFrame(lockHeroHeight); });
+  }
 
   function setOpacity(el, val, ms, cb) {
     el.style.transition = 'opacity ' + ms + 'ms ease';
-    el.style.opacity = String(val);
+    el.style.opacity    = String(val);
     if (cb) setTimeout(cb, ms);
   }
 
   function typeInto(el, text, speed, done) {
-    el.innerHTML = '<span class="hero-cursor" aria-hidden="true">│</span>';
+    el.innerHTML = '<span class="hero-cursor" aria-hidden="true">\u2502</span>';
     var cursor = el.querySelector('.hero-cursor');
     var i = 0;
-
     function tick() {
       if (i < text.length) {
         cursor.insertAdjacentText('beforebegin', text[i]);
-        i += 1;
+        i++;
         setTimeout(tick, speed);
       } else {
         cursor.remove();
         if (done) done();
       }
     }
-
     tick();
   }
 
   function loop() {
+    // ── phase 1: show initial content for 5 s ────────────
     setTimeout(function () {
-      setOpacity(h1, 0, FADE_MS);
+
+      // ── phase 2: fade out h1 and subtitle only ───────────
+      setOpacity(h1,  0, FADE_MS);
       setOpacity(sub, 0, FADE_MS, function () {
-        h1.style.opacity = '1';
+
+        // ── phase 3: type alt h1 ─────────────────────────
         h1.style.transition = '';
-
+        h1.style.opacity    = '1';
         typeInto(h1, ALT_H1_PRE + ALT_H1_POST, TYPE_SPEED, function () {
-          h1.innerHTML = ALT_H1_PRE + '<span class="hero-comma" aria-hidden="true">,</span>' + ALT_H1_POST;
-          sub.style.opacity = '1';
-          sub.style.transition = '';
-          typeInto(sub, ALT_SUB, TYPE_SPEED, function () {
-            setTimeout(function () {
-              setOpacity(h1, 0, FADE_MS);
-              setOpacity(sub, 0, FADE_MS, function () {
-                h1.textContent = INIT_H1;
-                sub.textContent = INIT_SUB;
-                h1.style.opacity = '0';
-                sub.style.opacity = '0';
 
-                requestAnimationFrame(function () {
+          // ── phase 4: insert glowing comma after 3 s ─────
+          setTimeout(function () {
+            h1.innerHTML =
+              ALT_H1_PRE +
+              '<span class="hero-comma" aria-hidden="true">,</span> ' +
+              ALT_H1_POST;
+
+            // ── phase 5: type alt subtitle ───────────────
+            sub.style.transition = '';
+            sub.style.opacity    = '1';
+            typeInto(sub, ALT_SUBTITLE, TYPE_SPEED, function () {
+
+              // ── phase 6: hold alt banner for 10 s ───────
+              setTimeout(function () {
+
+                // ── phase 7: fade out alt content ───────────
+                setOpacity(h1,  0, FADE_MS);
+                setOpacity(sub, 0, FADE_MS, function () {
+
+                  // ── phase 8: restore initial content ────────
+                  h1.style.transition  = '';
+                  sub.style.transition = '';
+                  h1.innerHTML         = INIT_H1_HTML;
+                  sub.textContent      = INIT_SUBTITLE;
+
+                  h1.style.opacity  = '0';
+                  sub.style.opacity = '0';
+
+                  // small rAF pause to let browser register opacity:0
                   requestAnimationFrame(function () {
-                    setOpacity(h1, 1, FADE_MS);
-                    setOpacity(sub, 1, FADE_MS, function () {
-                      h1.style.transition = '';
-                      sub.style.transition = '';
-                      loop();
+                    requestAnimationFrame(function () {
+                      setOpacity(h1,  1, FADE_MS);
+                      setOpacity(sub, 1, FADE_MS, function () {
+                        h1.style.transition  = '';
+                        sub.style.transition = '';
+                        loop(); // restart
+                      });
                     });
                   });
                 });
-              });
-            }, HOLD_ALT_MS);
-          });
+              }, ALT_SHOW);
+            });
+          }, COMMA_DELAY);
         });
       });
     }, INITIAL_WAIT);
