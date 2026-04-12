@@ -420,13 +420,13 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   var palette = [
-    "#1e5faa", "#38b6cc", "#e06c75", "#98c379", "#d19a66",
-    "#c678dd", "#56b6c2", "#be5046", "#61afef", "#e5c07b"
+    "#3D5AFE", "#2F7CB5", "#e06c75", "#5a7d5e", "#d19a66",
+    "#8a6b78", "#556b65", "#be5046", "#6B8AFF", "#e5c07b"
   ];
 
   var isDark = document.documentElement.getAttribute("data-theme") === "dark";
   var gridColor = isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.06)";
-  var textColor = isDark ? "#8a95b0" : "#5a6478";
+  var textColor = isDark ? "#9BA4B8" : "#5A6278";
 
   // ── Signal Trend Line Chart ──────────────────────────────
   var datasets = signals.map(function (sig, idx) {
@@ -466,23 +466,23 @@ document.addEventListener("DOMContentLoaded", function () {
             position: "bottom",
             labels: {
               color: textColor,
-              font: { family: "Manrope", size: 11, weight: 500 },
+              font: { family: "Outfit", size: 11, weight: 500 },
               boxWidth: 12, boxHeight: 12, padding: 16, usePointStyle: true
             }
           },
           tooltip: {
-            backgroundColor: isDark ? "#1a1f30" : "#ffffff",
-            titleColor: isDark ? "#e8ecf4" : "#1a1f2e",
-            bodyColor: isDark ? "#8a95b0" : "#5a6478",
-            borderColor: isDark ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.08)",
+            backgroundColor: isDark ? "#1A2035" : "#ffffff",
+            titleColor: isDark ? "#EDF2F7" : "#111827",
+            bodyColor: isDark ? "#9BA4B8" : "#5A6278",
+            borderColor: isDark ? "rgba(237,242,247,0.14)" : "rgba(17,24,39,0.12)",
             borderWidth: 1, cornerRadius: 8, padding: 12,
-            titleFont: { family: "Manrope", weight: 700 },
-            bodyFont: { family: "Manrope" }
+            titleFont: { family: "Outfit", weight: 700 },
+            bodyFont: { family: "Outfit" }
           }
         },
         scales: {
-          x: { grid: { color: gridColor }, ticks: { color: textColor, font: { family: "Manrope", size: 11 } } },
-          y: { beginAtZero: true, grid: { color: gridColor }, ticks: { color: textColor, font: { family: "Manrope", size: 11 }, stepSize: 1 } }
+          x: { grid: { color: gridColor }, ticks: { color: textColor, font: { family: "Outfit", size: 11 } } },
+          y: { beginAtZero: true, grid: { color: gridColor }, ticks: { color: textColor, font: { family: "Outfit", size: 11 }, stepSize: 1 } }
         }
       }
     });
@@ -491,11 +491,11 @@ document.addEventListener("DOMContentLoaded", function () {
   // ── Category Distribution Doughnut Chart ─────────────────
   var catCounts = {};
   var catColors = {
-    quality: "#1e5faa",
-    operations: "#38b6cc",
-    governance: "#e06c75",
-    market: "#98c379",
-    strategy: "#d19a66"
+    quality: "#5a7d5e",
+    operations: "#2F7CB5",
+    governance: "#8a6b78",
+    market: "#8a7a5e",
+    strategy: "#556b65"
   };
 
   posts.forEach(function (p) {
@@ -520,7 +520,7 @@ document.addEventListener("DOMContentLoaded", function () {
         datasets: [{
           data: catData,
           backgroundColor: catBgColors,
-          borderColor: isDark ? "#1a1f30" : "#ffffff",
+          borderColor: isDark ? "#1A2035" : "#ffffff",
           borderWidth: 3
         }]
       },
@@ -533,18 +533,18 @@ document.addEventListener("DOMContentLoaded", function () {
             position: "bottom",
             labels: {
               color: textColor,
-              font: { family: "Manrope", size: 11, weight: 500 },
+              font: { family: "Outfit", size: 11, weight: 500 },
               boxWidth: 12, boxHeight: 12, padding: 12, usePointStyle: true
             }
           },
           tooltip: {
-            backgroundColor: isDark ? "#1a1f30" : "#ffffff",
-            titleColor: isDark ? "#e8ecf4" : "#1a1f2e",
-            bodyColor: isDark ? "#8a95b0" : "#5a6478",
-            borderColor: isDark ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.08)",
+            backgroundColor: isDark ? "#1A2035" : "#ffffff",
+            titleColor: isDark ? "#EDF2F7" : "#111827",
+            bodyColor: isDark ? "#9BA4B8" : "#5A6278",
+            borderColor: isDark ? "rgba(237,242,247,0.14)" : "rgba(17,24,39,0.12)",
             borderWidth: 1, cornerRadius: 8, padding: 12,
-            titleFont: { family: "Manrope", weight: 700 },
-            bodyFont: { family: "Manrope" }
+            titleFont: { family: "Outfit", weight: 700 },
+            bodyFont: { family: "Outfit" }
           }
         }
       }
