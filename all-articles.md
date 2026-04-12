@@ -99,8 +99,8 @@ description: "Browse all localization industry articles by topic — quality, op
   </div>
 </section>
 
-<p class="theory-crosslink" style="margin-bottom: var(--space-4); padding: var(--space-3) var(--space-4); background: var(--surface); border: 1px solid var(--border); border-left: 3px solid #0d9488; border-radius: var(--radius-md); font-size: 0.9rem;">
-  Looking for research articles? Visit <a href="/research/" style="color: #0d9488; font-weight: 600;">Language Science</a>
+<p class="theory-crosslink" style="margin-bottom: var(--space-4); padding: var(--space-3) var(--space-4); background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: var(--radius-md); font-size: 0.9rem;">
+  Looking for research articles? Visit <a href="/research/" style="color: var(--accent); font-weight: 600;">Language Science</a>
 </p>
 
 <section class="all-articles-feed-section" id="articles-section">
