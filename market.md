@@ -799,33 +799,48 @@ function fetchV7Batch(tickers, cb) {
     .catch(function () { cb(); });
 }
 
-/* ── Step 3: v8 chart fallback (one ticker, no crumb) ────── */
-// Used automatically for any ticker v7 did not return data for.
+/* ── Step 3: v8 chart fallback — direct then CORS proxies ── */
+// Tries direct fetch first. If CORS blocks it, automatically
+// retries through corsproxy.io, then allorigins.win, before
+// giving up. Used for any ticker v7 did not return data for.
 function fetchV8Single(ticker, cb) {
-  var url = "https://query1.finance.yahoo.com/v8/finance/chart/"
+  var chartUrl = "https://query1.finance.yahoo.com/v8/finance/chart/"
     + encodeURIComponent(ticker)
     + "?interval=1d&range=1d&includePrePost=false";
-  fetch(url, { mode: "cors" })
-    .then(function (r) { return r.ok ? r.json() : Promise.reject(); })
-    .then(function (data) {
-      var result = data && data.chart && data.chart.result && data.chart.result[0];
-      var meta   = result && result.meta;
-      if (meta && meta.regularMarketPrice != null) {
-        var prev = meta.previousClose || meta.chartPreviousClose || meta.regularMarketPrice;
-        var chg  = meta.regularMarketPrice - prev;
-        quotes[ticker] = {
-          symbol:                     ticker,
-          currency:                   meta.currency,
-          regularMarketPrice:         meta.regularMarketPrice,
-          regularMarketChange:        chg,
-          regularMarketChangePercent: prev ? (chg / prev) * 100 : 0,
-          marketState:                meta.marketState,
-          marketCap:                  null
-        };
-      }
-      cb();
-    })
-    .catch(function () { cb(); });
+
+  var urls = [
+    chartUrl,                                                               // direct
+    "https://corsproxy.io/?" + encodeURIComponent(chartUrl),               // proxy 1
+    "https://api.allorigins.win/raw?url=" + encodeURIComponent(chartUrl)   // proxy 2
+  ];
+
+  var i = 0;
+  function attempt() {
+    if (i >= urls.length) { cb(); return; }
+    var url = urls[i++];
+    fetch(url, { mode: "cors" })
+      .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
+      .then(function (data) {
+        var result = data && data.chart && data.chart.result && data.chart.result[0];
+        var meta   = result && result.meta;
+        if (meta && meta.regularMarketPrice != null) {
+          var prev = meta.previousClose || meta.chartPreviousClose || meta.regularMarketPrice;
+          var chg  = meta.regularMarketPrice - prev;
+          quotes[ticker] = {
+            symbol:                     ticker,
+            currency:                   meta.currency,
+            regularMarketPrice:         meta.regularMarketPrice,
+            regularMarketChange:        chg,
+            regularMarketChangePercent: prev ? (chg / prev) * 100 : 0,
+            marketState:                meta.marketState,
+            marketCap:                  null
+          };
+        }
+        cb();
+      })
+      .catch(attempt);  // CORS or HTTP error → try next URL
+  }
+  attempt();
 }
 
 /* Concurrency-limited runner for v8 fallback calls */
