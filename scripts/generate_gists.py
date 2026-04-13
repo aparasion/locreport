@@ -32,6 +32,7 @@ FEEDS = [
     "https://techcrunch.com/tag/translations/feed/",
     "https://www.atanet.org/news/industry-news/feed/",
     "https://elia-association.org/news/feed/",
+    "https://www.language-industry.ca/news?format=rss",
     "https://news.google.com/rss/search?q=(translation OR localization OR \"language AI\" OR multilingual OR \"AI translation\") (acquisition OR acquired OR acquires OR merger) -DNA -RNA -mRNA -protein -ribosome -gene -genetic -genome -biological -cell -cells -enzyme -biosynthesis -CRISPR when:90d&hl=en-US&gl=US&ceid=US:en",
     "https://news.google.com/rss/search?q=(localization OR translation OR multilingual OR \"language AI\" OR \"AI translation\") (platform OR software OR SaaS OR tool) -DNA -RNA -mRNA -protein -ribosome -gene -genetic -genome -biological -cell -cells -enzyme -biosynthesis -CRISPR when:90d&hl=en-US&gl=US&ceid=US:en",
     "https://news.google.com/rss/search?q=(translation OR localization OR multilingual OR \"AI translation\" OR \"language AI\") (startup OR \"early stage\" OR venture OR funding OR raises) -DNA -RNA -mRNA -protein -ribosome -gene -genetic -genome -biological -cell -cells -enzyme -biosynthesis -CRISPR when:90d&hl=en-US&gl=US&ceid=US:en",
