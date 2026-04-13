@@ -35,7 +35,7 @@ nav: false
     <button class="topic-pill" data-search-topic="strategy">Strategy</button>
   </div>
 
-
+  <div class="search-page-status" id="search-page-status" aria-live="polite"></div>
 
   <div class="post-grid" id="search-page-results" aria-live="polite" aria-atomic="true"></div>
 
