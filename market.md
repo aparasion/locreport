@@ -769,22 +769,85 @@ function applyFilter(cat) {
   }
 }
 
-/* ── Fetch a batch of tickers ────────────────────────────── */
-function fetchBatch(tickers, done) {
-  var url = "https://query1.finance.yahoo.com/v7/finance/quote"
-    + "?symbols=" + tickers.join(",")
+/* ── Step 1: fetch Yahoo Finance crumb ───────────────────── */
+// Yahoo Finance v7 requires a session crumb since 2023.
+// We try to get it first; if it fails we proceed crumb-less
+// and rely on the v8 chart fallback below.
+var YF_CRUMB = null;
+
+function initCrumb(cb) {
+  fetch("https://query2.finance.yahoo.com/v1/test/getcrumb", { mode: "cors" })
+    .then(function (r) { return r.ok ? r.text() : Promise.reject(); })
+    .then(function (c) { YF_CRUMB = (c || "").trim(); cb(); })
+    .catch(function () { cb(); });
+}
+
+/* ── Step 2: v7 batch quote (fast, 10 tickers per call) ──── */
+function fetchV7Batch(tickers, cb) {
+  var url = "https://query1.finance.yahoo.com/v7/finance/quote?symbols="
+    + tickers.join(",")
     + "&fields=regularMarketPrice,regularMarketChange,regularMarketChangePercent,"
-    + "currency,marketCap,marketState";
+    + "currency,marketCap,marketState"
+    + (YF_CRUMB ? "&crumb=" + encodeURIComponent(YF_CRUMB) : "");
   fetch(url, { mode: "cors" })
     .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
     .then(function (data) {
-      var results = (data && data.quoteResponse && data.quoteResponse.result) || [];
-      results.forEach(function (q) { quotes[q.symbol] = q; });
-      done(null, tickers);
+      ((data.quoteResponse || {}).result || [])
+        .forEach(function (q) { quotes[q.symbol] = q; });
+      cb();
     })
-    .catch(function (err) {
-      done(err, tickers);
-    });
+    .catch(function () { cb(); });
+}
+
+/* ── Step 3: v8 chart fallback (one ticker, no crumb) ────── */
+// Used automatically for any ticker v7 did not return data for.
+function fetchV8Single(ticker, cb) {
+  var url = "https://query1.finance.yahoo.com/v8/finance/chart/"
+    + encodeURIComponent(ticker)
+    + "?interval=1d&range=1d&includePrePost=false";
+  fetch(url, { mode: "cors" })
+    .then(function (r) { return r.ok ? r.json() : Promise.reject(); })
+    .then(function (data) {
+      var result = data && data.chart && data.chart.result && data.chart.result[0];
+      var meta   = result && result.meta;
+      if (meta && meta.regularMarketPrice != null) {
+        var prev = meta.previousClose || meta.chartPreviousClose || meta.regularMarketPrice;
+        var chg  = meta.regularMarketPrice - prev;
+        quotes[ticker] = {
+          symbol:                     ticker,
+          currency:                   meta.currency,
+          regularMarketPrice:         meta.regularMarketPrice,
+          regularMarketChange:        chg,
+          regularMarketChangePercent: prev ? (chg / prev) * 100 : 0,
+          marketState:                meta.marketState,
+          marketCap:                  null
+        };
+      }
+      cb();
+    })
+    .catch(function () { cb(); });
+}
+
+/* Concurrency-limited runner for v8 fallback calls */
+function fetchV8Many(tickers, allDone) {
+  if (tickers.length === 0) { allDone(); return; }
+  var CONCURRENCY = 5;
+  var queue    = tickers.slice();
+  var inflight = 0;
+  var finished = 0;
+  function next() {
+    while (inflight < CONCURRENCY && queue.length > 0) {
+      var t = queue.shift();
+      inflight++;
+      fetchV8Single(t, function () {
+        inflight--;
+        finished++;
+        if (finished === tickers.length) allDone();
+        else next();
+      });
+    }
+  }
+  next();
 }
 
 /* ── Find card element by ticker ─────────────────────────── */
@@ -796,6 +859,17 @@ function findCard(ticker) {
   return null;
 }
 
+/* ── Flush quotes → DOM cards ────────────────────────────── */
+function flushCards(tickers) {
+  tickers.forEach(function (ticker) {
+    var co  = coMap[ticker];
+    var old = findCard(ticker);
+    if (co && old) {
+      old.parentNode.replaceChild(mkCard(co, quotes[ticker] || null), old);
+    }
+  });
+}
+
 /* ── Full load / refresh ─────────────────────────────────── */
 var BATCH_SIZE = 10;
 
@@ -803,50 +877,48 @@ function loadAll() {
   var mosaic = document.getElementById("mkt-mosaic");
   if (!mosaic) return;
 
-  // Reset
   quotes = Object.create(null);
   mosaic.innerHTML = "";
-
-  // Render skeleton cards
-  COMPANIES.forEach(function (co) {
-    mosaic.appendChild(mkSkeleton(co));
-  });
-
-  // Reset stats
-  ["stat-up","stat-down","stat-flat"].forEach(function (id) {
+  COMPANIES.forEach(function (co) { mosaic.appendChild(mkSkeleton(co)); });
+  ["stat-up", "stat-down", "stat-flat"].forEach(function (id) {
     var el = document.getElementById(id);
     if (el) el.textContent = "—";
   });
 
-  // Split into batches
-  var tickers = COMPANIES.map(function (c) { return c.t; });
+  var allTickers = COMPANIES.map(function (c) { return c.t; });
   var batches = [];
-  for (var i = 0; i < tickers.length; i += BATCH_SIZE) {
-    batches.push(tickers.slice(i, i + BATCH_SIZE));
+  for (var i = 0; i < allTickers.length; i += BATCH_SIZE) {
+    batches.push(allTickers.slice(i, i + BATCH_SIZE));
   }
 
-  var done = 0;
-  batches.forEach(function (batch) {
-    fetchBatch(batch, function (err, batchTickers) {
-      // Replace skeleton cards for this batch
-      batchTickers.forEach(function (ticker) {
-        var co  = coMap[ticker];
-        var q   = quotes[ticker] || null;
-        var old = findCard(ticker);
-        if (co && old) {
-          var neu = mkCard(co, q);
-          old.parentNode.replaceChild(neu, old);
+  function finalize() {
+    updateStats();
+    var btn = document.getElementById("mkt-refresh-btn");
+    if (btn) btn.classList.remove("spinning");
+    applyFilter(activeCat);
+  }
+
+  // Fetch crumb, then run v7 batches with v8 fallback per batch
+  initCrumb(function () {
+    var batchDone = 0;
+
+    batches.forEach(function (batch) {
+      fetchV7Batch(batch, function () {
+        // Any ticker v7 didn't return → try v8 chart
+        var missing = batch.filter(function (t) { return !quotes[t]; });
+
+        function afterFallback() {
+          flushCards(batch);
+          batchDone++;
+          if (batchDone === batches.length) finalize();
+        }
+
+        if (missing.length > 0) {
+          fetchV8Many(missing, afterFallback);
+        } else {
+          afterFallback();
         }
       });
-
-      done++;
-      if (done === batches.length) {
-        // All batches finished
-        updateStats();
-        var btn = document.getElementById("mkt-refresh-btn");
-        if (btn) btn.classList.remove("spinning");
-        applyFilter(activeCat);
-      }
     });
   });
 }
