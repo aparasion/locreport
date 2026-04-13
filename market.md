@@ -769,49 +769,20 @@ function applyFilter(cat) {
   }
 }
 
-/* ── Step 1: fetch Yahoo Finance crumb ───────────────────── */
-// Yahoo Finance v7 requires a session crumb since 2023.
-// We try to get it first; if it fails we proceed crumb-less
-// and rely on the v8 chart fallback below.
-var YF_CRUMB = null;
-
-function initCrumb(cb) {
-  fetch("https://query2.finance.yahoo.com/v1/test/getcrumb", { mode: "cors" })
-    .then(function (r) { return r.ok ? r.text() : Promise.reject(); })
-    .then(function (c) { YF_CRUMB = (c || "").trim(); cb(); })
-    .catch(function () { cb(); });
-}
-
-/* ── Step 2: v7 batch quote (fast, 10 tickers per call) ──── */
-function fetchV7Batch(tickers, cb) {
-  var url = "https://query1.finance.yahoo.com/v7/finance/quote?symbols="
-    + tickers.join(",")
-    + "&fields=regularMarketPrice,regularMarketChange,regularMarketChangePercent,"
-    + "currency,marketCap,marketState"
-    + (YF_CRUMB ? "&crumb=" + encodeURIComponent(YF_CRUMB) : "");
-  fetch(url, { mode: "cors" })
-    .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
-    .then(function (data) {
-      ((data.quoteResponse || {}).result || [])
-        .forEach(function (q) { quotes[q.symbol] = q; });
-      cb();
-    })
-    .catch(function () { cb(); });
-}
-
-/* ── Step 3: v8 chart fallback — direct then CORS proxies ── */
-// Tries direct fetch first. If CORS blocks it, automatically
-// retries through corsproxy.io, then allorigins.win, before
-// giving up. Used for any ticker v7 did not return data for.
+/* ── Yahoo Finance v8 chart — CORS proxy chain ───────────── */
+// Three URLs tried in order; first success wins.
+//   1. Direct         — works if YF allows CORS from this origin
+//   2. corsproxy.io   — transparent CORS reverse proxy
+//   3. allorigins.win — second free proxy as final fallback
 function fetchV8Single(ticker, cb) {
-  var chartUrl = "https://query1.finance.yahoo.com/v8/finance/chart/"
+  var base = "https://query1.finance.yahoo.com/v8/finance/chart/"
     + encodeURIComponent(ticker)
-    + "?interval=1d&range=1d&includePrePost=false";
+    + "?interval=1d&range=1d&includePrePost=false&corsDomain=finance.yahoo.com";
 
   var urls = [
-    chartUrl,                                                               // direct
-    "https://corsproxy.io/?" + encodeURIComponent(chartUrl),               // proxy 1
-    "https://api.allorigins.win/raw?url=" + encodeURIComponent(chartUrl)   // proxy 2
+    base,
+    "https://corsproxy.io/?" + encodeURIComponent(base),
+    "https://api.allorigins.win/raw?url=" + encodeURIComponent(base)
   ];
 
   var i = 0;
@@ -838,31 +809,35 @@ function fetchV8Single(ticker, cb) {
         }
         cb();
       })
-      .catch(attempt);  // CORS or HTTP error → try next URL
+      .catch(attempt);   // any failure → try next URL
   }
   attempt();
 }
 
-/* Concurrency-limited runner for v8 fallback calls */
-function fetchV8Many(tickers, allDone) {
-  if (tickers.length === 0) { allDone(); return; }
-  var CONCURRENCY = 5;
-  var queue    = tickers.slice();
-  var inflight = 0;
-  var finished = 0;
-  function next() {
-    while (inflight < CONCURRENCY && queue.length > 0) {
-      var t = queue.shift();
-      inflight++;
-      fetchV8Single(t, function () {
-        inflight--;
-        finished++;
-        if (finished === tickers.length) allDone();
-        else next();
+/* ── Global concurrency queue ─────────────────────────────── */
+// ALL 30 tickers share ONE queue capped at GQ.max simultaneous
+// requests. Previous code ran 3 independent per-batch queues
+// (= up to 15 concurrent), which saturated the proxy rate limit
+// and caused the first tickers to fail consistently.
+var GQ = { queue: [], inflight: 0, max: 3 };
+
+function gqPush(ticker, onDone) {
+  GQ.queue.push({ t: ticker, cb: onDone });
+  gqDrain();
+}
+
+function gqDrain() {
+  while (GQ.inflight < GQ.max && GQ.queue.length > 0) {
+    var item = GQ.queue.shift();
+    GQ.inflight++;
+    (function (it) {
+      fetchV8Single(it.t, function () {
+        GQ.inflight--;
+        it.cb();
+        gqDrain();
       });
-    }
+    })(item);
   }
-  next();
 }
 
 /* ── Find card element by ticker ─────────────────────────── */
@@ -874,25 +849,14 @@ function findCard(ticker) {
   return null;
 }
 
-/* ── Flush quotes → DOM cards ────────────────────────────── */
-function flushCards(tickers) {
-  tickers.forEach(function (ticker) {
-    var co  = coMap[ticker];
-    var old = findCard(ticker);
-    if (co && old) {
-      old.parentNode.replaceChild(mkCard(co, quotes[ticker] || null), old);
-    }
-  });
-}
-
 /* ── Full load / refresh ─────────────────────────────────── */
-var BATCH_SIZE = 10;
-
 function loadAll() {
   var mosaic = document.getElementById("mkt-mosaic");
   if (!mosaic) return;
 
+  // Reset everything
   quotes = Object.create(null);
+  GQ.queue = []; GQ.inflight = 0;
   mosaic.innerHTML = "";
   COMPANIES.forEach(function (co) { mosaic.appendChild(mkSkeleton(co)); });
   ["stat-up", "stat-down", "stat-flat"].forEach(function (id) {
@@ -901,40 +865,28 @@ function loadAll() {
   });
 
   var allTickers = COMPANIES.map(function (c) { return c.t; });
-  var batches = [];
-  for (var i = 0; i < allTickers.length; i += BATCH_SIZE) {
-    batches.push(allTickers.slice(i, i + BATCH_SIZE));
+  var total    = allTickers.length;
+  var resolved = 0;
+
+  function onTickerDone(ticker) {
+    // Replace the skeleton card immediately as each ticker resolves
+    var co  = coMap[ticker];
+    var old = findCard(ticker);
+    if (co && old) {
+      old.parentNode.replaceChild(mkCard(co, quotes[ticker] || null), old);
+    }
+    resolved++;
+    if (resolved === total) {
+      updateStats();
+      var btn = document.getElementById("mkt-refresh-btn");
+      if (btn) btn.classList.remove("spinning");
+      applyFilter(activeCat);
+    }
   }
 
-  function finalize() {
-    updateStats();
-    var btn = document.getElementById("mkt-refresh-btn");
-    if (btn) btn.classList.remove("spinning");
-    applyFilter(activeCat);
-  }
-
-  // Fetch crumb, then run v7 batches with v8 fallback per batch
-  initCrumb(function () {
-    var batchDone = 0;
-
-    batches.forEach(function (batch) {
-      fetchV7Batch(batch, function () {
-        // Any ticker v7 didn't return → try v8 chart
-        var missing = batch.filter(function (t) { return !quotes[t]; });
-
-        function afterFallback() {
-          flushCards(batch);
-          batchDone++;
-          if (batchDone === batches.length) finalize();
-        }
-
-        if (missing.length > 0) {
-          fetchV8Many(missing, afterFallback);
-        } else {
-          afterFallback();
-        }
-      });
-    });
+  // Feed all tickers into the global rate-limited queue
+  allTickers.forEach(function (ticker) {
+    gqPush(ticker, function () { onTickerDone(ticker); });
   });
 }
 
