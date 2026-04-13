@@ -260,33 +260,7 @@
 
   <button id="scroll-top-button" class="scroll-top-button" type="button" aria-label="Back to top">&uarr;</button>
 
-  <!-- ── Search Overlay ───────────────────────────────────── -->
-  <div id="search-overlay" class="search-overlay" role="dialog" aria-modal="true" aria-label="Search">
-    <div class="search-overlay-box">
-      <div class="search-overlay-input-row">
-        <svg class="search-overlay-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        <input
-          type="search"
-          id="search-overlay-input"
-          class="search-overlay-input"
-          placeholder="Search articles…"
-          autocomplete="off"
-          aria-label="Search"
-        >
-        <button class="search-overlay-close" id="search-overlay-close" aria-label="Close search">Esc</button>
-      </div>
-      <div id="search-overlay-status" class="search-overlay-status" hidden></div>
-      <div id="search-overlay-results" class="search-overlay-results" role="listbox"></div>
-      <div class="search-overlay-footer">
-        <span class="search-overlay-footer-hint">
-          <span><kbd>&uarr;</kbd><kbd>&darr;</kbd> navigate</span>
-          <span><kbd>Enter</kbd> open</span>
-          <span><kbd>Esc</kbd> close</span>
-        </span>
-        <a href="{{ '/search/' | relative_url }}" class="search-overlay-all-results" id="search-overlay-all-link">View all results &rarr;</a>
-      </div>
-    </div>
-  </div>
+  <!-- Search overlay removed — inline search is now in nav.html -->
 
   <!-- ── Newsletter Signup Popup ────────────────────────── -->
   <div id="nl-popup-overlay" class="nl-popup-overlay" role="dialog" aria-modal="true" aria-label="Newsletter signup">
@@ -980,23 +954,23 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // ── Search Overlay ────────────────────────────────────────
+  // ── Inline Search (expanding in header) ───────────────────
   (function () {
     var SEARCH_INDEX_URL = "{{ '/search.json' | relative_url }}";
-    var SEARCH_PAGE_URL = "{{ '/search/' | relative_url }}";
-    var MAX_OVERLAY_RESULTS = 8;
+    var SEARCH_PAGE_URL  = "{{ '/search/' | relative_url }}";
+    var MAX_RESULTS      = 8;
 
-    var searchToggle = document.getElementById("search-toggle");
-    var overlay = document.getElementById("search-overlay");
-    var overlayInput = document.getElementById("search-overlay-input");
-    var overlayClose = document.getElementById("search-overlay-close");
-    var overlayResults = document.getElementById("search-overlay-results");
-    var overlayStatus = document.getElementById("search-overlay-status");
-    var overlayAllLink = document.getElementById("search-overlay-all-link");
+    var searchInline  = document.getElementById("search-inline");
+    var searchToggle  = document.getElementById("search-toggle");
+    var searchField   = document.getElementById("search-inline-field");
+    var searchInput   = document.getElementById("search-inline-input");
+    var searchClose   = document.getElementById("search-inline-close");
+    var dropdown      = document.getElementById("search-inline-dropdown");
+    var siteNav       = searchInline ? searchInline.closest(".site-nav") : null;
 
-    if (!searchToggle || !overlay) return;
+    if (!searchInline || !searchToggle || !dropdown) return;
 
-    var searchData = null;
+    var searchData   = null;
     var focusedIndex = -1;
     var currentItems = [];
 
@@ -1007,52 +981,61 @@ document.addEventListener("DOMContentLoaded", function () {
         .then(function (data) { searchData = data; return data; });
     }
 
-    function openOverlay() {
-      overlay.classList.add("is-open");
+    function expandSearch() {
+      searchInline.classList.add("is-expanded");
+      if (siteNav) siteNav.classList.add("search-expanded");
       searchToggle.setAttribute("aria-expanded", "true");
-      document.body.style.overflow = "hidden";
-      overlayInput.focus();
+      setTimeout(function () { searchInput.focus(); }, 60);
       loadIndex().then(function () {
-        if (overlayInput.value.trim()) performSearch(overlayInput.value.trim());
+        if (searchInput.value.trim()) performSearch(searchInput.value.trim());
       });
     }
 
-    function closeOverlay() {
-      overlay.classList.remove("is-open");
+    function collapseSearch() {
+      searchInline.classList.remove("is-expanded");
+      if (siteNav) siteNav.classList.remove("search-expanded");
       searchToggle.setAttribute("aria-expanded", "false");
-      document.body.style.overflow = "";
+      dropdown.classList.remove("is-open");
+      dropdown.innerHTML = "";
       focusedIndex = -1;
+      currentItems = [];
     }
 
     searchToggle.addEventListener("click", function () {
-      if (overlay.classList.contains("is-open")) {
-        closeOverlay();
+      if (searchInline.classList.contains("is-expanded")) {
+        collapseSearch();
       } else {
-        openOverlay();
+        expandSearch();
       }
     });
 
-    overlayClose.addEventListener("click", closeOverlay);
-
-    overlay.addEventListener("click", function (e) {
-      if (e.target === overlay) closeOverlay();
+    searchClose.addEventListener("click", function () {
+      searchInput.value = "";
+      collapseSearch();
     });
 
+    // Close when clicking outside
+    document.addEventListener("click", function (e) {
+      if (!searchInline.contains(e.target) && searchInline.classList.contains("is-expanded")) {
+        collapseSearch();
+      }
+    });
+
+    // Keyboard shortcuts
     document.addEventListener("keydown", function (e) {
-      if (e.key === "Escape") {
-        if (overlay.classList.contains("is-open")) { closeOverlay(); return; }
+      var isExpanded = searchInline.classList.contains("is-expanded");
+      if (e.key === "Escape" && isExpanded) {
+        collapseSearch();
+        searchToggle.focus();
+        return;
       }
       // Cmd/Ctrl + K
       if ((e.metaKey || e.ctrlKey) && e.key === "k") {
         e.preventDefault();
-        if (overlay.classList.contains("is-open")) {
-          closeOverlay();
-        } else {
-          openOverlay();
-        }
+        if (isExpanded) { collapseSearch(); } else { expandSearch(); }
         return;
       }
-      if (!overlay.classList.contains("is-open")) return;
+      if (!isExpanded) return;
       if (e.key === "ArrowDown") {
         e.preventDefault();
         focusedIndex = Math.min(focusedIndex + 1, currentItems.length - 1);
@@ -1061,9 +1044,13 @@ document.addEventListener("DOMContentLoaded", function () {
         e.preventDefault();
         focusedIndex = Math.max(focusedIndex - 1, -1);
         updateFocused();
+        if (focusedIndex === -1) searchInput.focus();
       } else if (e.key === "Enter" && focusedIndex >= 0 && currentItems[focusedIndex]) {
         e.preventDefault();
         window.location.href = currentItems[focusedIndex].getAttribute("href");
+      } else if (e.key === "Enter" && focusedIndex === -1 && searchInput.value.trim()) {
+        e.preventDefault();
+        window.location.href = SEARCH_PAGE_URL + "?q=" + encodeURIComponent(searchInput.value.trim());
       }
     });
 
@@ -1074,15 +1061,12 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     }
 
-    overlayInput.addEventListener("input", function () {
-      var q = overlayInput.value.trim();
+    searchInput.addEventListener("input", function () {
+      var q = searchInput.value.trim();
       focusedIndex = -1;
-      if (overlayAllLink) {
-        overlayAllLink.href = q ? SEARCH_PAGE_URL + "?q=" + encodeURIComponent(q) : SEARCH_PAGE_URL;
-      }
       if (!q) {
-        overlayResults.innerHTML = "";
-        overlayStatus.hidden = true;
+        dropdown.classList.remove("is-open");
+        dropdown.innerHTML = "";
         currentItems = [];
         return;
       }
@@ -1113,7 +1097,6 @@ document.addEventListener("DOMContentLoaded", function () {
       var publisher = (post.publisher  || "").toLowerCase();
       var signals   = (post.signal_ids || "").toLowerCase();
 
-      // Strict: any quoted phrase must appear verbatim somewhere in the post
       for (var i = 0; i < parsed.phrases.length; i++) {
         var ph = parsed.phrases[i];
         if (title.indexOf(ph) === -1 && excerpt.indexOf(ph) === -1 &&
@@ -1124,14 +1107,12 @@ document.addEventListener("DOMContentLoaded", function () {
       }
 
       var score = 0;
-      // Score phrase matches
       parsed.phrases.forEach(function (ph) {
         if (title.indexOf(ph)    !== -1) score += 15;
         if (excerpt.indexOf(ph)  !== -1) score += 8;
         if (content.indexOf(ph)  !== -1) score += 5;
         if (signals.indexOf(ph)  !== -1) score += 3;
       });
-      // Score free-term matches
       parsed.terms.forEach(function (word) {
         if (title.indexOf(word)     !== -1) score += 4;
         if (excerpt.indexOf(word)   !== -1) score += 2;
@@ -1161,42 +1142,56 @@ document.addEventListener("DOMContentLoaded", function () {
         .map(function (post) { return { post: post, score: scorePost(post, query) }; })
         .filter(function (item) { return item.score > 0; })
         .sort(function (a, b) { return b.score - a.score; })
-        .slice(0, MAX_OVERLAY_RESULTS)
+        .slice(0, MAX_RESULTS)
         .map(function (item) { return item.post; });
 
-      overlayResults.innerHTML = "";
+      dropdown.innerHTML = "";
       currentItems = [];
       focusedIndex = -1;
 
       if (results.length === 0) {
-        overlayStatus.hidden = false;
-        overlayStatus.textContent = "No results for \u201c" + query + "\u201d";
-        overlayResults.innerHTML = '<div class="search-overlay-empty">Try different keywords or browse by <a href="{{ "/topics/" | relative_url }}">topic</a>.</div>';
+        dropdown.classList.add("is-open");
+        dropdown.innerHTML = '<div class="search-inline-dropdown-empty">No results for \u201c' + query + '\u201d.<br>Try different keywords or <a href="{{ "/topics/" | relative_url }}">browse by topic</a>.</div>';
         return;
       }
 
-      overlayStatus.hidden = false;
+      dropdown.classList.add("is-open");
+
       var total = searchData.filter(function (p) { return scorePost(p, query) > 0; }).length;
-      overlayStatus.textContent = total + " result" + (total !== 1 ? "s" : "") + " \u2014 showing top " + results.length;
+      var statusEl = document.createElement("div");
+      statusEl.className = "search-inline-dropdown-status";
+      statusEl.textContent = total + " result" + (total !== 1 ? "s" : "") + " \u2014 showing top " + results.length;
+      dropdown.appendChild(statusEl);
 
       results.forEach(function (post) {
         var a = document.createElement("a");
-        a.className = "search-overlay-item";
+        a.className = "search-inline-dropdown-item";
         a.href = post.url;
         a.setAttribute("role", "option");
 
-        var titleHtml = highlight(post.title, query);
+        var titleHtml   = highlight(post.title, query);
         var excerptHtml = highlight(post.excerpt, query);
         var publisherText = post.publisher ? ' &middot; ' + post.publisher : '';
 
         a.innerHTML =
-          '<div class="search-overlay-item-title">' + titleHtml + '</div>' +
-          '<div class="search-overlay-item-meta">' + post.date + publisherText + '</div>' +
-          '<div class="search-overlay-item-excerpt">' + excerptHtml + '</div>';
+          '<div class="search-inline-dropdown-item-title">' + titleHtml + '</div>' +
+          '<div class="search-inline-dropdown-item-meta">' + post.date + publisherText + '</div>' +
+          '<div class="search-inline-dropdown-item-excerpt">' + excerptHtml + '</div>';
 
-        overlayResults.appendChild(a);
+        dropdown.appendChild(a);
         currentItems.push(a);
       });
+
+      var footer = document.createElement("div");
+      footer.className = "search-inline-dropdown-footer";
+      footer.innerHTML =
+        '<span class="search-inline-dropdown-footer-hint">' +
+          '<span><kbd>&uarr;</kbd><kbd>&darr;</kbd> navigate</span>' +
+          '<span><kbd>Enter</kbd> open</span>' +
+          '<span><kbd>Esc</kbd> close</span>' +
+        '</span>' +
+        '<a href="' + SEARCH_PAGE_URL + '?q=' + encodeURIComponent(query) + '" class="search-inline-dropdown-all">View all results &rarr;</a>';
+      dropdown.appendChild(footer);
     }
   })();
 });
