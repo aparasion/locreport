@@ -37,7 +37,7 @@ TICKERS = [
     # Language Services (pure-play)
     "RWS.L", "ZOO.L", "APX.AX", "AIM.AX", "STG.AX",
     "2483.T", "6182.T", "7812.T",
-    "300080.KQ", "VQS.V", "ONEI", "SUL.WA", "STAR7.MI",
+    "300080.KQ", "VQS.V", "ONEI", "STAR7.MI",
     # AI & Data
     "301236.SZ",
 ]
