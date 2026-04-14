@@ -50,6 +50,7 @@ FEEDS = [
     "https://www.smartling.com/company-news/rss.xml",
     "https://en-gb.thebigword.com/news-and-blogs/feed/",
     "https://www.vistatec.com/news-blog/feed/",
+    "https://www.cqfluency.com/who-we-are/news/feed/",
     "https://sorenson.com/company/blog/feed/",
     "https://propio.com/blogs/feed/",
     "https://www.publicisgroupeuk.com/news-and-views/feed",
