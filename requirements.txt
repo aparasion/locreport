@@ -1,4 +1,5 @@
 feedparser
 trafilatura
 openai
-requests  
+requests
+yfinance

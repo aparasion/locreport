@@ -422,6 +422,45 @@ nav_order: 4
   .market-mosaic { grid-template-columns: 1fr; }
   .market-card.featured { grid-column: span 1; }
 }
+
+/* ── Industry Index Chart ──────────────────────────────────── */
+.market-index-panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--space-5);
+  margin-bottom: var(--space-5);
+}
+.market-index-header {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+}
+.market-index-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.92rem;
+  color: var(--text);
+}
+.market-index-meta {
+  font-size: 0.7rem;
+  color: var(--muted);
+}
+.market-index-chart-wrap {
+  position: relative;
+  height: 180px;
+}
+.market-index-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 180px;
+  font-size: 0.78rem;
+  color: var(--muted);
+  font-style: italic;
+}
 </style>
 
 <!-- ── Hero ──────────────────────────────────────────────── -->
@@ -481,6 +520,19 @@ nav_order: 4
   <button class="market-filter-btn" data-cat="aidata">AI &amp; Data <span class="market-filter-count">1</span></button>
 </div>
 
+<!-- ── Industry Index Chart ──────────────────────────────── -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<div class="market-index-panel" id="mkt-index-panel">
+  <div class="market-index-header">
+    <span class="market-index-title">Language Services Industry Index</span>
+    <span class="market-index-meta">5-day trend &middot; equal-weighted &middot; base&nbsp;100 &middot; GOOGL, MSFT, NFLX, DUOL, ADBE, ORCL, SPOT, TASK, INFY, WIT</span>
+  </div>
+  <div class="market-index-chart-wrap">
+    <canvas id="mkt-index-chart" aria-label="Language services industry index 5-day trend" role="img"></canvas>
+    <div class="market-index-empty" id="mkt-index-empty" style="display:none">Chart data loads after the first scheduled update.</div>
+  </div>
+</div>
+
 <!-- ── Mosaic Grid ────────────────────────────────────────── -->
 <div class="market-mosaic" id="mkt-mosaic" aria-live="polite" aria-label="Market overview tiles">
   <!-- Populated by JavaScript -->
@@ -525,7 +577,7 @@ nav_order: 4
 
 <!-- ── Notes ─────────────────────────────────────────────── -->
 <div class="market-notes">
-  <p><strong>Market data</strong> is fetched in real time from Yahoo Finance. Prices are displayed in each company's native trading currency — GBp (pence) for LSE stocks, JPY for the Tokyo Stock Exchange, KRW for Korean exchanges, and so on. Market cap is shown in local currency where reported.</p>
+  <p><strong>Market data</strong> is refreshed automatically every 30 minutes on trading days (Mon–Fri) via a scheduled GitHub Actions workflow using Python/yfinance. Prices are displayed in each company's native trading currency — GBp (pence) for LSE stocks, JPY for the Tokyo Stock Exchange, KRW for Korean exchanges, and so on. Market cap is shown in local currency where reported.</p>
   <p><strong>Coverage scope</strong> includes pure-play language services companies, major technology platforms with significant translation and NLP exposure, media companies that are large buyers of localization, enterprise software providers with localization tooling, and AI data annotation companies.</p>
   <p>Data may be delayed. This page is for informational purposes only and does not constitute financial advice.</p>
 </div>
@@ -533,7 +585,7 @@ nav_order: 4
 <script>
 /* ════════════════════════════════════════════════════════════
    State of the Market — LocReport
-   Live quotes via Yahoo Finance v7 quote API
+   Data fetched server-side by GitHub Actions → market_quotes.json
    ════════════════════════════════════════════════════════════ */
 (function () {
 "use strict";
@@ -674,8 +726,9 @@ function mkSkeleton(co) {
 }
 
 /* ── Live card ───────────────────────────────────────────── */
+// q = { price, change, change_pct, prev_close, currency, market_cap } | null
 function mkCard(co, q) {
-  var dir = q ? dirOf(q.regularMarketChangePercent) : "flat";
+  var dir = q ? dirOf(q.change_pct) : "flat";
   var d   = document.createElement("div");
   d.className = "market-card " + dir
     + (co.ft   ? " featured" : "")
@@ -683,19 +736,16 @@ function mkCard(co, q) {
   d.dataset.cat    = co.cat;
   d.dataset.ticker = co.t;
 
-  var pct    = q ? fmtPct(q.regularMarketChangePercent) : null;
-  var price  = q ? fmtPrice(q.regularMarketPrice, q.currency) : "—";
-  var chgAbs = q ? fmtChangeAbs(q.regularMarketChange, q.currency) : null;
-  var cap    = q ? fmtCap(q.marketCap, q.currency) : null;
+  var pct    = q ? fmtPct(q.change_pct) : null;
+  var price  = q ? fmtPrice(q.price, q.currency) : "—";
+  var chgAbs = q ? fmtChangeAbs(q.change, q.currency) : null;
+  var cap    = q ? fmtCap(q.market_cap, q.currency) : null;
   var flag   = FLAGS[co.co] || "";
-  var isOpen = q && q.marketState === "REGULAR";
 
   d.innerHTML =
     '<div class="market-card-top">' +
       '<span class="market-card-exchange">' +
         '<span class="market-card-flag">' + flag + '</span>' +
-        '<span class="market-card-state' + (isOpen ? ' open' : '') + '"' +
-          ' title="' + (isOpen ? 'Market open' : 'Market closed or delayed') + '"></span>' +
         co.ex +
       '</span>' +
       (pct
@@ -717,7 +767,7 @@ function mkCard(co, q) {
       ? '<span class="market-card-warn-badge">' + co.warn + '</span>'
       : '') +
     (!q
-      ? '<div class="market-card-nodata">Data unavailable</div>'
+      ? '<div class="market-card-nodata">No data yet</div>'
       : '');
 
   return d;
@@ -727,14 +777,13 @@ function mkCard(co, q) {
 var quotes = Object.create(null);
 
 /* ── Stats bar update ────────────────────────────────────── */
-function updateStats() {
+function updateStats(updatedAt) {
   var up = 0, down = 0, flat = 0;
   COMPANIES.forEach(function (co) {
     var q = quotes[co.t];
     if (!q) return;
-    var p = q.regularMarketChangePercent;
-    if (p > 0) up++;
-    else if (p < 0) down++;
+    if (q.change_pct > 0) up++;
+    else if (q.change_pct < 0) down++;
     else flat++;
   });
   var eUp  = document.getElementById("stat-up");
@@ -745,8 +794,18 @@ function updateStats() {
   if (eDn)  eDn.textContent  = down;
   if (eFl)  eFl.textContent  = flat;
   if (eUpd) {
-    var now = new Date();
-    eUpd.textContent = now.toLocaleTimeString([], { hour:"2-digit", minute:"2-digit" });
+    if (updatedAt) {
+      try {
+        var d = new Date(updatedAt);
+        eUpd.textContent = d.toLocaleString([], {
+          month: "short", day: "numeric",
+          hour: "2-digit", minute: "2-digit",
+          timeZoneName: "short"
+        });
+      } catch (e) { eUpd.textContent = updatedAt; }
+    } else {
+      eUpd.textContent = "Scheduled update pending";
+    }
   }
 }
 
@@ -769,94 +828,130 @@ function applyFilter(cat) {
   }
 }
 
-/* ── Yahoo Finance v8 chart — CORS proxy chain ───────────── */
-// Three URLs tried in order; first success wins.
-//   1. Direct         — works if YF allows CORS from this origin
-//   2. corsproxy.io   — transparent CORS reverse proxy
-//   3. allorigins.win — second free proxy as final fallback
-function fetchV8Single(ticker, cb) {
-  var base = "https://query1.finance.yahoo.com/v8/finance/chart/"
-    + encodeURIComponent(ticker)
-    + "?interval=1d&range=1d&includePrePost=false&corsDomain=finance.yahoo.com";
+/* ── Industry Index Chart ────────────────────────────────── */
+var chartInstance = null;
 
-  var urls = [
-    base,
-    "https://corsproxy.io/?" + encodeURIComponent(base),
-    "https://api.allorigins.win/raw?url=" + encodeURIComponent(base)
-  ];
+function renderIndexChart(indexSeries) {
+  var canvas = document.getElementById("mkt-index-chart");
+  var empty  = document.getElementById("mkt-index-empty");
+  if (!canvas) return;
 
-  var i = 0;
-  function attempt() {
-    if (i >= urls.length) { cb(); return; }
-    var url = urls[i++];
-    fetch(url, { mode: "cors" })
-      .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
-      .then(function (data) {
-        var result = data && data.chart && data.chart.result && data.chart.result[0];
-        var meta   = result && result.meta;
-        if (meta && meta.regularMarketPrice != null) {
-          var prev = meta.previousClose || meta.chartPreviousClose || meta.regularMarketPrice;
-          var chg  = meta.regularMarketPrice - prev;
-          quotes[ticker] = {
-            symbol:                     ticker,
-            currency:                   meta.currency,
-            regularMarketPrice:         meta.regularMarketPrice,
-            regularMarketChange:        chg,
-            regularMarketChangePercent: prev ? (chg / prev) * 100 : 0,
-            marketState:                meta.marketState,
-            marketCap:                  null
-          };
+  var syms = Object.keys(indexSeries);
+  if (syms.length === 0 || typeof Chart === "undefined") {
+    if (canvas) canvas.style.display = "none";
+    if (empty)  empty.style.display  = "flex";
+    return;
+  }
+
+  // Collect all unique timestamps across all series
+  var tsSet = Object.create(null);
+  syms.forEach(function (sym) {
+    indexSeries[sym].timestamps.forEach(function (ts) { tsSet[ts] = true; });
+  });
+  var allTs = Object.keys(tsSet).map(Number).sort(function (a, b) { return a - b; });
+
+  // Build per-ticker value map + first-close base for normalization
+  var maps = Object.create(null);
+  syms.forEach(function (sym) {
+    var s = indexSeries[sym];
+    var m = Object.create(null);
+    for (var i = 0; i < s.timestamps.length; i++) {
+      m[s.timestamps[i]] = s.closes[i];
+    }
+    maps[sym] = { m: m, base: s.closes.length > 0 ? s.closes[0] : null };
+  });
+
+  // Equal-weighted normalized index (base 100 = first data point)
+  var labels = [];
+  var values = [];
+  allTs.forEach(function (ts) {
+    var sum = 0, count = 0;
+    syms.forEach(function (sym) {
+      var entry = maps[sym];
+      var val   = entry.m[ts];
+      if (val != null && entry.base) {
+        sum += (val / entry.base) * 100;
+        count++;
+      }
+    });
+    if (count > 0) {
+      var dt = new Date(ts * 1000);
+      labels.push(dt.toLocaleString([], {
+        month: "short", day: "numeric",
+        hour: "2-digit", minute: "2-digit"
+      }));
+      values.push(parseFloat((sum / count).toFixed(3)));
+    }
+  });
+
+  if (values.length < 2) {
+    if (canvas) canvas.style.display = "none";
+    if (empty)  empty.style.display  = "flex";
+    return;
+  }
+
+  // Line colour: green if index ended higher, red if lower
+  var lineColor = values[values.length - 1] >= values[0] ? "#22c55e" : "#ef4444";
+
+  // Destroy previous chart on refresh
+  if (chartInstance) { chartInstance.destroy(); chartInstance = null; }
+
+  var isDark    = document.documentElement.getAttribute("data-theme") === "dark";
+  var gridColor = isDark ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.07)";
+  var tickColor = isDark ? "#8a8fa8" : "#9ca3af";
+
+  chartInstance = new Chart(canvas, {
+    type: "line",
+    data: {
+      labels: labels,
+      datasets: [{
+        label: "LS Industry Index",
+        data: values,
+        borderColor: lineColor,
+        backgroundColor: "transparent",
+        borderWidth: 2,
+        pointRadius: 0,
+        pointHoverRadius: 4,
+        tension: 0.35
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { intersect: false, mode: "index" },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: function (ctx) { return "Index: " + ctx.parsed.y.toFixed(2); }
+          }
         }
-        cb();
-      })
-      .catch(attempt);   // any failure → try next URL
-  }
-  attempt();
+      },
+      scales: {
+        x: {
+          grid: { color: gridColor },
+          ticks: { color: tickColor, maxTicksLimit: 7, font: { size: 10 } }
+        },
+        y: {
+          grid: { color: gridColor },
+          ticks: {
+            color: tickColor,
+            callback: function (v) { return v.toFixed(1); },
+            font: { size: 10 }
+          }
+        }
+      }
+    }
+  });
 }
 
-/* ── Global concurrency queue ─────────────────────────────── */
-// ALL 30 tickers share ONE queue capped at GQ.max simultaneous
-// requests. Previous code ran 3 independent per-batch queues
-// (= up to 15 concurrent), which saturated the proxy rate limit
-// and caused the first tickers to fail consistently.
-var GQ = { queue: [], inflight: 0, max: 3 };
-
-function gqPush(ticker, onDone) {
-  GQ.queue.push({ t: ticker, cb: onDone });
-  gqDrain();
-}
-
-function gqDrain() {
-  while (GQ.inflight < GQ.max && GQ.queue.length > 0) {
-    var item = GQ.queue.shift();
-    GQ.inflight++;
-    (function (it) {
-      fetchV8Single(it.t, function () {
-        GQ.inflight--;
-        it.cb();
-        gqDrain();
-      });
-    })(item);
-  }
-}
-
-/* ── Find card element by ticker ─────────────────────────── */
-function findCard(ticker) {
-  var cards = document.querySelectorAll("#mkt-mosaic .market-card");
-  for (var i = 0; i < cards.length; i++) {
-    if (cards[i].dataset.ticker === ticker) return cards[i];
-  }
-  return null;
-}
-
-/* ── Full load / refresh ─────────────────────────────────── */
+/* ── Fetch quotes from static JSON ───────────────────────── */
 function loadAll() {
   var mosaic = document.getElementById("mkt-mosaic");
   if (!mosaic) return;
 
-  // Reset everything
+  // Show loading skeletons, reset stats
   quotes = Object.create(null);
-  GQ.queue = []; GQ.inflight = 0;
   mosaic.innerHTML = "";
   COMPANIES.forEach(function (co) { mosaic.appendChild(mkSkeleton(co)); });
   ["stat-up", "stat-down", "stat-flat"].forEach(function (id) {
@@ -864,30 +959,51 @@ function loadAll() {
     if (el) el.textContent = "—";
   });
 
-  var allTickers = COMPANIES.map(function (c) { return c.t; });
-  var total    = allTickers.length;
-  var resolved = 0;
+  fetch("/assets/data/market_quotes.json")
+    .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
+    .then(function (data) {
+      // Populate quote store
+      var qs = data.quotes || {};
+      Object.keys(qs).forEach(function (sym) { quotes[sym] = qs[sym]; });
 
-  function onTickerDone(ticker) {
-    // Replace the skeleton card immediately as each ticker resolves
-    var co  = coMap[ticker];
-    var old = findCard(ticker);
-    if (co && old) {
-      old.parentNode.replaceChild(mkCard(co, quotes[ticker] || null), old);
-    }
-    resolved++;
-    if (resolved === total) {
-      updateStats();
+      // Render all cards
+      mosaic.innerHTML = "";
+      COMPANIES.forEach(function (co) {
+        mosaic.appendChild(mkCard(co, quotes[co.t] || null));
+      });
+
+      updateStats(data.updated_at || null);
+      applyFilter(activeCat);
+
+      // Render the industry index chart if series data exists
+      var series = data.index_series || {};
+      if (Object.keys(series).length > 0) {
+        renderIndexChart(series);
+      } else {
+        var canvas = document.getElementById("mkt-index-chart");
+        var empty  = document.getElementById("mkt-index-empty");
+        if (canvas) canvas.style.display = "none";
+        if (empty)  empty.style.display  = "flex";
+      }
+
       var btn = document.getElementById("mkt-refresh-btn");
       if (btn) btn.classList.remove("spinning");
+    })
+    .catch(function () {
+      // JSON not yet populated — show empty cards
+      mosaic.innerHTML = "";
+      COMPANIES.forEach(function (co) { mosaic.appendChild(mkCard(co, null)); });
+      updateStats(null);
       applyFilter(activeCat);
-    }
-  }
 
-  // Feed all tickers into the global rate-limited queue
-  allTickers.forEach(function (ticker) {
-    gqPush(ticker, function () { onTickerDone(ticker); });
-  });
+      var canvas = document.getElementById("mkt-index-chart");
+      var empty  = document.getElementById("mkt-index-empty");
+      if (canvas) canvas.style.display = "none";
+      if (empty)  empty.style.display  = "flex";
+
+      var btn = document.getElementById("mkt-refresh-btn");
+      if (btn) btn.classList.remove("spinning");
+    });
 }
 
 /* ── Bootstrap ───────────────────────────────────────────── */
