@@ -433,10 +433,11 @@ nav_order: 4
 }
 .market-index-header {
   display: flex;
-  align-items: baseline;
+  align-items: center;
+  justify-content: space-between;
   flex-wrap: wrap;
   gap: var(--space-2);
-  margin-bottom: var(--space-4);
+  margin-bottom: var(--space-2);
 }
 .market-index-title {
   font-family: var(--font-display);
@@ -445,8 +446,40 @@ nav_order: 4
   color: var(--text);
 }
 .market-index-meta {
-  font-size: 0.7rem;
+  font-size: 0.68rem;
   color: var(--muted);
+  margin-bottom: var(--space-3);
+  line-height: 1.4;
+}
+/* ── Period picker ─────────────────────────────────────────── */
+.mkt-period-btns {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+}
+.mkt-period-btn {
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 4px 9px;
+  border-radius: 5px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--muted);
+  cursor: pointer;
+  line-height: 1.4;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+.mkt-period-btn:hover {
+  color: var(--text);
+  border-color: var(--accent-light);
+  background: var(--accent-soft);
+}
+.mkt-period-btn.active {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
 }
 .market-index-chart-wrap {
   position: relative;
@@ -525,10 +558,15 @@ nav_order: 4
 <div class="market-index-panel" id="mkt-index-panel">
   <div class="market-index-header">
     <span class="market-index-title">Language Services Industry Index</span>
-    <span class="market-index-meta">5-day trend &middot; equal-weighted &middot; base&nbsp;100 &middot; GOOGL, MSFT, NFLX, DUOL, ADBE, ORCL, SPOT, TASK, INFY, WIT</span>
+    <div class="mkt-period-btns" id="mkt-period-btns">
+      <button class="mkt-period-btn active" data-period="30d" type="button">30D</button>
+      <button class="mkt-period-btn" data-period="ytd" type="button">YTD</button>
+      <!-- year buttons injected by JS after data loads -->
+    </div>
   </div>
+  <div class="market-index-meta">Equal-weighted &middot; base&nbsp;100 at period start &middot; USD-listed constituents: GOOGL, MSFT, NFLX, DUOL, ADBE, ORCL, SPOT, TASK, INFY, WIT</div>
   <div class="market-index-chart-wrap">
-    <canvas id="mkt-index-chart" aria-label="Language services industry index 5-day trend" role="img"></canvas>
+    <canvas id="mkt-index-chart" aria-label="Language services industry index chart" role="img"></canvas>
     <div class="market-index-empty" id="mkt-index-empty" style="display:none">Chart data loads after the first scheduled update.</div>
   </div>
 </div>
@@ -834,71 +872,130 @@ function applyFilter(cat) {
 }
 
 /* ── Industry Index Chart ────────────────────────────────── */
-var chartInstance = null;
+var chartInstance   = null;
+var indexSeriesData = null;   // cached for period switching
+var activePeriod    = "30d";
 
-function renderIndexChart(indexSeries) {
+/* Return { start, end } unix-second bounds for a period key */
+function periodBounds(period) {
+  var now = Math.floor(Date.now() / 1000);
+  if (period === "30d") return { start: now - 30 * 86400, end: now };
+  if (period === "ytd") return {
+    start: Math.floor(new Date(new Date().getFullYear(), 0, 1).getTime() / 1000),
+    end:   now
+  };
+  if (/^\d{4}$/.test(period)) {
+    var yr = parseInt(period, 10);
+    return {
+      start: Math.floor(new Date(yr, 0, 1).getTime() / 1000),
+      end:   Math.floor(new Date(yr + 1, 0, 1).getTime() / 1000)
+    };
+  }
+  return { start: 0, end: now };
+}
+
+/* Inject year buttons based on years present in the data */
+function buildYearBtns(allTs) {
+  var container = document.getElementById("mkt-period-btns");
+  if (!container) return;
+  var prev = container.querySelectorAll(".mkt-year-btn");
+  for (var i = 0; i < prev.length; i++) prev[i].parentNode.removeChild(prev[i]);
+  var yearSet = Object.create(null);
+  allTs.forEach(function (ts) { yearSet[new Date(ts * 1000).getFullYear()] = true; });
+  var years = Object.keys(yearSet).map(Number).sort(function (a, b) { return b - a; });
+  years.forEach(function (yr) {
+    var btn = document.createElement("button");
+    btn.className = "mkt-period-btn mkt-year-btn" + (activePeriod === String(yr) ? " active" : "");
+    btn.dataset.period = yr;
+    btn.type = "button";
+    btn.textContent = yr;
+    container.appendChild(btn);
+    btn.addEventListener("click", function () { setActivePeriod(String(yr)); });
+  });
+}
+
+function setActivePeriod(period) {
+  activePeriod = period;
+  var btns = document.querySelectorAll("#mkt-period-btns .mkt-period-btn");
+  for (var i = 0; i < btns.length; i++) {
+    btns[i].classList.toggle("active", btns[i].dataset.period === period);
+  }
+  if (indexSeriesData) renderIndexChart(indexSeriesData, period);
+}
+
+function renderIndexChart(indexSeries, period) {
+  period = period || activePeriod;
+
   var canvas = document.getElementById("mkt-index-chart");
   var empty  = document.getElementById("mkt-index-empty");
   if (!canvas) return;
 
   var syms = Object.keys(indexSeries);
   if (syms.length === 0 || typeof Chart === "undefined") {
-    if (canvas) canvas.style.display = "none";
-    if (empty)  empty.style.display  = "flex";
+    canvas.style.display = "none";
+    if (empty) { empty.style.display = "flex"; empty.textContent = "Chart data loads after the first scheduled update."; }
     return;
   }
 
-  // Collect all unique timestamps across all series
+  // Collect + sort all unique timestamps
   var tsSet = Object.create(null);
   syms.forEach(function (sym) {
     indexSeries[sym].timestamps.forEach(function (ts) { tsSet[ts] = true; });
   });
   var allTs = Object.keys(tsSet).map(Number).sort(function (a, b) { return a - b; });
 
-  // Build per-ticker value map + first-close base for normalization
+  // Build year buttons on first call
+  if (!document.querySelector("#mkt-period-btns .mkt-year-btn")) buildYearBtns(allTs);
+
+  // Slice to selected period
+  var bounds   = periodBounds(period);
+  var slicedTs = allTs.filter(function (ts) { return ts >= bounds.start && ts < bounds.end; });
+
+  if (slicedTs.length < 2) {
+    canvas.style.display = "none";
+    if (empty) { empty.style.display = "flex"; empty.textContent = "No data available for this period."; }
+    return;
+  }
+  canvas.style.display = "";
+  if (empty) empty.style.display = "none";
+
+  // Build full close maps for every ticker
   var maps = Object.create(null);
   syms.forEach(function (sym) {
-    var s = indexSeries[sym];
-    var m = Object.create(null);
-    for (var i = 0; i < s.timestamps.length; i++) {
-      m[s.timestamps[i]] = s.closes[i];
-    }
-    maps[sym] = { m: m, base: s.closes.length > 0 ? s.closes[0] : null };
+    var s = indexSeries[sym], m = Object.create(null);
+    for (var i = 0; i < s.timestamps.length; i++) m[s.timestamps[i]] = s.closes[i];
+    maps[sym] = m;
   });
 
-  // Equal-weighted normalized index (base 100 = first data point)
-  var labels = [];
-  var values = [];
-  allTs.forEach(function (ts) {
+  // Normalise: base 100 = each ticker's first available close within the period
+  var bases = Object.create(null);
+  syms.forEach(function (sym) {
+    for (var i = 0; i < slicedTs.length; i++) {
+      var v = maps[sym][slicedTs[i]];
+      if (v != null) { bases[sym] = v; break; }
+    }
+  });
+
+  // Equal-weighted normalised index
+  var isLong = (period !== "30d");
+  var labels = [], values = [];
+  slicedTs.forEach(function (ts) {
     var sum = 0, count = 0;
     syms.forEach(function (sym) {
-      var entry = maps[sym];
-      var val   = entry.m[ts];
-      if (val != null && entry.base) {
-        sum += (val / entry.base) * 100;
-        count++;
-      }
+      var val = maps[sym][ts], base = bases[sym];
+      if (val != null && base) { sum += (val / base) * 100; count++; }
     });
     if (count > 0) {
       var dt = new Date(ts * 1000);
-      labels.push(dt.toLocaleString([], {
-        month: "short", day: "numeric",
-        hour: "2-digit", minute: "2-digit"
-      }));
+      labels.push(isLong
+        ? dt.toLocaleString([], { month: "short", year: "2-digit" })
+        : dt.toLocaleString([], { month: "short", day: "numeric" }));
       values.push(parseFloat((sum / count).toFixed(3)));
     }
   });
 
-  if (values.length < 2) {
-    if (canvas) canvas.style.display = "none";
-    if (empty)  empty.style.display  = "flex";
-    return;
-  }
-
-  // Line colour: green if index ended higher, red if lower
   var lineColor = values[values.length - 1] >= values[0] ? "#22c55e" : "#ef4444";
 
-  // Destroy previous chart on refresh
   if (chartInstance) { chartInstance.destroy(); chartInstance = null; }
 
   var isDark    = document.documentElement.getAttribute("data-theme") === "dark";
@@ -935,10 +1032,16 @@ function renderIndexChart(indexSeries) {
       scales: {
         x: {
           grid: { color: gridColor },
-          ticks: { color: tickColor, maxTicksLimit: 7, font: { size: 10 } }
+          ticks: { color: tickColor, maxTicksLimit: isLong ? 10 : 7, font: { size: 10 } }
         },
         y: {
           grid: { color: gridColor },
+          title: {
+            display: true,
+            text: "Index (base = 100)",
+            color: tickColor,
+            font: { size: 10 }
+          },
           ticks: {
             color: tickColor,
             callback: function (v) { return v.toFixed(1); },
@@ -983,12 +1086,14 @@ function loadAll() {
       // Render the industry index chart if series data exists
       var series = data.index_series || {};
       if (Object.keys(series).length > 0) {
-        renderIndexChart(series);
+        indexSeriesData = series;
+        renderIndexChart(series, activePeriod);
       } else {
+        indexSeriesData = null;
         var canvas = document.getElementById("mkt-index-chart");
         var empty  = document.getElementById("mkt-index-empty");
         if (canvas) canvas.style.display = "none";
-        if (empty)  empty.style.display  = "flex";
+        if (empty)  { empty.style.display = "flex"; empty.textContent = "Chart data loads after the first scheduled update."; }
       }
 
       var btn = document.getElementById("mkt-refresh-btn");
@@ -1013,12 +1118,20 @@ function loadAll() {
 
 /* ── Bootstrap ───────────────────────────────────────────── */
 document.addEventListener("DOMContentLoaded", function () {
-  // Filter buttons
+  // Category filter buttons
   var filterBtns = document.querySelectorAll(".market-filter-btn");
   for (var i = 0; i < filterBtns.length; i++) {
     (function (btn) {
       btn.addEventListener("click", function () { applyFilter(btn.dataset.cat); });
     })(filterBtns[i]);
+  }
+
+  // Static period buttons (30D, YTD) — year buttons are added dynamically
+  var periodBtns = document.querySelectorAll("#mkt-period-btns .mkt-period-btn");
+  for (var j = 0; j < periodBtns.length; j++) {
+    (function (btn) {
+      btn.addEventListener("click", function () { setActivePeriod(btn.dataset.period); });
+    })(periodBtns[j]);
   }
 
   // Refresh button
