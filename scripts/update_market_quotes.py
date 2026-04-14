@@ -101,7 +101,7 @@ def fetch_one(symbol: str) -> tuple:
         # 5-day hourly series (index constituents only)
         series = None
         if symbol in INDEX_TICKERS:
-            hist = t.history(period="5d", interval="1h", auto_adjust=True)
+            hist = t.history(period="2y", interval="1d", auto_adjust=True)
             if not hist.empty:
                 closes = hist["Close"].dropna()
                 if not closes.empty:
