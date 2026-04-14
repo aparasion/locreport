@@ -470,8 +470,8 @@ nav_order: 4
 
 <div class="market-header-row">
   <p class="market-subtitle">
-    Live equity overview of <strong>30 publicly traded companies</strong> with exposure to language
-    services, AI translation, and localization technology across 14 global exchanges.<br>
+    Live equity overview of <strong>29 publicly traded companies</strong> with exposure to language
+    services, AI translation, and localization technology across 13 global exchanges.<br>
     Last updated: <span id="mkt-updated">Loading…</span>
   </p>
   <button class="market-refresh-btn" id="mkt-refresh-btn" type="button" aria-label="Refresh market quotes">
@@ -487,7 +487,7 @@ nav_order: 4
 <!-- ── Stats Bar ─────────────────────────────────────────── -->
 <div class="market-stats-bar">
   <div class="market-stat">
-    <span class="market-stat-value" id="stat-total">30</span>
+    <span class="market-stat-value" id="stat-total">29</span>
     <span class="market-stat-label">Tracked</span>
   </div>
   <div class="market-stat">
@@ -510,8 +510,8 @@ nav_order: 4
 
 <!-- ── Category Filters ──────────────────────────────────── -->
 <div class="market-filters" id="mkt-filters" role="group" aria-label="Filter by category">
-  <button class="market-filter-btn active" data-cat="all">All <span class="market-filter-count">30</span></button>
-  <button class="market-filter-btn" data-cat="lsp">Language Services <span class="market-filter-count">13</span></button>
+  <button class="market-filter-btn active" data-cat="all">All <span class="market-filter-count">29</span></button>
+  <button class="market-filter-btn" data-cat="lsp">Language Services <span class="market-filter-count">12</span></button>
   <button class="market-filter-btn" data-cat="bigtech">Big Tech <span class="market-filter-count">5</span></button>
   <button class="market-filter-btn" data-cat="media">Media &amp; Content <span class="market-filter-count">2</span></button>
   <button class="market-filter-btn" data-cat="enterprise">Enterprise Software <span class="market-filter-count">3</span></button>
@@ -572,6 +572,12 @@ nav_order: 4
       <div class="market-delisted-meta">NASDAQ · United States</div>
       <div class="market-delisted-reason">Taken private 2016</div>
     </div>
+    <div class="market-delisted-card">
+      <div class="market-delisted-ticker">SUL</div>
+      <div class="market-delisted-name">Summa Linguae S.A.</div>
+      <div class="market-delisted-meta">WSE · Poland</div>
+      <div class="market-delisted-reason">Delisted Aug 2023 · Taken private</div>
+    </div>
   </div>
 </div>
 
@@ -631,7 +637,6 @@ var COMPANIES = [
   { t:"300080.KQ",  s:"300080",  n:"Flitto Inc.",            ex:"KOSDAQ",         co:"KR", cat:"lsp"                },
   { t:"VQS.V",      s:"VQS",     n:"VIQ Solutions Inc.",     ex:"TSX-V",          co:"CA", cat:"lsp"                },
   { t:"ONEI",       s:"ONEI",    n:"OneMeta Inc.",           ex:"OTCQB",          co:"US", cat:"lsp"                },
-  { t:"SUL.WA",     s:"SUL",     n:"Summa Linguae S.A.",     ex:"WSE",            co:"PL", cat:"lsp"                },
   { t:"STAR7.MI",   s:"STAR7",   n:"STAR7 S.p.A.",           ex:"Euronext Milan", co:"IT", cat:"lsp", warn:"⚠ Delisting planned" },
   /* ─ AI & Data ─ */
   { t:"301236.SZ",  s:"301236",  n:"iSoftStone Technology",  ex:"SZSE",           co:"CN", cat:"aidata"             }
