@@ -623,7 +623,7 @@ nav_order: 4
 
 <!-- ── Notes ─────────────────────────────────────────────── -->
 <div class="market-notes">
-  <p><strong>Market data</strong> is refreshed automatically every 30 minutes on trading days (Mon–Fri) via a scheduled GitHub Actions workflow using Python/yfinance. Prices are displayed in each company's native trading currency — GBp (pence) for LSE stocks, JPY for the Tokyo Stock Exchange, KRW for Korean exchanges, and so on. Market cap is shown in local currency where reported.</p>
+  <p><strong>Market data</strong> is refreshed automatically every 30 minutes on trading days (Mon–Fri). Prices are displayed in each company's native trading currency — GBp (pence) for LSE stocks, JPY for the Tokyo Stock Exchange, KRW for Korean exchanges, and so on. Market cap is shown in local currency where reported.</p>
   <p><strong>Coverage scope</strong> includes pure-play language services companies, major technology platforms with significant translation and NLP exposure, media companies that are large buyers of localization, enterprise software providers with localization tooling, and AI data annotation companies.</p>
   <p>Data may be delayed. This page is for informational purposes only and does not constitute financial advice.</p>
 </div>
