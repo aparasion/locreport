@@ -191,11 +191,11 @@ description: "Actionable localization intelligence — trend signals, impact sco
   </div>
 
   <div class="intel-high-impact-list" id="intel-high-impact-list">
+    {% assign high_impact_posts = site.posts | where_exp: "post", "post.article_type != 'theory'" | where_exp: "post", "post.impact_score >= 3" | sort: "impact_score" | reverse %}
     {% assign impact_count = 0 %}
-    {% for post in site.posts %}
-      {% if post.article_type == "theory" %}{% continue %}{% endif %}
-      {% if post.impact_score >= 3 and impact_count < 12 %}
-        {% assign impact_count = impact_count | plus: 1 %}
+    {% for post in high_impact_posts %}
+      {% if impact_count >= 12 %}{% break %}{% endif %}
+      {% assign impact_count = impact_count | plus: 1 %}
         <a href="{{ post.url | relative_url }}" class="intel-impact-item" data-segments="{{ post.affected_segments | join: '|' }}" data-impact="{{ post.impact_score }}">
           <div class="intel-impact-item-top">
             <span class="impact-badge impact-badge--{{ post.impact_score }} impact-badge--sm">
@@ -220,7 +220,6 @@ description: "Actionable localization intelligence — trend signals, impact sco
           </div>
           {% endif %}
         </a>
-      {% endif %}
     {% endfor %}
     {% if impact_count == 0 %}
     <p class="intel-empty">No high-impact articles yet. Intelligence scoring applies to new articles as they are published.</p>
