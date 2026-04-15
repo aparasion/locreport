@@ -1,20 +1,21 @@
 ---
 layout: default
-title: State of the Market
+title: LocStock
 permalink: /market/
-description: "Live equity overview of 30 publicly traded companies with exposure to language services, AI translation, and localization technology across global exchanges."
+description: "LocStock — The Localization Market Index. Live equity overview of publicly traded companies with exposure to language services, AI translation, and localization technology."
 nav: true
 nav_order: 4
 ---
 
 <style>
 /* ═══════════════════════════════════════════════════════════
-   State of the Market — LocReport
+   LocStock — LocReport
    ═══════════════════════════════════════════════════════════ */
 
 /* ── Hero ──────────────────────────────────────────────────── */
 .market-hero { padding: var(--space-7) 0 var(--space-4); }
-.market-hero h1 { margin: 0 0 var(--space-2); font-size: clamp(1.8rem, 4vw, 2.6rem); }
+.market-hero h1 { margin: 0 0 var(--space-1); font-size: clamp(1.8rem, 4vw, 2.6rem); }
+.market-hero-tagline { margin: 0 0 var(--space-2); color: var(--muted); font-size: 0.85rem; font-family: var(--font-display); letter-spacing: 0.04em; text-transform: uppercase; }
 
 .market-header-row {
   display: flex;
@@ -498,7 +499,8 @@ nav_order: 4
 
 <!-- ── Hero ──────────────────────────────────────────────── -->
 <div class="market-hero">
-  <h1>State of the Market</h1>
+  <h1>LocStock</h1>
+  <p class="market-hero-tagline">The Localization Market Index</p>
 </div>
 
 <div class="market-header-row">
@@ -628,7 +630,7 @@ nav_order: 4
 
 <script>
 /* ════════════════════════════════════════════════════════════
-   State of the Market — LocReport
+   LocStock — LocReport
    Data fetched server-side by GitHub Actions → market_quotes.json
    ════════════════════════════════════════════════════════════ */
 (function () {
