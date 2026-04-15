@@ -1106,6 +1106,15 @@ function renderIndexChart(indexSeries, period, tickerFilter) {
         pointRadius: 0,
         pointHoverRadius: 4,
         tension: 0.35
+      }, {
+        label: "Baseline",
+        data: labels.map(function () { return 100; }),
+        borderColor: isDark ? "rgba(255,255,255,0.18)" : "rgba(0,0,0,0.15)",
+        borderWidth: 1,
+        borderDash: [5, 4],
+        pointRadius: 0,
+        pointHoverRadius: 0,
+        tension: 0
       }]
     },
     options: {
@@ -1116,7 +1125,10 @@ function renderIndexChart(indexSeries, period, tickerFilter) {
         legend: { display: false },
         tooltip: {
           callbacks: {
-            label: function (ctx) { return "Index: " + ctx.parsed.y.toFixed(2); }
+            label: function (ctx) {
+              if (ctx.datasetIndex === 1) return null; // hide baseline from tooltip
+              return "Index: " + ctx.parsed.y.toFixed(2);
+            }
           }
         }
       },
