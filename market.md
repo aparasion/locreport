@@ -1030,23 +1030,60 @@ function renderIndexChart(indexSeries, period, tickerFilter) {
     }
   });
 
-  // Equal-weighted normalised index
+  // Forward-fill within period: carry last known close into non-trading days
+  // (stocks on different exchanges have gaps; without this, missing days cause wild swings)
+  var filled = Object.create(null);
+  syms.forEach(function (sym) {
+    filled[sym] = Object.create(null);
+    var last = null;
+    slicedTs.forEach(function (ts) {
+      var v = maps[sym][ts];
+      if (v != null) last = v;
+      if (last != null) filled[sym][ts] = last;
+    });
+  });
+
+  // Equal-weighted normalised index — weekly resampling for multi-month views
   var isLong = (period !== "30d");
   var labels = [], values = [];
-  slicedTs.forEach(function (ts) {
-    var sum = 0, count = 0;
-    syms.forEach(function (sym) {
-      var val = maps[sym][ts], base = bases[sym];
-      if (val != null && base) { sum += (val / base) * 100; count++; }
+
+  if (isLong) {
+    // Resample to weekly: group timestamps by ISO week, use last trading day per week
+    var weekMap = Object.create(null), weekOrder = [];
+    slicedTs.forEach(function (ts) {
+      var d   = new Date(ts * 1000);
+      var jan = new Date(d.getFullYear(), 0, 1);
+      var wk  = d.getFullYear() + "-" + String(Math.ceil(((d - jan) / 86400000 + jan.getDay() + 1) / 7)).padStart(2, "0");
+      if (!weekMap[wk]) { weekMap[wk] = []; weekOrder.push(wk); }
+      weekMap[wk].push(ts);
     });
-    if (count > 0) {
-      var dt = new Date(ts * 1000);
-      labels.push(isLong
-        ? dt.toLocaleString([], { month: "short", year: "2-digit" })
-        : dt.toLocaleString([], { month: "short", day: "numeric" }));
-      values.push(parseFloat((sum / count).toFixed(3)));
-    }
-  });
+    weekOrder.forEach(function (wk) {
+      var lastTs = weekMap[wk][weekMap[wk].length - 1];
+      var sum = 0, count = 0;
+      syms.forEach(function (sym) {
+        var val = filled[sym][lastTs], base = bases[sym];
+        if (val != null && base) { sum += (val / base) * 100; count++; }
+      });
+      if (count > 0) {
+        var dt = new Date(lastTs * 1000);
+        labels.push(dt.toLocaleString([], { month: "short", year: "2-digit" }));
+        values.push(parseFloat((sum / count).toFixed(3)));
+      }
+    });
+  } else {
+    slicedTs.forEach(function (ts) {
+      var sum = 0, count = 0;
+      syms.forEach(function (sym) {
+        var val = filled[sym][ts], base = bases[sym];
+        if (val != null && base) { sum += (val / base) * 100; count++; }
+      });
+      if (count > 0) {
+        var dt = new Date(ts * 1000);
+        labels.push(dt.toLocaleString([], { month: "short", day: "numeric" }));
+        values.push(parseFloat((sum / count).toFixed(3)));
+      }
+    });
+  }
 
   var lineColor = values[values.length - 1] >= values[0] ? "#22c55e" : "#ef4444";
 
