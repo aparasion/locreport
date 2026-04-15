@@ -4,7 +4,7 @@ title: Contact
 permalink: /contact/
 description: "Contact LocReport with tips, corrections, or contribution ideas for localization industry coverage."
 nav: true
-nav_order: 5
+nav_order: 6
 no_share: true
 ---
 
