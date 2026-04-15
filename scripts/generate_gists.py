@@ -62,6 +62,7 @@ FEEDS = [
     "https://multilingual.com/author/multilingualstaff/feed/",
     "https://multilingual.com/feed/",
     "https://imminent.translated.com/feed",
+    "https://effectiff.com/blog-1/f.rss"
     "https://news.google.com/rss/search?q=rws+group&hl=en-US&gl=US&ceid=US:en",
     "https://blog.google/products-and-platforms/products/translate/rss/",
     "https://aparasion.github.io/rss-generator/rss/CSA-blog.xml",
