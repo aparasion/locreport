@@ -1,0 +1,187 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" width="1200" height="675">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#141C2E"/>
+      <stop offset="100%" stop-color="#0B0F1A"/>
+    </linearGradient>
+    <linearGradient id="panelbg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#171F31"/>
+      <stop offset="100%" stop-color="#101520"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="675" fill="url(#bg)"/>
+
+  <!-- Left accent bar -->
+  <rect x="0" y="0" width="4" height="675" fill="#6B8AFF" opacity="0.9"/>
+
+  <!-- LocReport logo mark (two overlapping squares) -->
+  <rect x="70" y="52" width="21" height="21" rx="2" fill="#92AEFF" opacity="0.9"/>
+  <rect x="55" y="37" width="21" height="21" rx="2" fill="#3D5AFE"/>
+
+  <!-- LOCREPORT wordmark -->
+  <text x="100" y="55" font-family="Outfit, Inter, system-ui, sans-serif" font-size="12" font-weight="700" letter-spacing="2.5" fill="#525D7A">LOCREPORT</text>
+
+  <!-- LocStock title -->
+  <text x="52" y="150" font-family="Outfit, Inter, system-ui, sans-serif" font-size="90" font-weight="800" fill="#EDF2F7" letter-spacing="-2">LocStock</text>
+
+  <!-- Tagline -->
+  <text x="57" y="186" font-family="Inter, system-ui, sans-serif" font-size="20" font-weight="400" fill="#6B8AFF" letter-spacing="0.4">The Localization Market Index</text>
+
+  <!-- Stat chips -->
+  <rect x="57"  y="210" width="142" height="28" rx="14" fill="#1A2035" stroke="#2A3550" stroke-width="1"/>
+  <text x="128" y="229" font-family="Inter, system-ui, sans-serif" font-size="12" fill="#7A88A8" text-anchor="middle">29 Companies</text>
+
+  <rect x="207" y="210" width="126" height="28" rx="14" fill="#1A2035" stroke="#2A3550" stroke-width="1"/>
+  <text x="270" y="229" font-family="Inter, system-ui, sans-serif" font-size="12" fill="#7A88A8" text-anchor="middle">7 Categories</text>
+
+  <rect x="341" y="210" width="138" height="28" rx="14" fill="#1A2035" stroke="#2A3550" stroke-width="1"/>
+  <text x="410" y="229" font-family="Inter, system-ui, sans-serif" font-size="12" fill="#7A88A8" text-anchor="middle">13 Exchanges</text>
+
+  <rect x="487" y="210" width="128" height="28" rx="14" fill="#1A2035" stroke="#2A3550" stroke-width="1"/>
+  <text x="551" y="229" font-family="Inter, system-ui, sans-serif" font-size="12" fill="#7A88A8" text-anchor="middle">Base 100 Index</text>
+
+  <!-- Chart panel -->
+  <rect x="52" y="255" width="1096" height="372" rx="12" fill="url(#panelbg)" stroke="#222D45" stroke-width="1"/>
+
+  <!-- "YTD 2025" context label -->
+  <text x="1118" y="279" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#3A4A68" text-anchor="end">YTD 2025</text>
+
+  <!-- Subtle horizontal grid lines -->
+  <g stroke="#1C2840" stroke-width="1">
+    <line x1="90" y1="295" x2="1110" y2="295"/>
+    <line x1="90" y1="335" x2="1110" y2="335"/>
+    <line x1="90" y1="375" x2="1110" y2="375"/>
+    <line x1="90" y1="457" x2="1110" y2="457"/>
+    <line x1="90" y1="497" x2="1110" y2="497"/>
+    <line x1="90" y1="537" x2="1110" y2="537"/>
+  </g>
+
+  <!-- Subtle vertical grid lines (month markers) -->
+  <g stroke="#1C2840" stroke-width="1" opacity="0.7">
+    <line x1="276" y1="275" x2="276" y2="557"/>
+    <line x1="462" y1="275" x2="462" y2="557"/>
+    <line x1="648" y1="275" x2="648" y2="557"/>
+    <line x1="834" y1="275" x2="834" y2="557"/>
+    <line x1="1020" y1="275" x2="1020" y2="557"/>
+  </g>
+
+  <!-- Baseline (100) — dashed, visible reference -->
+  <line x1="90" y1="416" x2="1110" y2="416" stroke="#3A4D6E" stroke-width="1.5" stroke-dasharray="6,5"/>
+  <text x="1116" y="420" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#3A4D6E">100</text>
+
+  <!-- X-axis month labels -->
+  <g font-family="Inter, system-ui, sans-serif" font-size="10" fill="#3A4A68" text-anchor="middle">
+    <text x="90"  y="569">Jan</text>
+    <text x="276" y="569">Mar</text>
+    <text x="462" y="569">May</text>
+    <text x="648" y="569">Jul</text>
+    <text x="834" y="569">Sep</text>
+    <text x="1020" y="569">Nov</text>
+  </g>
+
+  <!-- ══ Chart lines — all start at baseline (416) ══ -->
+
+  <!-- Language Services (#6B8AFF) — volatile, slightly positive -->
+  <path d="M 90,416
+    C 127,416 148,429 185,429
+    C 222,429 243,409 280,409
+    C 317,409 338,423 375,423
+    C 412,423 433,431 470,431
+    C 507,431 528,406 565,406
+    C 602,406 623,421 660,421
+    C 697,421 718,401 755,401
+    C 792,401 813,413 850,413
+    C 887,413 908,391 945,391
+    C 982,391 1003,404 1040,404
+    C 1077,404 1093,381 1110,381"
+    fill="none" stroke="#6B8AFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="1110" cy="381" r="4" fill="#6B8AFF"/>
+
+  <!-- Big Tech (#22c55e) — steady positive -->
+  <path d="M 90,416
+    C 127,416 148,403 185,403
+    C 222,403 243,389 280,389
+    C 317,389 338,375 375,375
+    C 412,375 433,363 470,363
+    C 507,363 528,350 565,350
+    C 602,350 623,335 660,335
+    C 697,335 718,322 755,322
+    C 792,322 813,311 850,311
+    C 887,311 908,301 945,301
+    C 982,301 1003,293 1040,293
+    C 1077,293 1093,284 1110,284"
+    fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="1110" cy="284" r="3.5" fill="#22c55e"/>
+
+  <!-- BPO & Staffing (#ef4444) — drifting negative -->
+  <path d="M 90,416
+    C 127,416 148,427 185,427
+    C 222,427 243,442 280,442
+    C 317,442 338,432 375,432
+    C 412,432 433,450 470,450
+    C 507,450 528,440 565,440
+    C 602,440 623,455 660,455
+    C 697,455 718,445 755,445
+    C 792,445 813,461 850,461
+    C 887,461 908,452 945,452
+    C 982,452 1003,465 1040,465
+    C 1077,465 1093,458 1110,458"
+    fill="none" stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.85"/>
+  <circle cx="1110" cy="458" r="3.5" fill="#ef4444"/>
+
+  <!-- Media & Content (#c084fc) — moderate positive -->
+  <path d="M 90,416
+    C 127,416 148,405 185,405
+    C 222,405 243,392 280,392
+    C 317,392 338,409 375,409
+    C 412,409 433,384 470,384
+    C 507,384 528,371 565,371
+    C 602,371 623,359 660,359
+    C 697,359 718,377 755,377
+    C 792,377 813,354 850,354
+    C 887,354 908,340 945,340
+    C 982,340 1003,352 1040,352
+    C 1077,352 1093,331 1110,331"
+    fill="none" stroke="#c084fc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.85"/>
+  <circle cx="1110" cy="331" r="3.5" fill="#c084fc"/>
+
+  <!-- Language Learning (#fbbf24) — volatile, strongly positive -->
+  <path d="M 90,416
+    C 127,416 148,387 185,387
+    C 222,387 243,423 280,423
+    C 317,423 338,369 375,369
+    C 412,369 433,407 470,407
+    C 507,407 528,357 565,357
+    C 602,357 623,394 660,394
+    C 697,394 718,344 755,344
+    C 792,344 813,381 850,381
+    C 887,381 908,331 945,331
+    C 982,331 1003,359 1040,359
+    C 1077,359 1093,319 1110,319"
+    fill="none" stroke="#fbbf24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.85"/>
+  <circle cx="1110" cy="319" r="3.5" fill="#fbbf24"/>
+
+  <!-- Legend separator -->
+  <line x1="90" y1="578" x2="1110" y2="578" stroke="#1C2840" stroke-width="1"/>
+
+  <!-- Legend items -->
+  <rect x="115" y="587" width="10" height="10" rx="2" fill="#6B8AFF"/>
+  <text x="130" y="597" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#525D7A">Language Services</text>
+
+  <rect x="305" y="587" width="10" height="10" rx="2" fill="#22c55e"/>
+  <text x="320" y="597" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#525D7A">Big Tech</text>
+
+  <rect x="432" y="587" width="10" height="10" rx="2" fill="#c084fc"/>
+  <text x="447" y="597" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#525D7A">Media &amp; Content</text>
+
+  <rect x="618" y="587" width="10" height="10" rx="2" fill="#ef4444"/>
+  <text x="633" y="597" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#525D7A">BPO &amp; Staffing</text>
+
+  <rect x="800" y="587" width="10" height="10" rx="2" fill="#fbbf24"/>
+  <text x="815" y="597" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#525D7A">Language Learning</text>
+
+  <!-- Bottom URL -->
+  <text x="600" y="649" font-family="Outfit, Inter, system-ui, sans-serif" font-size="15" fill="#3A4A68" text-anchor="middle" letter-spacing="1">locreport.com/market/</text>
+</svg>
