@@ -42,13 +42,6 @@ TICKERS = [
     "301236.SZ",
 ]
 
-# Constituents for the industry index chart.
-# All US-listed → same trading hours → clean time series alignment.
-INDEX_TICKERS = {
-    "GOOGL", "MSFT", "NFLX", "DUOL",
-    "ADBE", "ORCL", "SPOT", "TASK", "INFY", "WIT",
-}
-
 MAX_WORKERS = 8   # parallel fetches
 
 
@@ -98,17 +91,16 @@ def fetch_one(symbol: str) -> tuple:
             "market_cap": market_cap,
         }
 
-        # 5-day hourly series (index constituents only)
+        # 2-year daily series for all tickers (used by per-category index charts)
         series = None
-        if symbol in INDEX_TICKERS:
-            hist = t.history(period="2y", interval="1d", auto_adjust=True)
-            if not hist.empty:
-                closes = hist["Close"].dropna()
-                if not closes.empty:
-                    series = {
-                        "timestamps": [int(ts.timestamp()) for ts in closes.index],
-                        "closes":     [round(float(c), 4) for c in closes.values],
-                    }
+        hist = t.history(period="2y", interval="1d", auto_adjust=True)
+        if not hist.empty:
+            closes = hist["Close"].dropna()
+            if not closes.empty:
+                series = {
+                    "timestamps": [int(ts.timestamp()) for ts in closes.index],
+                    "closes":     [round(float(c), 4) for c in closes.values],
+                }
 
         return symbol, quote, series
 
