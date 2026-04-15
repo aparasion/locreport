@@ -6,5 +6,5 @@ lang: "en"
 author: "LocReport"
 og_locale: "en_US"
 twitter_username: "locreport"
-social_image: "/assets/images/logolocreport.png"
+social_image: "/assets/images/logolight.png"
 permalink: /articles/:year/:month/:day/:title.html
