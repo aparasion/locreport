@@ -559,14 +559,14 @@ nav_order: 4
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
 <div class="market-index-panel" id="mkt-index-panel">
   <div class="market-index-header">
-    <span class="market-index-title">Language Services Industry Index</span>
+    <span class="market-index-title" id="mkt-index-title">LocStock Index</span>
     <div class="mkt-period-btns" id="mkt-period-btns">
       <button class="mkt-period-btn active" data-period="30d" type="button">30D</button>
       <button class="mkt-period-btn" data-period="ytd" type="button">YTD</button>
       <!-- year buttons injected by JS after data loads -->
     </div>
   </div>
-  <div class="market-index-meta">Equal-weighted &middot; base&nbsp;100 at period start &middot; USD-listed constituents: GOOGL, MSFT, NFLX, DUOL, ADBE, ORCL, SPOT, TASK, INFY, WIT</div>
+  <div class="market-index-meta" id="mkt-index-meta">Equal-weighted &middot; base&nbsp;100 at period start</div>
   <div class="market-index-chart-wrap">
     <canvas id="mkt-index-chart" aria-label="Language services industry index chart" role="img"></canvas>
     <div class="market-index-empty" id="mkt-index-empty" style="display:none">Chart data loads after the first scheduled update.</div>
@@ -871,12 +871,32 @@ function applyFilter(cat) {
   for (var j = 0; j < btns.length; j++) {
     btns[j].classList.toggle("active", btns[j].dataset.cat === cat);
   }
+  if (indexSeriesData) {
+    renderIndexChart(indexSeriesData, activePeriod, tickersForCat(cat));
+  }
 }
 
 /* ── Industry Index Chart ────────────────────────────────── */
 var chartInstance   = null;
 var indexSeriesData = null;   // cached for period switching
 var activePeriod    = "30d";
+
+/* ── Category display labels ─────────────────────────────── */
+var CAT_LABELS = {
+  all:        "All Categories",
+  lsp:        "Language Services",
+  bigtech:    "Big Tech",
+  media:      "Media & Content",
+  enterprise: "Enterprise Software",
+  bpo:        "BPO & Staffing",
+  learning:   "Language Learning",
+  aidata:     "AI & Data"
+};
+
+function tickersForCat(cat) {
+  if (cat === "all") return null; // null = use all tickers present in series
+  return COMPANIES.filter(function (c) { return c.cat === cat; }).map(function (c) { return c.t; });
+}
 
 /* Return { start, end } unix-second bounds for a period key */
 function periodBounds(period) {
@@ -922,20 +942,52 @@ function setActivePeriod(period) {
   for (var i = 0; i < btns.length; i++) {
     btns[i].classList.toggle("active", btns[i].dataset.period === period);
   }
-  if (indexSeriesData) renderIndexChart(indexSeriesData, period);
+  if (indexSeriesData) renderIndexChart(indexSeriesData, period, tickersForCat(activeCat));
 }
 
-function renderIndexChart(indexSeries, period) {
+function renderIndexChart(indexSeries, period, tickerFilter) {
   period = period || activePeriod;
 
   var canvas = document.getElementById("mkt-index-chart");
   var empty  = document.getElementById("mkt-index-empty");
   if (!canvas) return;
 
-  var syms = Object.keys(indexSeries);
+  var allSyms = Object.keys(indexSeries);
+  var syms = tickerFilter
+    ? allSyms.filter(function (s) { return tickerFilter.indexOf(s) !== -1; })
+    : allSyms;
+
+  // Update panel title
+  var titleEl = document.getElementById("mkt-index-title");
+  if (titleEl) {
+    titleEl.textContent = activeCat === "all"
+      ? "LocStock Index"
+      : "LocStock Index \u00B7 " + (CAT_LABELS[activeCat] || activeCat);
+  }
+
+  // Update meta text
+  var metaEl = document.getElementById("mkt-index-meta");
+  if (metaEl) {
+    if (syms.length > 0) {
+      var displayNames = syms.map(function (s) {
+        var co = coMap[s]; return co ? co.s : s;
+      }).join(", ");
+      metaEl.textContent = "Equal-weighted \u00B7 base\u00A0100 at period start \u00B7 "
+        + syms.length + " constituent" + (syms.length !== 1 ? "s" : "") + ": " + displayNames;
+    } else {
+      metaEl.textContent = "No time-series data available for this category yet.";
+    }
+  }
+
   if (syms.length === 0 || typeof Chart === "undefined") {
+    if (chartInstance) { chartInstance.destroy(); chartInstance = null; }
     canvas.style.display = "none";
-    if (empty) { empty.style.display = "flex"; empty.textContent = "Chart data loads after the first scheduled update."; }
+    if (empty) {
+      empty.style.display = "flex";
+      empty.textContent = syms.length === 0
+        ? "No series data for this category yet — will appear after the next scheduled update."
+        : "Chart data loads after the first scheduled update.";
+    }
     return;
   }
 
@@ -1009,7 +1061,7 @@ function renderIndexChart(indexSeries, period) {
     data: {
       labels: labels,
       datasets: [{
-        label: "LS Industry Index",
+        label: "LocStock Index",
         data: values,
         borderColor: lineColor,
         backgroundColor: "transparent",
@@ -1089,7 +1141,7 @@ function loadAll() {
       var series = data.index_series || {};
       if (Object.keys(series).length > 0) {
         indexSeriesData = series;
-        renderIndexChart(series, activePeriod);
+        renderIndexChart(series, activePeriod, tickersForCat(activeCat));
       } else {
         indexSeriesData = null;
         var canvas = document.getElementById("mkt-index-chart");
