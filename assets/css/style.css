@@ -1412,10 +1412,24 @@ hr {
 }
 .view-all-link--secondary:hover { background: var(--accent-soft); box-shadow: none; }
 
+/* ── Read Progress Bar ──────────────────────────────────── */
+.read-progress-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0%;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-light));
+  transition: width 0.1s linear;
+  border-radius: 0 2px 2px 0;
+  pointer-events: none;
+}
+
 /* ── Article Pages ──────────────────────────────────────── */
 article.post { margin-top: var(--space-8); }
 article.post h1 { font-size: clamp(1.8rem, 4vw, 2.5rem); margin-top: 0; margin-bottom: var(--space-4); }
 .post-content { margin-top: var(--space-6); font-size: 1.05rem; }
+.read-time { font-weight: 400; color: var(--muted); }
 
 .post-author-footer {
   margin-top: var(--space-10);

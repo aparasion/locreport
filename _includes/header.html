@@ -11,4 +11,7 @@
 
     {% include nav.html %}
   </div>
+  {% if page.layout == 'post' %}
+  <div class="read-progress-bar" id="read-progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Reading progress"></div>
+  {% endif %}
 </header>
