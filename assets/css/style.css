@@ -1290,6 +1290,18 @@ hr {
 .autoload-loader { display: none; text-align: center; padding: var(--space-6) 0; color: var(--muted); font-size: 0.85rem; }
 .autoload-loader.is-active { display: block; }
 
+/* ── Report Image Banner ────────────────────────────────── */
+.report-image-link {
+  display: block;
+  margin: var(--space-8) 0;
+}
+.report-image-banner {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius);
+}
+
 /* ── Newsletter Banner ──────────────────────────────────── */
 .newsletter-banner { margin: var(--space-6) 0; padding: 0; }
 .newsletter-banner-inner {
