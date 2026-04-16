@@ -2375,7 +2375,7 @@ details[open] .signal-accordion__chevron { transform: rotate(180deg); }
   }
   .nav-dropdown-menu a:hover,
   .nav-dropdown-menu a.active {
-    background: transparent;
+    background: var(--accent-soft);
     color: var(--text);
   }
   h1 { font-size: 1.8rem; }
