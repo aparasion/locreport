@@ -2843,5 +2843,22 @@ details[open] .signal-accordion__chevron { transform: rotate(180deg); }
   .annual-report section,
   .annual-report .toc,
   .annual-report__header { padding: var(--space-5); }
-  .annual-report table { display: block; overflow-x: auto; }
+  .annual-report table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .annual-report .chart-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .annual-report .chart-container svg {
+    display: block;
+    height: auto;
+    min-width: 560px;
+  }
+  .annual-report .source {
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
 }
