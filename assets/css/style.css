@@ -77,8 +77,8 @@
 
 /* ── Reset ──────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; }
+html { overflow-x: hidden; scroll-behavior: smooth; }
 body { overflow-x: hidden; }
-html { scroll-behavior: smooth; }
 
 body {
   margin: 0;
@@ -2796,6 +2796,7 @@ details[open] .signal-accordion__chevron { transform: rotate(180deg); }
   text-transform: uppercase;
   letter-spacing: 0.07em;
   color: var(--muted);
+  overflow-wrap: anywhere;
 }
 
 /* TOC */
@@ -2919,6 +2920,8 @@ details[open] .signal-accordion__chevron { transform: rotate(180deg); }
 
 /* Charts */
 .annual-report .chart-container {
+  width: 100%;
+  max-width: 100%;
   margin: var(--space-5) 0;
   padding: var(--space-5);
   border: 1px solid var(--border);
@@ -2926,6 +2929,7 @@ details[open] .signal-accordion__chevron { transform: rotate(180deg); }
   background: var(--bg-secondary);
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
+  box-sizing: border-box;
 }
 .annual-report .chart-title {
   margin-bottom: var(--space-4);
@@ -2938,7 +2942,7 @@ details[open] .signal-accordion__chevron { transform: rotate(180deg); }
 .annual-report .chart-container svg {
   display: block;
   height: auto;
-  min-width: 440px;
+  min-width: 480px;
 }
 
 /* Tables */
@@ -2959,8 +2963,11 @@ details[open] .signal-accordion__chevron { transform: rotate(180deg); }
   border-bottom: 1px solid var(--border);
 }
 .annual-report .table-scroll {
+  width: 100%;
+  max-width: 100%;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
+  box-sizing: border-box;
 }
 .annual-report table {
   width: 100%;
