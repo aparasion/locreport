@@ -13,8 +13,27 @@ show_read_time: true
 
 <div class="annual-report annual-report-2026">
   <header class="annual-report__header">
+    <p class="annual-report__eyebrow">LocReport &middot; April 2026</p>
     <h2>Localization &amp; Translation Industry: 2026 Annual Report</h2>
     <p class="annual-report__dek">A data-rich strategic brief covering market evolution, AI disruption, competitive dynamics, and forward-looking implications for language services stakeholders.</p>
+    <div class="annual-report__stats">
+      <div class="annual-report__stat">
+        <span class="annual-report__stat-value">$71.7B</span>
+        <span class="annual-report__stat-label">2024 Market Size</span>
+      </div>
+      <div class="annual-report__stat">
+        <span class="annual-report__stat-value">5.6%</span>
+        <span class="annual-report__stat-label">YoY Growth</span>
+      </div>
+      <div class="annual-report__stat">
+        <span class="annual-report__stat-value">~25%</span>
+        <span class="annual-report__stat-label">AI Segment CAGR</span>
+      </div>
+      <div class="annual-report__stat">
+        <span class="annual-report__stat-value">$92.3B</span>
+        <span class="annual-report__stat-label">Forecast by 2029</span>
+      </div>
+    </div>
   </header>
 
   <nav class="toc">
@@ -240,21 +259,23 @@ show_read_time: true
 
   <section id="conclusion">
     <h2>10. Concluding Insights &amp; Strategic Implications</h2>
-    <div class="takeaway">
-      <h4>For LSPs</h4>
-      <p>Prioritize AI-enabled workflow design, vertical specialization, and full-stack platform capabilities to defend margins and increase operating leverage.</p>
-    </div>
-    <div class="takeaway">
-      <h4>For Linguists</h4>
-      <p>Shift toward high-value roles: post-editing strategy, quality architecture, transcreation, and domain expertise in regulated environments.</p>
-    </div>
-    <div class="takeaway">
-      <h4>For Product and SaaS Teams</h4>
-      <p>Implement continuous localization inside product development lifecycles; tier content by risk and quality requirements for optimal hybrid execution.</p>
-    </div>
-    <div class="takeaway">
-      <h4>The Bottom Line</h4>
-      <p>The language services market in April 2026 remains structurally strong, but leadership now depends on mastering hybrid AI+human delivery and converting localization from tactical execution into strategic infrastructure.</p>
+    <div class="takeaway-grid">
+      <div class="takeaway">
+        <h4>For LSPs</h4>
+        <p>Prioritize AI-enabled workflow design, vertical specialization, and full-stack platform capabilities to defend margins and increase operating leverage.</p>
+      </div>
+      <div class="takeaway">
+        <h4>For Linguists</h4>
+        <p>Shift toward high-value roles: post-editing strategy, quality architecture, transcreation, and domain expertise in regulated environments.</p>
+      </div>
+      <div class="takeaway">
+        <h4>For Product and SaaS Teams</h4>
+        <p>Implement continuous localization inside product development lifecycles; tier content by risk and quality requirements for optimal hybrid execution.</p>
+      </div>
+      <div class="takeaway takeaway--full">
+        <h4>The Bottom Line</h4>
+        <p>The language services market in April 2026 remains structurally strong, but leadership now depends on mastering hybrid AI+human delivery and converting localization from tactical execution into strategic infrastructure.</p>
+      </div>
     </div>
   </section>
 
