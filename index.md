@@ -198,6 +198,10 @@ nav_order: 1
         <p>{{ post.excerpt | strip_html | truncate: 200 }}</p>
       </article>
 
+      <a href="https://locreport.com/reports/2026-Annual-Global-Market-Report/" class="report-image-link">
+        <img src="https://locreport.com/assets/images/2026-annual-report.png" alt="2026 Annual Global Market Report" class="report-image-banner">
+      </a>
+
       <div class="post-grid reveal-stagger">
     {% else %}
       <article class="post-card" {% if post.affected_segments %}data-segments="{{ post.affected_segments | join: '|' }}"{% endif %}>
