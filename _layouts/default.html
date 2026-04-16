@@ -941,6 +941,25 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   })();
 
+  // ── Read progress bar ────────────────────────────────────
+  var readProgressBar = document.getElementById("read-progress-bar");
+  if (readProgressBar) {
+    var postArticle = document.querySelector("article.post, article.page");
+    function updateReadProgress() {
+      if (!postArticle) return;
+      var articleTop = postArticle.getBoundingClientRect().top + window.scrollY;
+      var articleHeight = postArticle.offsetHeight;
+      var windowHeight = window.innerHeight;
+      var scrolled = window.scrollY - articleTop;
+      var total = articleHeight - windowHeight;
+      var pct = total > 0 ? Math.min(100, Math.max(0, (scrolled / total) * 100)) : 0;
+      readProgressBar.style.width = pct + "%";
+      readProgressBar.setAttribute("aria-valuenow", Math.round(pct));
+    }
+    window.addEventListener("scroll", updateReadProgress, { passive: true });
+    updateReadProgress();
+  }
+
   // ── Scroll-to-top button ─────────────────────────────────
   if (scrollTopButton) {
     var toggleScrollButton = function () {
