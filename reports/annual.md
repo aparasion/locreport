@@ -8,6 +8,7 @@ nav_parent: "Reports"
 nav_order: 3.1
 show_progress: true
 published_date: "April 2026"
+show_read_time: true
 ---
 
 <div class="annual-report annual-report-2026">
