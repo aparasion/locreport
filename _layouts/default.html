@@ -944,7 +944,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // ── Read progress bar ────────────────────────────────────
   var readProgressBar = document.getElementById("read-progress-bar");
   if (readProgressBar) {
-    var postArticle = document.querySelector("article.post");
+    var postArticle = document.querySelector("article.post, article.page");
     function updateReadProgress() {
       if (!postArticle) return;
       var articleTop = postArticle.getBoundingClientRect().top + window.scrollY;
