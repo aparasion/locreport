@@ -4,6 +4,8 @@ title: "Annual Global Market Report"
 permalink: /reports/annual/
 description: "The Annual Global Language Services Market Report — comprehensive analysis of industry trends, market data, and strategic outlook for the year ahead."
 nav: false
+nav_parent: "Reports"
+nav_order: 3.1
 ---
 
 <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: var(--space-6);">A comprehensive annual synthesis of the global language services market, covering competitive dynamics, AI adoption, workforce trends, and the forces shaping the industry for the year ahead.</p>

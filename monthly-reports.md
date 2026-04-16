@@ -4,7 +4,8 @@ title: Monthly Reports
 permalink: /monthly-reports/
 description: "Monthly localization industry reports — curated summaries of translation, AI, and language technology trends."
 nav: false
-nav_order: 3
+nav_order: 3.2
+nav_parent: "Reports"
 ---
 
 A curated monthly roundup of the biggest developments across translation, localization, and language technology.

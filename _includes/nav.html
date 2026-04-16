@@ -9,12 +9,38 @@
 
     {% for p in nav_pages %}
       {% unless p.url == '/' %}
+      {% if p.nav_dropdown %}
+        {% assign dropdown_children = site.pages | where: "nav_parent", p.title | sort: "nav_order" %}
+        {% assign is_active = false %}
+        {% if p.url == page.url %}{% assign is_active = true %}{% endif %}
+        {% for child in dropdown_children %}
+          {% if child.url == page.url %}{% assign is_active = true %}{% endif %}
+        {% endfor %}
+        <li class="nav-has-dropdown">
+          <a href="{{ p.url | relative_url }}"
+             class="{% if is_active %}active{% endif %}"
+             aria-haspopup="true">
+            {{ p.title }}
+            <svg class="nav-dropdown-chevron" xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <ul class="nav-dropdown-menu" role="menu">
+            {% for child in dropdown_children %}
+            <li role="none">
+              <a href="{{ child.url | relative_url }}"
+                 class="{% if child.url == page.url %}active{% endif %}"
+                 role="menuitem">{{ child.title }}</a>
+            </li>
+            {% endfor %}
+          </ul>
+        </li>
+      {% else %}
       <li>
         <a href="{{ p.url | relative_url }}"
            class="{% if p.url == page.url %}active{% endif %}">
           {{ p.title }}
         </a>
       </li>
+      {% endif %}
       {% endunless %}
     {% endfor %}
   </ul>

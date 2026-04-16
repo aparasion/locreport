@@ -5,6 +5,7 @@ permalink: /reports/
 description: "Periodic synthesis reports on the language services industry — monthly roundups and annual global market analysis."
 nav: true
 nav_order: 3
+nav_dropdown: true
 ---
 
 Synthesis reports on the language services industry, published on a monthly and annual basis.
