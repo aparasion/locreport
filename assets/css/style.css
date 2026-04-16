@@ -2668,3 +2668,129 @@ details[open] .signal-accordion__chevron { transform: rotate(180deg); }
   body { background: #fff; color: #000; }
   .post-card, .featured-article { break-inside: avoid; }
 }
+
+/* ── 2026 Annual Report ───────────────────────────────── */
+.annual-report { display: grid; gap: var(--space-8); }
+.annual-report__header {
+  padding: var(--space-7);
+  background: linear-gradient(145deg, color-mix(in srgb, var(--accent) 10%, var(--surface)), var(--surface));
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+}
+.annual-report__eyebrow {
+  margin: 0 0 var(--space-2);
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  font-weight: 700;
+}
+.annual-report__header h2 { margin: 0 0 var(--space-3); font-size: clamp(1.35rem, 3vw, 1.95rem); }
+.annual-report__dek { margin: 0; color: var(--muted); font-size: 1rem; }
+
+.annual-report .toc {
+  padding: var(--space-6);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+}
+.annual-report .toc h2 { margin: 0 0 var(--space-3); font-size: 1.05rem; }
+.annual-report .toc ol {
+  margin: 0;
+  padding-left: 1.1rem;
+  display: grid;
+  gap: var(--space-2);
+}
+.annual-report .toc a { color: var(--text); text-decoration: none; }
+.annual-report .toc a:hover { color: var(--accent); text-decoration: underline; }
+
+.annual-report section {
+  scroll-margin-top: 90px;
+  padding: var(--space-6);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+}
+.annual-report section h2 { margin-top: 0; }
+.annual-report section h3 { margin-top: var(--space-5); }
+.annual-report ul { padding-left: 1.2rem; }
+.annual-report li { margin-bottom: var(--space-2); }
+
+.annual-report .key-findings {
+  background: color-mix(in srgb, var(--accent) 7%, var(--surface));
+  border: 1px solid color-mix(in srgb, var(--accent) 18%, var(--border));
+  border-radius: var(--radius-md);
+  padding: var(--space-5);
+}
+.annual-report .source {
+  color: var(--muted);
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
+.annual-report .callout {
+  margin-top: var(--space-5);
+  border-left: 4px solid var(--accent);
+  padding: var(--space-4) var(--space-5);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  background: color-mix(in srgb, var(--accent) 8%, var(--surface));
+}
+
+.annual-report .chart-container {
+  margin: var(--space-6) 0;
+  padding: var(--space-4);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--bg-secondary);
+}
+.annual-report .chart-title {
+  margin-bottom: var(--space-3);
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+.annual-report figure { margin: var(--space-6) 0 0; }
+.annual-report figcaption {
+  margin-bottom: var(--space-3);
+  font-size: 0.86rem;
+  color: var(--muted);
+  font-weight: 600;
+}
+.annual-report table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+}
+.annual-report th,
+.annual-report td {
+  border: 1px solid var(--border);
+  padding: 10px;
+  vertical-align: top;
+}
+.annual-report th { background: var(--bg-secondary); text-align: left; }
+.annual-report .num { text-align: right; white-space: nowrap; }
+
+.annual-report .takeaway {
+  padding: var(--space-5);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--bg-secondary);
+  margin-bottom: var(--space-4);
+}
+.annual-report .takeaway h4 { margin: 0 0 var(--space-2); }
+.annual-report .takeaway p { margin: 0; }
+
+.annual-report .report-footer {
+  border-top: 1px solid var(--border);
+  padding-top: var(--space-5);
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+.annual-report .report-footer p { margin: 0 0 var(--space-2); }
+
+@media (max-width: 700px) {
+  .annual-report section,
+  .annual-report .toc,
+  .annual-report__header { padding: var(--space-5); }
+  .annual-report table { display: block; overflow-x: auto; }
+}
