@@ -3,7 +3,7 @@ layout: page
 title: Monthly Reports
 permalink: /monthly-reports/
 description: "Monthly localization industry reports — curated summaries of translation, AI, and language technology trends."
-nav: true
+nav: false
 nav_order: 3
 ---
 
