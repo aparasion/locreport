@@ -5,6 +5,7 @@ layout: post
 categories: [monthly-summary]
 tags: [monthly, roundup, translation, localization]
 excerpt: "A monthly roundup for January 2026 based on 4 articles."
+permalink: /reports/Monthly-Report-January-2026/
 period: "2026-01"
 source_count: 4
 ---
