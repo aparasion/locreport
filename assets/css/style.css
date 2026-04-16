@@ -2958,8 +2958,13 @@ details[open] .signal-accordion__chevron { transform: rotate(180deg); }
   background: color-mix(in srgb, var(--accent) 7%, var(--bg-secondary));
   border-bottom: 1px solid var(--border);
 }
+.annual-report .table-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
 .annual-report table {
   width: 100%;
+  min-width: 420px;
   border-collapse: collapse;
   font-size: 0.88rem;
 }
@@ -2972,7 +2977,6 @@ details[open] .signal-accordion__chevron { transform: rotate(180deg); }
   padding: 10px 14px;
   border: 1px solid var(--border);
   text-align: left;
-  white-space: nowrap;
 }
 .annual-report td {
   padding: 10px 14px;
@@ -3040,11 +3044,6 @@ details[open] .signal-accordion__chevron { transform: rotate(180deg); }
 
 @media (max-width: 560px) {
   .annual-report__stats { grid-template-columns: repeat(2, 1fr); }
-  .annual-report table {
-    display: block;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-  }
 }
 
 @media (max-width: 480px) {

@@ -120,18 +120,20 @@ show_read_time: true
 
     <figure>
       <figcaption>Table 1 — Historical Market Size, YoY Growth (Nimdzi Definition)</figcaption>
-      <table>
-        <thead><tr><th>Year</th><th class="num">Market Size (USD B)</th><th class="num">YoY Growth</th><th>Notable Events</th></tr></thead>
-        <tbody>
-          <tr><td>2018</td><td class="num">50.0</td><td class="num">—</td><td>Baseline year; steady growth pre-pandemic</td></tr>
-          <tr><td>2019</td><td class="num">53.5</td><td class="num">+7.0%</td><td>E-commerce and streaming drive demand</td></tr>
-          <tr><td>2020</td><td class="num">55.0</td><td class="num">+2.8%</td><td>COVID-19 dampens on-site, boosts remote interpreting</td></tr>
-          <tr><td>2021</td><td class="num">60.5</td><td class="num">+10.0%</td><td>Post-COVID rebound and digital expansion</td></tr>
-          <tr><td>2022</td><td class="num">64.7</td><td class="num">+7.0%</td><td>First clear enterprise GenAI localization pilots</td></tr>
-          <tr><td>2023</td><td class="num">67.9</td><td class="num">+5.0%</td><td>GenAI disruption begins at scale</td></tr>
-          <tr><td>2024</td><td class="num">71.7</td><td class="num">+5.6%</td><td>AI-driven revenue mix rises</td></tr>
-        </tbody>
-      </table>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>Year</th><th class="num">Market Size (USD B)</th><th class="num">YoY Growth</th><th>Notable Events</th></tr></thead>
+          <tbody>
+            <tr><td>2018</td><td class="num">50.0</td><td class="num">—</td><td>Baseline year; steady growth pre-pandemic</td></tr>
+            <tr><td>2019</td><td class="num">53.5</td><td class="num">+7.0%</td><td>E-commerce and streaming drive demand</td></tr>
+            <tr><td>2020</td><td class="num">55.0</td><td class="num">+2.8%</td><td>COVID-19 dampens on-site, boosts remote interpreting</td></tr>
+            <tr><td>2021</td><td class="num">60.5</td><td class="num">+10.0%</td><td>Post-COVID rebound and digital expansion</td></tr>
+            <tr><td>2022</td><td class="num">64.7</td><td class="num">+7.0%</td><td>First clear enterprise GenAI localization pilots</td></tr>
+            <tr><td>2023</td><td class="num">67.9</td><td class="num">+5.0%</td><td>GenAI disruption begins at scale</td></tr>
+            <tr><td>2024</td><td class="num">71.7</td><td class="num">+5.6%</td><td>AI-driven revenue mix rises</td></tr>
+          </tbody>
+        </table>
+      </div>
     </figure>
   </section>
 
@@ -140,17 +142,19 @@ show_read_time: true
     <p>Estimates differ by scope, but all major sources indicate sustained expansion through 2026 with tech-led segments outpacing traditional delivery models.</p>
     <figure>
       <figcaption>Table 2 — Current Market Estimates by Source and Scope (2025–2026)</figcaption>
-      <table>
-        <thead><tr><th>Source</th><th>Scope / Definition</th><th class="num">2025 (USD B)</th><th class="num">2026 (USD B)</th><th class="num">CAGR</th></tr></thead>
-        <tbody>
-          <tr><td>Nimdzi Insights</td><td>Language services (broad)</td><td class="num">75.7</td><td class="num">79.7</td><td class="num">~5.3%</td></tr>
-          <tr><td>Fortune Business Insights</td><td>Language services (broad)</td><td class="num">77.3</td><td class="num">81.5</td><td class="num">7.6%</td></tr>
-          <tr><td>Mordor Intelligence</td><td>Translation services</td><td class="num">59.9</td><td class="num">65.0</td><td class="num">8.4%</td></tr>
-          <tr><td>ResearchAndMarkets</td><td>Translation services (narrow)</td><td class="num">27.8</td><td class="num">28.9</td><td class="num">3.9%</td></tr>
-          <tr><td>ResearchAndMarkets</td><td>AI in language translation</td><td class="num">2.9</td><td class="num">3.7</td><td class="num">25.2%</td></tr>
-          <tr><td>Global Growth Insights</td><td>Localization software</td><td class="num">2.3</td><td class="num">2.5</td><td class="num">7.5%</td></tr>
-        </tbody>
-      </table>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>Source</th><th>Scope / Definition</th><th class="num">2025 (USD B)</th><th class="num">2026 (USD B)</th><th class="num">CAGR</th></tr></thead>
+          <tbody>
+            <tr><td>Nimdzi Insights</td><td>Language services (broad)</td><td class="num">75.7</td><td class="num">79.7</td><td class="num">~5.3%</td></tr>
+            <tr><td>Fortune Business Insights</td><td>Language services (broad)</td><td class="num">77.3</td><td class="num">81.5</td><td class="num">7.6%</td></tr>
+            <tr><td>Mordor Intelligence</td><td>Translation services</td><td class="num">59.9</td><td class="num">65.0</td><td class="num">8.4%</td></tr>
+            <tr><td>ResearchAndMarkets</td><td>Translation services (narrow)</td><td class="num">27.8</td><td class="num">28.9</td><td class="num">3.9%</td></tr>
+            <tr><td>ResearchAndMarkets</td><td>AI in language translation</td><td class="num">2.9</td><td class="num">3.7</td><td class="num">25.2%</td></tr>
+            <tr><td>Global Growth Insights</td><td>Localization software</td><td class="num">2.3</td><td class="num">2.5</td><td class="num">7.5%</td></tr>
+          </tbody>
+        </table>
+      </div>
     </figure>
 
     <h3>Segmentation by Service Type</h3>
@@ -184,16 +188,18 @@ show_read_time: true
     <p>Localization is moving from human-primary production to machine-first drafting with expert human oversight. AI now drives drafting, adaptation, and quality augmentation across large-scale content operations.</p>
     <figure>
       <figcaption>Table 3 — Traditional Human vs. AI-Assisted Workflows</figcaption>
-      <table>
-        <thead><tr><th>Dimension</th><th>Traditional Human Translation</th><th>AI-Assisted / MTPE Hybrid</th></tr></thead>
-        <tbody>
-          <tr><td>Cost per word</td><td>USD 0.10–0.25</td><td>USD 0.03–0.12</td></tr>
-          <tr><td>Throughput</td><td>2,000–3,000 words/day</td><td>6,000–10,000+ words/day</td></tr>
-          <tr><td>Turnaround</td><td>Days to weeks</td><td>Hours to days</td></tr>
-          <tr><td>Human role</td><td>Primary creator</td><td>Post-editor, QA reviewer, cultural consultant</td></tr>
-          <tr><td>Relative cost</td><td>100%</td><td>~40–60%</td></tr>
-        </tbody>
-      </table>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>Dimension</th><th>Traditional Human Translation</th><th>AI-Assisted / MTPE Hybrid</th></tr></thead>
+          <tbody>
+            <tr><td>Cost per word</td><td>USD 0.10–0.25</td><td>USD 0.03–0.12</td></tr>
+            <tr><td>Throughput</td><td>2,000–3,000 words/day</td><td>6,000–10,000+ words/day</td></tr>
+            <tr><td>Turnaround</td><td>Days to weeks</td><td>Hours to days</td></tr>
+            <tr><td>Human role</td><td>Primary creator</td><td>Post-editor, QA reviewer, cultural consultant</td></tr>
+            <tr><td>Relative cost</td><td>100%</td><td>~40–60%</td></tr>
+          </tbody>
+        </table>
+      </div>
     </figure>
     <div class="callout">
       <strong>The evolving human role:</strong> The strongest near-term model remains hybrid delivery where AI handles volume and humans safeguard nuance, brand consistency, and compliance.
@@ -205,16 +211,18 @@ show_read_time: true
     <p>The market remains fragmented even at scale. Top-tier players continue expanding through M&amp;A, with recent deal logic increasingly centered on AI capabilities, data assets, and orchestration platforms.</p>
     <figure>
       <figcaption>Table 4 — Top 5 Language Service Providers by Revenue (2024)</figcaption>
-      <table>
-        <thead><tr><th>Rank</th><th>Company</th><th>HQ</th><th class="num">2024 Rev. (USD M)</th><th>Primary Focus</th></tr></thead>
-        <tbody>
-          <tr><td>1</td><td>TransPerfect</td><td>USA</td><td class="num">~1,230</td><td>Legal, life sciences, tech, media</td></tr>
-          <tr><td>2</td><td>LanguageLine Solutions</td><td>USA</td><td class="num">~1,050</td><td>Interpreting, healthcare, government</td></tr>
-          <tr><td>3</td><td>Keywords Studios</td><td>Ireland</td><td class="num">~900</td><td>Gaming and entertainment</td></tr>
-          <tr><td>4</td><td>RWS Group</td><td>UK</td><td class="num">~860</td><td>IP, pharma, enterprise localization</td></tr>
-          <tr><td>5</td><td>Lionbridge</td><td>USA</td><td class="num">~600</td><td>Tech, gaming, AI services</td></tr>
-        </tbody>
-      </table>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>Rank</th><th>Company</th><th>HQ</th><th class="num">2024 Rev. (USD M)</th><th>Primary Focus</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>TransPerfect</td><td>USA</td><td class="num">~1,230</td><td>Legal, life sciences, tech, media</td></tr>
+            <tr><td>2</td><td>LanguageLine Solutions</td><td>USA</td><td class="num">~1,050</td><td>Interpreting, healthcare, government</td></tr>
+            <tr><td>3</td><td>Keywords Studios</td><td>Ireland</td><td class="num">~900</td><td>Gaming and entertainment</td></tr>
+            <tr><td>4</td><td>RWS Group</td><td>UK</td><td class="num">~860</td><td>IP, pharma, enterprise localization</td></tr>
+            <tr><td>5</td><td>Lionbridge</td><td>USA</td><td class="num">~600</td><td>Tech, gaming, AI services</td></tr>
+          </tbody>
+        </table>
+      </div>
     </figure>
   </section>
 
@@ -245,15 +253,17 @@ show_read_time: true
     <p>Consensus outlook: continued expansion of the overall market with significantly faster growth in AI-enabled translation and localization software layers. Volume growth is expected to offset unit-price compression for providers that modernize operating models.</p>
     <figure>
       <figcaption>Table 5 — Growth Forecasts by Segment</figcaption>
-      <table>
-        <thead><tr><th>Segment</th><th class="num">2025 (USD B)</th><th class="num">Target Year</th><th class="num">Forecast (USD B)</th><th class="num">CAGR</th></tr></thead>
-        <tbody>
-          <tr><td>Language services (broad)</td><td class="num">75.7</td><td class="num">2029</td><td class="num">92.3</td><td class="num">5.0%</td></tr>
-          <tr><td>Language services (broad)</td><td class="num">77.3</td><td class="num">2034</td><td class="num">147.5</td><td class="num">7.6%</td></tr>
-          <tr><td>Translation services</td><td class="num">27.8</td><td class="num">2030</td><td class="num">36.4</td><td class="num">5.9%</td></tr>
-          <tr><td>AI in language translation</td><td class="num">2.9</td><td class="num">2030</td><td class="num">8.9</td><td class="num">24.8%</td></tr>
-        </tbody>
-      </table>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>Segment</th><th class="num">2025 (USD B)</th><th class="num">Target Year</th><th class="num">Forecast (USD B)</th><th class="num">CAGR</th></tr></thead>
+          <tbody>
+            <tr><td>Language services (broad)</td><td class="num">75.7</td><td class="num">2029</td><td class="num">92.3</td><td class="num">5.0%</td></tr>
+            <tr><td>Language services (broad)</td><td class="num">77.3</td><td class="num">2034</td><td class="num">147.5</td><td class="num">7.6%</td></tr>
+            <tr><td>Translation services</td><td class="num">27.8</td><td class="num">2030</td><td class="num">36.4</td><td class="num">5.9%</td></tr>
+            <tr><td>AI in language translation</td><td class="num">2.9</td><td class="num">2030</td><td class="num">8.9</td><td class="num">24.8%</td></tr>
+          </tbody>
+        </table>
+      </div>
     </figure>
   </section>
 
