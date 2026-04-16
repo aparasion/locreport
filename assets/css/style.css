@@ -2328,7 +2328,7 @@ details[open] .signal-accordion__chevron { transform: rotate(180deg); }
   .nav-toggle { display: flex; }
   .header-shell { height: 56px; }
   .site-nav { position: relative; }
-  .site-nav ul {
+  .site-nav > #site-menu {
     display: none;
     position: absolute;
     top: calc(100% + 8px);
@@ -2343,11 +2343,13 @@ details[open] .signal-accordion__chevron { transform: rotate(180deg); }
     min-width: 200px;
     z-index: 50;
   }
-  .site-nav.is-open ul { display: flex; animation: fadeInDown 0.2s ease; }
+  .site-nav.is-open > #site-menu { display: flex; animation: fadeInDown 0.2s ease; }
   .site-nav li { width: 100%; }
   .site-nav a { display: flex; padding: var(--space-2) var(--space-3); font-size: 0.9rem; border-radius: var(--radius-sm); }
   .nav-dropdown-chevron { display: none; }
   .nav-dropdown-menu {
+    display: flex;
+    flex-direction: column;
     position: static;
     opacity: 1;
     pointer-events: auto;
@@ -2367,6 +2369,9 @@ details[open] .signal-accordion__chevron { transform: rotate(180deg); }
     font-size: 0.84rem;
     color: color-mix(in srgb, var(--text) 72%, var(--muted));
     border-radius: 0;
+    white-space: normal;
+    line-height: 1.35;
+    overflow-wrap: anywhere;
   }
   .nav-dropdown-menu a:hover,
   .nav-dropdown-menu a.active {
