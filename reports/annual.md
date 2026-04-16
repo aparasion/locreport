@@ -1,7 +1,7 @@
 ---
 layout: page
 title: "2026 Annual Global Market Report"
-permalink: /reports/annual/
+permalink: /reports/2026-Annual-Global-Market-Report/
 description: "LocReport's 2026 annual report on the localization and translation industry: market size, AI impact, competitive landscape, regional analysis, and outlook through 2030+."
 nav: false
 nav_parent: "Reports"
