@@ -2365,9 +2365,9 @@ details[open] .signal-accordion__chevron { transform: rotate(180deg); }
     gap: 0;
   }
   .nav-dropdown-menu a {
-    padding: 6px 0 6px var(--space-3);
-    font-size: 0.84rem;
-    color: color-mix(in srgb, var(--text) 72%, var(--muted));
+    padding: 4px 0 4px var(--space-3);
+    font-size: 0.8rem;
+    color: color-mix(in srgb, var(--text) 66%, var(--muted));
     border-radius: 0;
     white-space: normal;
     line-height: 1.35;
@@ -2375,7 +2375,7 @@ details[open] .signal-accordion__chevron { transform: rotate(180deg); }
   }
   .nav-dropdown-menu a:hover,
   .nav-dropdown-menu a.active {
-    background: transparent;
+    background: var(--accent-soft);
     color: var(--text);
   }
   h1 { font-size: 1.8rem; }
