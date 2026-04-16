@@ -228,6 +228,62 @@ hr {
   font-weight: 600;
 }
 
+/* ── Nav Dropdown ───────────────────────────────────────── */
+.nav-has-dropdown {
+  position: relative;
+}
+.nav-has-dropdown > a {
+  gap: 3px;
+}
+.nav-dropdown-chevron {
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+  opacity: 0.6;
+}
+.nav-has-dropdown:hover > a .nav-dropdown-chevron,
+.nav-has-dropdown:focus-within > a .nav-dropdown-chevron {
+  transform: rotate(180deg);
+  opacity: 1;
+}
+.nav-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  min-width: 190px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  padding: var(--space-1);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-4px);
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  list-style: none;
+  margin: 0;
+}
+.nav-has-dropdown:hover .nav-dropdown-menu,
+.nav-has-dropdown:focus-within .nav-dropdown-menu {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+.nav-dropdown-menu li {
+  width: 100%;
+}
+.nav-dropdown-menu a {
+  display: flex;
+  width: 100%;
+  padding: var(--space-2) var(--space-3);
+  font-size: 0.85rem;
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+}
+
 /* ── Hamburger Toggle ───────────────────────────────────── */
 .nav-toggle {
   display: none;
@@ -2256,6 +2312,21 @@ details[open] .signal-accordion__chevron { transform: rotate(180deg); }
   .site-nav.is-open ul { display: flex; animation: fadeInDown 0.2s ease; }
   .site-nav li { width: 100%; }
   .site-nav a { display: flex; padding: var(--space-2) var(--space-3); font-size: 0.9rem; border-radius: var(--radius-sm); }
+  .nav-dropdown-chevron { display: none; }
+  .nav-dropdown-menu {
+    position: static;
+    opacity: 1;
+    pointer-events: auto;
+    transform: none;
+    box-shadow: none;
+    border: none;
+    border-left: 2px solid var(--border);
+    border-radius: 0;
+    background: transparent;
+    padding: 0 0 0 var(--space-2);
+    min-width: auto;
+    margin-left: var(--space-3);
+  }
   h1 { font-size: 1.8rem; }
   article.post h1 { font-size: 2rem; }
   .hero { padding: var(--space-5) 0 var(--space-4); }
