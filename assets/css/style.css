@@ -2754,6 +2754,7 @@ details[open] .signal-accordion__chevron { transform: rotate(180deg); }
 .annual-report {
   display: grid;
   gap: var(--space-7);
+  min-width: 0;
 }
 
 /* Header */
@@ -2974,7 +2975,7 @@ details[open] .signal-accordion__chevron { transform: rotate(180deg); }
 .annual-report .chart-container svg {
   display: block;
   height: auto;
-  min-width: 480px;
+  min-width: 0;
 }
 
 /* Tables */
@@ -3003,7 +3004,7 @@ details[open] .signal-accordion__chevron { transform: rotate(180deg); }
 }
 .annual-report table {
   width: 100%;
-  min-width: 420px;
+  min-width: 320px;
   border-collapse: collapse;
   font-size: 0.88rem;
 }
