@@ -755,6 +755,15 @@ hr {
   flex-wrap: wrap;
   animation: fadeInUp 0.7s ease 0.3s both;
 }
+.hero-actions.is-hidden { display: none; }
+.hero-actions--report {
+  display: none;
+  animation: none;
+}
+.hero-actions--report.is-visible {
+  display: flex;
+  animation: fadeInUp 0.5s ease both;
+}
 
 /* ── Animations ─────────────────────────────────────────── */
 @keyframes fadeInUp {

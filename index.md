@@ -14,6 +14,9 @@ nav_order: 1
       <a href="/intelligence/" class="btn btn--hero-intel">Intelligence Dashboard</a>
       <a href="/research/" class="btn btn--hero-research">Language Science</a>
     </div>
+    <div class="hero-actions hero-actions--report" id="hero-actions-report" aria-hidden="true">
+      <a href="https://locreport.com/reports/2026-Annual-Global-Market-Report/" class="btn btn--hero-articles btn--lg">Read the 2026 report &rarr;</a>
+    </div>
   </div>
 </section>
 
@@ -24,17 +27,23 @@ nav_order: 1
   var TYPE_SPEED      = 55;
   var COMMA_DELAY     = 750;
   var ALT_SHOW        = 10000;
+  var REPORT_SHOW     = 12000;
 
   var ALT_H1_PRE      = 'No';
   var ALT_H1_POST     = ' AI has been used to build this service.';
   var ALT_SUBTITLE    = "Language matters  as much as technology.";
 
+  var REPORT_H1       = 'The 2026 Global Market Report is here';
+  var REPORT_SUBTITLE = 'Market sizing, segment-by-segment analysis, AI-era growth drivers, and strategic forecasts \u2014 the definitive view of the language services industry for the year ahead.';
+
   var INIT_H1_HTML    = 'The pulse of the language<br>services industry';
   var INIT_SUBTITLE   = 'Daily coverage of translation, localization, and AI \u2014 curated, analyzed, and tracked through the signals that matter.';
 
-  var h1   = document.getElementById('hero-title');
-  var sub  = document.getElementById('hero-subtitle');
-  var hero = document.querySelector('.hero');
+  var h1            = document.getElementById('hero-title');
+  var sub           = document.getElementById('hero-subtitle');
+  var hero          = document.querySelector('.hero');
+  var actions       = document.getElementById('hero-actions');
+  var reportActions = document.getElementById('hero-actions-report');
 
   if (!h1 || !sub || !hero) return;
 
@@ -111,24 +120,58 @@ nav_order: 1
                 setOpacity(h1,  0, FADE_MS);
                 setOpacity(sub, 0, FADE_MS, function () {
 
-                  // ── phase 8: restore initial content ────────
-                  h1.style.transition  = '';
-                  sub.style.transition = '';
-                  h1.innerHTML         = INIT_H1_HTML;
-                  sub.textContent      = INIT_SUBTITLE;
+                  // ── phase 8: swap actions → report CTA, type report copy
+                  if (actions && reportActions) {
+                    actions.setAttribute('aria-hidden', 'true');
+                    actions.classList.add('is-hidden');
+                    reportActions.removeAttribute('aria-hidden');
+                    reportActions.classList.add('is-visible');
+                  }
 
-                  h1.style.opacity  = '0';
-                  sub.style.opacity = '0';
+                  h1.style.transition = '';
+                  h1.style.opacity    = '1';
+                  typeInto(h1, REPORT_H1, TYPE_SPEED, function () {
 
-                  // small rAF pause to let browser register opacity:0
-                  requestAnimationFrame(function () {
-                    requestAnimationFrame(function () {
-                      setOpacity(h1,  1, FADE_MS);
-                      setOpacity(sub, 1, FADE_MS, function () {
-                        h1.style.transition  = '';
-                        sub.style.transition = '';
-                        loop(); // restart
-                      });
+                    sub.style.transition = '';
+                    sub.style.opacity    = '1';
+                    typeInto(sub, REPORT_SUBTITLE, TYPE_SPEED, function () {
+
+                      // ── phase 9: hold report slide ─────────
+                      setTimeout(function () {
+
+                        // ── phase 10: fade out report ───────
+                        setOpacity(h1,  0, FADE_MS);
+                        setOpacity(sub, 0, FADE_MS, function () {
+
+                          // restore original actions
+                          if (actions && reportActions) {
+                            reportActions.setAttribute('aria-hidden', 'true');
+                            reportActions.classList.remove('is-visible');
+                            actions.removeAttribute('aria-hidden');
+                            actions.classList.remove('is-hidden');
+                          }
+
+                          // ── phase 11: restore initial ─────
+                          h1.style.transition  = '';
+                          sub.style.transition = '';
+                          h1.innerHTML         = INIT_H1_HTML;
+                          sub.textContent      = INIT_SUBTITLE;
+
+                          h1.style.opacity  = '0';
+                          sub.style.opacity = '0';
+
+                          requestAnimationFrame(function () {
+                            requestAnimationFrame(function () {
+                              setOpacity(h1,  1, FADE_MS);
+                              setOpacity(sub, 1, FADE_MS, function () {
+                                h1.style.transition  = '';
+                                sub.style.transition = '';
+                                loop(); // restart
+                              });
+                            });
+                          });
+                        });
+                      }, REPORT_SHOW);
                     });
                   });
                 });
@@ -259,10 +302,6 @@ nav_order: 1
   </div>
 </section>
 {% endif %}
-
-<a href="https://locreport.com/reports/2026-Annual-Global-Market-Report/" class="report-image-link">
-  <img src="https://locreport.com/assets/images/2026-annual-report.png" alt="2026 Annual Global Market Report" class="report-image-banner">
-</a>
 
 {% comment %} Day 3 {% endcomment %}
 {% if day3 != "" %}
