@@ -77,8 +77,8 @@
 
 /* ── Reset ──────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; }
-html { overflow-x: hidden; scroll-behavior: smooth; }
-body { overflow-x: hidden; }
+html { overflow-x: clip; scroll-behavior: smooth; }
+body { overflow-x: clip; }
 
 body {
   margin: 0;
