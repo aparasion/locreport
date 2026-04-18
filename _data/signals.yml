@@ -67,3 +67,10 @@
   first_seen: 2026-03-09
   current_status: emerging
   description: Tracks evidence that content is being created locale-aware from the start — transcreation briefs, structured content, internationalized UX — rather than localization being a downstream afterthought.
+
+- id: lsp-relevance-erosion
+  title: Boutique and mid-tier LSPs are losing strategic relevance as enterprise buyers consolidate or go direct-to-AI
+  category: market
+  first_seen: 2026-04-18
+  current_status: emerging
+  description: Tracks whether boutique and mid-size LSPs are being squeezed out as enterprise buyers consolidate with mega-LSPs or bypass LSPs entirely via direct AI platforms — questioning whether specialization and relationship advantages still justify their position in the supply chain when AI offers comparable output at lower cost.
