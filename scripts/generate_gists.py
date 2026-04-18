@@ -62,7 +62,7 @@ FEEDS = [
     "https://multilingual.com/author/multilingualstaff/feed/",
     "https://multilingual.com/feed/",
     "https://imminent.translated.com/feed",
-    "https://effectiff.com/blog-1/f.rss"
+    "https://effectiff.com/blog-1/f.rss",
     "https://news.google.com/rss/search?q=rws+group&hl=en-US&gl=US&ceid=US:en",
     "https://blog.google/products-and-platforms/products/translate/rss/",
     "https://aparasion.github.io/rss-generator/rss/CSA-blog.xml",
@@ -86,6 +86,12 @@ THEORY_SOURCES = {
     "wiley.com",
     "dx.doi.org",
     "doi.org",
+}
+
+# Sources whose RSS excerpts are too short to pass is_usable_article_text but
+# whose feed descriptions are reliable enough to use as gist input directly.
+LENIENT_SOURCES = {
+    "multilingual.com",
 }
 
 THEORY_CONTENT_KEYWORDS = [
@@ -860,9 +866,11 @@ def main() -> None:
             issn = feed_url[len("crossref:"):]
             feed = fetch_crossref_feed(issn)
             is_theory_feed = True
+            is_lenient_source = False
         else:
             feed = fetch_feed(feed_url)
             is_theory_feed = any(ts in feed_url.lower() for ts in THEORY_SOURCES)
+            is_lenient_source = any(ls in feed_url.lower() for ls in LENIENT_SOURCES)
 
         for entry in feed.entries[:10]:
             if count >= MAX_ARTICLES:
@@ -909,15 +917,16 @@ def main() -> None:
 
             if is_usable_article_text(extracted_text, entry.title):
                 text = extracted_text
-            elif (google_news_source or is_theory_feed) and extracted_text and has_title_overlap(extracted_text, entry.title):
+            elif (google_news_source or is_theory_feed or is_lenient_source) and extracted_text and has_title_overlap(extracted_text, entry.title):
                 text = extracted_text
             elif is_usable_article_text(fallback_description, entry.title):
                 text = fallback_description
-            elif (google_news_source or is_theory_feed) and fallback_description and has_title_overlap(fallback_description, entry.title):
+            elif (google_news_source or is_theory_feed or is_lenient_source) and fallback_description and has_title_overlap(fallback_description, entry.title):
                 text = fallback_description
-            elif is_theory_feed:
-                # Last resort for theory feeds: use title + any feed metadata as context.
-                # Abstracts embedded in RSS may be very short; still attempt a gist.
+            elif is_theory_feed or is_lenient_source:
+                # Last resort: use title + any feed metadata as context.
+                # Applies to theory feeds (short abstracts) and lenient sources
+                # (RSS excerpts too short to meet normal minimums).
                 entry_title = getattr(entry, "title", "")
                 text = normalize_text(f"{entry_title}. {fallback_description}").strip()
                 if not text:
