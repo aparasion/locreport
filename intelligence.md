@@ -379,11 +379,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
     modalOverlay.classList.add("is-open");
     document.body.style.overflow = "hidden";
+    history.replaceState(null, "", "#" + signalId);
   }
 
   function closeSignalModal() {
     modalOverlay.classList.remove("is-open");
     document.body.style.overflow = "";
+    history.replaceState(null, "", "#signals-section");
   }
 
   signalCards.forEach(function (card) {
@@ -391,6 +393,13 @@ document.addEventListener("DOMContentLoaded", function () {
       openSignalModal(card.getAttribute("data-signal-id"));
     });
   });
+
+  var initialHash = window.location.hash.slice(1);
+  if (initialHash && signals.find(function (s) { return s.id === initialHash; })) {
+    var signalsSection = document.getElementById("signals-section");
+    if (signalsSection) signalsSection.scrollIntoView({ behavior: "smooth" });
+    openSignalModal(initialHash);
+  }
 
   modalClose.addEventListener("click", closeSignalModal);
   modalOverlay.addEventListener("click", function (e) {
