@@ -7,9 +7,9 @@ tags: [translation, localization, news, gist]
 excerpt: "In 2026, AI maturity will emerge as a critical factor distinguishing successful organizations in localization and global content operations from those that stru..."
 publisher: "csa-research.com"
 source_url: "https://csa-research.com/l/blog/article/ai-and-global-content-predictions-for-2026-you-need-to-watch"
-signal_ids: []
-signal_stance: mentions
-signal_confidence: low
+signal_ids: [lsp-relevance-erosion]
+signal_stance: supports
+signal_confidence: high
 impact_score: 2
 time_horizon: "2years"
 affected_segments: [LSPs, In-House Teams]

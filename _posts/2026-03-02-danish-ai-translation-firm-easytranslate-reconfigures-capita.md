@@ -7,6 +7,9 @@ tags: [translation, localization, news, gist]
 excerpt: "EasyTranslate, a Danish language technology platform, is transitioning from debt financing to an equity structure with the support of private and institutional..."
 publisher: slator.com
 source_url: "https://slator.com/easytranslate-new-capital-structure/"
+signal_ids: [lsp-relevance-erosion]
+signal_stance: supports
+signal_confidence: high
 ---
 
 EasyTranslate, a Danish language technology platform, is transitioning from debt financing to an equity structure with the support of private and institutional investors, as announced on February 10, 2026. This strategic shift follows a successful 2025, where the company reported revenues exceeding EUR 7.5 million (USD 8.8 million) and completed the integration of its 2024 acquisition, World Translation. 

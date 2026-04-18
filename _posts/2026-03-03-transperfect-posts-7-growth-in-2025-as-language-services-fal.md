@@ -7,6 +7,9 @@ tags: [translation, localization, news, gist]
 excerpt: "TransPerfect reported a revenue of $1.32 billion for 2025, marking a 7% increase from the previous year. Notably, traditional language services now account for..."
 publisher: "slator.com"
 source_url: "https://slator.com/transperfect-growth-2025/"
+signal_ids: [lsp-relevance-erosion]
+signal_stance: supports
+signal_confidence: high
 ---
 
 TransPerfect reported a revenue of $1.32 billion for 2025, marking a 7% increase from the previous year. Notably, traditional language services now account for less than 50% of total revenue for the first time, reflecting a strategic shift towards industry-specific solutions that integrate language services with technology and consulting. This transition is underscored by growth in non-translation business units, including Media and Legal services.

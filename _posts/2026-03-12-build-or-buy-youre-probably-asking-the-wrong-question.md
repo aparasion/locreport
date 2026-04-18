@@ -7,9 +7,9 @@ tags: [translation, localization, news, gist]
 excerpt: "A recent article highlights a growing trend in enterprise localization: teams are increasingly building their own translation prototypes using AI, often bypassi..."
 publisher: "phrase.com"
 source_url: "https://phrase.com/blog/posts/build-vs-buy-translation-platform"
-signal_ids: []
-signal_stance: mixed
-signal_confidence: low
+signal_ids: [lsp-relevance-erosion]
+signal_stance: supports
+signal_confidence: medium
 ---
 
 A recent article highlights a growing trend in enterprise localization: teams are increasingly building their own translation prototypes using AI, often bypassing established translation platforms. While initial results may seem promising, the article warns that scaling these DIY solutions can lead to significant challenges, including misalignment with brand terminology and compliance issues.

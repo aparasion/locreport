@@ -7,9 +7,9 @@ tags: [translation, localization, news, gist]
 excerpt: "The 2026 Nimdzi 100 ranking is set to include both language service providers (LSPs) and technology solution companies, reflecting the industry's evolution amid..."
 publisher: "nimdzi.com"
 source_url: "https://www.nimdzi.com/preliminary-2026-nimdzi-100-ranking/?utm_source=rss&utm_medium=rss&utm_campaign=preliminary-2026-nimdzi-100-ranking"
-signal_ids: []
-signal_stance: mixed
-signal_confidence: low
+signal_ids: [lsp-relevance-erosion]
+signal_stance: mentions
+signal_confidence: medium
 impact_score: 2
 time_horizon: "2years"
 affected_segments: [LSPs, Tech Vendors]

@@ -8,9 +8,9 @@ article_type: "industry"
 excerpt: "TransPerfect has announced its acquisition of Unbabel, a company specializing in AI-driven translation and localization solutions. This strategic move aims to e..."
 publisher: "news.google.com"
 source_url: "https://news.google.com/rss/articles/CBMid0FVX3lxTE01dDR5cFAyZDV3dE5pczR2TGFFRmUtUVNPVm5lVFhRSEptdGlmQXh3UU9LQmJvdWVWdERWSUNzUVV6bDZQLWJFcXJXUWo4VkJfZFVZdHNLNHZBYVFOdUt5N1RjWUU0YVNhUjYyRVdQeHlZUVcxc3Nn?oc=5"
-signal_ids: []
-signal_stance: mentions
-signal_confidence: low
+signal_ids: [lsp-relevance-erosion]
+signal_stance: supports
+signal_confidence: high
 impact_score: 3
 time_horizon: "2years"
 affected_segments: [LSPs, Tech Vendors]

@@ -7,9 +7,9 @@ tags: [translation, localization, news, gist]
 excerpt: "The role of localization managers is evolving, not disappearing, as AI technology advances. While large language models can produce fluent translations, they la..."
 publisher: "xtm.ai"
 source_url: "https://xtm.ai/blog/localization-manager-isnt-going-away"
-signal_ids: []
-signal_stance: mixed
-signal_confidence: low
+signal_ids: [lsp-relevance-erosion]
+signal_stance: supports
+signal_confidence: medium
 impact_score: 2
 time_horizon: "now"
 affected_segments: [LSPs, In-House Teams, Tech Vendors]

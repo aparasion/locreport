@@ -7,6 +7,9 @@ tags: [translation, localization, news, gist]
 excerpt: "XTM International has acquired Consoltec, the developer of FlowFit, a secure Translation Business Management System (TBMS) designed for global enterprises. This..."
 publisher: "xtm.cloud"
 source_url: "https://xtm.cloud/blog/xtm-acquires-consoltec/"
+signal_ids: [lsp-relevance-erosion]
+signal_stance: mentions
+signal_confidence: medium
 ---
 
 XTM International has acquired Consoltec, the developer of FlowFit, a secure Translation Business Management System (TBMS) designed for global enterprises. This strategic acquisition enhances XTM's position in the TBMS market by integrating FlowFit with its existing solution, XTRF, which supports Language Service Providers (LSPs) in improving profitability and client delivery.

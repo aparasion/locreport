@@ -8,8 +8,8 @@ article_type: "industry"
 excerpt: "XTM has highlighted a critical issue in enterprise translation services: many failures stem not from vendor capabilities but from inadequate operating models. A..."
 publisher: "xtm.ai"
 source_url: "https://xtm.ai/blog/end-to-end-translation-services-what-enterprises-should-demand"
-signal_ids: []
-signal_stance: mixed
+signal_ids: [lsp-relevance-erosion]
+signal_stance: mentions
 signal_confidence: low
 impact_score: 2
 time_horizon: "now"

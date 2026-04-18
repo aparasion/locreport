@@ -7,9 +7,9 @@ tags: [translation, localization, news, gist]
 excerpt: "The landscape of Translation Management Systems (TMS) is undergoing a significant transformation, driven by the rapid integration of Generative AI technologies...."
 publisher: "nimdzi.com"
 source_url: "https://www.nimdzi.com/tms-evolution-in-the-age-of-ai/?utm_source=rss&utm_medium=rss&utm_campaign=tms-evolution-in-the-age-of-ai"
-signal_ids: []
-signal_stance: mixed
-signal_confidence: low
+signal_ids: [lsp-relevance-erosion]
+signal_stance: mentions
+signal_confidence: medium
 impact_score: 2
 time_horizon: "2years"
 affected_segments: [LSPs, Tech Vendors]

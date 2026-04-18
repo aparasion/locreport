@@ -7,9 +7,9 @@ tags: [translation, localization, news, gist]
 excerpt: "The Canadian Language Industry Association (CLIA) and the European Language Industry Association (ELIA) are launching a free four-part webinar series aimed at l..."
 publisher: "elia-association.org"
 source_url: "https://elia-association.org/2026/03/the-lsps-journey-building-value-across-the-lifecycle-amid-industry-transformation/?utm_source=rss&utm_medium=rss&utm_campaign=the-lsps-journey-building-value-across-the-lifecycle-amid-industry-transformation"
-signal_ids: []
+signal_ids: [lsp-relevance-erosion]
 signal_stance: mentions
-signal_confidence: low
+signal_confidence: medium
 impact_score: 2
 time_horizon: "2years"
 affected_segments: [LSPs, In-House Teams, Tech Vendors]

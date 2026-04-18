@@ -8,8 +8,8 @@ article_type: "industry"
 excerpt: "In a recent episode of VistaTalks, XTM CEO Lorcan Malone discussed the transformative state of the localization industry, emphasizing its evolution driven by AI..."
 publisher: "vistatec.com"
 source_url: "https://www.vistatec.com/navigating-the-ai-inflection-point-with-lorcan-malone-ceo-of-xtm-vistatalks-ep-193"
-signal_ids: []
-signal_stance: mixed
+signal_ids: [lsp-relevance-erosion]
+signal_stance: mentions
 signal_confidence: low
 impact_score: 2
 time_horizon: "2years"
