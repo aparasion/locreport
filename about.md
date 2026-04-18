@@ -3,7 +3,7 @@ layout: page
 title: About
 permalink: /about/
 description: "About LocReport — an independent publication tracking trends, AI, and market shifts in the language services industry."
-nav: true
+nav: false
 nav_order: 5
 no_share: true
 ---
