@@ -1517,7 +1517,7 @@ article.post h1 { font-size: clamp(1.8rem, 4vw, 2.5rem); margin-top: 0; margin-b
   border-top: 1px solid var(--border);
 }
 .footer-shell { max-width: var(--site-max-width); margin: 0 auto; padding: 0 var(--page-gutter); }
-.footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: var(--space-10); margin-bottom: var(--space-10); }
+.footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: var(--space-10); margin-bottom: var(--space-10); }
 .footer-logo { display: flex; align-items: center; gap: var(--space-2); text-decoration: none; margin-bottom: var(--space-3); }
 .footer-logo-image { width: 32px; height: auto; }
 .footer-logo-text { font-size: 0.9rem; }
