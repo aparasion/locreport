@@ -17,6 +17,9 @@ nav_order: 1
     <div class="hero-actions hero-actions--report" id="hero-actions-report" aria-hidden="true">
       <a href="https://locreport.com/reports/2026-Annual-Global-Market-Report/" class="btn btn--hero-articles btn--lg">Read the 2026 report &rarr;</a>
     </div>
+    <div class="hero-actions hero-actions--intel" id="hero-actions-intel" aria-hidden="true">
+      <a href="/intelligence/#lsp-relevance-erosion" class="btn btn--hero-intel btn--lg">Explore this signal &rarr;</a>
+    </div>
   </div>
 </section>
 
@@ -28,6 +31,7 @@ nav_order: 1
   var COMMA_DELAY     = 750;
   var ALT_SHOW        = 10000;
   var REPORT_SHOW     = 12000;
+  var INTEL_SHOW      = 12000;
 
   var ALT_H1_PRE      = 'No';
   var ALT_H1_POST     = ' AI has been used to build this service.';
@@ -35,6 +39,9 @@ nav_order: 1
 
   var REPORT_H1       = 'The 2026 Global Market Report is here';
   var REPORT_SUBTITLE = 'Market sizing, segment-by-segment analysis, AI-era growth drivers, and strategic forecasts \u2014 the definitive view of the language services industry for the year ahead.';
+
+  var INTEL_H1        = 'Is the LSP supply chain being bypassed?';
+  var INTEL_SUBTITLE  = 'Enterprise buyers are consolidating with mega-LSPs or going direct to AI \u2014 skipping the traditional supply chain entirely. Track this emerging market signal.';
 
   var INIT_H1_HTML    = 'The pulse of the language<br>services industry';
   var INIT_SUBTITLE   = 'Daily coverage of translation, localization, and AI \u2014 curated, analyzed, and tracked through the signals that matter.';
@@ -44,6 +51,7 @@ nav_order: 1
   var hero          = document.querySelector('.hero');
   var actions       = document.getElementById('hero-actions');
   var reportActions = document.getElementById('hero-actions-report');
+  var intelActions  = document.getElementById('hero-actions-intel');
 
   if (!h1 || !sub || !hero) return;
 
@@ -88,6 +96,20 @@ nav_order: 1
     tick();
   }
 
+  function slideInText(el, html, done) {
+    el.style.transition = '';
+    el.style.opacity    = '';
+    el.style.animation  = 'none';
+    el.innerHTML        = html;
+    el.offsetHeight;    // force reflow to register animation reset
+    el.style.animation  = 'heroSlideIn 0.65s ease both';
+    setTimeout(function () {
+      el.style.animation = '';
+      el.style.opacity   = '1';
+      if (done) done();
+    }, 650);
+  }
+
   function loop() {
     // ── phase 1: show initial content for 5 s ────────────
     setTimeout(function () {
@@ -101,7 +123,7 @@ nav_order: 1
         h1.style.opacity    = '1';
         typeInto(h1, ALT_H1_PRE + ALT_H1_POST, TYPE_SPEED, function () {
 
-          // ── phase 4: insert glowing comma after 3 s ─────
+          // ── phase 4: insert glowing comma after COMMA_DELAY ─────
           setTimeout(function () {
             h1.innerHTML =
               ALT_H1_PRE +
@@ -113,14 +135,14 @@ nav_order: 1
             sub.style.opacity    = '1';
             typeInto(sub, ALT_SUBTITLE, TYPE_SPEED, function () {
 
-              // ── phase 6: hold alt banner for 10 s ───────
+              // ── phase 6: hold alt banner for ALT_SHOW ───────
               setTimeout(function () {
 
                 // ── phase 7: fade out alt content ───────────
                 setOpacity(h1,  0, FADE_MS);
                 setOpacity(sub, 0, FADE_MS, function () {
 
-                  // ── phase 8: swap actions → report CTA, type report copy
+                  // ── phase 8: show report CTA, slide in report copy ──
                   if (actions && reportActions) {
                     actions.setAttribute('aria-hidden', 'true');
                     actions.classList.add('is-hidden');
@@ -128,13 +150,9 @@ nav_order: 1
                     reportActions.classList.add('is-visible');
                   }
 
-                  h1.style.transition = '';
-                  h1.style.opacity    = '1';
-                  typeInto(h1, REPORT_H1, TYPE_SPEED, function () {
-
-                    sub.style.transition = '';
-                    sub.style.opacity    = '1';
-                    typeInto(sub, REPORT_SUBTITLE, TYPE_SPEED, function () {
+                  slideInText(h1, REPORT_H1, null);
+                  setTimeout(function () {
+                    slideInText(sub, REPORT_SUBTITLE, function () {
 
                       // ── phase 9: hold report slide ─────────
                       setTimeout(function () {
@@ -143,37 +161,63 @@ nav_order: 1
                         setOpacity(h1,  0, FADE_MS);
                         setOpacity(sub, 0, FADE_MS, function () {
 
-                          // restore original actions
-                          if (actions && reportActions) {
+                          if (reportActions) {
                             reportActions.setAttribute('aria-hidden', 'true');
                             reportActions.classList.remove('is-visible');
-                            actions.removeAttribute('aria-hidden');
-                            actions.classList.remove('is-hidden');
+                          }
+                          if (intelActions) {
+                            intelActions.removeAttribute('aria-hidden');
+                            intelActions.classList.add('is-visible');
                           }
 
-                          // ── phase 11: restore initial ─────
-                          h1.style.transition  = '';
-                          sub.style.transition = '';
-                          h1.innerHTML         = INIT_H1_HTML;
-                          sub.textContent      = INIT_SUBTITLE;
+                          // ── phase 11: slide in intel copy ──
+                          slideInText(h1, INTEL_H1, null);
+                          setTimeout(function () {
+                            slideInText(sub, INTEL_SUBTITLE, function () {
 
-                          h1.style.opacity  = '0';
-                          sub.style.opacity = '0';
+                              // ── phase 12: hold intel slide ─────────
+                              setTimeout(function () {
 
-                          requestAnimationFrame(function () {
-                            requestAnimationFrame(function () {
-                              setOpacity(h1,  1, FADE_MS);
-                              setOpacity(sub, 1, FADE_MS, function () {
-                                h1.style.transition  = '';
-                                sub.style.transition = '';
-                                loop(); // restart
-                              });
+                                // ── phase 13: fade out intel ───────
+                                setOpacity(h1,  0, FADE_MS);
+                                setOpacity(sub, 0, FADE_MS, function () {
+
+                                  if (intelActions) {
+                                    intelActions.setAttribute('aria-hidden', 'true');
+                                    intelActions.classList.remove('is-visible');
+                                  }
+                                  if (actions) {
+                                    actions.removeAttribute('aria-hidden');
+                                    actions.classList.remove('is-hidden');
+                                  }
+
+                                  // ── phase 14: restore initial ─────
+                                  h1.style.transition  = '';
+                                  sub.style.transition = '';
+                                  h1.innerHTML         = INIT_H1_HTML;
+                                  sub.textContent      = INIT_SUBTITLE;
+
+                                  h1.style.opacity  = '0';
+                                  sub.style.opacity = '0';
+
+                                  requestAnimationFrame(function () {
+                                    requestAnimationFrame(function () {
+                                      setOpacity(h1,  1, FADE_MS);
+                                      setOpacity(sub, 1, FADE_MS, function () {
+                                        h1.style.transition  = '';
+                                        sub.style.transition = '';
+                                        loop(); // restart
+                                      });
+                                    });
+                                  });
+                                });
+                              }, INTEL_SHOW);
                             });
-                          });
+                          }, 150);
                         });
                       }, REPORT_SHOW);
                     });
-                  });
+                  }, 150);
                 });
               }, ALT_SHOW);
             });
