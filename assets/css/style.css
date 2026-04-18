@@ -1845,9 +1845,16 @@ details[open] .signal-accordion__chevron { transform: rotate(180deg); }
 .intel-dash-nav-item:hover { color: var(--text); background: var(--accent-soft); }
 .intel-dash-nav-item.active { color: #fff; background: var(--accent); }
 .intel-signal-filters { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-bottom: var(--space-5); }
-.intel-filter-pill { display: inline-flex; align-items: center; padding: 6px 16px; font-size: 0.78rem; font-weight: 600; font-family: inherit; color: var(--muted); background: var(--surface); border: 1px solid var(--border); border-radius: 100px; cursor: pointer; transition: all 0.2s ease; }
+.intel-filter-pill { display: inline-flex; align-items: center; padding: 6px 16px; font-size: 0.78rem; font-weight: 600; font-family: inherit; color: var(--muted); background: var(--surface); border: 1px solid var(--border); border-radius: 100px; cursor: pointer; transition: all 0.2s ease; text-decoration: none; }
 .intel-filter-pill:hover { color: var(--text); border-color: color-mix(in srgb, var(--accent) 30%, transparent); background: var(--accent-soft); }
 .intel-filter-pill.active { color: #fff; background: var(--accent); border-color: var(--accent); }
+.signal-health-top-right { display: flex; align-items: center; gap: 6px; }
+.signal-card-actions { display: flex; align-items: center; gap: 2px; opacity: 0; transition: opacity 0.15s ease; }
+.signal-health-card:hover .signal-card-actions, .signal-health-card:focus-within .signal-card-actions { opacity: 1; }
+.signal-watch-btn { background: none; border: none; cursor: pointer; color: var(--muted); font-size: 0.9rem; padding: 2px 4px; line-height: 1; transition: color 0.15s; font-family: inherit; }
+.signal-watch-btn:hover, .signal-watch-btn.is-watched { color: var(--accent); }
+.signal-permalink-btn { background: none; border: none; cursor: pointer; color: var(--muted); font-size: 0.75rem; font-weight: 700; padding: 2px 5px; line-height: 1; text-decoration: none; transition: color 0.15s; font-family: monospace; }
+.signal-permalink-btn:hover { color: var(--accent); }
 .intel-legend { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-4); padding: var(--space-3) var(--space-4); background: var(--surface); border: 1px solid var(--border); border-radius: 10px; margin-bottom: var(--space-5); }
 .intel-legend-group { display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-2); }
 .intel-legend-label { font-size: 0.68rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; white-space: nowrap; }
