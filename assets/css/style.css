@@ -2753,9 +2753,16 @@ details[open] .signal-accordion__chevron { transform: rotate(180deg); }
 /* ── 2026 Annual Report ───────────────────────────────── */
 .annual-report {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--space-7);
   min-width: 0;
+  max-width: 100%;
 }
+/* Grid items default to min-width: auto, which resolves to their
+   min-content width. On mobile this caused scroll-container children
+   (tables, SVGs) to propagate their intrinsic min-width up and make
+   every card in the single-column grid overflow the viewport. */
+.annual-report > * { min-width: 0; max-width: 100%; }
 
 /* Header */
 .annual-report__header {
@@ -3168,13 +3175,14 @@ details[open] .signal-accordion__chevron { transform: rotate(180deg); }
     flex-direction: row;
     align-items: baseline;
     justify-content: space-between;
-    gap: var(--space-3);
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-3);
     padding-bottom: var(--space-2);
     border-bottom: 1px solid color-mix(in srgb, var(--border) 60%, transparent);
   }
   .annual-report__stat:last-child { border-bottom: none; padding-bottom: 0; }
-  .annual-report__stat-value { font-size: 1.25rem; }
-  .annual-report__stat-label { text-align: right; }
+  .annual-report__stat-value { font-size: 1.25rem; min-width: 0; }
+  .annual-report__stat-label { text-align: right; min-width: 0; flex-shrink: 1; }
 
   .annual-report section { padding: var(--space-3) var(--space-4); }
   .annual-report .toc { padding: var(--space-3) var(--space-4); }
