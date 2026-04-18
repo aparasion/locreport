@@ -2900,17 +2900,22 @@ details[open] .signal-accordion__chevron { transform: rotate(180deg); }
   color: var(--muted);
 }
 
-/* Text overflow safety */
+/* Text overflow safety — tables intentionally omitted so cells wrap at
+   word boundaries instead of character-by-character; the .table-scroll
+   wrapper handles horizontal overflow via overflow-x: auto. */
 .annual-report h2,
 .annual-report h3,
 .annual-report h4,
 .annual-report p,
 .annual-report li,
-.annual-report td,
-.annual-report th,
 .annual-report figcaption,
 .annual-report .toc a {
   overflow-wrap: anywhere;
+  word-break: normal;
+}
+.annual-report td,
+.annual-report th {
+  overflow-wrap: normal;
   word-break: normal;
 }
 .annual-report ul { padding-left: 1.25rem; }
@@ -3011,7 +3016,7 @@ details[open] .signal-accordion__chevron { transform: rotate(180deg); }
 }
 .annual-report table {
   width: 100%;
-  min-width: 320px;
+  min-width: 560px;
   border-collapse: collapse;
   font-size: 0.88rem;
 }
