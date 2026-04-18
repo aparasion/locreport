@@ -3081,16 +3081,118 @@ details[open] .signal-accordion__chevron { transform: rotate(180deg); }
   .annual-report .takeaway--full { grid-column: auto; }
   .annual-report .key-findings { padding: var(--space-4); }
   .annual-report .chart-container { padding: var(--space-4); }
+
+  /* Scroll affordance: subtle inset shadow on the right/left edges
+     signals that horizontal content continues. Doesn't override the
+     container's base background. */
+  .annual-report .table-scroll,
+  .annual-report .chart-container {
+    box-shadow:
+      inset -10px 0 8px -8px color-mix(in srgb, var(--text) 18%, transparent),
+      inset 10px 0 8px -8px color-mix(in srgb, var(--text) 18%, transparent);
+  }
+}
+
+@media (max-width: 600px) {
+  .annual-report { gap: var(--space-4); }
+  .annual-report__header { padding: var(--space-5) var(--space-4); }
+  .annual-report__dek { font-size: 0.98rem; }
+  .annual-report .callout { padding: var(--space-3) var(--space-4); font-size: 0.92rem; }
 }
 
 @media (max-width: 480px) {
   .annual-report { gap: var(--space-4); }
-  .annual-report__header { padding: var(--space-5) var(--space-4); }
-  .annual-report__header h2 { font-size: 1.3rem; line-height: 1.3; }
+  .annual-report__header {
+    padding: var(--space-5) var(--space-4);
+    border-radius: var(--radius-lg);
+  }
+  .annual-report__header h2 {
+    font-size: clamp(1.15rem, 5.5vw, 1.5rem);
+    line-height: 1.25;
+  }
+  .annual-report__eyebrow { font-size: 0.68rem; }
+  .annual-report__dek { font-size: 0.95rem; line-height: 1.55; }
+  .annual-report__stats {
+    gap: var(--space-3);
+    margin-top: var(--space-5);
+    padding-top: var(--space-5);
+  }
+  .annual-report__stat-value { font-size: clamp(1.2rem, 5vw, 1.5rem); }
+  .annual-report__stat-label { font-size: 0.68rem; }
   .annual-report section { padding: var(--space-4); }
+  .annual-report section h2 {
+    margin-bottom: var(--space-4);
+    padding-bottom: var(--space-3);
+    font-size: clamp(1rem, 4.5vw, 1.2rem);
+  }
   .annual-report section h3 { margin-top: var(--space-4); }
   .annual-report .toc { padding: var(--space-4); }
-  .annual-report .toc ol { gap: var(--space-2); }
+  .annual-report .toc ol { gap: var(--space-2); padding-left: 1rem; }
+  .annual-report .toc li { font-size: 0.88rem; line-height: 1.5; }
+  .annual-report .toc a { display: inline-block; padding: 4px 0; }
   .annual-report .callout { padding: var(--space-3) var(--space-4); }
   .annual-report .takeaway { padding: var(--space-4); }
+  .annual-report .key-findings { padding: var(--space-3) var(--space-4); }
+
+  /* Source chips flow inline instead of forcing mid-line breaks */
+  .annual-report .source {
+    display: inline;
+    padding: 0 4px;
+    margin-left: 2px;
+    white-space: normal;
+  }
+
+  /* Table density */
+  .annual-report table { font-size: 0.84rem; }
+  .annual-report th { padding: 8px 10px; font-size: 0.72rem; }
+  .annual-report td { padding: 8px 10px; }
+
+  /* SVG charts scale via viewBox + width:100%; no min-width here — it
+     propagates through grid intrinsic sizing and overflows the whole report
+     (see commit 5fc9658). */
+  .annual-report .chart-container { padding: var(--space-3) var(--space-4); }
+  .annual-report .chart-title { font-size: 0.7rem; }
+}
+
+@media (max-width: 400px) {
+  .annual-report { gap: var(--space-3); }
+  .annual-report__header { padding: var(--space-4); }
+  .annual-report__stats {
+    grid-template-columns: 1fr;
+    gap: var(--space-2);
+    margin-top: var(--space-4);
+    padding-top: var(--space-4);
+  }
+  /* Compact inline rows for stats when stacked */
+  .annual-report__stat {
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-3);
+    padding-bottom: var(--space-2);
+    border-bottom: 1px solid color-mix(in srgb, var(--border) 60%, transparent);
+  }
+  .annual-report__stat:last-child { border-bottom: none; padding-bottom: 0; }
+  .annual-report__stat-value { font-size: 1.25rem; }
+  .annual-report__stat-label { text-align: right; }
+
+  .annual-report section { padding: var(--space-3) var(--space-4); }
+  .annual-report .toc { padding: var(--space-3) var(--space-4); }
+  .annual-report .toc ol { padding-left: 0.9rem; }
+  .annual-report .key-findings li { padding: var(--space-2) 0; }
+
+  /* Tighter tables at the smallest sizes */
+  .annual-report table { font-size: 0.8rem; }
+  .annual-report th,
+  .annual-report td { padding: 7px 8px; }
+
+  /* Slimmer accent stripe keeps more room for content */
+  .annual-report .takeaway {
+    padding: var(--space-3) var(--space-4);
+    border-left-width: 3px;
+  }
+  .annual-report .takeaway h4 { font-size: 0.88rem; }
+  .annual-report .takeaway p { font-size: 0.9rem; }
+
+  .annual-report .report-footer { font-size: 0.8rem; }
 }
