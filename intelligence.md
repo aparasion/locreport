@@ -68,12 +68,13 @@ description: "Actionable localization intelligence — trend signals, impact sco
 
   {% comment %} Category filter for signals {% endcomment %}
   <div class="intel-signal-filters" id="signal-category-filters">
-    <button class="intel-filter-pill active" data-signal-cat="all">All</button>
-    <button class="intel-filter-pill" data-signal-cat="quality">Quality</button>
-    <button class="intel-filter-pill" data-signal-cat="operations">Operations</button>
-    <button class="intel-filter-pill" data-signal-cat="governance">Governance</button>
-    <button class="intel-filter-pill" data-signal-cat="market">Market</button>
-    <button class="intel-filter-pill" data-signal-cat="strategy">Strategy</button>
+    <a class="intel-filter-pill active" href="#filter-all" data-signal-cat="all">All</a>
+    <a class="intel-filter-pill" href="#filter-quality" data-signal-cat="quality">Quality</a>
+    <a class="intel-filter-pill" href="#filter-operations" data-signal-cat="operations">Operations</a>
+    <a class="intel-filter-pill" href="#filter-governance" data-signal-cat="governance">Governance</a>
+    <a class="intel-filter-pill" href="#filter-market" data-signal-cat="market">Market</a>
+    <a class="intel-filter-pill" href="#filter-strategy" data-signal-cat="strategy">Strategy</a>
+    <a class="intel-filter-pill" href="#filter-watched" data-signal-cat="watched" id="watched-pill">Watched (<span id="watched-count">0</span>)</a>
   </div>
 
   {% comment %} Signal legend {% endcomment %}
@@ -113,10 +114,16 @@ description: "Actionable localization intelligence — trend signals, impact sco
           {% endif %}
         {% endif %}
       {% endfor %}
-      <button class="signal-health-card signal-health-card--clickable" data-signal-id="{{ signal.id }}" data-signal-category="{{ signal.category }}" type="button">
+      <div class="signal-health-card signal-health-card--clickable" data-signal-id="{{ signal.id }}" data-signal-category="{{ signal.category }}" role="button" tabindex="0">
         <div class="signal-health-top">
           <span class="signal-tile__category">{{ signal.category }}</span>
-          <span class="status-badge status-badge--{{ signal.current_status }}">{{ signal.current_status }}</span>
+          <div class="signal-health-top-right">
+            <span class="status-badge status-badge--{{ signal.current_status }}">{{ signal.current_status }}</span>
+            <div class="signal-card-actions">
+              <button class="signal-watch-btn" data-signal-id="{{ signal.id }}" title="Watch this signal" aria-label="Watch" type="button">☆</button>
+              <a class="signal-permalink-btn" href="#{{ signal.id }}" title="Copy permalink" aria-label="Permalink">#</a>
+            </div>
+          </div>
         </div>
         <h4 class="signal-health-title">{{ signal.title }}</h4>
         <div class="signal-health-bottom">
@@ -129,7 +136,7 @@ description: "Actionable localization intelligence — trend signals, impact sco
           </span>
           {% endif %}
         </div>
-      </button>
+      </div>
     {% endfor %}
   </div>
 </section>
@@ -292,19 +299,37 @@ document.addEventListener("DOMContentLoaded", function () {
   // ── Signal Category Filters ──────────────────────────────
   var signalFilterPills = document.querySelectorAll("#signal-category-filters .intel-filter-pill");
   var signalCards = document.querySelectorAll(".signal-health-card");
+  var watchedSignals = JSON.parse(localStorage.getItem("locreport-watched") || "[]");
+
+  function updateWatchedCount() {
+    var el = document.getElementById("watched-count");
+    if (el) el.textContent = watchedSignals.length;
+  }
+  updateWatchedCount();
+
+  function applyFilter(cat) {
+    signalFilterPills.forEach(function (p) { p.classList.remove("active"); });
+    var activePill = document.querySelector('[data-signal-cat="' + cat + '"]');
+    if (activePill) activePill.classList.add("active");
+    signalCards.forEach(function (card) {
+      var show;
+      if (cat === "all") {
+        show = true;
+      } else if (cat === "watched") {
+        show = watchedSignals.indexOf(card.getAttribute("data-signal-id")) !== -1;
+      } else {
+        show = card.getAttribute("data-signal-category") === cat;
+      }
+      card.style.display = show ? "" : "none";
+    });
+  }
 
   signalFilterPills.forEach(function (pill) {
-    pill.addEventListener("click", function () {
-      signalFilterPills.forEach(function (p) { p.classList.remove("active"); });
-      pill.classList.add("active");
+    pill.addEventListener("click", function (e) {
+      e.preventDefault();
       var cat = pill.getAttribute("data-signal-cat");
-      signalCards.forEach(function (card) {
-        if (cat === "all" || card.getAttribute("data-signal-category") === cat) {
-          card.style.display = "";
-        } else {
-          card.style.display = "none";
-        }
-      });
+      applyFilter(cat);
+      history.replaceState(null, "", "#filter-" + cat);
     });
   });
 
@@ -392,13 +417,79 @@ document.addEventListener("DOMContentLoaded", function () {
     card.addEventListener("click", function () {
       openSignalModal(card.getAttribute("data-signal-id"));
     });
+    card.addEventListener("keydown", function (e) {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        openSignalModal(card.getAttribute("data-signal-id"));
+      }
+    });
   });
 
+  // ── Watch buttons ─────────────────────────────────────────
+  document.querySelectorAll(".signal-watch-btn").forEach(function (btn) {
+    var sid = btn.getAttribute("data-signal-id");
+    if (watchedSignals.indexOf(sid) !== -1) {
+      btn.textContent = "★";
+      btn.classList.add("is-watched");
+    }
+    btn.addEventListener("click", function (e) {
+      e.stopPropagation();
+      var idx = watchedSignals.indexOf(sid);
+      if (idx === -1) {
+        watchedSignals.push(sid);
+        btn.textContent = "★";
+        btn.classList.add("is-watched");
+      } else {
+        watchedSignals.splice(idx, 1);
+        btn.textContent = "☆";
+        btn.classList.remove("is-watched");
+      }
+      localStorage.setItem("locreport-watched", JSON.stringify(watchedSignals));
+      updateWatchedCount();
+      var activePill = document.querySelector(".intel-filter-pill.active");
+      if (activePill && activePill.getAttribute("data-signal-cat") === "watched") {
+        applyFilter("watched");
+      }
+    });
+  });
+
+  // ── Permalink buttons ─────────────────────────────────────
+  function copyToClipboard(text, btn) {
+    var orig = btn.textContent;
+    function done() { btn.textContent = "✓"; setTimeout(function () { btn.textContent = orig; }, 1200); }
+    function fallback() {
+      var ta = document.createElement("textarea");
+      ta.value = text; document.body.appendChild(ta); ta.select();
+      try { document.execCommand("copy"); } catch (e) {}
+      document.body.removeChild(ta);
+    }
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(text).then(done).catch(function () { fallback(); done(); });
+    } else { fallback(); done(); }
+  }
+
+  document.querySelectorAll(".signal-permalink-btn").forEach(function (btn) {
+    btn.addEventListener("click", function (e) {
+      e.stopPropagation();
+      e.preventDefault();
+      var sid = btn.closest("[data-signal-id]").getAttribute("data-signal-id");
+      copyToClipboard(window.location.origin + window.location.pathname + "#" + sid, btn);
+    });
+  });
+
+  // ── Initial hash routing ──────────────────────────────────
   var initialHash = window.location.hash.slice(1);
-  if (initialHash && signals.find(function (s) { return s.id === initialHash; })) {
-    var signalsSection = document.getElementById("signals-section");
-    if (signalsSection) signalsSection.scrollIntoView({ behavior: "smooth" });
-    openSignalModal(initialHash);
+  if (initialHash) {
+    if (initialHash.indexOf("filter-") === 0) {
+      var cat = initialHash.slice(7);
+      applyFilter(cat);
+      var signalsSec = document.getElementById("signals-section");
+      if (signalsSec) signalsSec.scrollIntoView({ behavior: "smooth" });
+    } else if (signals.find(function (s) { return s.id === initialHash; })) {
+      var signalsSection = document.getElementById("signals-section");
+      if (signalsSection) signalsSection.scrollIntoView({ behavior: "smooth" });
+      openSignalModal(initialHash);
+    }
   }
 
   modalClose.addEventListener("click", closeSignalModal);
