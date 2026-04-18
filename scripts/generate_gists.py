@@ -24,8 +24,6 @@ FEEDS = [
     "https://translation.ec.europa.eu/node/27/rss_en",
     "https://www.nimdzi.com/feed/",
     "https://slator.com/feed/",
-    "https://multilingual.com/author/multilingualstaff/feed/",
-    "https://multilingual.com/feed/",
     "https://techcrunch.com/tag/translation/feed/",
     "https://techcrunch.com/tag/ai-translation/feed/",
     "https://techcrunch.com/tag/machine-translation/feed/",
