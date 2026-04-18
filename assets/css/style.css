@@ -762,12 +762,26 @@ hr {
 }
 .hero-actions--report.is-visible {
   display: flex;
-  animation: fadeInUp 0.5s ease both;
+  animation: heroSlideIn 0.5s ease both;
+}
+
+.hero-actions--intel {
+  display: none;
+  animation: none;
+}
+.hero-actions--intel.is-visible {
+  display: flex;
+  animation: heroSlideIn 0.5s ease both;
 }
 
 /* ── Animations ─────────────────────────────────────────── */
 @keyframes fadeInUp {
   from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes heroSlideIn {
+  from { opacity: 0; transform: translateY(32px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
