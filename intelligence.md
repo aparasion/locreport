@@ -154,6 +154,16 @@ description: "Actionable localization intelligence — trend signals, impact sco
     <h2 class="signal-modal-title" id="signal-modal-title"></h2>
     <p class="signal-modal-desc" id="signal-modal-desc"></p>
     <div class="signal-modal-meta" id="signal-modal-meta"></div>
+    <div class="signal-modal-actions">
+      <button class="sma-btn sma-btn--watch" id="signal-modal-watch-btn" type="button">
+        <span class="sma-icon">☆</span>
+        <span class="sma-label">Watch this signal</span>
+      </button>
+      <button class="sma-btn sma-btn--permalink" id="signal-modal-permalink-btn" type="button">
+        <span class="sma-icon">#</span>
+        <span class="sma-label">Copy permalink</span>
+      </button>
+    </div>
     <div class="signal-modal-articles" id="signal-modal-articles">
       <h3 class="signal-modal-articles-title">Linked Evidence</h3>
       <div class="signal-modal-articles-list" id="signal-modal-articles-list"></div>
@@ -402,6 +412,13 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     }
 
+    modalOverlay.setAttribute("data-current-signal", signalId);
+    var mwb = document.getElementById("signal-modal-watch-btn");
+    var watched = watchedSignals.indexOf(signalId) !== -1;
+    mwb.querySelector(".sma-icon").textContent = watched ? "★" : "☆";
+    mwb.querySelector(".sma-label").textContent = watched ? "Watching" : "Watch this signal";
+    mwb.classList.toggle("is-watched", watched);
+
     modalOverlay.classList.add("is-open");
     document.body.style.overflow = "hidden";
     history.replaceState(null, "", "#" + signalId);
@@ -412,6 +429,46 @@ document.addEventListener("DOMContentLoaded", function () {
     document.body.style.overflow = "";
     history.replaceState(null, "", "#signals-section");
   }
+
+  // ── Modal action buttons ──────────────────────────────────
+  document.getElementById("signal-modal-watch-btn").addEventListener("click", function () {
+    var sid = modalOverlay.getAttribute("data-current-signal");
+    if (!sid) return;
+    var idx = watchedSignals.indexOf(sid);
+    var icon = this.querySelector(".sma-icon");
+    var label = this.querySelector(".sma-label");
+    if (idx === -1) {
+      watchedSignals.push(sid);
+      icon.textContent = "★"; label.textContent = "Watching";
+      this.classList.add("is-watched");
+    } else {
+      watchedSignals.splice(idx, 1);
+      icon.textContent = "☆"; label.textContent = "Watch this signal";
+      this.classList.remove("is-watched");
+    }
+    localStorage.setItem("locreport-watched", JSON.stringify(watchedSignals));
+    updateWatchedCount();
+    var cardBtn = document.querySelector('.signal-watch-btn[data-signal-id="' + sid + '"]');
+    if (cardBtn) {
+      var isNowWatched = watchedSignals.indexOf(sid) !== -1;
+      cardBtn.textContent = isNowWatched ? "★" : "☆";
+      cardBtn.classList.toggle("is-watched", isNowWatched);
+    }
+    var activePill = document.querySelector(".intel-filter-pill.active");
+    if (activePill && activePill.getAttribute("data-signal-cat") === "watched") applyFilter("watched");
+  });
+
+  document.getElementById("signal-modal-permalink-btn").addEventListener("click", function () {
+    var sid = modalOverlay.getAttribute("data-current-signal");
+    if (!sid) return;
+    var label = this.querySelector(".sma-label");
+    var orig = label.textContent;
+    var url = window.location.origin + window.location.pathname + "#" + sid;
+    function done() { label.textContent = "Copied!"; setTimeout(function () { label.textContent = orig; }, 1500); }
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(url).then(done).catch(function () { copyToClipboard(url, { textContent: "" }); done(); });
+    } else { copyToClipboard(url, { textContent: "" }); done(); }
+  });
 
   signalCards.forEach(function (card) {
     card.addEventListener("click", function () {
