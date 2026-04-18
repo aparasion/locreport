@@ -7,6 +7,9 @@ tags: [translation, localization, news, gist]
 excerpt: "Translation memory (TM) software is revolutionizing the localization process by enabling businesses to reuse previously approved translations, thereby saving ti..."
 publisher: "xtm.cloud"
 source_url: "https://xtm.cloud/blog/translation-memory-software/"
+signal_ids: [translation-memory-obsolescence]
+signal_stance: disputes
+signal_confidence: medium
 ---
 
 Translation memory (TM) software is revolutionizing the localization process by enabling businesses to reuse previously approved translations, thereby saving time and reducing costs. This technology acts as an intelligent filing system, storing translated segments that can be automatically suggested for future projects, ensuring consistency in brand messaging. As companies increasingly operate in global markets, the efficiency gained from TM systems can significantly enhance their competitive edge.

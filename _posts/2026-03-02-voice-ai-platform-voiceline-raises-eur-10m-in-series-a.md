@@ -7,6 +7,9 @@ tags: [translation, localization, news, gist]
 excerpt: "Voice AI Platform VoiceLine, based in Munich, has successfully raised EUR 10 million in a Series A funding round led by Alstin Capital and Peak, with contributi..."
 publisher: slator.com
 source_url: "https://slator.com/voiceline-raises-10m/"
+signal_ids: [multimodal-content-localization, agentic-localization-workflows]
+signal_stance: supports
+signal_confidence: high
 ---
 
 Voice AI Platform VoiceLine, based in Munich, has successfully raised EUR 10 million in a Series A funding round led by Alstin Capital and Peak, with contributions from existing investors including Scalehouse Capital, Venture Stars, and NAP. Founded in 2020 by Nicolas Höflinger and Sebastian Pinkas, VoiceLine specializes in a voice-first AI platform tailored for frontline enterprise teams, enabling them to convert spoken updates into structured data for seamless integration with enterprise software.

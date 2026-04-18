@@ -7,6 +7,9 @@ tags: [translation, localization, news, gist]
 excerpt: "The Association for Machine Translation in the Americas (AMTA) has established a QE Users Working Group to create a standardized framework for evaluating qualit..."
 publisher: "slator.com"
 source_url: "https://slator.com/amta-translation-quality-estimation-evaluation/"
+signal_ids: [measurable-quality-evaluation]
+signal_stance: supports
+signal_confidence: high
 ---
 
 The Association for Machine Translation in the Americas (AMTA) has established a QE Users Working Group to create a standardized framework for evaluating quality estimation (QE) systems used in enterprise AI translation workflows. This initiative addresses the current lack of a unified methodology, which has led to inconsistent evaluations and challenges for users in benchmarking results against peers. The working group, composed solely of QE users and researchers, aims to develop guidance and testing protocols that can be applied across various data and workflows.

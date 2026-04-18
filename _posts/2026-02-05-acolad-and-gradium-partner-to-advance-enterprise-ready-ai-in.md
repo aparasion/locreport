@@ -7,6 +7,9 @@ tags: [translation, localization, news, gist]
 excerpt: "Acolad has announced a strategic partnership with Gradium to enhance AI-powered real-time interpreting solutions for enterprise and public-sector applications...."
 publisher: gala-global.org
 source_url: "https://www.gala-global.org/news/acolad-and-gradium-partner-to-advance-enterprise-ready-ai-interpreting"
+signal_ids: [governance-in-ai-workflows, localization-operating-system]
+signal_stance: supports
+signal_confidence: high
 ---
 
 Acolad has announced a strategic partnership with Gradium to enhance AI-powered real-time interpreting solutions for enterprise and public-sector applications. This collaboration merges Acolad's expertise in language services and AI workflows with Gradium's advanced voice AI technologies, including real-time Text-To-Speech and Speech-To-Text capabilities. The partnership aims to address challenges in AI adoption, such as data quality, multilingual coverage, and cultural nuances, which often hinder the transition from experimentation to operational deployment.
