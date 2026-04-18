@@ -452,16 +452,11 @@ hr {
   pointer-events: auto;
 }
 
-/* Hide nav links when search is expanded (desktop) */
-.site-nav.search-expanded #site-menu {
-  opacity: 0;
-  width: 0;
+/* Allow menu items to shift and compress when search is expanded (desktop) */
+#site-menu {
+  min-width: 0;
+  flex-shrink: 1;
   overflow: hidden;
-  pointer-events: none;
-  transition: opacity 0.2s ease, width 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-}
-.site-nav #site-menu {
-  transition: opacity 0.2s ease, width 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Results dropdown */
