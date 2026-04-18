@@ -8,10 +8,6 @@ nav_order: 6
 no_share: true
 ---
 
-Have a tip, insight, correction, or contribution idea?
-
-Send a message below.
-
 <form action="https://formspree.io/f/xgoljzky"
       method="POST"
       class="contact-form">
@@ -36,6 +32,4 @@ Send a message below.
   </button>
 <input type="hidden" name="_next" value="/thank-you/">
 </form>
-
-Follow us also on X: <a href="https://x.com/locreport" target="_blank">x.com/locreport</a>
 
