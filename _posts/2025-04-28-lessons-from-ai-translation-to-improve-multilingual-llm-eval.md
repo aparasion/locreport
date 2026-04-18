@@ -7,6 +7,9 @@ tags: [translation, localization, news, gist]
 excerpt: "Recent studies from Alibaba and a partnership between Cohere and Google reveal significant shortcomings in the evaluation frameworks for multilingual large lang..."
 publisher: slator.com
 source_url: "https://slator.com/lessons-from-ai-translation-to-improve-multilingual-llm-evaluation/"
+signal_ids: [measurable-quality-evaluation]
+signal_stance: supports
+signal_confidence: high
 ---
 
 Recent studies from Alibaba and a partnership between Cohere and Google reveal significant shortcomings in the evaluation frameworks for multilingual large language models (LLMs). Both studies highlight that current evaluation practices are inconsistent, biased towards high-resource languages like English, and often fail to reflect real-world applications. This lack of robust multilingual evaluation is critical, as it hampers equitable technological progress across diverse linguistic contexts.

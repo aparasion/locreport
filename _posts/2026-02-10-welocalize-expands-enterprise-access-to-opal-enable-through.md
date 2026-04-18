@@ -7,6 +7,9 @@ tags: [translation, localization, news, gist]
 excerpt: "Welocalize has announced an expansion of enterprise access to its multilingual AI workflow platform, OPAL Enable, through a collaboration with Blackbird, an int..."
 publisher: gala-global.org
 source_url: "https://www.gala-global.org/news/welocalize-expands-enterprise-access-to-opal-enable-through-blackbird-integration"
+signal_ids: [localization-operating-system, governance-in-ai-workflows]
+signal_stance: supports
+signal_confidence: high
 ---
 
 Welocalize has announced an expansion of enterprise access to its multilingual AI workflow platform, OPAL Enable, through a collaboration with Blackbird, an integration platform as a service (iPaaS). This partnership allows organizations using Blackbird to seamlessly incorporate OPAL Enable into their existing systems, facilitating the design, deployment, and scaling of multilingual AI workflows without the need for separate implementations. OPAL Enable connects automation and AI with optional human oversight, enabling organizations to optimize their localization processes.

@@ -8,6 +8,9 @@ excerpt: "A monthly roundup for February 2026 based on 24 articles."
 permalink: /reports/Monthly-Report-February-2026/
 period: "2026-02"
 source_count: 24
+signal_ids: [governance-in-ai-workflows, localization-operating-system, quality-gap-closure]
+signal_stance: supports
+signal_confidence: high
 ---
 
 # The Voices Behind the Words: Navigating AI's Impact on Localization

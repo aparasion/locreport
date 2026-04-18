@@ -7,6 +7,9 @@ tags: [translation, localization, news, gist]
 excerpt: "XTM International has appointed Lorcan Malone as its new Chief Executive Officer, succeeding Ian Evans, who led the company through a significant growth phase m..."
 publisher: "xtm.cloud"
 source_url: "https://xtm.cloud/blog/xtm-appoints-lorcan-malone-as-ceo/"
+signal_ids: [localization-operating-system]
+signal_stance: mentions
+signal_confidence: medium
 ---
 
 XTM International has appointed Lorcan Malone as its new Chief Executive Officer, succeeding Ian Evans, who led the company through a significant growth phase marked by strategic acquisitions and advancements in AI product innovation. Malone brings over 20 years of experience in the technology sector, having previously held leadership roles at companies like Sitecore and Boxever, and is expected to drive further value for enterprise and government customers.

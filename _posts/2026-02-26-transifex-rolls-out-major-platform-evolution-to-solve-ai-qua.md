@@ -7,6 +7,9 @@ tags: [translation, localization, news, gist]
 excerpt: "XTM International has announced a significant update to its Transifex platform, aimed at enhancing translation quality and managing AI outputs for organizations..."
 publisher: gala-global.org
 source_url: "https://www.gala-global.org/news/transifex-rolls-out-major-platform-evolution-to-solve-ai-quality-and-control"
+signal_ids: [measurable-quality-evaluation, quality-gap-closure, governance-in-ai-workflows]
+signal_stance: supports
+signal_confidence: high
 ---
 
 XTM International has announced a significant update to its Transifex platform, aimed at enhancing translation quality and managing AI outputs for organizations. Key features include TQI (Translation Quality Index) Tasks, which automate the evaluation of translation quality, allowing teams to focus human review on lower-scoring content, potentially reducing review costs by up to 40%. Additionally, Structured AI Style Guides enable organizations to set clear guidelines for AI translations, ensuring alignment with brand voice and reducing the need for extensive edits.

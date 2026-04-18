@@ -7,6 +7,9 @@ tags: [translation, localization, news, gist]
 excerpt: "A recent Google study has revealed significant quality issues in three major multilingual speech datasets: Mozilla Common Voice 17.0, FLEURS, and VoxPopuli. The..."
 publisher: slator.com
 source_url: "https://slator.com/google-flags-serious-data-quality-issues-in-public-multilingual-speech-datasets/"
+signal_ids: [measurable-quality-evaluation]
+signal_stance: supports
+signal_confidence: high
 ---
 
 A recent Google study has revealed significant quality issues in three major multilingual speech datasets: Mozilla Common Voice 17.0, FLEURS, and VoxPopuli. These datasets are crucial for developing multilingual automatic speech recognition (ASR) models, yet the researchers found flaws that could mislead results, particularly for low-resource languages. Problems identified include short and repetitive recordings, poor audio quality, and a lack of speaker diversity, which can introduce biases related to gender, age, and regional accents.

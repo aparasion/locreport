@@ -7,6 +7,9 @@ tags: [translation, localization, news, gist]
 excerpt: "The UK’s Society of Authors (SoA) has launched a campaign to advocate for human translators amid growing concerns over the impact of AI translation technologies..."
 publisher: slator.com
 source_url: "https://slator.com/uk-society-of-authors-launches-campaign-addressing-genai-translation/"
+signal_ids: [human-post-editing-contraction]
+signal_stance: disputes
+signal_confidence: high
 ---
 
 The UK’s Society of Authors (SoA) has launched a campaign to advocate for human translators amid growing concerns over the impact of AI translation technologies. This initiative follows a 2024 survey revealing that 36% of translators have already lost work due to generative AI, with 43% reporting a decrease in income. The SoA warns that the increasing adoption of AI, such as Audible's plans to implement AI narration and translation, could have a "devastating impact" on the profession.

@@ -8,6 +8,9 @@ excerpt: "A monthly roundup for March 2026 based on 236 articles."
 permalink: /reports/Monthly-Report-March-2026/
 period: "2026-03"
 source_count: 236
+signal_ids: [governance-in-ai-workflows, localization-operating-system, measurable-quality-evaluation, quality-gap-closure]
+signal_stance: supports
+signal_confidence: medium
 ---
 
 # March 2026 Localization and Translation Industry Report

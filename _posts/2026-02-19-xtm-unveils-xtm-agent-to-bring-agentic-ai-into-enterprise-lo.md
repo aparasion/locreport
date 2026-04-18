@@ -7,6 +7,9 @@ tags: [translation, localization, news, gist]
 excerpt: "XTM International has launched XTM Agent, a conversational AI tool integrated into XTM Cloud, aimed at enhancing enterprise localization workflows. This innovat..."
 publisher: gala-global.org
 source_url: "https://www.gala-global.org/news/xtm-unveils-xtm-agent-to-bring-agentic-ai-into-enterprise-localisation-workflows"
+signal_ids: [agentic-localization-workflows, governance-in-ai-workflows]
+signal_stance: supports
+signal_confidence: high
 ---
 
 XTM International has launched XTM Agent, a conversational AI tool integrated into XTM Cloud, aimed at enhancing enterprise localization workflows. This innovation is designed to assist project managers and localization teams by streamlining project information and providing clear, actionable guidance. As enterprises increasingly handle numerous small projects simultaneously, XTM Agent addresses challenges such as task prioritization, vendor selection, and quick access to information, thereby reducing administrative burdens.
