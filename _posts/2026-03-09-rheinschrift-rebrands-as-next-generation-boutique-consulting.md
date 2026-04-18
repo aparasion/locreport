@@ -7,9 +7,9 @@ tags: [translation, localization, news, gist]
 excerpt: "Rheinschrift Language Services has rebranded itself as a next-generation boutique consulting partner, reflecting a significant evolution in its identity and off..."
 publisher: "gala-global.org"
 source_url: "https://www.gala-global.org/news/rheinschrift-rebrands-as-next-generation-boutique-consulting-partner"
-signal_ids: []
-signal_stance: mentions
-signal_confidence: low
+signal_ids: [lsp-relevance-erosion]
+signal_stance: supports
+signal_confidence: medium
 ---
 
 Rheinschrift Language Services has rebranded itself as a next-generation boutique consulting partner, reflecting a significant evolution in its identity and offerings. With over 30 years of expertise in the German language market, the company recognized a need to realign its branding with its expanding role in the localization industry, which now includes strategic collaborations with iconic brands and a broader range of services.

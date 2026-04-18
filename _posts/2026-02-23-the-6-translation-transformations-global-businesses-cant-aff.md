@@ -7,9 +7,9 @@ tags: [translation, localization, news, gist]
 excerpt: "Global businesses are facing an unprecedented surge in translation demands, with content volumes increasing by approximately 50% since 2023. This growth is over..."
 publisher: "deepl.com"
 source_url: "https://www.deepl.com/en/blog/six-translation-transformations"
-signal_ids: []
-signal_stance: mixed
-signal_confidence: low
+signal_ids: [lsp-relevance-erosion]
+signal_stance: mentions
+signal_confidence: medium
 impact_score: 3
 time_horizon: "now"
 affected_segments: [In-House Teams]

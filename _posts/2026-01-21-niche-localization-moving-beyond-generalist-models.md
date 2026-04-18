@@ -7,7 +7,7 @@ tags: [translation, localization, news, gist]
 excerpt: "In a recent episode of The Agile Localization Podcast, host Stefan Huyghe interviews Martina Russo, founder of The Action Sports Translator, about the critical..."
 publisher: "crowdin.com"
 source_url: "https://crowdin.com/blog/agile-localization-podcast-with-martina-russo"
-signal_ids: []
+signal_ids: [lsp-relevance-erosion]
 signal_stance: mixed
 signal_confidence: low
 ---

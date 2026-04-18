@@ -7,6 +7,9 @@ tags: [translation, localization, news, gist]
 excerpt: "The localization industry is facing a paradox as many skilled professionals are struggling to find work despite companies claiming they cannot find qualified ta..."
 publisher: "gala-global.org"
 source_url: "https://www.gala-global.org/news/an-open-letter-to-the-talents-who-make-our-industry-human"
+signal_ids: [lsp-relevance-erosion]
+signal_stance: mentions
+signal_confidence: low
 ---
 
 The localization industry is facing a paradox as many skilled professionals are struggling to find work despite companies claiming they cannot find qualified talent. This disconnect has prompted Diego Cresceri, founder of Creative Words, to launch Talent Spotlight, a new platform aimed at connecting available professionals, particularly those affected by recent layoffs, with companies seeking in-house talent. The initiative is designed to address the industry's need for a more human approach to talent acquisition, emphasizing the importance of personal stories behind each candidate's profile.

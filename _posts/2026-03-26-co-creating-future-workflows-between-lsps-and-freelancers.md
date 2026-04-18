@@ -7,9 +7,9 @@ tags: [translation, localization, news, gist]
 excerpt: "Tiago Cruz, a speaker at ELIA Together 2026, emphasizes the urgent need for language service providers (LSPs) and freelance linguists to shift from a competitiv..."
 publisher: "elia-association.org"
 source_url: "https://elia-association.org/2026/03/co-creating-future-workflows-between-lsps-and-freelancers/?utm_source=rss&utm_medium=rss&utm_campaign=co-creating-future-workflows-between-lsps-and-freelancers"
-signal_ids: []
-signal_stance: mentions
-signal_confidence: low
+signal_ids: [lsp-relevance-erosion]
+signal_stance: supports
+signal_confidence: medium
 impact_score: 2
 time_horizon: "now"
 affected_segments: [LSPs, Translators]

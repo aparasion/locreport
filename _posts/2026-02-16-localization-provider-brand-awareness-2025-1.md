@@ -7,9 +7,9 @@ tags: [translation, localization, news, gist]
 excerpt: "The 2025 Nimdzi Brand Awareness Study reveals critical insights into the future of the language services market, based on feedback from 271 sophisticated buyers..."
 publisher: "nimdzi.com"
 source_url: "https://www.nimdzi.com/localization-provider-brand-awareness-2025-study/?utm_source=rss&utm_medium=rss&utm_campaign=localization-provider-brand-awareness-2025-study"
-signal_ids: []
-signal_stance: mixed
-signal_confidence: low
+signal_ids: [lsp-relevance-erosion]
+signal_stance: mentions
+signal_confidence: medium
 impact_score: 2
 time_horizon: "now"
 affected_segments: [LSPs, In-House Teams, Tech Vendors]

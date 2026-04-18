@@ -7,7 +7,7 @@ tags: [translation, localization, news, gist]
 excerpt: "Suitsupply, a premium menswear brand, has transformed its localization strategy by fully adopting AI-driven workflows in partnership with Crowdin. Faced with sc..."
 publisher: "crowdin.com"
 source_url: "https://crowdin.com/blog/suitsupply-localization-with-crowdin"
-signal_ids: [quality-gap-closure, localization-operating-system]
+signal_ids: [quality-gap-closure, localization-operating-system, lsp-relevance-erosion]
 signal_stance: supports
 signal_confidence: high
 ---

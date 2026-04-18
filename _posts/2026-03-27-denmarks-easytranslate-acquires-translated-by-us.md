@@ -7,9 +7,9 @@ tags: [translation, localization, news, gist]
 excerpt: "On March 13, 2026, EasyTranslate announced the acquisition of Translated By Us (TBU), a Danish Language Solutions Integrator, marking a significant move in its..."
 publisher: "slator.com"
 source_url: "https://slator.com/denmarks-easytranslate-acquires-translated-by-us"
-signal_ids: []
-signal_stance: mentions
-signal_confidence: low
+signal_ids: [lsp-relevance-erosion]
+signal_stance: supports
+signal_confidence: high
 impact_score: 3
 time_horizon: "now"
 affected_segments: [LSPs, Tech Vendors, Translators]

@@ -7,9 +7,9 @@ tags: [translation, localization, news, gist]
 excerpt: "ChatGPT is emerging as a viable option for translation tasks, particularly for teams needing quick, cost-effective solutions for low-volume work. Its ability to..."
 publisher: "lokalise.com"
 source_url: "https://lokalise.com/blog/chatgpt-vs-localization-platform"
-signal_ids: []
-signal_stance: mixed
-signal_confidence: low
+signal_ids: [lsp-relevance-erosion]
+signal_stance: supports
+signal_confidence: medium
 impact_score: 2
 time_horizon: "6months"
 affected_segments: [Tech Vendors]
