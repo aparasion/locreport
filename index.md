@@ -8,7 +8,6 @@ nav_order: 1
 <section class="hero" id="hero-section">
   <div class="hero-slider-viewport">
   <div class="hero-slides-track" id="hero-track">
-
     <div class="hero-slide">
       <div class="hero-content">
         <h1>The pulse of the language<br>services industry</h1>
@@ -20,7 +19,6 @@ nav_order: 1
         </div>
       </div>
     </div>
-
     <div class="hero-slide">
       <div class="hero-content">
         <h1>No<span class="hero-comma" aria-hidden="true">,</span> AI has been used to build this service.</h1>
@@ -32,7 +30,6 @@ nav_order: 1
         </div>
       </div>
     </div>
-
     <div class="hero-slide">
       <div class="hero-content">
         <h1>The 2026 Global Market Report is here</h1>
@@ -42,7 +39,6 @@ nav_order: 1
         </div>
       </div>
     </div>
-
     <div class="hero-slide">
       <div class="hero-content">
         <h1>Is the LSP supply chain being bypassed?</h1>
@@ -52,17 +48,14 @@ nav_order: 1
         </div>
       </div>
     </div>
-
   </div>
   </div>
-
   <button class="hero-arrow hero-arrow--prev" id="hero-prev" aria-label="Previous slide">
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"></polyline></svg>
   </button>
   <button class="hero-arrow hero-arrow--next" id="hero-next" aria-label="Next slide">
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"></polyline></svg>
   </button>
-
   <div class="hero-dots" id="hero-dots" role="tablist" aria-label="Hero slides">
     <button class="hero-dot hero-dot--active" role="tab" aria-selected="true" aria-label="Slide 1" data-index="0"></button>
     <button class="hero-dot" role="tab" aria-selected="false" aria-label="Slide 2" data-index="1"></button>
