@@ -84,9 +84,7 @@ nav_order: 1
   function sliderWidth() { return window.innerWidth; }
 
   function go(index, animate) {
-    if (index < 0) index = 0;
-    if (index >= total) index = total - 1;
-    cur = index;
+    cur = ((index % total) + total) % total;
     if (animate === false) {
       track.classList.add('hero-slides-track--instant');
     } else {
@@ -97,8 +95,6 @@ nav_order: 1
       dots[i].classList.toggle('hero-dot--active', i === cur);
       dots[i].setAttribute('aria-selected', i === cur ? 'true' : 'false');
     }
-    if (prevBtn) prevBtn.disabled = (cur === 0);
-    if (nextBtn) nextBtn.disabled = (cur === total - 1);
     /* restart comma animation from zero whenever slide 2 becomes active */
     var comma = track.querySelector('.hero-comma');
     if (comma && cur === 1) {
