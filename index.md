@@ -5,229 +5,214 @@ nav: true
 nav_order: 1
 ---
 
-<section class="hero">
-  <div class="hero-content">
-    <h1 id="hero-title">The pulse of the language<br>services industry</h1>
-    <p class="hero-subtitle" id="hero-subtitle">Daily coverage of translation, localization, and AI — curated, analyzed, and tracked through the signals that matter.</p>
-    <div class="hero-actions" id="hero-actions">
-      <a href="/all-articles/" class="btn btn--hero-articles">Browse articles</a>
-      <a href="/intelligence/" class="btn btn--hero-intel">Intelligence Dashboard</a>
-      <a href="/research/" class="btn btn--hero-research">Language Science</a>
+<section class="hero" id="hero-section">
+  <div class="hero-slides-track" id="hero-track">
+
+    <div class="hero-slide">
+      <div class="hero-content">
+        <h1>The pulse of the language<br>services industry</h1>
+        <p class="hero-subtitle">Daily coverage of translation, localization, and AI &mdash; curated, analyzed, and tracked through the signals that matter.</p>
+        <div class="hero-actions">
+          <a href="/all-articles/" class="btn btn--hero-articles">Browse articles</a>
+          <a href="/intelligence/" class="btn btn--hero-intel">Intelligence Dashboard</a>
+          <a href="/research/" class="btn btn--hero-research">Language Science</a>
+        </div>
+      </div>
     </div>
-    <div class="hero-actions hero-actions--report" id="hero-actions-report" aria-hidden="true">
-      <a href="https://locreport.com/reports/2026-Annual-Global-Market-Report/" class="btn btn--hero-articles btn--lg">Read the 2026 report &rarr;</a>
+
+    <div class="hero-slide">
+      <div class="hero-content">
+        <h1>No<span class="hero-comma" aria-hidden="true">,</span> AI has been used to build this service.</h1>
+        <p class="hero-subtitle">Language matters&nbsp;&nbsp;as much as technology.</p>
+        <div class="hero-actions">
+          <a href="/all-articles/" class="btn btn--hero-articles">Browse articles</a>
+          <a href="/intelligence/" class="btn btn--hero-intel">Intelligence Dashboard</a>
+          <a href="/research/" class="btn btn--hero-research">Language Science</a>
+        </div>
+      </div>
     </div>
-    <div class="hero-actions hero-actions--intel" id="hero-actions-intel" aria-hidden="true">
-      <a href="/intelligence/#lsp-relevance-erosion" class="btn btn--hero-intel btn--lg">Explore this signal &rarr;</a>
+
+    <div class="hero-slide">
+      <div class="hero-content">
+        <h1>The 2026 Global Market Report is here</h1>
+        <p class="hero-subtitle">Market sizing, segment-by-segment analysis, AI-era growth drivers, and strategic forecasts &mdash; the definitive view of the language services industry for the year ahead.</p>
+        <div class="hero-actions">
+          <a href="https://locreport.com/reports/2026-Annual-Global-Market-Report/" class="btn btn--hero-articles btn--lg">Read the 2026 report &rarr;</a>
+        </div>
+      </div>
     </div>
+
+    <div class="hero-slide">
+      <div class="hero-content">
+        <h1>Is the LSP supply chain being bypassed?</h1>
+        <p class="hero-subtitle">Enterprise buyers are consolidating with mega-LSPs or going direct to AI &mdash; skipping the traditional supply chain entirely. Track this emerging market signal.</p>
+        <div class="hero-actions">
+          <a href="/intelligence/#lsp-relevance-erosion" class="btn btn--hero-intel btn--lg">Explore this signal &rarr;</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <button class="hero-arrow hero-arrow--prev" id="hero-prev" aria-label="Previous slide">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"></polyline></svg>
+  </button>
+  <button class="hero-arrow hero-arrow--next" id="hero-next" aria-label="Next slide">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"></polyline></svg>
+  </button>
+
+  <div class="hero-dots" id="hero-dots" role="tablist" aria-label="Hero slides">
+    <button class="hero-dot hero-dot--active" role="tab" aria-selected="true" aria-label="Slide 1" data-index="0"></button>
+    <button class="hero-dot" role="tab" aria-selected="false" aria-label="Slide 2" data-index="1"></button>
+    <button class="hero-dot" role="tab" aria-selected="false" aria-label="Slide 3" data-index="2"></button>
+    <button class="hero-dot" role="tab" aria-selected="false" aria-label="Slide 4" data-index="3"></button>
   </div>
 </section>
 
 <script>
 (function () {
-  var INITIAL_WAIT    = 5000;
-  var FADE_MS         = 1300;
-  var TYPE_SPEED      = 55;
-  var COMMA_DELAY     = 750;
-  var ALT_SHOW        = 10000;
-  var REPORT_SHOW     = 12000;
-  var INTEL_SHOW      = 12000;
+  var hero    = document.getElementById('hero-section');
+  var track   = document.getElementById('hero-track');
+  var prevBtn = document.getElementById('hero-prev');
+  var nextBtn = document.getElementById('hero-next');
+  var dotsEl  = document.getElementById('hero-dots');
 
-  var ALT_H1_PRE      = 'No';
-  var ALT_H1_POST     = ' AI has been used to build this service.';
-  var ALT_SUBTITLE    = "Language matters  as much as technology.";
+  if (!track || !hero) return;
 
-  var REPORT_H1       = 'The 2026 Global Market Report is here';
-  var REPORT_SUBTITLE = 'Market sizing, segment-by-segment analysis, AI-era growth drivers, and strategic forecasts \u2014 the definitive view of the language services industry for the year ahead.';
+  var slides = track.querySelectorAll('.hero-slide');
+  var dots   = dotsEl ? dotsEl.querySelectorAll('.hero-dot') : [];
+  var total  = slides.length;
+  var cur    = 0;
+  var AUTOPLAY_MS = 8000;
+  var timer  = null;
 
-  var INTEL_H1        = 'Is the LSP supply chain being bypassed?';
-  var INTEL_SUBTITLE  = 'Enterprise buyers are consolidating with mega-LSPs or going direct to AI \u2014 skipping the traditional supply chain entirely. Track this emerging market signal.';
+  function sliderWidth() { return hero.offsetWidth; }
 
-  var INIT_H1_HTML    = 'The pulse of the language<br>services industry';
-  var INIT_SUBTITLE   = 'Daily coverage of translation, localization, and AI \u2014 curated, analyzed, and tracked through the signals that matter.';
-
-  var h1            = document.getElementById('hero-title');
-  var sub           = document.getElementById('hero-subtitle');
-  var hero          = document.querySelector('.hero');
-  var actions       = document.getElementById('hero-actions');
-  var reportActions = document.getElementById('hero-actions-report');
-  var intelActions  = document.getElementById('hero-actions-intel');
-
-  if (!h1 || !sub || !hero) return;
-
-  // Lock hero height before any text changes so the section never jumps
-  function lockHeroHeight() {
-    var h = hero.offsetHeight;
-    if (h > 0) {
-      hero.style.minHeight = h + 'px';
-      // Also fix h1 and sub heights so swapping text doesn't reflow the banner
-      h1.style.minHeight  = h1.offsetHeight  + 'px';
-      sub.style.minHeight = sub.offsetHeight + 'px';
+  function go(index, animate) {
+    if (index < 0) index = 0;
+    if (index >= total) index = total - 1;
+    cur = index;
+    if (animate === false) {
+      track.classList.add('hero-slides-track--instant');
+    } else {
+      track.classList.remove('hero-slides-track--instant');
     }
+    track.style.transform = 'translateX(-' + (cur * sliderWidth()) + 'px)';
+    for (var i = 0; i < dots.length; i++) {
+      dots[i].classList.toggle('hero-dot--active', i === cur);
+      dots[i].setAttribute('aria-selected', i === cur ? 'true' : 'false');
+    }
+    if (prevBtn) prevBtn.disabled = (cur === 0);
+    if (nextBtn) nextBtn.disabled = (cur === total - 1);
   }
 
-  // Wait for fonts to settle (one rAF after load) then lock
-  if (document.readyState === 'complete') {
-    requestAnimationFrame(lockHeroHeight);
-  } else {
-    window.addEventListener('load', function () { requestAnimationFrame(lockHeroHeight); });
+  function next() { go(cur < total - 1 ? cur + 1 : 0); }
+  function prev() { go(cur > 0 ? cur - 1 : total - 1); }
+
+  function startTimer() { stopTimer(); timer = setInterval(next, AUTOPLAY_MS); }
+  function stopTimer()  { if (timer) { clearInterval(timer); timer = null; } }
+  function resetTimer() { stopTimer(); startTimer(); }
+
+  if (prevBtn) prevBtn.addEventListener('click', function () { prev(); resetTimer(); });
+  if (nextBtn) nextBtn.addEventListener('click', function () { next(); resetTimer(); });
+
+  for (var d = 0; d < dots.length; d++) {
+    (function (idx) {
+      dots[idx].addEventListener('click', function () { go(idx); resetTimer(); });
+    })(d);
   }
 
-  function setOpacity(el, val, ms, cb) {
-    el.style.transition = 'opacity ' + ms + 'ms ease';
-    el.style.opacity    = String(val);
-    if (cb) setTimeout(cb, ms);
-  }
+  /* ── Touch swipe ─────────────────────────────────────── */
+  var tStartX = 0, tStartY = 0, tDeltaX = 0;
+  var touching = false, horizSwipe = false, dirLocked = false;
 
-  function typeInto(el, text, speed, done) {
-    el.innerHTML = '<span class="hero-cursor" aria-hidden="true">\u2502</span>';
-    var cursor = el.querySelector('.hero-cursor');
-    var i = 0;
-    function tick() {
-      if (i < text.length) {
-        cursor.insertAdjacentText('beforebegin', text[i]);
-        i++;
-        setTimeout(tick, speed);
-      } else {
-        cursor.remove();
-        if (done) done();
+  track.addEventListener('touchstart', function (e) {
+    tStartX = e.touches[0].clientX;
+    tStartY = e.touches[0].clientY;
+    tDeltaX = 0;
+    touching = true; horizSwipe = false; dirLocked = false;
+    track.classList.add('hero-slides-track--instant');
+    stopTimer();
+  }, { passive: true });
+
+  track.addEventListener('touchmove', function (e) {
+    if (!touching) return;
+    var dx = e.touches[0].clientX - tStartX;
+    var dy = e.touches[0].clientY - tStartY;
+    if (!dirLocked) {
+      if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 5) {
+        horizSwipe = true; dirLocked = true;
+      } else if (Math.abs(dy) > 5) {
+        touching = false;
+        track.classList.remove('hero-slides-track--instant');
+        go(cur);
+        return;
       }
     }
-    tick();
-  }
+    if (!horizSwipe) return;
+    e.preventDefault();
+    tDeltaX = dx;
+    track.style.transform = 'translateX(-' + (cur * sliderWidth() - dx) + 'px)';
+  }, { passive: false });
 
-  function slideInText(el, html, done) {
-    el.style.transition = '';
-    el.style.opacity    = '';
-    el.style.animation  = 'none';
-    el.innerHTML        = html;
-    el.offsetHeight;    // force reflow to register animation reset
-    el.style.animation  = 'heroSlideIn 0.65s ease both';
-    setTimeout(function () {
-      el.style.animation = '';
-      el.style.opacity   = '1';
-      if (done) done();
-    }, 650);
-  }
+  track.addEventListener('touchend', function () {
+    if (!touching || !horizSwipe) { touching = false; return; }
+    touching = false;
+    track.classList.remove('hero-slides-track--instant');
+    var threshold = sliderWidth() * 0.25;
+    if (tDeltaX > threshold) go(cur - 1);
+    else if (tDeltaX < -threshold) go(cur + 1);
+    else go(cur);
+    startTimer();
+  }, { passive: true });
 
-  function loop() {
-    // ── phase 1: show initial content for 5 s ────────────
-    setTimeout(function () {
+  /* ── Mouse drag (desktop) ────────────────────────────── */
+  var mStartX = 0, mDeltaX = 0, mouseDown = false;
 
-      // ── phase 2: fade out h1 and subtitle only ───────────
-      setOpacity(h1,  0, FADE_MS);
-      setOpacity(sub, 0, FADE_MS, function () {
+  track.addEventListener('mousedown', function (e) {
+    mStartX = e.clientX; mDeltaX = 0;
+    mouseDown = true;
+    track.classList.add('hero-slides-track--instant');
+    track.style.cursor = 'grabbing';
+    stopTimer();
+    e.preventDefault();
+  });
 
-        // ── phase 3: type alt h1 ─────────────────────────
-        h1.style.transition = '';
-        h1.style.opacity    = '1';
-        typeInto(h1, ALT_H1_PRE + ALT_H1_POST, TYPE_SPEED, function () {
+  document.addEventListener('mousemove', function (e) {
+    if (!mouseDown) return;
+    mDeltaX = e.clientX - mStartX;
+    track.style.transform = 'translateX(-' + (cur * sliderWidth() - mDeltaX) + 'px)';
+  });
 
-          // ── phase 4: insert glowing comma after COMMA_DELAY ─────
-          setTimeout(function () {
-            h1.innerHTML =
-              ALT_H1_PRE +
-              '<span class="hero-comma" aria-hidden="true">,</span> ' +
-              ALT_H1_POST;
+  document.addEventListener('mouseup', function () {
+    if (!mouseDown) return;
+    mouseDown = false;
+    track.classList.remove('hero-slides-track--instant');
+    track.style.cursor = '';
+    var threshold = sliderWidth() * 0.15;
+    if (mDeltaX > threshold) go(cur - 1);
+    else if (mDeltaX < -threshold) go(cur + 1);
+    else go(cur);
+    startTimer();
+  });
 
-            // ── phase 5: type alt subtitle ───────────────
-            sub.style.transition = '';
-            sub.style.opacity    = '1';
-            typeInto(sub, ALT_SUBTITLE, TYPE_SPEED, function () {
+  /* ── Keyboard ────────────────────────────────────────── */
+  document.addEventListener('keydown', function (e) {
+    if (e.target && hero.contains(e.target)) {
+      if (e.key === 'ArrowLeft')  { prev(); resetTimer(); }
+      if (e.key === 'ArrowRight') { next(); resetTimer(); }
+    }
+  });
 
-              // ── phase 6: hold alt banner for ALT_SHOW ───────
-              setTimeout(function () {
+  /* ── Resize ──────────────────────────────────────────── */
+  window.addEventListener('resize', function () { go(cur, false); });
 
-                // ── phase 7: fade out alt content ───────────
-                setOpacity(h1,  0, FADE_MS);
-                setOpacity(sub, 0, FADE_MS, function () {
+  /* ── Pause on hover ──────────────────────────────────── */
+  hero.addEventListener('mouseenter', stopTimer);
+  hero.addEventListener('mouseleave', function () { if (!mouseDown) startTimer(); });
 
-                  // ── phase 8: show report CTA, slide in report copy ──
-                  if (actions && reportActions) {
-                    actions.setAttribute('aria-hidden', 'true');
-                    actions.classList.add('is-hidden');
-                    reportActions.removeAttribute('aria-hidden');
-                    reportActions.classList.add('is-visible');
-                  }
-
-                  slideInText(h1, REPORT_H1, null);
-                  setTimeout(function () {
-                    slideInText(sub, REPORT_SUBTITLE, function () {
-
-                      // ── phase 9: hold report slide ─────────
-                      setTimeout(function () {
-
-                        // ── phase 10: fade out report ───────
-                        setOpacity(h1,  0, FADE_MS);
-                        setOpacity(sub, 0, FADE_MS, function () {
-
-                          if (reportActions) {
-                            reportActions.setAttribute('aria-hidden', 'true');
-                            reportActions.classList.remove('is-visible');
-                          }
-                          if (intelActions) {
-                            intelActions.removeAttribute('aria-hidden');
-                            intelActions.classList.add('is-visible');
-                          }
-
-                          // ── phase 11: slide in intel copy ──
-                          slideInText(h1, INTEL_H1, null);
-                          setTimeout(function () {
-                            slideInText(sub, INTEL_SUBTITLE, function () {
-
-                              // ── phase 12: hold intel slide ─────────
-                              setTimeout(function () {
-
-                                // ── phase 13: fade out intel ───────
-                                setOpacity(h1,  0, FADE_MS);
-                                setOpacity(sub, 0, FADE_MS, function () {
-
-                                  if (intelActions) {
-                                    intelActions.setAttribute('aria-hidden', 'true');
-                                    intelActions.classList.remove('is-visible');
-                                  }
-                                  if (actions) {
-                                    actions.removeAttribute('aria-hidden');
-                                    actions.classList.remove('is-hidden');
-                                  }
-
-                                  // ── phase 14: restore initial ─────
-                                  h1.style.transition  = '';
-                                  sub.style.transition = '';
-                                  h1.innerHTML         = INIT_H1_HTML;
-                                  sub.textContent      = INIT_SUBTITLE;
-
-                                  h1.style.opacity  = '0';
-                                  sub.style.opacity = '0';
-
-                                  requestAnimationFrame(function () {
-                                    requestAnimationFrame(function () {
-                                      setOpacity(h1,  1, FADE_MS);
-                                      setOpacity(sub, 1, FADE_MS, function () {
-                                        h1.style.transition  = '';
-                                        sub.style.transition = '';
-                                        loop(); // restart
-                                      });
-                                    });
-                                  });
-                                });
-                              }, INTEL_SHOW);
-                            });
-                          }, 150);
-                        });
-                      }, REPORT_SHOW);
-                    });
-                  }, 150);
-                });
-              }, ALT_SHOW);
-            });
-          }, COMMA_DELAY);
-        });
-      });
-    }, INITIAL_WAIT);
-  }
-
-  loop();
+  go(0, false);
+  startTimer();
 }());
 </script>
 
