@@ -386,55 +386,106 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // ── Autoload / Infinite scroll ───────────────────────────
-  var AUTOLOAD_BATCH = 12;
+  // ── Bidirectional infinite scroll (home feed day-sections) ──
+  (function () {
+    var WINDOW_SIZE = 7;
+    var daySections = Array.from(document.querySelectorAll(".day-section[data-day-index]"));
+    var totalDays = daySections.length;
+    if (totalDays === 0) return;
 
-  // Handle post-grid autoload
-  var postGrid = document.querySelector(".post-grid");
-  if (postGrid) {
-    var postCards = Array.from(postGrid.querySelectorAll(".post-card"));
+    daySections.sort(function (a, b) {
+      return +a.dataset.dayIndex - +b.dataset.dayIndex;
+    });
 
-    if (postCards.length > AUTOLOAD_BATCH) {
-      postCards.slice(AUTOLOAD_BATCH).forEach(function (p) {
-        p.classList.add("autoload-hidden");
+    var topIdx = 0;
+    var bottomIdx = Math.min(2, totalDays - 1);
+    var loadingBottom = false;
+    var loadingTop = false;
+
+    var bottomLoader   = document.getElementById("feed-bottom-loader");
+    var bottomSentinel = document.getElementById("feed-bottom-sentinel");
+    var topLoader      = document.getElementById("feed-top-loader");
+    var topSentinel    = document.getElementById("feed-top-sentinel");
+
+    if (!bottomSentinel) return;
+
+    function revealSection(section) {
+      section.classList.remove("day-hidden");
+      section.querySelectorAll(".reveal, .reveal-stagger").forEach(function (el) {
+        el.classList.add("is-visible");
       });
-
-      var loader = document.createElement("div");
-      loader.className = "autoload-loader";
-      loader.textContent = "Loading more\u2026";
-      postGrid.parentNode.insertBefore(loader, postGrid.nextSibling);
-
-      var sentinel = document.createElement("div");
-      sentinel.className = "autoload-sentinel";
-      postGrid.parentNode.insertBefore(sentinel, loader.nextSibling);
-
-      var autoloadObserver = new IntersectionObserver(function (entries) {
-        if (entries[0].isIntersecting) {
-          var pending = postCards.filter(function (p) {
-            return p.classList.contains("autoload-hidden");
-          });
-          if (pending.length === 0) return;
-
-          loader.classList.add("is-active");
-          setTimeout(function () {
-            pending.slice(0, AUTOLOAD_BATCH).forEach(function (p) {
-              p.classList.remove("autoload-hidden");
-              p.style.opacity = "0";
-              p.style.transform = "translateY(16px)";
-              requestAnimationFrame(function () {
-                p.style.transition = "opacity 0.4s ease, transform 0.4s ease";
-                p.style.opacity = "1";
-                p.style.transform = "translateY(0)";
-              });
-            });
-            loader.classList.remove("is-active");
-          }, 100);
-        }
-      }, { rootMargin: "300px" });
-
-      autoloadObserver.observe(sentinel);
+      section.style.opacity = "0";
+      section.style.transform = "translateY(20px)";
+      requestAnimationFrame(function () {
+        section.style.transition = "opacity 0.4s ease, transform 0.4s ease";
+        section.style.opacity = "1";
+        section.style.transform = "translateY(0)";
+      });
     }
-  }
+
+    // ── Bottom sentinel: load older days ─────────────────────
+    if (bottomIdx < totalDays - 1) {
+      var bottomObs = new IntersectionObserver(function (entries) {
+        if (!entries[0].isIntersecting || loadingBottom) return;
+        if (bottomIdx >= totalDays - 1) return;
+        loadingBottom = true;
+        if (bottomLoader) bottomLoader.classList.add("is-active");
+        setTimeout(function () {
+          bottomIdx++;
+          revealSection(daySections[bottomIdx]);
+          if (bottomIdx - topIdx >= WINDOW_SIZE) {
+            var toHide = daySections[topIdx];
+            var hiddenH = toHide.offsetHeight;
+            toHide.classList.add("day-hidden");
+            window.scrollTo({ top: Math.max(0, window.scrollY - hiddenH), behavior: "instant" });
+            topIdx++;
+          }
+          if (bottomLoader) bottomLoader.classList.remove("is-active");
+          loadingBottom = false;
+        }, 150);
+      }, { rootMargin: "400px" });
+      bottomObs.observe(bottomSentinel);
+    } else {
+      if (bottomLoader)   bottomLoader.remove();
+      if (bottomSentinel) bottomSentinel.remove();
+    }
+
+    // ── Top sentinel: restore days when scrolling back up ────
+    if (topSentinel) {
+      var topObs = new IntersectionObserver(function (entries) {
+        if (!entries[0].isIntersecting || loadingTop) return;
+        if (topIdx <= 0) return;
+        loadingTop = true;
+        if (topLoader) topLoader.classList.add("is-active");
+        setTimeout(function () {
+          topIdx--;
+          var prev = daySections[topIdx];
+          var scrollBefore = window.scrollY;
+          prev.classList.remove("day-hidden");
+          prev.querySelectorAll(".reveal, .reveal-stagger").forEach(function (el) {
+            el.classList.add("is-visible");
+          });
+          var addedH = prev.offsetHeight;
+          window.scrollTo({ top: scrollBefore + addedH, behavior: "instant" });
+          prev.style.opacity = "0";
+          requestAnimationFrame(function () {
+            prev.style.transition = "opacity 0.4s ease";
+            prev.style.opacity = "1";
+          });
+          if (bottomIdx - topIdx >= WINDOW_SIZE) {
+            daySections[bottomIdx].classList.add("day-hidden");
+            bottomIdx--;
+          }
+          if (topLoader) topLoader.classList.remove("is-active");
+          loadingTop = false;
+        }, 150);
+      }, { rootMargin: "200px" });
+      topObs.observe(topSentinel);
+    }
+  }());
+
+  // ── Legacy autoload batch size (still used by topic pages) ──
+  var AUTOLOAD_BATCH = 12;
 
   // Handle legacy post-list autoload (topic pages)
   topicFilterPanels.forEach(function (panel) {
