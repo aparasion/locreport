@@ -1383,7 +1383,6 @@ hr {
 
 /* ── Autoload ───────────────────────────────────────────── */
 .autoload-hidden { display: none !important; }
-.day-hidden { display: none !important; }
 .autoload-sentinel { height: 1px; }
 .autoload-loader { display: none; text-align: center; padding: var(--space-6) 0; color: var(--muted); font-size: 0.85rem; }
 .autoload-loader.is-active { display: block; }

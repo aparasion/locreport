@@ -222,28 +222,70 @@ nav_order: 1
 
 <!-- Latest Articles -->
 {% comment %}
-  Collect all unique days with published content (newest-first).
-  Days 0-2 are visible on load; days 3+ carry .day-hidden for bidirectional
-  infinite scroll — the JS in default.html reveals/hides them via sentinels.
+  Collect the last 3 unique days that have published content.
+  Posts are already sorted newest-first by Jekyll.
 {% endcomment %}
-{% assign _all_days = "" | split: "" %}
+{% assign day_count = 0 %}
+{% assign current_day = "" %}
+{% assign day1 = "" %}
+{% assign day2 = "" %}
+{% assign day3 = "" %}
+
 {% for post in site.posts %}
-  {% unless post.article_type == "theory" %}
-    {% assign _pd = post.date | date: "%Y-%m-%d" %}
-    {% unless _all_days contains _pd %}
-      {% assign _all_days = _all_days | push: _pd %}
-    {% endunless %}
-  {% endunless %}
+  {% if post.article_type == "theory" %}{% continue %}{% endif %}
+  {% assign post_day = post.date | date: "%Y-%m-%d" %}
+  {% if post_day != current_day %}
+    {% assign current_day = post_day %}
+    {% assign day_count = day_count | plus: 1 %}
+    {% if day_count == 1 %}
+      {% assign day1 = post_day %}
+    {% elsif day_count == 2 %}
+      {% assign day2 = post_day %}
+    {% elsif day_count == 3 %}
+      {% assign day3 = post_day %}
+    {% endif %}
+  {% endif %}
+  {% if day_count > 3 %}{% break %}{% endif %}
 {% endfor %}
 
-<div id="feed-top-sentinel" class="autoload-sentinel"></div>
-<div id="feed-top-loader" class="autoload-loader">Loading&hellip;</div>
+{% comment %} Day 1: Most recent — featured first article + grid of remaining {% endcomment %}
+{% assign day1_first = true %}
+<section class="day-section">
+  <h2 class="day-header">{{ site.posts.first.date | date: "%B %d, %Y" }}</h2>
 
-{% for _day in _all_days %}
-  {% assign _di = forloop.index0 %}
+  {% for post in site.posts %}
+    {% if post.article_type == "theory" %}{% continue %}{% endif %}
+    {% assign post_day = post.date | date: "%Y-%m-%d" %}
+    {% if post_day != day1 %}{% continue %}{% endif %}
 
-  {% comment %} Newsletter banner between day 0 and day 1 {% endcomment %}
-  {% if _di == 1 %}
+    {% if day1_first %}
+      {% assign day1_first = false %}
+      <article class="featured-article reveal">
+        <span class="featured-badge">Latest</span>
+        {% if post.impact_score %}
+        <span class="impact-badge impact-badge--{{ post.impact_score }} impact-badge--inline">
+          {% if post.impact_score == 1 %}Routine{% elsif post.impact_score == 2 %}Notable{% elsif post.impact_score == 3 %}Significant{% elsif post.impact_score == 4 %}Major{% elsif post.impact_score == 5 %}Disruptive{% endif %}
+        </span>
+        {% endif %}
+        <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
+        <p class="post-meta">{{ post.date | date: "%B %d, %Y" }}</p>
+        <p>{{ post.excerpt | strip_html | truncate: 200 }}</p>
+      </article>
+
+      <div class="post-grid reveal-stagger">
+    {% else %}
+      <article class="post-card" {% if post.affected_segments %}data-segments="{{ post.affected_segments | join: '|' }}"{% endif %}>
+        <p class="post-meta">{{ post.date | date: "%B %d, %Y" }}<span class="new-badge">NEW</span>{% if post.impact_score and post.impact_score >= 3 %}<span class="impact-dot impact-dot--{{ post.impact_score }}" title="Impact: {% if post.impact_score == 3 %}Significant{% elsif post.impact_score == 4 %}Major{% elsif post.impact_score == 5 %}Disruptive{% endif %}"></span>{% endif %}</p>
+        <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
+        <p>{{ post.excerpt | strip_html | truncate: 140 }}</p>
+        <a class="read-more" href="{{ post.url | relative_url }}">Read more &rarr;</a>
+      </article>
+    {% endif %}
+  {% endfor %}
+      </div>
+</section>
+
+{% comment %} Newsletter signup banner {% endcomment %}
 <section class="newsletter-banner">
   <div class="newsletter-banner-inner">
     <div class="newsletter-banner-text">
@@ -263,73 +305,62 @@ nav_order: 1
     </form>
   </div>
 </section>
-  {% endif %}
 
-  <section class="day-section{% if _di >= 3 %} day-hidden{% endif %}" data-day-index="{{ _di }}">
-
-  {% comment %} Resolve display date for this day {% endcomment %}
-  {% assign _day_display = "" %}
+{% comment %} Day 2 {% endcomment %}
+{% if day2 != "" %}
+<section class="day-section">
   {% for post in site.posts %}
     {% if post.article_type == "theory" %}{% continue %}{% endif %}
-    {% if post.date | date: "%Y-%m-%d" == _day %}
-      {% assign _day_display = post.date | date: "%B %d, %Y" %}
+    {% assign post_day = post.date | date: "%Y-%m-%d" %}
+    {% if post_day == day2 %}
+      {% assign day2_display = post.date | date: "%B %d, %Y" %}
       {% break %}
     {% endif %}
   {% endfor %}
-
-  <h2 class="day-header">{{ _day_display }}</h2>
-
-  {% if _di == 0 %}
-    {% comment %} Day 0: featured article + grid of remaining {% endcomment %}
-    {% assign _d0_first = true %}
+  <h2 class="day-header">{{ day2_display }}</h2>
+  <div class="post-grid reveal-stagger">
     {% for post in site.posts %}
       {% if post.article_type == "theory" %}{% continue %}{% endif %}
-      {% unless post.date | date: "%Y-%m-%d" == _day %}{% continue %}{% endunless %}
-      {% if _d0_first %}
-        {% assign _d0_first = false %}
-        <article class="featured-article reveal">
-          <span class="featured-badge">Latest</span>
-          {% if post.impact_score %}
-          <span class="impact-badge impact-badge--{{ post.impact_score }} impact-badge--inline">
-            {% if post.impact_score == 1 %}Routine{% elsif post.impact_score == 2 %}Notable{% elsif post.impact_score == 3 %}Significant{% elsif post.impact_score == 4 %}Major{% elsif post.impact_score == 5 %}Disruptive{% endif %}
-          </span>
-          {% endif %}
-          <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
-          <p class="post-meta">{{ post.date | date: "%B %d, %Y" }}</p>
-          <p>{{ post.excerpt | strip_html | truncate: 200 }}</p>
-        </article>
-        <div class="post-grid reveal-stagger">
-      {% else %}
-        <article class="post-card" {% if post.affected_segments %}data-segments="{{ post.affected_segments | join: '|' }}"{% endif %}>
-          <p class="post-meta">{{ post.date | date: "%B %d, %Y" }}<span class="new-badge">NEW</span>{% if post.impact_score and post.impact_score >= 3 %}<span class="impact-dot impact-dot--{{ post.impact_score }}" title="Impact: {% if post.impact_score == 3 %}Significant{% elsif post.impact_score == 4 %}Major{% elsif post.impact_score == 5 %}Disruptive{% endif %}"></span>{% endif %}</p>
-          <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
-          <p>{{ post.excerpt | strip_html | truncate: 140 }}</p>
-          <a class="read-more" href="{{ post.url | relative_url }}">Read more &rarr;</a>
-        </article>
-      {% endif %}
+      {% assign post_day = post.date | date: "%Y-%m-%d" %}
+      {% if post_day != day2 %}{% continue %}{% endif %}
+      <article class="post-card" {% if post.affected_segments %}data-segments="{{ post.affected_segments | join: '|' }}"{% endif %}>
+        <p class="post-meta">{{ post.date | date: "%B %d, %Y" }}{% if post.impact_score and post.impact_score >= 3 %}<span class="impact-dot impact-dot--{{ post.impact_score }}" title="Impact: {% if post.impact_score == 3 %}Significant{% elsif post.impact_score == 4 %}Major{% elsif post.impact_score == 5 %}Disruptive{% endif %}"></span>{% endif %}</p>
+        <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
+        <p>{{ post.excerpt | strip_html | truncate: 140 }}</p>
+        <a class="read-more" href="{{ post.url | relative_url }}">Read more &rarr;</a>
+      </article>
     {% endfor %}
-    </div>
-  {% else %}
-    {% comment %} Day 1+: grid only {% endcomment %}
-    <div class="post-grid reveal-stagger">
-      {% for post in site.posts %}
-        {% if post.article_type == "theory" %}{% continue %}{% endif %}
-        {% unless post.date | date: "%Y-%m-%d" == _day %}{% continue %}{% endunless %}
-        <article class="post-card" {% if post.affected_segments %}data-segments="{{ post.affected_segments | join: '|' }}"{% endif %}>
-          <p class="post-meta">{{ post.date | date: "%B %d, %Y" }}{% if post.impact_score and post.impact_score >= 3 %}<span class="impact-dot impact-dot--{{ post.impact_score }}" title="Impact: {% if post.impact_score == 3 %}Significant{% elsif post.impact_score == 4 %}Major{% elsif post.impact_score == 5 %}Disruptive{% endif %}"></span>{% endif %}</p>
-          <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
-          <p>{{ post.excerpt | strip_html | truncate: 140 }}</p>
-          <a class="read-more" href="{{ post.url | relative_url }}">Read more &rarr;</a>
-        </article>
-      {% endfor %}
-    </div>
-  {% endif %}
+  </div>
+</section>
+{% endif %}
 
-  </section>
-{% endfor %}
-
-<div id="feed-bottom-loader" class="autoload-loader">Loading more&hellip;</div>
-<div id="feed-bottom-sentinel" class="autoload-sentinel"></div>
+{% comment %} Day 3 {% endcomment %}
+{% if day3 != "" %}
+<section class="day-section">
+  {% for post in site.posts %}
+    {% if post.article_type == "theory" %}{% continue %}{% endif %}
+    {% assign post_day = post.date | date: "%Y-%m-%d" %}
+    {% if post_day == day3 %}
+      {% assign day3_display = post.date | date: "%B %d, %Y" %}
+      {% break %}
+    {% endif %}
+  {% endfor %}
+  <h2 class="day-header">{{ day3_display }}</h2>
+  <div class="post-grid reveal-stagger">
+    {% for post in site.posts %}
+      {% if post.article_type == "theory" %}{% continue %}{% endif %}
+      {% assign post_day = post.date | date: "%Y-%m-%d" %}
+      {% if post_day != day3 %}{% continue %}{% endif %}
+      <article class="post-card" {% if post.affected_segments %}data-segments="{{ post.affected_segments | join: '|' }}"{% endif %}>
+        <p class="post-meta">{{ post.date | date: "%B %d, %Y" }}{% if post.impact_score and post.impact_score >= 3 %}<span class="impact-dot impact-dot--{{ post.impact_score }}" title="Impact: {% if post.impact_score == 3 %}Significant{% elsif post.impact_score == 4 %}Major{% elsif post.impact_score == 5 %}Disruptive{% endif %}"></span>{% endif %}</p>
+        <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
+        <p>{{ post.excerpt | strip_html | truncate: 140 }}</p>
+        <a class="read-more" href="{{ post.url | relative_url }}">Read more &rarr;</a>
+      </article>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
 
 <!-- CTA Section -->
 <section class="cta-section">
