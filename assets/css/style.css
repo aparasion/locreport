@@ -872,19 +872,19 @@ hr {
 .hero-comma {
   -webkit-text-fill-color: #ff2020;
   color: #ff2020;
-  animation: heroCommaFlash 0.75s ease-in-out infinite alternate;
+  animation: heroCommaPulse 5s linear infinite;
   display: inline-block;
 }
 
-@keyframes heroCommaFlash {
-  0% {
-    opacity: 1;
-    text-shadow: 0 0 6px #ff2020, 0 0 14px #ff2020;
-  }
-  100% {
-    opacity: 0.45;
-    text-shadow: 0 0 22px #ff0000, 0 0 45px #ff0000, 0 0 70px #ff4444;
-  }
+@keyframes heroCommaPulse {
+  /* invisible for 3 s (0–60 %) */
+  0%,
+  60% { opacity: 0; text-shadow: none; }
+  /* fade in and pulse red for 2 s (60–100 %) */
+  70% { opacity: 1;    text-shadow: 0 0 8px #ff2020, 0 0 18px #ff2020; }
+  80% { opacity: 0.45; text-shadow: 0 0 4px #ff2020; }
+  90% { opacity: 1;    text-shadow: 0 0 22px #ff0000, 0 0 45px #ff0000, 0 0 70px #ff4444; }
+  100% { opacity: 0;   text-shadow: none; }
 }
 @keyframes fadeInDown {
   from { opacity: 0; transform: translateY(-8px); }

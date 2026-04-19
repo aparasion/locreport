@@ -99,6 +99,13 @@ nav_order: 1
     }
     if (prevBtn) prevBtn.disabled = (cur === 0);
     if (nextBtn) nextBtn.disabled = (cur === total - 1);
+    /* restart comma animation from zero whenever slide 2 becomes active */
+    var comma = track.querySelector('.hero-comma');
+    if (comma && cur === 1) {
+      comma.style.animation = 'none';
+      comma.offsetWidth; /* force reflow */
+      comma.style.animation = '';
+    }
   }
 
   function next() { go(cur < total - 1 ? cur + 1 : 0); }
