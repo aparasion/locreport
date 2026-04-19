@@ -44,47 +44,46 @@ description: "Browse all localization industry articles by topic — quality, op
     <div class="filter-bar-inner">
 
       <div class="filter-group">
-        <label class="filter-label">Topic</label>
-        <div class="filter-chips" id="topic-chips" role="group" aria-label="Filter by topic">
-          <button class="filter-chip active" data-topic="all">All</button>
-          <button class="filter-chip" data-topic="quality"><span class="chip-dot chip-dot--quality"></span>Quality</button>
-          <button class="filter-chip" data-topic="operations"><span class="chip-dot chip-dot--operations"></span>Operations</button>
-          <button class="filter-chip" data-topic="governance"><span class="chip-dot chip-dot--governance"></span>Governance</button>
-          <button class="filter-chip" data-topic="market"><span class="chip-dot chip-dot--market"></span>Market</button>
-          <button class="filter-chip" data-topic="strategy"><span class="chip-dot chip-dot--strategy"></span>Strategy</button>
-        </div>
-      </div>
-
-      <div class="filter-group">
-        <label class="filter-label">Impact</label>
-        <div class="filter-chips" id="impact-chips" role="group" aria-label="Filter by impact">
-          <button class="filter-chip active" data-impact="all">Any</button>
-          <button class="filter-chip" data-impact="4"><span class="chip-impact-icon chip-impact--high"></span>Major+</button>
-          <button class="filter-chip" data-impact="3"><span class="chip-impact-icon chip-impact--mid"></span>Significant+</button>
-          <button class="filter-chip" data-impact="2"><span class="chip-impact-icon chip-impact--low"></span>Notable+</button>
-        </div>
-      </div>
-
-      <div class="filter-group">
-        <label class="filter-label">Date</label>
-        <select class="filter-select" id="date-filter" aria-label="Filter by date">
-          <option value="all">All time</option>
-          <option value="7">Last 7 days</option>
-          <option value="30">Last 30 days</option>
-          <option value="90">Last 3 months</option>
-          <option value="365">Last year</option>
+        <label class="filter-label" for="topic-select">Topic</label>
+        <select class="filter-select" id="topic-select" aria-label="Filter by topic">
+          <option value="all">All topics</option>
+          <option value="quality">Quality</option>
+          <option value="operations">Operations</option>
+          <option value="governance">Governance</option>
+          <option value="market">Market</option>
+          <option value="strategy">Strategy</option>
         </select>
       </div>
 
       <div class="filter-group">
-        <label class="filter-label">Source</label>
+        <label class="filter-label" for="impact-select">Impact</label>
+        <select class="filter-select" id="impact-select" aria-label="Filter by impact">
+          <option value="all">All levels</option>
+          <option value="4">Major+</option>
+          <option value="3">Significant+</option>
+          <option value="2">Notable+</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label class="filter-label" for="source-filter">Source</label>
         <select class="filter-select" id="source-filter" aria-label="Filter by source">
           <option value="all">All sources</option>
         </select>
       </div>
 
+      <div class="filter-group">
+        <label class="filter-label" for="date-from">From</label>
+        <input type="date" class="filter-select filter-date" id="date-from" aria-label="From date">
+      </div>
+
+      <div class="filter-group">
+        <label class="filter-label" for="date-to">To</label>
+        <input type="date" class="filter-select filter-date" id="date-to" aria-label="To date">
+      </div>
+
       <div class="filter-group filter-group--sort">
-        <label class="filter-label">Sort</label>
+        <label class="filter-label" for="sort-select">Sort</label>
         <select class="filter-select" id="sort-select" aria-label="Sort articles">
           <option value="date">Newest first</option>
           <option value="impact">Highest impact</option>
@@ -93,8 +92,8 @@ description: "Browse all localization industry articles by topic — quality, op
     </div>
 
     <div class="filter-status-row">
+      <button class="filter-reset-btn" id="filter-reset">Clear all</button>
       <p class="filter-count" id="feed-count" aria-live="polite"></p>
-      <button class="filter-reset-btn" id="filter-reset" style="display:none;">Clear filters</button>
     </div>
   </div>
 </section>
@@ -178,9 +177,10 @@ document.addEventListener("DOMContentLoaded", function () {
   var feedLoader = document.getElementById("feed-loader");
   var feedSentinel = document.getElementById("feed-sentinel");
   var feedCount = document.getElementById("feed-count");
-  var topicChips = Array.from(document.querySelectorAll("#topic-chips [data-topic]"));
-  var impactChips = Array.from(document.querySelectorAll("#impact-chips [data-impact]"));
-  var dateFilter = document.getElementById("date-filter");
+  var topicSelect = document.getElementById("topic-select");
+  var impactSelect = document.getElementById("impact-select");
+  var dateFrom = document.getElementById("date-from");
+  var dateTo = document.getElementById("date-to");
   var sourceFilter = document.getElementById("source-filter");
   var sortSelect = document.getElementById("sort-select");
   var resetBtn = document.getElementById("filter-reset");
@@ -195,17 +195,16 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   var BATCH = 30;
-  var activeTopic = "all";
-  var activeImpact = "all";
   var observer = null;
   var currentItems = [];
   var loadedCount = 0;
 
   function updateMobileBadge() {
     var count = 0;
-    if (activeTopic !== "all") count++;
-    if (activeImpact !== "all") count++;
-    if (dateFilter.value !== "all") count++;
+    if (topicSelect.value !== "all") count++;
+    if (impactSelect.value !== "all") count++;
+    if (dateFrom.value !== "") count++;
+    if (dateTo.value !== "") count++;
     if (sourceFilter.value !== "all") count++;
     if (filterBarBadge) {
       filterBarBadge.textContent = count > 0 ? count : "";
@@ -234,40 +233,30 @@ document.addEventListener("DOMContentLoaded", function () {
     sourceFilter.appendChild(opt);
   });
 
-  function hasActiveFilters() {
-    return activeTopic !== "all" || activeImpact !== "all" ||
-           dateFilter.value !== "all" || sourceFilter.value !== "all";
+  function dateToInt(dateStr) {
+    return parseInt(dateStr.replace(/-/g, ""), 10);
   }
 
   function getFiltered() {
     var sortBy = sortSelect.value;
-    var dateDays = dateFilter.value;
     var source = sourceFilter.value;
-    var now = new Date();
-
-    var cutoff = null;
-    if (dateDays !== "all") {
-      cutoff = new Date(now.getTime() - parseInt(dateDays, 10) * 86400000);
-      cutoff = parseInt(cutoff.toISOString().slice(0, 10).replace(/-/g, ""), 10);
-    }
+    var activeTopic = topicSelect.value;
+    var activeImpact = impactSelect.value;
+    var fromInt = dateFrom.value ? dateToInt(dateFrom.value) : null;
+    var toInt = dateTo.value ? dateToInt(dateTo.value) : null;
 
     var filtered = allItems.filter(function (item) {
-      // Topic filter
       if (activeTopic !== "all") {
         var itemTopics = (item.getAttribute("data-topics") || "").trim().split(/\s+/);
         if (itemTopics.indexOf(activeTopic) === -1) return false;
       }
-      // Impact filter
       if (activeImpact !== "all") {
         var imp = parseInt(item.getAttribute("data-impact") || "0", 10);
         if (imp < parseInt(activeImpact, 10)) return false;
       }
-      // Date filter
-      if (cutoff) {
-        var itemDate = parseInt(item.getAttribute("data-date") || "0", 10);
-        if (itemDate < cutoff) return false;
-      }
-      // Source filter
+      var itemDate = parseInt(item.getAttribute("data-date") || "0", 10);
+      if (fromInt && itemDate < fromInt) return false;
+      if (toInt && itemDate > toInt) return false;
       if (source !== "all") {
         var itemSource = item.getAttribute("data-source") || "";
         if (itemSource !== source) return false;
@@ -343,47 +332,23 @@ document.addEventListener("DOMContentLoaded", function () {
         : currentItems.length + " of " + allItems.length + " articles";
     }
 
-    resetBtn.style.display = hasActiveFilters() ? "" : "none";
     updateMobileBadge();
-
     feedLoader.classList.remove("is-active");
     setupObserver();
   }
 
-  // Topic chips
-  topicChips.forEach(function (chip) {
-    chip.addEventListener("click", function () {
-      topicChips.forEach(function (c) { c.classList.remove("active"); });
-      chip.classList.add("active");
-      activeTopic = chip.getAttribute("data-topic");
-      applyFilter();
-    });
-  });
-
-  // Impact chips
-  impactChips.forEach(function (chip) {
-    chip.addEventListener("click", function () {
-      impactChips.forEach(function (c) { c.classList.remove("active"); });
-      chip.classList.add("active");
-      activeImpact = chip.getAttribute("data-impact");
-      applyFilter();
-    });
-  });
-
-  // Dropdowns
-  dateFilter.addEventListener("change", function () { applyFilter(); });
+  topicSelect.addEventListener("change", function () { applyFilter(); });
+  impactSelect.addEventListener("change", function () { applyFilter(); });
+  dateFrom.addEventListener("change", function () { applyFilter(); });
+  dateTo.addEventListener("change", function () { applyFilter(); });
   sourceFilter.addEventListener("change", function () { applyFilter(); });
   sortSelect.addEventListener("change", function () { applyFilter(); });
 
-  // Reset
   resetBtn.addEventListener("click", function () {
-    activeTopic = "all";
-    activeImpact = "all";
-    topicChips.forEach(function (c) { c.classList.remove("active"); });
-    topicChips[0].classList.add("active");
-    impactChips.forEach(function (c) { c.classList.remove("active"); });
-    impactChips[0].classList.add("active");
-    dateFilter.value = "all";
+    topicSelect.value = "all";
+    impactSelect.value = "all";
+    dateFrom.value = "";
+    dateTo.value = "";
     sourceFilter.value = "all";
     sortSelect.value = "date";
     applyFilter();
@@ -392,10 +357,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // URL hash support
   var hash = window.location.hash.replace("#", "");
   if (["quality", "operations", "governance", "market", "strategy"].indexOf(hash) !== -1) {
-    activeTopic = hash;
-    topicChips.forEach(function (c) { c.classList.remove("active"); });
-    var m = document.querySelector('#topic-chips [data-topic="' + hash + '"]');
-    if (m) m.classList.add("active");
+    topicSelect.value = hash;
   }
 
   applyFilter();
