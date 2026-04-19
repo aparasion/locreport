@@ -324,6 +324,11 @@ document.addEventListener("DOMContentLoaded", function () {
     loadedCount = 0;
 
     allItems.forEach(function (item) { item.style.display = "none"; });
+
+    // Reorder DOM elements to match the current sort so visible items appear in correct order
+    var feed = document.getElementById("intel-article-feed");
+    currentItems.forEach(function (item) { feed.appendChild(item); });
+
     loadedCount = showBatch(currentItems, 0);
 
     if (feedCount) {
