@@ -663,7 +663,7 @@ hr {
 /* ── Hero Section ───────────────────────────────────────── */
 .hero {
   position: relative;
-  padding: var(--space-6) 0 var(--space-5);
+  padding: var(--space-6) 0 calc(var(--space-3) + 28px);
   text-align: center;
   overflow: hidden;
   width: 100vw;
