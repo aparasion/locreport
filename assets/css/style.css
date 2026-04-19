@@ -1222,8 +1222,8 @@ hr {
   position: relative;
   background: var(--featured-bg);
   border-radius: var(--radius-xl);
-  padding: var(--space-10) var(--space-8);
-  margin-bottom: var(--space-8);
+  padding: var(--space-8) var(--space-6);
+  margin-bottom: var(--space-6);
   overflow: hidden;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   min-height: 280px;
