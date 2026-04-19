@@ -44,7 +44,7 @@
   title: AI agents are autonomously managing end-to-end localization pipelines
   category: operations
   first_seen: 2026-03-09
-  current_status: emerging
+  current_status: supported
   description: Tracks emergence of autonomous AI agents that trigger, route, review, and publish localized content with minimal human handoffs.
 
 - id: multimodal-content-localization
@@ -65,12 +65,12 @@
   title: Organizations are designing content with localization built in from the start
   category: strategy
   first_seen: 2026-03-09
-  current_status: emerging
+  current_status: supported
   description: Tracks evidence that content is being created locale-aware from the start — transcreation briefs, structured content, internationalized UX — rather than localization being a downstream afterthought.
 
 - id: lsp-relevance-erosion
   title: Boutique and mid-tier LSPs are losing strategic relevance as enterprise buyers consolidate or go direct-to-AI
   category: market
   first_seen: 2026-04-18
-  current_status: emerging
+  current_status: supported
   description: Tracks whether boutique and mid-size LSPs are being squeezed out as enterprise buyers consolidate with mega-LSPs or bypass LSPs entirely via direct AI platforms — questioning whether specialization and relationship advantages still justify their position in the supply chain when AI offers comparable output at lower cost.
