@@ -41,8 +41,8 @@ nav_order: 1
     </div>
     <div class="hero-slide">
       <div class="hero-content">
-        <h1>Is the LSP supply chain being bypassed?</h1>
-        <p class="hero-subtitle">Enterprise buyers are consolidating with mega-LSPs or going direct to AI &mdash; skipping the traditional supply chain entirely. Track this emerging market signal.</p>
+        <h1>Track the forces reshaping the industry</h1>
+        <p class="hero-subtitle">Enterprise buyers are consolidating up or going direct-to-AI. This signal tracks what that means for boutique and mid-tier LSPs — and whether their advantages still hold when AI delivers comparable output at a fraction of the cost.</p>
         <div class="hero-actions">
           <a href="/intelligence/#lsp-relevance-erosion" class="btn btn--hero-intel btn--lg">Explore this signal &rarr;</a>
         </div>
