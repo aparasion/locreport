@@ -247,7 +247,7 @@ nav_order: 1
 {% comment %} Day 1: Most recent — featured first article + grid of remaining {% endcomment %}
 {% assign day1_first = true %}
 <section class="day-section">
-  <h2 class="day-header">{{ site.posts.first.date | date: "%B %d, %Y" }}</h2>
+  <h2 class="day-header">{{ day1 | date: "%B %d, %Y" }}</h2>
 
   {% for post in site.posts %}
     {% if post.article_type == "theory" %}{% continue %}{% endif %}
