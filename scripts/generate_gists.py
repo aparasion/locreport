@@ -585,6 +585,51 @@ def infer_signal_tags(title: str, gist: str) -> tuple[list[str], str, str]:
     return matched, stance, confidence
 
 
+# Terms that confirm an article is genuinely about language/translation services,
+# not about "localization" in the automotive/manufacturing/supply-chain sense.
+LANGUAGE_SERVICES_INDICATORS = [
+    "translat",           # translation, translate, translator, translating
+    "language service",
+    "multilingual",
+    "machine translation",
+    "post-edit",
+    "tms",
+    "cat tool",
+    "subtitl",
+    "dubbing",
+    "interpreting",
+    "interpreter",
+    "language technology",
+    "language ai",
+    "ai translation",
+    "language pair",
+    "source language",
+    "target language",
+    "natural language processing",
+    " l10n",
+    " i18n",
+    "internationalization",
+    "linguistic",
+    "localization platform",
+    "localization software",
+    "localization tool",
+    "software localization",
+    "content localization",
+    "localization workflow",
+    "language model",
+]
+
+
+def is_language_services_relevant(title: str, text: str) -> bool:
+    """Return True only if the article is genuinely about language/translation services.
+
+    Guards against Google News false positives where 'localization' appears in an
+    automotive, manufacturing, or supply-chain context rather than a language services one.
+    """
+    combined = f"{title} {text[:5000]}".lower()
+    return any(indicator in combined for indicator in LANGUAGE_SERVICES_INDICATORS)
+
+
 SEGMENT_KEYWORDS = {
     "LSPs": [
         "language service", "LSP", "translation company", "vendor",
@@ -939,6 +984,12 @@ def main() -> None:
             # ── Classify article type ──
             publisher = entry.get("_publisher_override") or get_publisher_domain(url)
             article_type = classify_article_type(publisher, text)
+
+            # Skip industry articles that use "localization" in a non-language-services
+            # sense (e.g. automotive supply-chain localization, manufacturing localization).
+            if article_type == "industry" and not is_language_services_relevant(entry.title, text):
+                print(f"Skipping (not language-services relevant): '{entry.title[:70]}'")
+                continue
 
             if article_type == "theory":
                 # ── Theory article: scientific gist prompt ──
