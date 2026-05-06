@@ -10,3 +10,6 @@ og_locale: "en_US"
 twitter_username: "locreport"
 social_image: "/assets/images/locreportcardsocials.jpg"
 permalink: /articles/:year/:month/:day/:title.html
+
+plugins:
+  - jekyll-redirect-from

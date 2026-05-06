@@ -3,6 +3,8 @@ title: "Project Code M Confirms Simultaneous English Release; NOVECT Rejects AI 
 date: 2026-03-01T15:25:47Z
 layout: post
 categories: [translation]
+redirect_from:
+  - /translation/2026/03/01/project-code-m-confirms-simultaneous-english-release-novect.html
 tags: [translation, localization, news, gist]
 excerpt: "Project Code M has officially confirmed that it will be released in English simultaneously with its original version, addressing concerns from international fan..."
 publisher: news.google.com

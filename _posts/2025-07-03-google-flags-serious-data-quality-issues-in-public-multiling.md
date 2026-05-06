@@ -3,6 +3,8 @@ title: "Google Flags Serious Data Quality Issues in Public Multilingual Speech D
 date: 2025-07-03T10:25:14Z
 layout: post
 categories: [translation]
+redirect_from:
+  - /translation/2025/07/03/google-flags-serious-data-quality-issues-in-public-multiling.html
 tags: [translation, localization, news, gist]
 excerpt: "A recent Google study has revealed significant quality issues in three major multilingual speech datasets: Mozilla Common Voice 17.0, FLEURS, and VoxPopuli. The..."
 publisher: slator.com
