@@ -3,6 +3,8 @@ title: "An Open Letter to the Talents Who Make Our Industry Human"
 date: 2026-03-04T20:02:04Z
 layout: post
 categories: [translation]
+redirect_from:
+  - /translation/2026/03/04/an-open-letter-to-the-talents-who-make-our-industry-human.html
 tags: [translation, localization, news, gist]
 excerpt: "The localization industry is facing a paradox as many skilled professionals are struggling to find work despite companies claiming they cannot find qualified ta..."
 publisher: "gala-global.org"

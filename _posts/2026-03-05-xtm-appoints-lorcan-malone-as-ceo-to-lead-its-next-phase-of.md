@@ -3,6 +3,8 @@ title: "XTM Appoints Lorcan Malone as CEO to Lead its Next Phase of AI-driven Gr
 date: 2026-03-05T11:17:01Z
 layout: post
 categories: [translation]
+redirect_from:
+  - /articles/2026/03/25/xtm-appoints-lorcan-malone-as-ceo-to-lead-its-next-phase-of.html
 tags: [translation, localization, news, gist]
 excerpt: "XTM International has appointed Lorcan Malone as its new Chief Executive Officer, succeeding Ian Evans, who led the company through a significant growth phase m..."
 publisher: "xtm.cloud"

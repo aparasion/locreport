@@ -1,3 +1,5 @@
+# To verify with Google Search Console, add your verification code here:
+# google_site_verification: "YOUR_VERIFICATION_CODE_HERE"
 title: LocReport
 tagline: "The pulse of the language services industry"
 description: Daily translation and localization news capturing the trends, innovations, and movements shaping the language services industry. Stay tuned to what’s driving global communication.
@@ -8,3 +10,6 @@ og_locale: "en_US"
 twitter_username: "locreport"
 social_image: "/assets/images/locreportcardsocials.jpg"
 permalink: /articles/:year/:month/:day/:title.html
+
+plugins:
+  - jekyll-redirect-from
