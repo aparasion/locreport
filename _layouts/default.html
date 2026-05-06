@@ -190,7 +190,7 @@
     "datePublished": {{ page.date | date_to_xmlschema | jsonify }},
     "dateModified": {{ page.last_modified_at | default: page.date | date_to_xmlschema | jsonify }},
     "author": {
-      "@type": "{% if page.author %}Person{% else %}Organization{% endif %}",
+      "@type": "Organization",
       "name": {{ page.author | default: site.author | default: 'LocReport' | jsonify }}
     },
     "publisher": {

@@ -571,19 +571,14 @@ SIGNAL_TAGS = {
     "localization-first-content-design": "content-strategy",
 }
 
-AUTHOR_PERSONAS = [
-    "Alex Mercer",
-    "Sophie Renaud",
-    "Daniel Voss",
-    "Priya Krishnamurthy",
-    "Lukas Berger",
-]
+AUTHOR_BY_TYPE = {
+    "industry": "LocReport Industry Desk",
+    "theory": "LocReport Research Desk",
+}
 
 
-def pick_author(seed: str) -> str:
-    import hashlib
-    h = int(hashlib.md5(seed.encode(), usedforsecurity=False).hexdigest(), 16)
-    return AUTHOR_PERSONAS[h % len(AUTHOR_PERSONAS)]
+def pick_author(seed: str, article_type: str = "industry") -> str:
+    return AUTHOR_BY_TYPE.get(article_type, "LocReport Editorial Staff")
 
 
 def make_excerpt(text: str, max_chars: int = 155) -> str:
@@ -1124,7 +1119,7 @@ If the provided text is mostly cookie/privacy/legal notices rather than article 
                 filename = f"_posts/{post_date_str}-{slug}-{suffix}.md"
                 suffix += 1
 
-            author = pick_author(slug)
+            author = pick_author(slug, article_type)
             safe_title = yaml_escape(entry.title)
             safe_excerpt = yaml_escape(make_excerpt(gist))
             safe_publisher = yaml_escape(publisher)
