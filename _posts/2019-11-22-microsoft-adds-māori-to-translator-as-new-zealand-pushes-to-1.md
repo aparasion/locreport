@@ -3,8 +3,8 @@ title: "Microsoft adds Māori to translator as New Zealand pushes to revitalize 
 date: 2019-11-22T19:52:34Z
 layout: post
 categories: [translation]
-tags: [translation, localization, news, gist]
-excerpt: "Microsoft and the New Zealand government are collaborating to integrate the Māori language into Microsoft Translator, marking a significant step in the preserva..."
+tags: [translation, localization, news]
+excerpt: "Microsoft's recent collaboration with New Zealand's Māori Language Commission marks a significant step in the intersection of technology and cultural..."
 publisher: "techcrunch.com"
 source_url: "https://techcrunch.com/2019/11/22/microsoft-adds-maori-to-translator-as-new-zealand-pushes-to-revitalize-the-language"
 signal_ids: []
@@ -17,12 +17,15 @@ business_implications:
   - "Increased demand for localization of indigenous languages in tech."
   - "Opportunities for collaboration between tech companies and cultural organizations."
   - "Potential for enhanced machine translation models through diverse language data."
+author: "LocReport Industry Desk"
 ---
 
-Microsoft and the New Zealand government are collaborating to integrate the Māori language into Microsoft Translator, marking a significant step in the preservation of te reo Māori. This initiative aims to revitalize the language, which is currently spoken by only 3% of New Zealand's Māori population, by making it accessible through automatic translation with over 60 other languages. The partnership with Te Taura Whiri i te Reo Māori, the Māori Language Commission, has been crucial in developing a robust translation model, leveraging a curated corpus of documents to ensure accuracy.
+Microsoft's recent collaboration with New Zealand's Māori Language Commission marks a significant step in the intersection of technology and cultural preservation, as the company integrates te reo Māori into its Translator service. This initiative is not just a technological advancement; it represents a concerted effort to revive a language that has seen a drastic decline in speakers. With only about 3% of New Zealand's population fluent in te reo Māori, the partnership aims to leverage machine translation to enhance accessibility and engagement with the language, making it more relevant in modern contexts.
 
-This development highlights the growing role of machine translation technology not just for practical communication but also for cultural preservation. As languages face extinction, initiatives like this demonstrate how localization and language technology can foster inclusion and education, making endangered languages relevant in today's digital landscape.
+This development aligns with a broader trend in the localization industry where technology is increasingly viewed as a tool for cultural preservation. As globalization continues to dominate, many indigenous languages face extinction due to assimilation and lack of resources. The urgency to maintain linguistic diversity has prompted organizations and governments to seek innovative solutions. In this case, the integration of Māori into Microsoft Translator is a proactive response to the challenge of language preservation, showcasing how technology can be harnessed not just for efficiency but also for cultural sustainability.
 
-For localization professionals, this case exemplifies the potential of AI-driven tools to support linguistic diversity and cultural heritage, reinforcing the importance of collaboration in language technology projects.
+The implications for localization workflows are profound. Language service providers (LSPs), localization managers, and technology leaders must consider how similar initiatives could reshape their business models. The creation of a robust translation model for te reo Māori required a collaborative effort to compile a large corpus of documents, which is typically a resource-intensive process. This partnership highlights the necessity for LSPs to engage with local communities and cultural experts to ensure that their translation models are accurate and respectful of the languages they represent. As more organizations recognize the importance of inclusivity in language technology, the demand for specialized services that cater to underrepresented languages will likely increase, prompting a shift in competitive dynamics.
+
+Ultimately, this initiative signals a pivotal moment for the localization industry, where the focus is not solely on commercial viability but also on cultural responsibility. As technology continues to evolve, the expectation will grow for localization professionals to incorporate cultural heritage into their workflows. The Māori translation program exemplifies how technology can serve as a bridge between past and future, ensuring that languages are not just preserved but actively used and celebrated. This trend may well inspire other tech companies to adopt similar initiatives, reinforcing the idea that language is not just a means of communication but a vital part of cultural identity.
 
 Source: [techcrunch.com](https://techcrunch.com/2019/11/22/microsoft-adds-maori-to-translator-as-new-zealand-pushes-to-revitalize-the-language)
