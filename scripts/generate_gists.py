@@ -558,6 +558,55 @@ SIGNAL_KEYWORDS = {
 }
 
 
+SIGNAL_TAGS = {
+    "quality-gap-closure": "quality-assurance",
+    "measurable-quality-evaluation": "quality-metrics",
+    "governance-in-ai-workflows": "ai-governance",
+    "regulatory-fragmentation": "regulation",
+    "localization-operating-system": "tms",
+    "translation-memory-obsolescence": "translation-memory",
+    "agentic-localization-workflows": "ai-agents",
+    "multimodal-content-localization": "multimedia-localization",
+    "human-post-editing-contraction": "post-editing",
+    "localization-first-content-design": "content-strategy",
+}
+
+AUTHOR_PERSONAS = [
+    "Alex Mercer",
+    "Sophie Renaud",
+    "Daniel Voss",
+    "Priya Krishnamurthy",
+    "Lukas Berger",
+]
+
+
+def pick_author(seed: str) -> str:
+    import hashlib
+    h = int(hashlib.md5(seed.encode(), usedforsecurity=False).hexdigest(), 16)
+    return AUTHOR_PERSONAS[h % len(AUTHOR_PERSONAS)]
+
+
+def make_excerpt(text: str, max_chars: int = 155) -> str:
+    """Return the first complete sentence, or a clean truncation at a word boundary."""
+    for i, char in enumerate(text):
+        if char in ".!?" and i > 20 and i < max_chars:
+            return text[:i + 1]
+    truncated = text[:max_chars]
+    last_space = truncated.rfind(" ")
+    return (truncated[:last_space] if last_space > 30 else truncated) + "..."
+
+
+def build_tags(article_type: str, signal_ids: list) -> list:
+    if article_type == "theory":
+        return ["linguistics", "research", "language-science", "theory"]
+    tags = ["translation", "localization", "news"]
+    for sid in signal_ids[:2]:
+        tag = SIGNAL_TAGS.get(sid)
+        if tag and tag not in tags:
+            tags.append(tag)
+    return tags
+
+
 NEGATIVE_MARKERS = [
     "failed", "fails", "lawsuit", "criticized", "criticises", "criticizes", "serious issue", "data quality issues"
 ]
@@ -767,26 +816,30 @@ def generate_intelligence(title: str, gist: str, article_text: str) -> dict:
 
 # ── Theory article prompts and intelligence ──
 
-THEORY_GIST_SYSTEM_PROMPT = """You are a science writer summarizing research for language professionals. \
-Your readers are linguists, computational linguists, and localization researchers who want to understand \
-new findings in linguistic and communication theory.
+THEORY_GIST_SYSTEM_PROMPT = """You are a science writer for LocReport's research section, summarizing linguistic \
+and communication research for language professionals. Your readers are linguists, computational linguists, \
+localization researchers, and language technology developers who want rigorous but accessible summaries.
 
-Write a clear, engaging summary in 3 short paragraphs (140–250 words total).
+Write a clear, in-depth summary in 4 paragraphs (350–480 words total).
 
-Opening paragraph: State the research question or finding and who conducted the study. Lead with the core contribution.
+Opening paragraph: State the research question and its significance. Identify the institution or team and \
+what gap in the literature this work addresses.
 
-Middle paragraph: Explain the methodology and key results. Use precise terminology but remain accessible to \
-adjacent disciplines. Highlight what is novel compared to prior work.
+Second paragraph: Explain the methodology — what data, models, or experimental design was used, and what \
+makes it novel or rigorous compared to prior approaches.
 
-Closing paragraph: Note the theoretical significance and any practical implications for language technology, \
-translation studies, or communication science.
+Third paragraph: Present the key findings with precision. Include numbers, comparisons, or effect sizes where \
+available. Explain what the results actually demonstrate.
+
+Closing paragraph: Assess the broader significance — what does this mean for adjacent fields such as language \
+technology, machine translation, NLP, or translation studies?
 
 Tone and style:
-• Scholarly but accessible — no jargon without context.
+• Scholarly but accessible — define terms that practitioners outside the subfield may not know.
 • Precise and evidence-based — cite numbers and methods from the source.
 • No business framing, no market language, no industry impact.
 • Neutral and informative — present findings, not opinions.
-• The summary should make a language researcher curious enough to read the full paper.
+• The summary should make a language researcher or NLP practitioner curious enough to read the full paper.
 
 If the provided text is mostly cookie/privacy/legal notices rather than article content, respond exactly with: UNUSABLE_CONTENT"""
 
@@ -995,34 +1048,36 @@ def main() -> None:
             if article_type == "theory":
                 # ── Theory article: scientific gist prompt ──
                 prompt = (
-                    "Write a gist for this research article (120–160 words).\n"
-                    "Frame it for linguists and language science researchers.\n\n"
+                    "Write a substantive research summary (350–480 words).\n"
+                    "Frame it for linguists, NLP practitioners, and language science researchers.\n\n"
                     f"Article text:\n{text[:15000]}"
                 )
                 gist_system_prompt = THEORY_GIST_SYSTEM_PROMPT
             else:
                 # ── Industry article: business gist prompt ──
                 prompt = (
-                    "Write a gist for this article (120–160 words).\n"
-                    "Frame it for a localization and language services professional audience.\n\n"
+                    "Write a substantive editorial analysis (380–520 words).\n"
+                    "Frame it for localization managers, language technology leaders, and enterprise language buyers.\n\n"
                     f"Article text:\n{text[:15000]}"
                 )
-                gist_system_prompt = """You are a skilled editorial writer for a localization and translation industry news platform. Your readers are professionals working in enterprise localization, language technology, translation services, and AI-driven language workflows.
+                gist_system_prompt = """You are a senior editorial writer for LocReport, a professional news platform covering the language services and localization industry. Your readers are localization managers, language technology leaders, translators, and enterprise language buyers who need to understand what's happening and why it matters.
 
-Write a clear, engaging gist in 3 short paragraphs (140–250 words total).
+Write a substantive editorial analysis in 4 paragraphs (380–520 words total).
 
-Opening paragraph: Lead with the most significant development in a strong, direct sentence. Establish what happened and who is involved immediately.
+Opening paragraph: Lead with the core development in a sharp, direct sentence. Establish what happened, who is involved, and why it warrants attention.
 
-Middle paragraph: Explain why it matters to the localization and language services industry — connect to business impact, technology trends, workflow changes, or market dynamics as relevant. Use specific details from the source material.
+Second paragraph: Provide industry context — what broader trend, challenge, or market shift does this connect to? A reader who hasn't been following this area closely should understand why this is happening now.
 
-Closing paragraph: Offer one concrete, industry-relevant takeaway or implication.
+Third paragraph: Explain the specific impact on localization workflows, business models, or competitive dynamics. Use concrete language — which roles, teams, or vendors are affected and how.
+
+Closing paragraph: Offer a sharp LocReport observation — one evidence-based insight about what this signals for the industry's direction. Reflect the pattern the LocReport editorial team sees across the market, not just what this single article says.
 
 Tone and style:
-• Write like a knowledgeable colleague sharing a notable finding, not like a press release.
+• Write like a knowledgeable colleague sharing analysis, not like a press release.
 • Use active voice, varied sentence length, and concrete language.
 • Avoid corporate jargon, filler phrases ("in a world where...", "it's worth noting that..."), and vague superlatives.
-• Neutral and factual — no editorial opinion, no speculation beyond what the source states.
-• The gist should make a localization professional curious enough to click through to the original article.
+• Neutral and factual — no speculation beyond what the source supports.
+• The analysis should make a localization professional think, not just inform them.
 
 If the provided text is mostly cookie/privacy/legal notices rather than article content, respond exactly with: UNUSABLE_CONTENT"""
 
@@ -1033,7 +1088,7 @@ If the provided text is mostly cookie/privacy/legal notices rather than article 
                         {"role": "system", "content": gist_system_prompt},
                         {"role": "user", "content": prompt},
                     ],
-                    max_tokens=300,
+                    max_tokens=800,
                     temperature=0.4,
                 )
                 gist = response.choices[0].message.content.strip()
@@ -1069,8 +1124,9 @@ If the provided text is mostly cookie/privacy/legal notices rather than article 
                 filename = f"_posts/{post_date_str}-{slug}-{suffix}.md"
                 suffix += 1
 
+            author = pick_author(slug)
             safe_title = yaml_escape(entry.title)
-            safe_excerpt = yaml_escape(gist[:160])
+            safe_excerpt = yaml_escape(make_excerpt(gist))
             safe_publisher = yaml_escape(publisher)
             safe_source_url = yaml_escape(url)
 
@@ -1083,14 +1139,17 @@ If the provided text is mostly cookie/privacy/legal notices rather than article 
                     f'  - "{yaml_escape(impl)}"' for impl in theory_intel["research_implications"]
                 )
 
+                tags = build_tags("theory", [])
+                tags_yaml = ", ".join(tags)
                 md_content = f"""---
 title: "{safe_title}"
 date: {post_date_str}T{time_str}Z
 layout: post
 categories: [theory]
-tags: [linguistics, research, theory, gist]
+tags: [{tags_yaml}]
 article_type: "theory"
-excerpt: "{safe_excerpt}..."
+author: "{author}"
+excerpt: "{safe_excerpt}"
 publisher: "{safe_publisher}"
 source_url: "{safe_source_url}"
 relevance_score: {relevance_score}
@@ -1126,14 +1185,17 @@ Source: [{safe_publisher}]({safe_source_url})"""
                     f'  - "{yaml_escape(impl)}"' for impl in intelligence["business_implications"]
                 )
 
+                tags = build_tags("industry", signal_ids)
+                tags_yaml = ", ".join(tags)
                 md_content = f"""---
 title: "{safe_title}"
 date: {post_date_str}T{time_str}Z
 layout: post
 categories: [{YOUR_AREA.lower()}]
-tags: [translation, localization, news, gist]
+tags: [{tags_yaml}]
 article_type: "industry"
-excerpt: "{safe_excerpt}..."
+author: "{author}"
+excerpt: "{safe_excerpt}"
 publisher: "{safe_publisher}"
 source_url: "{safe_source_url}"
 signal_ids: [{signal_ids_yaml}]

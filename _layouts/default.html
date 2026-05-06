@@ -189,8 +189,8 @@
     "datePublished": {{ page.date | date_to_xmlschema | jsonify }},
     "dateModified": {{ page.last_modified_at | default: page.date | date_to_xmlschema | jsonify }},
     "author": {
-      "@type": "Organization",
-      "name": {{ site.author | default: 'LocReport' | jsonify }}
+      "@type": "{% if page.author %}Person{% else %}Organization{% endif %}",
+      "name": {{ page.author | default: site.author | default: 'LocReport' | jsonify }}
     },
     "publisher": {
       "@type": "Organization",
