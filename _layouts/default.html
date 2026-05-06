@@ -158,6 +158,7 @@
   </script>
 
   {% if page.url == '/' %}
+  {% capture search_url_template %}{{ site.url }}/search/?q={search_term_string}{% endcapture %}
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -168,7 +169,7 @@
       "@type": "SearchAction",
       "target": {
         "@type": "EntryPoint",
-        "urlTemplate": {{ site.url | append: "/search/?q={search_term_string}" | jsonify }}
+        "urlTemplate": {{ search_url_template | jsonify }}
       },
       "query-input": "required name=search_term_string"
     }
