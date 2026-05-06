@@ -50,6 +50,7 @@ jobs:
           if ! git diff --cached --quiet; then
             COUNT=$(git diff --cached --name-only | wc -l | tr -d ' ')
             git commit -m "Backfill ${COUNT} posts with improved gists - $(date +%Y-%m-%d)"
+            git pull --rebase origin main
             git push
           else
             echo "No posts were updated"
