@@ -103,6 +103,7 @@ def parse_post(filepath):
         "signal_ids":        get_list("signal_ids"),
         "signal_confidence": get("signal_confidence"),
         "has_author":        bool(re.search(r'^author:', raw_fm, re.MULTILINE)),
+        "is_monthly":        "monthly-summary" in get("categories"),
     }
 
     return raw_fm, fm, body
@@ -189,6 +190,10 @@ def process_post(filepath, dry_run=False):
     raw_fm, fm, body = parse_post(filepath)
     if raw_fm is None:
         print("  SKIP — parse error")
+        return False
+
+    if fm["is_monthly"]:
+        print("  SKIP — monthly report (use generate_monthly_summary.py)")
         return False
 
     title = fm["title"]
