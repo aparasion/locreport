@@ -8,7 +8,7 @@ layout: default
   {% assign read_minutes = words | divided_by: 200 %}
   {% if read_minutes < 1 %}{% assign read_minutes = 1 %}{% endif %}
   <p class="post-meta">
-    {{ page.date | date: "%B %d, %Y" }}<span class="read-time"> · {{ read_minutes }} min read</span>
+    {% if page.author %}<span class="post-author">{{ page.author }}</span> · {% endif %}{{ page.date | date: "%B %d, %Y" }}<span class="read-time"> · {{ read_minutes }} min read</span>
   </p>
 
   {% if page.signal_ids and page.signal_ids.size > 0 %}
