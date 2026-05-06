@@ -90,11 +90,23 @@ def post_month_from_filename(path: Path) -> str | None:
     return f"{match.group(1)}-{match.group(2)}"
 
 
+def _jekyll_slugify(text: str) -> str:
+    text = text.lower()
+    text = re.sub(r"[^a-z0-9\s-]", "", text)
+    text = re.sub(r"[\s-]+", "-", text)
+    return text.strip("-")
+
+
 def internal_article_url_from_path(path: Path) -> str | None:
-    match = re.match(r"^(\d{4})-(\d{2})-(\d{2})-(.+)\.md$", path.name)
-    if not match:
+    content = path.read_text(encoding="utf-8")
+    # Use front matter date — Jekyll uses this for :year/:month/:day in permalinks
+    m_date = re.search(r"^date:\s*(\d{4})-(\d{2})-(\d{2})", content, re.MULTILINE)
+    # Use front matter title — Jekyll uses slugified title for :title in permalinks
+    m_title = re.search(r'^title:\s*["\']?(.+?)["\']?\s*$', content, re.MULTILINE)
+    if not m_date or not m_title:
         return None
-    year, month, day, slug = match.groups()
+    year, month, day = m_date.group(1), m_date.group(2), m_date.group(3)
+    slug = _jekyll_slugify(m_title.group(1).strip("\"'"))
     return f"/articles/{year}/{month}/{day}/{slug}.html"
 
 
