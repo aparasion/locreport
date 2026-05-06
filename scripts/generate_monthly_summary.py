@@ -257,6 +257,7 @@ date: {post_date.isoformat()}T09:00:00Z
 layout: post
 categories: [{MONTHLY_CATEGORY}]
 tags: [monthly, roundup, translation, localization]
+author: "LocReport Industry Desk"
 excerpt: \"{safe_excerpt}.\"
 period: \"{period}\"
 source_count: {article_count}
