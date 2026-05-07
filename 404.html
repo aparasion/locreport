@@ -1,0 +1,27 @@
+---
+layout: default
+title: "Page Not Found"
+permalink: /404.html
+sitemap: false
+---
+
+<article class="page error-404">
+  <h1>Page not found</h1>
+  <p class="post-meta">404 error</p>
+  <div class="page-content">
+    <p>The page you're looking for has moved or doesn't exist. It may have been an article that was updated or removed.</p>
+    <p>
+      <a href="{{ '/' | relative_url }}">← Back to LocReport home</a>
+    </p>
+    <h3>Latest articles</h3>
+    <ul>
+      {% for post in site.posts limit:6 %}
+      <li>
+        <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+        <span class="related-date">{{ post.date | date: "%b %d, %Y" }}</span>
+      </li>
+      {% endfor %}
+    </ul>
+    <p><a href="{{ '/all-articles/' | relative_url }}">Browse all articles →</a></p>
+  </div>
+</article>

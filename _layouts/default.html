@@ -182,8 +182,11 @@
   {
     "@context": "https://schema.org",
     "@type": "NewsArticle",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": {{ canonical_url | jsonify }}
+    },
     "headline": {{ page.title | jsonify }},
-    "name": {{ page.title | jsonify }},
     "description": {{ seo_description | jsonify }},
     "url": {{ canonical_url | jsonify }},
     "image": [{{ seo_image_url | jsonify }}],
@@ -191,14 +194,18 @@
     "dateModified": {{ page.last_modified_at | default: page.date | date_to_xmlschema | jsonify }},
     "author": {
       "@type": "Organization",
-      "name": {{ page.author | default: site.author | default: 'LocReport' | jsonify }}
+      "name": {{ page.author | default: site.author | default: 'LocReport' | jsonify }},
+      "url": {{ site.url | jsonify }}
     },
     "publisher": {
       "@type": "Organization",
       "name": {{ site.title | jsonify }},
+      "url": {{ site.url | jsonify }},
       "logo": {
         "@type": "ImageObject",
-        "url": {{ site.social_image | default: '/assets/images/logolocreport.png' | absolute_url | jsonify }}
+        "url": {{ site.social_image | default: '/assets/images/logolocreport.png' | absolute_url | jsonify }},
+        "width": 600,
+        "height": 60
       }
     }{% if page.tags and page.tags.size > 0 %},
     "keywords": {{ page.tags | join: ', ' | jsonify }}{% endif %}
@@ -261,7 +268,7 @@
   <link rel="icon" type="image/png" href="{{ '/assets/images/icon.png' | relative_url }}" media="(prefers-color-scheme: light)">
   <link rel="icon" type="image/png" href="{{ '/assets/images/icon.png' | relative_url }}" media="(prefers-color-scheme: dark)">
   <link rel="apple-touch-icon" href="{{ '/assets/images/icon.png' | relative_url }}">
-  <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+  <link rel="stylesheet" href="{{ '/assets/css/style.min.css' | relative_url }}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@500;600;700;800;900&display=swap" rel="stylesheet">

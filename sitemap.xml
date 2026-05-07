@@ -11,7 +11,7 @@ permalink: /sitemap.xml
     {% if page.layout %}
     <url>
       <loc>{{ page.url | replace:'index.html','' | absolute_url }}</loc>
-      <lastmod>{{ site.time | date_to_xmlschema }}</lastmod>
+      <lastmod>{{ page.last_modified_at | default: page.date | default: site.time | date_to_xmlschema }}</lastmod>
       <changefreq>weekly</changefreq>
       <priority>{% if page.url == '/' %}1.0{% elsif page.url == '/intelligence/' or page.url == '/topics/' or page.url == '/signals/' %}0.9{% elsif page.topic or page.url == '/all-articles/' or page.url == '/monthly-reports/' %}0.8{% elsif page.url == '/about/' or page.url == '/contact/' or page.url == '/newsletter/' or page.url == '/search/' %}0.6{% elsif page.url == '/privacy/' or page.url == '/terms/' %}0.3{% else %}0.7{% endif %}</priority>
     </url>

@@ -3,6 +3,32 @@ layout: default
 ---
 
 <article class="post{% if page.categories contains 'monthly-summary' %} monthly-report-post{% endif %}">
+  {% assign bc_topic = "Articles" %}
+  {% assign bc_topic_url = "/all-articles/" %}
+  {% if page.categories contains 'monthly-summary' %}
+    {% assign bc_topic = "Monthly Reports" %}
+    {% assign bc_topic_url = "/monthly-reports/" %}
+  {% elsif page.signal_ids and page.signal_ids.size > 0 %}
+    {% for signal in site.data.signals %}
+      {% if page.signal_ids contains signal.id %}
+        {% if signal.category == "quality" %}{% assign bc_topic = "Quality" %}{% assign bc_topic_url = "/topics/quality/" %}
+        {% elsif signal.category == "operations" %}{% assign bc_topic = "Operations" %}{% assign bc_topic_url = "/topics/operations/" %}
+        {% elsif signal.category == "governance" %}{% assign bc_topic = "Governance" %}{% assign bc_topic_url = "/topics/governance/" %}
+        {% elsif signal.category == "market" %}{% assign bc_topic = "Market" %}{% assign bc_topic_url = "/topics/market/" %}
+        {% elsif signal.category == "strategy" %}{% assign bc_topic = "Strategy" %}{% assign bc_topic_url = "/topics/strategy/" %}
+        {% endif %}
+        {% break %}
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <ol>
+      <li><a href="{{ '/' | relative_url }}">Home</a></li>
+      <li><a href="{{ bc_topic_url | relative_url }}">{{ bc_topic }}</a></li>
+      <li aria-current="page">{{ page.title }}</li>
+    </ol>
+  </nav>
+
   <h1>{{ page.title }}</h1>
   {% assign words = content | number_of_words %}
   {% assign read_minutes = words | divided_by: 200 %}
