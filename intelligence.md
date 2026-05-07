@@ -17,7 +17,8 @@ description: "Actionable localization intelligence — trend signals, impact sco
   <a href="#overview-section" class="intel-dash-nav-item active" data-section="overview-section">Overview</a>
   <a href="#signals-section" class="intel-dash-nav-item" data-section="signals-section">Signals</a>
   <a href="#trends-section" class="intel-dash-nav-item" data-section="trends-section">Trends</a>
-  <a href="#high-impact-section" class="intel-dash-nav-item" data-section="high-impact-section">High Impact Articles</a>
+  <a href="#correlations-section" class="intel-dash-nav-item" data-section="correlations-section">Correlations</a>
+  <a href="#high-impact-section" class="intel-dash-nav-item" data-section="high-impact-section">High Impact</a>
 </nav>
 
 {% comment %} ── Impact Overview Stats ─────────────────────────────── {% endcomment %}
@@ -114,11 +115,18 @@ description: "Actionable localization intelligence — trend signals, impact sco
           {% endif %}
         {% endif %}
       {% endfor %}
-      <div class="signal-health-card signal-health-card--clickable" data-signal-id="{{ signal.id }}" data-signal-category="{{ signal.category }}" role="button" tabindex="0">
+      <div class="signal-health-card signal-health-card--clickable" data-signal-id="{{ signal.id }}" data-signal-category="{{ signal.category }}" data-momentum="{{ signal.momentum | default: 'stable' }}" role="button" tabindex="0">
         <div class="signal-health-top">
           <span class="signal-tile__category">{{ signal.category }}</span>
           <div class="signal-health-top-right">
             <span class="status-badge status-badge--{{ signal.current_status }}">{{ signal.current_status }}</span>
+            {% if signal.momentum == "rising" %}
+            <span class="momentum-badge momentum-badge--rising" title="Evidence momentum: rising">↑</span>
+            {% elsif signal.momentum == "declining" %}
+            <span class="momentum-badge momentum-badge--declining" title="Evidence momentum: declining">↓</span>
+            {% else %}
+            <span class="momentum-badge momentum-badge--stable" title="Evidence momentum: stable">→</span>
+            {% endif %}
             <div class="signal-card-actions">
               <button class="signal-watch-btn" data-signal-id="{{ signal.id }}" title="Watch this signal" aria-label="Watch" type="button">☆</button>
               <a class="signal-permalink-btn" href="#{{ signal.id }}" title="Copy permalink" aria-label="Permalink">#</a>
@@ -154,6 +162,7 @@ description: "Actionable localization intelligence — trend signals, impact sco
     <h2 class="signal-modal-title" id="signal-modal-title"></h2>
     <p class="signal-modal-desc" id="signal-modal-desc"></p>
     <div class="signal-modal-meta" id="signal-modal-meta"></div>
+    <div class="signal-modal-market" id="signal-modal-market"></div>
     <div class="signal-modal-actions">
       <button class="sma-btn sma-btn--watch" id="signal-modal-watch-btn" type="button">
         <span class="sma-icon">☆</span>
@@ -164,6 +173,7 @@ description: "Actionable localization intelligence — trend signals, impact sco
         <span class="sma-label">Copy permalink</span>
       </button>
     </div>
+    <div class="signal-modal-correlations" id="signal-modal-correlations"></div>
     <div class="signal-modal-articles" id="signal-modal-articles">
       <h3 class="signal-modal-articles-title">Linked Evidence</h3>
       <div class="signal-modal-articles-list" id="signal-modal-articles-list"></div>
@@ -183,6 +193,33 @@ description: "Actionable localization intelligence — trend signals, impact sco
       <canvas id="category-distribution-chart" height="300"></canvas>
     </div>
   </div>
+</section>
+
+{% comment %} ── Signal Correlations ──────────────────────────────── {% endcomment %}
+<section class="intel-section" id="correlations-section">
+  <h2 class="intel-section-title">Signal Correlations</h2>
+  <p class="intel-section-desc">Signal pairs that frequently co-occur in the same articles — revealing structural connections in the industry that no single article exposes.</p>
+
+  <div class="intel-correlations-list">
+    {% for corr in site.data.signal_correlations.correlations %}
+    {% assign sig_a = site.data.signals | where: "id", corr.signal_a | first %}
+    {% assign sig_b = site.data.signals | where: "id", corr.signal_b | first %}
+    {% if sig_a and sig_b %}
+    <div class="corr-item corr-item--{{ corr.strength }}" data-corr-a="{{ corr.signal_a }}" data-corr-b="{{ corr.signal_b }}">
+      <div class="corr-signals">
+        <button class="corr-signal-tag corr-signal-tag--{{ sig_a.category }}" data-open-signal="{{ corr.signal_a }}" type="button">{{ sig_a.title }}</button>
+        <span class="corr-connector" aria-hidden="true">↔</span>
+        <button class="corr-signal-tag corr-signal-tag--{{ sig_b.category }}" data-open-signal="{{ corr.signal_b }}" type="button">{{ sig_b.title }}</button>
+      </div>
+      <div class="corr-meta">
+        <span class="corr-strength corr-strength--{{ corr.strength }}">{{ corr.strength }}</span>
+        <span class="corr-count">{{ corr.co_occurrences }} co-occurrences</span>
+      </div>
+    </div>
+    {% endif %}
+    {% endfor %}
+  </div>
+  <p class="intel-correlations-footer"><a href="{{ '/intelligence/correlations/' | relative_url }}">View full correlation matrix →</a></p>
 </section>
 
 {% comment %} ── High Impact Articles ─────────────────────────────── {% endcomment %}
@@ -255,7 +292,9 @@ description: "Actionable localization intelligence — trend signals, impact sco
       "category": {{ signal.category | jsonify }},
       "first_seen": {{ signal.first_seen | jsonify }},
       "current_status": {{ signal.current_status | jsonify }},
-      "description": {{ signal.description | jsonify }}
+      "description": {{ signal.description | jsonify }},
+      "momentum": {{ signal.momentum | default: "stable" | jsonify }},
+      "watched_tickers": {{ signal.watched_tickers | jsonify }}
     }{% unless forloop.last %},{% endunless %}
     {% endfor %}
   ],
@@ -277,6 +316,16 @@ description: "Actionable localization intelligence — trend signals, impact sco
     {% endif %}
     {% endfor %}
     null
+  ],
+  "correlations": [
+    {% for corr in site.data.signal_correlations.correlations %}
+    {
+      "signal_a": {{ corr.signal_a | jsonify }},
+      "signal_b": {{ corr.signal_b | jsonify }},
+      "co_occurrences": {{ corr.co_occurrences }},
+      "strength": {{ corr.strength | jsonify }}
+    }{% unless forloop.last %},{% endunless %}
+    {% endfor %}
   ]
 }
 </script>
@@ -355,6 +404,22 @@ document.addEventListener("DOMContentLoaded", function () {
 
   var posts = (rawData.posts || []).filter(function (p) { return p !== null; });
   var signals = rawData.signals || [];
+  var correlations = rawData.correlations || [];
+
+  // ── Market Quotes (lazy-loaded once) ────────────────────────
+  var marketQuotes = null;
+  var marketQuotesPromise = null;
+
+  function loadMarketQuotes() {
+    if (marketQuotes !== null) return Promise.resolve(marketQuotes);
+    if (marketQuotesPromise) return marketQuotesPromise;
+    marketQuotesPromise = fetch("{{ '/assets/data/market_quotes.json' | relative_url }}")
+      .then(function (r) { return r.json(); })
+      .then(function (data) { marketQuotes = data.quotes || {}; return marketQuotes; })
+      .catch(function () { marketQuotes = {}; return {}; });
+    return marketQuotesPromise;
+  }
+  loadMarketQuotes();
 
   var modalOverlay = document.getElementById("signal-modal-overlay");
   var modalClose = document.getElementById("signal-modal-close");
@@ -364,6 +429,55 @@ document.addEventListener("DOMContentLoaded", function () {
   var modalDesc = document.getElementById("signal-modal-desc");
   var modalMeta = document.getElementById("signal-modal-meta");
   var modalArticlesList = document.getElementById("signal-modal-articles-list");
+
+  function formatPct(v) {
+    var prefix = v >= 0 ? "+" : "";
+    return prefix + v.toFixed(2) + "%";
+  }
+
+  function renderMarketSection(signal) {
+    var el = document.getElementById("signal-modal-market");
+    if (!el) return;
+    var tickers = signal.watched_tickers;
+    if (!tickers || tickers.length === 0) { el.innerHTML = ""; return; }
+    var quotes = marketQuotes || {};
+    var items = tickers.map(function (t) {
+      var q = quotes[t];
+      if (!q) return '<span class="mq-item mq-item--na" title="' + t + '">' + t + '<span class="mq-na">n/a</span></span>';
+      var dir = q.change_pct >= 0 ? "up" : "down";
+      return '<span class="mq-item mq-item--' + dir + '" title="' + t + '">' +
+        '<span class="mq-ticker">' + t + '</span>' +
+        '<span class="mq-price">' + q.price.toFixed(2) + ' ' + q.currency + '</span>' +
+        '<span class="mq-change">' + formatPct(q.change_pct) + '</span>' +
+        '</span>';
+    });
+    el.innerHTML = '<div class="signal-modal-market-inner"><span class="signal-modal-market-label">Market</span>' + items.join("") + '</div>';
+  }
+
+  function renderCorrelationsSection(signalId) {
+    var el = document.getElementById("signal-modal-correlations");
+    if (!el) return;
+    var related = correlations.filter(function (c) {
+      return c.signal_a === signalId || c.signal_b === signalId;
+    });
+    if (related.length === 0) { el.innerHTML = ""; return; }
+    var items = related.map(function (c) {
+      var otherId = c.signal_a === signalId ? c.signal_b : c.signal_a;
+      var other = signals.find(function (s) { return s.id === otherId; });
+      if (!other) return "";
+      return '<button class="corr-related-btn" data-open-signal="' + otherId + '" type="button">' +
+        '<span class="corr-related-label">' + other.title + '</span>' +
+        '<span class="corr-related-count">' + c.co_occurrences + 'x</span>' +
+        '</button>';
+    }).filter(Boolean);
+    if (items.length === 0) { el.innerHTML = ""; return; }
+    el.innerHTML = '<div class="signal-modal-correlations-inner"><h3 class="signal-modal-correlations-title">Frequently co-occurring signals</h3><div class="corr-related-list">' + items.join("") + '</div></div>';
+    el.querySelectorAll(".corr-related-btn").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        openSignalModal(btn.getAttribute("data-open-signal"));
+      });
+    });
+  }
 
   function openSignalModal(signalId) {
     var signal = signals.find(function (s) { return s.id === signalId; });
@@ -375,7 +489,12 @@ document.addEventListener("DOMContentLoaded", function () {
     modalStatus.textContent = signal.current_status;
     modalStatus.className = "signal-modal-status status-badge status-badge--" + signal.current_status;
     modalDesc.textContent = signal.description;
-    modalMeta.innerHTML = '<span>First seen: ' + signal.first_seen + '</span>';
+
+    var momentumIcon = signal.momentum === "rising" ? "↑ rising" : signal.momentum === "declining" ? "↓ declining" : "→ stable";
+    modalMeta.innerHTML = '<span>First seen: ' + signal.first_seen + '</span><span class="signal-modal-momentum momentum-badge--' + (signal.momentum || "stable") + '">Momentum: ' + momentumIcon + '</span>';
+
+    loadMarketQuotes().then(function () { renderMarketSection(signal); });
+    renderCorrelationsSection(signalId);
 
     // Find linked articles
     var linked = posts.filter(function (p) {
@@ -507,6 +626,13 @@ document.addEventListener("DOMContentLoaded", function () {
       if (activePill && activePill.getAttribute("data-signal-cat") === "watched") {
         applyFilter("watched");
       }
+    });
+  });
+
+  // ── Correlation section: open signal on click ────────────
+  document.querySelectorAll("[data-open-signal]").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      openSignalModal(btn.getAttribute("data-open-signal"));
     });
   });
 
