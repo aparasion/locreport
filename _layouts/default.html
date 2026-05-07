@@ -211,6 +211,47 @@
     "keywords": {{ page.tags | join: ', ' | jsonify }}{% endif %}
   }
   </script>
+  {% if page.layout == 'post' and page.signal_ids and page.signal_ids.size > 0 %}
+  {% unless page.signal_stance == "mentions" or page.signal_stance == "" %}
+  {% if page.signal_stance == "supports" %}
+    {% assign claim_rating_value = 5 %}
+    {% assign claim_alternate_name = "True" %}
+  {% elsif page.signal_stance == "contradicts" %}
+    {% assign claim_rating_value = 1 %}
+    {% assign claim_alternate_name = "False" %}
+  {% else %}
+    {% assign claim_rating_value = 3 %}
+    {% assign claim_alternate_name = "Mostly True" %}
+  {% endif %}
+  {% for sid in page.signal_ids %}{% for signal in site.data.signals %}{% if signal.id == sid %}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ClaimReview",
+    "url": {{ canonical_url | jsonify }},
+    "claimReviewed": {{ signal.title | jsonify }},
+    "reviewRating": {
+      "@type": "Rating",
+      "ratingValue": {{ claim_rating_value }},
+      "bestRating": 5,
+      "worstRating": 1,
+      "alternateName": {{ claim_alternate_name | jsonify }}
+    },
+    "author": {
+      "@type": "Organization",
+      "name": "LocReport",
+      "url": {{ site.url | jsonify }}
+    },
+    "itemReviewed": {
+      "@type": "Claim",
+      "claimReviewed": {{ signal.title | jsonify }}
+    }
+  }
+  </script>
+  {% endif %}{% endfor %}{% endfor %}
+  {% endunless %}
+  {% endif %}
+
   {% elsif page.url == '/' %}
   {% if site.data.glossary and site.data.glossary.size > 0 %}
   <script type="application/ld+json">
