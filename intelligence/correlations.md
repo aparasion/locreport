@@ -6,6 +6,9 @@ description: "Which localization industry signals move together? Full co-occurre
 ---
 
 <section class="intel-hero">
+  <div class="intel-hero__share">
+    {% include social-share.html as_dropdown=true title=page.title description=page.description %}
+  </div>
   <h1>Signal Correlation Matrix</h1>
   <p class="intel-subtitle">Signals that frequently co-occur in the same articles reveal structural connections — patterns no single article exposes. Updated automatically with each new article batch.</p>
   <p class="intel-subtitle-sub"><a href="{{ '/intelligence/' | relative_url }}">← Back to Intelligence Dashboard</a></p>

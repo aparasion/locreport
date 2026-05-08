@@ -9,6 +9,10 @@ nav_order: 2
 
 A living tracker of high-impact claims in localization and AI, with linked evidence from published coverage.
 
+<div class="signals-page-share">
+  {% include social-share.html as_dropdown=true title=page.title description=page.description %}
+</div>
+
 <div class="signal-accordion-list">
   {% for signal in site.data.signals %}
     {% assign evidence_posts = site.posts | where_exp: "post", "post.signal_ids contains signal.id" %}
@@ -38,7 +42,9 @@ A living tracker of high-impact claims in localization and AI, with linked evide
           <p class="signal-card__empty">No linked evidence yet.</p>
         {% endif %}
         {% assign signal_url = '/signals/#' | append: signal.id | absolute_url %}
-        {% include social-share.html title=signal.title url=signal_url description=signal.description class="social-share--compact" %}
+        <div class="signal-accordion__share">
+          {% include social-share.html as_dropdown=true title=signal.title url=signal_url description=signal.description class="social-share-dd--left" %}
+        </div>
       </div>
     </details>
   {% endfor %}
