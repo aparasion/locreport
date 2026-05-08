@@ -5,47 +5,36 @@ permalink: /signals/
 description: "Track high-impact localization industry signals with linked evidence from published coverage on LocReport."
 nav: false
 nav_order: 2
+no_share: true
 ---
 
-A living tracker of high-impact claims in localization and AI, with linked evidence from published coverage.
+A living tracker of high-impact claims in localization and AI, with linked evidence from published coverage. Click any signal to open its dedicated page.
 
 <div class="signals-page-share">
   {% include social-share.html as_dropdown=true title=page.title description=page.description %}
 </div>
 
-<div class="signal-accordion-list">
+<div class="signals-index-grid">
   {% for signal in site.data.signals %}
     {% assign evidence_posts = site.posts | where_exp: "post", "post.signal_ids contains signal.id" %}
-    <details class="signal-accordion" id="{{ signal.id }}">
-      <summary class="signal-accordion__summary">
+    <a class="signals-index-card" href="{{ '/signals/' | relative_url }}{{ signal.id }}/">
+      <div class="signals-index-card__top">
         <span class="signal-tile__category">{{ signal.category }}</span>
-        <span class="signal-accordion__title">{{ signal.title }}</span>
-        <span class="signal-accordion__meta">
-          <span class="status-badge status-badge--{{ signal.current_status }}">{{ signal.current_status }}</span>
-          <span class="signal-tile__count">{{ evidence_posts.size }} post{% if evidence_posts.size != 1 %}s{% endif %}</span>
-          <span class="signal-accordion__chevron">▾</span>
-        </span>
-      </summary>
-      <div class="signal-accordion__body">
-        <p class="post-meta">Category: {{ signal.category }} · First seen: {{ signal.first_seen }}</p>
-        <p>{{ signal.description }}</p>
-        {% if evidence_posts.size > 0 %}
-          <ul class="signal-evidence-list">
-            {% for post in evidence_posts limit: 8 %}
-              <li>
-                <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
-                <span class="signal-evidence-meta">({{ post.date | date: "%Y-%m-%d" }}{% if post.signal_stance %}, <span class="stance-badge stance-badge--{{ post.signal_stance }}">{{ post.signal_stance }}</span>{% endif %})</span>
-              </li>
-            {% endfor %}
-          </ul>
+        <span class="status-badge status-badge--{{ signal.current_status }}">{{ signal.current_status }}</span>
+        {% if signal.momentum == "rising" %}
+          <span class="momentum-badge momentum-badge--rising" title="Evidence momentum: rising">↑</span>
+        {% elsif signal.momentum == "declining" %}
+          <span class="momentum-badge momentum-badge--declining" title="Evidence momentum: declining">↓</span>
         {% else %}
-          <p class="signal-card__empty">No linked evidence yet.</p>
+          <span class="momentum-badge momentum-badge--stable" title="Evidence momentum: stable">→</span>
         {% endif %}
-        {% assign signal_url = '/signals/#' | append: signal.id | absolute_url %}
-        <div class="signal-accordion__share">
-          {% include social-share.html as_dropdown=true title=signal.title url=signal_url description=signal.description class="social-share-dd--left" %}
-        </div>
       </div>
-    </details>
+      <h2 class="signals-index-card__title">{{ signal.title }}</h2>
+      <p class="signals-index-card__desc">{{ signal.description }}</p>
+      <div class="signals-index-card__bottom">
+        <span class="signal-tile__count">{{ evidence_posts.size }} article{% if evidence_posts.size != 1 %}s{% endif %}</span>
+        <span class="signals-index-card__cta">View signal →</span>
+      </div>
+    </a>
   {% endfor %}
 </div>

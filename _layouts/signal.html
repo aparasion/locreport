@@ -1,0 +1,173 @@
+---
+layout: default
+---
+
+{% assign signal = site.data.signals | where: "id", page.signal_id | first %}
+{% if signal %}
+  {% assign evidence_posts = site.posts | where_exp: "post", "post.signal_ids contains signal.id" %}
+  {% assign evidence_total = evidence_posts.size %}
+  {% assign supported_count = 0 %}
+  {% assign mixed_count = 0 %}
+  {% assign contradicts_count = 0 %}
+  {% for p in evidence_posts %}
+    {% if p.signal_stance == "supports" %}{% assign supported_count = supported_count | plus: 1 %}{% endif %}
+    {% if p.signal_stance == "mixed" %}{% assign mixed_count = mixed_count | plus: 1 %}{% endif %}
+    {% if p.signal_stance == "contradicts" %}{% assign contradicts_count = contradicts_count | plus: 1 %}{% endif %}
+  {% endfor %}
+
+  {% assign signal_url = page.url | absolute_url %}
+
+  <article class="signal-page">
+
+    <p class="signal-page__breadcrumbs">
+      <a href="{{ '/intelligence/' | relative_url }}">Intelligence</a>
+      <span aria-hidden="true">›</span>
+      <a href="{{ '/signals/' | relative_url }}">Signals</a>
+      <span aria-hidden="true">›</span>
+      <span>{{ signal.title }}</span>
+    </p>
+
+    <header class="signal-page__header">
+      <div class="signal-page__meta-row">
+        <span class="signal-tile__category">{{ signal.category }}</span>
+        <span class="status-badge status-badge--{{ signal.current_status }}">{{ signal.current_status }}</span>
+        {% if signal.momentum == "rising" %}
+          <span class="momentum-badge momentum-badge--rising" title="Evidence momentum: rising">↑ rising</span>
+        {% elsif signal.momentum == "declining" %}
+          <span class="momentum-badge momentum-badge--declining" title="Evidence momentum: declining">↓ declining</span>
+        {% else %}
+          <span class="momentum-badge momentum-badge--stable" title="Evidence momentum: stable">→ stable</span>
+        {% endif %}
+        <span class="signal-page__first-seen">First seen {{ signal.first_seen }}</span>
+      </div>
+
+      <h1 class="signal-page__title">{{ signal.title }}</h1>
+      <p class="signal-page__description">{{ signal.description }}</p>
+
+      <div class="signal-page__actions">
+        <button class="signal-page__watch-btn" data-signal-page-watch="{{ signal.id }}" type="button" aria-label="Watch this signal">
+          <span class="signal-page__watch-icon">☆</span>
+          <span class="signal-page__watch-label">Watch this signal</span>
+        </button>
+        {% include social-share.html as_dropdown=true title=signal.title url=signal_url description=signal.description %}
+      </div>
+
+      <script>
+      (function () {
+        var btn = document.querySelector('[data-signal-page-watch="{{ signal.id }}"]');
+        if (!btn) return;
+        var KEY = "locreport-watched";
+        function getList() { try { return JSON.parse(localStorage.getItem(KEY) || "[]"); } catch (e) { return []; } }
+        function setList(l) { localStorage.setItem(KEY, JSON.stringify(l)); }
+        function render() {
+          var list = getList();
+          var on = list.indexOf("{{ signal.id }}") !== -1;
+          btn.querySelector(".signal-page__watch-icon").textContent = on ? "★" : "☆";
+          btn.querySelector(".signal-page__watch-label").textContent = on ? "Watching" : "Watch this signal";
+          btn.classList.toggle("is-watched", on);
+        }
+        btn.addEventListener("click", function () {
+          var list = getList();
+          var idx = list.indexOf("{{ signal.id }}");
+          if (idx === -1) list.push("{{ signal.id }}"); else list.splice(idx, 1);
+          setList(list);
+          render();
+        });
+        render();
+      })();
+      </script>
+    </header>
+
+    <section class="signal-page__stats">
+      <div class="signal-page__stat">
+        <span class="signal-page__stat-num">{{ evidence_total }}</span>
+        <span class="signal-page__stat-label">Linked article{% if evidence_total != 1 %}s{% endif %}</span>
+      </div>
+      <div class="signal-page__stat">
+        <span class="signal-page__stat-num signal-page__stat-num--supports">{{ supported_count }}</span>
+        <span class="signal-page__stat-label">Supports</span>
+      </div>
+      <div class="signal-page__stat">
+        <span class="signal-page__stat-num signal-page__stat-num--mixed">{{ mixed_count }}</span>
+        <span class="signal-page__stat-label">Mixed</span>
+      </div>
+      <div class="signal-page__stat">
+        <span class="signal-page__stat-num signal-page__stat-num--contradicts">{{ contradicts_count }}</span>
+        <span class="signal-page__stat-label">Contradicts</span>
+      </div>
+    </section>
+
+    {% comment %} ── Related signals (correlations) ───────────────── {% endcomment %}
+    {% assign related_pairs = "" | split: "" %}
+    {% if site.data.signal_correlations and site.data.signal_correlations.correlations %}
+      {% for corr in site.data.signal_correlations.correlations %}
+        {% if corr.signal_a == signal.id or corr.signal_b == signal.id %}
+          {% assign related_pairs = related_pairs | push: corr %}
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+
+    {% if related_pairs.size > 0 %}
+    <section class="signal-page__section">
+      <h2 class="signal-page__section-title">Related signals</h2>
+      <p class="signal-page__section-desc">Other signals that frequently co-occur in the same articles.</p>
+      <ul class="signal-page__related">
+        {% for corr in related_pairs %}
+          {% if corr.signal_a == signal.id %}
+            {% assign other_id = corr.signal_b %}
+          {% else %}
+            {% assign other_id = corr.signal_a %}
+          {% endif %}
+          {% assign other = site.data.signals | where: "id", other_id | first %}
+          {% if other %}
+          <li>
+            <a class="signal-page__related-link" href="{{ '/signals/' | relative_url }}{{ other.id }}/">
+              <span class="signal-tile__category">{{ other.category }}</span>
+              <span class="signal-page__related-title">{{ other.title }}</span>
+              <span class="corr-strength corr-strength--{{ corr.strength }}">{{ corr.strength }}</span>
+              <span class="signal-page__related-count">{{ corr.co_occurrences }} co-occurrences</span>
+            </a>
+          </li>
+          {% endif %}
+        {% endfor %}
+      </ul>
+    </section>
+    {% endif %}
+
+    {% comment %} ── Evidence articles ─────────────────────────── {% endcomment %}
+    <section class="signal-page__section">
+      <h2 class="signal-page__section-title">Linked evidence</h2>
+      {% if evidence_total == 0 %}
+        <p class="signal-page__empty">No linked evidence yet. New articles referencing this signal will appear here.</p>
+      {% else %}
+        <ul class="signal-page__evidence">
+          {% assign sorted_evidence = evidence_posts | sort: "date" | reverse %}
+          {% for post in sorted_evidence %}
+          <li class="signal-page__evidence-item">
+            <a href="{{ post.url | relative_url }}" class="signal-page__evidence-title">{{ post.title }}</a>
+            <div class="signal-page__evidence-meta">
+              <span>{{ post.date | date: "%b %d, %Y" }}</span>
+              {% if post.signal_stance %}
+                <span class="stance-badge stance-badge--{{ post.signal_stance }}">{{ post.signal_stance }}</span>
+              {% endif %}
+              {% if post.signal_confidence %}
+                <span class="signal-page__evidence-confidence">{{ post.signal_confidence }} confidence</span>
+              {% endif %}
+              {% if post.publisher %}
+                <span class="signal-page__evidence-publisher">{{ post.publisher }}</span>
+              {% endif %}
+            </div>
+            {% if post.excerpt %}
+              <p class="signal-page__evidence-excerpt">{{ post.excerpt | strip_html | truncate: 220 }}</p>
+            {% endif %}
+          </li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    </section>
+
+    <p class="signal-page__back"><a href="{{ '/signals/' | relative_url }}">← Back to all signals</a></p>
+  </article>
+{% else %}
+  <p>Signal not found.</p>
+{% endif %}
