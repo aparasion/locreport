@@ -11,5 +11,10 @@ twitter_username: "locreport"
 social_image: "/assets/images/locreportcardsocials.jpg"
 permalink: /articles/:year/:month/:day/:title.html
 
+collections:
+  signals:
+    output: true
+    permalink: /signals/:name/
+
 plugins:
   - jekyll-redirect-from
