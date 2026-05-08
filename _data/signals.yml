@@ -9,6 +9,7 @@
   momentum: declining
   momentum: declining
   momentum: declining
+  momentum: declining
   watched_tickers: [MSFT, GOOGL]
 
 - id: governance-in-ai-workflows
@@ -17,6 +18,7 @@
   first_seen: 2026-02-04
   current_status: supported
   description: Tracks evidence of auditable controls, policy enforcement, and review workflows in AI localization stacks.
+  momentum: declining
   momentum: declining
   momentum: declining
   momentum: declining
@@ -35,6 +37,7 @@
   momentum: declining
   momentum: declining
   momentum: declining
+  momentum: declining
   watched_tickers: [TEP.PA, RWS.L, ZOO.L]
 
 - id: measurable-quality-evaluation
@@ -43,6 +46,7 @@
   first_seen: 2026-02-17
   current_status: supported
   description: Tracks whether formal quality evaluation is integrated directly into enterprise workflows.
+  momentum: declining
   momentum: declining
   momentum: declining
   momentum: declining
@@ -61,6 +65,7 @@
   momentum: stable
   momentum: stable
   momentum: stable
+  momentum: stable
   watched_tickers: [RWS.L, ZOO.L, TEP.PA]
 
 - id: human-post-editing-contraction
@@ -69,6 +74,7 @@
   first_seen: 2026-03-09
   current_status: supported
   description: Tracks whether AI quality improvements are reducing demand for human post-editing, reshaping translator employment and rate structures.
+  momentum: stable
   momentum: stable
   momentum: stable
   momentum: stable
@@ -87,6 +93,7 @@
   momentum: stable
   momentum: stable
   momentum: stable
+  momentum: stable
   watched_tickers: [MSFT, GOOGL]
 
 - id: multimodal-content-localization
@@ -95,6 +102,7 @@
   first_seen: 2026-03-09
   current_status: supported
   description: Tracks whether tooling and business models are adapting as localization expands to dubbing, subtitling, image, and interactive content at scale.
+  momentum: declining
   momentum: declining
   momentum: declining
   momentum: declining
@@ -113,6 +121,7 @@
   momentum: stable
   momentum: stable
   momentum: stable
+  momentum: stable
   watched_tickers: [ORCL, SAP]
 
 - id: localization-first-content-design
@@ -126,6 +135,7 @@
   momentum: stable
   momentum: stable
   momentum: stable
+  momentum: stable
   watched_tickers: [ADBE, MSFT]
 
 - id: lsp-relevance-erosion
@@ -134,6 +144,7 @@
   first_seen: 2026-04-18
   current_status: supported
   description: Tracks whether boutique and mid-size LSPs are being squeezed out as enterprise buyers consolidate with mega-LSPs or bypass LSPs entirely via direct AI platforms — questioning whether specialization and relationship advantages still justify their position in the supply chain when AI offers comparable output at lower cost.
+  momentum: declining
   momentum: declining
   momentum: declining
   momentum: declining
