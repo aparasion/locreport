@@ -8,6 +8,9 @@ description: "Actionable localization intelligence — trend signals, impact sco
 ---
 
 <section class="intel-hero">
+  <div class="intel-hero__share">
+    {% include social-share.html as_dropdown=true title=page.title description=page.description %}
+  </div>
   <h1>Localization Intelligence</h1>
   <p class="intel-subtitle">Less noise, more clarity. Structured, decision-ready intelligence for the localization industry.</p>
 </section>
@@ -64,8 +67,14 @@ description: "Actionable localization intelligence — trend signals, impact sco
 
 {% comment %} ── Signal Health Overview (now with inline modal) ──── {% endcomment %}
 <section class="intel-section" id="signals-section">
-  <h2 class="intel-section-title">Signal Tracker</h2>
-  <p class="intel-section-desc">Click any signal to see linked evidence articles. Real-time status of {{ site.data.signals.size }} industry signals.</p>
+  <div class="intel-section-header">
+    <div>
+      <h2 class="intel-section-title">Signal Tracker</h2>
+      <p class="intel-section-desc">Click any signal to see linked evidence articles. Real-time status of {{ site.data.signals.size }} industry signals.</p>
+    </div>
+    {% assign _signals_url = '/intelligence/#signals-section' | absolute_url %}
+    {% include social-share.html as_dropdown=true title="LocReport Signal Tracker" url=_signals_url description="Real-time status of localization industry signals on LocReport." %}
+  </div>
 
   {% comment %} Category filter for signals {% endcomment %}
   <div class="intel-signal-filters" id="signal-category-filters">

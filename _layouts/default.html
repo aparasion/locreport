@@ -841,6 +841,38 @@ document.addEventListener("DOMContentLoaded", function () {
     setTimeout(function () { btn.classList.remove("is-copied"); }, 2000);
   }
 
+  // ── Social share: dropdown toggle ───────────────────────
+  (function () {
+    var dropdowns = document.querySelectorAll("[data-share-dropdown]");
+    if (!dropdowns.length) return;
+    function closeAll(except) {
+      dropdowns.forEach(function (d) {
+        if (d === except) return;
+        var t = d.querySelector(".social-share-dd__toggle");
+        var m = d.querySelector(".social-share-dd__menu");
+        if (t) t.setAttribute("aria-expanded", "false");
+        if (m) m.hidden = true;
+      });
+    }
+    dropdowns.forEach(function (d) {
+      var toggle = d.querySelector(".social-share-dd__toggle");
+      var menu = d.querySelector(".social-share-dd__menu");
+      if (!toggle || !menu) return;
+      toggle.addEventListener("click", function (e) {
+        e.stopPropagation();
+        var open = toggle.getAttribute("aria-expanded") === "true";
+        closeAll(open ? null : d);
+        toggle.setAttribute("aria-expanded", open ? "false" : "true");
+        menu.hidden = open;
+      });
+      menu.addEventListener("click", function (e) { e.stopPropagation(); });
+    });
+    document.addEventListener("click", function () { closeAll(null); });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") closeAll(null);
+    });
+  })();
+
   // ── Newsletter Popup ──────────────────────────────────────
   (function () {
     var POPUP_DELAY_MS = 5000;         // 5 seconds on page
