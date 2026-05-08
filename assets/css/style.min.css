@@ -1791,6 +1791,77 @@ a.internal-link:hover { border-bottom-style: solid; border-color: var(--accent);
   .intel-hero__share { position: static; margin-bottom: var(--space-3); }
 }
 
+/* ── Signals Index (cards grid) ───────────────────────── */
+.signals-index-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: var(--space-4); margin: var(--space-6) 0 var(--space-8); }
+.signals-index-card {
+  display: flex; flex-direction: column; gap: var(--space-2);
+  padding: var(--space-4) var(--space-5);
+  background: var(--surface, #fff);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  text-decoration: none; color: inherit;
+  transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.signals-index-card:hover { transform: translateY(-2px); border-color: var(--accent); box-shadow: 0 8px 18px rgba(0,0,0,0.06); }
+.signals-index-card__top { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.signals-index-card__title { font-size: 1.1rem; line-height: 1.35; margin: 4px 0 0; color: var(--text); }
+.signals-index-card__desc { font-size: 0.92rem; line-height: 1.5; color: var(--muted); margin: 0; flex: 1; }
+.signals-index-card__bottom { display: flex; align-items: center; justify-content: space-between; padding-top: var(--space-2); border-top: 1px dashed var(--border); margin-top: auto; }
+.signals-index-card__cta { font-size: 0.85rem; font-weight: 600; color: var(--accent); }
+
+/* ── Individual Signal Page ───────────────────────────── */
+.signal-page { max-width: 860px; margin: 0 auto; padding: var(--space-4) 0 var(--space-8); }
+.signal-page__breadcrumbs { font-size: 0.85rem; color: var(--muted); margin-bottom: var(--space-4); display: flex; flex-wrap: wrap; gap: 6px; }
+.signal-page__breadcrumbs a { color: var(--muted); text-decoration: none; }
+.signal-page__breadcrumbs a:hover { color: var(--accent); text-decoration: underline; }
+.signal-page__header { padding: var(--space-5) 0 var(--space-5); border-bottom: 1px solid var(--border); margin-bottom: var(--space-5); }
+.signal-page__meta-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: var(--space-3); }
+.signal-page__first-seen { font-size: 0.8rem; color: var(--muted); }
+.signal-page__title { font-size: 2rem; line-height: 1.2; margin: 0 0 var(--space-3); color: var(--text); }
+.signal-page__description { font-size: 1.1rem; line-height: 1.6; color: var(--muted); margin: 0 0 var(--space-4); }
+.signal-page__actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3); }
+.signal-page__watch-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 14px; background: var(--surface, #fff);
+  border: 1px solid var(--border); border-radius: 8px;
+  font-size: 0.85rem; font-weight: 600; cursor: pointer; color: var(--text);
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+.signal-page__watch-btn:hover, .signal-page__watch-btn.is-watched { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
+.signal-page__watch-icon { font-size: 1rem; line-height: 1; }
+.signal-page__stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: var(--space-3); margin-bottom: var(--space-6); }
+.signal-page__stat { padding: var(--space-3); background: var(--surface, #fff); border: 1px solid var(--border); border-radius: 10px; text-align: center; }
+.signal-page__stat-num { display: block; font-size: 1.6rem; font-weight: 700; color: var(--text); }
+.signal-page__stat-num--supports { color: #16a34a; }
+.signal-page__stat-num--mixed { color: #d97706; }
+.signal-page__stat-num--contradicts { color: #dc2626; }
+.signal-page__stat-label { font-size: 0.8rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+.signal-page__section { margin-bottom: var(--space-6); }
+.signal-page__section-title { font-size: 1.3rem; margin: 0 0 var(--space-2); }
+.signal-page__section-desc { color: var(--muted); margin: 0 0 var(--space-3); }
+.signal-page__related { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--space-2); }
+.signal-page__related-link { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: var(--space-3); background: var(--surface, #fff); border: 1px solid var(--border); border-radius: 8px; text-decoration: none; color: inherit; transition: border-color 0.15s; }
+.signal-page__related-link:hover { border-color: var(--accent); }
+.signal-page__related-title { flex: 1; font-weight: 500; }
+.signal-page__related-count { font-size: 0.8rem; color: var(--muted); }
+.signal-page__evidence { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--space-3); }
+.signal-page__evidence-item { padding: var(--space-3) var(--space-4); background: var(--surface, #fff); border: 1px solid var(--border); border-radius: 10px; }
+.signal-page__evidence-title { display: block; font-weight: 600; color: var(--text); text-decoration: none; margin-bottom: 4px; }
+.signal-page__evidence-title:hover { color: var(--accent); }
+.signal-page__evidence-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-size: 0.8rem; color: var(--muted); margin-bottom: 6px; }
+.signal-page__evidence-excerpt { font-size: 0.92rem; line-height: 1.5; color: var(--muted); margin: 0; }
+.signal-page__empty { padding: var(--space-4); background: var(--surface, #fff); border: 1px dashed var(--border); border-radius: 8px; color: var(--muted); text-align: center; }
+.signal-page__back { margin-top: var(--space-6); }
+.signal-page__back a { color: var(--accent); text-decoration: none; }
+.signal-page__back a:hover { text-decoration: underline; }
+
+/* ── Modal share + view-page action ───────────────────── */
+.sma-share-wrap { display: inline-flex; }
+.sma-btn--view { display: inline-flex; align-items: center; gap: 6px; text-decoration: none; }
+@media (max-width: 540px) {
+  .signal-page__title { font-size: 1.5rem; }
+}
+
 /* ── Search Highlight (shared) ──────────────────────────── */
 .search-highlight { background: color-mix(in srgb, var(--accent) 18%, transparent); color: var(--text); border-radius: 3px; padding: 0 2px; font-weight: 700; }
 
