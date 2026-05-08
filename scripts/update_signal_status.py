@@ -164,17 +164,26 @@ def update_signals_yml(
     text = SIGNALS_FILE.read_text(encoding="utf-8")
     lines = text.splitlines(keepends=True)
 
+    # Pre-scan: find which signals already have at least one momentum line.
+    # This prevents injecting a duplicate after description: on every run.
+    signals_with_momentum: set[str] = set()
+    _current_id = None
+    for line in lines:
+        m = re.match(r"^- id:\s*(\S+)", line)
+        if m:
+            _current_id = m.group(1).strip('"\'')
+        if re.match(r"^\s*momentum:", line) and _current_id:
+            signals_with_momentum.add(_current_id)
+
     current_signal_id = None
     changed = False
     updated_lines = []
-    seen_momentum: set[str] = set()
-    pending_momentum_inject: str | None = None  # momentum line to inject after description
+    seen_momentum: set[str] = set()  # tracks first momentum line written per signal
 
     for line in lines:
         id_match = re.match(r"^- id:\s*(\S+)", line)
         if id_match:
             current_signal_id = id_match.group(1).strip('"\'')
-            pending_momentum_inject = None
 
         # Update current_status
         status_match = re.match(r"^(\s*current_status:\s*)(\S+)", line)
@@ -186,26 +195,31 @@ def update_signals_yml(
                 changed = True
                 print(f"  {current_signal_id}: status {old_status} → {new_status}")
 
-        # Update existing momentum line
+        # Handle momentum lines: keep only the first occurrence, drop duplicates.
         momentum_match = re.match(r"^(\s*momentum:\s*)(\S+)", line)
-        if momentum_match and current_signal_id in new_momentums:
-            new_mom = new_momentums[current_signal_id]
-            old_mom = momentum_match.group(2)
-            if old_mom != new_mom:
-                line = f"{momentum_match.group(1)}{new_mom}\n"
+        if momentum_match and current_signal_id:
+            if current_signal_id in seen_momentum:
+                # Duplicate momentum line — drop it silently.
                 changed = True
-                print(f"  {current_signal_id}: momentum {old_mom} → {new_mom}")
+                continue
             seen_momentum.add(current_signal_id)
+            if current_signal_id in new_momentums:
+                new_mom = new_momentums[current_signal_id]
+                old_mom = momentum_match.group(2)
+                if old_mom != new_mom:
+                    line = f"{momentum_match.group(1)}{new_mom}\n"
+                    changed = True
+                    print(f"  {current_signal_id}: momentum {old_mom} → {new_mom}")
 
         updated_lines.append(line)
 
-        # After description line, inject momentum if not yet present for this signal
+        # After description line, inject momentum only for signals that have none.
         desc_match = re.match(r"^\s*description:", line)
-        if desc_match and current_signal_id and current_signal_id not in seen_momentum:
+        if desc_match and current_signal_id and current_signal_id not in signals_with_momentum:
             if current_signal_id in new_momentums:
                 mom = new_momentums[current_signal_id]
                 updated_lines.append(f"  momentum: {mom}\n")
-                seen_momentum.add(current_signal_id)
+                signals_with_momentum.add(current_signal_id)
                 changed = True
                 print(f"  {current_signal_id}: momentum added → {mom}")
 
