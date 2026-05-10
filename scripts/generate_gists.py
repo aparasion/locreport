@@ -811,6 +811,28 @@ def generate_intelligence(title: str, gist: str, article_text: str) -> dict:
 
 # ── Theory article prompts and intelligence ──
 
+
+INDUSTRY_GIST_SYSTEM_PROMPT = """You are a senior editorial writer for LocReport, a professional news platform covering the language services and localization industry. Your readers are localization managers, language technology leaders, translators, and enterprise language buyers who need to understand what's happening and why it matters.
+
+Write a substantive editorial analysis in 4 paragraphs (380–520 words total).
+
+Opening paragraph: Lead with the core development in a sharp, direct sentence. Establish what happened, who is involved, and why it warrants attention.
+
+Second paragraph: Provide industry context — what broader trend, challenge, or market shift does this connect to? A reader who hasn't been following this area closely should understand why this is happening now.
+
+Third paragraph: Explain the specific impact on localization workflows, business models, or competitive dynamics. Use concrete language — which roles, teams, or vendors are affected and how.
+
+Closing paragraph: Offer a sharp LocReport observation — one evidence-based insight about what this signals for the industry's direction. Reflect the pattern the LocReport editorial team sees across the market, not just what this single article says.
+
+Tone and style:
+• Write like a knowledgeable colleague sharing analysis, not like a press release.
+• Use active voice, varied sentence length, and concrete language.
+• Avoid corporate jargon, filler phrases ("in a world where...", "it's worth noting that..."), and vague superlatives.
+• Neutral and factual — no speculation beyond what the source supports.
+• The analysis should make a localization professional think, not just inform them.
+
+If the provided text is mostly cookie/privacy/legal notices rather than article content, respond exactly with: UNUSABLE_CONTENT"""
+
 THEORY_GIST_SYSTEM_PROMPT = """You are a science writer for LocReport's research section, summarizing linguistic \
 and communication research for language professionals. Your readers are linguists, computational linguists, \
 localization researchers, and language technology developers who want rigorous but accessible summaries.
@@ -837,6 +859,55 @@ Tone and style:
 • The summary should make a language researcher or NLP practitioner curious enough to read the full paper.
 
 If the provided text is mostly cookie/privacy/legal notices rather than article content, respond exactly with: UNUSABLE_CONTENT"""
+
+def generate_gist(title: str, text: str, article_type: str) -> str:
+    """Generate a LocReport article analysis using the same prompt for RSS and manual inputs."""
+    if article_type == "theory":
+        prompt = (
+            "Write a substantive research summary (350–480 words).\n"
+            "Frame it for linguists, NLP practitioners, and language science researchers.\n\n"
+            f"Article text:\n{text[:15000]}"
+        )
+        gist_system_prompt = THEORY_GIST_SYSTEM_PROMPT
+    else:
+        prompt = (
+            "Write a substantive editorial analysis (380–520 words).\n"
+            "Frame it for localization managers, language technology leaders, and enterprise language buyers.\n\n"
+            f"Article text:\n{text[:15000]}"
+        )
+        gist_system_prompt = INDUSTRY_GIST_SYSTEM_PROMPT
+
+    response = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[
+            {"role": "system", "content": gist_system_prompt},
+            {"role": "user", "content": prompt},
+        ],
+        max_tokens=800,
+        temperature=0.4,
+    )
+    return response.choices[0].message.content.strip()
+
+
+def infer_title_from_text(url: str, text: str) -> str:
+    """Infer a concise source title when manual input does not provide an RSS title."""
+    title_prompt = (
+        "Create a factual news headline for this article. Use 8–16 words. "
+        "Do not add facts that are not supported by the text. Respond with only the headline.\n\n"
+        f"URL: {url}\n\nArticle text:\n{text[:4000]}"
+    )
+    response = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[
+            {"role": "system", "content": "You write concise factual headlines for localization-industry news."},
+            {"role": "user", "content": title_prompt},
+        ],
+        max_tokens=80,
+        temperature=0.2,
+    )
+    title = response.choices[0].message.content.strip().strip('"')
+    return title or get_publisher_domain(url) or "Manual article"
+
 
 RESEARCH_DOMAINS = [
     "phonetics", "phonology", "morphology", "syntax", "semantics",
@@ -1040,53 +1111,8 @@ def main() -> None:
                 print(f"Skipping (not language-services relevant): '{entry.title[:70]}'")
                 continue
 
-            if article_type == "theory":
-                # ── Theory article: scientific gist prompt ──
-                prompt = (
-                    "Write a substantive research summary (350–480 words).\n"
-                    "Frame it for linguists, NLP practitioners, and language science researchers.\n\n"
-                    f"Article text:\n{text[:15000]}"
-                )
-                gist_system_prompt = THEORY_GIST_SYSTEM_PROMPT
-            else:
-                # ── Industry article: business gist prompt ──
-                prompt = (
-                    "Write a substantive editorial analysis (380–520 words).\n"
-                    "Frame it for localization managers, language technology leaders, and enterprise language buyers.\n\n"
-                    f"Article text:\n{text[:15000]}"
-                )
-                gist_system_prompt = """You are a senior editorial writer for LocReport, a professional news platform covering the language services and localization industry. Your readers are localization managers, language technology leaders, translators, and enterprise language buyers who need to understand what's happening and why it matters.
-
-Write a substantive editorial analysis in 4 paragraphs (380–520 words total).
-
-Opening paragraph: Lead with the core development in a sharp, direct sentence. Establish what happened, who is involved, and why it warrants attention.
-
-Second paragraph: Provide industry context — what broader trend, challenge, or market shift does this connect to? A reader who hasn't been following this area closely should understand why this is happening now.
-
-Third paragraph: Explain the specific impact on localization workflows, business models, or competitive dynamics. Use concrete language — which roles, teams, or vendors are affected and how.
-
-Closing paragraph: Offer a sharp LocReport observation — one evidence-based insight about what this signals for the industry's direction. Reflect the pattern the LocReport editorial team sees across the market, not just what this single article says.
-
-Tone and style:
-• Write like a knowledgeable colleague sharing analysis, not like a press release.
-• Use active voice, varied sentence length, and concrete language.
-• Avoid corporate jargon, filler phrases ("in a world where...", "it's worth noting that..."), and vague superlatives.
-• Neutral and factual — no speculation beyond what the source supports.
-• The analysis should make a localization professional think, not just inform them.
-
-If the provided text is mostly cookie/privacy/legal notices rather than article content, respond exactly with: UNUSABLE_CONTENT"""
-
             try:
-                response = client.chat.completions.create(
-                    model="gpt-4o-mini",
-                    messages=[
-                        {"role": "system", "content": gist_system_prompt},
-                        {"role": "user", "content": prompt},
-                    ],
-                    max_tokens=800,
-                    temperature=0.4,
-                )
-                gist = response.choices[0].message.content.strip()
+                gist = generate_gist(entry.title, text, article_type)
                 if gist == "UNUSABLE_CONTENT":
                     print(f"Skipping unusable generated content for {url}")
                     continue
