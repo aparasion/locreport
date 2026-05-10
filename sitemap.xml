@@ -8,6 +8,9 @@ permalink: /sitemap.xml
     {% if page.url contains '.xml' or page.url contains '.txt' %}
       {% continue %}
     {% endif %}
+    {% if page.sitemap == false %}
+      {% continue %}
+    {% endif %}
     {% if page.layout %}
     <url>
       <loc>{{ page.url | replace:'index.html','' | absolute_url }}</loc>

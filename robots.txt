@@ -3,6 +3,7 @@ layout: null
 permalink: /robots.txt
 ---
 User-agent: *
+Disallow: /manualarticle/
 Allow: /
 
 User-agent: GPTBot
