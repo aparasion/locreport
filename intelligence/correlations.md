@@ -38,12 +38,12 @@ description: "Which localization industry signals move together? Full co-occurre
         <span class="corr-pair-count">{{ corr.co_occurrences }} article{% if corr.co_occurrences != 1 %}s{% endif %}</span>
       </div>
       <div class="corr-pair-signals">
-        <a href="{{ '/intelligence/' | relative_url }}#{{ corr.signal_a }}" class="corr-pair-signal corr-pair-signal--{{ sig_a.category }}">
+        <a href="{{ '/signals/' | relative_url }}{{ corr.signal_a }}/" class="corr-pair-signal corr-pair-signal--{{ sig_a.category }}">
           <span class="corr-pair-signal-cat">{{ sig_a.category }}</span>
           <span class="corr-pair-signal-title">{{ sig_a.title }}</span>
         </a>
         <span class="corr-pair-connector" aria-hidden="true">↔</span>
-        <a href="{{ '/intelligence/' | relative_url }}#{{ corr.signal_b }}" class="corr-pair-signal corr-pair-signal--{{ sig_b.category }}">
+        <a href="{{ '/signals/' | relative_url }}{{ corr.signal_b }}/" class="corr-pair-signal corr-pair-signal--{{ sig_b.category }}">
           <span class="corr-pair-signal-cat">{{ sig_b.category }}</span>
           <span class="corr-pair-signal-title">{{ sig_b.title }}</span>
         </a>
