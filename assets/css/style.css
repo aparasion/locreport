@@ -1992,6 +1992,13 @@ details[open] .signal-accordion__chevron { transform: rotate(180deg); }
 .intel-stat-card:hover { transform: translateY(-2px); box-shadow: var(--card-shadow-hover); }
 .intel-stat-number { display: block; font-size: 1.4rem; font-weight: 800; letter-spacing: -0.03em; color: var(--text); }
 .intel-stat-label { font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
+.intel-link-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-4); margin: 0 0 var(--space-10); }
+.intel-link-card { display: flex; flex-direction: column; min-height: 220px; padding: var(--space-5); background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); text-decoration: none; transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease; }
+.intel-link-card:hover { transform: translateY(-3px); box-shadow: var(--card-shadow-hover); border-color: color-mix(in srgb, var(--accent) 30%, transparent); }
+.intel-link-card__eyebrow { display: inline-flex; align-self: flex-start; padding: 4px 12px; margin-bottom: var(--space-4); border-radius: 100px; background: var(--accent-soft); color: var(--accent); font-size: 0.68rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; }
+.intel-link-card__title { display: block; color: var(--text); font-size: 1.1rem; font-weight: 800; line-height: 1.25; margin-bottom: var(--space-2); }
+.intel-link-card__desc { color: var(--muted); font-size: 0.9rem; line-height: 1.55; margin-bottom: var(--space-5); }
+.intel-link-card__cta { margin-top: auto; color: var(--accent); font-size: 0.85rem; font-weight: 700; }
 .intel-section { margin-bottom: var(--space-10); }
 .intel-section-title { font-size: 1.3rem; font-weight: 800; letter-spacing: -0.02em; margin: 0 0 var(--space-2); }
 .intel-section-desc { font-size: 0.9rem; color: var(--muted); margin: 0 0 var(--space-5); }
@@ -2506,6 +2513,7 @@ details[open] .signal-accordion__chevron { transform: rotate(180deg); }
   .footer-top { grid-template-columns: 1fr; gap: var(--space-6); }
   .footer-nav-col:first-of-type { margin-top: var(--space-2); }
   .intel-stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .intel-link-grid { grid-template-columns: 1fr; }
   .intel-chart-container { height: 280px; }
   .intel-high-impact-list { grid-template-columns: 1fr; }
   .signal-health-grid { grid-template-columns: 1fr; }
