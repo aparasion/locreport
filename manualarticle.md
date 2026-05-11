@@ -126,7 +126,8 @@ no_share: true
 
   <div id="token-missing-banner" class="token-banner" style="display:none">
     <strong>GitHub token required</strong>
-    A fine-grained or classic GitHub PAT with <code>workflow</code> scope is needed to dispatch the workflow. The token is stored only in your browser's <code>localStorage</code> and never sent anywhere except the GitHub API.
+    A classic GitHub PAT with the <code>workflow</code> scope is needed to dispatch the workflow. The token is stored only in your browser's <code>localStorage</code> and never sent anywhere except the GitHub API.<br>
+    <small>Create one at <strong>github.com → Settings → Developer settings → Personal access tokens → Tokens (classic)</strong> → Generate new token → tick <code>workflow</code>.</small>
     <div class="token-row">
       <input type="password" id="token-input" placeholder="ghp_…" autocomplete="off" spellcheck="false">
       <button type="button" class="btn btn--primary" id="token-save-btn">Save token</button>
