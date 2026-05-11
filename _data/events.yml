@@ -1,0 +1,143 @@
+- id: gala-connect-2026
+  name: "GALA Connect 2026"
+  organizer: "GALA (Globalization and Localization Association)"
+  start_date: "2026-03-16"
+  end_date: "2026-03-18"
+  location: "Lisbon, Portugal"
+  format: in-person
+  category: conference
+  url: "https://www.gala-global.org/events/gala-connect-2026"
+  description: "Annual gathering of the GALA network, focused on localization business strategy, language technology, and supply-chain management. Keynotes, workshops, and networking across the global language services community."
+  tags: [localization, business, networking, strategy]
+
+- id: slic-2026
+  name: "Slator Language Industry Conference (SLIC) 2026"
+  organizer: "Slator"
+  start_date: "2026-04-22"
+  end_date: "2026-04-23"
+  location: "New York, USA"
+  format: in-person
+  category: conference
+  url: "https://slator.com/events/slic/"
+  description: "The leading executive conference covering market intelligence, M&A activity, and emerging technology in the language services industry. Draws senior leaders from LSPs, buyers, and technology providers."
+  tags: [market, strategy, intelligence, executive]
+
+- id: locworld58-spring-2026
+  name: "LocWorld58"
+  organizer: "LocWorld"
+  start_date: "2026-05-06"
+  end_date: "2026-05-08"
+  location: "Seattle, USA"
+  format: in-person
+  category: conference
+  url: "https://locworld.com"
+  description: "One of the localization industry's largest networking and educational events, covering content strategy, translation technology, global product development, and workforce management."
+  tags: [localization, technology, content, networking]
+
+- id: taus-2026
+  name: "TAUS Annual Conference 2026"
+  organizer: "TAUS"
+  start_date: "2026-06-10"
+  end_date: "2026-06-12"
+  location: "Amsterdam, Netherlands"
+  format: in-person
+  category: conference
+  url: "https://www.taus.net/events"
+  description: "Focused on data, AI, and automation in translation and localization. Brings together language industry leaders, tech developers, and enterprise buyers to explore the future of language AI."
+  tags: [AI, data, automation, translation]
+
+- id: lilt-summit-2026
+  name: "LILT Language AI Summit 2026"
+  organizer: "LILT"
+  start_date: "2026-06-24"
+  end_date: "2026-06-25"
+  location: "San Francisco, USA"
+  format: hybrid
+  category: summit
+  url: "https://lilt.com"
+  description: "A practitioner-focused summit on adaptive machine translation, AI-assisted localization workflows, and enterprise language operations at scale."
+  tags: [AI, machine-translation, enterprise, workflows]
+
+- id: mtp-fest-2026
+  name: "MTPfest 2026"
+  organizer: "eMpTy Pages"
+  start_date: "2026-07-14"
+  end_date: "2026-07-16"
+  location: "Edinburgh, UK"
+  format: in-person
+  category: conference
+  url: "https://mtpfest.com"
+  description: "An independent conference for machine translation professionals and researchers. Combines academic paper presentations with industry case studies and debates on MT quality and deployment."
+  tags: [machine-translation, research, quality, technology]
+
+- id: ata-annual-2026
+  name: "ATA Annual Conference 2026"
+  organizer: "American Translators Association"
+  start_date: "2026-10-21"
+  end_date: "2026-10-25"
+  location: "Chicago, USA"
+  format: in-person
+  category: conference
+  url: "https://www.atanet.org/events/annual-conference/"
+  description: "The flagship event of the American Translators Association, featuring hundreds of sessions on translation craft, specialization, business development, and technology for working translators and interpreters."
+  tags: [translation, interpreting, professional-development, community]
+
+- id: translating-europe-forum-2026
+  name: "Translating Europe Forum 2026"
+  organizer: "European Commission DGT"
+  start_date: "2026-09-17"
+  end_date: "2026-09-18"
+  location: "Brussels, Belgium"
+  format: in-person
+  category: forum
+  url: "https://commission.europa.eu/resources-partners/translating-europe-forum_en"
+  description: "The European Commission's flagship language-sector event, gathering translators, LSPs, academics, and policymakers to explore the impact of AI and technology on the European language industry."
+  tags: [policy, EU, language-technology, academic]
+
+- id: locworld59-fall-2026
+  name: "LocWorld59"
+  organizer: "LocWorld"
+  start_date: "2026-10-07"
+  end_date: "2026-10-09"
+  location: "Dublin, Ireland"
+  format: in-person
+  category: conference
+  url: "https://locworld.com"
+  description: "The autumn edition of LocWorld, focusing on global content strategy, cross-functional localization programs, and the evolving role of human expertise alongside language AI."
+  tags: [localization, content, strategy, networking]
+
+- id: tcworld-2026
+  name: "tcworld Conference 2026"
+  organizer: "tekom Europe"
+  start_date: "2026-11-10"
+  end_date: "2026-11-12"
+  location: "Stuttgart, Germany"
+  format: in-person
+  category: conference
+  url: "https://tcworld-conference.com"
+  description: "Europe's largest technical communication event, covering structured authoring, content management, localization of technical documentation, and the intersection of AI with technical writing workflows."
+  tags: [technical-communication, localization, content-management, AI]
+
+- id: language-connect-summit-2026
+  name: "Language Connect Summit 2026"
+  organizer: "Language Connect"
+  start_date: "2026-11-19"
+  end_date: "2026-11-20"
+  location: "London, UK"
+  format: hybrid
+  category: summit
+  url: "https://www.languageconnect.net"
+  description: "A strategic summit for enterprise language buyers and LSP leaders, exploring vendor management, quality frameworks, and operational transformation through language technology."
+  tags: [enterprise, buyer, vendor-management, quality]
+
+- id: fit-world-congress-2026
+  name: "FIT World Congress 2026"
+  organizer: "International Federation of Translators"
+  start_date: "2026-08-26"
+  end_date: "2026-08-30"
+  location: "Cape Town, South Africa"
+  format: in-person
+  category: congress
+  url: "https://www.fit-ift.org"
+  description: "Held every three years, the FIT World Congress unites translators, interpreters, and terminologists from around the globe to discuss professional standards, ethics, and the evolving landscape of language work in the AI era."
+  tags: [translation, interpreting, professional-standards, global]
