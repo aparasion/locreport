@@ -6,6 +6,96 @@ sitemap: false
 ---
 
 
+<div class="page">
+  <div class="e404">
+
+    <div class="e404-left">
+      <p class="e404-overline">Error report</p>
+
+      <span class="e404-number">404</span>
+
+      <h1 class="e404-headline">This page got lost<br>in translation</h1>
+
+      <p class="e404-deck">The URL you requested couldn't be located in any of our language pairs. It may have been moved, renamed, or never localized into existence in the first place.</p>
+
+      <div class="e404-lang-chain">
+        <span class="e404-lang-tag">EN</span>
+        <span class="e404-chain-arrow">→</span>
+        <span class="e404-lang-tag">FR</span>
+        <span class="e404-chain-arrow">→</span>
+        <span class="e404-lang-tag">DE</span>
+        <span class="e404-chain-arrow">→</span>
+        <span class="e404-lang-tag">JA</span>
+        <span class="e404-chain-arrow">→</span>
+        <span class="e404-lang-tag--lost">?</span>
+      </div>
+
+      <div class="e404-actions">
+        <a href="{{ '/' | relative_url }}" class="btn btn--primary">← Back to homepage</a>
+        <a href="{{ '/all-articles/' | relative_url }}" class="btn btn--secondary">Browse all articles</a>
+      </div>
+
+      {% if site.posts.size > 0 %}
+      <p class="e404-posts-label">Latest articles</p>
+      <ul class="e404-posts">
+        {% for post in site.posts limit:5 %}
+        <li>
+          <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+          <span class="e404-post-date">{{ post.date | date: "%b %d, %Y" }}</span>
+        </li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+    </div>
+
+    <div class="e404-right">
+
+      <div class="e404-translation-box">
+        <div class="e404-tb-header">
+          <div class="e404-tb-dot"></div>
+          <span class="e404-tb-label">Page not found — translated</span>
+        </div>
+        <div class="e404-tb-row"><span class="e404-tb-lang">EN</span><span class="e404-tb-text">Page not found</span></div>
+        <div class="e404-tb-row"><span class="e404-tb-lang">FR</span><span class="e404-tb-text">Page introuvable</span></div>
+        <div class="e404-tb-row"><span class="e404-tb-lang">DE</span><span class="e404-tb-text">Seite nicht gefunden</span></div>
+        <div class="e404-tb-row"><span class="e404-tb-lang">JA</span><span class="e404-tb-text">ページが見つかりません</span></div>
+        <div class="e404-tb-row"><span class="e404-tb-lang">ZH</span><span class="e404-tb-text">找不到页面</span></div>
+        <div class="e404-tb-row"><span class="e404-tb-lang">AR</span><span class="e404-tb-rtl">الصفحة غير موجودة</span></div>
+        <div class="e404-tb-row"><span class="e404-tb-lang">PT</span><span class="e404-tb-text">Página não encontrada</span></div>
+        <div class="e404-tb-row"><span class="e404-tb-lang">ES</span><span class="e404-tb-text">Página no encontrada</span></div>
+      </div>
+
+      <div>
+        <p class="e404-nav-label">Where you might want to go</p>
+        <div class="e404-nav-grid">
+          <a href="{{ '/intelligence/' | relative_url }}" class="e404-nav-card">
+            <span class="e404-nc-eyebrow">Intelligence</span>
+            <span class="e404-nc-title">Signals</span>
+            <span class="e404-nc-desc">Trends &amp; analysis</span>
+          </a>
+          <a href="{{ '/reports/' | relative_url }}" class="e404-nav-card">
+            <span class="e404-nc-eyebrow">Reports</span>
+            <span class="e404-nc-title">2026 Report</span>
+            <span class="e404-nc-desc">Global market data</span>
+          </a>
+          <a href="{{ '/research/' | relative_url }}" class="e404-nav-card">
+            <span class="e404-nc-eyebrow">Science</span>
+            <span class="e404-nc-title">Language</span>
+            <span class="e404-nc-desc">Research &amp; findings</span>
+          </a>
+          <a href="{{ '/market/' | relative_url }}" class="e404-nav-card">
+            <span class="e404-nc-eyebrow">LocStock</span>
+            <span class="e404-nc-title">Market</span>
+            <span class="e404-nc-desc">Industry tracker</span>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
 <article class="page error-404">
   <h1>Page not found</h1>
   <p class="post-meta">404 error</p>
