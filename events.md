@@ -8,15 +8,10 @@ nav_order: 4
 no_share: true
 ---
 
-A curated calendar of major conferences, summits, and forums across the language services and localization industry. Filter by status or category to find what's relevant to you.
+A curated calendar of upcoming conferences, summits, and forums across the language services and localization industry. Filter by category to find what's relevant to you.
 
 <div class="events-page-header">
   <div class="events-filters">
-    <div class="events-filter-group">
-      <button class="events-filter-btn active" data-filter="all">All events</button>
-      <button class="events-filter-btn" data-filter="upcoming">Upcoming</button>
-      <button class="events-filter-btn" data-filter="past">Past</button>
-    </div>
     <div class="events-filter-group">
       <button class="events-filter-btn" data-category="conference">Conferences</button>
       <button class="events-filter-btn" data-category="summit">Summits</button>
@@ -26,11 +21,13 @@ A curated calendar of major conferences, summits, and forums across the language
 </div>
 
 <div class="events-timeline" id="events-timeline">
-  {% assign sorted_events = site.data.events | sort: "start_date" %}
+  {% assign today = site.time | date: "%Y-%m-%d" %}
+  {% assign upcoming_events = site.data.events | where_exp: "event", "event.end_date >= today" | sort: "start_date" %}
   {% assign current_year = "" %}
   {% assign current_month = "" %}
 
-  {% for event in sorted_events %}
+  {% if upcoming_events.size > 0 %}
+  {% for event in upcoming_events %}
     {% assign event_year = event.start_date | slice: 0, 4 %}
     {% assign event_month_num = event.start_date | slice: 5, 2 %}
 
@@ -53,10 +50,7 @@ A curated calendar of major conferences, summits, and forums across the language
       <h3 class="events-month-heading">{{ month_name }}</h3>
     {% endif %}
 
-    {% assign today = "2026-05-11" %}
-    {% if event.end_date < today %}
-      {% assign event_status = "past" %}
-    {% elsif event.start_date <= today %}
+    {% if event.start_date <= today %}
       {% assign event_status = "ongoing" %}
     {% else %}
       {% assign event_status = "upcoming" %}
@@ -75,7 +69,6 @@ A curated calendar of major conferences, summits, and forums across the language
           <span class="event-status-badge event-status-badge--{{ event_status }}">
             {% if event_status == "upcoming" %}Upcoming
             {% elsif event_status == "ongoing" %}Happening now
-            {% else %}Past
             {% endif %}
           </span>
           <span class="event-format-badge event-format-badge--{{ event.format }}">{{ event.format }}</span>
@@ -122,9 +115,10 @@ A curated calendar of major conferences, summits, and forums across the language
 
   {% endfor %}
   </div></div>
+  {% endif %}
 </div>
 
-<div class="events-empty-state" id="events-empty" style="display:none;">
+<div class="events-empty-state" id="events-empty"{% if upcoming_events.size > 0 %} style="display:none;"{% endif %}>
   <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
   <p>No events match this filter.</p>
 </div>
@@ -138,7 +132,6 @@ A curated calendar of major conferences, summits, and forums across the language
   var timeline   = document.getElementById("events-timeline");
   var emptyState = document.getElementById("events-empty");
   var filterBtns = document.querySelectorAll(".events-filter-btn");
-  var activeStatus   = "all";
   var activeCategory = "all";
 
   function applyFilters() {
@@ -146,9 +139,8 @@ A curated calendar of major conferences, summits, and forums across the language
     var visible = 0;
 
     cards.forEach(function (card) {
-      var statusMatch   = activeStatus === "all" || card.getAttribute("data-status") === activeStatus;
       var categoryMatch = activeCategory === "all" || card.getAttribute("data-category") === activeCategory;
-      var show = statusMatch && categoryMatch;
+      var show = categoryMatch;
       card.style.display = show ? "" : "none";
       if (show) visible++;
     });
@@ -174,23 +166,12 @@ A curated calendar of major conferences, summits, and forums across the language
 
   filterBtns.forEach(function (btn) {
     btn.addEventListener("click", function () {
-      var filterVal    = btn.getAttribute("data-filter");
-      var categoryVal  = btn.getAttribute("data-category");
+      var categoryVal = btn.getAttribute("data-category");
 
-      if (filterVal !== null) {
-        // Status group
-        document.querySelectorAll("[data-filter]").forEach(function (b) { b.classList.remove("active"); });
-        btn.classList.add("active");
-        activeStatus = filterVal;
-        activeCategory = "all";
-        document.querySelectorAll("[data-category]").forEach(function (b) { b.classList.remove("active"); });
-      } else if (categoryVal !== null) {
+      if (categoryVal !== null) {
         // Category group — toggle
         var isActive = btn.classList.contains("active");
         document.querySelectorAll("[data-category]").forEach(function (b) { b.classList.remove("active"); });
-        document.querySelectorAll("[data-filter]").forEach(function (b) { b.classList.remove("active"); });
-        document.querySelector('[data-filter="all"]').classList.add("active");
-        activeStatus = "all";
         if (isActive) {
           activeCategory = "all";
         } else {
