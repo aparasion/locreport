@@ -77,10 +77,65 @@ no_share: true
   background: #eff8ff;
   border: 1px solid #b2ddff;
 }
+.manual-article-tool .token-banner {
+  margin-bottom: 1.25rem;
+  border-radius: 14px;
+  padding: 1rem 1.25rem;
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+  color: #92400e;
+}
+.manual-article-tool .token-banner strong {
+  display: block;
+  margin-bottom: 0.4rem;
+}
+.manual-article-tool .token-banner .token-row {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.6rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.manual-article-tool .token-banner input[type="password"] {
+  flex: 1 1 260px;
+  border: 1px solid #fbbf24;
+  border-radius: 10px;
+  padding: 0.55rem 0.85rem;
+  font: inherit;
+  background: #fff;
+  color: #111827;
+  min-width: 0;
+}
+.manual-article-tool .token-ok-banner {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+  border-radius: 14px;
+  padding: 0.75rem 1.25rem;
+  background: #ecfdf3;
+  border: 1px solid #abefc6;
+  color: #027a48;
+  font-weight: 700;
+  font-size: 0.95rem;
+}
 </style>
 
 <div class="manual-article-tool">
   <p>This unlinked, noindex page triggers the private <code>Manual Article</code> GitHub Actions workflow. Paste the article details, click <strong>Create post</strong>, and the workflow will generate and commit the post using the same LocReport prompt as RSS-sourced articles.</p>
+
+  <div id="token-missing-banner" class="token-banner" style="display:none">
+    <strong>GitHub token required</strong>
+    A fine-grained or classic GitHub PAT with <code>workflow</code> scope is needed to dispatch the workflow. The token is stored only in your browser's <code>localStorage</code> and never sent anywhere except the GitHub API.
+    <div class="token-row">
+      <input type="password" id="token-input" placeholder="ghp_…" autocomplete="off" spellcheck="false">
+      <button type="button" class="btn btn--primary" id="token-save-btn">Save token</button>
+    </div>
+  </div>
+  <div id="token-ok-banner" class="token-ok-banner" style="display:none">
+    <span>&#10003; GitHub token configured.</span>
+    <button type="button" class="btn btn--secondary" id="token-clear-btn" style="margin-left:auto;font-size:0.85rem">Clear token</button>
+  </div>
 
   <form id="manual-article-form">
     <label>
@@ -123,22 +178,64 @@ no_share: true
   var BRANCH = "main";
   var WORKFLOW_FILE = "manual-article.yml";
   var WORKFLOW_URL = "https://github.com/" + REPOSITORY + "/actions/workflows/" + WORKFLOW_FILE;
-  var DISPATCH_TOKEN = window.LOCREPORT_MANUAL_ARTICLE_TOKEN || localStorage.getItem("manualArticleToken") || "";
+  var LS_KEY = "manualArticleToken";
 
   var form = document.getElementById("manual-article-form");
   var statusEl = document.getElementById("manual-article-status");
   var submitButton = form.querySelector('button[type="submit"]');
+  var missingBanner = document.getElementById("token-missing-banner");
+  var okBanner = document.getElementById("token-ok-banner");
+  var tokenInput = document.getElementById("token-input");
+  var saveBtn = document.getElementById("token-save-btn");
+  var clearBtn = document.getElementById("token-clear-btn");
+
+  function getToken() {
+    return window.LOCREPORT_MANUAL_ARTICLE_TOKEN || localStorage.getItem(LS_KEY) || "";
+  }
+
+  function refreshTokenUI() {
+    if (getToken()) {
+      missingBanner.style.display = "none";
+      okBanner.style.display = "flex";
+    } else {
+      missingBanner.style.display = "block";
+      okBanner.style.display = "none";
+    }
+  }
+
+  saveBtn.addEventListener("click", function () {
+    var val = tokenInput.value.trim();
+    if (!val) return;
+    localStorage.setItem(LS_KEY, val);
+    tokenInput.value = "";
+    refreshTokenUI();
+  });
+
+  tokenInput.addEventListener("keydown", function (e) {
+    if (e.key === "Enter") { e.preventDefault(); saveBtn.click(); }
+  });
+
+  clearBtn.addEventListener("click", function () {
+    localStorage.removeItem(LS_KEY);
+    refreshTokenUI();
+  });
+
+  refreshTokenUI();
 
   function setStatus(message, state) {
     statusEl.innerHTML = message;
     statusEl.classList.remove("is-error", "is-success", "is-working");
-    if (state) {
-      statusEl.classList.add(state);
-    }
+    if (state) statusEl.classList.add(state);
   }
 
   form.addEventListener("submit", function (event) {
     event.preventDefault();
+
+    var token = getToken();
+    if (!token) {
+      setStatus("No GitHub token found. Use the token field above to save your PAT.", "is-error");
+      return;
+    }
 
     var url = document.getElementById("manual-article-url").value.trim();
     var articleDate = document.getElementById("manual-article-date").value;
@@ -151,11 +248,6 @@ no_share: true
       return;
     }
 
-    if (!DISPATCH_TOKEN) {
-      setStatus("Workflow dispatch is not configured for this browser. Add a workflow-dispatch token to <code>localStorage.manualArticleToken</code> or expose <code>window.LOCREPORT_MANUAL_ARTICLE_TOKEN</code> before using this private page.", "is-error");
-      return;
-    }
-
     submitButton.disabled = true;
     setStatus("Creating article… The GitHub Actions workflow is being dispatched and will commit the post when generation finishes.", "is-working");
 
@@ -163,7 +255,7 @@ no_share: true
       method: "POST",
       headers: {
         "Accept": "application/vnd.github+json",
-        "Authorization": "Bearer " + DISPATCH_TOKEN,
+        "Authorization": "Bearer " + token,
         "Content-Type": "application/json",
         "X-GitHub-Api-Version": "2022-11-28"
       },
