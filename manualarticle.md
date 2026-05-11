@@ -126,7 +126,8 @@ no_share: true
 
   <div id="token-missing-banner" class="token-banner" style="display:none">
     <strong>GitHub token required</strong>
-    A fine-grained or classic GitHub PAT with <code>workflow</code> scope is needed to dispatch the workflow. The token is stored only in your browser's <code>localStorage</code> and never sent anywhere except the GitHub API.
+    A classic GitHub PAT with the <code>workflow</code> scope is needed to dispatch the workflow. The token is stored only in your browser's <code>localStorage</code> and never sent anywhere except the GitHub API.<br>
+    <small>Create one at <strong>github.com → Settings → Developer settings → Personal access tokens → Tokens (classic)</strong> → Generate new token → tick <code>workflow</code>.</small>
     <div class="token-row">
       <input type="password" id="token-input" placeholder="ghp_…" autocomplete="off" spellcheck="false">
       <button type="button" class="btn btn--primary" id="token-save-btn">Save token</button>
@@ -152,6 +153,12 @@ no_share: true
       Source name
       <input type="text" id="manual-article-source-name" name="source_name" required placeholder="Example News">
       <span class="field-hint">This text is used for the final source link.</span>
+    </label>
+
+    <label>
+      Article title
+      <input type="text" id="manual-article-title" name="title" placeholder="Leave blank to generate automatically">
+      <span class="field-hint">Optional. If omitted, the title is inferred from the article content.</span>
     </label>
 
     <label>
@@ -240,6 +247,7 @@ no_share: true
     var url = document.getElementById("manual-article-url").value.trim();
     var articleDate = document.getElementById("manual-article-date").value;
     var sourceName = document.getElementById("manual-article-source-name").value.trim();
+    var title = document.getElementById("manual-article-title").value.trim();
     var content = document.getElementById("manual-article-content").value.trim();
     var promptAddition = document.getElementById("manual-article-prompt-addition").value.trim();
 
@@ -265,6 +273,7 @@ no_share: true
           url: url,
           article_date: articleDate,
           source_name: sourceName,
+          title: title,
           content: content,
           prompt_addition: promptAddition
         }

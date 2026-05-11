@@ -16,7 +16,6 @@ from generate_gists import (
     get_publisher_domain,
     infer_signal_tags,
     infer_title_from_text,
-    is_language_services_relevant,
     make_excerpt,
     normalize_text,
     normalize_title,
@@ -204,8 +203,6 @@ def main() -> None:
     title = args.title.strip() or infer_title_from_text(args.url, text)
     publisher = get_publisher_domain(args.url)
     article_type = classify_article_type(publisher, text)
-    if article_type == "industry" and not is_language_services_relevant(title, text):
-        raise SystemExit("Manual article does not appear relevant to language services.")
 
     gist = generate_gist(title, text, article_type, args.prompt_addition)
     if gist == "UNUSABLE_CONTENT":
