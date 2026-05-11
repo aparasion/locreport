@@ -58,7 +58,15 @@ def slugify(title: str, fallback: str) -> str:
     return re.sub(r"[^a-z0-9-]", "-", fallback_slug.lower()).strip("-") or "manual-article"
 
 
-def write_post(title: str, url: str, pub_dt: datetime.datetime, text: str, gist: str, article_type: str) -> str:
+def write_post(
+    title: str,
+    url: str,
+    pub_dt: datetime.datetime,
+    text: str,
+    gist: str,
+    article_type: str,
+    source_name: str = "",
+) -> str:
     now = datetime.datetime.now(datetime.timezone.utc)
     if pub_dt > now:
         pub_dt = now
@@ -76,7 +84,9 @@ def write_post(title: str, url: str, pub_dt: datetime.datetime, text: str, gist:
     author = pick_author(slug, article_type)
     safe_title = yaml_escape(title)
     safe_excerpt = yaml_escape(make_excerpt(gist))
+    source_label = source_name.strip() or publisher
     safe_publisher = yaml_escape(publisher)
+    safe_source_label = yaml_escape(source_label)
     safe_source_url = yaml_escape(url)
 
     if article_type == "theory":
@@ -104,7 +114,7 @@ research_implications:
 
 {gist}
 
-Source: [{safe_publisher}]({safe_source_url})"""
+Source: [{safe_source_label}]({safe_source_url})"""
     else:
         intelligence = generate_intelligence(title, gist, text[:15000])
         signal_ids, signal_stance, signal_confidence = infer_signal_tags(title, gist)
@@ -144,7 +154,7 @@ business_implications:
 
 {gist}
 {signal_ref}
-Source: [{safe_publisher}]({safe_source_url})
+Source: [{safe_source_label}]({safe_source_url})
 """
 
     os.makedirs("_posts", exist_ok=True)
@@ -181,6 +191,8 @@ def main() -> None:
     parser.add_argument("--date", required=True, help="Article date as YYYY-MM-DD or ISO datetime")
     parser.add_argument("--content-file", required=True, help="Path to a UTF-8 text file containing the source article")
     parser.add_argument("--title", default="", help="Optional source article title; generated when omitted")
+    parser.add_argument("--source-name", default="", help="Source link text to display in the generated post")
+    parser.add_argument("--prompt-addition", default="", help="Optional editor instructions appended to the gist prompt")
     args = parser.parse_args()
 
     with open(args.content_file, "r", encoding="utf-8") as content_file:
@@ -195,11 +207,19 @@ def main() -> None:
     if article_type == "industry" and not is_language_services_relevant(title, text):
         raise SystemExit("Manual article does not appear relevant to language services.")
 
-    gist = generate_gist(title, text, article_type)
+    gist = generate_gist(title, text, article_type, args.prompt_addition)
     if gist == "UNUSABLE_CONTENT":
         raise SystemExit("Manual article content was classified as unusable.")
 
-    filename = write_post(title, args.url, parse_article_date(args.date), text, gist, article_type)
+    filename = write_post(
+        title,
+        args.url,
+        parse_article_date(args.date),
+        text,
+        gist,
+        article_type,
+        args.source_name,
+    )
     update_seen(args.url, title)
     print(f"Created {filename}")
 

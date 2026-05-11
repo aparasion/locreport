@@ -38,14 +38,13 @@ no_share: true
   min-height: 320px;
   resize: vertical;
 }
-.manual-article-tool details {
-  border: 1px solid var(--border-color, #d0d7de);
-  border-radius: 12px;
-  padding: 1rem;
+.manual-article-tool textarea.manual-article-prompt {
+  min-height: 140px;
 }
-.manual-article-tool summary {
-  cursor: pointer;
-  font-weight: 800;
+.manual-article-tool .field-hint {
+  font-size: 0.9rem;
+  font-weight: 500;
+  opacity: 0.72;
 }
 .manual-article-tool .manual-article-actions {
   display: flex;
@@ -54,19 +53,34 @@ no_share: true
   flex-wrap: wrap;
 }
 .manual-article-tool .manual-article-status {
-  min-height: 1.5rem;
+  display: none;
+  margin-top: 1rem;
+  border-radius: 14px;
+  padding: 1rem;
   font-weight: 700;
 }
 .manual-article-tool .manual-article-status.is-error {
+  display: block;
   color: #b42318;
+  background: #fef3f2;
+  border: 1px solid #fecdca;
 }
 .manual-article-tool .manual-article-status.is-success {
+  display: block;
   color: #027a48;
+  background: #ecfdf3;
+  border: 1px solid #abefc6;
+}
+.manual-article-tool .manual-article-status.is-working {
+  display: block;
+  color: #175cd3;
+  background: #eff8ff;
+  border: 1px solid #b2ddff;
 }
 </style>
 
 <div class="manual-article-tool">
-  <p>This unlinked, noindex page triggers the private <code>Manual Article</code> GitHub Actions workflow. The workflow uses the same LocReport generation prompt as RSS-sourced articles, commits the generated post, and lets the normal Pages deployment publish it.</p>
+  <p>This unlinked, noindex page triggers the private <code>Manual Article</code> GitHub Actions workflow. Paste the article details, click <strong>Create post</strong>, and the workflow will generate and commit the post using the same LocReport prompt as RSS-sourced articles.</p>
 
   <form id="manual-article-form">
     <label>
@@ -80,100 +94,102 @@ no_share: true
     </label>
 
     <label>
+      Source name
+      <input type="text" id="manual-article-source-name" name="source_name" required placeholder="Example News">
+      <span class="field-hint">This text is used for the final source link.</span>
+    </label>
+
+    <label>
       Article content
       <textarea id="manual-article-content" name="content" required placeholder="Paste the source article text here..."></textarea>
     </label>
 
-    <details>
-      <summary>Publishing access</summary>
-      <p>Use a GitHub token that can dispatch workflows for this repository. The token is sent directly to GitHub from your browser and is not stored by this page.</p>
-      <label>
-        GitHub token
-        <input type="password" id="manual-article-token" autocomplete="off" required placeholder="github_pat_...">
-      </label>
-      <label>
-        Repository
-        <input type="text" id="manual-article-repo" value="aparasion/locreport" required>
-      </label>
-      <label>
-        Branch
-        <input type="text" id="manual-article-ref" value="main" required>
-      </label>
-    </details>
+    <label>
+      Prompt addition
+      <textarea class="manual-article-prompt" id="manual-article-prompt-addition" name="prompt_addition" placeholder="Optional: add editorial instructions, angle, facts to emphasize, tone requests, or details to avoid..."></textarea>
+      <span class="field-hint">Optional instructions are appended to the standard LocReport generation prompt for this article only.</span>
+    </label>
 
     <div class="manual-article-actions">
       <button type="submit" class="btn btn--primary">Create post</button>
-      <span id="manual-article-status" class="manual-article-status" role="status" aria-live="polite"></span>
     </div>
+    <div id="manual-article-status" class="manual-article-status" role="status" aria-live="polite"></div>
   </form>
 </div>
 
 <script>
 (function () {
+  var REPOSITORY = "aparasion/locreport";
+  var BRANCH = "main";
+  var WORKFLOW_FILE = "manual-article.yml";
+  var WORKFLOW_URL = "https://github.com/" + REPOSITORY + "/actions/workflows/" + WORKFLOW_FILE;
+  var DISPATCH_TOKEN = window.LOCREPORT_MANUAL_ARTICLE_TOKEN || localStorage.getItem("manualArticleToken") || "";
+
   var form = document.getElementById("manual-article-form");
   var statusEl = document.getElementById("manual-article-status");
-  var repoEl = document.getElementById("manual-article-repo");
-  var refEl = document.getElementById("manual-article-ref");
+  var submitButton = form.querySelector('button[type="submit"]');
 
   function setStatus(message, state) {
-    statusEl.textContent = message;
-    statusEl.classList.remove("is-error", "is-success");
+    statusEl.innerHTML = message;
+    statusEl.classList.remove("is-error", "is-success", "is-working");
     if (state) {
       statusEl.classList.add(state);
     }
   }
 
-  repoEl.value = localStorage.getItem("manualArticleRepo") || repoEl.value;
-  refEl.value = localStorage.getItem("manualArticleRef") || refEl.value;
-
   form.addEventListener("submit", function (event) {
     event.preventDefault();
 
-    var token = document.getElementById("manual-article-token").value.trim();
-    var repo = repoEl.value.trim();
-    var ref = refEl.value.trim() || "main";
     var url = document.getElementById("manual-article-url").value.trim();
     var articleDate = document.getElementById("manual-article-date").value;
+    var sourceName = document.getElementById("manual-article-source-name").value.trim();
     var content = document.getElementById("manual-article-content").value.trim();
+    var promptAddition = document.getElementById("manual-article-prompt-addition").value.trim();
 
-    if (!token || !repo || !url || !articleDate || !content) {
-      setStatus("Please complete every required field.", "is-error");
+    if (!url || !articleDate || !sourceName || !content) {
+      setStatus("Please complete the URL, date, source name, and article content fields.", "is-error");
       return;
     }
 
-    localStorage.setItem("manualArticleRepo", repo);
-    localStorage.setItem("manualArticleRef", ref);
-    setStatus("Dispatching workflow...", "");
+    if (!DISPATCH_TOKEN) {
+      setStatus("Workflow dispatch is not configured for this browser. Add a workflow-dispatch token to <code>localStorage.manualArticleToken</code> or expose <code>window.LOCREPORT_MANUAL_ARTICLE_TOKEN</code> before using this private page.", "is-error");
+      return;
+    }
 
-    fetch("https://api.github.com/repos/" + encodeURIComponent(repo).replace("%2F", "/") + "/actions/workflows/manual-article.yml/dispatches", {
+    submitButton.disabled = true;
+    setStatus("Creating article… The GitHub Actions workflow is being dispatched and will commit the post when generation finishes.", "is-working");
+
+    fetch("https://api.github.com/repos/" + REPOSITORY + "/actions/workflows/" + WORKFLOW_FILE + "/dispatches", {
       method: "POST",
       headers: {
         "Accept": "application/vnd.github+json",
-        "Authorization": "Bearer " + token,
+        "Authorization": "Bearer " + DISPATCH_TOKEN,
         "Content-Type": "application/json",
         "X-GitHub-Api-Version": "2022-11-28"
       },
       body: JSON.stringify({
-        ref: ref,
+        ref: BRANCH,
         inputs: {
           url: url,
           article_date: articleDate,
-          content: content
+          source_name: sourceName,
+          content: content,
+          prompt_addition: promptAddition
         }
       })
     }).then(function (response) {
       if (response.status === 204) {
-        setStatus("Workflow dispatched. Check GitHub Actions for progress.", "is-success");
+        setStatus("Confirmed: your article is being created. The workflow will generate, commit, and publish the post shortly. <a href=\"" + WORKFLOW_URL + "\" target=\"_blank\" rel=\"noopener noreferrer\">View workflow progress</a>.", "is-success");
         form.reset();
-        repoEl.value = repo;
-        refEl.value = ref;
         return null;
       }
       return response.text().then(function (body) {
         throw new Error(body || "GitHub returned status " + response.status);
       });
     }).catch(function (error) {
-      setStatus("Dispatch failed: " + error.message, "is-error");
+      setStatus("Article creation did not start: " + error.message, "is-error");
+    }).finally(function () {
+      submitButton.disabled = false;
     });
   });
 }());

@@ -860,7 +860,7 @@ Tone and style:
 
 If the provided text is mostly cookie/privacy/legal notices rather than article content, respond exactly with: UNUSABLE_CONTENT"""
 
-def generate_gist(title: str, text: str, article_type: str) -> str:
+def generate_gist(title: str, text: str, article_type: str, prompt_addition: str = "") -> str:
     """Generate a LocReport article analysis using the same prompt for RSS and manual inputs."""
     if article_type == "theory":
         prompt = (
@@ -876,6 +876,13 @@ def generate_gist(title: str, text: str, article_type: str) -> str:
             f"Article text:\n{text[:15000]}"
         )
         gist_system_prompt = INDUSTRY_GIST_SYSTEM_PROMPT
+
+    prompt_addition = prompt_addition.strip()
+    if prompt_addition:
+        prompt += (
+            "\n\nAdditional editor instructions for this specific article:\n"
+            f"{prompt_addition[:2000]}"
+        )
 
     response = client.chat.completions.create(
         model="gpt-4o-mini",

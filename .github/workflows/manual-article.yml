@@ -11,9 +11,17 @@ on:
         description: "Article date (YYYY-MM-DD or ISO datetime)"
         required: true
         type: string
+      source_name:
+        description: "Source name to use as the source link text"
+        required: true
+        type: string
       content:
         description: "Full source article text pasted from the source"
         required: true
+        type: string
+      prompt_addition:
+        description: "Optional instructions to append to the generation prompt"
+        required: false
         type: string
       title:
         description: "Optional source article title; generated when blank"
@@ -66,6 +74,8 @@ jobs:
           INPUT_URL: ${{ github.event.inputs.url }}
           INPUT_DATE: ${{ github.event.inputs.article_date }}
           INPUT_TITLE: ${{ github.event.inputs.title }}
+          INPUT_SOURCE_NAME: ${{ github.event.inputs.source_name }}
+          INPUT_PROMPT_ADDITION: ${{ github.event.inputs.prompt_addition }}
         run: |
           set -euo pipefail
 
@@ -73,7 +83,12 @@ jobs:
             --url "$INPUT_URL"
             --date "$INPUT_DATE"
             --content-file manual_article_content.txt
+            --source-name "$INPUT_SOURCE_NAME"
           )
+
+          if [ -n "${INPUT_PROMPT_ADDITION:-}" ]; then
+            args+=(--prompt-addition "$INPUT_PROMPT_ADDITION")
+          fi
 
           if [ -n "${INPUT_TITLE:-}" ]; then
             args+=(--title "$INPUT_TITLE")
