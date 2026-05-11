@@ -10,6 +10,18 @@
   description: "Annual gathering of the GALA network, focused on localization business strategy, language technology, and supply-chain management. Keynotes, workshops, and networking across the global language services community."
   tags: [localization, business, networking, strategy]
 
+- id: elia-together-2026
+  name: "ELIA Together 2026"
+  organizer: "ELIA (European Language Industry Association)"
+  start_date: "2026-04-16"
+  end_date: "2026-04-18"
+  location: "TBC"
+  format: in-person
+  category: conference
+  url: "https://elia-association.org/event/together-2026/"
+  description: "ELIA's flagship annual conference for European language service providers, bringing together LSP leaders, buyers, and technology partners to explore business strategy, operational innovation, and the transformation of language services in the AI era."
+  tags: [localization, business, LSP, Europe]
+
 - id: slic-2026
   name: "Slator Language Industry Conference (SLIC) 2026"
   organizer: "Slator"
