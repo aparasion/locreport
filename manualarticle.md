@@ -156,6 +156,12 @@ no_share: true
     </label>
 
     <label>
+      Article title
+      <input type="text" id="manual-article-title" name="title" placeholder="Leave blank to generate automatically">
+      <span class="field-hint">Optional. If omitted, the title is inferred from the article content.</span>
+    </label>
+
+    <label>
       Article content
       <textarea id="manual-article-content" name="content" required placeholder="Paste the source article text here..."></textarea>
     </label>
@@ -241,6 +247,7 @@ no_share: true
     var url = document.getElementById("manual-article-url").value.trim();
     var articleDate = document.getElementById("manual-article-date").value;
     var sourceName = document.getElementById("manual-article-source-name").value.trim();
+    var title = document.getElementById("manual-article-title").value.trim();
     var content = document.getElementById("manual-article-content").value.trim();
     var promptAddition = document.getElementById("manual-article-prompt-addition").value.trim();
 
@@ -266,6 +273,7 @@ no_share: true
           url: url,
           article_date: articleDate,
           source_name: sourceName,
+          title: title,
           content: content,
           prompt_addition: promptAddition
         }
