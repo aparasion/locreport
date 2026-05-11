@@ -67,7 +67,7 @@
   first_seen: 2026-03-09
   current_status: supported
   description: Tracks whether tooling and business models are adapting as localization expands to dubbing, subtitling, image, and interactive content at scale.
-  momentum: declining
+  momentum: stable
   watched_tickers: [NFLX, SPOT]
 
 - id: regulatory-fragmentation
