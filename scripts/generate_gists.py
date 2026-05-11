@@ -1009,11 +1009,13 @@ def generate_theory_intelligence(title: str, gist: str, article_text: str) -> di
 
 
 def main() -> None:
+    seen = []
     if os.path.exists(SEEN_FILE):
         with open(SEEN_FILE, "r", encoding="utf-8") as seen_file:
-            seen = json.load(seen_file)
-    else:
-        seen = []
+            try:
+                seen = json.load(seen_file)
+            except json.JSONDecodeError:
+                seen = []
 
     # Separate URL entries from title entries (title entries use "title::" prefix).
     normalized_seen = {normalize_url(e) for e in seen if not e.startswith("title::")}

@@ -165,11 +165,13 @@ Source: [{safe_source_label}]({safe_source_url})
 def update_seen(url: str, title: str) -> None:
     import json
 
+    seen = []
     if os.path.exists(SEEN_FILE):
         with open(SEEN_FILE, "r", encoding="utf-8") as seen_file:
-            seen = json.load(seen_file)
-    else:
-        seen = []
+            try:
+                seen = json.load(seen_file)
+            except json.JSONDecodeError:
+                seen = []
 
     normalized_url = normalize_url(url)
     if normalized_url and normalized_url not in {normalize_url(e) for e in seen if not e.startswith("title::")}:
