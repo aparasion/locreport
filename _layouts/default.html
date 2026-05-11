@@ -18,7 +18,11 @@
   <title>{{ seo_title }}</title>
   <meta name="description" content="{{ seo_description }}">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  {% if page.robots %}
+  <meta name="robots" content="{{ page.robots }}">
+  {% else %}
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  {% endif %}
   <meta name="author" content="{{ site.author | default: 'LocReport' }}">
   {% if page.tags and page.tags.size > 0 %}
   <meta name="keywords" content="{{ page.tags | join: ', ' }}">

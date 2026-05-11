@@ -1,0 +1,114 @@
+name: Manual Article
+
+on:
+  workflow_dispatch:
+    inputs:
+      url:
+        description: "Canonical URL of the source article"
+        required: true
+        type: string
+      article_date:
+        description: "Article date (YYYY-MM-DD or ISO datetime)"
+        required: true
+        type: string
+      source_name:
+        description: "Source name to use as the source link text"
+        required: true
+        type: string
+      content:
+        description: "Full source article text pasted from the source"
+        required: true
+        type: string
+      prompt_addition:
+        description: "Optional instructions to append to the generation prompt"
+        required: false
+        type: string
+      title:
+        description: "Optional source article title; generated when blank"
+        required: false
+        type: string
+
+permissions:
+  contents: write
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  create-post:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install feedparser trafilatura openai requests
+
+      - name: Write pasted article content
+        env:
+          MANUAL_ARTICLE_CONTENT: ${{ github.event.inputs.content }}
+        run: |
+          python - <<'PY'
+          import os
+          from pathlib import Path
+
+          Path("manual_article_content.txt").write_text(
+              os.environ["MANUAL_ARTICLE_CONTENT"],
+              encoding="utf-8",
+          )
+          PY
+
+      - name: Generate manual article post
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          INPUT_URL: ${{ github.event.inputs.url }}
+          INPUT_DATE: ${{ github.event.inputs.article_date }}
+          INPUT_TITLE: ${{ github.event.inputs.title }}
+          INPUT_SOURCE_NAME: ${{ github.event.inputs.source_name }}
+          INPUT_PROMPT_ADDITION: ${{ github.event.inputs.prompt_addition }}
+        run: |
+          set -euo pipefail
+
+          args=(
+            --url "$INPUT_URL"
+            --date "$INPUT_DATE"
+            --content-file manual_article_content.txt
+            --source-name "$INPUT_SOURCE_NAME"
+          )
+
+          if [ -n "${INPUT_PROMPT_ADDITION:-}" ]; then
+            args+=(--prompt-addition "$INPUT_PROMPT_ADDITION")
+          fi
+
+          if [ -n "${INPUT_TITLE:-}" ]; then
+            args+=(--title "$INPUT_TITLE")
+          fi
+
+          python scripts/generate_manual_article.py "${args[@]}"
+
+      - name: Update signal statuses and correlations
+        run: |
+          python scripts/update_signal_status.py
+          python scripts/generate_signal_correlations.py
+
+      - name: Commit and push changes
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add _posts/ seen.json _data/signals.yml _data/signal_correlations.yml
+          if ! git diff --cached --quiet; then
+            git commit -m "Add manual article - $(date -u '+%Y-%m-%d')"
+            git push
+          else
+            echo "No manual article changes to commit"
+          fi
