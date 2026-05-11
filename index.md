@@ -257,12 +257,14 @@ nav_order: 1
     {% if day1_first %}
       {% assign day1_first = false %}
       <article class="featured-article reveal">
-        <span class="featured-badge">Latest</span>
-        {% if post.impact_score %}
-        <span class="impact-badge impact-badge--{{ post.impact_score }} impact-badge--inline">
-          {% if post.impact_score == 1 %}Routine{% elsif post.impact_score == 2 %}Notable{% elsif post.impact_score == 3 %}Significant{% elsif post.impact_score == 4 %}Major{% elsif post.impact_score == 5 %}Disruptive{% endif %}
-        </span>
-        {% endif %}
+        <div class="featured-badges">
+          <span class="featured-badge">Latest</span>
+          {% if post.impact_score %}
+          <span class="impact-badge impact-badge--{{ post.impact_score }}">
+            {% if post.impact_score == 1 %}Routine{% elsif post.impact_score == 2 %}Notable{% elsif post.impact_score == 3 %}Significant{% elsif post.impact_score == 4 %}Major{% elsif post.impact_score == 5 %}Disruptive{% endif %}
+          </span>
+          {% endif %}
+        </div>
         <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
         <p class="post-meta">{{ post.date | date: "%B %d, %Y" }}</p>
         <p>{{ post.excerpt | strip_html | truncate: 200 }}</p>

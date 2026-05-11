@@ -1259,6 +1259,12 @@ hr {
   transform: translateY(-4px);
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
 }
+.featured-badges {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: var(--space-4);
+}
 .featured-badge {
   position: relative;
   z-index: 1;
@@ -1270,7 +1276,6 @@ hr {
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--accent);
-  margin-bottom: var(--space-4);
 }
 .featured-badge::before {
   content: '';
