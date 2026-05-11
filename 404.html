@@ -5,6 +5,305 @@ permalink: /404.html
 sitemap: false
 ---
 
+<style>
+  .error-404-wrap * { box-sizing: border-box; }
+
+  .error-404-wrap {
+    font-family: 'DM Sans', sans-serif;
+    max-width: 1040px;
+    margin: 0 auto;
+    padding: 3.5rem 2rem 4rem;
+    display: flex;
+    gap: 0;
+    align-items: stretch;
+    min-height: 70vh;
+  }
+
+  /* ── Left column ── */
+  .e404-left {
+    flex: 1;
+    padding-right: 3rem;
+    border-right: 1px solid #E2DED6;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .e404-overline {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #9C9A94;
+    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .e404-overline::before {
+    content: '';
+    display: inline-block;
+    width: 20px;
+    height: 1px;
+    background: #9C9A94;
+  }
+
+  .e404-number {
+    font-family: 'DM Serif Display', serif;
+    font-size: 110px;
+    line-height: 0.9;
+    letter-spacing: -6px;
+    color: #1A1916;
+    margin-bottom: 1.25rem;
+    font-style: italic;
+  }
+
+  .e404-headline {
+    font-family: 'DM Serif Display', serif;
+    font-size: 30px;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    color: #1A1916;
+    margin-bottom: 0.9rem;
+    border: none;
+    padding: 0;
+  }
+
+  .e404-deck {
+    font-size: 14px;
+    line-height: 1.75;
+    color: #5C5A54;
+    font-weight: 300;
+    max-width: 400px;
+    margin-bottom: 1.75rem;
+  }
+
+  .e404-lang-chain {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+  }
+
+  .e404-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    color: #5C5A54;
+    background: #EEECEA;
+    border: 1px solid #E2DED6;
+    border-radius: 3px;
+    padding: 4px 9px;
+  }
+
+  .e404-tag-lost {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    color: #9C9A94;
+    background: transparent;
+    border: 1px dashed #C8C3B8;
+    border-radius: 3px;
+    padding: 4px 9px;
+  }
+
+  .e404-arrow { font-size: 12px; color: #C8C3B8; }
+
+  .e404-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 2.5rem;
+  }
+
+  .e404-btn-dark {
+    font-size: 13px;
+    font-weight: 500;
+    padding: 10px 20px;
+    border-radius: 4px;
+    text-decoration: none;
+    background: #1A1916;
+    color: #fff;
+    border: 1px solid #1A1916;
+    display: inline-block;
+    transition: background 0.15s;
+  }
+
+  .e404-btn-dark:hover { background: #333; color: #fff; text-decoration: none; }
+
+  .e404-btn-outline {
+    font-size: 13px;
+    font-weight: 500;
+    padding: 10px 20px;
+    border-radius: 4px;
+    text-decoration: none;
+    background: transparent;
+    color: #5C5A54;
+    border: 1px solid #C8C3B8;
+    display: inline-block;
+    transition: background 0.15s, color 0.15s;
+  }
+
+  .e404-btn-outline:hover { background: #F8F7F4; color: #1A1916; text-decoration: none; }
+
+  /* Recent posts list */
+  .e404-recent-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #9C9A94;
+    margin-bottom: 10px;
+  }
+
+  .e404-posts {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border-top: 1px solid #E2DED6;
+  }
+
+  .e404-posts li {
+    border-bottom: 1px solid #E2DED6;
+    padding: 9px 0;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .e404-posts a {
+    font-size: 13px;
+    color: #1A1916;
+    text-decoration: none;
+    font-weight: 400;
+    line-height: 1.4;
+    flex: 1;
+  }
+
+  .e404-posts a:hover { color: #5C5A54; text-decoration: underline; }
+
+  .e404-post-date {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: #9C9A94;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  /* ── Right column ── */
+  .e404-right {
+    width: 320px;
+    flex-shrink: 0;
+    padding-left: 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2rem;
+  }
+
+  /* Translation box */
+  .e404-translation-box {
+    background: #FFFFFF;
+    border: 1px solid #E2DED6;
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  .e404-tb-header {
+    padding: 10px 14px;
+    border-bottom: 1px solid #E2DED6;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .e404-tb-dot { width: 6px; height: 6px; border-radius: 50%; background: #C8C3B8; flex-shrink: 0; }
+
+  .e404-tb-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: #9C9A94;
+  }
+
+  .e404-tb-row {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    padding: 8px 14px;
+    border-bottom: 1px solid #E2DED6;
+  }
+
+  .e404-tb-row:last-child { border-bottom: none; }
+
+  .e404-tb-row:hover { background: #F8F7F4; }
+
+  .e404-tb-lang {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.08em;
+    color: #9C9A94;
+    min-width: 22px;
+    text-transform: uppercase;
+  }
+
+  .e404-tb-text { font-size: 13px; color: #5C5A54; font-weight: 300; }
+
+  .e404-tb-rtl { direction: rtl; font-size: 13px; color: #5C5A54; flex: 1; text-align: right; font-weight: 300; }
+
+  /* Section nav cards */
+  .e404-nav-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #9C9A94;
+    margin-bottom: 10px;
+  }
+
+  .e404-nav-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .e404-nav-card {
+    background: #FFFFFF;
+    border: 1px solid #E2DED6;
+    border-radius: 5px;
+    padding: 11px 13px;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    transition: border-color 0.15s, background 0.15s;
+  }
+
+  .e404-nav-card:hover { border-color: #C8C3B8; background: #F8F7F4; text-decoration: none; }
+
+  .e404-nc-icon { font-size: 14px; margin-bottom: 3px; }
+  .e404-nc-title { font-size: 12px; font-weight: 500; color: #1A1916; }
+  .e404-nc-desc { font-size: 10px; color: #9C9A94; font-weight: 300; }
+
+  /* ── Responsive ── */
+  @media (max-width: 760px) {
+    .error-404-wrap { flex-direction: column; padding: 2rem 1.25rem 3rem; min-height: unset; }
+    .e404-left { padding-right: 0; border-right: none; border-bottom: 1px solid #E2DED6; padding-bottom: 2.5rem; margin-bottom: 2rem; }
+    .e404-right { width: 100%; padding-left: 0; }
+    .e404-number { font-size: 80px; letter-spacing: -4px; }
+    .e404-headline { font-size: 24px; }
+  }
+</style>
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
 
 <div class="error-404-wrap">
 
