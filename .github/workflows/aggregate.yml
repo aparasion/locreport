@@ -26,7 +26,7 @@ jobs:
       - name: Install Python dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install feedparser trafilatura openai requests
+          pip install feedparser trafilatura openai requests pyyaml
 
       - name: Generate gists
         run: python scripts/generate_gists.py
