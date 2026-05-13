@@ -69,7 +69,7 @@
   {% assign post_topic_url = "/all-articles/" %}
   {% if page.categories contains 'monthly-summary' %}
     {% assign post_topic = "Monthly Reports" %}
-    {% assign post_topic_url = "/monthly-reports/" %}
+    {% assign post_topic_url = "/reports/monthly/" %}
   {% elsif page.signal_ids and page.signal_ids.size > 0 %}
     {% for signal in site.data.signals %}
       {% if page.signal_ids contains signal.id %}
@@ -276,7 +276,7 @@
   }
   </script>
   {% endif %}
-  {% elsif page.topic or page.url == '/all-articles/' or page.url == '/topics/' or page.url == '/monthly-reports/' %}
+  {% elsif page.topic or page.url == '/all-articles/' or page.url == '/topics/' or page.url == '/reports/monthly/' %}
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
