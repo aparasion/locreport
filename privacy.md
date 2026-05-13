@@ -13,7 +13,7 @@ LocReport ("we," "us," or "our") operates the website [locreport.com](https://lo
 ## Information We Collect
 
 **Information you provide directly:**
-- **Contact form:** name, email address, and message content (processed via Formspree)
+- **Contact form:** name, email address, and message content (processed via Web3Forms)
 - **Newsletter signup:** email address (managed via Buttondown)
 
 **Information collected automatically:**
@@ -32,7 +32,7 @@ LocReport ("we," "us," or "our") operates the website [locreport.com](https://lo
 We rely on the following third-party services, each with their own privacy policies:
 
 - **Google Analytics** (traffic analysis)
-- **Formspree** (contact form processing)
+- **Web3Forms** (contact form processing)
 - **Buttondown** (newsletter delivery)
 - **Buy Me a Coffee** (voluntary support)
 - **Google Fonts** (typeface delivery)
@@ -50,7 +50,7 @@ Some content published on LocReport is created with the assistance of artificial
 
 ## Data Retention
 
-- **Contact form submissions** are retained by Formspree according to their data retention policies.
+- **Contact form submissions** are retained by Web3Forms according to their data retention policies.
 - **Newsletter subscriber data** is retained by Buttondown until you unsubscribe.
 - **Analytics data** is retained according to Google Analytics default settings.
 

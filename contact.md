@@ -8,9 +8,12 @@ nav_order: 6
 no_share: true
 ---
 
-<form action="https://formspree.io/f/xgoljzky"
+<form action="https://api.web3forms.com/submit"
       method="POST"
       class="contact-form">
+
+  <input type="hidden" name="access_key" value="3682508f-78d3-479e-a85c-14b2082ca963">
+  <input type="hidden" name="redirect" value="https://locreport.com/thank-you/">
 
   <div class="form-group">
     <label for="name">Name</label>
@@ -19,7 +22,12 @@ no_share: true
 
   <div class="form-group">
     <label for="email">Email</label>
-    <input type="email" name="email" id="email" required>
+    <input type="email" name="email" id="email">
+  </div>
+
+  <div class="form-group">
+    <label for="subject">Subject</label>
+    <textarea name="subject" id="subject" rows="2" required></textarea>
   </div>
 
   <div class="form-group">
@@ -30,6 +38,5 @@ no_share: true
   <button type="submit" class="btn-submit">
     Send Message
   </button>
-<input type="hidden" name="_next" value="/thank-you/">
 </form>
 
