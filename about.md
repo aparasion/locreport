@@ -27,6 +27,16 @@ It was created to explore a focused, signal-over-noise approach to industry repo
 We are testing formats, tone, and frequency while building a resource that professionals in localization and translation can rely on.
 
 
+## Behind LocReport
+
+LocReport was initiated and is maintained by a localization professional with over twenty years of active experience in the language services industry.
+
+Having worked across virtually every facet of the field — from translation project management and localization engineering to vendor relations, quality frameworks, and language technology evaluation — the person behind LocReport brings a deeply practitioner-grounded perspective to industry coverage. LocReport is not a newsroom. It is a personal initiative: a manifest of a lifelong learning path, intellectual curiosity, and genuine passion for an industry that connects the world through language.
+
+The project exists at the intersection of professional knowledge, editorial craft, and emerging technology. It is an experiment in what industry intelligence can look like when built by someone who has lived the work from the inside — not summarizing the industry from a distance, but tracking it as an informed participant who still thinks deeply about where it is headed.
+
+In that spirit, LocReport reflects both a professional journey and a personal commitment: to build something useful, honest, and persistently curious about the future of global communication.
+
 ## Contribute
 
 This project is open and evolving.

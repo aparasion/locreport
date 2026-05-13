@@ -22,7 +22,7 @@ layout: default
     <p class="signal-page__breadcrumbs">
       <a href="{{ '/intelligence/' | relative_url }}">Intelligence</a>
       <span aria-hidden="true">›</span>
-      <a href="{{ '/signals/' | relative_url }}">Signals</a>
+      <a href="{{ '/intelligence/signals/' | relative_url }}">Signals</a>
       <span aria-hidden="true">›</span>
       <span>{{ signal.title }}</span>
     </p>
@@ -121,7 +121,7 @@ layout: default
           {% assign other = site.data.signals | where: "id", other_id | first %}
           {% if other %}
           <li>
-            <a class="signal-page__related-link" href="{{ '/signals/' | relative_url }}{{ other.id }}/">
+            <a class="signal-page__related-link" href="{{ '/intelligence/signals/' | relative_url }}{{ other.id }}/">
               <span class="signal-tile__category">{{ other.category }}</span>
               <span class="signal-page__related-title">{{ other.title }}</span>
               <span class="corr-strength corr-strength--{{ corr.strength }}">{{ corr.strength }}</span>
@@ -166,7 +166,7 @@ layout: default
       {% endif %}
     </section>
 
-    <p class="signal-page__back"><a href="{{ '/signals/' | relative_url }}">← Back to all signals</a></p>
+    <p class="signal-page__back"><a href="{{ '/intelligence/signals/' | relative_url }}">← Back to all signals</a></p>
   </article>
 {% else %}
   <p>Signal not found.</p>

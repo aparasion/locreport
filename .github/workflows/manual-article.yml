@@ -27,6 +27,30 @@ on:
         description: "Optional source article title; generated when blank"
         required: false
         type: string
+      extra_url_1:
+        description: "Optional second source URL"
+        required: false
+        type: string
+      extra_url_2:
+        description: "Optional third source URL"
+        required: false
+        type: string
+      content_type:
+        description: "Content type: gist, analysis, roundup, or opinion (blank = auto)"
+        required: false
+        type: string
+      signal_ids:
+        description: "Comma-separated signal IDs to assign (overrides AI inference)"
+        required: false
+        type: string
+      impact_score:
+        description: "Impact score override: 1-5 (blank = AI decides)"
+        required: false
+        type: string
+      time_horizon:
+        description: "Time horizon: now, 6months, or 2years (blank = AI decides)"
+        required: false
+        type: string
 
 permissions:
   contents: write
@@ -76,6 +100,12 @@ jobs:
           INPUT_TITLE: ${{ github.event.inputs.title }}
           INPUT_SOURCE_NAME: ${{ github.event.inputs.source_name }}
           INPUT_PROMPT_ADDITION: ${{ github.event.inputs.prompt_addition }}
+          INPUT_EXTRA_URL_1: ${{ github.event.inputs.extra_url_1 }}
+          INPUT_EXTRA_URL_2: ${{ github.event.inputs.extra_url_2 }}
+          INPUT_CONTENT_TYPE: ${{ github.event.inputs.content_type }}
+          INPUT_SIGNAL_IDS: ${{ github.event.inputs.signal_ids }}
+          INPUT_IMPACT_SCORE: ${{ github.event.inputs.impact_score }}
+          INPUT_TIME_HORIZON: ${{ github.event.inputs.time_horizon }}
         run: |
           set -euo pipefail
 
@@ -92,6 +122,30 @@ jobs:
 
           if [ -n "${INPUT_TITLE:-}" ]; then
             args+=(--title "$INPUT_TITLE")
+          fi
+
+          if [ -n "${INPUT_EXTRA_URL_1:-}" ]; then
+            args+=(--extra-url "$INPUT_EXTRA_URL_1")
+          fi
+
+          if [ -n "${INPUT_EXTRA_URL_2:-}" ]; then
+            args+=(--extra-url "$INPUT_EXTRA_URL_2")
+          fi
+
+          if [ -n "${INPUT_CONTENT_TYPE:-}" ]; then
+            args+=(--content-type "$INPUT_CONTENT_TYPE")
+          fi
+
+          if [ -n "${INPUT_SIGNAL_IDS:-}" ]; then
+            args+=(--signal-ids "$INPUT_SIGNAL_IDS")
+          fi
+
+          if [ -n "${INPUT_IMPACT_SCORE:-}" ]; then
+            args+=(--impact-score "$INPUT_IMPACT_SCORE")
+          fi
+
+          if [ -n "${INPUT_TIME_HORIZON:-}" ]; then
+            args+=(--time-horizon "$INPUT_TIME_HORIZON")
           fi
 
           python scripts/generate_manual_article.py "${args[@]}"

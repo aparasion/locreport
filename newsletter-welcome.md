@@ -14,6 +14,6 @@ Your subscription is confirmed — welcome to LocReport.
 
 While you wait for the first issue, catch up on what you've missed:
 
-- [Signal Tracker](/signals/) — the claims we're tracking with linked evidence
-- [Monthly Reports](/monthly-reports/) — our editorial roundups
+- [Signal Tracker](/intelligence/signals/) — the claims we're tracking with linked evidence
+- [Monthly Reports](/reports/monthly/) — our editorial roundups
 - [Latest news](/) — today's news gists

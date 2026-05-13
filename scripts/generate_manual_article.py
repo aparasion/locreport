@@ -65,6 +65,11 @@ def write_post(
     gist: str,
     article_type: str,
     source_name: str = "",
+    extra_urls: list[str] | None = None,
+    content_type: str = "",
+    override_signal_ids: list[str] | None = None,
+    override_impact_score: int | None = None,
+    override_time_horizon: str = "",
 ) -> str:
     now = datetime.datetime.now(datetime.timezone.utc)
     if pub_dt > now:
@@ -116,15 +121,27 @@ research_implications:
 Source: [{safe_source_label}]({safe_source_url})"""
     else:
         intelligence = generate_intelligence(title, gist, text[:15000])
-        signal_ids, signal_stance, signal_confidence = infer_signal_tags(title, gist)
+        ai_signal_ids, signal_stance, signal_confidence = infer_signal_tags(title, gist)
+        signal_ids = override_signal_ids if override_signal_ids else ai_signal_ids
+        final_impact = override_impact_score if override_impact_score is not None else intelligence["impact_score"]
+        final_horizon = override_time_horizon if override_time_horizon else intelligence["time_horizon"]
+        final_article_type = content_type if content_type in ("theory",) else "industry"
+
         signal_ref = ""
         if signal_confidence == "high" and signal_ids:
             signal_title = SIGNAL_TITLES.get(signal_ids[0], "")
             if signal_title:
                 signal_ref = (
                     f"\n*LocReport tracks this as an industry signal: "
-                    f"[{signal_title}](/signals/#{signal_ids[0]})*\n"
+                    f"[{signal_title}](/intelligence/signals/#{signal_ids[0]})*\n"
                 )
+
+        # Additional source attribution lines
+        extra_source_lines = ""
+        for extra_url in (extra_urls or []):
+            extra_url = extra_url.strip()
+            if extra_url:
+                extra_source_lines += f"\nAdditional source: <{extra_url}>"
 
         tags_yaml = ", ".join(build_tags("industry", signal_ids))
         implications_yaml = "\n".join(
@@ -136,7 +153,7 @@ date: {post_date_str}T{time_str}Z
 layout: post
 categories: [{YOUR_AREA.lower()}]
 tags: [{tags_yaml}]
-article_type: "industry"
+article_type: "{final_article_type}"
 author: "{author}"
 excerpt: "{safe_excerpt}"
 publisher: "{safe_publisher}"
@@ -144,8 +161,8 @@ source_url: "{safe_source_url}"
 signal_ids: [{", ".join(signal_ids)}]
 signal_stance: {signal_stance}
 signal_confidence: {signal_confidence}
-impact_score: {intelligence["impact_score"]}
-time_horizon: "{intelligence["time_horizon"]}"
+impact_score: {final_impact}
+time_horizon: "{final_horizon}"
 affected_segments: [{", ".join(intelligence["affected_segments"])}]
 business_implications:
 {implications_yaml}
@@ -153,7 +170,7 @@ business_implications:
 
 {gist}
 {signal_ref}
-Source: [{safe_source_label}]({safe_source_url})
+Source: [{safe_source_label}]({safe_source_url}){extra_source_lines}
 """
 
     os.makedirs("_posts", exist_ok=True)
@@ -194,6 +211,11 @@ def main() -> None:
     parser.add_argument("--title", default="", help="Optional source article title; generated when omitted")
     parser.add_argument("--source-name", default="", help="Source link text to display in the generated post")
     parser.add_argument("--prompt-addition", default="", help="Optional editor instructions appended to the gist prompt")
+    parser.add_argument("--extra-url", action="append", default=[], dest="extra_urls", help="Additional source URLs (repeatable)")
+    parser.add_argument("--content-type", default="", choices=["", "gist", "analysis", "roundup", "opinion"], help="Article content type override")
+    parser.add_argument("--signal-ids", default="", help="Comma-separated signal IDs to assign (overrides AI inference)")
+    parser.add_argument("--impact-score", type=int, default=None, choices=[1, 2, 3, 4, 5], help="Impact score override (1-5)")
+    parser.add_argument("--time-horizon", default="", choices=["", "now", "6months", "2years"], help="Time horizon override")
     args = parser.parse_args()
 
     with open(args.content_file, "r", encoding="utf-8") as content_file:
@@ -205,6 +227,8 @@ def main() -> None:
     title = args.title.strip() or infer_title_from_text(args.url, text)
     publisher = get_publisher_domain(args.url)
     article_type = classify_article_type(publisher, text)
+
+    override_signal_ids = [s.strip() for s in args.signal_ids.split(",") if s.strip()] if args.signal_ids else None
 
     gist = generate_gist(title, text, article_type, args.prompt_addition)
     if gist == "UNUSABLE_CONTENT":
@@ -218,6 +242,11 @@ def main() -> None:
         gist,
         article_type,
         args.source_name,
+        extra_urls=args.extra_urls,
+        content_type=args.content_type,
+        override_signal_ids=override_signal_ids,
+        override_impact_score=args.impact_score,
+        override_time_horizon=args.time_horizon,
     )
     update_seen(args.url, title)
     print(f"Created {filename}")

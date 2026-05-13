@@ -1,7 +1,9 @@
 ---
 layout: page
 title: Monthly Reports
-permalink: /monthly-reports/
+permalink: /reports/monthly/
+redirect_from:
+  - /monthly-reports/
 description: "Monthly localization industry reports — curated summaries of translation, AI, and language technology trends."
 nav: false
 nav_order: 3.2
