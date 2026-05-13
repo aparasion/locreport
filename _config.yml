@@ -14,7 +14,7 @@ permalink: /articles/:year/:month/:day/:title.html
 collections:
   signals:
     output: true
-    permalink: /signals/:name/
+    permalink: /intelligence/signals/:name/
 
 plugins:
   - jekyll-redirect-from

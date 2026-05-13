@@ -4,9 +4,9 @@
 
 # Generic signal tracker links (keep pointing to /signals/)
 - term: "signal tracker"
-  url: "/signals/"
+  url: "/intelligence/signals/"
 - term: "localization signals"
-  url: "/signals/"
+  url: "/intelligence/signals/"
 
 # Quality topic
 - term: "quality evaluation"
@@ -88,9 +88,9 @@
 
 # Other internal pages
 - term: "monthly report"
-  url: "/monthly-reports/"
+  url: "/reports/monthly/"
 - term: "monthly summary"
-  url: "/monthly-reports/"
+  url: "/reports/monthly/"
 - term: "intelligence dashboard"
   url: "/intelligence/"
 - term: "impact score"
