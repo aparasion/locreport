@@ -34,7 +34,17 @@ jobs:
           bundler-cache: true
 
       - name: Build site
-        run: bundle exec jekyll build --destination _site
+        env:
+          MANUAL_ARTICLE_TOKEN: ${{ secrets.MANUAL_ARTICLE_TOKEN }}
+        run: |
+          # Inject MANUAL_ARTICLE_TOKEN as a Jekyll config variable so manualarticle.md can use it
+          if [ -n "${MANUAL_ARTICLE_TOKEN:-}" ]; then
+            echo "manual_article_token: \"${MANUAL_ARTICLE_TOKEN}\"" > _config_runtime.yml
+            bundle exec jekyll build --destination _site --config _config.yml,_config_runtime.yml
+            rm -f _config_runtime.yml
+          else
+            bundle exec jekyll build --destination _site
+          fi
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
