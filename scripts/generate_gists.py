@@ -22,6 +22,7 @@ FEEDS = [
     "https://onlinelibrary.wiley.com/feed/14679841/most-recent",
     "https://www.glossa-journal.org/rss/",
     "https://translation.ec.europa.eu/node/27/rss_en",
+    "https://www.acclaro.com/news/feed/",
     "https://www.nimdzi.com/feed/",
     "https://slator.com/feed/",
     "https://techcrunch.com/tag/translation/feed/",
