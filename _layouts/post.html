@@ -7,7 +7,7 @@ layout: default
   {% assign bc_topic_url = "/all-articles/" %}
   {% if page.categories contains 'monthly-summary' %}
     {% assign bc_topic = "Monthly Reports" %}
-    {% assign bc_topic_url = "/monthly-reports/" %}
+    {% assign bc_topic_url = "/reports/monthly/" %}
   {% elsif page.signal_ids and page.signal_ids.size > 0 %}
     {% for signal in site.data.signals %}
       {% if page.signal_ids contains signal.id %}
@@ -33,9 +33,14 @@ layout: default
   {% assign words = content | number_of_words %}
   {% assign read_minutes = words | divided_by: 200 %}
   {% if read_minutes < 1 %}{% assign read_minutes = 1 %}{% endif %}
-  <p class="post-meta">
-    {% if page.author %}<span class="post-author">{{ page.author }}</span> · {% endif %}{{ page.date | date: "%B %d, %Y" }}<span class="read-time"> · {{ read_minutes }} min read</span>
-  </p>
+  <div class="post-meta-row">
+    <p class="post-meta">
+      {% if page.author %}<span class="post-author">{{ page.author }}</span> · {% endif %}{{ page.date | date: "%B %d, %Y" }}<span class="read-time"> · {{ read_minutes }} min read</span>
+    </p>
+    {% unless page.no_share %}
+    {% include social-share.html as_dropdown=true %}
+    {% endunless %}
+  </div>
 
   {% if page.signal_ids and page.signal_ids.size > 0 %}
   <p class="signal-context">
@@ -123,8 +128,6 @@ layout: default
   <div class="post-content">
     {{ content }}
   </div>
-
-  {% include social-share.html %}
 
   {% comment %} Related articles: theory articles match by category, industry articles by signal IDs {% endcomment %}
   {% assign related = "" | split: "" %}
