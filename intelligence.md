@@ -8,12 +8,16 @@ description: "Actionable localization intelligence — trend signals, impact sco
 ---
 
 <section class="intel-hero">
+  <h1>Localization Intelligence Dashboard</h1>
+  <p class="intel-subtitle">Less noise, more clarity. Structured, decision-ready intelligence for the localization industry.</p>
   <div class="intel-hero__share">
     {% include social-share.html as_dropdown=true title=page.title description=page.description %}
   </div>
-  <h1>Localization Intelligence</h1>
-  <p class="intel-subtitle">Less noise, more clarity. Structured, decision-ready intelligence for the localization industry.</p>
 </section>
+
+<div class="intel-disclaimer">
+  <strong>Data note:</strong> The intelligence presented here is derived from analysis of published industry articles and publications gathered by LocReport — not from direct market surveys or primary research. Signal statuses, trends, and scores reflect patterns observed in media coverage and curated content, and may not represent definitive market realities. Treat this as a directional research tool to complement, not replace, your own primary research.
+</div>
 
 {% comment %} ── Impact Overview Stats ─────────────────────────────── {% endcomment %}
 {% assign total_posts = 0 %}
@@ -53,7 +57,7 @@ description: "Actionable localization intelligence — trend signals, impact sco
 </section>
 
 <section class="intel-link-grid" aria-label="Intelligence tools">
-  <a class="intel-link-card" href="{{ '/signals/' | relative_url }}">
+  <a class="intel-link-card" href="{{ '/intelligence/signals/' | relative_url }}">
     <span class="intel-link-card__eyebrow">Tracker</span>
     <span class="intel-link-card__title">Signals tracker</span>
     <span class="intel-link-card__desc">Track active localization and AI signals with linked article evidence.</span>
