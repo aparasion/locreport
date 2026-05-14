@@ -1,0 +1,151 @@
+name: Add Event
+
+on:
+  workflow_dispatch:
+    inputs:
+      name:
+        description: "Event name"
+        required: true
+        type: string
+      organizer:
+        description: "Organizer name"
+        required: true
+        type: string
+      start_date:
+        description: "Start date (YYYY-MM-DD)"
+        required: true
+        type: string
+      end_date:
+        description: "End date (YYYY-MM-DD, defaults to start_date)"
+        required: false
+        type: string
+      location:
+        description: "Location (city, country — or 'Online' for virtual)"
+        required: false
+        type: string
+      format:
+        description: "Format: in-person, virtual, or hybrid"
+        required: true
+        type: string
+      category:
+        description: "Category: conference, summit, forum, congress, webinar, or workshop"
+        required: true
+        type: string
+      url:
+        description: "Event website URL"
+        required: false
+        type: string
+      description:
+        description: "Short event description"
+        required: true
+        type: string
+      tags:
+        description: "Comma-separated tags (e.g. localization, AI, translation)"
+        required: false
+        type: string
+
+permissions:
+  contents: write
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  add-event:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install pyyaml
+
+      - name: Append event to _data/events.yml
+        env:
+          INPUT_NAME: ${{ github.event.inputs.name }}
+          INPUT_ORGANIZER: ${{ github.event.inputs.organizer }}
+          INPUT_START_DATE: ${{ github.event.inputs.start_date }}
+          INPUT_END_DATE: ${{ github.event.inputs.end_date }}
+          INPUT_LOCATION: ${{ github.event.inputs.location }}
+          INPUT_FORMAT: ${{ github.event.inputs.format }}
+          INPUT_CATEGORY: ${{ github.event.inputs.category }}
+          INPUT_URL: ${{ github.event.inputs.url }}
+          INPUT_DESCRIPTION: ${{ github.event.inputs.description }}
+          INPUT_TAGS: ${{ github.event.inputs.tags }}
+        run: |
+          python - <<'PY'
+          import os, re, unicodedata
+          from pathlib import Path
+          import yaml
+
+          def slugify(text):
+              text = unicodedata.normalize("NFKD", text).encode("ascii", "ignore").decode()
+              text = re.sub(r"[^\w\s-]", "", text).strip().lower()
+              return re.sub(r"[\s_-]+", "-", text)[:80]
+
+          events_file = Path("_data/events.yml")
+          events = []
+          if events_file.exists():
+              loaded = yaml.safe_load(events_file.read_text(encoding="utf-8"))
+              if isinstance(loaded, list):
+                  events = loaded
+
+          existing_ids = {e.get("id", "") for e in events}
+          base_id = slugify(os.environ["INPUT_NAME"])
+          uid = base_id
+          suffix = 2
+          while uid in existing_ids:
+              uid = f"{base_id}-{suffix}"
+              suffix += 1
+
+          start_date = os.environ["INPUT_START_DATE"].strip()
+          end_date = os.environ.get("INPUT_END_DATE", "").strip() or start_date
+          location = os.environ.get("INPUT_LOCATION", "").strip() or "TBC"
+          tags_raw = os.environ.get("INPUT_TAGS", "").strip()
+          tags = [t.strip() for t in tags_raw.split(",") if t.strip()] if tags_raw else []
+
+          entry = {
+              "id": uid,
+              "name": os.environ["INPUT_NAME"].strip(),
+              "organizer": os.environ["INPUT_ORGANIZER"].strip(),
+              "start_date": start_date,
+              "end_date": end_date,
+              "location": location,
+              "format": os.environ["INPUT_FORMAT"].strip(),
+              "category": os.environ["INPUT_CATEGORY"].strip(),
+              "url": os.environ.get("INPUT_URL", "").strip() or None,
+              "description": os.environ["INPUT_DESCRIPTION"].strip(),
+              "tags": tags,
+          }
+          if not entry["url"]:
+              del entry["url"]
+
+          events.append(entry)
+          events.sort(key=lambda e: e.get("start_date", "9999-99-99"))
+
+          events_file.write_text(
+              yaml.dump(events, allow_unicode=True, default_flow_style=False, sort_keys=False),
+              encoding="utf-8",
+          )
+          print(f"Added event: {entry['name']} ({start_date})")
+          PY
+
+      - name: Commit and push
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add _data/events.yml
+          if ! git diff --cached --quiet; then
+            git commit -m "Add event: ${{ github.event.inputs.name }}"
+            git push
+          else
+            echo "No changes to commit"
+          fi
