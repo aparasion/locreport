@@ -32,11 +32,11 @@ layout: default
         <span class="signal-tile__category">{{ signal.category }}</span>
         <span class="status-badge status-badge--{{ signal.current_status }}">{{ signal.current_status }}</span>
         {% if signal.momentum == "rising" %}
-          <span class="momentum-badge momentum-badge--rising" title="Evidence momentum: rising">↑ rising</span>
+          <span class="momentum-badge momentum-badge--pill momentum-badge--rising" title="Evidence momentum: rising">↑ rising</span>
         {% elsif signal.momentum == "declining" %}
-          <span class="momentum-badge momentum-badge--declining" title="Evidence momentum: declining">↓ declining</span>
+          <span class="momentum-badge momentum-badge--pill momentum-badge--declining" title="Evidence momentum: declining">↓ declining</span>
         {% else %}
-          <span class="momentum-badge momentum-badge--stable" title="Evidence momentum: stable">→ stable</span>
+          <span class="momentum-badge momentum-badge--pill momentum-badge--stable" title="Evidence momentum: stable">→ stable</span>
         {% endif %}
         <span class="signal-page__first-seen">First seen {{ signal.first_seen }}</span>
       </div>
@@ -126,6 +126,7 @@ layout: default
               <span class="signal-page__related-title">{{ other.title }}</span>
               <span class="corr-strength corr-strength--{{ corr.strength }}">{{ corr.strength }}</span>
               <span class="signal-page__related-count">{{ corr.co_occurrences }} co-occurrences</span>
+              <span class="signal-page__related-arrow" aria-hidden="true">→</span>
             </a>
           </li>
           {% endif %}

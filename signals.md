@@ -44,15 +44,17 @@ no_share: true
     {% assign evidence_posts = site.posts | where_exp: "post", "post.signal_ids contains signal.id" %}
     <a class="signals-index-card" href="{{ '/intelligence/signals/' | relative_url }}{{ signal.id }}/">
       <div class="signals-index-card__top">
-        <span class="signal-tile__category">{{ signal.category }}</span>
+        <div class="signals-index-card__category-row">
+          <span class="signal-tile__category">{{ signal.category }}</span>
+        </div>
         <div class="signals-index-card__badges">
           <span class="status-badge status-badge--{{ signal.current_status }}">{{ signal.current_status }}</span>
           {% if signal.momentum == "rising" %}
-            <span class="momentum-badge momentum-badge--rising" title="Evidence momentum: rising">↑ rising</span>
+            <span class="momentum-badge momentum-badge--pill momentum-badge--rising" title="Evidence momentum: rising">↑ rising</span>
           {% elsif signal.momentum == "declining" %}
-            <span class="momentum-badge momentum-badge--declining" title="Evidence momentum: declining">↓ declining</span>
+            <span class="momentum-badge momentum-badge--pill momentum-badge--declining" title="Evidence momentum: declining">↓ declining</span>
           {% else %}
-            <span class="momentum-badge momentum-badge--stable" title="Evidence momentum: stable">→ stable</span>
+            <span class="momentum-badge momentum-badge--pill momentum-badge--stable" title="Evidence momentum: stable">→ stable</span>
           {% endif %}
         </div>
       </div>
