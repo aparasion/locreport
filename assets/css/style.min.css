@@ -1750,7 +1750,7 @@ a.internal-link:hover { border-bottom-style: solid; border-color: var(--accent);
 .social-share--compact .social-share__btn svg { width: 14px; height: 14px; }
 
 /* ── Social Share Dropdown ─────────────────────────────── */
-.social-share-dd { position: relative; display: inline-block; }
+.social-share-dd { position: relative; display: inline-block; margin: 0 .5rem; }
 .social-share-dd__toggle {
   display: inline-flex; align-items: center; gap: 6px;
   padding: 8px 14px;
