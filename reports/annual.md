@@ -8,6 +8,7 @@ nav_parent: "Reports"
 nav_order: 3.1
 show_progress: true
 published_date: "April 2026"
+author: "LocReport Industry Desk"
 show_read_time: true
 ---
 
