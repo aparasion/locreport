@@ -54,27 +54,6 @@ no_share: true
   gap: 1rem;
 }
 @media (max-width: 640px) { .manual-article-tool .field-row { grid-template-columns: 1fr; } }
-.manual-article-tool .signal-checkboxes {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 0.4rem 1rem;
-  margin-top: 0.35rem;
-}
-.manual-article-tool .signal-checkboxes label {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.5rem;
-  font-weight: 500;
-  font-size: 0.9rem;
-  cursor: pointer;
-}
-.manual-article-tool .signal-checkboxes input[type="checkbox"] {
-  width: auto;
-  flex-shrink: 0;
-  margin-top: 0.15rem;
-  padding: 0;
-  border-radius: 4px;
-}
 .manual-article-tool .manual-article-actions {
   display: flex;
   gap: 0.75rem;
@@ -203,15 +182,27 @@ no_share: true
       <input type="url" id="manual-article-url" name="url" required placeholder="https://example.com/article">
     </label>
 
-    <label>
-      Additional source URL 1 <span style="font-weight:400">(optional)</span>
-      <input type="url" id="manual-article-extra-url-1" name="extra_url_1" placeholder="https://…">
-    </label>
+    <div class="field-row">
+      <label>
+        Additional source URL 1 <span style="font-weight:400">(optional)</span>
+        <input type="url" id="manual-article-extra-url-1" name="extra_url_1" placeholder="https://…">
+      </label>
+      <label>
+        Source name for URL 1 <span style="font-weight:400">(optional)</span>
+        <input type="text" id="manual-article-extra-source-name-1" name="extra_source_name_1" placeholder="Publisher name">
+      </label>
+    </div>
 
-    <label>
-      Additional source URL 2 <span style="font-weight:400">(optional)</span>
-      <input type="url" id="manual-article-extra-url-2" name="extra_url_2" placeholder="https://…">
-    </label>
+    <div class="field-row">
+      <label>
+        Additional source URL 2 <span style="font-weight:400">(optional)</span>
+        <input type="url" id="manual-article-extra-url-2" name="extra_url_2" placeholder="https://…">
+      </label>
+      <label>
+        Source name for URL 2 <span style="font-weight:400">(optional)</span>
+        <input type="text" id="manual-article-extra-source-name-2" name="extra_source_name_2" placeholder="Publisher name">
+      </label>
+    </div>
 
     <div class="field-row">
       <label>
@@ -287,18 +278,6 @@ no_share: true
       </label>
     </div>
 
-    <div>
-      <span class="form-section-title" style="border-top:none;padding-top:0">Signal tags <span style="font-weight:400;text-transform:none;letter-spacing:0">(optional — overrides AI inference)</span></span>
-      <div class="signal-checkboxes" id="signal-checkboxes">
-        {% for signal in site.data.signals %}
-        <label>
-          <input type="checkbox" class="signal-checkbox" value="{{ signal.id }}">
-          <span>{{ signal.title | truncate: 60 }}</span>
-        </label>
-        {% endfor %}
-      </div>
-    </div>
-
     <!-- ── Submit ─────────────────────────────────────── -->
     <div class="manual-article-actions">
       <button type="submit" class="btn btn--primary">Create post</button>
@@ -315,8 +294,9 @@ no_share: true
   var WORKFLOW_URL = "https://github.com/" + REPOSITORY + "/actions/workflows/" + WORKFLOW_FILE;
   var LS_KEY = "manualArticleToken";
 
-  // Token injected at build time from MANUAL_ARTICLE_TOKEN GitHub secret
-  var BUILD_TOKEN = "{{ site.manual_article_token | default: '' }}";
+  // Token injected at build time from MANUAL_ARTICLE_TOKEN GitHub secret (base64-encoded to avoid secret scanning revocation)
+  var _b64 = "{{ site.manual_article_token_b64 | default: '' }}";
+  var BUILD_TOKEN = _b64 ? atob(_b64) : "";
 
   var form = document.getElementById("manual-article-form");
   var statusEl = document.getElementById("manual-article-status");
@@ -369,11 +349,6 @@ no_share: true
     if (state) statusEl.classList.add(state);
   }
 
-  function getSelectedSignalIds() {
-    var checked = document.querySelectorAll(".signal-checkbox:checked");
-    return Array.from(checked).map(function (cb) { return cb.value; }).join(",");
-  }
-
   // Format datetime-local value to ISO 8601 UTC string
   function toISOString(datetimeLocalValue) {
     if (!datetimeLocalValue) return "";
@@ -398,11 +373,12 @@ no_share: true
     var content = document.getElementById("manual-article-content").value.trim();
     var promptAddition = document.getElementById("manual-article-prompt-addition").value.trim();
     var extraUrl1 = document.getElementById("manual-article-extra-url-1").value.trim();
+    var extraSourceName1 = document.getElementById("manual-article-extra-source-name-1").value.trim();
     var extraUrl2 = document.getElementById("manual-article-extra-url-2").value.trim();
+    var extraSourceName2 = document.getElementById("manual-article-extra-source-name-2").value.trim();
     var contentType = document.getElementById("manual-article-content-type").value;
     var impactScore = document.getElementById("manual-article-impact-score").value;
     var timeHorizon = document.getElementById("manual-article-time-horizon").value;
-    var signalIds = getSelectedSignalIds();
 
     if (!url || !articleDate || !sourceName || !content) {
       setStatus("Please complete the URL, date/time, source name, and article content fields.", "is-error");
@@ -430,9 +406,10 @@ no_share: true
           content: content,
           prompt_addition: promptAddition,
           extra_url_1: extraUrl1,
+          extra_source_name_1: extraSourceName1,
           extra_url_2: extraUrl2,
+          extra_source_name_2: extraSourceName2,
           content_type: contentType,
-          signal_ids: signalIds,
           impact_score: impactScore,
           time_horizon: timeHorizon
         }

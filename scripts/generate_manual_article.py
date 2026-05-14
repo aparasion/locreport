@@ -66,8 +66,8 @@ def write_post(
     article_type: str,
     source_name: str = "",
     extra_urls: list[str] | None = None,
+    extra_source_names: list[str] | None = None,
     content_type: str = "",
-    override_signal_ids: list[str] | None = None,
     override_impact_score: int | None = None,
     override_time_horizon: str = "",
 ) -> str:
@@ -121,8 +121,7 @@ research_implications:
 Source: [{safe_source_label}]({safe_source_url})"""
     else:
         intelligence = generate_intelligence(title, gist, text[:15000])
-        ai_signal_ids, signal_stance, signal_confidence = infer_signal_tags(title, gist)
-        signal_ids = override_signal_ids if override_signal_ids else ai_signal_ids
+        signal_ids, signal_stance, signal_confidence = infer_signal_tags(title, gist)
         final_impact = override_impact_score if override_impact_score is not None else intelligence["impact_score"]
         final_horizon = override_time_horizon if override_time_horizon else intelligence["time_horizon"]
         final_article_type = content_type if content_type in ("theory",) else "industry"
@@ -138,10 +137,13 @@ Source: [{safe_source_label}]({safe_source_url})"""
 
         # Additional source attribution lines
         extra_source_lines = ""
-        for extra_url in (extra_urls or []):
+        for i, extra_url in enumerate(extra_urls or []):
             extra_url = extra_url.strip()
             if extra_url:
-                extra_source_lines += f"\nAdditional source: <{extra_url}>"
+                extra_domain = get_publisher_domain(extra_url)
+                name = (extra_source_names or [])[i].strip() if i < len(extra_source_names or []) else ""
+                label = name or extra_domain
+                extra_source_lines += f"\nAdditional source: [{yaml_escape(label)}]({extra_url})"
 
         tags_yaml = ", ".join(build_tags("industry", signal_ids))
         implications_yaml = "\n".join(
@@ -212,8 +214,8 @@ def main() -> None:
     parser.add_argument("--source-name", default="", help="Source link text to display in the generated post")
     parser.add_argument("--prompt-addition", default="", help="Optional editor instructions appended to the gist prompt")
     parser.add_argument("--extra-url", action="append", default=[], dest="extra_urls", help="Additional source URLs (repeatable)")
+    parser.add_argument("--extra-source-name", action="append", default=[], dest="extra_source_names", help="Source name for each extra URL (parallel to --extra-url, repeatable)")
     parser.add_argument("--content-type", default="", choices=["", "gist", "analysis", "roundup", "opinion"], help="Article content type override")
-    parser.add_argument("--signal-ids", default="", help="Comma-separated signal IDs to assign (overrides AI inference)")
     parser.add_argument("--impact-score", type=int, default=None, choices=[1, 2, 3, 4, 5], help="Impact score override (1-5)")
     parser.add_argument("--time-horizon", default="", choices=["", "now", "6months", "2years"], help="Time horizon override")
     args = parser.parse_args()
@@ -228,8 +230,6 @@ def main() -> None:
     publisher = get_publisher_domain(args.url)
     article_type = classify_article_type(publisher, text)
 
-    override_signal_ids = [s.strip() for s in args.signal_ids.split(",") if s.strip()] if args.signal_ids else None
-
     gist = generate_gist(title, text, article_type, args.prompt_addition)
     if gist == "UNUSABLE_CONTENT":
         raise SystemExit("Manual article content was classified as unusable.")
@@ -243,8 +243,8 @@ def main() -> None:
         article_type,
         args.source_name,
         extra_urls=args.extra_urls,
+        extra_source_names=args.extra_source_names,
         content_type=args.content_type,
-        override_signal_ids=override_signal_ids,
         override_impact_score=args.impact_score,
         override_time_horizon=args.time_horizon,
     )
