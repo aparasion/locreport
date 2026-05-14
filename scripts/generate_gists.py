@@ -68,7 +68,6 @@ FEEDS = [
     "https://inten.to/blog/feed/",
     "https://propio.com/blogs/feed/",
     "https://www.helloglobo.com/blog/rss.xml",
-    "https://aparasion.github.io/rss-generator/rss/LingopalAI.xml",
 ]
 
 SEEN_FILE = "seen.json"
