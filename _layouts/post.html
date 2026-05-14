@@ -129,6 +129,11 @@ layout: default
     {{ content }}
   </div>
 
+  <div class="support-box">
+    <p class="support-box__text">LocReport is free and independent. If it helps you stay informed, consider buying us a coffee — it goes a long way.</p>
+    <script type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js" data-name="bmc-button" data-slug="locreport" data-color="#5F7FFF" data-emoji="" data-font="Cookie" data-text="Buy me a coffee" data-outline-color="#000000" data-font-color="#ffffff" data-coffee-color="#FFDD00"></script>
+  </div>
+
   {% comment %} Related articles: theory articles match by category, industry articles by signal IDs {% endcomment %}
   {% assign related = "" | split: "" %}
   {% if page.article_type == "theory" %}
