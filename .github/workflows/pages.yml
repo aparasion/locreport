@@ -37,9 +37,10 @@ jobs:
         env:
           MANUAL_ARTICLE_TOKEN: ${{ secrets.MANUAL_ARTICLE_TOKEN }}
         run: |
-          # Inject MANUAL_ARTICLE_TOKEN as a Jekyll config variable so manualarticle.md can use it
+          # Inject MANUAL_ARTICLE_TOKEN as base64 so the raw PAT never appears in built HTML
           if [ -n "${MANUAL_ARTICLE_TOKEN:-}" ]; then
-            echo "manual_article_token: \"${MANUAL_ARTICLE_TOKEN}\"" > _config_runtime.yml
+            ENCODED=$(printf '%s' "${MANUAL_ARTICLE_TOKEN}" | base64 | tr -d '\n')
+            echo "manual_article_token_b64: \"${ENCODED}\"" > _config_runtime.yml
             bundle exec jekyll build --destination _site --config _config.yml,_config_runtime.yml
             rm -f _config_runtime.yml
           else
