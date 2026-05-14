@@ -1868,23 +1868,23 @@ a.internal-link:hover { border-bottom-style: solid; border-color: var(--accent);
 .signal-page__watch-btn:hover, .signal-page__watch-btn.is-watched { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
 .signal-page__watch-icon { font-size: 1rem; line-height: 1; }
 .signal-page__stats {
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
-  gap: 0; margin-bottom: var(--space-6);
+  display: flex; flex-wrap: nowrap;
+  width: 100%; gap: 0; margin-bottom: var(--space-5);
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg, 16px);
   overflow: hidden;
 }
-.signal-page__stat { padding: var(--space-4) var(--space-5); border-left: 3px solid transparent; }
+.signal-page__stat { flex: 1; min-width: 0; padding: var(--space-3) var(--space-3); border-left: 3px solid transparent; }
 .signal-page__stat:first-child { border-left-color: var(--accent); }
 .signal-page__stat:nth-child(2) { border-left-color: #16a34a; }
 .signal-page__stat:nth-child(3) { border-left-color: #d97706; }
 .signal-page__stat:nth-child(4) { border-left-color: #dc2626; }
-.signal-page__stat-num { display: block; font-size: 1.8rem; font-weight: 800; letter-spacing: -0.04em; line-height: 1; color: var(--text); }
+.signal-page__stat-num { display: block; font-size: 1.35rem; font-weight: 800; letter-spacing: -0.03em; line-height: 1; color: var(--text); }
 .signal-page__stat-num--supports { color: #16a34a; }
 .signal-page__stat-num--mixed { color: #d97706; }
 .signal-page__stat-num--contradicts { color: #dc2626; }
-.signal-page__stat-label { font-size: 0.68rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.07em; margin-top: 4px; display: block; }
+.signal-page__stat-label { font-size: 0.6rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-top: 3px; display: block; white-space: nowrap; }
 .signal-page__section { margin-bottom: var(--space-6); }
 .signal-page__section-title { font-size: 1.3rem; margin: 0 0 var(--space-2); }
 .signal-page__section-desc { color: var(--muted); margin: 0 0 var(--space-3); }
