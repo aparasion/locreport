@@ -154,6 +154,7 @@ hr {
   max-width: var(--content-width);
   margin: 0 auto;
 }
+article.page:has(.signals-index-grid) { max-width: var(--site-max-width); }
 
 /* ── Site Header ────────────────────────────────────────── */
 .site-header {
@@ -1799,28 +1800,28 @@ a.internal-link:hover { border-bottom-style: solid; border-color: var(--accent);
 .signals-hub-header { margin-bottom: var(--space-6); }
 .signals-hub-desc { color: var(--muted); font-size: 0.95rem; line-height: 1.6; margin: 0 0 var(--space-5); max-width: 720px; }
 .signals-hub-stats {
-  display: flex; gap: var(--space-3); flex-wrap: wrap; margin-bottom: var(--space-5);
-  padding: var(--space-4) var(--space-5);
+  display: flex; gap: 0; flex-wrap: nowrap; margin-bottom: var(--space-5);
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
+  overflow: hidden;
+  width: 100%;
 }
 .signals-hub-stat {
   display: flex; flex-direction: column; align-items: flex-start;
-  flex: 1; min-width: 80px;
-  padding: var(--space-2) var(--space-4) var(--space-2) var(--space-3);
-  border-left: 3px solid var(--border);
-  position: relative;
+  flex: 1; min-width: 0;
+  padding: var(--space-3) var(--space-3);
+  border-left: 3px solid transparent;
 }
 .signals-hub-stat:first-child { border-left-color: var(--accent); }
 .signals-hub-stat:nth-child(2) { border-left-color: #027a48; }
 .signals-hub-stat:nth-child(3) { border-left-color: #92400e; }
 .signals-hub-stat:nth-child(4) { border-left-color: #b42318; }
-.signals-hub-stat__num { font-size: 1.8rem; font-weight: 800; letter-spacing: -0.04em; line-height: 1; color: var(--text); }
+.signals-hub-stat__num { font-size: 1.35rem; font-weight: 800; letter-spacing: -0.03em; line-height: 1; color: var(--text); }
 .signals-hub-stat__num--supported { color: #027a48; }
 .signals-hub-stat__num--emerging  { color: #92400e; }
 .signals-hub-stat__num--disputed  { color: #b42318; }
-.signals-hub-stat__label { font-size: 0.68rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: var(--muted); margin-top: 3px; }
+.signals-hub-stat__label { font-size: 0.6rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin-top: 3px; white-space: nowrap; }
 [data-theme="dark"] .signals-hub-stats { background: var(--surface); }
 [data-theme="dark"] .signals-hub-stat:nth-child(2) { border-left-color: #4caf7d; }
 [data-theme="dark"] .signals-hub-stat:nth-child(3) { border-left-color: #d4a044; }
