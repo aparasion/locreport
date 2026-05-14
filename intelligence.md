@@ -15,9 +15,6 @@ description: "Actionable localization intelligence — trend signals, impact sco
   </div>
 </section>
 
-<div class="intel-disclaimer">
-  <strong>Data note:</strong> The intelligence presented here is derived from analysis of published industry articles and publications gathered by LocReport — not from direct market surveys or primary research. Signal statuses, trends, and scores reflect patterns observed in media coverage and curated content, and may not represent definitive market realities. Treat this as a directional research tool to complement, not replace, your own primary research.
-</div>
 
 {% comment %} ── Impact Overview Stats ─────────────────────────────── {% endcomment %}
 {% assign total_posts = 0 %}
@@ -78,3 +75,7 @@ description: "Actionable localization intelligence — trend signals, impact sco
     <span class="intel-link-card__cta">Open articles →</span>
   </a>
 </section>
+
+<div class="intel-disclaimer">
+  <strong>Data note:</strong> The intelligence presented here is derived from analysis of published industry articles and publications gathered by LocReport — not from direct market surveys or primary research. Signal statuses, trends, and scores reflect patterns observed in media coverage and curated content, and may not represent definitive market realities. Treat this as a directional research tool to complement, not replace, your own primary research.
+</div>
