@@ -35,13 +35,12 @@ jobs:
 
       - name: Build site
         env:
-          MANUAL_ARTICLE_TOKEN: ${{ secrets.MANUAL_ARTICLE_TOKEN }}
+          WORKER_KEY: ${{ secrets.WORKER_KEY }}
         run: |
-          # Inject tokens as base64 so raw PATs never appear in built HTML
-          if [ -n "${MANUAL_ARTICLE_TOKEN:-}" ]; then
-            ENCODED=$(printf '%s' "${MANUAL_ARTICLE_TOKEN}" | base64 | tr -d '\n')
-            echo "manual_article_token_b64: \"${ENCODED}\"" > _config_runtime.yml
-            echo "add_event_token_b64: \"${ENCODED}\"" >> _config_runtime.yml
+          # Inject Worker key as base64 so the raw value never appears in built HTML
+          if [ -n "${WORKER_KEY:-}" ]; then
+            ENCODED=$(printf '%s' "${WORKER_KEY}" | base64 | tr -d '\n')
+            echo "worker_key_b64: \"${ENCODED}\"" > _config_runtime.yml
             bundle exec jekyll build --destination _site --config _config.yml,_config_runtime.yml
             rm -f _config_runtime.yml
           else

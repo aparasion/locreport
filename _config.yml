@@ -16,5 +16,7 @@ collections:
     output: true
     permalink: /intelligence/signals/:name/
 
+worker_url: ""  # Set to your Cloudflare Worker URL after deploying, e.g. https://locreport-dispatch.YOUR_ACCOUNT.workers.dev
+
 plugins:
   - jekyll-redirect-from

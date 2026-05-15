@@ -141,7 +141,7 @@ no_share: true
   <p>This unlinked, noindex page dispatches the <strong>Add Event</strong> GitHub Actions workflow, which appends the entry directly to <code>_data/events.yml</code> and commits to <code>main</code>.</p>
 
   <div id="token-expired-banner" class="token-expired-banner">
-    ⚠ GitHub token has expired or is invalid. Please generate a new PAT at <strong>github.com → Settings → Developer settings → Personal access tokens</strong> and update the <code>MANUAL_ARTICLE_TOKEN</code> repository secret, then redeploy the site.
+    ⚠ GitHub token has expired or is invalid. Update the <code>GITHUB_PAT</code> secret in your Cloudflare Worker and redeploy.
   </div>
 
   <form id="event-add-form">
@@ -246,22 +246,17 @@ no_share: true
 
 <script>
 (function () {
-  var REPOSITORY = "aparasion/locreport";
-  var BRANCH = "main";
+  var WORKER_URL = "{{ site.worker_url }}";
   var WORKFLOW_FILE = "add-event.yml";
-  var WORKFLOW_URL = "https://github.com/" + REPOSITORY + "/actions/workflows/" + WORKFLOW_FILE;
+  var WORKFLOW_URL = "https://github.com/aparasion/locreport/actions/workflows/" + WORKFLOW_FILE;
 
-  var _b64 = "{{ site.add_event_token_b64 | default: '' }}";
-  var BUILD_TOKEN = _b64 ? atob(_b64) : "";
+  var _b64 = "{{ site.worker_key_b64 | default: '' }}";
+  var WORKER_KEY = _b64 ? atob(_b64) : "";
 
   var form = document.getElementById("event-add-form");
   var statusEl = document.getElementById("event-add-status");
   var submitButton = form.querySelector('button[type="submit"]');
   var expiredBanner = document.getElementById("token-expired-banner");
-
-  function getToken() {
-    return BUILD_TOKEN;
-  }
 
   // Auto-set location hint based on format
   var locationInput = document.getElementById("ea-location");
@@ -283,9 +278,8 @@ no_share: true
   form.addEventListener("submit", function (event) {
     event.preventDefault();
 
-    var token = getToken();
-    if (!token) {
-      setStatus("No GitHub token found. Use the token field above to save your PAT.", "is-error");
+    if (!WORKER_KEY) {
+      setStatus("Dispatch proxy not configured. Set WORKER_KEY in the build.", "is-error");
       return;
     }
 
@@ -313,16 +307,15 @@ no_share: true
     submitButton.disabled = true;
     setStatus("Adding event… The GitHub Actions workflow is being dispatched.", "is-working");
 
-    fetch("https://api.github.com/repos/" + REPOSITORY + "/actions/workflows/" + WORKFLOW_FILE + "/dispatches", {
+    fetch(WORKER_URL + "/dispatch", {
       method: "POST",
       headers: {
-        "Accept": "application/vnd.github+json",
-        "Authorization": "Bearer " + token,
-        "Content-Type": "application/json",
-        "X-GitHub-Api-Version": "2022-11-28"
+        "X-Worker-Key": WORKER_KEY,
+        "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        ref: BRANCH,
+        workflow: WORKFLOW_FILE,
+        ref: "main",
         inputs: {
           name: name,
           organizer: organizer,
@@ -347,14 +340,17 @@ no_share: true
         document.getElementById("fmt-inperson").checked = true;
         return null;
       }
-      if (response.status === 401) {
+      if (response.status === 429) {
+        throw new Error("Too many requests. Please wait before trying again.");
+      }
+      if (response.status === 502) {
         expiredBanner.style.display = "block";
-        return response.text().then(function () {
-          throw new Error("GitHub token is expired or invalid (HTTP 401). Update the MANUAL_ARTICLE_TOKEN secret and redeploy.");
+        return response.json().then(function (data) {
+          throw new Error(data.error || "GitHub token error. Update the GITHUB_PAT Worker secret.");
         });
       }
-      return response.text().then(function (body) {
-        throw new Error(body || "GitHub returned status " + response.status);
+      return response.json().then(function (data) {
+        throw new Error(data.error || "Proxy returned status " + response.status);
       });
     }).catch(function (error) {
       setStatus("Event was not added: " + error.message, "is-error");
