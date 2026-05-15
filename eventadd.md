@@ -83,48 +83,6 @@ no_share: true
   background: #eff8ff;
   border: 1px solid #b2ddff;
 }
-.event-add-tool .token-banner {
-  margin-bottom: 1.25rem;
-  border-radius: 14px;
-  padding: 1rem 1.25rem;
-  background: #fffbeb;
-  border: 1px solid #fde68a;
-  color: #92400e;
-}
-.event-add-tool .token-banner strong {
-  display: block;
-  margin-bottom: 0.4rem;
-}
-.event-add-tool .token-banner .token-row {
-  display: flex;
-  gap: 0.5rem;
-  margin-top: 0.6rem;
-  flex-wrap: wrap;
-  align-items: center;
-}
-.event-add-tool .token-banner input[type="password"] {
-  flex: 1 1 260px;
-  border: 1px solid #fbbf24;
-  border-radius: 10px;
-  padding: 0.55rem 0.85rem;
-  font: inherit;
-  background: #fff;
-  color: #111827;
-  min-width: 0;
-}
-.event-add-tool .token-ok-banner {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 1.25rem;
-  border-radius: 14px;
-  padding: 0.75rem 1.25rem;
-  background: #ecfdf3;
-  border: 1px solid #abefc6;
-  color: #027a48;
-  font-weight: 700;
-  font-size: 0.95rem;
-}
 .event-add-tool .token-expired-banner {
   display: none;
   margin-bottom: 1.25rem;
@@ -184,20 +142,6 @@ no_share: true
 
   <div id="token-expired-banner" class="token-expired-banner">
     ⚠ GitHub token has expired or is invalid. Please generate a new PAT at <strong>github.com → Settings → Developer settings → Personal access tokens</strong> and update the <code>MANUAL_ARTICLE_TOKEN</code> repository secret, then redeploy the site.
-  </div>
-
-  <div id="token-missing-banner" class="token-banner" style="display:none">
-    <strong>GitHub token required</strong>
-    A classic GitHub PAT with the <code>workflow</code> scope is needed to dispatch the workflow. Stored only in <code>localStorage</code> — never sent anywhere except the GitHub API.<br>
-    <small>Create one at <strong>github.com → Settings → Developer settings → Personal access tokens → Tokens (classic)</strong> → Generate new token → tick <code>workflow</code>.</small>
-    <div class="token-row">
-      <input type="password" id="token-input" placeholder="ghp_…" autocomplete="off" spellcheck="false">
-      <button type="button" class="btn btn--primary" id="token-save-btn">Save token</button>
-    </div>
-  </div>
-  <div id="token-ok-banner" class="token-ok-banner" style="display:none">
-    <span>&#10003; GitHub token configured.</span>
-    <button type="button" class="btn btn--secondary" id="token-clear-btn" style="margin-left:auto;font-size:0.85rem">Clear token</button>
   </div>
 
   <form id="event-add-form">
@@ -306,7 +250,6 @@ no_share: true
   var BRANCH = "main";
   var WORKFLOW_FILE = "add-event.yml";
   var WORKFLOW_URL = "https://github.com/" + REPOSITORY + "/actions/workflows/" + WORKFLOW_FILE;
-  var LS_KEY = "manualArticleToken";
 
   var _b64 = "{{ site.add_event_token_b64 | default: '' }}";
   var BUILD_TOKEN = _b64 ? atob(_b64) : "";
@@ -314,46 +257,11 @@ no_share: true
   var form = document.getElementById("event-add-form");
   var statusEl = document.getElementById("event-add-status");
   var submitButton = form.querySelector('button[type="submit"]');
-  var missingBanner = document.getElementById("token-missing-banner");
-  var okBanner = document.getElementById("token-ok-banner");
   var expiredBanner = document.getElementById("token-expired-banner");
-  var tokenInput = document.getElementById("token-input");
-  var saveBtn = document.getElementById("token-save-btn");
-  var clearBtn = document.getElementById("token-clear-btn");
 
   function getToken() {
-    return BUILD_TOKEN || localStorage.getItem(LS_KEY) || "";
+    return BUILD_TOKEN;
   }
-
-  function refreshTokenUI() {
-    if (getToken()) {
-      missingBanner.style.display = "none";
-      okBanner.style.display = "flex";
-    } else {
-      missingBanner.style.display = "block";
-      okBanner.style.display = "none";
-    }
-  }
-
-  saveBtn.addEventListener("click", function () {
-    var val = tokenInput.value.trim();
-    if (!val) return;
-    localStorage.setItem(LS_KEY, val);
-    tokenInput.value = "";
-    expiredBanner.style.display = "none";
-    refreshTokenUI();
-  });
-
-  tokenInput.addEventListener("keydown", function (e) {
-    if (e.key === "Enter") { e.preventDefault(); saveBtn.click(); }
-  });
-
-  clearBtn.addEventListener("click", function () {
-    localStorage.removeItem(LS_KEY);
-    refreshTokenUI();
-  });
-
-  refreshTokenUI();
 
   // Auto-set location hint based on format
   var locationInput = document.getElementById("ea-location");
