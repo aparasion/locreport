@@ -1,3 +1,26 @@
+- id: slatorcon-london
+  name: SlatorCon London
+  organizer: Slator
+  start_date: '2026-05-22'
+  end_date: '2026-05-22'
+  location: London
+  format: in-person
+  category: conference
+  url: https://slator.com/event/slatorcon-london-2026/
+  description: 'SlatorCon London 2026: The Premier Gathering for Language AI and Solutions  SlatorCon
+    is returning to London on May 22, 2026, with our most comprehensive program to
+    date. Designed to maximize your time, this focused one-day event brings together
+    industry executives, founders, investors, and buyers to share actionable insights
+    on the future of language AI.  What we’ll explore together: Current language industry
+    trends and market investment The evolution of Voice AI and media localization
+    Key buy-side perspectives and emerging startups The latest research developments
+    and data-for-AI strategies  Alongside our curated sessions, the agenda builds
+    in dedicated time during lunch, breaks, and receptions to ensure you can connect,
+    network, and enjoy meaningful 1:1 conversations.'
+  tags:
+  - Slator
+  - SlatorCon
+  - London
 - id: locworld55
   name: LocWorld55
   organizer: LocWorld
