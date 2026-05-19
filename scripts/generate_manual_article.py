@@ -27,23 +27,30 @@ from generate_gists import (
 
 
 def parse_article_date(value: str) -> datetime.datetime:
-    """Parse a manual article date as UTC, accepting YYYY-MM-DD or ISO datetime."""
+    """Parse a manual article date as UTC, accepting YYYY-MM-DD or ISO datetime.
+
+    Empty or bare YYYY-MM-DD values are pinned to 23:59:59 so the post sorts
+    as the newest article for that day.
+    """
+    LATEST = datetime.time(23, 59, 59, tzinfo=datetime.timezone.utc)
     cleaned = value.strip()
     if not cleaned:
-        return datetime.datetime.now(datetime.timezone.utc)
+        today = datetime.datetime.now(datetime.timezone.utc).date()
+        return datetime.datetime.combine(today, LATEST)
 
     if cleaned.endswith("Z"):
         cleaned = cleaned[:-1] + "+00:00"
 
     try:
         parsed = datetime.datetime.fromisoformat(cleaned)
+        if parsed.tzinfo is None:
+            parsed = parsed.replace(tzinfo=datetime.timezone.utc)
+        return parsed.astimezone(datetime.timezone.utc)
     except ValueError:
-        parsed_date = datetime.datetime.strptime(cleaned, "%Y-%m-%d").date()
-        parsed = datetime.datetime.combine(parsed_date, datetime.time(), tzinfo=datetime.timezone.utc)
+        pass
 
-    if parsed.tzinfo is None:
-        parsed = parsed.replace(tzinfo=datetime.timezone.utc)
-    return parsed.astimezone(datetime.timezone.utc)
+    parsed_date = datetime.datetime.strptime(cleaned, "%Y-%m-%d").date()
+    return datetime.datetime.combine(parsed_date, LATEST)
 
 
 def slugify(title: str, fallback: str) -> str:
@@ -71,10 +78,6 @@ def write_post(
     override_impact_score: int | None = None,
     override_time_horizon: str = "",
 ) -> str:
-    now = datetime.datetime.now(datetime.timezone.utc)
-    if pub_dt > now:
-        pub_dt = now
-
     post_date_str = pub_dt.strftime("%Y-%m-%d")
     time_str = pub_dt.strftime("%H:%M:%S")
     slug = slugify(title, url)
@@ -208,7 +211,7 @@ def update_seen(url: str, title: str) -> None:
 def main() -> None:
     parser = argparse.ArgumentParser(description="Create a LocReport post from manually pasted article content.")
     parser.add_argument("--url", required=True, help="Canonical URL of the source article")
-    parser.add_argument("--date", required=True, help="Article date as YYYY-MM-DD or ISO datetime")
+    parser.add_argument("--date", default="", help="Article date as YYYY-MM-DD; defaults to today at 23:59:59 UTC")
     parser.add_argument("--content-file", required=True, help="Path to a UTF-8 text file containing the source article")
     parser.add_argument("--title", default="", help="Optional source article title; generated when omitted")
     parser.add_argument("--source-name", default="", help="Source link text to display in the generated post")
