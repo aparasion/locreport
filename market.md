@@ -14,7 +14,7 @@ nav_order: 4
 
 /* ── Hero ──────────────────────────────────────────────────── */
 .market-hero { padding: var(--space-7) 0 var(--space-4); }
-.market-hero h1 { margin: 0 0 var(--space-1); font-size: clamp(1.8rem, 4vw, 2.6rem); }
+.market-hero h1 { margin: 0 0 var(--space-1); font-size: clamp(1.8rem, 4vw, 2.6rem); background: var(--gradient-accent); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 .market-hero-tagline { margin: 0 0 var(--space-2); color: var(--muted); font-size: 0.85rem; font-family: var(--font-display); letter-spacing: 0.04em; text-transform: uppercase; }
 
 .market-header-row {

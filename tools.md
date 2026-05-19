@@ -9,7 +9,6 @@ description: "Interactive calculators and comparison tools for language service 
 ---
 
 <section class="all-articles-hero">
-  <h1>Tools</h1>
   <p class="all-articles-subtitle">Interactive calculators and reference tools for language service professionals.</p>
 </section>
 
