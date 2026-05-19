@@ -102,8 +102,6 @@ robots: "index, follow"
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: var(--space-4);
-  max-width: var(--site-max-width);
-  width: 100%;
 }
 
 .dir-card {
