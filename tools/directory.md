@@ -194,6 +194,10 @@ robots: "index, follow"
   line-height: 1.55;
   flex: 1;
   margin-bottom: var(--space-3);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .dir-card-meta {
@@ -249,8 +253,17 @@ mark.dir-highlight {
   .dir-grid { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 640px) {
-  .dir-grid { grid-template-columns: 1fr; }
+  .dir-grid { grid-template-columns: 1fr; gap: var(--space-3); }
   .dir-controls { flex-direction: column; align-items: stretch; }
+  .dir-cats {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 4px;
+    scrollbar-width: none;
+  }
+  .dir-cats::-webkit-scrollbar { display: none; }
+  .dir-cat-btn { flex-shrink: 0; }
 }
 </style>
 
