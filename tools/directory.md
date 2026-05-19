@@ -11,8 +11,17 @@ robots: "index, follow"
 
 <style>
 .dir-hero { margin-bottom: var(--space-6); }
-.dir-hero h1 { font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 900; margin-bottom: var(--space-2); }
 .dir-hero p { color: var(--muted); font-size: 1.05rem; max-width: 640px; }
+
+article.page > h1 {
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-weight: 900;
+  margin-bottom: var(--space-2);
+  background: var(--gradient-accent);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
 
 .dir-controls {
   display: flex;
@@ -259,7 +268,7 @@ mark.dir-highlight {
   .dir-grid { grid-template-columns: minmax(0, 1fr); gap: var(--space-3); }
   .dir-controls { flex-direction: column; align-items: stretch; gap: var(--space-2); }
   .dir-sort { width: 100%; }
-  .dir-hero h1 { font-size: 1.6rem; }
+  article.page > h1 { font-size: 1.6rem; }
   .dir-card { padding: var(--space-4); }
   .dir-cats {
     flex-wrap: nowrap;
@@ -278,7 +287,6 @@ mark.dir-highlight {
 </style>
 
 <div class="dir-hero">
-  <h1>Language Technology Directory</h1>
   <p>100+ tools, platforms, and companies across the language services industry — TMS, CAT tools, AI translation engines, LSPs, interpreting platforms, and more.</p>
 </div>
 
