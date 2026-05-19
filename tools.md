@@ -1,5 +1,6 @@
 ---
 layout: page
+title: "Tools"
 permalink: /tools/
 nav: true
 nav_order: 2.3
