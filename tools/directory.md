@@ -2,9 +2,7 @@
 layout: page
 title: "Language Technology Directory"
 permalink: /tools/directory/
-nav: true
-nav_order: 2.35
-nav_parent: "Tools"
+nav: false
 description: "Comprehensive directory of language technology tools — TMS platforms, CAT tools, AI translation engines, LSPs, interpreting platforms, and more. Search and filter 100+ companies."
 robots: "index, follow"
 ---
@@ -100,8 +98,10 @@ robots: "index, follow"
 
 .dir-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: var(--space-4);
+  max-width: var(--site-max-width);
+  width: 100%;
 }
 
 .dir-card {
@@ -243,6 +243,9 @@ mark.dir-highlight {
   padding: 0 1px;
 }
 
+@media (max-width: 960px) {
+  .dir-grid { grid-template-columns: repeat(2, 1fr); }
+}
 @media (max-width: 640px) {
   .dir-grid { grid-template-columns: 1fr; }
   .dir-controls { flex-direction: column; align-items: stretch; }
@@ -287,7 +290,7 @@ mark.dir-highlight {
 
 <script>
 (function () {
-  var LOGO_BASE = "https://logo.clearbit.com/";
+  var LOGO_BASE = "https://www.google.com/s2/favicons?sz=64&domain=";
 
   var CAT_LABELS = {
     "tms":              "TMS",

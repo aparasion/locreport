@@ -155,6 +155,7 @@ hr {
   margin: 0 auto;
 }
 article.page:has(.signals-index-grid) { max-width: var(--site-max-width); }
+article.page:has(.dir-grid) { max-width: var(--site-max-width); }
 
 /* ── Site Header ────────────────────────────────────────── */
 .site-header {
