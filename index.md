@@ -44,7 +44,7 @@ nav_order: 1
         <h1>Track the forces reshaping the industry</h1>
         <p class="hero-subtitle">Enterprise buyers are consolidating up or going direct-to-AI. This signal tracks what that means for boutique and mid-tier LSPs — and whether their advantages still hold when AI delivers comparable output at a fraction of the cost.</p>
         <div class="hero-actions">
-          <a href="/intelligence/#lsp-relevance-erosion" class="btn btn--hero-intel btn--lg">Explore this signal &rarr;</a>
+          <a href="/intelligence/signals/lsp-relevance-erosion/" class="btn btn--hero-intel btn--lg">Explore this signal &rarr;</a>
         </div>
       </div>
     </div>
