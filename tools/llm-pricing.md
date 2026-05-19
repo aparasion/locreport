@@ -71,6 +71,7 @@ description: "Estimate and compare API costs for using major LLMs in your transl
         </div>
         <input type="range" id="words-per-call-range" min="50" max="5000" step="50" value="500" class="pricing-range">
         <input type="number" id="words-per-call" min="50" max="5000" step="50" value="500" class="pricing-number-input">
+        <p class="pcfg-adv-hint" id="wpc-hint"></p>
       </div>
       <div class="pricing-param">
         <div class="pricing-param-header">
@@ -79,6 +80,7 @@ description: "Estimate and compare API costs for using major LLMs in your transl
         </div>
         <input type="range" id="system-prompt-tokens-range" min="50" max="2000" step="50" value="300" class="pricing-range">
         <input type="number" id="system-prompt-tokens" min="50" max="2000" step="50" value="300" class="pricing-number-input">
+        <p class="pcfg-adv-hint" id="spt-hint"></p>
       </div>
       <div class="pcfg-adv-providers">
         <div class="filter-label" style="margin-bottom: var(--space-2);">Providers</div>
@@ -406,6 +408,14 @@ description: "Estimate and compare API costs for using major LLMs in your transl
 .pricing-param { margin-bottom: 0; }
 .pricing-param-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-2); }
 .pricing-param-value { font-size: 0.8rem; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; }
+.pcfg-adv-hint {
+  margin: var(--space-2) 0 0;
+  font-size: 0.76rem;
+  color: var(--muted);
+  line-height: 1.5;
+  min-height: 1.1em;
+}
+.pcfg-adv-hint strong { color: var(--text); font-weight: 600; }
 
 @media (max-width: 680px) {
   .pcfg-col-headers { display: none !important; }
@@ -733,17 +743,39 @@ description: "Estimate and compare API costs for using major LLMs in your transl
   }
 
   /* ── Advanced sliders ── */
-  function syncSlider(rangeId, numberId, displayId) {
+  function wpcHint(v) {
+    v = parseInt(v, 10);
+    if (v <= 100)  return '<strong>Segment-by-segment</strong> — one sentence per call. Highest system prompt overhead per word.';
+    if (v <= 300)  return '<strong>Paragraph-level</strong> — a few sentences per call. Moderate overhead.';
+    if (v <= 500)  return '<strong>Batched</strong> — multiple paragraphs per call. Cost-efficient for most pipelines.';
+    if (v <= 1500) return '<strong>Large batch</strong> — full pages per call. Low overhead; requires reliable sentence splitting.';
+    return '<strong>Document-level</strong> — maximum efficiency. Needs a large-context model (check context window limit).';
+  }
+
+  function sptHint(v) {
+    v = parseInt(v, 10);
+    if (v <= 100)  return '<strong>Minimal</strong> — language pair and basic instruction only. e.g. "Translate EN→DE."';
+    if (v <= 300)  return '<strong>Standard</strong> — includes tone, register, or domain notes. Most common for MT workflows.';
+    if (v <= 700)  return '<strong>Detailed</strong> — style guide, terminology rules, or formatting constraints.';
+    if (v <= 1500) return '<strong>Extended</strong> — inline glossary or few-shot translation examples. Charged on every call.';
+    return '<strong>Heavy</strong> — large glossary or multi-example prompts. Consider caching to reduce cost.';
+  }
+
+  function syncSlider(rangeId, numberId, displayId, hintFn, hintId) {
     var range  = document.getElementById(rangeId);
     var number = document.getElementById(numberId);
     var disp   = document.getElementById(displayId);
+    var hint   = hintId ? document.getElementById(hintId) : null;
     function update(v) {
       range.value = number.value = v;
       if (disp) disp.textContent = Number(v).toLocaleString();
+      if (hint && hintFn) hint.innerHTML = hintFn(v);
       render();
     }
     range.addEventListener('input',  function () { update(range.value); });
     number.addEventListener('input', function () { if (!isNaN(parseInt(number.value, 10))) update(number.value); });
+    // set initial hint
+    if (hint && hintFn) hint.innerHTML = hintFn(range.value);
   }
 
   /* ── Sort toggle ── */
@@ -855,8 +887,8 @@ description: "Estimate and compare API costs for using major LLMs in your transl
     buildAddPairBtn();
     buildPresets();
     buildProviderFilters();
-    syncSlider('words-per-call-range',       'words-per-call',       'words-per-call-display');
-    syncSlider('system-prompt-tokens-range', 'system-prompt-tokens', 'system-prompt-tokens-display');
+    syncSlider('words-per-call-range',       'words-per-call',       'words-per-call-display',       wpcHint, 'wpc-hint');
+    syncSlider('system-prompt-tokens-range', 'system-prompt-tokens', 'system-prompt-tokens-display', sptHint, 'spt-hint');
     buildSortToggle();
     renderPairs();
     render();
