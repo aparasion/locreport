@@ -2,7 +2,9 @@
 layout: page
 title: "Language Technology Directory"
 permalink: /tools/directory/
-nav: false
+nav: true
+nav_order: 2.35
+nav_parent: "Tools"
 description: "Comprehensive directory of language technology tools — TMS platforms, CAT tools, AI translation engines, LSPs, interpreting platforms, and more. Search and filter 100+ companies."
 robots: "index, follow"
 ---
