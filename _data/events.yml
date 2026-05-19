@@ -1,1 +1,24 @@
-
+- id: locworld55
+  name: LocWorld55
+  organizer: LocWorld
+  start_date: '2026-06-09'
+  end_date: '2026-06-11'
+  location: Dublin, Ireland
+  format: in-person
+  category: conference
+  url: https://locworld.com/events/locworld55-dublin-2026/
+  description: Since 2003, LocWorld has served as the language industry's trusted
+    global forum, known for organizing independent and high-impact events where enterprise
+    clients and localization vendors can connect, collaborate, and conduct business
+    in a collaborative, friendly atmosphere. Building on this legacy of outstanding
+    networking and dynamic exhibit halls, LocWorld55 Dublin centers on the modern
+    challenge of transforming raw artificial intelligence capabilities into culturally
+    relevant, trusted human experiences. The event explores how autonomous AI agents
+    and multilingual tech stacks are reshaping global enterprise content, offering
+    practical insight into navigating the transition from early-stage AI experimentation
+    to controlled, scalable workflows. Through highly curated session tracks, the
+    conference brings industry leaders together to address agentic orchestration,
+    data design, and global business growth, ultimately equipping professionals with
+    the strategic tools necessary to balance rapid automation with crucial human judgment.
+  tags:
+  - LocWorld55
