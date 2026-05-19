@@ -22,4 +22,11 @@ description: "Interactive calculators and comparison tools for language service 
     <span style="margin-top: var(--space-4); font-size: 0.8rem; font-weight: 600; color: var(--accent);">Open simulator →</span>
   </a>
 
+  <a href="/tools/directory/" class="intel-link-card" style="text-decoration: none;">
+    <div style="font-size: 1.5rem; margin-bottom: var(--space-3);">🗂️</div>
+    <h2 style="font-size: 1.05rem; font-weight: 700; color: var(--text); margin: 0 0 var(--space-2);">Language Technology Directory</h2>
+    <p style="font-size: 0.875rem; color: var(--muted); margin: 0; flex: 1;">Searchable directory of 100+ language technology tools — TMS platforms, CAT tools, AI translation engines, LSPs, interpreting platforms, and more.</p>
+    <span style="margin-top: var(--space-4); font-size: 0.8rem; font-weight: 600; color: var(--accent);">Browse directory →</span>
+  </a>
+
 </div>
