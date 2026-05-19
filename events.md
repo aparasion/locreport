@@ -22,7 +22,9 @@ A curated calendar of upcoming conferences, summits, and forums across the langu
 
 <div class="events-timeline" id="events-timeline">
   {% assign today = site.time | date: "%Y-%m-%d" %}
-  {% assign upcoming_events = site.data.events | where_exp: "event", "event.end_date >= today" | sort: "start_date" %}
+  {% assign _all_events = site.data.events | default: "" %}
+  {% if _all_events == "" %}{% assign _all_events = "" | split: "" %}{% endif %}
+  {% assign upcoming_events = _all_events | where_exp: "event", "event.end_date >= today" | sort: "start_date" %}
   {% assign current_year = "" %}
   {% assign current_month = "" %}
 
