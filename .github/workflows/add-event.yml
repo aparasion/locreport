@@ -4,43 +4,43 @@ on:
   workflow_dispatch:
     inputs:
       name:
-        description: "Event name"
+        description: "Full event name — e.g. LocWorld 60, GALA Connect 2026, IMUG Spring Summit"
         required: true
         type: string
       organizer:
-        description: "Organizer name"
+        description: "Organising body or company — e.g. LocWorld, GALA, Nimdzi, ELIA"
         required: true
         type: string
       start_date:
-        description: "Start date (YYYY-MM-DD)"
+        description: "Start date in YYYY-MM-DD format — e.g. 2026-09-15"
         required: true
         type: string
       end_date:
-        description: "End date (YYYY-MM-DD, defaults to start_date)"
+        description: "End date in YYYY-MM-DD format — leave blank for single-day events (defaults to start_date)"
         required: false
         type: string
       location:
-        description: "Location (city, country — or 'Online' for virtual)"
+        description: "City and country — e.g. Dublin, Ireland. Use 'Online' for fully virtual. Leave blank to auto-fill based on format."
         required: false
         type: string
       format:
-        description: "Format: in-person, virtual, or hybrid"
+        description: "Event format — in-person (physical venue), virtual (online only), or hybrid (both)"
         required: true
         type: string
       category:
-        description: "Category: conference, summit, forum, congress, webinar, or workshop"
+        description: "Event category — conference, summit, forum, congress, webinar, or workshop"
         required: true
         type: string
       url:
-        description: "Event website URL"
+        description: "Event website or registration page URL — e.g. https://locworld.com/events/lw60"
         required: false
         type: string
       description:
-        description: "Short event description"
+        description: "2–4 sentence summary: audience, main themes, what makes it notable for localization/language services professionals"
         required: true
         type: string
       tags:
-        description: "Comma-separated tags (e.g. localization, AI, translation)"
+        description: "Comma-separated lowercase tags — e.g. localization, AI, translation, project-management, terminology"
         required: false
         type: string
 

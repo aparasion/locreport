@@ -4,55 +4,55 @@ on:
   workflow_dispatch:
     inputs:
       url:
-        description: "Canonical URL of the source article"
+        description: "Canonical URL of the source article — the permanent link, not a redirect or AMP URL"
         required: true
         type: string
       article_date:
-        description: "Article date (YYYY-MM-DD or ISO datetime)"
+        description: "Publication date/time in UTC — YYYY-MM-DD or ISO format e.g. 2026-05-19T09:30:00Z"
         required: true
         type: string
       source_name:
-        description: "Source name to use as the source link text"
+        description: "Publisher display name shown as the source link — e.g. Slator, MultiLingual, CSA Research"
         required: true
         type: string
       content:
-        description: "Full source article text pasted from the source"
+        description: "Full article text copied from the source page (not a summary) — paste everything including body paragraphs"
         required: true
         type: string
       prompt_addition:
-        description: "Optional instructions to append to the generation prompt"
+        description: "Extra editorial instructions for this article only — e.g. 'focus on MT quality angle', 'mention XTRF by name', 'keep tone neutral'"
         required: false
         type: string
       title:
-        description: "Optional source article title; generated when blank"
+        description: "Original article headline — leave blank and the AI will infer it from the content"
         required: false
         type: string
       extra_url_1:
-        description: "Optional second source URL"
+        description: "Second source URL if the post synthesises multiple articles — e.g. a follow-up piece or related report"
         required: false
         type: string
       extra_source_name_1:
-        description: "Source name for extra URL 1"
+        description: "Publisher display name for extra URL 1 — e.g. GALA, Nimdzi, Common Sense Advisory"
         required: false
         type: string
       extra_url_2:
-        description: "Optional third source URL"
+        description: "Third source URL for multi-source roundup posts"
         required: false
         type: string
       extra_source_name_2:
-        description: "Source name for extra URL 2"
+        description: "Publisher display name for extra URL 2"
         required: false
         type: string
       content_type:
-        description: "Content type: gist, analysis, roundup, or opinion (blank = auto)"
+        description: "Post format — gist (concise summary), analysis (in-depth take), roundup (multi-source), opinion (commentary). Leave blank for AI to choose."
         required: false
         type: string
       impact_score:
-        description: "Impact score override: 1-5 (blank = AI decides)"
+        description: "Industry impact 1–5 — 1 Routine, 2 Noteworthy, 3 Significant, 4 Major, 5 Disruptive. Leave blank for AI to decide."
         required: false
         type: string
       time_horizon:
-        description: "Time horizon: now, 6months, or 2years (blank = AI decides)"
+        description: "Relevance window — now (immediate impact), 6months, or 2years (long-term trend). Leave blank for AI to decide."
         required: false
         type: string
 
