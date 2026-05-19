@@ -1,6 +1,5 @@
 ---
 layout: page
-title: "Language Technology Directory"
 permalink: /tools/directory/
 nav: true
 nav_order: 2.35
