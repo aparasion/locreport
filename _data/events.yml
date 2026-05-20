@@ -45,6 +45,27 @@
     the strategic tools necessary to balance rapid automation with crucial human judgment.
   tags:
   - LocWorld55
+- id: eamt-2026
+  name: EAMT 2026
+  organizer: European Association for Machine Translation
+  start_date: '2026-06-15'
+  end_date: '2026-06-18'
+  location: Tilburg, Netherlands
+  format: in-person
+  category: conference
+  url: https://eamt2026.org/
+  description: The 26th Annual Conference of the European Association for Machine
+    Translation (EAMT 2026) will take place from June 15 to June 18, 2026, in Tilburg,
+    the Netherlands, hosted by Tilburg University. The event brings together researchers,
+    developers, practitioners, and language industry professionals to share cutting-edge
+    advancements and practical implementations in machine translation, translation
+    memories, and language technology. The program begins on June 15 with specialized
+    workshops and tutorials at the MindLabs venue—covering topics like integrating
+    LLMs into CAT tools and managing style in generative AI translation—followed by
+    the main conference track from June 16 to June 18 at the Schouwburg Concertzaal
+    Tilburg.
+  tags:
+  - EAMT2026
 - id: locworld56
   name: LocWorld56
   organizer: LocWorld
