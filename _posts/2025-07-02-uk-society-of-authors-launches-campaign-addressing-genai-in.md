@@ -3,6 +3,8 @@ title: "UK Society of Authors Launches Campaign Addressing GenAI in Translation"
 date: 2025-07-02T08:50:14Z
 layout: post
 categories: [translation]
+redirect_from:
+  - /translation/2025/07/02/uk-society-of-authors-launches-campaign-addressing-genai-in.html
 tags: [translation, localization, news, post-editing]
 excerpt: "The recent announcement by Audible to implement AI narration and translation for its audiobooks marks a significant turning point in the localization and..."
 publisher: slator.com
