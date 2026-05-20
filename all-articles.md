@@ -86,6 +86,7 @@ description: "Browse all localization industry articles by topic — quality, op
         <label class="filter-label" for="sort-select">Sort</label>
         <select class="filter-select" id="sort-select" aria-label="Sort articles">
           <option value="date">Newest first</option>
+          <option value="oldest">Oldest first</option>
           <option value="impact">Highest impact</option>
         </select>
       </div>
@@ -267,6 +268,10 @@ document.addEventListener("DOMContentLoaded", function () {
     if (sortBy === "impact") {
       filtered.sort(function (a, b) {
         return parseInt(b.getAttribute("data-impact") || "0", 10) - parseInt(a.getAttribute("data-impact") || "0", 10);
+      });
+    } else if (sortBy === "oldest") {
+      filtered.sort(function (a, b) {
+        return (a.getAttribute("data-date") || "").localeCompare(b.getAttribute("data-date") || "");
       });
     } else {
       filtered.sort(function (a, b) {
