@@ -1160,6 +1160,15 @@ article.page:has(.dir-grid) { max-width: var(--site-max-width); overflow-x: hidd
 .source-logo--languageline, .source-logo--transperfect { font-weight: 500; font-size: 0.8rem; }
 .source-logo--nimdzi { font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; font-size: 0.72rem; }
 .source-logo--prnewswire { font-weight: 600; letter-spacing: 0.01em; font-size: 0.78rem; }
+.source-logo--openai { font-weight: 700; letter-spacing: -0.01em; font-size: 0.88rem; }
+.source-logo--chatgpt { font-weight: 600; letter-spacing: 0.01em; font-size: 0.85rem; }
+.source-logo--googlegemini { font-weight: 500; letter-spacing: 0.01em; font-size: 0.8rem; }
+.source-logo--anthropic { font-weight: 700; letter-spacing: -0.01em; font-size: 0.85rem; }
+.source-logo--claude { font-weight: 600; letter-spacing: 0.02em; font-size: 0.88rem; }
+.source-logo--meta { font-weight: 800; letter-spacing: -0.02em; font-size: 0.88rem; }
+.source-logo--llama { font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; font-size: 0.78rem; }
+.source-logo--huggingface { font-weight: 600; letter-spacing: 0.01em; font-size: 0.82rem; }
+.source-logo--mistral { font-weight: 700; letter-spacing: 0.03em; font-size: 0.85rem; }
 
 /* ── Topic Filter Pills ─────────────────────────────────── */
 .topic-filter-panel { margin: var(--space-8) 0 var(--space-6); }
