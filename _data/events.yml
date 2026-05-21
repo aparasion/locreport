@@ -66,6 +66,31 @@
     Tilburg.
   tags:
   - EAMT2026
+- id: slatorcon
+  name: SlatorCon
+  organizer: Slator
+  start_date: '2026-09-03'
+  end_date: '2026-09-03'
+  location: San Francisco, USA
+  format: in-person
+  category: conference
+  url: https://slator.com/event/slatorcon-san-francisco-2026/
+  description: 'The SlatorCon San Francisco 2026 conference will take place on September
+    3, 2026, at the St. Regis San Francisco hotel.
+
+    As a leading event for language AI and language solutions, the one-day conference
+    brings together executives, founders, investors, and enterprise buyers to gain
+    actionable market intelligence.
+
+    The comprehensive agenda is designed for maximum return-on-time, packing high-impact
+    presentations and panel discussions into a single day.
+
+    Key topics will focus heavily on what drives the industry forward, including language
+    industry trends, voice AI, data-for-AI, media localization, and the evolving landscape
+    of language AI investment and startups.'
+  tags:
+  - SlatorCon
+  - Slator
 - id: locworld56
   name: LocWorld56
   organizer: LocWorld
