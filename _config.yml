@@ -16,5 +16,7 @@ collections:
     output: true
     permalink: /intelligence/signals/:name/
 
+future: true
+
 plugins:
   - jekyll-redirect-from
