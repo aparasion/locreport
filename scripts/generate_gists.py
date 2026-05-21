@@ -576,6 +576,7 @@ SIGNAL_TAGS = {
 AUTHOR_BY_TYPE = {
     "industry": "LocReport Industry Desk",
     "theory": "LocReport Research Desk",
+    "manual": "LocReport Editorial Desk",
 }
 
 

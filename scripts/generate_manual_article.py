@@ -88,7 +88,7 @@ def write_post(
         suffix += 1
 
     publisher = get_publisher_domain(url)
-    author = pick_author(slug, article_type)
+    author = pick_author(slug, "manual")
     safe_title = yaml_escape(title)
     safe_excerpt = yaml_escape(make_excerpt(gist))
     source_label = source_name.strip() or publisher
