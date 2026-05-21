@@ -9,8 +9,6 @@ no_share: true
 ---
 
 <div class="manform">
-  <p>Triggers the <code>manual-article.yml</code> GitHub Actions workflow. Fill in the article details and click <strong>Create post</strong> — the workflow generates and commits the post to <code>main</code>.</p>
-
   <div id="token-expired-banner" class="token-expired-banner">
     ⚠ GitHub token has expired or is invalid. Generate a new PAT at <strong>github.com → Settings → Developer settings → Personal access tokens</strong> and update the <code>MANUAL_ARTICLE_TOKEN</code> repository secret, then redeploy the site.
   </div>
