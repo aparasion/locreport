@@ -4836,6 +4836,7 @@ article.page > h1 {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
+  align-items: start;
 }
 @media (max-width: 640px) {
   .manform .field-row { grid-template-columns: 1fr; }
