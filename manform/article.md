@@ -17,16 +17,42 @@ no_share: true
 
   <form id="article-form">
 
-    <p class="section-title">Source</p>
+    <p class="section-title">Content</p>
 
     <label>
-      Article URL
-      <input type="url" id="f-url" name="url" required placeholder="https://example.com/article">
+      Article content
+      <textarea id="f-content" name="content" required placeholder="Paste the full source article text here…"></textarea>
     </label>
+
+    <label>
+      Article title
+      <input type="text" id="f-title" name="title" placeholder="Leave blank to generate automatically">
+      <span class="field-hint">Optional. Inferred from article content when blank.</span>
+    </label>
+
+    <label>
+      Article date &amp; time (UTC)
+      <input type="datetime-local" id="f-date" name="article_date" required>
+      <span class="field-hint">Treat as UTC — controls post ordering.</span>
+    </label>
+
+    <p class="section-title">Source</p>
 
     <div class="field-row">
       <label>
-        Additional source URL 1 <span style="font-weight:400">(optional)</span>
+        Article URL
+        <input type="url" id="f-url" name="url" required placeholder="https://example.com/article">
+      </label>
+      <label>
+        Source name
+        <input type="text" id="f-source-name" name="source_name" required placeholder="Example News">
+        <span class="field-hint">Displayed as the source link text.</span>
+      </label>
+    </div>
+
+    <div class="field-row">
+      <label>
+        Additional URL 1 <span style="font-weight:400">(optional)</span>
         <input type="url" id="f-extra-url-1" name="extra_url_1" placeholder="https://…">
       </label>
       <label>
@@ -37,7 +63,7 @@ no_share: true
 
     <div class="field-row">
       <label>
-        Additional source URL 2 <span style="font-weight:400">(optional)</span>
+        Additional URL 2 <span style="font-weight:400">(optional)</span>
         <input type="url" id="f-extra-url-2" name="extra_url_2" placeholder="https://…">
       </label>
       <label>
@@ -46,31 +72,7 @@ no_share: true
       </label>
     </div>
 
-    <div class="field-row">
-      <label>
-        Article date &amp; time (UTC)
-        <input type="datetime-local" id="f-date" name="article_date" required>
-        <span class="field-hint">Treat as UTC — controls post ordering.</span>
-      </label>
-      <label>
-        Source name
-        <input type="text" id="f-source-name" name="source_name" required placeholder="Example News">
-        <span class="field-hint">Displayed as the source link text.</span>
-      </label>
-    </div>
-
-    <label>
-      Article title
-      <input type="text" id="f-title" name="title" placeholder="Leave blank to generate automatically">
-      <span class="field-hint">Optional. Inferred from article content when blank.</span>
-    </label>
-
-    <p class="section-title">Content</p>
-
-    <label>
-      Article content
-      <textarea id="f-content" name="content" required placeholder="Paste the full source article text here…"></textarea>
-    </label>
+    <p class="section-title">Options</p>
 
     <label>
       Prompt addition
@@ -92,18 +94,6 @@ no_share: true
         </select>
       </label>
       <label>
-        Time horizon
-        <select id="f-time-horizon" name="time_horizon">
-          <option value="">Auto (AI decides)</option>
-          <option value="now">Now — immediate impact</option>
-          <option value="6months">6 months</option>
-          <option value="2years">2 years</option>
-        </select>
-      </label>
-    </div>
-
-    <div class="field-row">
-      <label>
         Impact score (1–5)
         <select id="f-impact-score" name="impact_score">
           <option value="">Auto (AI decides)</option>
@@ -112,6 +102,18 @@ no_share: true
           <option value="3">3 — Significant</option>
           <option value="4">4 — Major</option>
           <option value="5">5 — Disruptive</option>
+        </select>
+      </label>
+    </div>
+
+    <div class="field-row">
+      <label>
+        Time horizon
+        <select id="f-time-horizon" name="time_horizon">
+          <option value="">Auto (AI decides)</option>
+          <option value="now">Now — immediate impact</option>
+          <option value="6months">6 months</option>
+          <option value="2years">2 years</option>
         </select>
       </label>
     </div>
