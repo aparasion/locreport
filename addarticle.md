@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Manual Article
-permalink: /manform/article/
+permalink: /addarticle
 description: Private LocReport tool for creating a post from pasted article text.
 robots: "noindex, nofollow, noarchive, noimageindex"
 sitemap: false

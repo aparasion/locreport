@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Add Event
-permalink: /manform/event/
+permalink: /addevent
 description: Private LocReport tool for manually adding events to the events calendar.
 robots: "noindex, nofollow, noarchive, noimageindex"
 sitemap: false
