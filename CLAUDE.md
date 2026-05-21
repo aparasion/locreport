@@ -33,6 +33,10 @@ LocReport is an AI-assisted news aggregation and analysis platform for the langu
 
 ---
 
+## CSS
+
+Edit `assets/css/style.css` directly. There is no `style.min.css` — the layout loads `style.css` and GitHub Pages handles compression via gzip. Do not create or commit a `style.min.css`.
+
 ## Local Development
 
 ### Jekyll site
