@@ -121,7 +121,7 @@ research_implications:
 
 {gist}
 
-Source: [{safe_source_label}]({safe_source_url})"""
+Sources: [{safe_source_label}]({safe_source_url})"""
     else:
         intelligence = generate_intelligence(title, gist, text[:15000])
         signal_ids, signal_stance, signal_confidence = infer_signal_tags(title, gist)
@@ -138,15 +138,16 @@ Source: [{safe_source_label}]({safe_source_url})"""
                     f"[{signal_title}](/intelligence/signals/#{signal_ids[0]})*\n"
                 )
 
-        # Additional source attribution lines
-        extra_source_lines = ""
+        # Build comma-separated sources list
+        all_source_parts = [f"[{yaml_escape(safe_source_label)}]({safe_source_url})"]
         for i, extra_url in enumerate(extra_urls or []):
             extra_url = extra_url.strip()
             if extra_url:
                 extra_domain = get_publisher_domain(extra_url)
                 name = (extra_source_names or [])[i].strip() if i < len(extra_source_names or []) else ""
                 label = name or extra_domain
-                extra_source_lines += f"\nAdditional source: [{yaml_escape(label)}]({extra_url})"
+                all_source_parts.append(f"[{yaml_escape(label)}]({extra_url})")
+        sources_line = "Sources: " + ", ".join(all_source_parts)
 
         tags_yaml = ", ".join(build_tags("industry", signal_ids))
         implications_yaml = "\n".join(
@@ -175,7 +176,7 @@ business_implications:
 
 {gist}
 {signal_ref}
-Source: [{safe_source_label}]({safe_source_url}){extra_source_lines}
+{sources_line}
 """
 
     os.makedirs("_posts", exist_ok=True)
