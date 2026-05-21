@@ -34,6 +34,7 @@ no_share: true
         Start date
         <input type="date" id="f-start-date" name="start_date" required>
       </label>
+      <br />
       <label>
         End date <span style="font-weight:400">(optional)</span>
         <input type="date" id="f-end-date" name="end_date">
@@ -69,6 +70,7 @@ no_share: true
         <input type="text" id="f-location" name="location" placeholder="e.g. Dublin, Ireland — or leave blank for Online">
         <span class="field-hint">Defaults to "Online" for virtual events or "TBC" otherwise.</span>
       </label>
+      <br />
       <label>
         Category
         <select id="f-category" name="category" required>
