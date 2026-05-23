@@ -318,6 +318,23 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@500;600;700;800;900&display=swap" rel="stylesheet">
   <meta name="google-adsense-account" content="ca-pub-4411470587763033">
+
+  <!-- Supabase JS SDK v2 -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script>
+  (function () {
+    var url = '{{ site.supabase_url }}';
+    var key = '{{ site.supabase_anon_key }}';
+    if (!url || url === 'https://YOUR_PROJECT_REF.supabase.co') return;
+    window._supabase = supabase.createClient(url, key, {
+      auth: {
+        storageKey: 'sb-locreport-auth',
+        autoRefreshToken: true,
+        persistSession: true
+      }
+    });
+  })();
+  </script>
 </head>
 
 <body>
@@ -380,10 +397,114 @@
   </div>
 
 <script>
+// ── Supabase Auth Session Manager ─────────────────────────────────────────────
+(function () {
+  var sb = window._supabase;
+  if (!sb) return;
+
+  window.LocAuth = { user: null, plan: 'free', ready: false, _listeners: [] };
+
+  function setCookie(name, value, days) {
+    var d = new Date();
+    d.setTime(d.getTime() + days * 24 * 60 * 60 * 1000);
+    document.cookie = name + '=' + encodeURIComponent(value) +
+      '; expires=' + d.toUTCString() + '; path=/; SameSite=Strict; Secure';
+  }
+
+  function deleteCookie(name) {
+    document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; SameSite=Strict; Secure';
+  }
+
+  function updateNav(user) {
+    var signedOut = document.getElementById('nav-auth-signed-out');
+    var signedIn  = document.getElementById('nav-auth-signed-in');
+    var emailEl   = document.getElementById('nav-auth-email');
+    if (user) {
+      if (signedOut) signedOut.style.display = 'none';
+      if (signedIn)  signedIn.style.display  = '';
+      if (emailEl)   emailEl.textContent = user.email;
+    } else {
+      if (signedOut) signedOut.style.display = '';
+      if (signedIn)  signedIn.style.display  = 'none';
+    }
+  }
+
+  async function initAuth() {
+    try {
+      var result  = await sb.auth.getSession();
+      var session = result.data && result.data.session;
+
+      if (session) {
+        setCookie('sb-access-token', session.access_token, 1);
+        window.LocAuth.user = session.user;
+        var profile = await sb.from('profiles').select('plan').eq('id', session.user.id).single();
+        window.LocAuth.plan = (profile.data && profile.data.plan) || 'free';
+      } else {
+        deleteCookie('sb-access-token');
+      }
+    } catch (e) {
+      deleteCookie('sb-access-token');
+    }
+
+    window.LocAuth.ready = true;
+    updateNav(window.LocAuth.user);
+    window.LocAuth._listeners.forEach(function (fn) { fn(window.LocAuth.user, window.LocAuth.plan); });
+  }
+
+  sb.auth.onAuthStateChange(function (event, session) {
+    if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
+      if (session) setCookie('sb-access-token', session.access_token, 1);
+    }
+    if (event === 'SIGNED_OUT') {
+      deleteCookie('sb-access-token');
+      window.LocAuth.user = null;
+      window.LocAuth.plan = 'free';
+      updateNav(null);
+    }
+  });
+
+  initAuth();
+})();
+
 document.addEventListener("DOMContentLoaded", function () {
   var root = document.documentElement;
   var scrollTopButton = document.getElementById("scroll-top-button");
   var topicFilterPanels = document.querySelectorAll(".topic-filter-panel");
+
+  // ── Auth: nav user menu toggle + sign-out ───────────────
+  (function () {
+    var userBtn    = document.getElementById('nav-user-btn');
+    var userMenu   = document.getElementById('nav-user-menu');
+    var signOutBtn = document.getElementById('nav-signout-btn');
+
+    if (userBtn && userMenu) {
+      userBtn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var open = userMenu.classList.toggle('is-open');
+        userBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+      document.addEventListener('click', function () {
+        userMenu.classList.remove('is-open');
+        userBtn.setAttribute('aria-expanded', 'false');
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') {
+          userMenu.classList.remove('is-open');
+          userBtn.setAttribute('aria-expanded', 'false');
+        }
+      });
+    }
+
+    if (signOutBtn) {
+      signOutBtn.addEventListener('click', function () {
+        if (window._supabase) {
+          window._supabase.auth.signOut().then(function () {
+            window.location.href = '/';
+          });
+        }
+      });
+    }
+  })();
 
   // ── Theme toggle ─────────────────────────────────────────
   var themeToggle = document.getElementById("theme-toggle");

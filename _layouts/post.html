@@ -37,10 +37,28 @@ layout: default
     <p class="post-meta">
       {% if page.author %}<span class="post-author">{{ page.author }}</span> · {% endif %}{{ page.date | date: "%B %d, %Y" }}<span class="read-time"> · {{ read_minutes }} min read</span>
     </p>
-    {% unless page.no_share %}
-    {% include social-share.html as_dropdown=true %}
-    {% endunless %}
+    <div class="post-meta-actions">
+      {% unless page.no_share %}
+      {% include social-share.html as_dropdown=true %}
+      {% endunless %}
+      <button class="bookmark-btn" id="post-bookmark-btn" data-url="{{ page.url }}" data-title="{{ page.title | escape }}" type="button" aria-label="Bookmark this article">
+        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+        <span id="bookmark-label">Bookmark</span>
+      </button>
+    </div>
   </div>
+
+  {% if page.premium %}
+  <div class="premium-gate" id="premium-gate">
+    <div class="premium-gate__icon">
+      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+    </div>
+    <h2 class="premium-gate__title">Premium Report</h2>
+    <p class="premium-gate__desc">This monthly intelligence report is available to premium subscribers.</p>
+    <a href="/login/?next={{ page.url | url_encode }}" class="btn btn--primary">Sign in to read</a>
+    <p class="premium-gate__hint">Already a member? <a href="/login/">Sign in here</a></p>
+  </div>
+  {% endif %}
 
   {% if page.signal_ids and page.signal_ids.size > 0 %}
   <p class="signal-context">
@@ -193,3 +211,56 @@ layout: default
   {% endif %}
 
 </article>
+
+<script>
+(function () {
+  var btn = document.getElementById('post-bookmark-btn');
+  if (!btn) return;
+  var articleUrl   = btn.getAttribute('data-url');
+  var articleTitle = btn.getAttribute('data-title');
+  var label        = document.getElementById('bookmark-label');
+
+  function waitForAuth(cb) {
+    if (window.LocAuth && window.LocAuth.ready) { cb(); return; }
+    var t = setInterval(function () {
+      if (window.LocAuth && window.LocAuth.ready) { clearInterval(t); cb(); }
+    }, 50);
+  }
+
+  waitForAuth(function () {
+    var sb   = window._supabase;
+    var user = window.LocAuth && window.LocAuth.user;
+
+    if (!user || !sb) {
+      btn.addEventListener('click', function () {
+        window.location.href = '/login/?next=' + encodeURIComponent(window.location.pathname);
+      });
+      return;
+    }
+
+    sb.from('bookmarks')
+      .select('id')
+      .eq('user_id', user.id)
+      .eq('article_url', articleUrl)
+      .maybeSingle()
+      .then(function (result) {
+        var saved = !!(result.data);
+        btn.classList.toggle('is-saved', saved);
+        if (label) label.textContent = saved ? 'Saved' : 'Bookmark';
+      });
+
+    btn.addEventListener('click', function () {
+      var saved = btn.classList.contains('is-saved');
+      if (saved) {
+        sb.from('bookmarks').delete()
+          .eq('user_id', user.id).eq('article_url', articleUrl)
+          .then(function () { btn.classList.remove('is-saved'); if (label) label.textContent = 'Bookmark'; });
+      } else {
+        sb.from('bookmarks')
+          .insert({ user_id: user.id, article_url: articleUrl, article_title: articleTitle })
+          .then(function () { btn.classList.add('is-saved'); if (label) label.textContent = 'Saved'; });
+      }
+    });
+  });
+})();
+</script>

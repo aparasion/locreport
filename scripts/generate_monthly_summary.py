@@ -273,6 +273,8 @@ author: "LocReport Industry Desk"
 excerpt: \"{safe_excerpt}.\"
 period: \"{period}\"
 source_count: {article_count}
+premium: true
+robots: "noindex, nofollow"
 ---
 
 {content}

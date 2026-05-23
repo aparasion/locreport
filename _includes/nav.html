@@ -64,6 +64,27 @@
     </div>
     <div class="search-inline-dropdown" id="search-inline-dropdown" role="listbox"></div>
   </div>
+  <!-- Auth: signed-out state -->
+  <div id="nav-auth-signed-out" class="nav-auth">
+    <a href="/login/" class="btn btn--sm nav-auth-signin">Sign in</a>
+  </div>
+
+  <!-- Auth: signed-in state (hidden until session confirmed) -->
+  <div id="nav-auth-signed-in" class="nav-auth nav-auth--user" style="display:none">
+    <div class="nav-has-dropdown nav-user-menu" id="nav-user-menu">
+      <button class="nav-user-btn" id="nav-user-btn" type="button" aria-expanded="false" aria-haspopup="true">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="15" height="15" aria-hidden="true"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
+        <span id="nav-auth-email" class="nav-user-email"></span>
+        <svg class="nav-dropdown-chevron" xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <ul class="nav-dropdown-menu" role="menu">
+        <li role="none"><a href="/dashboard/" role="menuitem">Dashboard</a></li>
+        <li role="none"><a href="/account/" role="menuitem">Account</a></li>
+        <li role="none"><button id="nav-signout-btn" class="nav-user-signout-btn" role="menuitem" type="button">Sign out</button></li>
+      </ul>
+    </div>
+  </div>
+
   <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
     <svg class="theme-icon theme-icon--light" id="icon-sun" xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
     <svg class="theme-icon theme-icon--dark" id="icon-moon" xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
