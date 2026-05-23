@@ -56,24 +56,61 @@ layout: default
       (function () {
         var btn = document.querySelector('[data-signal-page-watch="{{ signal.id }}"]');
         if (!btn) return;
-        var KEY = "locreport-watched";
-        function getList() { try { return JSON.parse(localStorage.getItem(KEY) || "[]"); } catch (e) { return []; } }
-        function setList(l) { localStorage.setItem(KEY, JSON.stringify(l)); }
-        function render() {
-          var list = getList();
-          var on = list.indexOf("{{ signal.id }}") !== -1;
+        var SIGNAL_ID = "{{ signal.id }}";
+        var LS_KEY = "locreport-watched";
+
+        function getLocalList() { try { return JSON.parse(localStorage.getItem(LS_KEY) || "[]"); } catch (e) { return []; } }
+
+        function render(on) {
           btn.querySelector(".signal-page__watch-icon").textContent = on ? "★" : "☆";
           btn.querySelector(".signal-page__watch-label").textContent = on ? "Watching" : "Watch this signal";
           btn.classList.toggle("is-watched", on);
         }
-        btn.addEventListener("click", function () {
-          var list = getList();
-          var idx = list.indexOf("{{ signal.id }}");
-          if (idx === -1) list.push("{{ signal.id }}"); else list.splice(idx, 1);
-          setList(list);
-          render();
+
+        function waitForAuth(cb) {
+          if (window.LocAuth && window.LocAuth.ready) { cb(); return; }
+          var t = setInterval(function () {
+            if (window.LocAuth && window.LocAuth.ready) { clearInterval(t); cb(); }
+          }, 50);
+        }
+
+        waitForAuth(function () {
+          var sb   = window._supabase;
+          var user = window.LocAuth && window.LocAuth.user;
+
+          if (user && sb) {
+            // Authenticated: use Supabase DB
+            sb.from('watched_signals')
+              .select('id')
+              .eq('user_id', user.id)
+              .eq('signal_id', SIGNAL_ID)
+              .maybeSingle()
+              .then(function (result) { render(!!(result.data)); });
+
+            btn.addEventListener('click', function () {
+              var on = btn.classList.contains('is-watched');
+              if (on) {
+                sb.from('watched_signals').delete()
+                  .eq('user_id', user.id).eq('signal_id', SIGNAL_ID)
+                  .then(function () { render(false); });
+              } else {
+                sb.from('watched_signals')
+                  .insert({ user_id: user.id, signal_id: SIGNAL_ID })
+                  .then(function () { render(true); });
+              }
+            });
+          } else {
+            // Unauthenticated: fall back to localStorage
+            render(getLocalList().indexOf(SIGNAL_ID) !== -1);
+            btn.addEventListener('click', function () {
+              var list = getLocalList();
+              var idx  = list.indexOf(SIGNAL_ID);
+              if (idx === -1) list.push(SIGNAL_ID); else list.splice(idx, 1);
+              localStorage.setItem(LS_KEY, JSON.stringify(list));
+              render(list.indexOf(SIGNAL_ID) !== -1);
+            });
+          }
         });
-        render();
       })();
       </script>
     </header>

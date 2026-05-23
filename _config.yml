@@ -20,3 +20,6 @@ future: true
 
 plugins:
   - jekyll-redirect-from
+
+supabase_url: "https://YOUR_PROJECT_REF.supabase.co"
+supabase_anon_key: "YOUR_SUPABASE_ANON_KEY"
