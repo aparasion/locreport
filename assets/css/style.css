@@ -5091,7 +5091,7 @@ article.page > h1 {
 .bmc-float {
   position: fixed;
   bottom: var(--space-6);
-  right: calc(var(--space-6) + 44px + 8px);
+  left: var(--space-6);
   z-index: 9000;
   display: inline-flex;
   align-items: center;
