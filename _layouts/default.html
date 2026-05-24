@@ -1314,6 +1314,15 @@ document.addEventListener("DOMContentLoaded", function () {
       dropdown.appendChild(footer);
     }
   })();
+
+  // ── Support / Buy Me a Coffee button ────────────────────────────────────────
+  var _sfBtn = document.querySelector('.support-float');
+  if (_sfBtn) {
+    _sfBtn.addEventListener('click', function (e) {
+      e.preventDefault();
+      window.open('https://www.buymeacoffee.com/locreport', '_blank', 'noopener,noreferrer');
+    });
+  }
 });
 </script>
 
