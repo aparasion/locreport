@@ -345,9 +345,9 @@ article.page:has(.dir-grid) { max-width: var(--site-max-width); overflow-x: hidd
   color: var(--text);
 }
 .theme-icon { display: none; }
-:root .theme-icon--light, [data-theme="light"] .theme-icon--light { display: block; }
-[data-theme="dark"] .theme-icon--light { display: none; }
-[data-theme="dark"] .theme-icon--dark { display: block; }
+:root .theme-icon--dark, [data-theme="light"] .theme-icon--dark { display: block; }
+[data-theme="dark"] .theme-icon--dark { display: none; }
+[data-theme="dark"] .theme-icon--light { display: block; }
 
 /* ── Inline Search ─────────────────────────────────────── */
 .search-inline {
