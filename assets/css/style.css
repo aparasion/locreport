@@ -5090,8 +5090,8 @@ article.page > h1 {
 /* ── Buy Me a Coffee floating button ─────────────────────────────────────── */
 .bmc-float {
   position: fixed;
-  bottom: 20px;
-  right: 20px;
+  bottom: calc(var(--space-6) + 44px + 10px);
+  right: var(--space-6);
   z-index: 9000;
   display: inline-flex;
   align-items: center;
