@@ -20,6 +20,3 @@ future: true
 
 plugins:
   - jekyll-redirect-from
-
-supabase_url: "https://abarpcgwerdavlgubmqj.supabase.co"
-supabase_anon_key: "sb_publishable_zNYwWy0_cwNcpBi8dNmIfA_rkeZiJNG"
