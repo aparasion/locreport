@@ -88,3 +88,21 @@
   openrouter_id: meta-llama/llama-3.3-70b-instruct
   last_updated: '2026-05-25'
   notes: Open-weight model via Together AI / Groq; competitive pricing
+- id: deepseek-v3
+  name: DeepSeek V3
+  provider: DeepSeek
+  input_cost_per_1m: 0.27
+  output_cost_per_1m: 1.10
+  context_window: 128000
+  openrouter_id: deepseek/deepseek-chat-v3-5
+  last_updated: '2026-05-26'
+  notes: Cost-effective flagship model with strong multilingual and CJK performance
+- id: deepseek-r1
+  name: DeepSeek R1
+  provider: DeepSeek
+  input_cost_per_1m: 0.55
+  output_cost_per_1m: 2.19
+  context_window: 128000
+  openrouter_id: deepseek/deepseek-r1
+  last_updated: '2026-05-26'
+  notes: Reasoning model; suited to complex or specialised translation requiring deep analysis
