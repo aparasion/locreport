@@ -5,7 +5,7 @@ permalink: /tools/llm-pricing/
 nav: false
 nav_parent: "Tools"
 nav_order: 2.31
-description: "Estimate and compare API costs for using major LLMs in your translation program. Simulate monthly spend across GPT-4o, Claude, Gemini, and more."
+description: "Estimate and compare API costs for using major LLMs in your translation program. Simulate monthly spend across GPT-4o, Claude, Gemini, DeepSeek, and more."
 ---
 
 <section class="all-articles-hero" style="padding-bottom: var(--space-3);">
@@ -481,7 +481,8 @@ description: "Estimate and compare API costs for using major LLMs in your transl
     'OpenAI':         { bg: '#10a37f22', text: '#0d8c6a' },
     'Anthropic':      { bg: '#d4622222', text: '#b84d16' },
     'Google':         { bg: '#1a73e822', text: '#1a73e8' },
-    'Meta (via API)': { bg: '#1877f222', text: '#1877f2' }
+    'Meta (via API)': { bg: '#1877f222', text: '#1877f2' },
+    'DeepSeek':       { bg: '#4d6bfe22', text: '#3d55e0' }
   };
 
   var PRESETS = {
