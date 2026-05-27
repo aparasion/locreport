@@ -1,14 +1,45 @@
 # Internal link keywords — maps industry terms to internal pages.
 # The JS in default.html converts the first occurrence of each term
-# into an <a> link inside .post-content. Max 3 links per article.
+# into an <a> link inside .post-content. Max 5 links per article.
+# Priority order (enforced by JS): signals → events → LLM costs → topics.
 
-# Generic signal tracker links (keep pointing to /signals/)
+# ── Events — deep links to specific event cards on /events/ ──────────────
+- term: "SlatorCon London"
+  url: "/events/#event-card-slatorcon-london"
+- term: "LocWorld55"
+  url: "/events/#event-card-locworld55"
+- term: "EAMT 2026"
+  url: "/events/#event-card-eamt-2026"
+- term: "SlatorCon San Francisco"
+  url: "/events/#event-card-slatorcon"
+- term: "LocWorld56"
+  url: "/events/#event-card-locworld56"
+- term: "ATA67"
+  url: "/events/#event-card-ata67"
+- term: "SlatorCon"
+  url: "/events/"
+- term: "LocWorld"
+  url: "/events/"
+
+# ── LLM / AI translation cost tool ───────────────────────────────────────
+- term: "LLM translation cost"
+  url: "/tools/llm-pricing/"
+- term: "AI translation cost"
+  url: "/tools/llm-pricing/"
+- term: "cost per token"
+  url: "/tools/llm-pricing/"
+- term: "translation API cost"
+  url: "/tools/llm-pricing/"
+- term: "LLM pricing"
+  url: "/tools/llm-pricing/"
+
+# ── Generic signal tracker links ──────────────────────────────────────────
 - term: "signal tracker"
   url: "/intelligence/signals/"
 - term: "localization signals"
   url: "/intelligence/signals/"
 
-# Quality topic
+# ── Quality topic ─────────────────────────────────────────────────────────
 - term: "quality evaluation"
   url: "/topics/quality/"
 - term: "MQM"
@@ -16,7 +47,7 @@
 - term: "human-in-the-loop"
   url: "/topics/quality/"
 
-# Operations topic
+# ── Operations topic ──────────────────────────────────────────────────────
 - term: "translation memory"
   url: "/topics/operations/"
 - term: "agentic localization"
@@ -26,7 +57,7 @@
 - term: "multimodal localization"
   url: "/topics/operations/"
 
-# Governance topic
+# ── Governance topic ──────────────────────────────────────────────────────
 - term: "AI governance"
   url: "/topics/governance/"
 - term: "regulatory fragmentation"
@@ -34,17 +65,15 @@
 - term: "EU AI Act"
   url: "/topics/governance/"
 
-# Market topic
+# ── Market topic ──────────────────────────────────────────────────────────
 - term: "post-editing"
   url: "/topics/market/"
 - term: "MTPE"
   url: "/topics/market/"
 
-# Strategy topic
+# ── Strategy topic ────────────────────────────────────────────────────────
 - term: "localization-first"
   url: "/topics/strategy/"
-
-# Strategy topic
 - term: "transcreation"
   url: "/topics/strategy/"
 - term: "internationalization"
@@ -56,7 +85,7 @@
 - term: "global content strategy"
   url: "/topics/strategy/"
 
-# Quality topic (additional)
+# ── Quality topic (additional) ────────────────────────────────────────────
 - term: "machine translation"
   url: "/topics/quality/"
 - term: "AI translation"
@@ -68,7 +97,7 @@
 - term: "NMT"
   url: "/topics/quality/"
 
-# Operations topic (additional)
+# ── Operations topic (additional) ─────────────────────────────────────────
 - term: "TMS"
   url: "/topics/operations/"
 - term: "localization platform"
@@ -82,11 +111,11 @@
 - term: "localization workflow"
   url: "/topics/operations/"
 
-# Market topic (additional)
+# ── Market topic (additional) ─────────────────────────────────────────────
 - term: "language service provider"
   url: "/topics/market/"
 
-# Other internal pages
+# ── Other internal pages ──────────────────────────────────────────────────
 - term: "monthly report"
   url: "/reports/monthly/"
 - term: "monthly summary"
