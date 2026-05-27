@@ -557,6 +557,13 @@ SIGNAL_KEYWORDS = {
         "content design", "global content strategy",
         "source content quality", "locale-ready",
     ],
+    # category: market
+    "lsp-relevance-erosion": [
+        "boutique LSP", "mid-tier LSP", "LSP consolidation",
+        "direct-to-AI", "bypass LSP", "LSP relevance",
+        "language service provider consolidation", "LSP market share",
+        "mega-LSP",
+    ],
 }
 
 
@@ -578,6 +585,55 @@ AUTHOR_BY_TYPE = {
     "theory": "LocReport Research Desk",
     "manual": "LocReport Editorial Desk",
 }
+
+# Build-time link injection: event names and LLM cost phrases get markdown
+# links injected directly into the gist body at post-generation time.
+# Max 2 injections per post; one link per destination URL.
+_BUILTIN_LINK_PATTERNS = [
+    (re.compile(r'\bSlatorCon\s+London\b', re.IGNORECASE), "/events/#event-card-slatorcon-london"),
+    (re.compile(r'\bLocWorld55\b', re.IGNORECASE), "/events/#event-card-locworld55"),
+    (re.compile(r'\bEAMT\s+2026\b', re.IGNORECASE), "/events/#event-card-eamt-2026"),
+    (re.compile(r'\bSlatorCon\s+San\s+Francisco\b', re.IGNORECASE), "/events/#event-card-slatorcon"),
+    (re.compile(r'\bLocWorld56\b', re.IGNORECASE), "/events/#event-card-locworld56"),
+    (re.compile(r'\bATA67\b', re.IGNORECASE), "/events/#event-card-ata67"),
+    (re.compile(r'\bLLM\s+translation\s+costs?\b', re.IGNORECASE), "/tools/llm-pricing/"),
+    (re.compile(r'\bAI\s+translation\s+costs?\b', re.IGNORECASE), "/tools/llm-pricing/"),
+    (re.compile(r'\bcost\s+per\s+token\b', re.IGNORECASE), "/tools/llm-pricing/"),
+    (re.compile(r'\btranslation\s+API\s+costs?\b', re.IGNORECASE), "/tools/llm-pricing/"),
+]
+_MAX_BUILTIN_LINKS = 2
+
+
+def inject_builtin_links(body: str) -> str:
+    """Inject markdown links for event names and LLM cost terms in a gist body.
+
+    Skips text already inside a markdown link or inline code span.
+    Injects at most _MAX_BUILTIN_LINKS links and one link per destination URL.
+    """
+    injected = 0
+    used_urls: set = set()
+
+    for pattern, url in _BUILTIN_LINK_PATTERNS:
+        if injected >= _MAX_BUILTIN_LINKS:
+            break
+        if url in used_urls:
+            continue
+
+        match = pattern.search(body)
+        if not match:
+            continue
+
+        before = body[:match.start()]
+        # Skip if inside an existing markdown link label or inline code span
+        if before.count('[') > before.count(']') or before.count('`') % 2 == 1:
+            continue
+
+        matched_text = match.group(0)
+        body = body[:match.start()] + f"[{matched_text}]({url})" + body[match.end():]
+        used_urls.add(url)
+        injected += 1
+
+    return body
 
 
 def pick_author(seed: str, article_type: str = "industry") -> str:
@@ -1134,6 +1190,8 @@ def main() -> None:
                 print(f"OpenAI API error for {url}: {e}")
                 gist = "Summary generation failed due to API error.\n\nRead the full article below."
 
+            gist = inject_builtin_links(gist)
+
             if "published_parsed" in entry and entry.published_parsed:
                 pub_dt = datetime.datetime(*entry.published_parsed[:6], tzinfo=datetime.timezone.utc)
             else:
@@ -1210,7 +1268,7 @@ Source: [{safe_publisher}]({safe_source_url})"""
                     if signal_title:
                         signal_ref = (
                             f"\n*LocReport tracks this as an industry signal: "
-                            f"[{signal_title}](/signals/#{first_signal})*\n"
+                            f"[{signal_title}](/intelligence/signals/{first_signal}/)*\n"
                         )
 
                 impact_score = intelligence["impact_score"]
