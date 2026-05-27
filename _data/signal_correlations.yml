@@ -16,12 +16,8 @@ correlations:
     signal_b: quality-gap-closure
     co_occurrences: 4
     strength: moderate
-  - signal_a: localization-operating-system
-    signal_b: measurable-quality-evaluation
-    co_occurrences: 2
-    strength: weak
   - signal_a: governance-in-ai-workflows
-    signal_b: measurable-quality-evaluation
+    signal_b: regulatory-fragmentation
     co_occurrences: 2
     strength: weak
   - signal_a: localization-operating-system
@@ -29,15 +25,19 @@ correlations:
     co_occurrences: 2
     strength: weak
   - signal_a: governance-in-ai-workflows
-    signal_b: regulatory-fragmentation
+    signal_b: measurable-quality-evaluation
     co_occurrences: 2
     strength: weak
-  - signal_a: agentic-localization-workflows
-    signal_b: governance-in-ai-workflows
-    co_occurrences: 1
+  - signal_a: localization-operating-system
+    signal_b: measurable-quality-evaluation
+    co_occurrences: 2
     strength: weak
   - signal_a: lsp-relevance-erosion
     signal_b: quality-gap-closure
+    co_occurrences: 1
+    strength: weak
+  - signal_a: agentic-localization-workflows
+    signal_b: governance-in-ai-workflows
     co_occurrences: 1
     strength: weak
   - signal_a: localization-operating-system
