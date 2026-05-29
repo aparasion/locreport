@@ -888,6 +888,8 @@ Tone and style:
 • Avoid corporate jargon and filler phrases ("in a world where...", "it's worth noting that...").
 • No speculation beyond what the source explicitly supports.
 
+SOURCE ATTRIBUTION RULE: Weave the source attribution naturally into the body of the article — never add a "Source:" or "Sources:" line at the end. Use varied phrasing that fits the tone and the nature of the information. Good options include: "As [Source Name] points out,", "In a recent breakdown by [Source Name],", "A report from [Source Name] reveals that...", "New data from [Source Name] shows...", "[Source Name] argues that...", "Writing for [Source Name], [author] highlights...". Link the source name or a specific asset (report title, benchmark name) using Markdown: [Source Name](url). Never use raw URLs, "click here", or "source" as anchor text. Match the weight of the phrase to the nature of the information — use "data compiled by" or "found that" for hard figures; "points out" or "argues" for opinion or expert perspective.
+
 If the provided text is mostly cookie/privacy/legal notices rather than article content, respond exactly with: UNUSABLE_CONTENT"""
 
 THEORY_GIST_SYSTEM_PROMPT = """You are a science writer for LocReport's research section, summarizing linguistic \
@@ -919,14 +921,38 @@ Tone and style:
 • No business framing, no market language, no industry impact.
 • The narrative should make a language researcher or NLP practitioner curious enough to read the full paper.
 
+SOURCE ATTRIBUTION RULE: Weave the source attribution naturally into the body of the summary — never add a "Source:" or "Sources:" line at the end. Use varied phrasing that fits the scholarly tone. Good options include: "A comprehensive study from [Source Name] examines...", "In a recent paper published in [Journal Name],", "New research from [Source Name] reveals that...", "A [Journal Name] study finds that...". Link the journal name, paper title, or publication using Markdown: [Journal Name](url). Never use raw URLs, "click here", or "source" as anchor text.
+
 If the provided text is mostly cookie/privacy/legal notices rather than article content, respond exactly with: UNUSABLE_CONTENT"""
 
-def generate_gist(title: str, text: str, article_type: str, prompt_addition: str = "") -> str:
+def generate_gist(
+    title: str,
+    text: str,
+    article_type: str,
+    prompt_addition: str = "",
+    source_name: str = "",
+    source_url: str = "",
+    extra_sources: list[tuple[str, str]] | None = None,
+) -> str:
     """Generate a LocReport article analysis using the same prompt for RSS and manual inputs."""
+    # Build source context line(s) for the prompt
+    source_lines = []
+    if source_name and source_url:
+        source_lines.append(f"Primary source: {source_name} — {source_url}")
+    elif source_url:
+        source_lines.append(f"Primary source URL: {source_url}")
+    for s_name, s_url in (extra_sources or []):
+        if s_name and s_url:
+            source_lines.append(f"Additional source: {s_name} — {s_url}")
+        elif s_url:
+            source_lines.append(f"Additional source URL: {s_url}")
+    source_context = ("\n".join(source_lines) + "\n\n") if source_lines else ""
+
     if article_type == "theory":
         prompt = (
             "Write a substantive research summary (350–480 words).\n"
             "Frame it for linguists, NLP practitioners, and language science researchers.\n\n"
+            f"{source_context}"
             f"Article text:\n{text[:15000]}"
         )
         gist_system_prompt = THEORY_GIST_SYSTEM_PROMPT
@@ -934,6 +960,7 @@ def generate_gist(title: str, text: str, article_type: str, prompt_addition: str
         prompt = (
             "Write a substantive editorial analysis (380–520 words).\n"
             "Frame it for localization managers, language technology leaders, and enterprise language buyers.\n\n"
+            f"{source_context}"
             f"Article text:\n{text[:15000]}"
         )
         gist_system_prompt = INDUSTRY_GIST_SYSTEM_PROMPT
@@ -1182,7 +1209,7 @@ def main() -> None:
                 continue
 
             try:
-                gist = generate_gist(entry.title, text, article_type)
+                gist = generate_gist(entry.title, text, article_type, source_name=publisher, source_url=url)
                 if gist == "UNUSABLE_CONTENT":
                     print(f"Skipping unusable generated content for {url}")
                     continue
@@ -1252,8 +1279,7 @@ research_implications:
 ---
 
 {gist}
-
-Source: [{safe_publisher}]({safe_source_url})"""
+"""
 
             else:
                 # ── Industry intelligence and front matter ──
@@ -1303,7 +1329,6 @@ business_implications:
 
 {gist}
 {signal_ref}
-Source: [{safe_publisher}]({safe_source_url})
 """
 
             os.makedirs("_posts", exist_ok=True)

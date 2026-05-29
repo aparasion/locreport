@@ -120,8 +120,7 @@ research_implications:
 ---
 
 {gist}
-
-Sources: [{safe_source_label}]({safe_source_url})"""
+"""
     else:
         intelligence = generate_intelligence(title, gist, text[:15000])
         signal_ids, signal_stance, signal_confidence = infer_signal_tags(title, gist)
@@ -137,17 +136,6 @@ Sources: [{safe_source_label}]({safe_source_url})"""
                     f"\n*LocReport tracks this as an industry signal: "
                     f"[{signal_title}](/intelligence/signals/#{signal_ids[0]})*\n"
                 )
-
-        # Build comma-separated sources list
-        all_source_parts = [f"[{yaml_escape(safe_source_label)}]({safe_source_url})"]
-        for i, extra_url in enumerate(extra_urls or []):
-            extra_url = extra_url.strip()
-            if extra_url:
-                extra_domain = get_publisher_domain(extra_url)
-                name = (extra_source_names or [])[i].strip() if i < len(extra_source_names or []) else ""
-                label = name or extra_domain
-                all_source_parts.append(f"[{yaml_escape(label)}]({extra_url})")
-        sources_line = "Sources: " + ", ".join(all_source_parts)
 
         tags_yaml = ", ".join(build_tags("industry", signal_ids))
         implications_yaml = "\n".join(
@@ -176,7 +164,6 @@ business_implications:
 
 {gist}
 {signal_ref}
-{sources_line}
 """
 
     os.makedirs("_posts", exist_ok=True)
@@ -234,7 +221,23 @@ def main() -> None:
     publisher = get_publisher_domain(args.url)
     article_type = classify_article_type(publisher, text)
 
-    gist = generate_gist(title, text, article_type, args.prompt_addition)
+    source_label = args.source_name.strip() or publisher
+    extra_sources = []
+    for i, extra_url in enumerate(args.extra_urls):
+        extra_url = extra_url.strip()
+        if extra_url:
+            name = args.extra_source_names[i].strip() if i < len(args.extra_source_names) else ""
+            extra_sources.append((name or get_publisher_domain(extra_url), extra_url))
+
+    gist = generate_gist(
+        title,
+        text,
+        article_type,
+        args.prompt_addition,
+        source_name=source_label,
+        source_url=args.url,
+        extra_sources=extra_sources,
+    )
     if gist == "UNUSABLE_CONTENT":
         raise SystemExit("Manual article content was classified as unusable.")
 
