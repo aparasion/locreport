@@ -636,6 +636,21 @@ def inject_builtin_links(body: str) -> str:
     return body
 
 
+def ensure_source_link(body: str, source_url: str, publisher: str) -> str:
+    """Guarantee at least one external markdown link appears in the gist body.
+
+    If the body already contains any external hyperlink, returns it unchanged.
+    Otherwise appends a brief source attribution line so every article honours
+    its original source.
+    """
+    if not source_url:
+        return body
+    if re.search(r'\[.+?\]\(https?://', body):
+        return body
+    anchor = re.sub(r'^www\.', '', publisher or "the source").split(':')[0]
+    return body.rstrip() + f"\n\n*Read the original report at [{anchor}]({source_url}).*"
+
+
 def pick_author(seed: str, article_type: str = "industry") -> str:
     return AUTHOR_BY_TYPE.get(article_type, "LocReport Editorial Staff")
 
@@ -888,7 +903,7 @@ Tone and style:
 • Avoid corporate jargon and filler phrases ("in a world where...", "it's worth noting that...").
 • No speculation beyond what the source explicitly supports.
 
-SOURCE ATTRIBUTION RULE: Weave the source attribution naturally into the body of the article — never add a "Source:" or "Sources:" line at the end. Use varied phrasing that fits the tone and the nature of the information. Good options include: "As [Source Name] points out,", "In a recent breakdown by [Source Name],", "A report from [Source Name] reveals that...", "New data from [Source Name] shows...", "[Source Name] argues that...", "Writing for [Source Name], [author] highlights...". Link the source name or a specific asset (report title, benchmark name) using Markdown: [Source Name](url). Never use raw URLs, "click here", or "source" as anchor text. Match the weight of the phrase to the nature of the information — use "data compiled by" or "found that" for hard figures; "points out" or "argues" for opinion or expert perspective.
+SOURCE ATTRIBUTION RULE (MANDATORY): Every article MUST contain at least one markdown hyperlink to the original source. Weave the attribution naturally into the body — never add a standalone "Source:" line at the end. Use varied phrasing that fits the tone. Good options include: "As [Source Name] points out,", "In a recent breakdown by [Source Name],", "A report from [Source Name] reveals that...", "New data from [Source Name] shows...", "[Source Name] argues that...", "Writing for [Source Name], [author] highlights...". Link the source name or a specific asset (report title, benchmark name) using Markdown: [Source Name](url). Never use raw URLs, "click here", or "source" as anchor text. Match the weight of the phrase to the nature of the information — use "data compiled by" or "found that" for hard figures; "points out" or "argues" for opinion or expert perspective. If you reach the end of the article without having included a source link, add one in the final sentence.
 
 If the provided text is mostly cookie/privacy/legal notices rather than article content, respond exactly with: UNUSABLE_CONTENT"""
 
@@ -921,7 +936,7 @@ Tone and style:
 • No business framing, no market language, no industry impact.
 • The narrative should make a language researcher or NLP practitioner curious enough to read the full paper.
 
-SOURCE ATTRIBUTION RULE: Weave the source attribution naturally into the body of the summary — never add a "Source:" or "Sources:" line at the end. Use varied phrasing that fits the scholarly tone. Good options include: "A comprehensive study from [Source Name] examines...", "In a recent paper published in [Journal Name],", "New research from [Source Name] reveals that...", "A [Journal Name] study finds that...". Link the journal name, paper title, or publication using Markdown: [Journal Name](url). Never use raw URLs, "click here", or "source" as anchor text.
+SOURCE ATTRIBUTION RULE (MANDATORY): Every summary MUST contain at least one markdown hyperlink to the original source. Weave the attribution naturally into the body — never add a standalone "Source:" line at the end. Use varied phrasing that fits the scholarly tone. Good options include: "A comprehensive study from [Source Name] examines...", "In a recent paper published in [Journal Name],", "New research from [Source Name] reveals that...", "A [Journal Name] study finds that...". Link the journal name, paper title, or publication using Markdown: [Journal Name](url). Never use raw URLs, "click here", or "source" as anchor text. If you reach the end of the summary without having included a source link, add one in the final sentence.
 
 If the provided text is mostly cookie/privacy/legal notices rather than article content, respond exactly with: UNUSABLE_CONTENT"""
 
@@ -1218,6 +1233,7 @@ def main() -> None:
                 gist = "Summary generation failed due to API error.\n\nRead the full article below."
 
             gist = inject_builtin_links(gist)
+            gist = ensure_source_link(gist, url, publisher)
 
             if "published_parsed" in entry and entry.published_parsed:
                 pub_dt = datetime.datetime(*entry.published_parsed[:6], tzinfo=datetime.timezone.utc)
