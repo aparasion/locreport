@@ -31,3 +31,5 @@ For enterprise language buyers, the Calgary initiative illustrates a growing tre
 
 In conclusion, the use of real-time translation tools in policing not only addresses immediate communication challenges but also sets a precedent for how language technology can be leveraged in various sectors. This development is a clarion call for localization professionals to embrace innovation that meets the demands of an ever-evolving linguistic landscape.
 
+*Read the original report at [MSN](https://news.google.com/rss/articles/CBMiwwFBVV95cUxQcGk4cnMyYU1SOEw0WDlqZW4wb21yZm1JUHh4MnNuVENsS3o3cnR5eDRwVGJHTnFMMmFwVVJwUlJxRHQ3dGlNMWVYbWRheU9UVl92cllIdExKZ19paVFMUmZycml2a05wcHV5ZlNXemZDblFvVUN6RGVpVGVEUy1KZ0lNcUxWVGVvVDZOaUlkMG9BVVYybTNOYXB5Zllmd05wNks2cHdDWllmYzVPSVFfN3BWS0I3ejRwNDZYSjlPSUI0bDg?oc=5).*
+
