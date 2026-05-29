@@ -17,6 +17,8 @@ business_implications:
   - "Networking opportunities with legal professionals enhance localization service offerings."
   - "Actionable insights can improve localization workflows in legal contexts."
   - "CLE credits may attract more legal professionals to localization services."
+redirect_from:
+  - /articles/2025/10/22/legalnext-in-nyc-2025.html
 ---
 
 TransPerfect Legal is hosting LegalNEXT, a one-day conference designed for legal professionals to share knowledge and insights across three specialized tracks: Antitrust, eDiscovery, and In-House Counsel. The event emphasizes expert-led sessions that focus on practical solutions to current legal challenges, fostering a collaborative environment rather than a sales-driven atmosphere.

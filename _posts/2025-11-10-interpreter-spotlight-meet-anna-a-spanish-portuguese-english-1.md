@@ -18,6 +18,8 @@ business_implications:
   - "Highlights need for interpreters to adapt to AI and technology changes."
   - "Encourages skill development for interpreters in a changing landscape."
 author: "LocReport Industry Desk"
+redirect_from:
+  - /articles/2025/11/10/interpreter-spotlight-meet-anna-a-spanish-portuguese-english.html
 ---
 
 The recent insights shared by Anna Fabres, a seasoned interpreter with over two decades of experience, highlight the evolving landscape of the interpreting profession amidst the rapid advancements in language technology. Fabres emphasizes the challenges and opportunities that interpreters face today, particularly in the context of artificial intelligence and the increasing reliance on machine translation tools. As the localization industry grapples with these changes, her reflections serve as a critical reminder of the human element that remains indispensable in language services.

@@ -18,6 +18,8 @@ business_implications:
   - "New Crowdin Skills optimize AI agent performance for localization tasks."
   - "Crowdin Certificates app adds value to localization professionals' credentials."
 author: "LocReport Industry Desk"
+redirect_from:
+  - /articles/2026/03/02/whats-new-at-crowdin-february-2026.html
 ---
 
 Crowdin has announced a significant overhaul of its release communication strategy, introducing a new format that separates minor updates from major feature releases. This change aims to provide users with more detailed insights into the platform's evolving capabilities, ensuring that localization managers, developers, and enterprise users can stay informed about critical updates as they happen. Notably, the latest release, Crowdin CLI 4.14.0, integrates AI-driven context management directly into the localization workflow, enhancing the efficiency and accuracy of translation efforts.
