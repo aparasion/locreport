@@ -11,6 +11,8 @@ signal_ids: [multimodal-content-localization, agentic-localization-workflows]
 signal_stance: supports
 signal_confidence: high
 author: "LocReport Industry Desk"
+redirect_from:
+  - /translation/2026/03/02/voice-ai-platform-voiceline-raises-eur-10m-in-series-a.html
 ---
 
 VoiceLine, a Munich-based voice AI platform, has successfully raised EUR 10 million in a Series A funding round, led by Alstin Capital and Peak, with contributions from existing investors like Scalehouse Capital, Venture Stars, and NAP. This funding marks a significant milestone for the company, which was founded in 2020 by Nicolas Höflinger and Sebastian Pinkas. VoiceLine's innovative platform is tailored for frontline enterprise teams, enabling users to record spoken updates after customer interactions, which are then transformed into structured outputs such as visit reports and CRM entries. This development is noteworthy as it highlights the increasing importance of voice technology in enhancing productivity and streamlining workflows in enterprise environments.

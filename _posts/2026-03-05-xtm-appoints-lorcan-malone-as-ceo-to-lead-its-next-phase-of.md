@@ -11,6 +11,8 @@ signal_ids: [localization-operating-system]
 signal_stance: mentions
 signal_confidence: medium
 author: "LocReport Industry Desk"
+redirect_from:
+  - /articles/2026/03/25/xtm-appoints-lorcan-malone-as-ceo-to-lead-its-next-phase-of.html
 ---
 
 XTM International has announced the appointment of Lorcan Malone as its new Chief Executive Officer, succeeding Ian Evans, who led the company through a transformative period marked by significant growth and strategic acquisitions. Malone, with over 20 years of experience in the technology sector, is set to steer XTM into a new chapter of innovation, particularly following the launch of its AI-driven localization platform. This leadership change is noteworthy as it signals a stronger focus on leveraging AI to enhance localization processes, a critical consideration for enterprises looking to optimize their global strategies.

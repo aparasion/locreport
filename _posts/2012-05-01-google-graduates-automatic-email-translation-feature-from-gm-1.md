@@ -18,6 +18,8 @@ business_implications:
   - "Potential reevaluation of quality assurance processes in localization."
   - "Shift in client expectations regarding multilingual communication services."
 author: "LocReport Industry Desk"
+redirect_from:
+  - /translation/2012/05/01/google-graduates-automatic-email-translation-feature-from-gm.html
 ---
 
 Google's recent decision to graduate its translation feature from Gmail Labs marks a significant evolution in the integration of language technology within everyday communication tools. This transition allows users to seamlessly translate messages written in foreign languages directly within their inbox, enhancing accessibility and usability for a global audience. As localization managers and language technology leaders, it’s essential to recognize the implications of this development, not only for individual users but also for organizations that rely on effective communication across multilingual teams and client bases.

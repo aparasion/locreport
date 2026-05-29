@@ -7,6 +7,8 @@ tags: [translation, localization, news, gist]
 excerpt: "Together 2026, scheduled for February 19-20 in Porto, aims to foster collaboration and networking among attendees through a series of interactive sessions and i..."
 publisher: elia-association.org
 source_url: "https://elia-association.org/2026/01/how-to-make-the-most-of-your-time-at-together-2026/?utm_source=rss&utm_medium=rss&utm_campaign=how-to-make-the-most-of-your-time-at-together-2026"
+redirect_from:
+  - /translation/2026/01/21/how-to-make-the-most-of-your-time-at-together-2026.html
 ---
 
 Together 2026, scheduled for February 19-20 in Porto, aims to foster collaboration and networking among attendees through a series of interactive sessions and informal gatherings. The event emphasizes the importance of shared experiences, encouraging participants to engage in discussions over coffee, dinner, and city explorations.

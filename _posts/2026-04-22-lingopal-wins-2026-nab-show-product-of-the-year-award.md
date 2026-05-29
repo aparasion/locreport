@@ -19,6 +19,8 @@ business_implications:
   - "New AI technology can streamline localization workflows significantly."
   - "Enhanced accessibility may open new revenue streams for businesses."
   - "Localization professionals must adapt to integrated, automated solutions for efficiency."
+redirect_from:
+  - /articles/2026/05/13/industry-lingopal-wins-2026-nab-show-product-of-the-year-awa.html
 ---
 
 Lingopal’s recent recognition as the 2026 NAB Show Product of the Year in the Intelligent Category marks a significant milestone not just for the company but for the localization industry as a whole. Their Real-Time Live Translation technology exemplifies the potential of AI-powered solutions to transform how content is created, distributed, and consumed across linguistic boundaries. This innovation is particularly relevant for localization managers and language technology leaders, as it addresses the pressing need for efficient, high-quality translation in an increasingly globalized media landscape. With the ability to translate speech into over 100 languages with ultra-low latency while maintaining the original speaker's voice and emotional nuance, Lingopal is redefining what it means to create truly accessible content.

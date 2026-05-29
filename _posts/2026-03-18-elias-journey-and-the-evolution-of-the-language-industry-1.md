@@ -18,6 +18,8 @@ business_implications:
   - "Enhanced professional development resources available through industry associations."
   - "Insights into navigating AI and market changes for localization professionals."
 author: "LocReport Industry Desk"
+redirect_from:
+  - /articles/2026/03/18/elias-journey-and-the-evolution-of-the-language-industry.html
 ---
 
 The recent 20th anniversary of the European Language Industry Association (ELIA) serves as a pivotal moment for reflection within the localization sector, highlighting the association's evolution alongside the broader language services landscape. Key figures from ELIA’s leadership, including co-founder Roberto Ganzerli and current president Anu Carnegie-Brown, engaged in a podcast discussion that underscored the organization's foundational mission: to create a collaborative space for language service providers across Europe. This milestone not only marks ELIA's achievements but also signals the ongoing need for strategic collaboration amidst rapid technological advancements and shifting market dynamics.

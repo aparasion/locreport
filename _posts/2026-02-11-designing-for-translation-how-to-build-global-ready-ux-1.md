@@ -18,6 +18,8 @@ business_implications:
   - "Improved user experience fosters greater trust and global adoption."
   - "Emphasizing microcopy enhances user interaction and conversion rates."
 author: "LocReport Industry Desk"
+redirect_from:
+  - /articles/2026/02/11/designing-for-translation-how-to-build-global-ready-ux.html
 ---
 
 Localization is evolving from a mere afterthought to a critical component of user experience (UX) design, as highlighted by Szymon Metkowski in a recent episode of The Agile Localization Podcast. Metkowski argues that treating localization as a final step in product development leads to significant pitfalls, including broken interfaces and diminished user trust. He emphasizes that language should not be viewed as a cosmetic layer but as an integral part of how users interact with a product, directly influencing their emotional engagement and conversion rates. This shift in perspective is essential for localization managers, language technology leaders, and enterprise language buyers who are keen on optimizing user experiences across diverse markets.
