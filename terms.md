@@ -36,10 +36,6 @@ Some content on LocReport is produced with the assistance of artificial intellig
 
 LocReport provides industry news and analysis for informational purposes only. Content on the Site does not constitute professional, legal, financial, or business advice. While we aim for accuracy, we do not guarantee that all information is complete, current, or error-free. You should independently verify information before making decisions based on our content.
 
-## Newsletter and Communications
-
-By subscribing to our newsletter, you consent to receive periodic emails including weekly digests, signal alerts, and monthly reports. You may unsubscribe at any time. We will not use your email address for purposes other than delivering the content you subscribed to.
-
 ## Third-Party Links
 
 The Site contains links to external websites and sources. We are not responsible for the content, accuracy, or privacy practices of third-party sites. Inclusion of a link does not imply endorsement.

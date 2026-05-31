@@ -111,15 +111,3 @@ nav_parent: "Reports"
 {% else %}
   <p>No monthly reports have been published yet.</p>
 {% endif %}
-
-<div class="mr-newsletter-cta">
-  <div class="mr-newsletter-cta-inner">
-    <div class="mr-newsletter-icon">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-    </div>
-    <h3 class="mr-newsletter-title">Never miss a monthly report</h3>
-    <p class="mr-newsletter-desc">Get the weekly localization intelligence brief every Friday — key signals, market shifts, and strategic insights curated for leaders who need to stay ahead.</p>
-    <a href="/newsletter/" class="btn btn--primary btn--lg">Subscribe Free &rarr;</a>
-    <p class="mr-newsletter-hint">Every Friday &middot; No spam &middot; Unsubscribe anytime</p>
-  </div>
-</div>
