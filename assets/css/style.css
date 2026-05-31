@@ -2731,16 +2731,16 @@ article.page > h1 {
   .site-nav > #site-menu {
     display: none;
     position: fixed;
-    top: 56px;
-    left: 0;
-    right: 0;
+    top: 64px;
+    left: var(--page-gutter);
+    right: var(--page-gutter);
     flex-direction: column;
     align-items: stretch;
     background: var(--surface);
-    border-top: none;
-    border-bottom: 1px solid var(--border);
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
-    padding: var(--space-2) var(--page-gutter) var(--space-4);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15), 0 2px 8px rgba(0, 0, 0, 0.08);
+    padding: var(--space-3) var(--space-3) var(--space-4);
     z-index: 50;
   }
   .site-nav.is-open > #site-menu { display: flex; animation: fadeInDown 0.2s ease; }
