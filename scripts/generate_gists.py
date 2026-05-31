@@ -600,8 +600,10 @@ _BUILTIN_LINK_PATTERNS = [
     (re.compile(r'\bAI\s+translation\s+costs?\b', re.IGNORECASE), "/tools/llm-pricing/"),
     (re.compile(r'\bcost\s+per\s+token\b', re.IGNORECASE), "/tools/llm-pricing/"),
     (re.compile(r'\btranslation\s+API\s+costs?\b', re.IGNORECASE), "/tools/llm-pricing/"),
+    (re.compile(r'\bquality\s+evaluation\b', re.IGNORECASE), "/topics/quality/"),
+    (re.compile(r'\blocalization\s+workflow\b', re.IGNORECASE), "/topics/operations/"),
 ]
-_MAX_BUILTIN_LINKS = 2
+_MAX_BUILTIN_LINKS = 3
 
 
 def inject_builtin_links(body: str) -> str:

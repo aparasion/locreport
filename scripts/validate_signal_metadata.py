@@ -42,13 +42,30 @@ def load_signal_ids() -> set[str]:
     return ids
 
 
+def check_link_floor(path: Path, content: str) -> str | None:
+    body = content[content.find("\n---\n", 4) + 5:] if "\n---\n" in content[4:] else content
+    words = len(body.split())
+    links = len(re.findall(r'\[.+?\]\(.+?\)', body))
+    if words >= 1500 and links < 3:
+        return f"[WARN] {path}: feature article ({words}w) has only {links} build-time link(s)"
+    if words >= 800 and links < 1:
+        return f"[WARN] {path}: standard article ({words}w) has no build-time links"
+    return None
+
+
 def main() -> int:
     known_ids = load_signal_ids()
     errors = []
+    warnings = []
 
     for path in sorted(POSTS_DIR.glob("*.md")):
-        fm = parse_front_matter(path.read_text(encoding="utf-8"))
+        raw = path.read_text(encoding="utf-8")
+        fm = parse_front_matter(raw)
         signal_ids = parse_inline_list(fm.get("signal_ids", ""))
+
+        warn = check_link_floor(path, raw)
+        if warn:
+            warnings.append(warn)
         if not signal_ids:
             continue
 
@@ -63,6 +80,10 @@ def main() -> int:
         confidence = fm.get("signal_confidence", "").strip().strip('"').strip("'")
         if confidence and confidence not in ALLOWED_CONFIDENCE:
             errors.append(f"{path}: invalid signal_confidence '{confidence}'")
+
+    if warnings:
+        for w in warnings:
+            print(w)
 
     if errors:
         print("Signal metadata validation failed:")
