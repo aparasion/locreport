@@ -14,7 +14,6 @@ LocReport ("we," "us," or "our") operates the website [locreport.com](https://lo
 
 **Information you provide directly:**
 - **Contact form:** name, email address, and message content (processed via Web3Forms)
-- **Newsletter signup:** email address (managed via Buttondown)
 
 **Information collected automatically:**
 - **Analytics:** We use Google Analytics to collect anonymized usage data such as pages visited, referral sources, browser type, and approximate geographic location. Google Analytics may set cookies on your device.
@@ -23,7 +22,6 @@ LocReport ("we," "us," or "our") operates the website [locreport.com](https://lo
 ## How We Use Your Information
 
 - To respond to inquiries submitted through our contact form
-- To deliver newsletter emails you have opted into
 - To analyze site traffic and improve our content and user experience
 - We do not sell, rent, or share your personal information with third parties for marketing purposes
 
@@ -33,7 +31,6 @@ We rely on the following third-party services, each with their own privacy polic
 
 - **Google Analytics** (traffic analysis)
 - **Web3Forms** (contact form processing)
-- **Buttondown** (newsletter delivery)
 - **Buy Me a Coffee** (voluntary support)
 - **Google Fonts** (typeface delivery)
 - **GitHub Pages** (website hosting)
@@ -51,13 +48,11 @@ Some content published on LocReport is created with the assistance of artificial
 ## Data Retention
 
 - **Contact form submissions** are retained by Web3Forms according to their data retention policies.
-- **Newsletter subscriber data** is retained by Buttondown until you unsubscribe.
 - **Analytics data** is retained according to Google Analytics default settings.
 
 ## Your Rights
 
 You may:
-- **Unsubscribe** from our newsletter at any time using the link in any email
 - **Request deletion** of any personal data we hold by contacting us
 - **Disable cookies** and analytics tracking through your browser settings
 
