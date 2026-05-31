@@ -6,6 +6,11 @@ nav_order: 1
 ---
 
 <section class="hero" id="hero-section">
+  <div class="hero-bg" aria-hidden="true">
+    <span class="hero-orb hero-orb--1"></span>
+    <span class="hero-orb hero-orb--2"></span>
+    <span class="hero-orb hero-orb--3"></span>
+  </div>
   <div class="hero-slider-viewport">
   <div class="hero-slides-track" id="hero-track">
     <div class="hero-slide">
@@ -273,10 +278,15 @@ nav_order: 1
       <div class="post-grid reveal-stagger">
     {% else %}
       <article class="post-card" {% if post.affected_segments %}data-segments="{{ post.affected_segments | join: '|' }}"{% endif %}>
-        <p class="post-meta">{{ post.date | date: "%B %d, %Y" }}<span class="new-badge">NEW</span>{% if post.impact_score and post.impact_score >= 3 %}<span class="impact-dot impact-dot--{{ post.impact_score }}" title="Impact: {% if post.impact_score == 3 %}Significant{% elsif post.impact_score == 4 %}Major{% elsif post.impact_score == 5 %}Disruptive{% endif %}"></span>{% endif %}</p>
-        <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
-        <p>{{ post.excerpt | strip_html | truncate: 140 }}</p>
-        <a class="read-more" href="{{ post.url | relative_url }}">Read more &rarr;</a>
+        <div class="post-card__meta-row">
+          {% if post.publisher %}<span class="post-card__publisher">{{ post.publisher }}</span>{% endif %}
+          <span class="post-card__date">{{ post.date | date: "%b %d, %Y" }}</span>
+          <span class="new-badge">NEW</span>
+          {% if post.impact_score and post.impact_score >= 3 %}<span class="impact-dot impact-dot--{{ post.impact_score }}" title="Impact: {% if post.impact_score == 3 %}Significant{% elsif post.impact_score == 4 %}Major{% elsif post.impact_score == 5 %}Disruptive{% endif %}"></span>{% endif %}
+        </div>
+        <h2 class="post-card__title"><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
+        <p class="post-card__excerpt">{{ post.excerpt | strip_html | truncate: 160 }}</p>
+        <a class="post-card__read-more" href="{{ post.url | relative_url }}">Read more &rarr;</a>
       </article>
     {% endif %}
   {% endfor %}
@@ -302,10 +312,14 @@ nav_order: 1
       {% assign post_day = post.date | date: "%Y-%m-%d" %}
       {% if post_day != day2 %}{% continue %}{% endif %}
       <article class="post-card" {% if post.affected_segments %}data-segments="{{ post.affected_segments | join: '|' }}"{% endif %}>
-        <p class="post-meta">{{ post.date | date: "%B %d, %Y" }}{% if post.impact_score and post.impact_score >= 3 %}<span class="impact-dot impact-dot--{{ post.impact_score }}" title="Impact: {% if post.impact_score == 3 %}Significant{% elsif post.impact_score == 4 %}Major{% elsif post.impact_score == 5 %}Disruptive{% endif %}"></span>{% endif %}</p>
-        <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
-        <p>{{ post.excerpt | strip_html | truncate: 140 }}</p>
-        <a class="read-more" href="{{ post.url | relative_url }}">Read more &rarr;</a>
+        <div class="post-card__meta-row">
+          {% if post.publisher %}<span class="post-card__publisher">{{ post.publisher }}</span>{% endif %}
+          <span class="post-card__date">{{ post.date | date: "%b %d, %Y" }}</span>
+          {% if post.impact_score and post.impact_score >= 3 %}<span class="impact-dot impact-dot--{{ post.impact_score }}" title="Impact: {% if post.impact_score == 3 %}Significant{% elsif post.impact_score == 4 %}Major{% elsif post.impact_score == 5 %}Disruptive{% endif %}"></span>{% endif %}
+        </div>
+        <h2 class="post-card__title"><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
+        <p class="post-card__excerpt">{{ post.excerpt | strip_html | truncate: 160 }}</p>
+        <a class="post-card__read-more" href="{{ post.url | relative_url }}">Read more &rarr;</a>
       </article>
     {% endfor %}
   </div>
@@ -330,10 +344,14 @@ nav_order: 1
       {% assign post_day = post.date | date: "%Y-%m-%d" %}
       {% if post_day != day3 %}{% continue %}{% endif %}
       <article class="post-card" {% if post.affected_segments %}data-segments="{{ post.affected_segments | join: '|' }}"{% endif %}>
-        <p class="post-meta">{{ post.date | date: "%B %d, %Y" }}{% if post.impact_score and post.impact_score >= 3 %}<span class="impact-dot impact-dot--{{ post.impact_score }}" title="Impact: {% if post.impact_score == 3 %}Significant{% elsif post.impact_score == 4 %}Major{% elsif post.impact_score == 5 %}Disruptive{% endif %}"></span>{% endif %}</p>
-        <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
-        <p>{{ post.excerpt | strip_html | truncate: 140 }}</p>
-        <a class="read-more" href="{{ post.url | relative_url }}">Read more &rarr;</a>
+        <div class="post-card__meta-row">
+          {% if post.publisher %}<span class="post-card__publisher">{{ post.publisher }}</span>{% endif %}
+          <span class="post-card__date">{{ post.date | date: "%b %d, %Y" }}</span>
+          {% if post.impact_score and post.impact_score >= 3 %}<span class="impact-dot impact-dot--{{ post.impact_score }}" title="Impact: {% if post.impact_score == 3 %}Significant{% elsif post.impact_score == 4 %}Major{% elsif post.impact_score == 5 %}Disruptive{% endif %}"></span>{% endif %}
+        </div>
+        <h2 class="post-card__title"><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
+        <p class="post-card__excerpt">{{ post.excerpt | strip_html | truncate: 160 }}</p>
+        <a class="post-card__read-more" href="{{ post.url | relative_url }}">Read more &rarr;</a>
       </article>
     {% endfor %}
   </div>
