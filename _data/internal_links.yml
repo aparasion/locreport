@@ -17,9 +17,9 @@
 - term: "ATA67"
   url: "/events/#event-card-ata67"
 - term: "SlatorCon"
-  url: "/events/"
+  url: "/events/slatorcon/"
 - term: "LocWorld"
-  url: "/events/"
+  url: "/events/locworld/"
 
 # ── LLM / AI translation cost tool ───────────────────────────────────────
 - term: "LLM translation cost"
@@ -113,6 +113,48 @@
 
 # ── Market topic (additional) ─────────────────────────────────────────────
 - term: "language service provider"
+  url: "/topics/market/"
+
+# ── Company entities (external official pages) ───────────────────────
+- term: "Nimdzi"
+  url: "https://www.nimdzi.com/"
+- term: "CSA Research"
+  url: "https://csa-research.com/"
+- term: "Smartling"
+  url: "https://www.smartling.com/"
+- term: "Phrase"
+  url: "https://phrase.com/"
+- term: "Lokalise"
+  url: "https://lokalise.com/"
+- term: "Crowdin"
+  url: "https://crowdin.com/"
+- term: "DeepL"
+  url: "https://www.deepl.com/"
+- term: "Translated"
+  url: "https://translated.com/"
+- term: "RWS"
+  url: "https://www.rws.com/"
+- term: "TransPerfect"
+  url: "https://www.transperfect.com/"
+- term: "Welocalize"
+  url: "https://www.welocalize.com/"
+- term: "GALA"
+  url: "https://www.gala-global.org/"
+- term: "ATA"
+  url: "https://www.atanet.org/"
+- term: "ELIA"
+  url: "https://elia-association.org/"
+
+# ── Concept explainers (AI-search optimization) ───────────────────────
+- term: "large language model"
+  url: "/topics/quality/"
+- term: "generative AI"
+  url: "/topics/quality/"
+- term: "localization ROI"
+  url: "/topics/strategy/"
+- term: "language pair"
+  url: "/topics/market/"
+- term: "LSP"
   url: "/topics/market/"
 
 # ── Other internal pages ──────────────────────────────────────────────────

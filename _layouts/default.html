@@ -745,7 +745,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // ── Internal links annotation ──────────────────────────
   (function () {
-    var MAX_INTERNAL_LINKS = 5;
+    var _wc = (document.querySelector('.post-content') || {innerText:''}).innerText.trim().split(/\s+/).length;
+    var MAX_INTERNAL_LINKS = _wc >= 1500 ? 9 : _wc >= 800 ? 6 : 4;
 
     function injectLinkTerm(rootEl, escapedTerm, url, linksInserted, usedUrls) {
       if (linksInserted >= MAX_INTERNAL_LINKS) return linksInserted;

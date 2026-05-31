@@ -192,10 +192,33 @@ layout: default
     {% endif %}
   {% endif %}
 
-  {% if related.size > 0 %}
+  {% comment %} Find cluster hub: first internal_links entry whose url contains /topics/ and whose term matches a page tag {% endcomment %}
+  {% assign cluster_url = nil %}
+  {% assign cluster_label = nil %}
+  {% for link_entry in site.data.internal_links %}
+    {% if link_entry.url contains "/topics/" %}
+      {% for tag in page.tags %}
+        {% assign tag_down = tag | downcase %}
+        {% assign term_down = link_entry.term | downcase %}
+        {% if tag_down == term_down %}
+          {% assign cluster_url = link_entry.url %}
+          {% assign cluster_label = link_entry.term %}
+          {% break %}
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+    {% if cluster_url %}{% break %}{% endif %}
+  {% endfor %}
+
+  {% if related.size > 0 or cluster_url %}
   <nav class="related-articles" aria-label="Related articles">
-    <h3>Related on LocReport</h3>
+    <h3>Related Reading</h3>
     <ul>
+      {% if cluster_url %}
+      <li class="related-articles__hub">
+        <a href="{{ cluster_url | relative_url }}">All {{ cluster_label }} coverage &rarr;</a>
+      </li>
+      {% endif %}
       {% for post in related limit:5 %}
       <li>
         <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
