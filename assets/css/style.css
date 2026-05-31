@@ -1206,12 +1206,10 @@ article.page:has(.dir-grid) { max-width: var(--site-max-width); overflow-x: hidd
 /* ── Day Sections (Homepage) ────────────────────────────── */
 .day-section {
   padding-top: var(--space-4);
-  padding-bottom: var(--space-10);
-  margin-bottom: var(--space-6);
-  border-bottom: 1px solid var(--border);
+  padding-bottom: var(--space-4);
+  margin-bottom: var(--space-4);
 }
 .day-section:first-of-type { padding-top: var(--space-8); }
-.day-section:last-of-type { border-bottom: none; margin-bottom: var(--space-4); }
 
 .day-header {
   font-size: 0.85rem;
