@@ -1271,11 +1271,11 @@ article.page:has(.dir-grid) { max-width: var(--site-max-width); overflow-x: hidd
 
 /* ── Day Sections (Homepage) ────────────────────────────── */
 .day-section {
-  padding-top: var(--space-6);
-  padding-bottom: var(--space-6);
-  margin-bottom: var(--space-4);
+  padding-top: var(--space-8);
+  padding-bottom: 0;
+  margin-bottom: var(--space-8);
 }
-.day-section:first-of-type { padding-top: var(--space-10); }
+.day-section:first-of-type { padding-top: var(--space-8); }
 
 .day-header {
   display: flex;
@@ -1286,7 +1286,7 @@ article.page:has(.dir-grid) { max-width: var(--site-max-width); overflow-x: hidd
   text-transform: uppercase;
   letter-spacing: 0.12em;
   color: var(--muted);
-  margin: 0 0 var(--space-6);
+  margin: 0 0 var(--space-4);
   padding-left: 0;
   border-left: none;
   white-space: nowrap;
@@ -5048,10 +5048,10 @@ article.page > h1 {
   flex-direction: column;
 }
 .article-row {
-  padding: var(--space-6) 0;
+  padding: var(--space-5) 0;
   border-bottom: 1px solid var(--border);
 }
-.article-row:first-child { border-top: 1px solid var(--border); }
+.article-row:first-child { border-top: none; }
 .article-row__header {
   display: flex;
   align-items: center;
@@ -5134,10 +5134,21 @@ article.page > h1 {
 }
 .article-row__read-more:hover { text-decoration: underline; text-underline-offset: 3px; }
 
-/* Featured first article — larger typography */
-.article-row--featured { padding: var(--space-7) 0; }
+/* Featured first article — light background + larger typography */
+.article-row--featured {
+  background: color-mix(in srgb, var(--accent) 5%, var(--surface));
+  border: 1px solid color-mix(in srgb, var(--accent) 12%, transparent);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6) var(--space-5);
+  margin-bottom: var(--space-5);
+  border-top: none;
+  border-bottom: none;
+}
+[data-theme="dark"] .article-row--featured {
+  background: color-mix(in srgb, var(--accent) 8%, var(--surface));
+}
 .article-row--featured .article-row__title {
-  font-size: 1.7rem;
+  font-size: 1.65rem;
   letter-spacing: -0.04em;
   line-height: 1.25;
   margin-bottom: var(--space-3);
