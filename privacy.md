@@ -43,7 +43,7 @@ Google Analytics and certain third-party services may place cookies on your devi
 
 ## Use of Artificial Intelligence
 
-Some content published on LocReport is created with the assistance of artificial intelligence tools, including automated news aggregation and summarization. AI-generated content is reviewed by our editorial team before publication. AI tools used in content production may process publicly available information from third-party news sources. No personal user data is fed into AI systems for content generation.
+Some content published on LocReport is created with the assistance of artificial intelligence tools to support editorial research and drafting. All AI-assisted content is reviewed and approved by our editorial team before publication. AI tools used in content production may process publicly available information from third-party news sources. No personal user data is fed into AI systems for content production.
 
 ## Data Retention
 

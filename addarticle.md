@@ -24,7 +24,7 @@ no_share: true
 
     <label>
       Article title
-      <input type="text" id="f-title" name="title" placeholder="Leave blank to generate automatically">
+      <input type="text" id="f-title" name="title" placeholder="Leave blank to infer from article content">
       <span class="field-hint">Optional. Inferred from article content when blank.</span>
     </label>
 
@@ -199,7 +199,7 @@ no_share: true
     }).then(function (res) {
       if (res.status === 204) {
         setStatus(
-          "Confirmed — the workflow is running. The post will be generated and committed to <code>main</code> shortly. " +
+          "Confirmed — your submission is being processed. The post will be prepared and published to <code>main</code> shortly. " +
           "<a href=\"" + WORKFLOW_URL + "\" target=\"_blank\" rel=\"noopener noreferrer\">View workflow progress</a>.",
           "is-success"
         );

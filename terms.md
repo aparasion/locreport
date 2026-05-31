@@ -30,7 +30,7 @@ You may not:
 
 ## AI-Generated Content Disclaimer
 
-Some content on LocReport is produced with the assistance of artificial intelligence tools, including automated summarization and aggregation of publicly available news sources. All AI-assisted content is reviewed by our editorial team. While we strive for accuracy, AI-generated content may contain errors, omissions, or outdated information. We make no warranty that AI-assisted content is free of inaccuracies.
+Some content on LocReport is produced with the assistance of artificial intelligence tools to support editorial research, drafting, and analysis. All AI-assisted content is reviewed by our editorial team. While we strive for accuracy, AI-assisted content may contain errors, omissions, or outdated information. We make no warranty that AI-assisted content is free of inaccuracies.
 
 ## Editorial Accuracy
 
