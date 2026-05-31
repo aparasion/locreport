@@ -47,33 +47,6 @@ nav_order: 1
 
 {% include sources-bar.html %}
 
-<!-- ── Stats Bar ──────────────────────────────────────────── -->
-<section class="stats-bar" aria-label="Site statistics">
-  <div class="container">
-    <div class="stats-bar__inner">
-      <div class="stat-item">
-        <span class="stat-number">{{ site.posts.size }}+</span>
-        <span class="stat-label">Articles indexed</span>
-      </div>
-      <span class="stat-divider" aria-hidden="true"></span>
-      <div class="stat-item">
-        <span class="stat-number">{{ site.data.signals.size }}</span>
-        <span class="stat-label">Industry signals tracked</span>
-      </div>
-      <span class="stat-divider" aria-hidden="true"></span>
-      <div class="stat-item">
-        <span class="stat-number">Daily</span>
-        <span class="stat-label">Coverage since 2012</span>
-      </div>
-      <span class="stat-divider" aria-hidden="true"></span>
-      <div class="stat-item">
-        <span class="stat-number">Free</span>
-        <span class="stat-label">Always, for professionals</span>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- ── Collect publication days ──────────────────────────── -->
 {% assign day_count = 0 %}
 {% assign current_day = "" %}
@@ -103,50 +76,55 @@ nav_order: 1
     {% assign day1_first = true %}
     <section class="day-section">
       <h2 class="day-header">{{ day1 | date: "%B %d, %Y" }}</h2>
+      <div class="article-list reveal-stagger">
 
       {% for post in site.posts %}
         {% if post.article_type == "theory" %}{% continue %}{% endif %}
         {% assign post_day = post.date | date: "%Y-%m-%d" %}
         {% if post_day != day1 %}{% continue %}{% endif %}
+        {% assign card_category = "" %}
+        {% if post.signal_ids and post.signal_ids.size > 0 %}
+          {% assign first_sid = post.signal_ids[0] %}
+          {% for signal in site.data.signals %}
+            {% if signal.id == first_sid %}{% assign card_category = signal.category %}{% break %}{% endif %}
+          {% endfor %}
+        {% endif %}
 
         {% if day1_first %}
           {% assign day1_first = false %}
-          <article class="featured-article reveal">
-            <div class="featured-badges">
-              <span class="featured-badge">Latest</span>
-              {% if post.impact_score %}
-              <span class="impact-badge impact-badge--{{ post.impact_score }}">
-                {% if post.impact_score == 1 %}Routine{% elsif post.impact_score == 2 %}Notable{% elsif post.impact_score == 3 %}Significant{% elsif post.impact_score == 4 %}Major{% elsif post.impact_score == 5 %}Disruptive{% endif %}
-              </span>
-              {% endif %}
+          <article class="article-row article-row--featured" data-category="{{ card_category }}" {% if post.affected_segments %}data-segments="{{ post.affected_segments | join: '|' }}"{% endif %}>
+            <div class="article-row__header">
+              <span class="article-row__badge article-row__badge--latest">Latest</span>
+              {% if post.impact_score %}<span class="impact-badge impact-badge--{{ post.impact_score }}">{% if post.impact_score == 1 %}Routine{% elsif post.impact_score == 2 %}Notable{% elsif post.impact_score == 3 %}Significant{% elsif post.impact_score == 4 %}Major{% elsif post.impact_score == 5 %}Disruptive{% endif %}</span>{% endif %}
+              {% if card_category != "" %}<span class="article-row__category article-row__category--{{ card_category }}">{{ card_category }}</span>{% endif %}
+              <span class="article-row__date">{{ post.date | date: "%B %d, %Y" }}</span>
             </div>
-            <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
-            <p class="post-meta">{{ post.date | date: "%B %d, %Y" }}</p>
-            <p>{{ post.excerpt | strip_html | truncate: 200 }}</p>
+            <h2 class="article-row__title"><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
+            <p class="article-row__excerpt">{{ post.excerpt | strip_html | truncate: 220 }}</p>
+            <div class="article-row__footer">
+              {% if post.publisher %}<span class="article-row__publisher">{{ post.publisher }}</span>{% endif %}
+              <a class="article-row__read-more" href="{{ post.url | relative_url }}">Read more &rarr;</a>
+            </div>
           </article>
-          <div class="post-grid post-grid--magazine reveal-stagger">
         {% else %}
-          {% assign card_category = "" %}
-          {% if post.signal_ids and post.signal_ids.size > 0 %}
-            {% assign first_sid = post.signal_ids[0] %}
-            {% for signal in site.data.signals %}
-              {% if signal.id == first_sid %}{% assign card_category = signal.category %}{% break %}{% endif %}
-            {% endfor %}
-          {% endif %}
-          <article class="post-card" data-category="{{ card_category }}" {% if post.affected_segments %}data-segments="{{ post.affected_segments | join: '|' }}"{% endif %}>
-            <div class="post-card__meta-row">
-              {% if post.publisher %}<span class="post-card__publisher">{{ post.publisher }}</span>{% endif %}
-              <span class="post-card__date">{{ post.date | date: "%b %d, %Y" }}</span>
+          <article class="article-row" data-category="{{ card_category }}" {% if post.affected_segments %}data-segments="{{ post.affected_segments | join: '|' }}"{% endif %}>
+            <div class="article-row__header">
               <span class="new-badge">NEW</span>
+              {% if card_category != "" %}<span class="article-row__category article-row__category--{{ card_category }}">{{ card_category }}</span>{% endif %}
+              <span class="article-row__date">{{ post.date | date: "%b %d, %Y" }}</span>
               {% if post.impact_score and post.impact_score >= 3 %}<span class="impact-dot impact-dot--{{ post.impact_score }}" title="Impact: {% if post.impact_score == 3 %}Significant{% elsif post.impact_score == 4 %}Major{% elsif post.impact_score == 5 %}Disruptive{% endif %}"></span>{% endif %}
             </div>
-            <h2 class="post-card__title"><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
-            <p class="post-card__excerpt">{{ post.excerpt | strip_html | truncate: 160 }}</p>
-            <a class="post-card__read-more" href="{{ post.url | relative_url }}">Read more &rarr;</a>
+            <h2 class="article-row__title"><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
+            <p class="article-row__excerpt">{{ post.excerpt | strip_html | truncate: 170 }}</p>
+            <div class="article-row__footer">
+              {% if post.publisher %}<span class="article-row__publisher">{{ post.publisher }}</span>{% endif %}
+              <a class="article-row__read-more" href="{{ post.url | relative_url }}">Read more &rarr;</a>
+            </div>
           </article>
         {% endif %}
       {% endfor %}
-          </div>
+
+      </div>
     </section>
 
     <!-- Day 2 -->
@@ -158,7 +136,7 @@ nav_order: 1
         {% if post_day == day2 %}{% assign day2_display = post.date | date: "%B %d, %Y" %}{% break %}{% endif %}
       {% endfor %}
       <h2 class="day-header">{{ day2_display }}</h2>
-      <div class="post-grid reveal-stagger">
+      <div class="article-list reveal-stagger">
         {% for post in site.posts %}
           {% if post.article_type == "theory" %}{% continue %}{% endif %}
           {% assign post_day = post.date | date: "%Y-%m-%d" %}
@@ -170,15 +148,18 @@ nav_order: 1
               {% if signal.id == first_sid %}{% assign card_category = signal.category %}{% break %}{% endif %}
             {% endfor %}
           {% endif %}
-          <article class="post-card" data-category="{{ card_category }}" {% if post.affected_segments %}data-segments="{{ post.affected_segments | join: '|' }}"{% endif %}>
-            <div class="post-card__meta-row">
-              {% if post.publisher %}<span class="post-card__publisher">{{ post.publisher }}</span>{% endif %}
-              <span class="post-card__date">{{ post.date | date: "%b %d, %Y" }}</span>
+          <article class="article-row" data-category="{{ card_category }}" {% if post.affected_segments %}data-segments="{{ post.affected_segments | join: '|' }}"{% endif %}>
+            <div class="article-row__header">
+              {% if card_category != "" %}<span class="article-row__category article-row__category--{{ card_category }}">{{ card_category }}</span>{% endif %}
+              <span class="article-row__date">{{ post.date | date: "%b %d, %Y" }}</span>
               {% if post.impact_score and post.impact_score >= 3 %}<span class="impact-dot impact-dot--{{ post.impact_score }}" title="Impact: {% if post.impact_score == 3 %}Significant{% elsif post.impact_score == 4 %}Major{% elsif post.impact_score == 5 %}Disruptive{% endif %}"></span>{% endif %}
             </div>
-            <h2 class="post-card__title"><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
-            <p class="post-card__excerpt">{{ post.excerpt | strip_html | truncate: 160 }}</p>
-            <a class="post-card__read-more" href="{{ post.url | relative_url }}">Read more &rarr;</a>
+            <h2 class="article-row__title"><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
+            <p class="article-row__excerpt">{{ post.excerpt | strip_html | truncate: 170 }}</p>
+            <div class="article-row__footer">
+              {% if post.publisher %}<span class="article-row__publisher">{{ post.publisher }}</span>{% endif %}
+              <a class="article-row__read-more" href="{{ post.url | relative_url }}">Read more &rarr;</a>
+            </div>
           </article>
         {% endfor %}
       </div>
@@ -194,7 +175,7 @@ nav_order: 1
         {% if post_day == day3 %}{% assign day3_display = post.date | date: "%B %d, %Y" %}{% break %}{% endif %}
       {% endfor %}
       <h2 class="day-header">{{ day3_display }}</h2>
-      <div class="post-grid reveal-stagger">
+      <div class="article-list reveal-stagger">
         {% for post in site.posts %}
           {% if post.article_type == "theory" %}{% continue %}{% endif %}
           {% assign post_day = post.date | date: "%Y-%m-%d" %}
@@ -206,15 +187,18 @@ nav_order: 1
               {% if signal.id == first_sid %}{% assign card_category = signal.category %}{% break %}{% endif %}
             {% endfor %}
           {% endif %}
-          <article class="post-card" data-category="{{ card_category }}" {% if post.affected_segments %}data-segments="{{ post.affected_segments | join: '|' }}"{% endif %}>
-            <div class="post-card__meta-row">
-              {% if post.publisher %}<span class="post-card__publisher">{{ post.publisher }}</span>{% endif %}
-              <span class="post-card__date">{{ post.date | date: "%b %d, %Y" }}</span>
+          <article class="article-row" data-category="{{ card_category }}" {% if post.affected_segments %}data-segments="{{ post.affected_segments | join: '|' }}"{% endif %}>
+            <div class="article-row__header">
+              {% if card_category != "" %}<span class="article-row__category article-row__category--{{ card_category }}">{{ card_category }}</span>{% endif %}
+              <span class="article-row__date">{{ post.date | date: "%b %d, %Y" }}</span>
               {% if post.impact_score and post.impact_score >= 3 %}<span class="impact-dot impact-dot--{{ post.impact_score }}" title="Impact: {% if post.impact_score == 3 %}Significant{% elsif post.impact_score == 4 %}Major{% elsif post.impact_score == 5 %}Disruptive{% endif %}"></span>{% endif %}
             </div>
-            <h2 class="post-card__title"><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
-            <p class="post-card__excerpt">{{ post.excerpt | strip_html | truncate: 160 }}</p>
-            <a class="post-card__read-more" href="{{ post.url | relative_url }}">Read more &rarr;</a>
+            <h2 class="article-row__title"><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
+            <p class="article-row__excerpt">{{ post.excerpt | strip_html | truncate: 170 }}</p>
+            <div class="article-row__footer">
+              {% if post.publisher %}<span class="article-row__publisher">{{ post.publisher }}</span>{% endif %}
+              <a class="article-row__read-more" href="{{ post.url | relative_url }}">Read more &rarr;</a>
+            </div>
           </article>
         {% endfor %}
       </div>
@@ -246,13 +230,6 @@ nav_order: 1
       </a>
       {% endfor %}
       <a href="/intelligence/" class="sidebar-widget__more">All {{ site.data.signals.size }} signals &rarr;</a>
-    </div>
-
-    <div class="sidebar-widget sidebar-widget--cta">
-      <p class="sidebar-cta__label">Weekly digest</p>
-      <h3 class="sidebar-cta__title">Stay informed</h3>
-      <p class="sidebar-cta__desc">Intelligence briefings for localization professionals, every Friday.</p>
-      <a href="/newsletter/" class="btn btn--primary" style="width:100%;justify-content:center;display:flex;">Subscribe free</a>
     </div>
 
     <div class="sidebar-widget sidebar-widget--report">
