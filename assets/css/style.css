@@ -1271,11 +1271,11 @@ article.page:has(.dir-grid) { max-width: var(--site-max-width); overflow-x: hidd
 
 /* ── Day Sections (Homepage) ────────────────────────────── */
 .day-section {
-  padding-top: var(--space-8);
+  padding-top: 0;
   padding-bottom: 0;
   margin-bottom: var(--space-8);
 }
-.day-section:first-of-type { padding-top: var(--space-8); }
+.day-section:first-of-type { padding-top: 0; }
 
 .day-header {
   display: flex;
