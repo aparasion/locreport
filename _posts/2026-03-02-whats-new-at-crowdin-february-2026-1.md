@@ -3,6 +3,8 @@ title: "What's New at Crowdin: February 2026"
 date: 2026-03-02T00:00:00Z
 layout: post
 categories: [translation]
+redirect_from:
+  - /articles/2026/03/02/whats-new-at-crowdin-february-2026.html
 tags: [translation, localization, news]
 excerpt: "Crowdin has announced a significant overhaul of its release communication strategy, introducing a new format that separates minor updates from major..."
 publisher: "crowdin.com"

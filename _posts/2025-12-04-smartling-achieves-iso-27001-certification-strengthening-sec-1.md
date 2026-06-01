@@ -3,6 +3,8 @@ title: "Smartling Achieves ISO 27001 Certification, Strengthening Security for A
 date: 2025-12-04T14:00:02Z
 layout: post
 categories: [translation]
+redirect_from:
+  - /articles/2025/12/04/smartling-achieves-iso-27001-certification-strengthening-sec.html
 tags: [translation, localization, news]
 excerpt: "Smartling's recent achievement of ISO 27001 certification marks a significant development in the localization industry, particularly for enterprises..."
 publisher: "smartling.com"

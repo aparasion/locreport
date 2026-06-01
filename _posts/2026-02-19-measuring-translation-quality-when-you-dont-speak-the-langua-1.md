@@ -3,6 +3,8 @@ title: "Measuring Translation Quality When You Don't Speak the Language"
 date: 2026-02-19T00:00:00Z
 layout: post
 categories: [translation]
+redirect_from:
+  - /articles/2026/02/19/measuring-translation-quality-when-you-dont-speak-the-langua.html
 tags: [translation, localization, news]
 excerpt: "The recent integration of DatoCMS and Crowdin marks a significant advancement for localization managers facing the complexities of scaling multilingual..."
 publisher: "crowdin.com"

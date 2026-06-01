@@ -3,6 +3,8 @@ title: "10 Best Translation Management Systems 2026"
 date: 2026-02-23T17:08:11Z
 layout: post
 categories: [translation]
+redirect_from:
+  - /articles/2026/02/23/10-best-translation-management-systems-2026.html
 tags: [translation, localization, news]
 excerpt: "The recent surge in interest around translation management systems (TMS) underscores a pivotal shift in the localization landscape, as enterprises..."
 publisher: "xtm.ai"

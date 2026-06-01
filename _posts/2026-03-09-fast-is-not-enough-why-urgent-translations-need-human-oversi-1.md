@@ -3,6 +3,8 @@ title: "Fast Is Not Enough: Why Urgent Translations Need Human Oversight"
 date: 2026-03-09T17:45:00Z
 layout: post
 categories: [translation]
+redirect_from:
+  - /articles/2026/03/09/fast-is-not-enough-why-urgent-translations-need-human-oversi.html
 tags: [translation, localization, news]
 excerpt: "The localization landscape is undergoing a significant transformation as organizations grapple with the dual pressures of speed and accuracy in..."
 publisher: "languageline.com"

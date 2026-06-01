@@ -3,6 +3,8 @@ title: "Google Graduates Automatic Email Translation Feature From Gmail Labs, Ex
 date: 2012-05-01T17:47:31Z
 layout: post
 categories: [translation]
+redirect_from:
+  - /translation/2012/05/01/google-graduates-automatic-email-translation-feature-from-gm.html
 tags: [translation, localization, news]
 excerpt: "Google's recent decision to graduate its translation feature from Gmail Labs marks a significant evolution in the integration of language technology..."
 publisher: "techcrunch.com"

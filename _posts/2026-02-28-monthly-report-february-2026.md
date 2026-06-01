@@ -3,6 +3,8 @@ title: "Monthly Report: February 2026"
 date: 2026-02-28T09:00:00Z
 layout: post
 categories: [monthly-summary]
+redirect_from:
+  - /articles/2026/02/28/monthly-report-february-2026.html
 tags: [monthly, roundup, translation, localization]
 author: "LocReport Industry Desk"
 excerpt: "A monthly roundup for February 2026 based on 24 articles."

@@ -3,6 +3,8 @@ title: "Interpreter Spotlight: Meet Anna, a Spanish, Portuguese, English and Fre
 date: 2025-11-10T15:08:10Z
 layout: post
 categories: [translation]
+redirect_from:
+  - /articles/2025/11/10/interpreter-spotlight-meet-anna-a-spanish-portuguese-english.html
 tags: [translation, localization, news]
 excerpt: "The recent insights shared by Anna Fabres, a seasoned interpreter with over two decades of experience, highlight the evolving landscape of the..."
 publisher: "en-gb.thebigword.com"

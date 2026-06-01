@@ -3,6 +3,8 @@ title: "Designing for Translation: How to Build Global-Ready UX"
 date: 2026-02-11T00:00:00Z
 layout: post
 categories: [translation]
+redirect_from:
+  - /articles/2026/02/11/designing-for-translation-how-to-build-global-ready-ux.html
 tags: [translation, localization, news]
 excerpt: "Localization is evolving from a mere afterthought to a critical component of user experience (UX) design, as highlighted by Szymon Metkowski in a recent..."
 publisher: "crowdin.com"

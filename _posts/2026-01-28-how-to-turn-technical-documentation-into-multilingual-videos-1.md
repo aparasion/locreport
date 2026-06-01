@@ -3,6 +3,8 @@ title: "How to turn technical documentation into multilingual videos"
 date: 2026-01-28T19:32:23Z
 layout: post
 categories: [translation]
+redirect_from:
+  - /articles/2026/01/28/how-to-turn-technical-documentation-into-multilingual-videos.html
 tags: [translation, localization, news]
 excerpt: "The localization industry is on the cusp of a significant transformation with the introduction of automated video production tools that align closely with..."
 publisher: "xtm.ai"
