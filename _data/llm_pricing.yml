@@ -92,7 +92,7 @@
   name: DeepSeek V3
   provider: DeepSeek
   input_cost_per_1m: 0.27
-  output_cost_per_1m: 1.10
+  output_cost_per_1m: 1.1
   context_window: 128000
   openrouter_id: deepseek/deepseek-chat-v3-5
   last_updated: '2026-05-26'
@@ -100,9 +100,10 @@
 - id: deepseek-r1
   name: DeepSeek R1
   provider: DeepSeek
-  input_cost_per_1m: 0.55
-  output_cost_per_1m: 2.19
+  input_cost_per_1m: 0.7
+  output_cost_per_1m: 2.5
   context_window: 128000
   openrouter_id: deepseek/deepseek-r1
-  last_updated: '2026-05-26'
-  notes: Reasoning model; suited to complex or specialised translation requiring deep analysis
+  last_updated: '2026-06-01'
+  notes: Reasoning model; suited to complex or specialised translation requiring deep
+    analysis
