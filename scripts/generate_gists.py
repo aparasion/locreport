@@ -642,15 +642,26 @@ def ensure_source_link(body: str, source_url: str, publisher: str) -> str:
     """Guarantee at least one external markdown link appears in the gist body.
 
     If the body already contains any external hyperlink, returns it unchanged.
-    Otherwise appends a brief source attribution line so every article honours
-    its original source.
+    Otherwise injects the source name as a linked anchor at the first mention of
+    the publisher name in the body, or at the start of the first sentence as a
+    last resort — never as a trailing attribution line.
     """
     if not source_url:
         return body
     if re.search(r'\[.+?\]\(https?://', body):
         return body
-    anchor = re.sub(r'^www\.', '', publisher or "the source").split(':')[0]
-    return body.rstrip() + f"\n\n*Read the original report at [{anchor}]({source_url}).*"
+    anchor = re.sub(r'^www\.', '', publisher or "the source").split('.')[0].strip()
+    # Try to link an existing mention of the publisher name in the body
+    if anchor and re.search(re.escape(anchor), body, re.IGNORECASE):
+        return re.sub(
+            re.escape(anchor),
+            f"[{anchor}]({source_url})",
+            body,
+            count=1,
+            flags=re.IGNORECASE,
+        )
+    # Fallback: prepend a linked reference at the start of the first sentence
+    return f"[{anchor or 'Source'}]({source_url}) — " + body
 
 
 def pick_author(seed: str, article_type: str = "industry") -> str:
@@ -905,7 +916,7 @@ Tone and style:
 • Avoid corporate jargon and filler phrases ("in a world where...", "it's worth noting that...").
 • No speculation beyond what the source explicitly supports.
 
-SOURCE ATTRIBUTION RULE (MANDATORY): Every article MUST contain at least one markdown hyperlink to the original source. Weave the attribution naturally into the body — never add a standalone "Source:" line at the end. Use varied phrasing that fits the tone. Good options include: "As [Source Name] points out,", "In a recent breakdown by [Source Name],", "A report from [Source Name] reveals that...", "New data from [Source Name] shows...", "[Source Name] argues that...", "Writing for [Source Name], [author] highlights...". Link the source name or a specific asset (report title, benchmark name) using Markdown: [Source Name](url). Never use raw URLs, "click here", or "source" as anchor text. Match the weight of the phrase to the nature of the information — use "data compiled by" or "found that" for hard figures; "points out" or "argues" for opinion or expert perspective. If you reach the end of the article without having included a source link, add one in the final sentence.
+SOURCE ATTRIBUTION RULE (MANDATORY): Every article MUST contain at least one markdown hyperlink to the original source — woven into the body as a skilled copywriter would do it, not appended as a trailing sentence. Link anchor text that carries real meaning: a specific claim, a statistic, a quoted phrase, a named report, or the moment the prose first introduces the source. Good patterns: "a [benchmark published by Slator](url) found that…", "[XTM's analysis](url) puts the figure at…", "the gap [Nimdzi documents](url) across 40 markets…", "[their findings](url) point to a structural shift". Never add a standalone closing line like "For more details, see the original post on X" or "Read the full article on Y" — that is the pattern this rule replaces. Never use raw URLs, "click here", "source", or "original article" as anchor text. If you reach the closing paragraph without having linked the source, go back and link a specific word or phrase earlier in the body — do not add a trailing attribution sentence.
 
 If the provided text is mostly cookie/privacy/legal notices rather than article content, respond exactly with: UNUSABLE_CONTENT"""
 
@@ -938,7 +949,7 @@ Tone and style:
 • No business framing, no market language, no industry impact.
 • The narrative should make a language researcher or NLP practitioner curious enough to read the full paper.
 
-SOURCE ATTRIBUTION RULE (MANDATORY): Every summary MUST contain at least one markdown hyperlink to the original source. Weave the attribution naturally into the body — never add a standalone "Source:" line at the end. Use varied phrasing that fits the scholarly tone. Good options include: "A comprehensive study from [Source Name] examines...", "In a recent paper published in [Journal Name],", "New research from [Source Name] reveals that...", "A [Journal Name] study finds that...". Link the journal name, paper title, or publication using Markdown: [Journal Name](url). Never use raw URLs, "click here", or "source" as anchor text. If you reach the end of the summary without having included a source link, add one in the final sentence.
+SOURCE ATTRIBUTION RULE (MANDATORY): Every summary MUST contain at least one markdown hyperlink to the original source — placed where a reader would naturally want to follow the thread, not appended as a trailing sentence. Link anchor text that earns the click: a paper title, a specific result, a named dataset, or a methodology detail. Good patterns: "the [corpus introduced in this study](url) spans 14 language pairs…", "[their cross-lingual evaluation](url) shows a 12% gap…", "a [recent Annual Reviews paper](url) frames the problem as…". Never add a closing line like "For more information, visit [Journal]" or "Read the full paper at [Source]" — that is the pattern this rule replaces. Never use raw URLs, "click here", "source", or "original paper" as anchor text. If you reach the closing paragraph without having linked the source, go back and link a specific finding or named artefact earlier in the body — do not add a trailing attribution sentence.
 
 If the provided text is mostly cookie/privacy/legal notices rather than article content, respond exactly with: UNUSABLE_CONTENT"""
 
