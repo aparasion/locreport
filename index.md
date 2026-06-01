@@ -225,7 +225,7 @@ nav_order: 1
       <p class="sidebar-report__eyebrow">Monthly Report · May 2026</p>
       <h3 class="sidebar-report__title">May 2026 Industry Intelligence</h3>
       <p class="sidebar-report__desc">Key themes, signals, and trends from 135 articles across the language services industry.</p>
-      <a href="/2026/05/28/monthly-report-may-2026/" class="sidebar-report__link">Read the report &rarr;</a>
+      <a href="/reports/monthly/2026/May/" class="sidebar-report__link">Read the report &rarr;</a>
     </div>
 
     <div class="sidebar-widget sidebar-widget--report">

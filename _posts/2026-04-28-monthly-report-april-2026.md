@@ -8,6 +8,9 @@ author: "LocReport Industry Desk"
 excerpt: "A monthly roundup for April 2026 based on 164 articles."
 period: "2026-04"
 source_count: 164
+permalink: /reports/monthly/2026/April/
+redirect_from:
+  - /2026/04/28/monthly-report-april-2026/
 ---
 
 # April 2026 Localization and Translation Industry Report

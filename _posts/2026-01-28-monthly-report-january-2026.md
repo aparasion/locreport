@@ -6,9 +6,11 @@ categories: [monthly-summary]
 tags: [monthly, roundup, translation, localization]
 author: "LocReport Industry Desk"
 excerpt: "A monthly roundup for January 2026 based on 4 articles."
-permalink: /reports/Monthly-Report-January-2026/
 period: "2026-01"
 source_count: 4
+permalink: /reports/monthly/2026/January/
+redirect_from:
+  - /reports/Monthly-Report-January-2026/
 ---
 
 ### ELIA’s 20-Year Legacy: A Tapestry of Community and Growth

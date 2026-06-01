@@ -273,6 +273,7 @@ author: "LocReport Industry Desk"
 excerpt: \"{safe_excerpt}.\"
 period: \"{period}\"
 source_count: {article_count}
+permalink: /reports/monthly/{year}/{month_name}/
 premium: true
 robots: "noindex, nofollow"
 ---

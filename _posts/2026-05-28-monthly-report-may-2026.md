@@ -8,6 +8,9 @@ author: "LocReport Industry Desk"
 excerpt: "A monthly roundup for May 2026 based on 135 articles."
 period: "2026-05"
 source_count: 135
+permalink: /reports/monthly/2026/May/
+redirect_from:
+  - /2026/05/28/monthly-report-may-2026/
 ---
 
 # May 2026 Industry Intelligence Report: Localization and Translation
