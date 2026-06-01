@@ -45,6 +45,7 @@
 
   --site-max-width: 1200px;
   --page-gutter:    1.5rem;
+  --page-gutter-mobile: 0.5rem;
   --content-width:  760px;
 
   --radius-sm: 8px;
@@ -2929,6 +2930,7 @@ article.page > h1 {
   border-color: color-mix(in srgb, var(--border) 200%, transparent);
 }
 @media (max-width: 480px) {
+  :root { --page-gutter: 0.5rem; }
   .cookies-banner-inner { gap: var(--space-3); }
   .cookies-banner-text { font-size: 0.75rem; }
   .cookies-banner-actions { width: 100%; justify-content: flex-end; }
