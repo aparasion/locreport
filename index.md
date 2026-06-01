@@ -221,6 +221,20 @@ nav_order: 1
 
   <aside class="home-sidebar" aria-label="Sidebar">
 
+    <div class="sidebar-widget sidebar-widget--report">
+      <p class="sidebar-report__eyebrow">Monthly Report · May 2026</p>
+      <h3 class="sidebar-report__title">May 2026 Industry Intelligence</h3>
+      <p class="sidebar-report__desc">Key themes, signals, and trends from 135 articles across the language services industry.</p>
+      <a href="/2026/05/28/monthly-report-may-2026/" class="sidebar-report__link">Read the report &rarr;</a>
+    </div>
+
+    <div class="sidebar-widget sidebar-widget--report">
+      <p class="sidebar-report__eyebrow">2026 Report</p>
+      <h3 class="sidebar-report__title">Global Market Report</h3>
+      <p class="sidebar-report__desc">Market sizing, AI-era growth drivers, and strategic forecasts.</p>
+      <a href="/reports/2026-Annual-Global-Market-Report/" class="sidebar-report__link">Read the report &rarr;</a>
+    </div>
+
     <div class="sidebar-widget">
       <h3 class="sidebar-widget__title">Active Signals</h3>
       {% for signal in site.data.signals limit:6 %}
@@ -230,13 +244,6 @@ nav_order: 1
       </a>
       {% endfor %}
       <a href="/intelligence/" class="sidebar-widget__more">All {{ site.data.signals.size }} signals &rarr;</a>
-    </div>
-
-    <div class="sidebar-widget sidebar-widget--report">
-      <p class="sidebar-report__eyebrow">2026 Report</p>
-      <h3 class="sidebar-report__title">Global Market Report</h3>
-      <p class="sidebar-report__desc">Market sizing, AI-era growth drivers, and strategic forecasts.</p>
-      <a href="/reports/2026-Annual-Global-Market-Report/" class="sidebar-report__link">Read the report &rarr;</a>
     </div>
 
   </aside><!-- /.home-sidebar -->
