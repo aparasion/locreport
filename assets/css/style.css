@@ -2829,6 +2829,11 @@ article.page > h1 {
   .intelligence-layer { padding: var(--space-4); }
   .intelligence-header { flex-direction: column; align-items: flex-start; }
   .intel-legend-sep { display: none; }
+  .post-grid { gap: var(--space-3); }
+  .post-card { padding: var(--space-3) var(--space-4); }
+  .day-section { margin-bottom: var(--space-5); }
+  .featured-article { padding: var(--space-4) var(--space-4); min-height: 180px; }
+  .topic-filter-panel { margin: var(--space-5) 0 var(--space-4); }
 }
 
 /* ── Cookies Banner ─────────────────────────────────────── */
