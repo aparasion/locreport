@@ -5144,23 +5144,26 @@ article.page > h1 {
 
 /* Featured first article */
 .article-row--featured {
-  padding: var(--space-5);
+  padding: var(--space-6);
   margin-bottom: var(--space-4);
-  background: color-mix(in srgb, var(--accent) 5%, var(--surface));
-  border: 1px solid color-mix(in srgb, var(--accent) 14%, var(--border));
+  background: color-mix(in srgb, var(--accent) 7%, var(--surface));
+  border: 1px solid color-mix(in srgb, var(--accent) 22%, var(--border));
+  border-left: 4px solid var(--accent);
   border-radius: var(--radius-lg);
+  box-shadow: 0 2px 12px color-mix(in srgb, var(--accent) 10%, transparent);
 }
 [data-theme="dark"] .article-row--featured {
-  background: color-mix(in srgb, var(--accent) 9%, var(--surface));
+  background: color-mix(in srgb, var(--accent) 12%, var(--surface));
+  box-shadow: 0 2px 16px color-mix(in srgb, var(--accent) 14%, transparent);
 }
 .article-row--featured .article-row__title {
-  font-size: 1.5rem;
-  letter-spacing: -0.035em;
-  line-height: 1.25;
+  font-size: 1.65rem;
+  letter-spacing: -0.04em;
+  line-height: 1.2;
   margin-bottom: var(--space-3);
 }
 .article-row--featured .article-row__excerpt {
-  font-size: 0.95rem;
+  font-size: 0.97rem;
   margin-bottom: var(--space-4);
 }
 
