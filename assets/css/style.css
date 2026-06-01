@@ -53,6 +53,10 @@
   --radius-xl: 24px;
 }
 
+@media (max-width: 640px) {
+  :root { --page-gutter: 0.75rem; }
+}
+
 [data-theme="dark"] {
   --bg:             #0C1017;
   --bg-secondary:   #131825;
