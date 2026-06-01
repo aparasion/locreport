@@ -3,6 +3,8 @@ title: "Google Translate Gets A Better Dictionary With Smarter Rankings, Reverse
 date: 2012-10-31T19:34:18Z
 layout: post
 categories: [translation]
+redirect_from:
+  - /translation/2012/10/31/google-translate-gets-a-better-dictionary-with-smarter-ranki.html
 tags: [translation, localization, news]
 excerpt: "Google's recent update to Google Translate introduces significant enhancements aimed at improving user experience and translation accuracy."
 publisher: "techcrunch.com"

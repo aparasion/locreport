@@ -4,7 +4,7 @@ date: 2021-04-09T08:32:00Z
 layout: post
 categories: [translation]
 redirect_from:
-  - /translation/2021/04/09/softbank-vision-fund-2-invests-160m-in-media-localization-pr-1.html
+  - /translation/2021/04/09/softbank-vision-fund-2-invests-160m-in-media-localization-pr.html
 tags: [translation, localization, news]
 excerpt: "Iyuno-SDI Group has secured $160 million in funding from SoftBank Vision Fund 2, positioning itself as a formidable player in the media localization..."
 publisher: "techcrunch.com"

@@ -3,6 +3,8 @@ title: "Gaudio Lab Makes NAB Show Debut, Unveiling AI-Powered Content Localizati
 date: 2026-04-03T04:44:04Z
 layout: post
 categories: [translation]
+redirect_from:
+  - /articles/2026/04/03/gaudio-lab-makes-nab-show-debut-unveiling-ai-powered-content.html
 tags: [translation, localization, news]
 article_type: "industry"
 author: "LocReport Industry Desk"

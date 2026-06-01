@@ -3,6 +3,8 @@ title: "The Chosen breaks own record as most-translated series - Premier Christi
 date: 2026-02-23T12:37:00Z
 layout: post
 categories: [translation]
+redirect_from:
+  - /translation/2026/02/23/the-chosen-breaks-own-record-as-most-translated-series-pre.html
 tags: [translation, localization, news]
 excerpt: "\"The Chosen,\" a groundbreaking television series depicting the life of Jesus Christ, has achieved a remarkable milestone by becoming the most-translated..."
 publisher: news.google.com

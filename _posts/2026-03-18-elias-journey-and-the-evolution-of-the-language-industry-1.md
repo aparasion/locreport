@@ -3,6 +3,8 @@ title: "ELIA’s Journey and the Evolution of the Language Industry"
 date: 2026-03-18T10:42:36Z
 layout: post
 categories: [translation]
+redirect_from:
+  - /articles/2026/03/18/elias-journey-and-the-evolution-of-the-language-industry.html
 tags: [translation, localization, news]
 excerpt: "The recent 20th anniversary of the European Language Industry Association (ELIA) serves as a pivotal moment for reflection within the localization sector,..."
 publisher: "elia-association.org"

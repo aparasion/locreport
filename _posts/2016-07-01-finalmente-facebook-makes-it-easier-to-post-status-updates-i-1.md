@@ -3,6 +3,8 @@ title: "¡Finalmente! Facebook makes it easier to post status updates in multipl
 date: 2016-07-01T16:11:44Z
 layout: post
 categories: [translation]
+redirect_from:
+  - /translation/2016/07/01/finalmente-facebook-makes-it-easier-to-post-status-updates-i.html
 tags: [translation, localization, news]
 excerpt: "Facebook's recent rollout of a multilingual status update feature marks a significant shift in how social media platforms facilitate communication across..."
 publisher: "techcrunch.com"

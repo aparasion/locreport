@@ -3,6 +3,8 @@ title: "Localizing Games For China Doesn’t Just Mean Making Them More “Chine
 date: 2013-12-07T12:07:15Z
 layout: post
 categories: [translation]
+redirect_from:
+  - /translation/2013/12/07/localizing-games-for-china-doesnt-just-mean-making-them-more.html
 tags: [translation, localization, news]
 excerpt: "The mobile gaming landscape in China is rapidly evolving, presenting both unprecedented opportunities and formidable challenges for foreign game..."
 publisher: "techcrunch.com"

@@ -3,6 +3,8 @@ title: "Win and Winnow is seeking a Sales Representative (B2B) in Spain"
 date: 2026-02-18T12:00:00Z
 layout: post
 categories: [translation]
+redirect_from:
+  - /translation/2026/02/18/win-and-winnow-is-seeking-a-sales-representative-b2b-in-spai.html
 tags: [translation, localization, news, gist]
 excerpt: "Win & Winnow is hiring a B2B Sales Representative based in Spain to enhance accessibility through information services. The role focuses on building relationshi..."
 publisher: gala-global.org

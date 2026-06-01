@@ -3,6 +3,8 @@ title: "Stay ahead of the curve in the language industry with the ZHAW"
 date: 2026-02-05T12:00:00Z
 layout: post
 categories: [translation]
+redirect_from:
+  - /translation/2026/02/05/stay-ahead-of-the-curve-in-the-language-industry-with-the-zh.html
 tags: [translation, localization, news]
 excerpt: "The Zurich University of Applied Sciences (ZHAW) has announced a series of eight online webinars for 2026, targeting professionals in the language..."
 publisher: gala-global.org
