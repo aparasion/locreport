@@ -6,9 +6,11 @@ categories: [monthly-summary]
 tags: [monthly, roundup, translation, localization]
 author: "LocReport Industry Desk"
 excerpt: "A monthly roundup for December 2025 based on 3 articles."
-permalink: /reports/Monthly-Report-December-2025/
 period: "2025-12"
 source_count: 3
+permalink: /reports/monthly/2025/December/
+redirect_from:
+  - /reports/Monthly-Report-December-2025/
 ---
 
 ## ELIA at 20: Celebrating Community and Legacy in Localization
