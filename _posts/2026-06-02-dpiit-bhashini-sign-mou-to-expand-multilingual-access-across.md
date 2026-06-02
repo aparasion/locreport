@@ -6,7 +6,7 @@ categories: [translation]
 tags: [translation, localization, news]
 article_type: "industry"
 author: "LocReport Industry Desk"
-excerpt: "[enterpriseai](https://enterpriseai."
+excerpt: "The landscape of artificial intelligence (AI) is evolving rapidly, particularly within Indian enterprises..."
 publisher: "enterpriseai.economictimes.indiatimes.com"
 source_url: "https://enterpriseai.economictimes.indiatimes.com"
 signal_ids: []
