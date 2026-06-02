@@ -1,0 +1,166 @@
+name: Issue Article
+
+# Generate a LocReport post from a "Manual Article" issue form.
+# Auth is GitHub itself: only issues opened by the repository owner and
+# carrying the "manual-article" label are processed. No token is stored in
+# the site, nothing to paste, no redeploy — works from any device you are
+# signed into GitHub on (web or mobile).
+
+on:
+  issues:
+    types: [opened, reopened]
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: issue-article-${{ github.event.issue.number }}
+  cancel-in-progress: false
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  create-post:
+    # Only the repo owner can trigger generation, and only for tagged issues.
+    if: >
+      github.event.issue.user.login == github.repository_owner &&
+      contains(github.event.issue.labels.*.name, 'manual-article')
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install feedparser trafilatura openai requests
+
+      - name: Acknowledge submission
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh issue comment "${{ github.event.issue.number }}" \
+            --body "⏳ Generating the post… [watch this run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})."
+
+      - name: Generate manual article post
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          ISSUE_BODY: ${{ github.event.issue.body }}
+        run: |
+          python - <<'PY'
+          import json, os, re, subprocess
+          from pathlib import Path
+
+          body = os.environ.get("ISSUE_BODY", "") or ""
+
+          # GitHub issue-form bodies render as: "### <Label>\n\n<value>\n\n### <Label>…"
+          parts = re.split(r'^###[ \t]+(.+?)[ \t]*$', body, flags=re.M)
+          fields = {}
+          it = iter(parts[1:])
+          for label, value in zip(it, it):
+              fields[label.strip()] = value.strip()
+
+          EMPTY = {"", "_No response_", "_no response_", "No response"}
+
+          def get(label):
+              v = fields.get(label, "").strip()
+              return "" if v in EMPTY else v
+
+          def dropdown(label):
+              v = get(label)
+              return "" if v.lower().startswith("auto") else v
+
+          content     = get("Article content")
+          url         = get("Article URL")
+          source_name = get("Source name")
+
+          if not content or not url or not source_name:
+              raise SystemExit(
+                  "Missing required field(s): Article content, Article URL, and Source name are all required."
+              )
+
+          Path("manual_article_content.txt").write_text(content, encoding="utf-8")
+
+          args = [
+              "python", "scripts/generate_manual_article.py",
+              "--url", url,
+              "--content-file", "manual_article_content.txt",
+              "--source-name", source_name,
+          ]
+
+          title         = get("Article title")
+          article_date  = get("Article date (UTC)")
+          prompt_add    = get("Prompt addition")
+          extra_url_1   = get("Additional URL 1")
+          extra_name_1  = get("Source name for URL 1")
+          extra_url_2   = get("Additional URL 2")
+          extra_name_2  = get("Source name for URL 2")
+          content_type  = dropdown("Content type")
+          impact_score  = dropdown("Impact score")
+          time_horizon  = dropdown("Time horizon")
+
+          if title:        args += ["--title", title]
+          if article_date: args += ["--date", article_date]
+          if prompt_add:   args += ["--prompt-addition", prompt_add]
+          if extra_url_1:  args += ["--extra-url", extra_url_1, "--extra-source-name", extra_name_1]
+          if extra_url_2:  args += ["--extra-url", extra_url_2, "--extra-source-name", extra_name_2]
+          if content_type: args += ["--content-type", content_type]
+          if impact_score: args += ["--impact-score", impact_score]
+          if time_horizon: args += ["--time-horizon", time_horizon]
+
+          print("Running:", " ".join(args))
+          subprocess.run(args, check=True)
+          PY
+
+      - name: Update signal statuses and correlations
+        run: |
+          python scripts/update_signal_status.py
+          python scripts/generate_signal_correlations.py
+
+      - name: Commit and push changes
+        id: commit
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add _posts/ seen.json _data/signals.yml _data/signal_correlations.yml
+          if ! git diff --cached --quiet; then
+            git commit -m "Add manual article (issue #${{ github.event.issue.number }})"
+            git push
+            echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+          else
+            echo "No manual article changes to commit"
+            echo "sha=" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Report success and close issue
+        if: success()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SHA: ${{ steps.commit.outputs.sha }}
+        run: |
+          if [ -n "$SHA" ]; then
+            gh issue comment "${{ github.event.issue.number }}" \
+              --body "✅ Published in [\`${SHA:0:7}\`](${{ github.server_url }}/${{ github.repository }}/commit/${SHA}). GitHub Pages will deploy it to https://locreport.com shortly."
+          else
+            gh issue comment "${{ github.event.issue.number }}" \
+              --body "ℹ️ The workflow ran but produced no changes (possible duplicate)."
+          fi
+          gh issue close "${{ github.event.issue.number }}"
+
+      - name: Report failure
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh issue comment "${{ github.event.issue.number }}" \
+            --body "❌ Generation failed. See the [run log](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) for details. Edit the issue to fix the inputs, then **close and reopen** it to retry."
