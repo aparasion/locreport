@@ -6,9 +6,9 @@ categories: [translation]
 tags: [translation, localization, news]
 article_type: "industry"
 author: "LocReport Industry Desk"
-excerpt: "[hortidaily](https://www."
+excerpt: "The horticultural sector is undergoing a significant transformation, driven by technological advancements and a growing emphasis on sustainability..."
 publisher: "hortidaily.com"
-source_url: "https://www.hortidaily.com"
+source_url: "https://www.hortidaily.com/article/9842051/ai-agronomic-advisor-turns-fragmented-farm-data-into-multilingual-real-time-decisions/"
 signal_ids: []
 signal_stance: mixed
 signal_confidence: low
@@ -21,7 +21,7 @@ business_implications:
   - "Language professionals need to align with sustainability trends in documentation."
 ---
 
-[hortidaily](https://www.hortidaily.com) — The horticultural sector is undergoing a significant transformation, driven by technological advancements and a growing emphasis on sustainability. As localization managers, language technology leaders, and enterprise language buyers, understanding these shifts is crucial for aligning with industry trends and meeting the evolving demands of global markets. The recent developments highlighted in the agri-tech landscape, particularly in Japan, showcase how innovation is not merely a buzzword but a necessity for survival and growth.
+The horticultural sector is undergoing a significant transformation, driven by technological advancements and a growing emphasis on sustainability—reports [HortiDaily.com](https://www.hortidaily.com/article/9842051/ai-agronomic-advisor-turns-fragmented-farm-data-into-multilingual-real-time-decisions/). As localization managers, language technology leaders, and enterprise language buyers, understanding these shifts is crucial for aligning with industry trends and meeting the evolving demands of global markets. The recent developments highlighted in the agri-tech landscape, particularly in Japan, showcase how innovation is not merely a buzzword but a necessity for survival and growth.
 
 Take, for instance, the strides made by a Japanese agri-tech startup that has successfully integrated a cherry tomato harvesting robot into routine production. This leap forward not only exemplifies the fusion of technology and agriculture but also raises questions about the implications for labor, efficiency, and quality in food production. As these automated solutions become commonplace, the need for precise localization of technology and marketing materials becomes paramount. The challenge lies in ensuring that the messaging resonates across diverse cultural contexts while maintaining technical accuracy. Localization managers must be prepared to adapt content that speaks to the unique agricultural practices and consumer expectations in different regions.
 
