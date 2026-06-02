@@ -16,6 +16,14 @@
   url: "/events/#event-card-locworld56"
 - term: "ATA67"
   url: "/events/#event-card-ata67"
+- term: "ACL 2026"
+  url: "/events/#event-card-acl-2026"
+- term: "EMNLP 2026"
+  url: "/events/#event-card-emnlp-2026"
+- term: "NeurIPS 2026"
+  url: "/events/#event-card-neurips-2026"
+- term: "World Summit AI"
+  url: "/events/#event-card-world-summit-ai-amsterdam"
 - term: "SlatorCon"
   url: "/events/slatorcon/"
 - term: "LocWorld"
@@ -126,6 +134,16 @@
   url: "/topics/market/"
 - term: "LSP"
   url: "/topics/market/"
+
+# ── LocStock market tracker ───────────────────────────────────────────────
+- term: "LocStock"
+  url: "/market/"
+- term: "LocStock AI segment"
+  url: "/market/"
+- term: "multilingual LLM gap"
+  url: "/intelligence/signals/multilingual-llm-gap/"
+- term: "AI company language strategy"
+  url: "/intelligence/signals/ai-company-language-strategy/"
 
 # ── Other internal pages ──────────────────────────────────────────────────
 - term: "monthly report"

@@ -505,8 +505,8 @@ nav_order: 4
 
 <div class="market-header-row">
   <p class="market-subtitle">
-    Live equity overview of <strong>29 publicly traded companies</strong> with exposure to language
-    services, AI translation, and localization technology across 13 global exchanges.<br>
+    Live equity overview of <strong>34 publicly traded companies</strong> with exposure to language
+    services, AI translation, localization technology, and AI platform infrastructure across 14 global exchanges.<br>
     Last updated: <span id="mkt-updated">Loading…</span>
   </p>
   <button class="market-refresh-btn" id="mkt-refresh-btn" type="button" aria-label="Refresh market quotes">
@@ -522,7 +522,7 @@ nav_order: 4
 <!-- ── Stats Bar ─────────────────────────────────────────── -->
 <div class="market-stats-bar">
   <div class="market-stat">
-    <span class="market-stat-value" id="stat-total">29</span>
+    <span class="market-stat-value" id="stat-total">34</span>
     <span class="market-stat-label">Tracked</span>
   </div>
   <div class="market-stat">
@@ -538,18 +538,19 @@ nav_order: 4
     <span class="market-stat-label">Unchanged</span>
   </div>
   <div class="market-stat">
-    <span class="market-stat-value" id="stat-exchanges">14</span>
+    <span class="market-stat-value" id="stat-exchanges">15</span>
     <span class="market-stat-label">Exchanges</span>
   </div>
 </div>
 
 <!-- ── Category Filters ──────────────────────────────────── -->
 <div class="market-filters" id="mkt-filters" role="group" aria-label="Filter by category">
-  <button class="market-filter-btn active" data-cat="all">All <span class="market-filter-count">29</span></button>
+  <button class="market-filter-btn active" data-cat="all">All <span class="market-filter-count">34</span></button>
   <button class="market-filter-btn" data-cat="lsp">Language Services <span class="market-filter-count">12</span></button>
-  <button class="market-filter-btn" data-cat="bigtech">Big Tech <span class="market-filter-count">5</span></button>
+  <button class="market-filter-btn" data-cat="bigtech">Big Tech <span class="market-filter-count">7</span></button>
+  <button class="market-filter-btn" data-cat="aiplatform">AI Platforms <span class="market-filter-count">3</span></button>
   <button class="market-filter-btn" data-cat="media">Media &amp; Content <span class="market-filter-count">2</span></button>
-  <button class="market-filter-btn" data-cat="enterprise">Enterprise Software <span class="market-filter-count">3</span></button>
+  <button class="market-filter-btn" data-cat="enterprise">Enterprise Software <span class="market-filter-count">4</span></button>
   <button class="market-filter-btn" data-cat="bpo">BPO &amp; Staffing <span class="market-filter-count">5</span></button>
   <button class="market-filter-btn" data-cat="learning">Language Learning <span class="market-filter-count">1</span></button>
   <button class="market-filter-btn" data-cat="aidata">AI &amp; Data <span class="market-filter-count">1</span></button>
@@ -624,7 +625,7 @@ nav_order: 4
 <!-- ── Notes ─────────────────────────────────────────────── -->
 <div class="market-notes">
   <p><strong>Market data</strong> is refreshed automatically every 30 minutes on trading days (Mon–Fri). Prices are displayed in each company's native trading currency — GBp (pence) for LSE stocks, JPY for the Tokyo Stock Exchange, KRW for Korean exchanges, and so on. Market cap is shown in local currency where reported.</p>
-  <p><strong>Coverage scope</strong> includes pure-play language services companies, major technology platforms with significant translation and NLP exposure, media companies that are large buyers of localization, enterprise software providers with localization tooling, and AI data annotation companies.</p>
+  <p><strong>Coverage scope</strong> includes pure-play language services companies, major technology platforms with significant translation and NLP exposure, AI platform companies whose infrastructure and model decisions directly shape multilingual capability (NVIDIA, Meta, Amazon, SoundHound AI, C3.ai), media companies that are large buyers of localization, enterprise software providers with localization tooling, and AI data annotation companies.</p>
   <p>Data may be delayed. This page is for informational purposes only and does not constitute financial advice.</p>
 </div>
 
@@ -641,15 +642,22 @@ nav_order: 4
 // ex = exchange label, co = country code, cat = category,
 // ft = featured (span 2 cols), warn = warning text
 var COMPANIES = [
+  /* ─ Featured — AI Platforms ─ */
+  { t:"NVDA",       s:"NVDA",    n:"NVIDIA Corporation",     ex:"NASDAQ",         co:"US", cat:"aiplatform", ft:true  },
   /* ─ Featured — Big Tech ─ */
   { t:"GOOGL",      s:"GOOGL",   n:"Alphabet (Google)",      ex:"NASDAQ",         co:"US", cat:"bigtech",    ft:true  },
   { t:"MSFT",       s:"MSFT",    n:"Microsoft Corporation",  ex:"NASDAQ",         co:"US", cat:"bigtech",    ft:true  },
+  { t:"META",       s:"META",    n:"Meta Platforms Inc.",    ex:"NASDAQ",         co:"US", cat:"bigtech",    ft:true  },
+  { t:"AMZN",       s:"AMZN",    n:"Amazon.com Inc.",        ex:"NASDAQ",         co:"US", cat:"bigtech",    ft:true  },
   /* ─ Featured — Media ─ */
   { t:"NFLX",       s:"NFLX",    n:"Netflix Inc.",           ex:"NASDAQ",         co:"US", cat:"media",      ft:true  },
   /* ─ Featured — Language Learning ─ */
   { t:"DUOL",       s:"DUOL",    n:"Duolingo Inc.",          ex:"NASDAQ",         co:"US", cat:"learning",   ft:true  },
   /* ─ Featured — LSP anchor ─ */
   { t:"RWS.L",      s:"RWS",     n:"RWS Holdings plc",       ex:"LSE",            co:"UK", cat:"lsp",        ft:true  },
+  /* ─ AI Platforms (continued) ─ */
+  { t:"SOUN",       s:"SOUN",    n:"SoundHound AI Inc.",     ex:"NASDAQ",         co:"US", cat:"aiplatform"         },
+  { t:"AI",         s:"AI",      n:"C3.ai Inc.",             ex:"NYSE",           co:"US", cat:"aiplatform"         },
   /* ─ Big Tech (continued) ─ */
   { t:"BIDU",       s:"BIDU",    n:"Baidu Inc.",             ex:"NASDAQ",         co:"CN", cat:"bigtech"            },
   { t:"035420.KS",  s:"NAVER",   n:"Naver Corporation",      ex:"KRX",            co:"KR", cat:"bigtech"            },
@@ -660,6 +668,7 @@ var COMPANIES = [
   { t:"ADBE",       s:"ADBE",    n:"Adobe Inc.",             ex:"NASDAQ",         co:"US", cat:"enterprise"         },
   { t:"ORCL",       s:"ORCL",    n:"Oracle Corporation",     ex:"NYSE",           co:"US", cat:"enterprise"         },
   { t:"SAP",        s:"SAP",     n:"SAP SE",                 ex:"NYSE",           co:"DE", cat:"enterprise"         },
+  { t:"IBM",        s:"IBM",     n:"IBM Corporation",        ex:"NYSE",           co:"US", cat:"enterprise"         },
   /* ─ BPO & Staffing ─ */
   { t:"TEP.PA",     s:"TEP",     n:"Teleperformance SE",     ex:"Euronext Paris", co:"FR", cat:"bpo"                },
   { t:"AMN",        s:"AMN",     n:"AMN Healthcare Services",ex:"NYSE",           co:"US", cat:"bpo"                },
@@ -886,6 +895,7 @@ var CAT_LABELS = {
   all:        "All Categories",
   lsp:        "Language Services",
   bigtech:    "Big Tech",
+  aiplatform: "AI Platforms",
   media:      "Media & Content",
   enterprise: "Enterprise Software",
   bpo:        "BPO & Staffing",

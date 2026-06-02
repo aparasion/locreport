@@ -196,6 +196,51 @@
     - "source content quality"
     - "locale-ready"
 
+- id: multilingual-llm-gap
+  title: LLM translation quality degrades significantly for non-English and low-resource language pairs
+  category: quality
+  first_seen: 2026-06-02
+  current_status: supported
+  description: Tracks evidence that large language models perform unevenly across languages — delivering near-human quality in high-resource pairs (EN↔FR, EN↔DE, EN↔ZH) while producing significantly degraded output for low-resource and minority languages. Relevant for buyers and LSPs deciding where AI can replace or must complement human translators.
+  momentum: rising
+  watched_tickers: [GOOGL, MSFT, META, NVDA]
+  keywords:
+    - "low-resource language"
+    - "multilingual benchmark"
+    - "language coverage"
+    - "minority language"
+    - "non-English"
+    - "language disparity"
+    - "LLM multilingual"
+    - "language pair quality"
+    - "underrepresented language"
+    - "translation benchmark"
+    - "FLORES"
+    - "WMT benchmark"
+
+- id: ai-company-language-strategy
+  title: AI labs are making explicit product decisions about which languages to support and at what quality
+  category: strategy
+  first_seen: 2026-06-02
+  current_status: emerging
+  description: Tracks how AI companies (OpenAI, Anthropic, Google DeepMind, Meta AI, Mistral, Cohere) are framing multilingual support as a strategic product decision — including training data choices, evaluation investments, and language-specific model releases. These decisions have direct downstream consequences for the localization industry.
+  momentum: rising
+  watched_tickers: [GOOGL, MSFT, META, AMZN]
+  keywords:
+    - "multilingual model"
+    - "language support"
+    - "training data language"
+    - "model release"
+    - "language policy"
+    - "AI lab"
+    - "foundation model language"
+    - "Anthropic"
+    - "OpenAI language"
+    - "Mistral"
+    - "Cohere"
+    - "Meta AI language"
+    - "language model strategy"
+
 - id: lsp-relevance-erosion
   title: Boutique and mid-tier LSPs are losing strategic relevance as enterprise buyers consolidate or go direct-to-AI
   category: market
