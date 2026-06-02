@@ -114,8 +114,8 @@
 - id: acl-2026
   name: ACL 2026
   organizer: Association for Computational Linguistics
-  start_date: '2026-07-27'
-  end_date: '2026-08-01'
+  start_date: '2026-07-02'
+  end_date: '2026-07-07'
   location: Vienna, Austria
   format: in-person
   category: conference
@@ -161,8 +161,8 @@
 - id: emnlp-2026
   name: EMNLP 2026
   organizer: ACL Special Interest Group on Linguistic Data
-  start_date: '2026-11-08'
-  end_date: '2026-11-12'
+  start_date: '2026-10-24'
+  end_date: '2026-10-29'
   location: TBA
   format: in-person
   category: conference
