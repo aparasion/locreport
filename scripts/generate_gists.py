@@ -650,7 +650,10 @@ def ensure_source_link(body: str, source_url: str, publisher: str) -> str:
         return body
     if re.search(r'\[.+?\]\(https?://', body):
         return body
-    anchor = re.sub(r'^www\.', '', publisher or "the source").split('.')[0].strip()
+    clean_domain = re.sub(r'^www\.', '', publisher or "").strip()
+    # Short anchor (first domain label, e.g. "slator") for matching an existing
+    # mention of the publisher name in the body.
+    anchor = clean_domain.split('.')[0].strip()
     # Try to link an existing mention of the publisher name in the body,
     # preserving the original capitalisation of the matched text.
     if anchor and re.search(re.escape(anchor), body, re.IGNORECASE):
@@ -663,16 +666,19 @@ def ensure_source_link(body: str, source_url: str, publisher: str) -> str:
             count=1,
             flags=re.IGNORECASE,
         )
-    # Fallback: inject into the second sentence so the link never leads the article.
+    # No in-body mention to link: fall back to a clean, readable label. Prefer the
+    # full publisher domain (e.g. "roboticsandautomationnews.com") over a bare,
+    # lowercased first segment, which reads poorly as anchor text.
+    fallback_label = clean_domain or "the source"
+    # Inject into the second sentence so the link never leads the article.
     # Find the end of the first sentence (period/exclamation/question not inside parens).
     first_end = re.search(r'(?<=[.!?])\s+', body)
     if first_end:
         insert_at = first_end.end()
-        label = anchor or "Source"
-        inject = f"[{label}]({source_url}) reports that "
+        inject = f"[{fallback_label}]({source_url}) reports that "
         return body[:insert_at] + inject + body[insert_at:]
     # Absolute last resort: append a parenthetical rather than prepend.
-    return body + f" ([{anchor or 'Source'}]({source_url}))"
+    return body + f" ([{fallback_label}]({source_url}))"
 
 
 def pick_author(seed: str, article_type: str = "industry") -> str:

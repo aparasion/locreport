@@ -211,7 +211,15 @@
         "width": 600,
         "height": 60
       }
-    }{% if page.tags and page.tags.size > 0 %},
+    }{% if page.source_url and page.source_url != '' %},
+    "isBasedOn": {
+      "@type": "CreativeWork",
+      "url": {{ page.source_url | jsonify }}{% if page.publisher and page.publisher != '' %},
+      "publisher": {
+        "@type": "Organization",
+        "name": {{ page.publisher | jsonify }}
+      }{% endif %}
+    }{% endif %}{% if page.tags and page.tags.size > 0 %},
     "keywords": {{ page.tags | join: ', ' | jsonify }}{% endif %}
   }
   </script>
