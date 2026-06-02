@@ -910,6 +910,33 @@ def generate_intelligence(title: str, gist: str, article_text: str) -> dict:
 # ── Theory article prompts and intelligence ──
 
 
+EXTRACTOR_SYSTEM_PROMPT = """You are a cold, analytical Data Extraction Engine. Your sole purpose is to ingest a third-party article and strip away all narrative flow, author bias, editorial voice, transitions, and stylistic choices. Output ONLY raw, verified facts, data points, entity definitions, and precise chronological milestones.
+
+You are a firewall. Under no circumstances should the stylistic cadence, structure, or vocabulary of the source text pass through to your output.
+
+CONSTRAINTS & BANNED BEHAVIORS
+- DO NOT summarize. DO NOT use paragraphs, narrative prose, or intro/concluding remarks.
+- DO NOT use high-probability AI words/transitions ("delve", "testament", "revolutionized", "landscape", "moreover", "furthermore", "it's important to note").
+- DO NOT mimic the logical sequence of the source. Group facts by data TYPE (the four blocks below), not by reading order.
+- If a statement is an opinion or unverified claim by the author, prefix it with [UNVERIFIED CLAIM BY SOURCE].
+- Preserve exact numbers, names, model names, and verbatim quotes. Do not round, paraphrase quotes, or invent facts not present in the text.
+
+OUTPUT SCHEMA — emit only these blocks. Omit any header that has no data.
+
+### 1. HARD ENTITIES & ATTRIBUTES
+- **Entity Name:** Role / exact context
+
+### 2. DISCRETE DATAPOINTS & STATS
+- **<data/stat>:** Exact context (<15 words) of what this number measures
+
+### 3. CHRONOLOGICAL MILESTONES
+- **<date/timeframe>:** Event or change that occurred
+
+### 4. DIRECT QUOTES & CLAIMS
+- **Source Claim:** "<verbatim quote or specific technical claim>" - Attributed to: <name/source>
+
+If the provided text is mostly cookie/privacy/legal notices rather than article content, respond with exactly: UNUSABLE_CONTENT"""
+
 INDUSTRY_GIST_SYSTEM_PROMPT = """You are a senior editorial writer for LocReport, a professional news platform covering the language services and localization industry. Your readers are localization managers, language technology leaders, translators, and enterprise language buyers.
 
 Write a substantive analysis in 3–4 paragraphs (380–520 words total).
@@ -964,6 +991,26 @@ SOURCE ATTRIBUTION RULE (MANDATORY): Every summary MUST contain at least one mar
 
 If the provided text is mostly cookie/privacy/legal notices rather than article content, respond exactly with: UNUSABLE_CONTENT"""
 
+def extract_facts(title: str, text: str, source_name: str = "", source_url: str = "") -> str:
+    """Stage 1: strip narrative and return structured, verified facts (the firewall)."""
+    src = f"Source: {source_name} — {source_url}\n\n" if (source_name or source_url) else ""
+    user = (
+        f"Title: {title}\n\n{src}"
+        "Extract structured facts from the article text below.\n\n"
+        f"Article text:\n{text[:15000]}"
+    )
+    response = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[
+            {"role": "system", "content": EXTRACTOR_SYSTEM_PROMPT},
+            {"role": "user", "content": user},
+        ],
+        max_tokens=1200,      # enough to hold all four blocks
+        temperature=0.0,      # faithful, near-deterministic extraction
+    )
+    return response.choices[0].message.content.strip()
+
+
 def generate_gist(
     title: str,
     text: str,
@@ -974,6 +1021,11 @@ def generate_gist(
     extra_sources: list[tuple[str, str]] | None = None,
 ) -> str:
     """Generate a LocReport article analysis using the same prompt for RSS and manual inputs."""
+    # Stage 1: extract structured facts from the raw article (firewall against source style).
+    facts = extract_facts(title, text, source_name, source_url)
+    if facts.strip() == "UNUSABLE_CONTENT":
+        return "UNUSABLE_CONTENT"
+
     # Build source context line(s) for the prompt
     source_lines = []
     if source_name and source_url:
@@ -987,12 +1039,20 @@ def generate_gist(
             source_lines.append(f"Additional source URL: {s_url}")
     source_context = ("\n".join(source_lines) + "\n\n") if source_lines else ""
 
+    fact_sheet_note = (
+        "You are given a structured fact sheet extracted from the source — NOT the "
+        "original prose. Write entirely in LocReport's own voice and structure; do "
+        "not reproduce the source's ordering. Ground every claim in these facts. "
+        "Items tagged [UNVERIFIED CLAIM BY SOURCE] may be presented as the author's "
+        "position/opinion, not as established fact.\n\n"
+    )
     if article_type == "theory":
         prompt = (
             "Write a substantive research summary (350–480 words).\n"
             "Frame it for linguists, NLP practitioners, and language science researchers.\n\n"
             f"{source_context}"
-            f"Article text:\n{text[:15000]}"
+            f"{fact_sheet_note}"
+            f"Extracted source facts:\n{facts}"
         )
         gist_system_prompt = THEORY_GIST_SYSTEM_PROMPT
     else:
@@ -1000,7 +1060,8 @@ def generate_gist(
             "Write a substantive editorial analysis (380–520 words).\n"
             "Frame it for localization managers, language technology leaders, and enterprise language buyers.\n\n"
             f"{source_context}"
-            f"Article text:\n{text[:15000]}"
+            f"{fact_sheet_note}"
+            f"Extracted source facts:\n{facts}"
         )
         gist_system_prompt = INDUSTRY_GIST_SYSTEM_PROMPT
 
