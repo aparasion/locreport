@@ -1,0 +1,123 @@
+name: Manual Article
+description: Generate and publish a LocReport post from pasted article text.
+title: "[Article] "
+labels: ["manual-article"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Fill this in to publish a custom article. When you submit, a workflow
+        verifies you are the repository owner, generates the post, commits it to
+        `main`, then comments here and closes the issue. No token, no redeploy.
+  - type: textarea
+    id: content
+    attributes:
+      label: Article content
+      description: Paste the full source article text here.
+      placeholder: Paste the full source article text…
+    validations:
+      required: true
+  - type: input
+    id: title
+    attributes:
+      label: Article title
+      description: Optional. Inferred from the article content when left blank.
+    validations:
+      required: false
+  - type: input
+    id: article_date
+    attributes:
+      label: Article date (UTC)
+      description: "Optional. YYYY-MM-DD or full ISO (2026-06-02T09:15:00Z). Controls post ordering. Blank = today."
+    validations:
+      required: false
+  - type: input
+    id: url
+    attributes:
+      label: Article URL
+      placeholder: https://example.com/article
+    validations:
+      required: true
+  - type: input
+    id: source_name
+    attributes:
+      label: Source name
+      description: Displayed as the source link text.
+      placeholder: Example News
+    validations:
+      required: true
+  - type: input
+    id: extra_url_1
+    attributes:
+      label: Additional URL 1
+      placeholder: https://…
+    validations:
+      required: false
+  - type: input
+    id: extra_source_name_1
+    attributes:
+      label: Source name for URL 1
+    validations:
+      required: false
+  - type: input
+    id: extra_url_2
+    attributes:
+      label: Additional URL 2
+      placeholder: https://…
+    validations:
+      required: false
+  - type: input
+    id: extra_source_name_2
+    attributes:
+      label: Source name for URL 2
+    validations:
+      required: false
+  - type: textarea
+    id: prompt_addition
+    attributes:
+      label: Prompt addition
+      description: Optional editorial instructions appended to the standard generation prompt for this article only.
+    validations:
+      required: false
+  - type: dropdown
+    id: content_type
+    attributes:
+      label: Content type
+      description: Leave on Auto to let the AI decide.
+      options:
+        - "Auto (AI decides)"
+        - "gist"
+        - "analysis"
+        - "roundup"
+        - "opinion"
+      default: 0
+    validations:
+      required: false
+  - type: dropdown
+    id: impact_score
+    attributes:
+      label: Impact score
+      description: Leave on Auto to let the AI decide.
+      options:
+        - "Auto (AI decides)"
+        - "1"
+        - "2"
+        - "3"
+        - "4"
+        - "5"
+      default: 0
+    validations:
+      required: false
+  - type: dropdown
+    id: time_horizon
+    attributes:
+      label: Time horizon
+      description: Leave on Auto to let the AI decide.
+      options:
+        - "Auto (AI decides)"
+        - "now"
+        - "6months"
+        - "2years"
+      default: 0
+    validations:
+      required: false
