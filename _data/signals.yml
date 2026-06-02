@@ -222,7 +222,7 @@
   title: AI labs are making explicit product decisions about which languages to support and at what quality
   category: strategy
   first_seen: 2026-06-02
-  current_status: emerging
+  current_status: supported
   description: Tracks how AI companies (OpenAI, Anthropic, Google DeepMind, Meta AI, Mistral, Cohere) are framing multilingual support as a strategic product decision — including training data choices, evaluation investments, and language-specific model releases. These decisions have direct downstream consequences for the localization industry.
   momentum: rising
   watched_tickers: [GOOGL, MSFT, META, AMZN]
@@ -247,7 +247,7 @@
   first_seen: 2026-04-18
   current_status: supported
   description: Tracks whether boutique and mid-size LSPs are being squeezed out as enterprise buyers consolidate with mega-LSPs or bypass LSPs entirely via direct AI platforms — questioning whether specialization and relationship advantages still justify their position in the supply chain when AI offers comparable output at lower cost.
-  momentum: stable
+  momentum: rising
   watched_tickers: [TEP.PA, RWS.L, AMN]
   keywords:
     - "boutique LSP"

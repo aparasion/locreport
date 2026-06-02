@@ -32,6 +32,18 @@ correlations:
     signal_b: regulatory-fragmentation
     co_occurrences: 2
     strength: weak
+  - signal_a: ai-company-language-strategy
+    signal_b: lsp-relevance-erosion
+    co_occurrences: 1
+    strength: weak
+  - signal_a: ai-company-language-strategy
+    signal_b: multilingual-llm-gap
+    co_occurrences: 1
+    strength: weak
+  - signal_a: lsp-relevance-erosion
+    signal_b: multilingual-llm-gap
+    co_occurrences: 1
+    strength: weak
   - signal_a: agentic-localization-workflows
     signal_b: governance-in-ai-workflows
     co_occurrences: 1
