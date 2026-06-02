@@ -4578,6 +4578,21 @@ article.page > h1 {
 }
 
 /* Support / Buy Me a Coffee box */
+.post-source {
+  margin-top: var(--space-8);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--border);
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+.post-source a {
+  color: var(--muted);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.post-source a:hover { color: var(--text); }
+.post-source__ext { font-size: 0.85em; }
+
 .support-box {
   margin-top: var(--space-8);
   padding: var(--space-6);

@@ -129,6 +129,14 @@ layout: default
       {{ content }}
     </div>
 
+    {% if page.source_url and page.source_url != '' %}
+    {% assign source_label = page.publisher | default: 'the original source' | remove_first: 'www.' %}
+    <p class="post-source">
+      {% if page.article_type == 'theory' %}Based on research published by{% else %}Based on reporting from{% endif %}
+      <a href="{{ page.source_url }}" rel="nofollow noopener" target="_blank">{{ source_label }}<span class="post-source__ext" aria-hidden="true"> &#8599;</span></a>
+    </p>
+    {% endif %}
+
     <div class="support-box">
       <p class="support-box__text">LocReport is free and independent. If it helps you stay informed, consider buying us a coffee — it goes a long way.</p>
       <script type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js" data-name="bmc-button" data-slug="locreport" data-color="#5F7FFF" data-emoji="" data-font="Cookie" data-text="Buy me a coffee" data-outline-color="#000000" data-font-color="#ffffff" data-coffee-color="#FFDD00"></script>
