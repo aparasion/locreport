@@ -111,6 +111,100 @@
   tags:
   - LocWorld56
   - LW56
+- id: acl-2026
+  name: ACL 2026
+  organizer: Association for Computational Linguistics
+  start_date: '2026-07-27'
+  end_date: '2026-08-01'
+  location: Vienna, Austria
+  format: in-person
+  category: conference
+  url: https://2026.aclweb.org/
+  description: The 64th Annual Meeting of the Association for Computational Linguistics
+    (ACL 2026) is the flagship conference of the ACL, the world's premier scientific
+    and professional society for people working on computational problems involving
+    human language. ACL brings together researchers from academia and industry working
+    on machine translation, multilingual NLP, language modeling, and language generation.
+    For the language services industry, ACL is essential reading — it is where the
+    research underpinning the next generation of translation engines, quality evaluation
+    metrics, and multilingual models is first presented and debated. Sessions on low-resource
+    languages, MT evaluation, and LLM multilingual benchmarking are directly relevant
+    to localization practitioners.
+  tags:
+  - ACL2026
+  - ACL
+  - computational linguistics
+  - NLP
+
+- id: world-summit-ai-amsterdam
+  name: World Summit AI Amsterdam
+  organizer: Gavagai
+  start_date: '2026-10-07'
+  end_date: '2026-10-08'
+  location: Amsterdam, Netherlands
+  format: in-person
+  category: summit
+  url: https://worldsummit.ai/
+  description: World Summit AI Amsterdam is one of Europe's largest AI-focused executive
+    summits, drawing CxOs, researchers, investors, and policymakers from across the
+    global AI ecosystem. While not a localization-specific event, it has become increasingly
+    relevant to the language services industry as AI lab executives, enterprise AI
+    buyers, and policymakers converge to debate deployment standards, multilingual
+    model capabilities, and AI governance frameworks. For localization leaders tracking
+    how AI infrastructure decisions affect translation quality and access across languages,
+    this is a key event to monitor.
+  tags:
+  - World Summit AI
+  - AI industry
+  - enterprise AI
+
+- id: emnlp-2026
+  name: EMNLP 2026
+  organizer: ACL Special Interest Group on Linguistic Data
+  start_date: '2026-11-08'
+  end_date: '2026-11-12'
+  location: TBA
+  format: in-person
+  category: conference
+  url: https://2026.emnlp.org/
+  description: The Conference on Empirical Methods in Natural Language Processing
+    (EMNLP) is one of the most influential venues in NLP research, with a strong emphasis
+    on data-driven approaches to language understanding and generation. EMNLP is where
+    major advances in machine translation quality, multilingual models, and low-resource
+    language processing are published each year. For translation professionals and
+    language technology buyers, EMNLP research directly shapes what production MT
+    systems will look like 12–24 months from publication. Coverage of EMNLP findings
+    is now part of LocReport's editorial scope.
+  tags:
+  - EMNLP2026
+  - EMNLP
+  - NLP
+  - machine translation research
+
+- id: neurips-2026
+  name: NeurIPS 2026
+  organizer: Neural Information Processing Systems Foundation
+  start_date: '2026-12-06'
+  end_date: '2026-12-12'
+  location: Vancouver, Canada
+  format: in-person
+  category: conference
+  url: https://neurips.cc/
+  description: The Conference on Neural Information Processing Systems (NeurIPS) is
+    the world's leading machine learning research conference, and the venue where many
+    of the foundational advances in large language models, multilingual representation
+    learning, and AI scaling have been first announced. NeurIPS is relevant to LocReport's
+    coverage because decisions made at the model architecture and training data level
+    — including how much multilingual data is included, how low-resource languages
+    are handled, and what quality benchmarks are targeted — directly determine the
+    future of AI-powered translation. LocReport covers NeurIPS findings through a
+    language services lens.
+  tags:
+  - NeurIPS2026
+  - NeurIPS
+  - AI research
+  - language models
+
 - id: ata67
   name: ATA67
   organizer: American Translators Association
