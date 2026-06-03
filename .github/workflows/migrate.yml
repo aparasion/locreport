@@ -11,10 +11,10 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
 
       - name: Install migration dependencies
-        run: npm install --no-save @supabase/supabase-js gray-matter typescript ts-node
+        run: npm install --no-save @supabase/supabase-js gray-matter typescript ts-node ws @types/ws
 
       - name: Run migration
         env:
