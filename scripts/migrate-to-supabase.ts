@@ -1,0 +1,118 @@
+/**
+ * One-time migration: Jekyll _posts/*.md → Supabase articles table.
+ *
+ * Run:
+ *   NEXT_PUBLIC_SUPABASE_URL=... SUPABASE_SERVICE_ROLE_KEY=... \
+ *     npx ts-node --skip-project scripts/migrate-to-supabase.ts
+ */
+
+import { createClient } from '@supabase/supabase-js'
+import matter from 'gray-matter'
+import * as fs from 'fs'
+import * as path from 'path'
+
+const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL
+const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY
+const POSTS_DIR = path.join(__dirname, '..', '_posts')
+const BATCH_SIZE = 50
+
+if (!SUPABASE_URL || !SUPABASE_SERVICE_KEY) {
+  console.error('Missing NEXT_PUBLIC_SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY')
+  process.exit(1)
+}
+
+const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY)
+
+function filenameToSlug(filename: string): string {
+  // e.g. "2026-06-03-some-article-title.md"
+  // → "2026/06/03/some-article-title"
+  const base = path.basename(filename, '.md')
+  const match = base.match(/^(\d{4})-(\d{2})-(\d{2})-(.+)$/)
+  if (!match) return base
+  const [, year, month, day, slug] = match
+  return `${year}/${month}/${day}/${slug}`
+}
+
+function parseBusinessImplications(raw: unknown): string[] {
+  if (Array.isArray(raw)) return raw.map(String)
+  return []
+}
+
+async function main() {
+  const files = fs.readdirSync(POSTS_DIR)
+    .filter(f => f.endsWith('.md'))
+    .sort()
+
+  console.log(`Found ${files.length} posts to migrate.`)
+
+  let inserted = 0
+  let skipped = 0
+  let errors = 0
+
+  for (let i = 0; i < files.length; i += BATCH_SIZE) {
+    const batch = files.slice(i, i + BATCH_SIZE)
+    const rows = []
+
+    for (const file of batch) {
+      try {
+        const raw = fs.readFileSync(path.join(POSTS_DIR, file), 'utf8')
+        const { data: fm, content } = matter(raw)
+
+        const slug = filenameToSlug(file)
+
+        rows.push({
+          title: String(fm.title ?? ''),
+          slug,
+          excerpt: fm.excerpt ? String(fm.excerpt) : null,
+          content: content.trim(),
+          article_type: fm.article_type ?? fm.categories?.includes?.('monthly-summary')
+            ? 'monthly-summary'
+            : fm.article_type === 'theory' ? 'theory' : 'industry',
+          author: fm.author ? String(fm.author) : null,
+          publisher: fm.publisher ? String(fm.publisher) : null,
+          source_url: fm.source_url ? String(fm.source_url) : null,
+          signal_ids: Array.isArray(fm.signal_ids) ? fm.signal_ids.map(String) : [],
+          signal_stance: fm.signal_stance ? String(fm.signal_stance) : null,
+          signal_confidence: fm.signal_confidence ? String(fm.signal_confidence) : null,
+          impact_score: fm.impact_score ? Number(fm.impact_score) : null,
+          time_horizon: fm.time_horizon ? String(fm.time_horizon) : null,
+          affected_segments: Array.isArray(fm.affected_segments)
+            ? fm.affected_segments.map(String)
+            : [],
+          business_implications: parseBusinessImplications(fm.business_implications),
+          tags: Array.isArray(fm.tags) ? fm.tags.map(String) : [],
+          published_at: fm.date
+            ? new Date(fm.date as string).toISOString()
+            : new Date().toISOString(),
+          draft_id: null,
+        })
+      } catch (err) {
+        console.error(`Error parsing ${file}:`, err)
+        errors++
+      }
+    }
+
+    if (rows.length === 0) continue
+
+    const { error } = await supabase
+      .from('articles')
+      .upsert(rows, { onConflict: 'slug', ignoreDuplicates: true })
+
+    if (error) {
+      console.error(`Batch ${Math.floor(i / BATCH_SIZE) + 1} error:`, error.message)
+      errors += rows.length
+    } else {
+      inserted += rows.length
+      process.stdout.write(`\rMigrated ${Math.min(i + BATCH_SIZE, files.length)}/${files.length}`)
+    }
+  }
+
+  console.log(`\n\nDone.`)
+  console.log(`  Inserted/skipped: ${inserted}`)
+  console.log(`  Errors:           ${errors}`)
+}
+
+main().catch(err => {
+  console.error(err)
+  process.exit(1)
+})
