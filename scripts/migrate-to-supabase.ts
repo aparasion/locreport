@@ -21,7 +21,22 @@ if (!SUPABASE_URL || !SUPABASE_SERVICE_KEY) {
   process.exit(1)
 }
 
+console.log(`Connecting to: ${SUPABASE_URL}`)
+console.log(`Key prefix: ${SUPABASE_SERVICE_KEY.slice(0, 20)}...`)
+
 const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY)
+
+// Verify connection before migrating
+async function testConnection() {
+  const { count, error } = await supabase
+    .from('articles')
+    .select('*', { count: 'exact', head: true })
+  if (error) {
+    console.error('Connection test FAILED:', error.message)
+    process.exit(1)
+  }
+  console.log(`Connection OK. Current articles count: ${count}`)
+}
 
 function filenameToSlug(filename: string): string {
   // e.g. "2026-06-03-some-article-title.md"
@@ -39,6 +54,8 @@ function parseBusinessImplications(raw: unknown): string[] {
 }
 
 async function main() {
+  await testConnection()
+
   const files = fs.readdirSync(POSTS_DIR)
     .filter(f => f.endsWith('.md'))
     .sort()
@@ -126,6 +143,12 @@ async function main() {
   console.log(`\n\nDone.`)
   console.log(`  Inserted/skipped: ${inserted}`)
   console.log(`  Errors:           ${errors}`)
+
+  // Final verification
+  const { count } = await supabase
+    .from('articles')
+    .select('*', { count: 'exact', head: true })
+  console.log(`  DB count now:     ${count}`)
 
   if (errors > 0) process.exit(1)
 }
