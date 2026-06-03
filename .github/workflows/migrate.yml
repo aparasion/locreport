@@ -14,7 +14,7 @@ jobs:
           node-version: '22'
 
       - name: Install migration dependencies
-        run: npm install --no-save @supabase/supabase-js gray-matter typescript ts-node ws @types/ws
+        run: npm install --no-save @supabase/supabase-js gray-matter typescript ts-node
 
       - name: Run migration
         env:
