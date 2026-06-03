@@ -10,7 +10,6 @@ import { createClient } from '@supabase/supabase-js'
 import matter from 'gray-matter'
 import * as fs from 'fs'
 import * as path from 'path'
-import ws from 'ws'
 
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL
 const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY
@@ -22,9 +21,7 @@ if (!SUPABASE_URL || !SUPABASE_SERVICE_KEY) {
   process.exit(1)
 }
 
-const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY, {
-  realtime: { transport: ws },
-})
+const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY)
 
 function filenameToSlug(filename: string): string {
   // e.g. "2026-06-03-some-article-title.md"
