@@ -4,3 +4,5 @@ _site/
 .jekyll-metadata
 __pycache__/
 node_modules/
+migration.sql
+migration-part-*.sql
