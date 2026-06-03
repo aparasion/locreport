@@ -114,7 +114,8 @@ async function main() {
       .upsert(rows, { onConflict: 'slug', ignoreDuplicates: true })
 
     if (error) {
-      console.error(`Batch ${Math.floor(i / BATCH_SIZE) + 1} error:`, error.message)
+      console.error(`\nBatch ${Math.floor(i / BATCH_SIZE) + 1} FAILED: ${error.message}`)
+      console.error(`  (code: ${error.code}, hint: ${error.hint ?? 'none'})`)
       errors += rows.length
     } else {
       inserted += rows.length
@@ -125,6 +126,8 @@ async function main() {
   console.log(`\n\nDone.`)
   console.log(`  Inserted/skipped: ${inserted}`)
   console.log(`  Errors:           ${errors}`)
+
+  if (errors > 0) process.exit(1)
 }
 
 main().catch(err => {
