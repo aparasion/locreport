@@ -1,0 +1,9 @@
+{
+  "redirects": [
+    {
+      "source": "/articles/:year/:month/:day/:slug.html",
+      "destination": "/articles/:year/:month/:day/:slug",
+      "permanent": true
+    }
+  ]
+}
