@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LocReport Architecture — System Guide</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@700;800&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #F8F9FC;
+    --surface: #ffffff;
+    --border: rgba(17,24,39,0.1);
+    --text: #111827;
+    --muted: #5A6278;
+    --accent: #3D5AFE;
+
+    --github: #1a1a2e;
+    --supabase: #3ECF8E;
+    --vercel: #000000;
+    --domain: #E67E22;
+    --claude: #D97706;
+    --openai: #10A37F;
+    --browser: #0284C7;
+    --next: #000000;
+  }
+
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    padding: 2rem;
+    min-height: 100vh;
+  }
+
+  /* ── Page header ── */
+  .page-header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+  .page-header h1 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 2rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #3D5AFE, #06B6D4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.5rem;
+  }
+  .page-header p {
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+
+  /* ── Layout ── */
+  .diagram-wrapper {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  /* ── Layer container ── */
+  .layer {
+    display: grid;
+    gap: 1.5rem;
+    margin-bottom: 0;
+    position: relative;
+  }
+
+  .layer-label {
+    font-size: 0.62rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .layer-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* ── Platform card ── */
+  .platform {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 16px;
+    padding: 1.25rem 1.5rem;
+    position: relative;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  }
+  .platform:hover {
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    transform: translateY(-1px);
+    transition: all 0.2s ease;
+  }
+
+  .platform-header {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 0.75rem;
+  }
+  .platform-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    font-weight: 800;
+    color: #fff;
+    flex-shrink: 0;
+  }
+  .platform-name {
+    font-weight: 700;
+    font-size: 0.95rem;
+  }
+  .platform-role {
+    font-size: 0.72rem;
+    color: var(--muted);
+    font-weight: 500;
+  }
+  .platform-desc {
+    font-size: 0.82rem;
+    color: var(--muted);
+    line-height: 1.55;
+    margin-bottom: 0.75rem;
+  }
+
+  /* ── Feature list ── */
+  .feature-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+  .feature-list li {
+    font-size: 0.78rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.4rem;
+    line-height: 1.45;
+  }
+  .feature-list li::before {
+    content: '→';
+    color: var(--accent);
+    font-weight: 700;
+    flex-shrink: 0;
+    font-size: 0.7rem;
+    margin-top: 1px;
+  }
+
+  /* ── API badge ── */
+  .api-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: 100px;
+    margin-right: 4px;
+    margin-top: 4px;
+  }
+
+  /* ── Arrow section ── */
+  .arrows-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    margin: 0.5rem 0;
+    position: relative;
+  }
+
+  .flow-section {
+    margin-bottom: 0.25rem;
+  }
+
+  /* ── Connection diagram ── */
+  .connections {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 16px;
+    padding: 1.5rem 2rem;
+    margin-bottom: 2rem;
+  }
+  .connections h3 {
+    font-size: 0.72rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    margin-bottom: 1.25rem;
+  }
+  .conn-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 0.75rem;
+  }
+  .conn-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    padding: 0.6rem 0.75rem;
+    border-radius: 10px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+  }
+  .conn-arrow {
+    font-size: 0.75rem;
+    font-weight: 700;
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .conn-desc {
+    font-size: 0.78rem;
+    color: var(--muted);
+    line-height: 1.4;
+  }
+  .conn-desc strong {
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  /* ── Platform grid layouts ── */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.25rem; }
+  .grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 1.25rem; }
+
+  /* ── Flow arrow between layers ── */
+  .flow-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    margin: 0.6rem 0;
+    flex-wrap: wrap;
+  }
+  .flow-arrow-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+  }
+  .flow-arrow-line {
+    width: 2px;
+    height: 28px;
+    background: linear-gradient(to bottom, var(--border), var(--accent));
+    border-radius: 1px;
+    position: relative;
+  }
+  .flow-arrow-line::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 5px solid var(--accent);
+  }
+  .flow-arrow-label {
+    font-size: 0.6rem;
+    font-weight: 600;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    text-align: center;
+    max-width: 80px;
+  }
+
+  /* ── Colored platform accents ── */
+  .github .platform-icon { background: var(--github); }
+  .github { border-left: 4px solid var(--github); }
+
+  .supabase .platform-icon { background: var(--supabase); }
+  .supabase { border-left: 4px solid var(--supabase); }
+
+  .vercel .platform-icon { background: #111; }
+  .vercel { border-left: 4px solid #555; }
+
+  .domain .platform-icon { background: var(--domain); }
+  .domain { border-left: 4px solid var(--domain); }
+
+  .claude-card .platform-icon { background: #6D4AFF; }
+  .claude-card { border-left: 4px solid #6D4AFF; }
+
+  .openai-card .platform-icon { background: var(--openai); }
+  .openai-card { border-left: 4px solid var(--openai); }
+
+  .browser-card .platform-icon { background: var(--browser); }
+  .browser-card { border-left: 4px solid var(--browser); }
+
+  .nextjs-card .platform-icon { background: #111; }
+  .nextjs-card { border-left: 4px solid #333; }
+
+  /* ── Recipe section ── */
+  .recipe {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 16px;
+    padding: 1.5rem 2rem;
+    margin-top: 2rem;
+  }
+  .recipe h2 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 800;
+    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    counter-reset: step;
+  }
+  .step {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 0.75rem 1rem;
+    border-radius: 10px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    counter-increment: step;
+  }
+  .step-num {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .step-content {
+    flex: 1;
+  }
+  .step-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-bottom: 2px;
+  }
+  .step-desc {
+    font-size: 0.78rem;
+    color: var(--muted);
+    line-height: 1.45;
+  }
+  .step-code {
+    display: inline-block;
+    font-family: 'Courier New', monospace;
+    font-size: 0.72rem;
+    background: rgba(61,90,254,0.08);
+    color: var(--accent);
+    padding: 1px 6px;
+    border-radius: 4px;
+    margin-top: 3px;
+  }
+
+  /* ── Legend ── */
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+    font-size: 0.72rem;
+    color: var(--muted);
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 768px) {
+    .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+    body { padding: 1rem; }
+  }
+  @media (max-width: 960px) {
+    .grid-3 { grid-template-columns: 1fr 1fr; }
+    .grid-4 { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>LocReport — Full Architecture</h1>
+  <p>How GitHub · Supabase · Vercel · Domain · Claude Code · OpenAI work together<br>
+  <em style="font-size:0.82rem">A recipe for building and running a modern AI-powered editorial website</em></p>
+</div>
+
+<div class="diagram-wrapper">
+
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <!--  LAYER 0: Developer + Claude Code                         -->
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <div class="flow-section">
+    <div class="layer-label">🧑‍💻 Developer Layer — where you write and instruct</div>
+    <div class="grid-2">
+
+      <div class="platform claude-card">
+        <div class="platform-header">
+          <div class="platform-icon">C</div>
+          <div>
+            <div class="platform-name">Claude Code (claude.ai/code)</div>
+            <div class="platform-role">AI pair programmer + architect</div>
+          </div>
+        </div>
+        <p class="platform-desc">
+          You describe what you want in plain English. Claude Code reads, edits, and creates files directly in your repo, runs shell commands, searches the codebase, and pushes to GitHub — all in one session. No separate IDE needed.
+        </p>
+        <ul class="feature-list">
+          <li>Reads every file in the repo (no upload required)</li>
+          <li>Edits code, creates components, fixes bugs on request</li>
+          <li>Runs <code>git add / commit / push</code> to your feature branch</li>
+          <li>Researches documentation via web search</li>
+          <li>Works on <strong>remote containers</strong> (your repo cloned fresh each session)</li>
+          <li>Sessions are ephemeral — all changes must be pushed to persist</li>
+          <li>Uses <strong>MCP servers</strong> to talk to GitHub API, databases, etc.</li>
+        </ul>
+        <div style="margin-top:0.75rem">
+          <span class="api-badge" style="background:rgba(109,74,255,0.1);color:#6D4AFF">Claude API</span>
+          <span class="api-badge" style="background:rgba(109,74,255,0.1);color:#6D4AFF">MCP (GitHub)</span>
+          <span class="api-badge" style="background:rgba(109,74,255,0.1);color:#6D4AFF">Bash / Git CLI</span>
+        </div>
+      </div>
+
+      <div class="platform browser-card">
+        <div class="platform-header">
+          <div class="platform-icon">👤</div>
+          <div>
+            <div class="platform-name">You — the user / owner</div>
+            <div class="platform-role">Provides instructions, reviews, approves</div>
+          </div>
+        </div>
+        <p class="platform-desc">
+          You chat with Claude Code in plain language. You review what it proposes, click Approve on tool calls, and merge PRs. No need to touch code directly — you're the product owner, Claude is the engineer.
+        </p>
+        <ul class="feature-list">
+          <li>Type instructions in natural language ("add a search bar", "fix the layout")</li>
+          <li>Review diffs and approve shell commands before they run</li>
+          <li>Merge pull requests on GitHub when ready to deploy</li>
+          <li>Set secrets (API keys) in Vercel and GitHub — never in code</li>
+          <li>Run SQL migrations in Supabase SQL Editor</li>
+          <li>Configure DNS at your domain registrar</li>
+        </ul>
+        <div style="margin-top:0.75rem">
+          <span class="api-badge" style="background:rgba(2,132,199,0.1);color:#0284C7">Browser</span>
+          <span class="api-badge" style="background:rgba(2,132,199,0.1);color:#0284C7">GitHub UI</span>
+          <span class="api-badge" style="background:rgba(2,132,199,0.1);color:#0284C7">Vercel Dashboard</span>
+          <span class="api-badge" style="background:rgba(2,132,199,0.1);color:#0284C7">Supabase Studio</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Arrow down -->
+  <div class="flow-arrow">
+    <div class="flow-arrow-item">
+      <div class="flow-arrow-label">git push</div>
+      <div class="flow-arrow-line"></div>
+    </div>
+    <div class="flow-arrow-item">
+      <div class="flow-arrow-label">PR merge</div>
+      <div class="flow-arrow-line"></div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <!--  LAYER 1: Source control + CI/CD                          -->
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <div class="flow-section">
+    <div class="layer-label">⚙️ Source Control + CI/CD Layer — GitHub</div>
+    <div class="grid-2">
+
+      <div class="platform github">
+        <div class="platform-header">
+          <div class="platform-icon">GH</div>
+          <div>
+            <div class="platform-name">GitHub — Repository</div>
+            <div class="platform-role">All code + version history + branch strategy</div>
+          </div>
+        </div>
+        <p class="platform-desc">
+          The single source of truth. Every Next.js file, config, script, and SQL schema lives here. Claude Code pushes to <strong>feature branches</strong>; you merge to <code>main</code> to deploy.
+        </p>
+        <ul class="feature-list">
+          <li><strong>main</strong> branch → triggers Vercel production deploy</li>
+          <li><strong>claude/feature-*</strong> branches → Vercel preview deploys</li>
+          <li>Pull Requests → review interface; merge = deploy</li>
+          <li>Secrets stored as GitHub Actions Secrets (never in files)</li>
+          <li><code>NEXT_PUBLIC_SUPABASE_URL</code>, <code>SUPABASE_SERVICE_ROLE_KEY</code> etc.</li>
+        </ul>
+        <div style="margin-top:0.75rem">
+          <span class="api-badge" style="background:#f0f0f0;color:#333">GitHub REST API</span>
+          <span class="api-badge" style="background:#f0f0f0;color:#333">GitHub MCP (via Claude)</span>
+          <span class="api-badge" style="background:#f0f0f0;color:#333">Webhooks → Vercel</span>
+        </div>
+      </div>
+
+      <div class="platform github">
+        <div class="platform-header">
+          <div class="platform-icon">▶</div>
+          <div>
+            <div class="platform-name">GitHub Actions — Automation</div>
+            <div class="platform-role">Scheduled jobs + one-time migrations</div>
+          </div>
+        </div>
+        <p class="platform-desc">
+          YAML workflows that run in the cloud. Used for data migration (Jekyll → Supabase), scheduled article generation, and newsletter sending. <strong>Key advantage:</strong> Actions run from GitHub's IP — bypasses Supabase IP allowlists that block this server.
+        </p>
+        <ul class="feature-list">
+          <li><code>migrate.yml</code> — one-time: reads <code>_posts/*.md</code>, upserts to Supabase</li>
+          <li><code>aggregate.yml</code> — hourly: RSS fetch + AI rewrite → drafts table</li>
+          <li><code>monthly-reports.yml</code> — 1st of month: generate summary article</li>
+          <li><code>newsletter.yml</code> — Fridays: send digest via Buttondown API</li>
+          <li>Receives <code>OPENAI_API_KEY</code>, <code>SUPABASE_SERVICE_ROLE_KEY</code> as secrets</li>
+        </ul>
+        <div style="margin-top:0.75rem">
+          <span class="api-badge" style="background:#f0f0f0;color:#333">Node.js / ts-node</span>
+          <span class="api-badge" style="background:#f0f0f0;color:#333">Supabase REST API</span>
+          <span class="api-badge" style="background:#f0f0f0;color:#333">OpenAI API</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Arrow down -->
+  <div class="flow-arrow">
+    <div class="flow-arrow-item">
+      <div class="flow-arrow-label">Vercel webhook triggers on push</div>
+      <div class="flow-arrow-line"></div>
+    </div>
+    <div class="flow-arrow-item">
+      <div class="flow-arrow-label">DB writes via REST</div>
+      <div class="flow-arrow-line"></div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <!--  LAYER 2: Hosting + Database                              -->
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <div class="flow-section">
+    <div class="layer-label">🏗️ Infrastructure Layer — Vercel + Supabase</div>
+    <div class="grid-2">
+
+      <div class="platform vercel">
+        <div class="platform-header">
+          <div class="platform-icon">▲</div>
+          <div>
+            <div class="platform-name">Vercel — Hosting + Edge</div>
+            <div class="platform-role">Builds and serves the Next.js app globally</div>
+          </div>
+        </div>
+        <p class="platform-desc">
+          Listens to GitHub pushes via webhook. On every push to <code>main</code>, Vercel pulls the code, runs <code>npm run build</code>, and deploys globally across its edge network in ~30 seconds.
+        </p>
+        <ul class="feature-list">
+          <li><strong>Framework:</strong> Next.js 15 App Router (server + client components)</li>
+          <li><strong>Build:</strong> <code>npm run build</code> → <code>.next/</code> output</li>
+          <li><strong>Preview deploys:</strong> every PR gets its own URL (<code>*.vercel.app</code>)</li>
+          <li><strong>Production:</strong> custom domain (<code>locreport.com</code>)</li>
+          <li><strong>Env vars:</strong> set in Vercel Dashboard → injected at build + runtime</li>
+          <li><strong>Edge functions:</strong> API routes run serverless (e.g. <code>/api/ingest</code>)</li>
+          <li><strong>ISR / revalidate:</strong> pages cache and refresh on schedule</li>
+          <li><code>vercel.json</code> controls build, redirects (<code>.html</code> → clean URLs)</li>
+        </ul>
+        <div style="margin-top:0.75rem">
+          <span class="api-badge" style="background:#f0f0f0;color:#333">GitHub Webhook</span>
+          <span class="api-badge" style="background:#f0f0f0;color:#333">Vercel API</span>
+          <span class="api-badge" style="background:#f0f0f0;color:#333">Edge Network (CDN)</span>
+        </div>
+      </div>
+
+      <div class="platform supabase">
+        <div class="platform-header">
+          <div class="platform-icon" style="background:#1a8a5e">SB</div>
+          <div>
+            <div class="platform-name">Supabase — Database + Auth</div>
+            <div class="platform-role">PostgreSQL + REST API + Auth + RLS</div>
+          </div>
+        </div>
+        <p class="platform-desc">
+          Managed PostgreSQL with a built-in REST API (PostgREST). Every article, draft, and RSS source is stored here. Two access tiers: public reads via <strong>anon key</strong>, admin writes via <strong>service role key</strong>.
+        </p>
+        <ul class="feature-list">
+          <li><strong>Tables:</strong> <code>articles</code>, <code>drafts</code>, <code>rss_sources</code></li>
+          <li><strong>RLS:</strong> Row Level Security — anon can SELECT articles; writes require service key</li>
+          <li><strong>Anon key</strong> (<code>sb_publishable_*</code>) — safe to expose in browser, read-only</li>
+          <li><strong>Service role key</strong> (<code>sb_secret_*</code>) — bypasses RLS, never in browser</li>
+          <li><strong>Auth:</strong> email+password sessions for admin panel</li>
+          <li><strong>REST API:</strong> <code>https://[project].supabase.co/rest/v1/articles</code></li>
+          <li><strong>Schema migrations:</strong> run SQL in Studio → SQL Editor</li>
+          <li><strong>Network restrictions:</strong> set in Supabase → Project Settings</li>
+        </ul>
+        <div style="margin-top:0.75rem">
+          <span class="api-badge" style="background:rgba(62,207,142,0.12);color:#1a8a5e">PostgREST API</span>
+          <span class="api-badge" style="background:rgba(62,207,142,0.12);color:#1a8a5e">@supabase/ssr</span>
+          <span class="api-badge" style="background:rgba(62,207,142,0.12);color:#1a8a5e">Supabase Auth</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Arrow down -->
+  <div class="flow-arrow">
+    <div class="flow-arrow-item">
+      <div class="flow-arrow-label">DNS A / CNAME</div>
+      <div class="flow-arrow-line"></div>
+    </div>
+    <div class="flow-arrow-item">
+      <div class="flow-arrow-label">HTTPS requests</div>
+      <div class="flow-arrow-line"></div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <!--  LAYER 3: External APIs                                   -->
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <div class="flow-section">
+    <div class="layer-label">🔌 External APIs — integrations called by the app</div>
+    <div class="grid-3">
+
+      <div class="platform openai-card">
+        <div class="platform-header">
+          <div class="platform-icon" style="background:#10a37f">AI</div>
+          <div>
+            <div class="platform-name">OpenAI API</div>
+            <div class="platform-role">Article rewriting + summaries</div>
+          </div>
+        </div>
+        <ul class="feature-list">
+          <li>Called from <code>/api/ingest</code> (server-side only)</li>
+          <li>Model: <code>gpt-4o-mini</code> for cost efficiency</li>
+          <li>Rewrites raw RSS article text into editorial summaries</li>
+          <li>Generates monthly report narratives</li>
+          <li>Key stored as <code>OPENAI_API_KEY</code> in Vercel + GitHub secrets</li>
+        </ul>
+        <div style="margin-top:0.75rem">
+          <span class="api-badge" style="background:rgba(16,163,127,0.1);color:#10a37f">REST / JSON</span>
+          <span class="api-badge" style="background:rgba(16,163,127,0.1);color:#10a37f">openai npm SDK</span>
+        </div>
+      </div>
+
+      <div class="platform domain">
+        <div class="platform-header">
+          <div class="platform-icon" style="background:#e67e22">🌐</div>
+          <div>
+            <div class="platform-name">Domain Registrar</div>
+            <div class="platform-role">locreport.com DNS routing</div>
+          </div>
+        </div>
+        <ul class="feature-list">
+          <li>Add Vercel's nameservers <strong>or</strong> an A-record pointing to Vercel IPs</li>
+          <li>Or add CNAME: <code>locreport.com → cname.vercel-dns.com</code></li>
+          <li>Vercel auto-provisions TLS (Let's Encrypt) once DNS resolves</li>
+          <li>Old Jekyll site (<code>*.github.io</code>) becomes inactive once DNS switches</li>
+          <li>DNS TTL: set to 300s before switching to minimize downtime</li>
+          <li><code>.html</code> redirects in <code>vercel.json</code> preserve SEO URLs</li>
+        </ul>
+        <div style="margin-top:0.75rem">
+          <span class="api-badge" style="background:rgba(230,126,34,0.1);color:#c0621a">DNS / HTTPS</span>
+          <span class="api-badge" style="background:rgba(230,126,34,0.1);color:#c0621a">TLS (auto)</span>
+        </div>
+      </div>
+
+      <div class="platform browser-card">
+        <div class="platform-header">
+          <div class="platform-icon">📡</div>
+          <div>
+            <div class="platform-name">RSS Feeds (external)</div>
+            <div class="platform-role">Content source for ingest pipeline</div>
+          </div>
+        </div>
+        <ul class="feature-list">
+          <li>48+ feeds stored in <code>rss_sources</code> table (Supabase)</li>
+          <li>Fetched server-side by <code>/api/ingest</code> route or GitHub Action</li>
+          <li>Parsed via <code>rss-parser</code> npm package</li>
+          <li>Each entry: title, link, content, pub date → sent to OpenAI for rewrite</li>
+          <li>Result saved as <code>drafts</code> row — admin reviews before publishing</li>
+          <li>Deduplication via <code>source_url</code> unique constraint</li>
+        </ul>
+        <div style="margin-top:0.75rem">
+          <span class="api-badge" style="background:rgba(2,132,199,0.1);color:#0284C7">HTTP fetch</span>
+          <span class="api-badge" style="background:rgba(2,132,199,0.1);color:#0284C7">rss-parser</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Arrow down -->
+  <div class="flow-arrow">
+    <div class="flow-arrow-item">
+      <div class="flow-arrow-label">user visits</div>
+      <div class="flow-arrow-line"></div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <!--  LAYER 4: End user                                        -->
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <div class="flow-section">
+    <div class="layer-label">🌍 End-User Layer — what visitors see</div>
+    <div class="grid-2">
+
+      <div class="platform nextjs-card">
+        <div class="platform-header">
+          <div class="platform-icon">N</div>
+          <div>
+            <div class="platform-name">Next.js App (locreport.com)</div>
+            <div class="platform-role">Public website served by Vercel</div>
+          </div>
+        </div>
+        <ul class="feature-list">
+          <li><strong>Homepage:</strong> articles grouped by day, Signal Pulse panel, sources marquee</li>
+          <li><strong>/articles:</strong> paginated list with topic filters</li>
+          <li><strong>/articles/YYYY/MM/DD/slug:</strong> full article with sidebar</li>
+          <li><strong>Server components</strong> fetch data from Supabase at request time (or cached)</li>
+          <li><strong>ISR:</strong> pages revalidate every hour — no full rebuild needed</li>
+          <li>Same CSS as original Jekyll site → SEO-transparent migration</li>
+        </ul>
+        <div style="margin-top:0.75rem">
+          <span class="api-badge" style="background:#f0f0f0;color:#333">SSR / ISR</span>
+          <span class="api-badge" style="background:#f0f0f0;color:#333">Supabase anon key</span>
+        </div>
+      </div>
+
+      <div class="platform nextjs-card">
+        <div class="platform-header">
+          <div class="platform-icon">🔒</div>
+          <div>
+            <div class="platform-name">Admin Panel (/admin)</div>
+            <div class="platform-role">Protected: parasion@proton.me only</div>
+          </div>
+        </div>
+        <ul class="feature-list">
+          <li>Auth gate in <code>middleware.ts</code> — redirects to <code>/login</code> if not signed in</li>
+          <li><strong>/admin/drafts:</strong> review AI-generated articles, approve → publish</li>
+          <li><strong>/admin/articles:</strong> edit published articles (title, excerpt, content)</li>
+          <li><strong>/admin/sources:</strong> manage RSS feeds (add, edit, enable/disable)</li>
+          <li><strong>/admin/compose:</strong> prompt OpenAI to write a new article from scratch</li>
+          <li>All writes use <strong>service role key</strong> (server-side only, never in browser)</li>
+        </ul>
+        <div style="margin-top:0.75rem">
+          <span class="api-badge" style="background:#f0f0f0;color:#333">Supabase Auth</span>
+          <span class="api-badge" style="background:#f0f0f0;color:#333">Service role key</span>
+          <span class="api-badge" style="background:#f0f0f0;color:#333">Server actions</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <!--  API Connection Map                                        -->
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <div class="connections" style="margin-top:2rem">
+    <h3>🔗 API &amp; Connection Map — who calls what</h3>
+    <div class="conn-grid">
+      <div class="conn-item">
+        <span class="conn-arrow" style="color:#6D4AFF">Claude → GitHub</span>
+        <div class="conn-desc"><strong>GitHub MCP server</strong> — Claude reads/creates PRs, pushes files, checks CI status. Uses a GitHub Personal Access Token stored in the Claude Code session.</div>
+      </div>
+      <div class="conn-item">
+        <span class="conn-arrow" style="color:#1a1a2e">GitHub → Vercel</span>
+        <div class="conn-desc"><strong>GitHub App webhook</strong> — Vercel listens for <code>push</code> events on connected repos. Fires a build automatically on every push to <code>main</code>.</div>
+      </div>
+      <div class="conn-item">
+        <span class="conn-arrow" style="color:#000">Vercel → Supabase</span>
+        <div class="conn-desc"><strong>PostgREST REST API</strong> over HTTPS — Next.js server components call <code>supabase.from('articles').select()</code> using the <strong>anon key</strong> for public reads.</div>
+      </div>
+      <div class="conn-item">
+        <span class="conn-arrow" style="color:#1a8a5e">Vercel API → Supabase</span>
+        <div class="conn-desc"><strong>Service role key</strong> — API routes (<code>/api/articles</code>, <code>/api/drafts</code>) use the service key server-side for writes. Never exposed to the browser.</div>
+      </div>
+      <div class="conn-item">
+        <span class="conn-arrow" style="color:#10a37f">Vercel → OpenAI</span>
+        <div class="conn-desc"><strong>OpenAI Chat Completions API</strong> — called from <code>/api/ingest</code> and <code>/api/compose</code> server routes only. Key injected as <code>OPENAI_API_KEY</code> env var.</div>
+      </div>
+      <div class="conn-item">
+        <span class="conn-arrow" style="color:#444">GitHub Actions → Supabase</span>
+        <div class="conn-desc"><strong>Service role key + PostgREST</strong> — migration scripts, aggregate jobs, and monthly report generation call Supabase directly from GitHub Actions runners.</div>
+      </div>
+      <div class="conn-item">
+        <span class="conn-arrow" style="color:#444">GitHub Actions → OpenAI</span>
+        <div class="conn-desc"><strong>OpenAI API</strong> — scheduled <code>aggregate.yml</code> workflow fetches RSS, sends to OpenAI, saves drafts to Supabase. Runs every hour at :33.</div>
+      </div>
+      <div class="conn-item">
+        <span class="conn-arrow" style="color:#e67e22">DNS → Vercel</span>
+        <div class="conn-desc"><strong>CNAME / A record</strong> at domain registrar points <code>locreport.com</code> to Vercel's edge. Vercel auto-issues TLS cert. Old GitHub Pages becomes inactive.</div>
+      </div>
+      <div class="conn-item">
+        <span class="conn-arrow" style="color:#0284C7">Browser → Vercel</span>
+        <div class="conn-desc"><strong>HTTPS</strong> — visitor requests hit Vercel's CDN edge first. Static pages served from cache; dynamic routes invoke serverless functions that query Supabase.</div>
+      </div>
+      <div class="conn-item">
+        <span class="conn-arrow" style="color:#1a8a5e">Browser → Supabase Auth</span>
+        <div class="conn-desc"><strong>Supabase Auth SDK</strong> — login page calls <code>supabase.auth.signInWithPassword()</code> in the browser. Session cookie stored; middleware validates it on every <code>/admin/*</code> request.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <!--  Environment Variables Reference                          -->
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <div class="connections" style="margin-top:1.5rem">
+    <h3>🔑 Environment Variables — what goes where</h3>
+    <div class="conn-grid">
+      <div class="conn-item">
+        <div class="conn-desc">
+          <strong>NEXT_PUBLIC_SUPABASE_URL</strong><br>
+          <span style="color:var(--muted)">Set in: Vercel env vars + GitHub Actions secrets<br>Value: <code>https://[project-id].supabase.co</code><br>Visible in browser: ✅ safe (public)</span>
+        </div>
+      </div>
+      <div class="conn-item">
+        <div class="conn-desc">
+          <strong>NEXT_PUBLIC_SUPABASE_ANON_KEY</strong><br>
+          <span style="color:var(--muted)">Set in: Vercel env vars<br>Value: <code>sb_publishable_…</code> (new format) or <code>eyJ…</code> (legacy)<br>Visible in browser: ✅ safe (read-only by RLS)</span>
+        </div>
+      </div>
+      <div class="conn-item">
+        <div class="conn-desc">
+          <strong>SUPABASE_SERVICE_ROLE_KEY</strong><br>
+          <span style="color:var(--muted)">Set in: Vercel env vars (server-only) + GitHub Actions secrets<br>Value: <code>sb_secret_…</code><br>Visible in browser: ❌ never — bypasses RLS entirely</span>
+        </div>
+      </div>
+      <div class="conn-item">
+        <div class="conn-desc">
+          <strong>OPENAI_API_KEY</strong><br>
+          <span style="color:var(--muted)">Set in: Vercel env vars + GitHub Actions secrets<br>Used by: <code>/api/ingest</code>, <code>/api/compose</code>, aggregate workflow<br>Visible in browser: ❌ never</span>
+        </div>
+      </div>
+      <div class="conn-item">
+        <div class="conn-desc">
+          <strong>NEXT_PUBLIC_ADMIN_EMAIL</strong><br>
+          <span style="color:var(--muted)">Set in: Vercel env vars<br>Value: <code>parasion@proton.me</code><br>Used by: Nav (show Admin link) + middleware (auth gate)</span>
+        </div>
+      </div>
+      <div class="conn-item">
+        <div class="conn-desc">
+          <strong>CRON_SECRET / NEXT_PUBLIC_CRON_SECRET</strong><br>
+          <span style="color:var(--muted)">Set in: Vercel env vars<br>Used by: <code>/api/ingest</code> to validate calls from GitHub Actions cron<br>Same value in both; public version allows client trigger</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <!--  Recipe: step-by-step                                     -->
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <div class="recipe">
+    <h2>📋 The Recipe — how to build this from scratch with Claude Code</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <div class="step-title">Create Supabase project</div>
+          <div class="step-desc">Go to supabase.com → New project. Copy the project URL and both keys (anon + service role). Run your <code>supabase-schema.sql</code> in SQL Editor → Tables are ready.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <div class="step-title">Create Vercel project</div>
+          <div class="step-desc">Go to vercel.com → Import Git Repository → pick your GitHub repo. Set framework: Next.js. Add all env vars (Supabase URL, keys, OpenAI key). Vercel creates a webhook on your GitHub repo automatically.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <div class="step-title">Add GitHub Actions secrets</div>
+          <div class="step-desc">GitHub repo → Settings → Secrets and variables → Actions. Add <span class="step-code">NEXT_PUBLIC_SUPABASE_URL</span>, <span class="step-code">SUPABASE_SERVICE_ROLE_KEY</span>, <span class="step-code">OPENAI_API_KEY</span>. These power the migration and automation workflows.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <div class="step-title">Run the data migration</div>
+          <div class="step-desc">GitHub → Actions → "Migrate Jekyll posts to Supabase" → Run workflow. It reads all <code>_posts/*.md</code> files, parses YAML front matter, and upserts to the <code>articles</code> table. ~909 articles in ~2 minutes.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-content">
+          <div class="step-title">Tell Claude Code to build features</div>
+          <div class="step-desc">Open a Claude Code session at claude.ai/code. Describe features in plain English. Claude reads your codebase, edits files, and pushes to a feature branch. You review the PR, merge → Vercel auto-deploys in ~30 seconds.</div>
+          <div><span class="step-code">e.g.: "add an inline search bar to the nav"</span> <span class="step-code">"fix the footer layout on mobile"</span></div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">6</div>
+        <div class="step-content">
+          <div class="step-title">Point your domain to Vercel</div>
+          <div class="step-desc">Vercel Dashboard → Project → Settings → Domains → Add domain. Copy the CNAME value Vercel gives you. Go to your domain registrar → DNS → add CNAME record. Wait 5–30 min for propagation. Vercel issues TLS automatically.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">7</div>
+        <div class="step-content">
+          <div class="step-title">Enable automation workflows</div>
+          <div class="step-desc">GitHub Actions workflows run on schedule: RSS ingest every hour, monthly reports on 1st of month, newsletter on Fridays. All AI content flows: RSS feed → GitHub Action → OpenAI → Supabase drafts → admin review → published article.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">8</div>
+        <div class="step-content">
+          <div class="step-title">Ongoing: use Claude Code to evolve the product</div>
+          <div class="step-desc">Any future feature — new page, layout change, new API integration, bug fix — is a conversation with Claude Code. No deployment knowledge required. Push → PR → merge → live. Claude Code can also watch PRs and auto-fix CI failures.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Legend -->
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:#6D4AFF"></div> Claude Code</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#1a1a2e"></div> GitHub</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#3ECF8E"></div> Supabase</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#555"></div> Vercel</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#e67e22"></div> Domain / DNS</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#10A37F"></div> OpenAI API</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#0284C7"></div> Browser / Public</div>
+    <div style="margin-left:auto;font-size:0.7rem;color:var(--muted)">Generated for locreport.com migration · 2026</div>
+  </div>
+
+</div>
+</body>
+</html>
