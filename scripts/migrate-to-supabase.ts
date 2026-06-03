@@ -13,7 +13,7 @@ import * as path from 'path'
 
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL
 const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY
-const POSTS_DIR = path.join(__dirname, '..', '_posts')
+const POSTS_DIR = path.resolve(process.cwd(), '_posts')
 const BATCH_SIZE = 50
 
 if (!SUPABASE_URL || !SUPABASE_SERVICE_KEY) {
@@ -56,7 +56,22 @@ async function main() {
     for (const file of batch) {
       try {
         const raw = fs.readFileSync(path.join(POSTS_DIR, file), 'utf8')
-        const { data: fm, content } = matter(raw)
+        // Deduplicate repeated front-matter keys (e.g. redirect_from appearing twice)
+        const deduped = raw.replace(
+          /^(---\n)([\s\S]*?)(---)/m,
+          (_match, open, body, close) => {
+            const seen = new Set<string>()
+            const lines = body.split('\n').filter((line: string) => {
+              const key = line.match(/^[a-zA-Z_]+:/)?.[0]
+              if (!key) return true
+              if (seen.has(key)) return false
+              seen.add(key)
+              return true
+            })
+            return open + lines.join('\n') + close
+          }
+        )
+        const { data: fm, content } = matter(deduped)
 
         const slug = filenameToSlug(file)
 
