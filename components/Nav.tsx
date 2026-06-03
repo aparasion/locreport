@@ -27,34 +27,43 @@ export function Nav() {
     router.refresh()
   }
 
-  const link = (href: string, label: string) => (
-    <Link
-      href={href}
-      className={`text-sm font-medium transition-colors ${
-        pathname.startsWith(href) && href !== '/'
-          ? 'text-[#3D5AFE]'
-          : 'text-[#5A6278] hover:text-[#111827]'
-      }`}
-    >
-      {label}
-    </Link>
-  )
+  const isActive = (href: string) =>
+    href === '/' ? pathname === '/' : pathname.startsWith(href)
 
   return (
-    <header className="sticky top-0 z-50 border-b border-gray-100 bg-white/90 backdrop-blur-sm">
-      <div className="mx-auto flex max-w-[1200px] items-center justify-between px-6 py-3">
-        <Link href="/" className="font-['Outfit'] text-lg font-700 text-[#111827]">
+    <header className="site-header">
+      <div className="mx-auto flex w-full max-w-[1200px] items-center justify-between px-6">
+        <Link href="/" style={{ fontFamily: 'Outfit, sans-serif', fontWeight: 700, fontSize: '1.2rem', color: 'var(--text)', textDecoration: 'none' }}>
           LocReport
         </Link>
-        <nav className="flex items-center gap-6">
-          {link('/articles', 'Articles')}
-          {isAdmin && link('/admin', 'Admin')}
+        <nav style={{ display: 'flex', alignItems: 'center', gap: '1.75rem' }}>
+          {[
+            { href: '/articles', label: 'Articles' },
+            ...(isAdmin ? [{ href: '/admin', label: 'Admin' }] : []),
+          ].map(({ href, label }) => (
+            <Link
+              key={href}
+              href={href}
+              style={{
+                fontSize: '0.875rem',
+                fontWeight: 600,
+                textDecoration: 'none',
+                color: isActive(href) ? 'var(--accent)' : 'var(--muted)',
+                transition: 'color 0.15s',
+              }}
+            >
+              {label}
+            </Link>
+          ))}
           {email ? (
-            <button onClick={signOut} className="text-sm text-[#5A6278] hover:text-[#111827]">
+            <button
+              onClick={signOut}
+              style={{ fontSize: '0.875rem', fontWeight: 500, color: 'var(--muted)', background: 'none', border: 'none', cursor: 'pointer' }}
+            >
               Sign out
             </button>
           ) : (
-            <Link href="/login" className="text-sm text-[#5A6278] hover:text-[#111827]">
+            <Link href="/login" style={{ fontSize: '0.875rem', fontWeight: 500, color: 'var(--muted)', textDecoration: 'none' }}>
               Sign in
             </Link>
           )}
