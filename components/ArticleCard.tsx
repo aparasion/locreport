@@ -1,37 +1,47 @@
 import Link from 'next/link'
 import { Article } from '@/lib/types'
 
-export function ArticleCard({ article }: { article: Article }) {
+const IMPACT_LABEL: Record<number, string> = { 1: 'Routine', 2: 'Notable', 3: 'Significant', 4: 'Major', 5: 'Disruptive' }
+
+export function ArticleCard({ article, featured }: { article: Article; featured?: boolean }) {
   const date = new Date(article.published_at).toLocaleDateString('en-US', {
-    year: 'numeric', month: 'short', day: 'numeric',
+    month: 'short', day: 'numeric', year: 'numeric',
   })
 
+  if (featured) {
+    return (
+      <article className="article-row article-row--featured">
+        <div className="article-row__header">
+          <span className="article-row__badge article-row__badge--latest">Latest</span>
+          {article.impact_score && (
+            <span className={`impact-badge impact-badge--${article.impact_score}`}>{IMPACT_LABEL[article.impact_score]}</span>
+          )}
+          <span className="article-row__date">{date}</span>
+        </div>
+        <h2 className="article-row__title"><Link href={`/articles/${article.slug}`}>{article.title}</Link></h2>
+        {article.excerpt && <p className="article-row__excerpt">{article.excerpt}</p>}
+        <div className="article-row__footer">
+          {article.publisher && <span className="article-row__publisher">{article.publisher}</span>}
+          <Link className="article-row__read-more" href={`/articles/${article.slug}`}>Read more →</Link>
+        </div>
+      </article>
+    )
+  }
+
   return (
-    <article className="post-card">
-      <div className="post-card__meta-row">
-        {article.publisher && (
-          <span className="post-card__publisher">{article.publisher}</span>
-        )}
-        <span className="post-card__date">{date}</span>
-        {article.article_type !== 'industry' && (
-          <span className="post-card__publisher" style={{ background: 'rgba(26,122,138,0.1)', color: '#1A7A8A', borderColor: 'rgba(26,122,138,0.2)' }}>
-            {article.article_type}
-          </span>
+    <article className="article-row">
+      <div className="article-row__header">
+        <span className="article-row__date">{date}</span>
+        {article.impact_score && article.impact_score >= 3 && (
+          <span className={`impact-dot impact-dot--${article.impact_score}`} title={`Impact: ${IMPACT_LABEL[article.impact_score]}`} />
         )}
       </div>
-      <h2 className="post-card__title">
-        <Link href={`/articles/${article.slug}`}>{article.title}</Link>
-      </h2>
-      {article.excerpt && (
-        <p className="post-card__excerpt">{article.excerpt}</p>
-      )}
-      {article.tags?.length > 0 && (
-        <div className="post-card__tags">
-          {article.tags.slice(0, 4).map((tag) => (
-            <span key={tag} className="post-card__tag">{tag}</span>
-          ))}
-        </div>
-      )}
+      <h2 className="article-row__title"><Link href={`/articles/${article.slug}`}>{article.title}</Link></h2>
+      {article.excerpt && <p className="article-row__excerpt">{article.excerpt}</p>}
+      <div className="article-row__footer">
+        {article.publisher && <span className="article-row__publisher">{article.publisher}</span>}
+        <Link className="article-row__read-more" href={`/articles/${article.slug}`}>Read more →</Link>
+      </div>
     </article>
   )
 }

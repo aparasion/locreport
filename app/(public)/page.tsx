@@ -1,63 +1,203 @@
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
-import { ArticleCard } from '@/components/ArticleCard'
 import { Article } from '@/lib/types'
 
 export const revalidate = 3600
 
+const SIGNALS = [
+  { id: 'quality-gap-closure', title: 'AI quality gap can be reduced with human-in-the-loop validation', category: 'quality', current_status: 'supported' },
+  { id: 'governance-in-ai-workflows', title: 'Translation governance is moving into AI assistant and platform workflows', category: 'governance', current_status: 'supported' },
+  { id: 'localization-operating-system', title: 'End-to-end AI localization operating systems are replacing point tools', category: 'operations', current_status: 'supported' },
+  { id: 'measurable-quality-evaluation', title: 'MQM-style quality evaluation is becoming API-native and operationalized', category: 'quality', current_status: 'supported' },
+]
+
+const SOURCES = [
+  'TechCrunch','Slator','DeepL','TransPerfect','Crowdin','Phrase','Smartling',
+  'Lokalise','NIMDZI','GALA','ELIA','XTM','LanguageLine','Vistatec','PR Newswire',
+  'OpenAI','ChatGPT','Google Gemini','Anthropic','Claude','Meta AI','Llama',
+  'Hugging Face','Mistral AI',
+]
+
+const IMPACT_LABEL: Record<number, string> = { 1: 'Routine', 2: 'Notable', 3: 'Significant', 4: 'Major', 5: 'Disruptive' }
+
 export default async function HomePage() {
   const supabase = await createClient()
-
-  // Group articles by day (up to 3 days, ~30 articles)
   const { data: articles } = await supabase
     .from('articles')
     .select('*')
+    .neq('article_type', 'theory')
     .order('published_at', { ascending: false })
-    .limit(30)
+    .limit(60)
 
-  // Group by date string
+  // Group by day (up to 3 days)
   const byDay = new Map<string, Article[]>()
   for (const a of (articles as Article[]) ?? []) {
     const day = new Date(a.published_at).toLocaleDateString('en-US', {
-      weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
+      year: 'numeric', month: '2-digit', day: '2-digit',
     })
-    if (!byDay.has(day)) byDay.set(day, [])
+    if (!byDay.has(day)) {
+      if (byDay.size >= 3) break
+      byDay.set(day, [])
+    }
     byDay.get(day)!.push(a)
-    if (byDay.size >= 3 && byDay.get(day)!.length === 1) break
   }
+
+  // Latest monthly report
+  const { data: latestReport } = await supabase
+    .from('articles')
+    .select('id, title, slug, excerpt, published_at')
+    .eq('article_type', 'monthly-summary')
+    .order('published_at', { ascending: false })
+    .limit(1)
+    .maybeSingle()
 
   return (
     <>
-      {/* Hero */}
-      <section className="hero">
-        <div className="hero-eyebrow">
-          <span>●</span>
-          Language services intelligence
+      {/* ── Hero: Split Layout ── */}
+      <section className="hero hero--split" id="hero-section">
+        <div className="hero-bg" aria-hidden="true">
+          <span className="hero-orb hero-orb--1" />
+          <span className="hero-orb hero-orb--2" />
+          <span className="hero-orb hero-orb--3" />
         </div>
-        <h1>The pulse of the language services industry</h1>
-        <p className="hero-subtitle">
-          Daily translation and localization news capturing the trends, innovations,
-          and movements shaping global communication.
-        </p>
-        <div className="hero-actions">
-          <Link href="/articles" className="btn btn--primary">Browse articles</Link>
-          <Link href="/articles?type=theory" className="btn btn--teal">Language science</Link>
+        <div className="hero-split container">
+          <div className="hero-split__left">
+            <span className="hero-eyebrow">
+              <svg className="hero-eyebrow-icon" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <rect width="22" height="22" rx="6" fill="url(#hg)"/>
+                <text x="11" y="16" textAnchor="middle" fontSize="13" fontFamily="system-ui,sans-serif" fill="#fff">L</text>
+                <defs><linearGradient id="hg" x1="0" y1="0" x2="22" y2="22" gradientUnits="userSpaceOnUse"><stop stopColor="#3D5AFE"/><stop offset="1" stopColor="#06B6D4"/></linearGradient></defs>
+              </svg>
+              Language services intelligence
+            </span>
+            <h1>The pulse of the language services industry</h1>
+            <p className="hero-subtitle">Daily coverage of translation, localization, and AI — curated, analyzed, and tracked through the signals that matter.</p>
+            <div className="hero-actions">
+              <Link href="/articles" className="btn btn--hero-articles">Browse articles</Link>
+              <Link href="/articles?type=monthly-summary" className="btn btn--hero-intel">Intelligence Dashboard</Link>
+              <Link href="/research" className="btn btn--hero-research">Language Science</Link>
+            </div>
+          </div>
+          <div className="hero-split__right" aria-label="Live signal pulse">
+            <div className="hero-intel-panel">
+              <div className="hero-intel-panel__head">
+                <span className="hero-intel-panel__label">Signal Pulse</span>
+                <span className="live-indicator"><span className="live-dot" aria-hidden="true" />Live</span>
+              </div>
+              {SIGNALS.map(signal => (
+                <Link key={signal.id} href={`/intelligence/signals/${signal.id}`} className="hero-signal-row">
+                  <span className={`hero-signal-status hero-signal-status--${signal.current_status}`} title={signal.current_status} aria-label={signal.current_status} />
+                  <span className="hero-signal-title">{signal.title.length > 62 ? signal.title.slice(0, 62) + '…' : signal.title}</span>
+                  <span className={`hero-signal-cat hero-signal-cat--${signal.category}`}>{signal.category}</span>
+                </Link>
+              ))}
+              <Link href="/intelligence" className="hero-intel-panel__footer">View all {SIGNALS.length} signals →</Link>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* Articles by day */}
-      <div className="max-w-[760px]">
-        {[...byDay.entries()].map(([day, dayArticles]) => (
-          <div key={day}>
-            <div className="day-header">{day}</div>
-            {dayArticles.map((article) => (
-              <ArticleCard key={article.id} article={article} />
-            ))}
-          </div>
-        ))}
-        <div className="mt-8">
-          <Link href="/articles" className="btn btn--primary">View all articles →</Link>
+      {/* ── Sources Bar ── */}
+      <div className="sources-bar" aria-hidden="true">
+        <div className="sources-bar-track">
+          {[...SOURCES, ...SOURCES].map((s, i) => (
+            <span key={i} className="source-logo">{s}</span>
+          ))}
         </div>
+      </div>
+
+      {/* ── Home Layout: Main + Sidebar ── */}
+      <div className="home-layout container">
+        <main className="home-main">
+          {[...byDay.entries()].map(([, dayArticles], dayIndex) => {
+            const displayDate = new Date(dayArticles[0].published_at).toLocaleDateString('en-US', {
+              year: 'numeric', month: 'long', day: 'numeric',
+            })
+            return (
+              <section key={dayIndex} className="day-section">
+                <h2 className="day-header">{displayDate}</h2>
+                <div className="article-list">
+                  {dayArticles.map((article, i) => {
+                    const isFeatured = dayIndex === 0 && i === 0
+                    const date = new Date(article.published_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+                    if (isFeatured) {
+                      return (
+                        <article key={article.id} className="article-row article-row--featured">
+                          <div className="article-row__header">
+                            <span className="article-row__badge article-row__badge--latest">Latest</span>
+                            {article.impact_score && (
+                              <span className={`impact-badge impact-badge--${article.impact_score}`}>
+                                {IMPACT_LABEL[article.impact_score] ?? ''}
+                              </span>
+                            )}
+                            <span className="article-row__date">{date}</span>
+                          </div>
+                          <h2 className="article-row__title"><Link href={`/articles/${article.slug}`}>{article.title}</Link></h2>
+                          <p className="article-row__excerpt">{article.excerpt}</p>
+                          <div className="article-row__footer">
+                            {article.publisher && <span className="article-row__publisher">{article.publisher}</span>}
+                            <Link className="article-row__read-more" href={`/articles/${article.slug}`}>Read more →</Link>
+                          </div>
+                        </article>
+                      )
+                    }
+                    return (
+                      <article key={article.id} className="article-row">
+                        <div className="article-row__header">
+                          <span className="new-badge">NEW</span>
+                          <span className="article-row__date">{date}</span>
+                          {article.impact_score && article.impact_score >= 3 && (
+                            <span className={`impact-dot impact-dot--${article.impact_score}`} title={`Impact: ${IMPACT_LABEL[article.impact_score]}`} />
+                          )}
+                        </div>
+                        <h2 className="article-row__title"><Link href={`/articles/${article.slug}`}>{article.title}</Link></h2>
+                        <p className="article-row__excerpt">{article.excerpt}</p>
+                        <div className="article-row__footer">
+                          {article.publisher && <span className="article-row__publisher">{article.publisher}</span>}
+                          <Link className="article-row__read-more" href={`/articles/${article.slug}`}>Read more →</Link>
+                        </div>
+                      </article>
+                    )
+                  })}
+                </div>
+              </section>
+            )
+          })}
+
+          {/* CTA */}
+          <section className="cta-section">
+            <div className="cta-inner">
+              <h2>Ready to stay ahead?</h2>
+              <p>Join localization professionals who rely on LocReport for daily industry intelligence.</p>
+              <div className="cta-actions">
+                <Link href="/articles" className="btn btn--primary btn--lg">View all articles</Link>
+                <Link href="/articles?type=monthly-summary" className="btn btn--ghost btn--lg">Intelligence Dashboard</Link>
+              </div>
+            </div>
+          </section>
+        </main>
+
+        <aside className="home-sidebar" aria-label="Sidebar">
+          {latestReport && (
+            <div className="sidebar-widget sidebar-widget--report">
+              <p className="sidebar-report__eyebrow">Monthly Report</p>
+              <h3 className="sidebar-report__title">{latestReport.title}</h3>
+              <p className="sidebar-report__desc">{latestReport.excerpt ?? 'Key themes, signals, and trends from the language services industry.'}</p>
+              <Link href={`/articles/${latestReport.slug}`} className="sidebar-report__link">Read the report →</Link>
+            </div>
+          )}
+
+          <div className="sidebar-widget">
+            <h3 className="sidebar-widget__title">Active Signals</h3>
+            {SIGNALS.map(signal => (
+              <Link key={signal.id} href={`/intelligence/signals/${signal.id}`} className="sidebar-signal">
+                <span className={`sidebar-signal__status sidebar-signal__status--${signal.current_status}`} aria-label={signal.current_status} />
+                <span className="sidebar-signal__title">{signal.title.length > 58 ? signal.title.slice(0, 58) + '…' : signal.title}</span>
+              </Link>
+            ))}
+            <Link href="/intelligence" className="sidebar-widget__more">All {SIGNALS.length} signals →</Link>
+          </div>
+        </aside>
       </div>
     </>
   )
