@@ -73,7 +73,7 @@ export default function PromptsPage() {
               <Button onClick={() => save(key)} disabled={saving === key}>
                 {saving === key ? 'Saving…' : saved === key ? 'Saved ✓' : 'Save'}
               </Button>
-              <Button variant="outline" onClick={() => reset(key, defaultVal)}>Reset to default</Button>
+              <Button variant="secondary" onClick={() => reset(key, defaultVal)}>Reset to default</Button>
             </div>
           </div>
         ))}
