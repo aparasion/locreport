@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { Article } from '@/lib/types'
+import { articleHref } from '@/lib/utils'
 
 const IMPACT_LABEL: Record<number, string> = { 1: 'Routine', 2: 'Notable', 3: 'Significant', 4: 'Major', 5: 'Disruptive' }
 
@@ -18,11 +19,11 @@ export function ArticleCard({ article, featured }: { article: Article; featured?
           )}
           <span className="article-row__date">{date}</span>
         </div>
-        <h2 className="article-row__title"><Link href={`/articles/${article.slug}`}>{article.title}</Link></h2>
+        <h2 className="article-row__title"><Link href={articleHref(article.slug)}>{article.title}</Link></h2>
         {article.excerpt && <p className="article-row__excerpt">{article.excerpt}</p>}
         <div className="article-row__footer">
           {article.publisher && <span className="article-row__publisher">{article.publisher}</span>}
-          <Link className="article-row__read-more" href={`/articles/${article.slug}`}>Read more →</Link>
+          <Link className="article-row__read-more" href={articleHref(article.slug)}>Read more →</Link>
         </div>
       </article>
     )
@@ -36,11 +37,11 @@ export function ArticleCard({ article, featured }: { article: Article; featured?
           <span className={`impact-dot impact-dot--${article.impact_score}`} title={`Impact: ${IMPACT_LABEL[article.impact_score]}`} />
         )}
       </div>
-      <h2 className="article-row__title"><Link href={`/articles/${article.slug}`}>{article.title}</Link></h2>
+      <h2 className="article-row__title"><Link href={articleHref(article.slug)}>{article.title}</Link></h2>
       {article.excerpt && <p className="article-row__excerpt">{article.excerpt}</p>}
       <div className="article-row__footer">
         {article.publisher && <span className="article-row__publisher">{article.publisher}</span>}
-        <Link className="article-row__read-more" href={`/articles/${article.slug}`}>Read more →</Link>
+        <Link className="article-row__read-more" href={articleHref(article.slug)}>Read more →</Link>
       </div>
     </article>
   )

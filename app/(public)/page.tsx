@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import { Article } from '@/lib/types'
+import { articleHref } from '@/lib/utils'
 
 export const revalidate = 3600
 
@@ -132,11 +133,11 @@ export default async function HomePage() {
                             )}
                             <span className="article-row__date">{date}</span>
                           </div>
-                          <h2 className="article-row__title"><Link href={`/articles/${article.slug}`}>{article.title}</Link></h2>
+                          <h2 className="article-row__title"><Link href={articleHref(article.slug)}>{article.title}</Link></h2>
                           <p className="article-row__excerpt">{article.excerpt}</p>
                           <div className="article-row__footer">
                             {article.publisher && <span className="article-row__publisher">{article.publisher}</span>}
-                            <Link className="article-row__read-more" href={`/articles/${article.slug}`}>Read more →</Link>
+                            <Link className="article-row__read-more" href={articleHref(article.slug)}>Read more →</Link>
                           </div>
                         </article>
                       )
@@ -150,11 +151,11 @@ export default async function HomePage() {
                             <span className={`impact-dot impact-dot--${article.impact_score}`} title={`Impact: ${IMPACT_LABEL[article.impact_score]}`} />
                           )}
                         </div>
-                        <h2 className="article-row__title"><Link href={`/articles/${article.slug}`}>{article.title}</Link></h2>
+                        <h2 className="article-row__title"><Link href={articleHref(article.slug)}>{article.title}</Link></h2>
                         <p className="article-row__excerpt">{article.excerpt}</p>
                         <div className="article-row__footer">
                           {article.publisher && <span className="article-row__publisher">{article.publisher}</span>}
-                          <Link className="article-row__read-more" href={`/articles/${article.slug}`}>Read more →</Link>
+                          <Link className="article-row__read-more" href={articleHref(article.slug)}>Read more →</Link>
                         </div>
                       </article>
                     )
@@ -183,7 +184,7 @@ export default async function HomePage() {
               <p className="sidebar-report__eyebrow">Monthly Report</p>
               <h3 className="sidebar-report__title">{latestReport.title}</h3>
               <p className="sidebar-report__desc">{latestReport.excerpt ?? 'Key themes, signals, and trends from the language services industry.'}</p>
-              <Link href={`/articles/${latestReport.slug}`} className="sidebar-report__link">Read the report →</Link>
+              <Link href={articleHref(latestReport.slug)} className="sidebar-report__link">Read the report →</Link>
             </div>
           )}
 
