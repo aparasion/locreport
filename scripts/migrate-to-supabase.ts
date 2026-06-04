@@ -108,6 +108,8 @@ async function main() {
           signal_confidence: fm.signal_confidence ? String(fm.signal_confidence) : null,
           impact_score: fm.impact_score ? Number(fm.impact_score) : null,
           time_horizon: fm.time_horizon ? String(fm.time_horizon) : null,
+          relevance_score: fm.relevance_score ? Number(fm.relevance_score) : null,
+          research_domain: fm.research_domain ? String(fm.research_domain).toLowerCase() : null,
           affected_segments: Array.isArray(fm.affected_segments)
             ? fm.affected_segments.map(String)
             : [],

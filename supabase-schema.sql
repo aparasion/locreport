@@ -47,6 +47,8 @@ create table if not exists public.articles (
   signal_confidence     text,
   impact_score          integer,
   time_horizon          text,
+  relevance_score       integer,
+  research_domain       text,
   affected_segments     text[]    not null default '{}',
   business_implications jsonb     not null default '[]',
   tags                  text[]    not null default '{}',
