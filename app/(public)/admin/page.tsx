@@ -9,6 +9,7 @@ export default function AdminDashboard() {
   const [stats, setStats] = useState<{ articles: number; drafts: number; sources: number } | null>(null)
   const [ingesting, setIngesting] = useState(false)
   const [monthlyRunning, setMonthlyRunning] = useState(false)
+  const [quotesRunning, setQuotesRunning] = useState(false)
   const [confirm, setConfirm] = useState<Confirm>(null)
   const [message, setMessage] = useState('')
   const [messageType, setMessageType] = useState<'ok' | 'error'>('ok')
@@ -61,6 +62,18 @@ export default function AdminDashboard() {
     )
     setMonthlyRunning(false)
     if (res.ok) fetch('/api/stats').then(r => r.json()).then(setStats)
+  }
+
+  async function refreshQuotes() {
+    setQuotesRunning(true)
+    flash('')
+    const res = await fetch('/api/market-quotes', { method: 'POST' })
+    const data = await res.json()
+    flash(
+      res.ok ? `Market quotes updated: ${data.updated} tickers (${data.failed} failed).` : (data.error ?? 'Update failed.'),
+      res.ok ? 'ok' : 'error',
+    )
+    setQuotesRunning(false)
   }
 
   const now = new Date()
@@ -141,6 +154,22 @@ export default function AdminDashboard() {
               <Button variant="ghost" onClick={() => { setConfirm(null); flash('') }}>Cancel</Button>
             </div>
           )}
+        </div>
+
+        {/* Market quotes */}
+        <div className="p-4 rounded-lg border border-gray-100 bg-white">
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <p className="font-medium text-[#111827]">Refresh market quotes</p>
+              <p className="text-sm text-[#5A6278] mt-0.5">
+                Fetch latest prices and 30-day history for all LocStock tickers.
+                Set a daily cron-job.org job to POST /api/market-quotes.
+              </p>
+            </div>
+            <Button variant="secondary" onClick={refreshQuotes} disabled={quotesRunning}>
+              {quotesRunning ? 'Refreshing…' : 'Refresh now'}
+            </Button>
+          </div>
         </div>
 
         {message && (

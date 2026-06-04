@@ -1,5 +1,11 @@
 'use client'
 import { useState } from 'react'
+import {
+  LineChart, Line, XAxis, YAxis, Tooltip, Legend,
+  ResponsiveContainer, CartesianGrid,
+} from 'recharts'
+
+interface HistoryPoint { date: string; close: number }
 
 interface Quote {
   price: number
@@ -8,10 +14,11 @@ interface Quote {
   prev_close: number
   currency: string
   market_cap: number
+  history?: HistoryPoint[]
 }
 
 interface Props {
-  quotes: Record<string, Quote>
+  quotes: Record<string, unknown>
   updatedAt: string
 }
 
@@ -53,11 +60,16 @@ const COMPANIES = [
   { t:'301236.SZ', s:'301236', n:'iSoftStone Technology',   ex:'SZSE',           co:'CN', cat:'aidata'            },
 ] as const
 
+// Featured tickers shown in the performance chart
+const CHART_TICKERS = ['NVDA','GOOGL','MSFT','DUOL','RWS.L'] as const
+const CHART_COLORS: Record<string, string> = {
+  NVDA:'#76b900', GOOGL:'#4285F4', MSFT:'#00a4ef', DUOL:'#58CC02', 'RWS.L':'#8b5cf6',
+}
+
 const CAT_LABELS: Record<string, string> = {
-  all: 'All', aiplatform: 'AI Platform', bigtech: 'Big Tech',
-  media: 'Media', learning: 'Learning', lsp: 'Language Services',
-  enterprise: 'Enterprise SW', bpo: 'BPO & Staffing',
-  aidata: 'AI & Data'
+  all:'All', aiplatform:'AI Platform', bigtech:'Big Tech',
+  media:'Media', learning:'Learning', lsp:'Language Services',
+  enterprise:'Enterprise SW', bpo:'BPO & Staffing', aidata:'AI & Data',
 }
 
 const COUNTRY_FLAGS: Record<string, string> = {
@@ -69,6 +81,15 @@ const CURRENCY_SYMBOLS: Record<string, string> = {
   USD:'$', EUR:'€', GBP:'£', GBp:'p', HKD:'HK$', KRW:'₩', JPY:'¥',
   AUD:'A$', CAD:'C$', NZD:'NZ$',
 }
+
+const DELISTED = [
+  { ticker:'KWS',  name:'Keywords Studios',    ex:'LSE AIM',  reason:'Acquired by EQT Partners (private equity), 2024' },
+  { ticker:'TIXT', name:'TELUS International', ex:'NYSE/TSX', reason:'Taken private by TELUS Corp, 2024' },
+  { ticker:'STIX', name:'Semantix',            ex:'NASDAQ',   reason:'Merged / delisted 2023' },
+  { ticker:'SDL',  name:'SDL plc',             ex:'LSE',      reason:'Acquired by RWS Holdings, 2021' },
+  { ticker:'LBI',  name:'Lionbridge',          ex:'NASDAQ',   reason:'Taken private by H.I.G. Capital, 2017' },
+  { ticker:'SUL',  name:'Summa Linguae',       ex:'WSE',      reason:'Delisted from Warsaw Stock Exchange' },
+]
 
 function formatMCap(v: number): string {
   if (v >= 1e12) return `${(v/1e12).toFixed(1)}T`
@@ -84,26 +105,65 @@ function formatPrice(price: number, currency: string): string {
 }
 
 function fmtDate(iso: string): string {
-  return new Date(iso).toLocaleString('en-GB', { day:'numeric', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit', timeZoneName:'short' })
+  return new Date(iso).toLocaleString('en-GB', {
+    day:'numeric', month:'short', year:'numeric',
+    hour:'2-digit', minute:'2-digit', timeZoneName:'short',
+  })
 }
 
-const DELISTED = [
-  { ticker:'KWS',  name:'Keywords Studios',    ex:'LSE AIM', reason:'Acquired by EQT Partners (private equity), 2024' },
-  { ticker:'TIXT', name:'TELUS International', ex:'NYSE/TSX', reason:'Taken private by TELUS Corp, 2024' },
-  { ticker:'STIX', name:'Semantix',            ex:'NASDAQ',  reason:'Merged / delisted 2023' },
-  { ticker:'SDL',  name:'SDL plc',             ex:'LSE',     reason:'Acquired by RWS Holdings, 2021' },
-  { ticker:'LBI',  name:'Lionbridge',          ex:'NASDAQ',  reason:'Taken private by H.I.G. Capital, 2017' },
-  { ticker:'SUL',  name:'Summa Linguae',       ex:'WSE',     reason:'Delisted from Warsaw Stock Exchange' },
-]
+// SVG sparkline from history array
+function Sparkline({ history, dir }: { history: HistoryPoint[]; dir: string }) {
+  if (!history || history.length < 2) return null
+  const prices = history.map(h => h.close)
+  const min = Math.min(...prices)
+  const max = Math.max(...prices)
+  const range = max - min || 1
+  const W = 80, H = 28
+  const points = prices.map((p, i) => {
+    const x = (i / (prices.length - 1)) * W
+    const y = H - ((p - min) / range) * H
+    return `${x},${y}`
+  }).join(' ')
+  const color = dir === 'up' ? '#16a34a' : dir === 'down' ? '#dc2626' : '#94a3b8'
+  return (
+    <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`} className="market-sparkline">
+      <polyline fill="none" stroke={color} strokeWidth="1.5" strokeLinejoin="round" points={points} />
+    </svg>
+  )
+}
+
+// Build normalised (% from first close) chart data for featured tickers
+function buildChartData(quotes: Record<string, unknown>): Record<string, number | string>[] {
+  const series: Record<string, { date: string; close: number }[]> = {}
+  for (const t of CHART_TICKERS) {
+    const q = quotes[t] as Quote | undefined
+    if (q?.history?.length) series[t] = q.history
+  }
+  // Collect all dates
+  const dateSet = new Set<string>()
+  Object.values(series).forEach(h => h.forEach(p => dateSet.add(p.date)))
+  const dates = Array.from(dateSet).sort()
+
+  return dates.map(date => {
+    const row: Record<string, number | string> = { date }
+    for (const t of CHART_TICKERS) {
+      const h = series[t]
+      if (!h) continue
+      const base = h[0]?.close
+      const pt = h.find(p => p.date === date)
+      if (base && pt) row[t] = parseFloat(((pt.close / base - 1) * 100).toFixed(2))
+    }
+    return row
+  })
+}
 
 export function LocStockClient({ quotes, updatedAt }: Props) {
   const [activeFilter, setActiveFilter] = useState<string>('all')
+  const [showChart, setShowChart] = useState(true)
 
   const cats = Object.keys(CAT_LABELS)
-
   const catCounts = cats.reduce<Record<string,number>>((acc, cat) => {
-    if (cat === 'all') { acc[cat] = COMPANIES.length; return acc }
-    acc[cat] = COMPANIES.filter(c => c.cat === cat).length
+    acc[cat] = cat === 'all' ? COMPANIES.length : COMPANIES.filter(c => c.cat === cat).length
     return acc
   }, {})
 
@@ -111,12 +171,14 @@ export function LocStockClient({ quotes, updatedAt }: Props) {
 
   let gainers = 0, decliners = 0, unchanged = 0
   for (const c of COMPANIES) {
-    const q = quotes[c.t]
+    const q = quotes[c.t] as Quote | undefined
     if (!q) continue
     if (q.change_pct > 0) gainers++
     else if (q.change_pct < 0) decliners++
     else unchanged++
   }
+
+  const chartData = buildChartData(quotes)
 
   return (
     <>
@@ -147,6 +209,55 @@ export function LocStockClient({ quotes, updatedAt }: Props) {
         </div>
       </div>
 
+      {/* 30-day performance chart */}
+      {chartData.length > 1 && (
+        <div className="market-chart-section">
+          <div className="market-chart-header">
+            <span className="market-chart-title">30-day performance — key stocks (% change from start)</span>
+            <button className="market-chart-toggle" onClick={() => setShowChart(v => !v)}>
+              {showChart ? 'Hide chart' : 'Show chart'}
+            </button>
+          </div>
+          {showChart && (
+            <div className="market-chart-wrap">
+              <ResponsiveContainer width="100%" height={260}>
+                <LineChart data={chartData} margin={{ top: 8, right: 16, left: 0, bottom: 0 }}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="var(--border, #e5e7eb)" />
+                  <XAxis
+                    dataKey="date"
+                    tick={{ fontSize: 11, fill: 'var(--muted, #6b7280)' }}
+                    tickFormatter={d => d.slice(5)}
+                    interval="preserveStartEnd"
+                  />
+                  <YAxis
+                    tick={{ fontSize: 11, fill: 'var(--muted, #6b7280)' }}
+                    tickFormatter={v => `${v > 0 ? '+' : ''}${v}%`}
+                    width={52}
+                  />
+                  <Tooltip
+                    formatter={(v: number) => [`${v > 0 ? '+' : ''}${v}%`]}
+                    labelFormatter={l => `Date: ${l}`}
+                    contentStyle={{ fontSize: 12 }}
+                  />
+                  <Legend wrapperStyle={{ fontSize: 12 }} />
+                  {CHART_TICKERS.map(t => (
+                    <Line
+                      key={t}
+                      type="monotone"
+                      dataKey={t}
+                      stroke={CHART_COLORS[t]}
+                      dot={false}
+                      strokeWidth={2}
+                      connectNulls
+                    />
+                  ))}
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
+          )}
+        </div>
+      )}
+
       <div className="market-filters">
         {cats.map(cat => (
           <button
@@ -161,20 +272,17 @@ export function LocStockClient({ quotes, updatedAt }: Props) {
       </div>
 
       <div className="market-updated">
-        Updated: {fmtDate(updatedAt)}
+        Updated: {updatedAt ? fmtDate(updatedAt) : '—'}
       </div>
 
       <div className="market-mosaic">
         {filtered.map(co => {
-          const q = quotes[co.t]
+          const q = quotes[co.t] as Quote | undefined
           const dir = !q ? 'flat' : q.change_pct > 0 ? 'up' : q.change_pct < 0 ? 'down' : 'flat'
           const isFeatured = 'ft' in co && co.ft
           const warn = 'warn' in co ? co.warn : undefined
           return (
-            <div
-              key={co.t}
-              className={`market-card ${dir}${isFeatured ? ' featured' : ''}`}
-            >
+            <div key={co.t} className={`market-card ${dir}${isFeatured ? ' featured' : ''}`}>
               <div className="market-card-ticker">{co.s}</div>
               <div className="market-card-name">{co.n}</div>
               {q ? (
@@ -184,14 +292,17 @@ export function LocStockClient({ quotes, updatedAt }: Props) {
                     {q.change_pct >= 0 ? '+' : ''}{q.change_pct.toFixed(2)}%
                     {' '}({q.change >= 0 ? '+' : ''}{q.change.toFixed(2)})
                   </div>
-                  <div className="market-card-mcap">Mkt cap: {formatPrice(q.market_cap, q.currency).replace(/\.\d+$/, '')} → {formatMCap(q.market_cap)}</div>
+                  {q.history && q.history.length > 1 && (
+                    <Sparkline history={q.history} dir={dir} />
+                  )}
+                  <div className="market-card-mcap">{formatMCap(q.market_cap)}</div>
                 </>
               ) : (
                 <div className="market-card-change flat">No data</div>
               )}
               <div className="market-card-meta">
                 {COUNTRY_FLAGS[co.co] ?? co.co} {co.ex}
-                {warn && <span style={{marginLeft:4}}>{warn}</span>}
+                {warn && <span style={{ marginLeft: 4 }}>{warn}</span>}
               </div>
             </div>
           )
