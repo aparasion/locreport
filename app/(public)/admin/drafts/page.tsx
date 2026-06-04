@@ -143,9 +143,9 @@ export default function DraftsPage() {
         {loading && <p className="text-[#5A6278] text-sm">Loading…</p>}
 
         {!loading && drafts.map(draft => {
-          const ingestedDate = new Date(draft.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+          const ingestedDate = new Date(draft.created_at).toLocaleDateString('en-GB')
           const sourceDate = draft.source_published_at
-            ? new Date(draft.source_published_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+            ? new Date(draft.source_published_at).toLocaleDateString('en-GB')
             : null
           return (
             <div key={draft.id} className="border-b border-gray-100 py-4 last:border-0 flex items-start gap-3">
