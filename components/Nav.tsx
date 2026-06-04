@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { useEffect, useState, useRef } from 'react'
+import { ReadingProgress } from '@/components/ReadingProgress'
 
 const NAV_LINKS = [
   { href: '/articles', label: 'All articles' },
@@ -172,6 +173,7 @@ export function Nav() {
           ) : null}
         </nav>
       </div>
+      <ReadingProgress />
     </header>
   )
 }

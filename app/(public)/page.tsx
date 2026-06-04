@@ -76,7 +76,7 @@ export default async function HomePage() {
             <p className="hero-subtitle">Daily coverage of translation, localization, and AI — curated, analyzed, and tracked through the signals that matter.</p>
             <div className="hero-actions">
               <Link href="/articles" className="btn btn--hero-articles">Browse articles</Link>
-              <Link href="/articles?type=monthly-summary" className="btn btn--hero-intel">Intelligence Dashboard</Link>
+              <Link href="/intelligence" className="btn btn--hero-intel">Intelligence Dashboard</Link>
               <Link href="/language-science" className="btn btn--hero-research">Language Science</Link>
             </div>
           </div>
@@ -172,7 +172,7 @@ export default async function HomePage() {
               <p>Join localization professionals who rely on LocReport for daily industry intelligence.</p>
               <div className="cta-actions">
                 <Link href="/articles" className="btn btn--primary btn--lg">View all articles</Link>
-                <Link href="/articles?type=monthly-summary" className="btn btn--ghost btn--lg">Intelligence Dashboard</Link>
+                <Link href="/intelligence" className="btn btn--ghost btn--lg">Intelligence Dashboard</Link>
               </div>
             </div>
           </section>

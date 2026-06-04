@@ -143,7 +143,7 @@ export default async function ArticlePage({ params }: Props) {
 
       <div className="support-box">
         <p className="support-box__text">LocReport is free and independent. If it helps you stay informed, consider buying us a coffee — it goes a long way.</p>
-        <a href="https://buymeacoffee.com/locreport" target="_blank" rel="noopener noreferrer" className="support-box__btn">
+        <a href="https://buymeacoffee.com/locreport" target="_blank" rel="noopener" className="support-box__btn">
           ☕ Buy me a coffee
         </a>
       </div>
@@ -192,8 +192,8 @@ export default async function ArticlePage({ params }: Props) {
               <ul className="post-sidebar-related">
                 {relatedArticles.map(r => (
                   <li key={r.id}>
-                    <Link href={articleHref(r.slug)}>
-                      {r.title}
+                    <Link href={articleHref(r.slug)} className="related-reading-link">
+                      <span className="related-reading-title">{r.title}</span>
                       <span className="related-date">
                         {new Date(r.published_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                       </span>

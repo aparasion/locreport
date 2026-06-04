@@ -79,7 +79,7 @@ export function EventsClient({ events, today }: Props) {
                   <span key={tag} className="event-tag">{tag}</span>
                 ))}
               </div>
-              <a href={ev.url} target="_blank" rel="noopener noreferrer" className="event-link">
+              <a href={ev.url} target="_blank" rel="noopener" className="event-link">
                 Learn more →
               </a>
             </div>

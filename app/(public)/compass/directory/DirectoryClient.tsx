@@ -98,7 +98,7 @@ export function DirectoryClient({ entries }: Props) {
               <a
                 href={entry.website}
                 target="_blank"
-                rel="noopener noreferrer"
+                rel="noopener"
                 className="dir-card-name"
               >
                 {entry.name}

@@ -2315,6 +2315,17 @@ article.page > h1 {
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
+
+/* ── Static prose pages (About, Privacy, Terms, Contact) ─── */
+.page-prose { max-width: 680px; }
+.page-prose h1 { font-size: clamp(1.8rem, 4vw, 2.4rem); font-weight: 900; margin-bottom: var(--space-5); background: var(--gradient-accent); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.page-prose h2 { font-size: 1.2rem; font-weight: 800; margin-top: var(--space-8); margin-bottom: var(--space-3); color: var(--text); }
+.page-prose p { font-size: 1rem; line-height: 1.75; color: var(--text); margin-bottom: var(--space-4); }
+.page-prose ul, .page-prose ol { margin-left: var(--space-5); margin-bottom: var(--space-4); display: flex; flex-direction: column; gap: var(--space-1); }
+.page-prose li { font-size: 1rem; line-height: 1.7; color: var(--text); }
+.page-prose blockquote { margin: var(--space-6) 0; padding: var(--space-4) var(--space-5); border-left: 3px solid var(--accent); background: var(--surface); border-radius: 0 var(--radius-md) var(--radius-md) 0; font-style: italic; color: var(--muted); }
+.page-prose a { color: var(--accent); text-decoration: none; font-weight: 600; }
+.page-prose a:hover { text-decoration: underline; }
 .all-articles-subtitle {
   font-size: 1rem;
   color: var(--muted);
@@ -5448,9 +5459,16 @@ article.page > h1 {
   line-height: 1.4;
 }
 .post-sidebar-related a:hover { color: var(--accent); }
+.post-sidebar-related a.related-reading-link {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.related-reading-title { display: block; }
 .post-sidebar-related .related-date {
   font-size: 0.72rem;
   color: var(--muted);
+  font-weight: 400;
 }
 .post-sidebar-related__hub a {
   color: var(--accent);
