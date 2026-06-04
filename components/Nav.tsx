@@ -20,7 +20,7 @@ const NAV_LINKS = [
       { href: '/reports/monthly', label: 'Monthly reports' },
     ]
   },
-  { href: '/research', label: 'Language Science' },
+  { href: '/language-science', label: 'Language Science' },
 ]
 
 export function Nav() {
