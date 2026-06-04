@@ -128,7 +128,7 @@ async function main() {
 
     const { error } = await supabase
       .from('articles')
-      .upsert(rows, { onConflict: 'slug', ignoreDuplicates: true })
+      .upsert(rows, { onConflict: 'slug', ignoreDuplicates: false })
 
     if (error) {
       console.error(`\nBatch ${Math.floor(i / BATCH_SIZE) + 1} FAILED: ${error.message}`)
