@@ -31,8 +31,10 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
               <h4 className="footer-nav-title">Navigate</h4>
               <ul className="footer-links" aria-label="Footer navigation">
                 <li><Link href="/articles">All articles</Link></li>
-                <li><Link href="/articles?type=monthly-summary">Reports</Link></li>
+                <li><Link href="/intelligence">Intelligence</Link></li>
+                <li><Link href="/reports/monthly">Monthly reports</Link></li>
                 <li><Link href="/language-science">Language Science</Link></li>
+                <li><Link href="/compass">Compass</Link></li>
               </ul>
             </div>
             <div className="footer-nav-col">
@@ -40,6 +42,8 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
               <ul className="footer-links" aria-label="Footer information links">
                 <li><Link href="/about">About</Link></li>
                 <li><Link href="/contact">Contact</Link></li>
+                <li><Link href="/privacy">Privacy</Link></li>
+                <li><Link href="/terms">Terms</Link></li>
               </ul>
             </div>
           </div>

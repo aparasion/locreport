@@ -192,8 +192,8 @@ export default async function ArticlePage({ params }: Props) {
               <ul className="post-sidebar-related">
                 {relatedArticles.map(r => (
                   <li key={r.id}>
-                    <Link href={articleHref(r.slug)}>
-                      {r.title}
+                    <Link href={articleHref(r.slug)} className="related-reading-link">
+                      <span className="related-reading-title">{r.title}</span>
                       <span className="related-date">
                         {new Date(r.published_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                       </span>
