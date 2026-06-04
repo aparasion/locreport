@@ -4,6 +4,7 @@ import { marked } from 'marked'
 import { Article } from '@/lib/types'
 import { articleHref } from '@/lib/utils'
 import { SIGNAL_MAP } from '@/lib/signals'
+import { ShareButton } from '@/components/ShareButton'
 import Link from 'next/link'
 import type { Metadata } from 'next'
 
@@ -50,7 +51,7 @@ export default async function ArticlePage({ params }: Props) {
 
   const a = article as Article
 
-  // Strip excerpt from the top of content when the generator duplicates it
+  // Strip excerpt from top of content (generator often duplicates it)
   let content = a.content
   if (a.excerpt) {
     const excerptNorm = a.excerpt.trim()
@@ -64,12 +65,16 @@ export default async function ArticlePage({ params }: Props) {
     year: 'numeric', month: 'long', day: 'numeric',
   })
 
-  // Resolve signal metadata for this article
+  // Read time
+  const words = content.trim().split(/\s+/).length
+  const readMinutes = Math.max(1, Math.round(words / 200))
+
+  // Resolve signal metadata
   const articleSignals = (a.signal_ids ?? [])
     .map(id => SIGNAL_MAP.get(id))
-    .filter(Boolean)
+    .filter(Boolean) as NonNullable<ReturnType<typeof SIGNAL_MAP.get>>[]
 
-  // Fetch related articles (share at least one signal_id, excluding this article)
+  // Fetch related articles
   const supabase = await createClient()
   let relatedArticles: Article[] = []
   if (articleSignals.length > 0) {
@@ -84,20 +89,74 @@ export default async function ArticlePage({ params }: Props) {
     relatedArticles = (related as Article[]) ?? []
   }
 
-  const hasSidebar = (a.business_implications?.length > 0) || (a.affected_segments?.length > 0) || !!a.impact_score || articleSignals.length > 0
+  const hasSidebar = !!a.impact_score || articleSignals.length > 0 || relatedArticles.length > 0
+
+  const articleUrl = `https://locreport.com/articles/${a.slug.split('/').pop()}`
+
+  const articleEl = (
+    <article className="post">
+      <nav className="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><Link href="/">Home</Link></li>
+          <li><Link href="/articles">Articles</Link></li>
+          <li aria-current="page">{a.title}</li>
+        </ol>
+      </nav>
+
+      <h1>{a.title}</h1>
+
+      <div className="post-meta-row">
+        <p className="post-meta">
+          {a.author && <><span className="post-author">{a.author}</span> · </>}
+          {date}<span className="read-time"> · {readMinutes} min read</span>
+        </p>
+        <div className="post-meta-actions">
+          <ShareButton title={a.title} url={articleUrl} />
+        </div>
+      </div>
+
+      {/* Signal context */}
+      {articleSignals.length > 0 && (
+        <p className="signal-context">
+          {articleSignals.map((s, i) => (
+            <span key={s.id}>
+              <Link href={`/intelligence/signals/${s.id}`}>{s.title}</Link>
+              {i < articleSignals.length - 1 ? ', ' : ''}
+            </span>
+          ))}
+        </p>
+      )}
+
+      <div className="post-content" dangerouslySetInnerHTML={{ __html: html }} />
+
+      {a.source_url && (
+        <p className="post-source">
+          {a.article_type === 'theory' ? 'Based on research published by' : 'Based on reporting from'}{' '}
+          <a href={a.source_url} rel="nofollow noopener" target="_blank">
+            {(a.publisher ?? 'the original source').replace(/^www\./, '')}
+            <span className="post-source__ext" aria-hidden="true"> ↗</span>
+          </a>
+        </p>
+      )}
+
+      <div className="support-box">
+        <p className="support-box__text">LocReport is free and independent. If it helps you stay informed, consider buying us a coffee — it goes a long way.</p>
+        {/* eslint-disable-next-line @next/next/no-sync-scripts */}
+        <script type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js" data-name="bmc-button" data-slug="locreport" data-color="#5F7FFF" data-emoji="" data-font="Cookie" data-text="Buy me a coffee" data-outline-color="#000000" data-font-color="#ffffff" data-coffee-color="#FFDD00"></script>
+      </div>
+    </article>
+  )
 
   if (hasSidebar) {
     return (
       <div className="post-layout">
-        <article className="post">
-          <PostHeader a={a} date={date} html={html} articleSignals={articleSignals as NonNullable<ReturnType<typeof SIGNAL_MAP.get>>[]} />
-        </article>
-        <aside className="post-sidebar">
+        {articleEl}
+        <aside className="post-sidebar" aria-label="Article context">
           {a.impact_score && (
             <div className="post-sidebar-widget">
               <p className="post-sidebar-widget__title">Intelligence</p>
               <div className="post-sidebar-badges">
-                <span className={`impact-badge impact-badge--${a.impact_score} impact-badge--inline`}>
+                <span className={`impact-badge impact-badge--${a.impact_score}`}>
                   {IMPACT_LABEL[a.impact_score]}
                 </span>
                 {a.time_horizon && (
@@ -124,24 +183,7 @@ export default async function ArticlePage({ params }: Props) {
             </div>
           )}
 
-          {articleSignals.length > 0 && (
-            <div className="post-sidebar-widget">
-              <p className="post-sidebar-widget__title">Signals</p>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem', marginTop: '0.25rem' }}>
-                {(articleSignals as NonNullable<ReturnType<typeof SIGNAL_MAP.get>>[]).map(s => (
-                  <Link
-                    key={s.id}
-                    href={`/intelligence/signals/${s.id}`}
-                    style={{ fontSize: '0.82rem', color: 'var(--accent)', fontWeight: 600, textDecoration: 'none', lineHeight: 1.4 }}
-                  >
-                    {s.title}
-                  </Link>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {relatedArticles.length > 0 && (
+          {(articleSignals.length > 0 || relatedArticles.length > 0) && (
             <div className="post-sidebar-widget">
               <p className="post-sidebar-widget__title">Related Reading</p>
               <ul className="post-sidebar-related">
@@ -165,74 +207,7 @@ export default async function ArticlePage({ params }: Props) {
 
   return (
     <div className="container">
-      <article className="post">
-        <PostHeader a={a} date={date} html={html} articleSignals={[]} />
-      </article>
+      {articleEl}
     </div>
-  )
-}
-
-type SignalType = NonNullable<ReturnType<typeof SIGNAL_MAP.get>>
-
-function PostHeader({ a, date, html, articleSignals }: { a: Article; date: string; html: string; articleSignals: SignalType[] }) {
-  return (
-    <>
-      <nav style={{ fontSize: '0.85rem', color: 'var(--muted)', marginBottom: 'var(--space-4)', display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
-        <Link href="/" style={{ color: 'var(--muted)' }}>Home</Link>
-        <span>›</span>
-        <Link href="/articles" style={{ color: 'var(--muted)' }}>Articles</Link>
-        <span>›</span>
-        <span style={{ color: 'var(--text)' }}>{a.title.slice(0, 40)}{a.title.length > 40 ? '…' : ''}</span>
-      </nav>
-
-      <h1>{a.title}</h1>
-
-      <div className="post-meta" style={{ marginBottom: 'var(--space-5)' }}>
-        <span>{date}</span>
-        {a.publisher && <span style={{ margin: '0 0.4rem' }}>·</span>}
-        {a.publisher && <span>{a.publisher}</span>}
-        {a.author && <span style={{ margin: '0 0.4rem' }}>·</span>}
-        {a.author && <span>{a.author}</span>}
-      </div>
-
-      {a.excerpt && (
-        <p style={{ fontSize: '1.15rem', color: 'var(--muted)', marginBottom: 'var(--space-6)', lineHeight: 1.6, fontWeight: 400 }}>
-          {a.excerpt}
-        </p>
-      )}
-
-      {/* Signal context — mirrors Jekyll post.html signal-context paragraph */}
-      {articleSignals.length > 0 && (
-        <p className="signal-context">
-          {articleSignals.map((s, i) => (
-            <span key={s.id}>
-              <Link href={`/intelligence/signals/${s.id}`}>{s.title}</Link>
-              {i < articleSignals.length - 1 ? ', ' : ''}
-            </span>
-          ))}
-        </p>
-      )}
-
-      <div className="post-content" dangerouslySetInnerHTML={{ __html: html }} />
-
-      {a.source_url && (
-        <div style={{ marginTop: 'var(--space-8)', paddingTop: 'var(--space-5)', borderTop: '1px solid var(--border)' }}>
-          <a href={a.source_url} target="_blank" rel="noopener noreferrer" style={{ fontSize: '0.88rem', color: 'var(--accent)', fontWeight: 600 }}>
-            View original source →
-          </a>
-        </div>
-      )}
-
-      {a.tags?.length > 0 && (
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.35rem', marginTop: 'var(--space-6)' }}>
-          {a.tags.map(tag => (
-            <Link key={tag} href={`/articles?q=${encodeURIComponent(tag)}`}
-              style={{ fontSize: '0.75rem', background: 'var(--bg-secondary)', color: 'var(--muted)', padding: '3px 10px', borderRadius: '100px', fontWeight: 500 }}>
-              {tag}
-            </Link>
-          ))}
-        </div>
-      )}
-    </>
   )
 }
