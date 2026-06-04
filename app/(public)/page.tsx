@@ -182,16 +182,23 @@ export default async function HomePage() {
         <aside className="home-sidebar" aria-label="Sidebar">
           {latestReport && (
             <div className="sidebar-widget sidebar-widget--report">
-              <p className="sidebar-report__eyebrow">Monthly Report</p>
+              <p className="sidebar-report__eyebrow">Monthly Report · {new Date(latestReport.published_at).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</p>
               <h3 className="sidebar-report__title">{latestReport.title}</h3>
               <p className="sidebar-report__desc">{latestReport.excerpt ?? 'Key themes, signals, and trends from the language services industry.'}</p>
               <Link href={articleHref(latestReport.slug)} className="sidebar-report__link">Read the report →</Link>
             </div>
           )}
 
+          <div className="sidebar-widget sidebar-widget--report">
+            <p className="sidebar-report__eyebrow">2026 Report</p>
+            <h3 className="sidebar-report__title">Global Market Report</h3>
+            <p className="sidebar-report__desc">Market sizing, AI-era growth drivers, and strategic forecasts.</p>
+            <a href="/reports/2026-Annual-Global-Market-Report/" className="sidebar-report__link">Read the report →</a>
+          </div>
+
           <div className="sidebar-widget">
             <h3 className="sidebar-widget__title">Active Signals</h3>
-            {FEATURED_SIGNALS.map(signal => (
+            {SIGNALS.slice(0, 6).map(signal => (
               <Link key={signal.id} href={`/intelligence/signals/${signal.id}`} className="sidebar-signal">
                 <span className={`sidebar-signal__status sidebar-signal__status--${signal.current_status}`} aria-label={signal.current_status} />
                 <span className="sidebar-signal__title">{signal.title.length > 58 ? signal.title.slice(0, 58) + '…' : signal.title}</span>
