@@ -234,7 +234,7 @@ export default function ComposePage() {
             <Button onClick={generateArticle} disabled={generating || !facts.trim()}>
               {generating ? 'Generating article…' : 'Step 2: Generate article'}
             </Button>
-            <Button variant="outline" onClick={() => setStage('form')}>Back</Button>
+            <Button variant="secondary" onClick={() => setStage('form')}>Back</Button>
           </div>
         </div>
       )}
