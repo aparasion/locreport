@@ -15,13 +15,9 @@ const NAV_LINKS = [
     ]
   },
   {
-    href: '/articles?type=industry', label: 'Tools', dropdown: [
-      { href: '/articles?type=industry', label: 'Industry news' },
-    ]
-  },
-  {
-    href: '/articles?type=monthly-summary', label: 'Reports', dropdown: [
-      { href: '/articles?type=monthly-summary', label: 'Monthly reports' },
+    href: '/reports', label: 'Reports', dropdown: [
+      { href: '/reports/2026-annual-global-market-report', label: '2026 Annual Report' },
+      { href: '/reports', label: 'Monthly reports' },
     ]
   },
   { href: '/research', label: 'Language Science' },
