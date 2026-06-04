@@ -12,6 +12,8 @@ export default function DraftReviewPage() {
   const [tab, setTab] = useState<'preview' | 'edit'>('preview')
   const [content, setContent] = useState('')
   const [loading, setLoading] = useState(false)
+  const [rerunning, setRerunning] = useState(false)
+  const [confirmRerun, setConfirmRerun] = useState(false)
   const [error, setError] = useState('')
 
   useEffect(() => {
@@ -47,7 +49,34 @@ export default function DraftReviewPage() {
     router.push('/admin/drafts')
   }
 
+  async function rerun() {
+    setConfirmRerun(false)
+    setRerunning(true)
+    setError('')
+    setDraft(d => d ? { ...d, status: 'rerunning' } : d)
+    try {
+      const res = await fetch(`/api/drafts/${id}/rerun`, { method: 'POST' })
+      if (!res.ok) {
+        const d = await res.json().catch(() => ({}))
+        setError(d.error ?? `Re-run failed (${res.status})`)
+        setDraft(d => d ? { ...d, status: 'pending' } : d)
+        setRerunning(false)
+        return
+      }
+      const updated: Draft = await res.json()
+      setDraft(updated)
+      setContent(updated.content)
+      setTab('preview')
+    } catch {
+      setError('Network error during re-run.')
+      setDraft(d => d ? { ...d, status: 'pending' } : d)
+    }
+    setRerunning(false)
+  }
+
   if (!draft) return <p className="text-[#5A6278]">Loading…</p>
+
+  const isPending = draft.status === 'pending' || draft.status === 'rerun'
 
   return (
     <div className="max-w-[760px]">
@@ -70,7 +99,12 @@ export default function DraftReviewPage() {
         ))}
       </div>
 
-      {tab === 'preview' ? (
+      {rerunning ? (
+        <div className="py-12 text-center text-[#5A6278] text-sm">
+          <div className="mb-3 text-2xl">⟳</div>
+          Re-running article through the full generation pipeline…
+        </div>
+      ) : tab === 'preview' ? (
         <div className="prose" dangerouslySetInnerHTML={{ __html: marked.parse(content) as string }} />
       ) : (
         <textarea
@@ -83,10 +117,21 @@ export default function DraftReviewPage() {
 
       {error && <p className="mt-4 text-sm text-red-600">{error}</p>}
 
-      {draft.status === 'pending' && (
+      {confirmRerun && (
+        <div className="mt-4 p-4 bg-yellow-50 border border-yellow-200 rounded-lg text-sm text-yellow-800 flex items-center justify-between gap-4">
+          <span>Re-run this article through the full 2-stage pipeline? The current content will be replaced.</span>
+          <div className="flex gap-2 shrink-0">
+            <Button onClick={rerun}>Confirm</Button>
+            <Button variant="ghost" onClick={() => setConfirmRerun(false)}>Cancel</Button>
+          </div>
+        </div>
+      )}
+
+      {isPending && !rerunning && (
         <div className="flex gap-3 mt-6">
           <Button onClick={() => action('approved')} disabled={loading}>Approve & publish</Button>
           <Button variant="danger" onClick={() => action('rejected')} disabled={loading}>Reject</Button>
+          <Button variant="secondary" onClick={() => setConfirmRerun(true)} disabled={loading || confirmRerun}>Re-run</Button>
           <Button variant="ghost" onClick={() => router.back()}>Back</Button>
         </div>
       )}
