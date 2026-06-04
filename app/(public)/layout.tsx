@@ -13,8 +13,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
           <div className="footer-top">
             <div className="footer-brand-col">
               <Link href="/" className="footer-logo" aria-label="LocReport home">
-                <Image src="/logolight.png" alt="LocReport" width={110} height={30} className="site-logo-img site-logo-img--light" />
-                <Image src="/logodark.png" alt="LocReport" width={110} height={30} className="site-logo-img site-logo-img--dark" />
+                <Image src="/icon.png" alt="LocReport" width={32} height={32} />
               </Link>
               <p className="footer-tagline">The pulse of the language services industry.</p>
               <a href="https://x.com/locreport" className="footer-x-link" target="_blank" rel="noopener noreferrer" aria-label="LocReport on X">
