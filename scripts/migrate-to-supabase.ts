@@ -97,7 +97,7 @@ async function main() {
           slug,
           excerpt: fm.excerpt ? String(fm.excerpt) : null,
           content: content.trim(),
-          article_type: fm.article_type ?? fm.categories?.includes?.('monthly-summary')
+          article_type: fm.categories?.includes('monthly-summary')
             ? 'monthly-summary'
             : fm.article_type === 'theory' ? 'theory' : 'industry',
           author: fm.author ? String(fm.author) : null,
@@ -128,7 +128,7 @@ async function main() {
 
     const { error } = await supabase
       .from('articles')
-      .upsert(rows, { onConflict: 'slug', ignoreDuplicates: false })
+      .upsert(rows, { onConflict: 'slug', ignoreDuplicates: true })
 
     if (error) {
       console.error(`\nBatch ${Math.floor(i / BATCH_SIZE) + 1} FAILED: ${error.message}`)
