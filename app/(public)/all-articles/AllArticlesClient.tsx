@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
+import { articleHref } from '@/lib/utils'
 
 export interface ArticleRow {
   id: string
@@ -199,7 +200,7 @@ export default function AllArticlesClient({ articles }: { articles: ArticleRow[]
             return (
               <Link
                 key={article.id}
-                href={`/articles/${article.slug}`}
+                href={articleHref(article.slug)}
                 className="article-card"
               >
                 <div className="article-card-body">

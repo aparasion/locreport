@@ -1,7 +1,8 @@
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { marked } from 'marked'
 import { Article } from '@/lib/types'
+import { articleHref } from '@/lib/utils'
 import Link from 'next/link'
 import type { Metadata } from 'next'
 
@@ -11,30 +12,46 @@ type Props = { params: Promise<{ slug: string[] }> }
 
 const IMPACT_LABEL: Record<number, string> = { 1: 'Routine', 2: 'Notable', 3: 'Significant', 4: 'Major', 5: 'Disruptive' }
 
+// Fetch article by bare slug (last segment) or full dated slug
+async function fetchArticle(slugParts: string[]) {
+  const supabase = await createClient()
+  const joined = slugParts.join('/')
+  const bare = slugParts[slugParts.length - 1]
+
+  // Try exact match first (covers both old full slugs and new bare slugs stored without date)
+  const { data: exact } = await supabase
+    .from('articles').select('*').eq('slug', joined).maybeSingle()
+  if (exact) return { article: exact as Article, shouldRedirect: slugParts.length > 1 }
+
+  // Try matching by bare slug suffix (new URL format: /articles/article-name)
+  const { data: bySuffix } = await supabase
+    .from('articles').select('*').ilike('slug', `%/${bare}`).maybeSingle()
+  if (bySuffix) return { article: bySuffix as Article, shouldRedirect: false }
+
+  return null
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
-  const supabase = await createClient()
-  const { data } = await supabase
-    .from('articles')
-    .select('title, excerpt')
-    .eq('slug', slug.join('/'))
-    .single()
-  if (!data) return {}
-  return { title: `${data.title} — LocReport`, description: data.excerpt ?? undefined }
+  const result = await fetchArticle(slug)
+  if (!result) return {}
+  const { article: a } = result
+  return { title: `${a.title} — LocReport`, description: a.excerpt ?? undefined }
 }
 
 export default async function ArticlePage({ params }: Props) {
   const { slug } = await params
-  const articleSlug = slug.join('/')
+  const result = await fetchArticle(slug)
+  if (!result) notFound()
 
-  const supabase = await createClient()
-  const { data: article } = await supabase
-    .from('articles')
-    .select('*')
-    .eq('slug', articleSlug)
-    .single()
+  const { article, shouldRedirect } = result!
 
-  if (!article) notFound()
+  // Old dated URL → redirect to bare slug URL permanently
+  if (shouldRedirect) {
+    redirect(articleHref(article.slug))
+  }
+
+  const a = article
 
   const a = article as Article
 
