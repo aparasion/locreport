@@ -3,14 +3,15 @@ import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
-import { DEFAULT_EXTRACTOR_PROMPT, DEFAULT_INDUSTRY_PROMPT, DEFAULT_THEORY_PROMPT } from '@/lib/prompts'
+import { DEFAULT_EXTRACTOR_PROMPT, DEFAULT_INDUSTRY_PROMPT, DEFAULT_THEORY_PROMPT, DEFAULT_MONTHLY_PROMPT } from '@/lib/prompts'
 
-type PromptKey = 'prompt_extractor' | 'prompt_industry' | 'prompt_theory'
+type PromptKey = 'prompt_extractor' | 'prompt_industry' | 'prompt_theory' | 'prompt_monthly'
 
 const PROMPTS: { key: PromptKey; label: string; default: string }[] = [
   { key: 'prompt_extractor', label: 'Stage 1 — Extractor (fact extraction)', default: DEFAULT_EXTRACTOR_PROMPT },
   { key: 'prompt_industry', label: 'Stage 2 — Industry editorial (LocReport voice)', default: DEFAULT_INDUSTRY_PROMPT },
   { key: 'prompt_theory', label: 'Stage 2 — Theory / research (science writer voice)', default: DEFAULT_THEORY_PROMPT },
+  { key: 'prompt_monthly', label: 'Monthly report (2000-word synthesis)', default: DEFAULT_MONTHLY_PROMPT },
 ]
 
 export default function PromptsPage() {
@@ -18,6 +19,7 @@ export default function PromptsPage() {
     prompt_extractor: '',
     prompt_industry: '',
     prompt_theory: '',
+    prompt_monthly: '',
   })
   const [saving, setSaving] = useState<PromptKey | null>(null)
   const [saved, setSaved] = useState<PromptKey | null>(null)
@@ -31,6 +33,7 @@ export default function PromptsPage() {
           prompt_extractor: settings.prompt_extractor || DEFAULT_EXTRACTOR_PROMPT,
           prompt_industry: settings.prompt_industry || DEFAULT_INDUSTRY_PROMPT,
           prompt_theory: settings.prompt_theory || DEFAULT_THEORY_PROMPT,
+          prompt_monthly: settings.prompt_monthly || DEFAULT_MONTHLY_PROMPT,
         }))
         setLoading(false)
       })
@@ -63,6 +66,9 @@ export default function PromptsPage() {
         {PROMPTS.map(({ key, label, default: defaultVal }) => (
           <div key={key}>
             <Label className="text-base font-semibold text-[#111827] mb-1 block">{label}</Label>
+            {key === 'prompt_monthly' && (
+              <p className="text-xs text-[#5A6278] mb-2">Used by the Next.js monthly report generator. The Jekyll GitHub Actions script has its own copy — update both if you change the structure.</p>
+            )}
             <Textarea
               value={values[key]}
               onChange={e => setValues(v => ({ ...v, [key]: e.target.value }))}
