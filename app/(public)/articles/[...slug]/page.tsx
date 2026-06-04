@@ -95,12 +95,32 @@ export default async function ArticlePage({ params }: Props) {
         <aside className="post-sidebar">
           {a.impact_score && (
             <div className="post-sidebar-widget">
-              <p className="post-sidebar-widget__title">Impact</p>
+              <p className="post-sidebar-widget__title">Intelligence</p>
               <div className="post-sidebar-badges">
                 <span className={`impact-badge impact-badge--${a.impact_score} impact-badge--inline`}>
                   {IMPACT_LABEL[a.impact_score]}
                 </span>
+                {a.time_horizon && (
+                  <span className={`time-horizon-badge time-horizon-badge--${a.time_horizon}`}>
+                    {a.time_horizon === 'now' ? 'Immediate' : a.time_horizon === '6months' ? '6-Month Horizon' : 'Long-Term'}
+                  </span>
+                )}
               </div>
+              {a.business_implications?.length > 0 && (
+                <div className="post-sidebar-section">
+                  <p className="post-sidebar-section__label">Why this matters</p>
+                  <ul className="post-sidebar-list">
+                    {a.business_implications.map((imp, i) => <li key={i}>{imp}</li>)}
+                  </ul>
+                </div>
+              )}
+              {a.affected_segments?.length > 0 && (
+                <div className="intelligence-segments post-sidebar-segments">
+                  {a.affected_segments.map(seg => (
+                    <span key={seg} className="segment-tag" data-segment={seg}>{seg}</span>
+                  ))}
+                </div>
+              )}
             </div>
           )}
 
@@ -121,31 +141,9 @@ export default async function ArticlePage({ params }: Props) {
             </div>
           )}
 
-          {a.business_implications?.length > 0 && (
-            <div className="post-sidebar-widget">
-              <p className="post-sidebar-widget__title">Business implications</p>
-              <ul className="post-sidebar-list">
-                {a.business_implications.map((imp, i) => <li key={i}>{imp}</li>)}
-              </ul>
-            </div>
-          )}
-
-          {a.affected_segments?.length > 0 && (
-            <div className="post-sidebar-widget post-sidebar-segments">
-              <p className="post-sidebar-widget__title">Affected segments</p>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.3rem', marginTop: '0.25rem' }}>
-                {a.affected_segments.map(seg => (
-                  <span key={seg} style={{ fontSize: '0.78rem', background: 'var(--accent-soft)', color: 'var(--accent)', borderRadius: '100px', padding: '2px 10px', fontWeight: 600 }}>
-                    {seg}
-                  </span>
-                ))}
-              </div>
-            </div>
-          )}
-
           {relatedArticles.length > 0 && (
             <div className="post-sidebar-widget">
-              <p className="post-sidebar-widget__title">Related reading</p>
+              <p className="post-sidebar-widget__title">Related Reading</p>
               <ul className="post-sidebar-related">
                 {relatedArticles.map(r => (
                   <li key={r.id}>
