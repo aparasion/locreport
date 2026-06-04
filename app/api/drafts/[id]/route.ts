@@ -41,9 +41,12 @@ export async function PATCH(req: NextRequest, { params }: Params) {
     if (articleError) return NextResponse.json({ error: articleError.message }, { status: 400 })
   }
 
+  const patch: Record<string, unknown> = { status: body.status }
+  if (body.content !== undefined) patch.content = body.content
+
   const { data, error } = await supabase
     .from('drafts')
-    .update({ status: body.status, content: body.content })
+    .update(patch)
     .eq('id', id)
     .select()
     .single()
