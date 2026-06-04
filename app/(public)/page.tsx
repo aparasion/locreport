@@ -146,7 +146,6 @@ export default async function HomePage() {
                     return (
                       <article key={article.id} className="article-row">
                         <div className="article-row__header">
-                          <span className="new-badge">NEW</span>
                           <span className="article-row__date">{date}</span>
                           {article.impact_score && article.impact_score >= 3 && (
                             <span className={`impact-dot impact-dot--${article.impact_score}`} title={`Impact: ${IMPACT_LABEL[article.impact_score]}`} />
