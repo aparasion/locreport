@@ -2,15 +2,7 @@ import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import { Article } from '@/lib/types'
 import { articleHref } from '@/lib/utils'
-
-export const revalidate = 3600
-
-const SIGNALS = [
-  { id: 'quality-gap-closure', title: 'AI quality gap can be reduced with human-in-the-loop validation', category: 'quality', current_status: 'supported' },
-  { id: 'governance-in-ai-workflows', title: 'Translation governance is moving into AI assistant and platform workflows', category: 'governance', current_status: 'supported' },
-  { id: 'localization-operating-system', title: 'End-to-end AI localization operating systems are replacing point tools', category: 'operations', current_status: 'supported' },
-  { id: 'measurable-quality-evaluation', title: 'MQM-style quality evaluation is becoming API-native and operationalized', category: 'quality', current_status: 'supported' },
-]
+import { SIGNALS } from '@/lib/signals'
 
 const SOURCES = [
   'TechCrunch','Slator','DeepL','TransPerfect','Crowdin','Phrase','Smartling',
