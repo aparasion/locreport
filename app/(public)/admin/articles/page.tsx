@@ -1,6 +1,7 @@
 import { createServiceClient } from '@/lib/supabase/server'
 import Link from 'next/link'
 import { Article } from '@/lib/types'
+import { DeleteButton } from './DeleteButton'
 
 export const dynamic = 'force-dynamic'
 
@@ -23,12 +24,15 @@ export default async function AdminArticlesPage() {
                 {a.published_at ? new Date(a.published_at).toLocaleDateString() : ''} · {a.publisher ?? '—'}
               </p>
             </div>
-            <Link
-              href={`/admin/articles/${a.id}`}
-              className="text-sm shrink-0 px-3 py-1 rounded-lg bg-[#EEF1F8] text-[#5A6278] hover:bg-[#E0E4F0]"
-            >
-              Edit
-            </Link>
+            <div className="flex items-center gap-2 shrink-0">
+              <Link
+                href={`/admin/articles/${a.id}`}
+                className="text-sm px-3 py-1 rounded-lg bg-[#EEF1F8] text-[#5A6278] hover:bg-[#E0E4F0]"
+              >
+                Edit
+              </Link>
+              <DeleteButton id={a.id!} />
+            </div>
           </div>
         ))}
       </div>

@@ -4,6 +4,16 @@
   "framework": "nextjs",
   "redirects": [
     {
+      "source": "/reports/2026-Annual-Global-Market-Report",
+      "destination": "/reports/2026-annual-global-market-report",
+      "permanent": true
+    },
+    {
+      "source": "/reports/2026-Annual-Global-Market-Report/",
+      "destination": "/reports/2026-annual-global-market-report",
+      "permanent": true
+    },
+    {
       "source": "/articles/:year/:month/:day/:slug.html",
       "destination": "/articles/:slug",
       "permanent": true
