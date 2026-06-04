@@ -7,6 +7,16 @@
       "source": "/articles/:year/:month/:day/:slug.html",
       "destination": "/articles/:year/:month/:day/:slug",
       "permanent": true
+    },
+    {
+      "source": "/all-articles",
+      "destination": "/articles",
+      "permanent": true
+    },
+    {
+      "source": "/all-articles/",
+      "destination": "/articles",
+      "permanent": true
     }
   ]
 }
