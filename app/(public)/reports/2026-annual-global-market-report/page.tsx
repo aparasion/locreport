@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
 export default function AnnualReport2026() {
   return (
-    <div className="container" style={{ paddingBottom: 'var(--space-12)' }}>
+    <div className="container" style={{ paddingTop: 'var(--space-8)', paddingBottom: 'var(--space-12)' }}>
       <nav style={{ fontSize: '0.85rem', color: 'var(--muted)', marginBottom: 'var(--space-5)', display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
         <Link href="/" style={{ color: 'var(--muted)' }}>Home</Link>
         <span>›</span>

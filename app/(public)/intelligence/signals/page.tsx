@@ -37,7 +37,7 @@ export default async function SignalsPage() {
   const disputed  = SIGNALS.filter(s => s.current_status === 'disputed').length
 
   return (
-    <div className="container" style={{ paddingBottom: 'var(--space-12)' }}>
+    <div className="container" style={{ paddingTop: 'var(--space-8)', paddingBottom: 'var(--space-12)' }}>
 
       <div className="signals-hub-header">
         <p className="signals-hub-desc">

@@ -33,7 +33,7 @@ export default async function MonthlyReportsPage() {
   const archive = posts.slice(1)
 
   return (
-    <div className="container" style={{ paddingBottom: 'var(--space-12)' }}>
+    <div className="container" style={{ paddingTop: 'var(--space-8)', paddingBottom: 'var(--space-12)' }}>
 
       {posts.length === 0 ? (
         <p style={{ color: 'var(--muted)', fontStyle: 'italic' }}>No monthly reports have been published yet.</p>

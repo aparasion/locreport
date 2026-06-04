@@ -18,7 +18,7 @@ export function DraftCard({ draft }: { draft: Draft }) {
         <Link href={`/admin/drafts/${draft.id}`} className="font-medium text-[#111827] hover:text-[#3D5AFE]">
           {draft.title}
         </Link>
-        <p className="text-xs text-[#5A6278] mt-1">{date}{draft.source_url && ` · ${new URL(draft.source_url).hostname}`}</p>
+        <p className="text-xs text-[#5A6278] mt-1">{date}{draft.source_url && (() => { try { return ` · ${new URL(draft.source_url!).hostname}` } catch { return ` · ${draft.source_url}` } })()}</p>
       </div>
       <Badge variant={statusVariant(draft.status)}>{draft.status}</Badge>
     </div>

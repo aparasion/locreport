@@ -12,7 +12,12 @@ export default async function DraftsPage({
   const { status } = await searchParams
 
   if (!process.env.SUPABASE_SERVICE_ROLE_KEY) {
-    throw new Error('SUPABASE_SERVICE_ROLE_KEY is not configured')
+    return (
+      <div>
+        <h1 className="text-2xl font-bold text-[#111827] mb-4">Drafts</h1>
+        <p className="text-sm text-[#5A6278]">SUPABASE_SERVICE_ROLE_KEY is not configured.</p>
+      </div>
+    )
   }
 
   const supabase = createServiceClient()
@@ -21,7 +26,14 @@ export default async function DraftsPage({
   if (status) query = query.eq('status', status)
 
   const { data: drafts, error } = await query
-  if (error) throw new Error(error.message)
+  if (error) {
+    return (
+      <div>
+        <h1 className="text-2xl font-bold text-[#111827] mb-4">Drafts</h1>
+        <p className="text-sm text-red-500">Error loading drafts: {error.message}</p>
+      </div>
+    )
+  }
 
   return (
     <div>
