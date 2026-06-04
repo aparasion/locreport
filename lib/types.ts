@@ -13,7 +13,7 @@ export interface Draft {
   content: string
   source_url: string | null
   source_feed_id: string | null
-  status: 'pending' | 'approved' | 'rejected'
+  status: 'pending' | 'approved' | 'rejected' | 'rerunning' | 'rerun'
   created_at: string
   updated_at: string
 }

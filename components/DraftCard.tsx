@@ -5,7 +5,15 @@ import { Badge } from '@/components/ui/badge'
 function statusVariant(status: Draft['status']) {
   if (status === 'approved') return 'success'
   if (status === 'rejected') return 'danger'
+  if (status === 'rerun') return 'rerun'
+  if (status === 'rerunning') return 'muted'
   return 'warning'
+}
+
+function statusLabel(status: Draft['status']) {
+  if (status === 'rerun') return 'Re-run draft'
+  if (status === 'rerunning') return 'Re-running…'
+  return status
 }
 
 export function DraftCard({ draft }: { draft: Draft }) {
@@ -20,7 +28,7 @@ export function DraftCard({ draft }: { draft: Draft }) {
         </Link>
         <p className="text-xs text-[#5A6278] mt-1">{date}{draft.source_url && (() => { try { return ` · ${new URL(draft.source_url!).hostname}` } catch { return ` · ${draft.source_url}` } })()}</p>
       </div>
-      <Badge variant={statusVariant(draft.status)}>{draft.status}</Badge>
+      <Badge variant={statusVariant(draft.status)}>{statusLabel(draft.status)}</Badge>
     </div>
   )
 }
