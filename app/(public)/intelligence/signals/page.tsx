@@ -23,6 +23,7 @@ export default async function SignalsPage() {
     .from('articles')
     .select('signal_ids')
     .neq('article_type', 'theory')
+    .neq('article_type', 'monthly-summary')
 
   const signalCounts = new Map<string, number>()
   for (const a of articles ?? []) {

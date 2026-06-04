@@ -20,6 +20,7 @@ export default async function HighImpactPage() {
     .from('articles')
     .select('id, title, slug, excerpt, publisher, impact_score, time_horizon, business_implications, affected_segments, published_at')
     .neq('article_type', 'theory')
+    .neq('article_type', 'monthly-summary')
     .gte('impact_score', 3)
     .order('impact_score', { ascending: false })
     .order('published_at', { ascending: false })
