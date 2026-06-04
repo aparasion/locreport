@@ -22,6 +22,14 @@ const NAV_LINKS = [
     ]
   },
   { href: '/research', label: 'Language Science' },
+  {
+    href: '/compass', label: 'Compass', dropdown: [
+      { href: '/compass/locstock', label: 'LocStock' },
+      { href: '/compass/events', label: 'Industry Events' },
+      { href: '/compass/llm-pricing', label: 'AI Cost Simulator' },
+      { href: '/compass/directory', label: 'Tech Directory' },
+    ]
+  },
 ]
 
 export function Nav() {
