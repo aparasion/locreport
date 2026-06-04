@@ -1,8 +1,8 @@
 name: Daily News Gists
 
 on:
-  schedule:
-    - cron: "33 * * * *"
+#  schedule: # PAUSED
+#    - cron: # PAUSED "33 * * * *"
   workflow_dispatch:        # allows manual trigger from GitHub UI
 
 env:

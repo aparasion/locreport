@@ -1,8 +1,8 @@
 name: Monthly Reports
 
 on:
-  schedule:
-    - cron: '15 2 1 * *' # 02:15 UTC on day 1 of each month (summarizes previous month)
+#  schedule: # PAUSED
+#    - cron: # PAUSED '15 2 1 * *' # 02:15 UTC on day 1 of each month (summarizes previous month)
   workflow_dispatch:
     inputs:
       month:
