@@ -6,12 +6,29 @@ from pathlib import Path
 
 from openai import OpenAI
 
+
+def get_system_prompt() -> str:
+    """Fetch prompt_monthly from Supabase settings, fall back to DEFAULT_SYSTEM_PROMPT."""
+    url = os.getenv("SUPABASE_URL")
+    key = os.getenv("SUPABASE_SERVICE_ROLE_KEY")
+    if url and key:
+        try:
+            from supabase import create_client
+            sb = create_client(url, key)
+            result = sb.table("settings").select("value").eq("key", "prompt_monthly").single().execute()
+            if result.data and result.data.get("value"):
+                print("Using prompt_monthly from Supabase settings.")
+                return result.data["value"]
+        except Exception as e:
+            print(f"Could not fetch prompt from Supabase ({e}), using default.")
+    return DEFAULT_SYSTEM_PROMPT
+
 POSTS_DIR = Path("_posts")
 SIGNALS_DATA_FILE = Path("_data/signals.yml")
 MONTHLY_CATEGORY = "monthly-summary"
 BASE_CATEGORY = "translation"
 
-SYSTEM_PROMPT = """You are a senior editor writing the monthly industry intelligence report for a localization and translation industry publication. Your readers are decision-makers, technology leaders, and practitioners in enterprise localization, language AI, and language services.
+DEFAULT_SYSTEM_PROMPT = """You are a senior editor writing the monthly industry intelligence report for a localization and translation industry publication. Your readers are decision-makers, technology leaders, and practitioners in enterprise localization, language AI, and language services.
 
 This report is a full editorial article of approximately 2000 words — not a list of events, but a deeply synthesized, narrative-driven analysis of what moved the industry forward this month, what created uncertainty, and what every professional in this space should understand and act on.
 
@@ -304,13 +321,14 @@ def generate_monthly_summary(period: str, force: bool = False) -> Path | None:
         return None
 
     client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+    system_prompt = get_system_prompt()
     article_summaries = build_article_prompt_rows(articles)
     user_prompt = USER_PROMPT_TEMPLATE.format(period=period, article_summaries=article_summaries)
 
     response = client.chat.completions.create(
         model="gpt-4o",
         messages=[
-            {"role": "system", "content": SYSTEM_PROMPT},
+            {"role": "system", "content": system_prompt},
             {"role": "user", "content": user_prompt},
         ],
         max_tokens=1800,
