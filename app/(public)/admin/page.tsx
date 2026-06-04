@@ -119,7 +119,7 @@ export default function AdminDashboard() {
               <p className="font-medium text-[#111827]">Generate monthly report</p>
               <p className="text-sm text-[#5A6278] mt-0.5">
                 Synthesise all {prevMonth} industry articles into a full monthly report.
-                Runs automatically on the 1st of each month at 03:00 UTC.
+                Runs automatically on the 1st of each month (daily cron checks the date).
               </p>
             </div>
             <Button
