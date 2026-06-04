@@ -63,23 +63,17 @@ export default function ComposePage() {
 
   async function publish(finalContent: string) {
     setPublishing(true)
-    const res = await fetch('/api/articles', {
+    await fetch('/api/drafts', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ content: finalContent }),
+      body: JSON.stringify({ content: finalContent, source_url: sourceUrl || null }),
     })
-    if (res.ok) router.push('/admin/drafts')
+    router.push('/admin/drafts')
     setPublishing(false)
   }
 
   async function saveDraft(finalContent: string) {
-    setPublishing(true)
-    await fetch('/api/drafts', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ content: finalContent }),
-    })
-    router.push('/admin/drafts')
+    return publish(finalContent)
   }
 
   if (stage === 'article' && content) {
