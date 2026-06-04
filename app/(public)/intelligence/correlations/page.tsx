@@ -26,6 +26,7 @@ export default async function CorrelationsPage() {
     .from('articles')
     .select('id, title, slug, signal_ids, published_at')
     .neq('article_type', 'theory')
+    .neq('article_type', 'monthly-summary')
     .not('signal_ids', 'eq', '{}')
 
   const articles = data ?? []
