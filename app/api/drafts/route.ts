@@ -27,3 +27,15 @@ export async function POST(req: NextRequest) {
   if (error) return NextResponse.json({ error: error.message }, { status: 400 })
   return NextResponse.json(data, { status: 201 })
 }
+
+// Bulk status update
+export async function PATCH(req: NextRequest) {
+  const { ids, status } = await req.json()
+  if (!Array.isArray(ids) || !ids.length || !status) {
+    return NextResponse.json({ error: 'ids array and status required' }, { status: 400 })
+  }
+  const supabase = createServiceClient()
+  const { error } = await supabase.from('drafts').update({ status }).in('id', ids)
+  if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+  return NextResponse.json({ ok: true })
+}
