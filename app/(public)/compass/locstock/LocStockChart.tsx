@@ -76,7 +76,7 @@ export function LocStockChart({ quotes }: { quotes: Record<string, unknown> }) {
                 width={52}
               />
               <Tooltip
-                formatter={(v: number) => [`${v > 0 ? '+' : ''}${v}%`]}
+                formatter={(v) => [`${Number(v) > 0 ? '+' : ''}${Number(v)}%`]}
                 labelFormatter={l => `Date: ${l}`}
                 contentStyle={{ fontSize: 12 }}
               />
