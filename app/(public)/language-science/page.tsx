@@ -28,5 +28,9 @@ export default async function ResearchPage() {
     published_at: a.published_at,
   }))
 
-  return <ResearchClient articles={rows} />
+  return (
+    <div className="container" style={{ paddingBottom: 'var(--space-12)' }}>
+      <ResearchClient articles={rows} />
+    </div>
+  )
 }

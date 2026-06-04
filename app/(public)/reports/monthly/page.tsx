@@ -29,34 +29,11 @@ export default async function MonthlyReportsPage() {
     .order('published_at', { ascending: false })
 
   const posts = data ?? []
-  const totalSources = 0
   const latest = posts[0]
   const archive = posts.slice(1)
 
   return (
     <div className="container" style={{ paddingBottom: 'var(--space-12)' }}>
-
-      {/* Hero */}
-      <div className="mr-hero">
-        <span className="mr-hero-eyebrow">Industry Intelligence</span>
-        <p className="mr-hero-desc">Each month we scan hundreds of sources across translation, AI, and language technology — then distill the signals that matter for localization leaders.</p>
-        <div className="mr-hero-stats">
-          <div className="mr-stat">
-            <span className="mr-stat-num">{posts.length}</span>
-            <span className="mr-stat-label">Reports</span>
-          </div>
-          <div className="mr-stat-divider" />
-          <div className="mr-stat">
-            <span className="mr-stat-num">{totalSources > 0 ? `${totalSources}+` : '—'}</span>
-            <span className="mr-stat-label">Articles analyzed</span>
-          </div>
-          <div className="mr-stat-divider" />
-          <div className="mr-stat">
-            <span className="mr-stat-num">Free</span>
-            <span className="mr-stat-label">Always</span>
-          </div>
-        </div>
-      </div>
 
       {posts.length === 0 ? (
         <p style={{ color: 'var(--muted)', fontStyle: 'italic' }}>No monthly reports have been published yet.</p>
