@@ -1,6 +1,0 @@
-feedparser
-trafilatura
-openai
-requests
-yfinance
-supabase
