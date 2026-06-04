@@ -143,12 +143,71 @@ export default function AdminDashboard() {
           )}
         </div>
 
+        {/* seen.json import */}
+        <SeenImport />
+
         {message && (
           <p className={`text-sm ${messageType === 'error' ? 'text-red-600' : 'text-[#5A6278]'}`}>
             {message}
           </p>
         )}
       </div>
+    </div>
+  )
+}
+
+function SeenImport() {
+  const [status, setStatus] = useState('')
+  const [busy, setBusy] = useState(false)
+  const [seenCount, setSeenCount] = useState<number | null>(null)
+
+  useEffect(() => {
+    fetch('/api/seen-urls').then(r => r.json()).then(d => setSeenCount(d.count ?? 0))
+  }, [])
+
+  async function handleFile(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0]
+    if (!file) return
+    setBusy(true)
+    setStatus('')
+    try {
+      const text = await file.text()
+      const urls: unknown[] = JSON.parse(text)
+      const res = await fetch('/api/seen-urls', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ urls }),
+      })
+      const data = await res.json()
+      if (res.ok) {
+        setStatus(`Imported ${data.imported} URLs.`)
+        setSeenCount(c => (c ?? 0) + data.imported)
+      } else {
+        setStatus(data.error ?? 'Import failed.')
+      }
+    } catch {
+      setStatus('Invalid JSON file.')
+    }
+    setBusy(false)
+    e.target.value = ''
+  }
+
+  return (
+    <div className="p-4 rounded-lg border border-gray-100 bg-white">
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <p className="font-medium text-[#111827]">Import seen.json</p>
+          <p className="text-sm text-[#5A6278] mt-0.5">
+            Block already-processed Jekyll URLs from being re-ingested.
+            {seenCount !== null && <span className="ml-1 text-[#3D5AFE]">{seenCount} URLs currently blocked.</span>}
+          </p>
+        </div>
+        <label className={`inline-flex items-center px-3 py-1.5 rounded-md text-sm font-medium cursor-pointer transition-colors ${busy ? 'opacity-50 pointer-events-none' : ''} bg-[#EEF1F8] text-[#5A6278] hover:bg-[#E0E4F0]`}>
+          {busy ? 'Importing…' : 'Upload seen.json'}
+          <input type="file" accept=".json" className="hidden" onChange={handleFile} disabled={busy} />
+        </label>
+      </div>
+      {status && <p className="mt-2 text-sm text-[#5A6278]">{status}</p>}
     </div>
   )
 }
