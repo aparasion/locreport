@@ -8,7 +8,9 @@ const NAV_LINKS = [
   { href: '/articles', label: 'All articles' },
   {
     href: '/intelligence', label: 'Intelligence', dropdown: [
-      { href: '/intelligence/signals', label: 'Signals' },
+      { href: '/intelligence/signals', label: 'Signals tracker' },
+      { href: '/intelligence/correlations', label: 'Correlation matrix' },
+      { href: '/intelligence/high-impact', label: 'High impact articles' },
     ]
   },
   {
