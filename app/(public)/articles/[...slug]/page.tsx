@@ -143,8 +143,9 @@ export default async function ArticlePage({ params }: Props) {
 
       <div className="support-box">
         <p className="support-box__text">LocReport is free and independent. If it helps you stay informed, consider buying us a coffee — it goes a long way.</p>
-        {/* eslint-disable-next-line @next/next/no-sync-scripts */}
-        <script type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js" data-name="bmc-button" data-slug="locreport" data-color="#5F7FFF" data-emoji="" data-font="Cookie" data-text="Buy me a coffee" data-outline-color="#000000" data-font-color="#ffffff" data-coffee-color="#FFDD00"></script>
+        <a href="https://buymeacoffee.com/locreport" target="_blank" rel="noopener noreferrer" className="support-box__btn">
+          ☕ Buy me a coffee
+        </a>
       </div>
     </article>
   )
