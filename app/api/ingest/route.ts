@@ -14,6 +14,8 @@ async function getPrompt(supabase: ReturnType<typeof createServiceClient>, key: 
   }
 }
 
+export const maxDuration = 60
+
 export async function POST(req: NextRequest) {
   const auth = req.headers.get('Authorization')
   const isCron = auth === `Bearer ${process.env.CRON_SECRET}`
@@ -55,7 +57,7 @@ export async function POST(req: NextRequest) {
 
   for (const source of sources) {
     const items = await fetchFeed(source.url)
-    const fresh = items.filter(i => i.link && !seen.has(i.link)).slice(0, 5)
+    const fresh = items.filter(i => i.link && !seen.has(i.link)).slice(0, 2)
 
     for (const item of fresh) {
       try {
@@ -68,7 +70,7 @@ export async function POST(req: NextRequest) {
 
         // Stage 1: extract facts
         const extractRes = await openai.chat.completions.create({
-          model: 'gpt-4o',
+          model: 'gpt-4o-mini',
           messages: [
             { role: 'system', content: extractorPrompt },
             { role: 'user', content: extractInput },
