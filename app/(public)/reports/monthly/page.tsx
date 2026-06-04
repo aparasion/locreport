@@ -24,12 +24,12 @@ export default async function MonthlyReportsPage() {
   const supabase = await createClient()
   const { data } = await supabase
     .from('articles')
-    .select('id, title, slug, excerpt, published_at, signal_ids, source_count')
+    .select('id, title, slug, excerpt, published_at, signal_ids')
     .eq('article_type', 'monthly-summary')
     .order('published_at', { ascending: false })
 
   const posts = data ?? []
-  const totalSources = posts.reduce((sum, p) => sum + ((p as any).source_count ?? 0), 0)
+  const totalSources = 0
   const latest = posts[0]
   const archive = posts.slice(1)
 
@@ -75,7 +75,7 @@ export default async function MonthlyReportsPage() {
             </h2>
             <p className="mr-featured-meta">
               {new Date(latest.published_at).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
-              {(latest as any).source_count ? ` · ${(latest as any).source_count} articles analyzed` : ''}
+              {''}
             </p>
             {latest.excerpt && <p className="mr-featured-excerpt">{latest.excerpt}</p>}
             {latest.signal_ids?.length > 0 && (
@@ -103,9 +103,6 @@ export default async function MonthlyReportsPage() {
                         <span className="mr-card-date">
                           {new Date(post.published_at).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
                         </span>
-                        {(post as any).source_count && (
-                          <span className="mr-card-sources">{(post as any).source_count} articles</span>
-                        )}
                       </div>
                       <h3 className="mr-card-title">
                         <Link href={articleHref(post.slug)}>{post.title}</Link>
