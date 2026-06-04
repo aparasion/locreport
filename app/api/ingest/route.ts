@@ -50,6 +50,10 @@ export async function POST(req: NextRequest) {
 
   ;(existingArticles ?? []).forEach(a => seen.add(a.source_url))
 
+  // Also check seen_urls table (imported from Jekyll seen.json)
+  const { data: seenUrls } = await supabase.from('seen_urls').select('url')
+  ;(seenUrls ?? []).forEach(r => seen.add(r.url))
+
   const openai = getOpenAI()
   const extractorPrompt = await getPrompt(supabase, 'prompt_extractor', DEFAULT_EXTRACTOR_PROMPT)
   const industryPrompt = await getPrompt(supabase, 'prompt_industry', DEFAULT_INDUSTRY_PROMPT)
@@ -108,6 +112,7 @@ export async function POST(req: NextRequest) {
           content,
           source_url: item.link,
           source_feed_id: source.id,
+          source_published_at: item.pubDate ? new Date(item.pubDate).toISOString() : null,
           status: 'pending',
         })
 
