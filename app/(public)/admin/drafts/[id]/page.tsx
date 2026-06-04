@@ -12,21 +12,38 @@ export default function DraftReviewPage() {
   const [tab, setTab] = useState<'preview' | 'edit'>('preview')
   const [content, setContent] = useState('')
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
 
   useEffect(() => {
-    fetch(`/api/drafts/${id}`).then(r => r.json()).then((d: Draft) => {
-      setDraft(d)
-      setContent(d.content)
-    })
+    fetch(`/api/drafts/${id}`)
+      .then(r => r.json())
+      .then((d: Draft) => {
+        setDraft(d)
+        setContent(d.content)
+      })
+      .catch(() => setError('Failed to load draft.'))
   }, [id])
 
   async function action(status: 'approved' | 'rejected') {
     setLoading(true)
-    await fetch(`/api/drafts/${id}`, {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ status, content }),
-    })
+    setError('')
+    try {
+      const res = await fetch(`/api/drafts/${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status, content }),
+      })
+      if (!res.ok) {
+        const d = await res.json().catch(() => ({}))
+        setError(d.error ?? `Server error (${res.status})`)
+        setLoading(false)
+        return
+      }
+    } catch {
+      setError('Network error — please try again.')
+      setLoading(false)
+      return
+    }
     router.push('/admin/drafts')
   }
 
@@ -63,6 +80,8 @@ export default function DraftReviewPage() {
           className="w-full font-mono text-sm border border-gray-200 rounded-lg p-4 focus:outline-none focus:border-[#3D5AFE]"
         />
       )}
+
+      {error && <p className="mt-4 text-sm text-red-600">{error}</p>}
 
       {draft.status === 'pending' && (
         <div className="flex gap-3 mt-6">

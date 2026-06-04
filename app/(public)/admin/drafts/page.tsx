@@ -10,12 +10,18 @@ export default async function DraftsPage({
   searchParams: Promise<{ status?: string }>
 }) {
   const { status } = await searchParams
+
+  if (!process.env.SUPABASE_SERVICE_ROLE_KEY) {
+    throw new Error('SUPABASE_SERVICE_ROLE_KEY is not configured')
+  }
+
   const supabase = createServiceClient()
 
   let query = supabase.from('drafts').select('*').order('created_at', { ascending: false })
   if (status) query = query.eq('status', status)
 
-  const { data: drafts } = await query
+  const { data: drafts, error } = await query
+  if (error) throw new Error(error.message)
 
   return (
     <div>
