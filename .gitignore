@@ -8,3 +8,4 @@ migration.sql
 migration-part-*.sql
 add-missing-columns.sql
 seed-rss-sources.sql
+.claude/
