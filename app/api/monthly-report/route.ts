@@ -37,11 +37,6 @@ export async function POST(req: NextRequest) {
     }
   }
 
-  // When triggered by cron, only proceed on the 1st of the month
-  if (isCron && new Date().getDate() !== 1) {
-    return NextResponse.json({ skipped: true, reason: 'Not the 1st of the month' })
-  }
-
   const service = createServiceClient()
   const { period, year, month, monthName } = getPeriod()
 
