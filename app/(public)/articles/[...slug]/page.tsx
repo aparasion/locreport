@@ -129,16 +129,6 @@ export default async function ArticlePage({ params }: Props) {
 
       <div className="post-content" dangerouslySetInnerHTML={{ __html: html }} />
 
-      {a.source_url && (
-        <p className="post-source">
-          {a.article_type === 'theory' ? 'Based on research published by' : 'Based on reporting from'}{' '}
-          <a href={a.source_url} rel="nofollow noopener" target="_blank">
-            {(a.publisher ?? 'the original source').replace(/^www\./, '')}
-            <span className="post-source__ext" aria-hidden="true"> ↗</span>
-          </a>
-        </p>
-      )}
-
       <div className="support-box">
         <p className="support-box__text">LocReport is free and independent. If it helps you stay informed, consider buying us a coffee — it goes a long way.</p>
         {/* eslint-disable-next-line @next/next/no-sync-scripts */}
