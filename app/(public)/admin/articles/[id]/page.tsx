@@ -62,7 +62,7 @@ export default function EditArticlePage() {
         </div>
         {article.source_url && (
           <p className="text-xs text-[#5A6278]">
-            Source: <a href={article.source_url} target="_blank" rel="noopener noreferrer" className="text-[#3D5AFE] hover:underline">{article.source_url}</a>
+            Source: <a href={article.source_url} target="_blank" rel="noopener" className="text-[#3D5AFE] hover:underline">{article.source_url}</a>
           </p>
         )}
       </div>

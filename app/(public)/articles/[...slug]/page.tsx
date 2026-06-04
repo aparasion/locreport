@@ -143,7 +143,7 @@ export default async function ArticlePage({ params }: Props) {
 
       <div className="support-box">
         <p className="support-box__text">LocReport is free and independent. If it helps you stay informed, consider buying us a coffee — it goes a long way.</p>
-        <a href="https://buymeacoffee.com/locreport" target="_blank" rel="noopener noreferrer" className="support-box__btn">
+        <a href="https://buymeacoffee.com/locreport" target="_blank" rel="noopener" className="support-box__btn">
           ☕ Buy me a coffee
         </a>
       </div>

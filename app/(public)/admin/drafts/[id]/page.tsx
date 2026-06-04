@@ -53,7 +53,7 @@ export default function DraftReviewPage() {
     <div className="max-w-[760px]">
       <h1 className="text-2xl font-bold text-[#111827] mb-2">{draft.title}</h1>
       {draft.source_url && (
-        <a href={draft.source_url} target="_blank" rel="noopener noreferrer"
+        <a href={draft.source_url} target="_blank" rel="noopener"
           className="text-sm text-[#3D5AFE] hover:underline mb-4 block">
           View source →
         </a>
