@@ -17,7 +17,7 @@ const NAV_LINKS = [
   {
     href: '/reports', label: 'Reports', dropdown: [
       { href: '/reports/2026-annual-global-market-report', label: '2026 Annual Report' },
-      { href: '/reports', label: 'Monthly reports' },
+      { href: '/reports/monthly', label: 'Monthly reports' },
     ]
   },
   { href: '/research', label: 'Language Science' },
