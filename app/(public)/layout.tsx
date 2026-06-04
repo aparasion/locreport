@@ -32,7 +32,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
               <ul className="footer-links" aria-label="Footer navigation">
                 <li><Link href="/articles">All articles</Link></li>
                 <li><Link href="/articles?type=monthly-summary">Reports</Link></li>
-                <li><Link href="/research">Language Science</Link></li>
+                <li><Link href="/language-science">Language Science</Link></li>
               </ul>
             </div>
             <div className="footer-nav-col">

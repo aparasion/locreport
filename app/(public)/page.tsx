@@ -77,7 +77,7 @@ export default async function HomePage() {
             <div className="hero-actions">
               <Link href="/articles" className="btn btn--hero-articles">Browse articles</Link>
               <Link href="/articles?type=monthly-summary" className="btn btn--hero-intel">Intelligence Dashboard</Link>
-              <Link href="/research" className="btn btn--hero-research">Language Science</Link>
+              <Link href="/language-science" className="btn btn--hero-research">Language Science</Link>
             </div>
           </div>
           <div className="hero-split__right" aria-label="Live signal pulse">

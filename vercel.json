@@ -17,6 +17,16 @@
       "source": "/all-articles/",
       "destination": "/articles",
       "permanent": true
+    },
+    {
+      "source": "/research",
+      "destination": "/language-science",
+      "permanent": true
+    },
+    {
+      "source": "/research/",
+      "destination": "/language-science",
+      "permanent": true
     }
   ]
 }
