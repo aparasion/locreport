@@ -74,7 +74,7 @@ export default async function ArticlePage({ params }: Props) {
     .map(id => SIGNAL_MAP.get(id))
     .filter(Boolean) as NonNullable<ReturnType<typeof SIGNAL_MAP.get>>[]
 
-  // Fetch related articles
+  // Fetch related articles — by shared signal, falling back to recent articles
   const supabase = await createClient()
   let relatedArticles: Article[] = []
   if (articleSignals.length > 0) {
@@ -87,6 +87,18 @@ export default async function ArticlePage({ params }: Props) {
       .order('published_at', { ascending: false })
       .limit(5)
     relatedArticles = (related as Article[]) ?? []
+  }
+  if (relatedArticles.length < 3) {
+    const { data: recent } = await supabase
+      .from('articles')
+      .select('id, title, slug, publisher, published_at, signal_ids')
+      .neq('slug', a.slug)
+      .neq('article_type', 'theory')
+      .order('published_at', { ascending: false })
+      .limit(5 - relatedArticles.length)
+    const existingIds = new Set(relatedArticles.map(r => r.id))
+    const extra = ((recent as Article[]) ?? []).filter(r => !existingIds.has(r.id))
+    relatedArticles = [...relatedArticles, ...extra]
   }
 
   const hasSidebar = !!a.impact_score || articleSignals.length > 0 || relatedArticles.length > 0
@@ -173,7 +185,7 @@ export default async function ArticlePage({ params }: Props) {
             </div>
           )}
 
-          {(articleSignals.length > 0 || relatedArticles.length > 0) && (
+          {relatedArticles.length > 0 && (
             <div className="post-sidebar-widget">
               <p className="post-sidebar-widget__title">Related Reading</p>
               <ul className="post-sidebar-related">

@@ -6,3 +6,9 @@
 
 /* Next.js-specific overrides */
 a { color: inherit; text-decoration: none; }
+
+/* Theme-aware logo images */
+.site-logo-img { display: block; height: 32px; width: auto; }
+.site-logo-img--dark { display: none; }
+[data-theme="dark"] .site-logo-img--light { display: none; }
+[data-theme="dark"] .site-logo-img--dark { display: block; }

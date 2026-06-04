@@ -1,5 +1,6 @@
 'use client'
 import Link from 'next/link'
+import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { useEffect, useState, useRef } from 'react'
@@ -70,7 +71,8 @@ export function Nav() {
     <header className="site-header">
       <div className="header-shell">
         <Link href="/" className="site-logo" aria-label="LocReport home">
-          <span className="brand-wordmark" style={{ fontSize: '1.1rem' }}>LocReport</span>
+          <Image src="/logolight.png" alt="LocReport" width={120} height={32} className="site-logo-img site-logo-img--light" priority />
+          <Image src="/logodark.png" alt="LocReport" width={120} height={32} className="site-logo-img site-logo-img--dark" priority />
         </Link>
 
         <nav className={`site-nav${menuOpen ? ' is-open' : ''}${searchOpen ? ' search-expanded' : ''}`}>
