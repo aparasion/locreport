@@ -20,7 +20,7 @@ function statusLabel(status: Draft['status']) {
 }
 
 const STATUS_FILTERS = [
-  { label: 'All', value: '' },
+  { label: 'All', value: 'all' },
   { label: 'Pending', value: 'pending' },
   { label: 'Re-run', value: 'rerun' },
   { label: 'Approved', value: 'approved' },
@@ -29,7 +29,7 @@ const STATUS_FILTERS = [
 
 export default function DraftsPage() {
   const searchParams = useSearchParams()
-  const statusFilter = searchParams.get('status') ?? ''
+  const statusFilter = searchParams.get('status') ?? 'pending'
 
   const [drafts, setDrafts] = useState<Draft[]>([])
   const [loading, setLoading] = useState(true)
@@ -41,11 +41,9 @@ export default function DraftsPage() {
     setLoading(true)
     setSelected(new Set())
     try {
-      const url = statusFilter ? `/api/drafts?status=${statusFilter}` : '/api/drafts'
-      const r = await fetch(url)
-      const data = await r.json()
-      // api/drafts GET doesn't filter by status yet — filter client-side
-      const filtered = statusFilter ? (data as Draft[]).filter(d => d.status === statusFilter) : data
+      const r = await fetch('/api/drafts')
+      const data: Draft[] = await r.json()
+      const filtered = statusFilter === 'all' ? data : data.filter(d => d.status === statusFilter)
       setDrafts(filtered)
     } catch {
       setError('Failed to load drafts.')
@@ -94,7 +92,7 @@ export default function DraftsPage() {
           {STATUS_FILTERS.map(({ label, value }) => (
             <a
               key={value}
-              href={value ? `/admin/drafts?status=${value}` : '/admin/drafts'}
+              href={value === 'pending' ? '/admin/drafts' : `/admin/drafts?status=${value}`}
               className={`text-sm px-3 py-1 rounded-full transition-colors ${
                 statusFilter === value
                   ? 'bg-[#3D5AFE] text-white'
