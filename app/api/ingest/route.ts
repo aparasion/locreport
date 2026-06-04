@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createServiceClient } from '@/lib/supabase/server'
+import { createClient, createServiceClient } from '@/lib/supabase/server'
 import { fetchFeed } from '@/lib/rss'
 import { getOpenAI } from '@/lib/openai'
 import { slugify } from '@/lib/slugify'
@@ -16,8 +16,14 @@ async function getPrompt(supabase: ReturnType<typeof createServiceClient>, key: 
 
 export async function POST(req: NextRequest) {
   const auth = req.headers.get('Authorization')
-  if (auth !== `Bearer ${process.env.CRON_SECRET}`) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  const isCron = auth === `Bearer ${process.env.CRON_SECRET}`
+
+  if (!isCron) {
+    const supabase = await createClient()
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user || user.email !== process.env.ADMIN_EMAIL) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
   }
 
   const supabase = createServiceClient()

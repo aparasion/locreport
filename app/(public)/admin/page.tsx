@@ -26,10 +26,7 @@ export default function AdminDashboard() {
     setConfirm(null)
     setIngesting(true)
     flash('')
-    const res = await fetch('/api/ingest', {
-      method: 'POST',
-      headers: { Authorization: `Bearer ${process.env.NEXT_PUBLIC_CRON_SECRET}` },
-    })
+    const res = await fetch('/api/ingest', { method: 'POST' })
     const data = await res.json()
     flash(
       res.ok ? `Ingest complete: ${data.processed} new drafts created.` : (data.error ?? 'Ingest failed.'),
