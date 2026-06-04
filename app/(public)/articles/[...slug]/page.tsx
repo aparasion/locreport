@@ -37,7 +37,17 @@ export default async function ArticlePage({ params }: Props) {
   if (!article) notFound()
 
   const a = article as Article
-  const html = marked.parse(a.content) as string
+
+  // Strip excerpt from the top of content if it appears there verbatim
+  let content = a.content
+  if (a.excerpt) {
+    const excerptNorm = a.excerpt.trim()
+    const contentTrimmed = content.trimStart()
+    if (contentTrimmed.startsWith(excerptNorm)) {
+      content = contentTrimmed.slice(excerptNorm.length).trimStart()
+    }
+  }
+  const html = marked.parse(content) as string
   const date = new Date(a.published_at).toLocaleDateString('en-US', {
     year: 'numeric', month: 'long', day: 'numeric',
   })
