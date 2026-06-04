@@ -1,9 +1,11 @@
 'use client'
 import { useState } from 'react'
-import {
-  LineChart, Line, XAxis, YAxis, Tooltip, Legend,
-  ResponsiveContainer, CartesianGrid,
-} from 'recharts'
+import dynamic from 'next/dynamic'
+
+const LocStockChart = dynamic(
+  () => import('./LocStockChart').then(m => ({ default: m.LocStockChart })),
+  { ssr: false, loading: () => <div className="market-chart-section" style={{height:60,display:'flex',alignItems:'center',justifyContent:'center'}}><span style={{fontSize:'0.82rem',color:'var(--muted)'}}>Loading chart…</span></div> }
+)
 
 interface HistoryPoint { date: string; close: number }
 
@@ -61,10 +63,6 @@ const COMPANIES = [
 ] as const
 
 // Featured tickers shown in the performance chart
-const CHART_TICKERS = ['NVDA','GOOGL','MSFT','DUOL','RWS.L'] as const
-const CHART_COLORS: Record<string, string> = {
-  NVDA:'#76b900', GOOGL:'#4285F4', MSFT:'#00a4ef', DUOL:'#58CC02', 'RWS.L':'#8b5cf6',
-}
 
 const CAT_LABELS: Record<string, string> = {
   all:'All', aiplatform:'AI Platform', bigtech:'Big Tech',
@@ -132,34 +130,9 @@ function Sparkline({ history, dir }: { history: HistoryPoint[]; dir: string }) {
   )
 }
 
-// Build normalised (% from first close) chart data for featured tickers
-function buildChartData(quotes: Record<string, unknown>): Record<string, number | string>[] {
-  const series: Record<string, { date: string; close: number }[]> = {}
-  for (const t of CHART_TICKERS) {
-    const q = quotes[t] as Quote | undefined
-    if (q?.history?.length) series[t] = q.history
-  }
-  // Collect all dates
-  const dateSet = new Set<string>()
-  Object.values(series).forEach(h => h.forEach(p => dateSet.add(p.date)))
-  const dates = Array.from(dateSet).sort()
-
-  return dates.map(date => {
-    const row: Record<string, number | string> = { date }
-    for (const t of CHART_TICKERS) {
-      const h = series[t]
-      if (!h) continue
-      const base = h[0]?.close
-      const pt = h.find(p => p.date === date)
-      if (base && pt) row[t] = parseFloat(((pt.close / base - 1) * 100).toFixed(2))
-    }
-    return row
-  })
-}
 
 export function LocStockClient({ quotes, updatedAt }: Props) {
   const [activeFilter, setActiveFilter] = useState<string>('all')
-  const [showChart, setShowChart] = useState(true)
 
   const cats = Object.keys(CAT_LABELS)
   const catCounts = cats.reduce<Record<string,number>>((acc, cat) => {
@@ -177,8 +150,6 @@ export function LocStockClient({ quotes, updatedAt }: Props) {
     else if (q.change_pct < 0) decliners++
     else unchanged++
   }
-
-  const chartData = buildChartData(quotes)
 
   return (
     <>
@@ -209,54 +180,8 @@ export function LocStockClient({ quotes, updatedAt }: Props) {
         </div>
       </div>
 
-      {/* 30-day performance chart */}
-      {chartData.length > 1 && (
-        <div className="market-chart-section">
-          <div className="market-chart-header">
-            <span className="market-chart-title">30-day performance — key stocks (% change from start)</span>
-            <button className="market-chart-toggle" onClick={() => setShowChart(v => !v)}>
-              {showChart ? 'Hide chart' : 'Show chart'}
-            </button>
-          </div>
-          {showChart && (
-            <div className="market-chart-wrap">
-              <ResponsiveContainer width="100%" height={260}>
-                <LineChart data={chartData} margin={{ top: 8, right: 16, left: 0, bottom: 0 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="var(--border, #e5e7eb)" />
-                  <XAxis
-                    dataKey="date"
-                    tick={{ fontSize: 11, fill: 'var(--muted, #6b7280)' }}
-                    tickFormatter={d => d.slice(5)}
-                    interval="preserveStartEnd"
-                  />
-                  <YAxis
-                    tick={{ fontSize: 11, fill: 'var(--muted, #6b7280)' }}
-                    tickFormatter={v => `${v > 0 ? '+' : ''}${v}%`}
-                    width={52}
-                  />
-                  <Tooltip
-                    formatter={(v: number) => [`${v > 0 ? '+' : ''}${v}%`]}
-                    labelFormatter={l => `Date: ${l}`}
-                    contentStyle={{ fontSize: 12 }}
-                  />
-                  <Legend wrapperStyle={{ fontSize: 12 }} />
-                  {CHART_TICKERS.map(t => (
-                    <Line
-                      key={t}
-                      type="monotone"
-                      dataKey={t}
-                      stroke={CHART_COLORS[t]}
-                      dot={false}
-                      strokeWidth={2}
-                      connectNulls
-                    />
-                  ))}
-                </LineChart>
-              </ResponsiveContainer>
-            </div>
-          )}
-        </div>
-      )}
+      {/* 30-day performance chart — dynamically loaded, no SSR */}
+      <LocStockChart quotes={quotes} />
 
       <div className="market-filters">
         {cats.map(cat => (
