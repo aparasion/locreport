@@ -2,6 +2,12 @@
   "buildCommand": "npm run build",
   "outputDirectory": ".next",
   "framework": "nextjs",
+  "crons": [
+    {
+      "path": "/api/monthly-report",
+      "schedule": "0 3 1 * *"
+    }
+  ],
   "redirects": [
     {
       "source": "/reports/2026-Annual-Global-Market-Report",
