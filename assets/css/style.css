@@ -318,7 +318,7 @@ article.page:has(.dir-grid) { max-width: var(--site-max-width); overflow-x: hidd
   border-radius: var(--radius-sm);
   white-space: nowrap;
 }
-.nav-dropdown-menu {
+ul.nav-dropdown-menu {
   padding: 9px;
   margin: 8px;
 }
