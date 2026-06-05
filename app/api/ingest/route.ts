@@ -16,6 +16,10 @@ async function getPrompt(supabase: ReturnType<typeof createServiceClient>, key: 
 
 export const maxDuration = 60
 
+export async function GET(req: NextRequest) {
+  return POST(req)
+}
+
 export async function POST(req: NextRequest) {
   const auth = req.headers.get('Authorization')
   const isCron = auth === `Bearer ${process.env.CRON_SECRET}`
