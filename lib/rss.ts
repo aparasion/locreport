@@ -12,7 +12,11 @@ const parser = new Parser()
 
 export async function fetchFeed(url: string): Promise<RssItem[]> {
   try {
-    const feed = await parser.parseURL(url)
+    // Use fetch + parseString to avoid rss-parser's internal url.parse() call
+    const res = await fetch(url, { headers: { 'User-Agent': 'LocReport/1.0' } })
+    if (!res.ok) throw new Error(`HTTP ${res.status}`)
+    const xml = await res.text()
+    const feed = await parser.parseString(xml)
     return feed.items.map((item) => ({
       title: item.title ?? '',
       link: item.link ?? '',
@@ -20,7 +24,8 @@ export async function fetchFeed(url: string): Promise<RssItem[]> {
       content: item.content,
       pubDate: item.pubDate,
     }))
-  } catch {
+  } catch (err) {
+    console.error(`[rss] fetchFeed failed for ${url}:`, err)
     return []
   }
 }
