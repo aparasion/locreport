@@ -33,12 +33,16 @@ export async function POST(req: NextRequest) {
 
   let updated = 0
   let failed = 0
+  const details: Record<string, { history: number } | { error: string }> = {}
 
   for (const ticker of TICKERS) {
     try {
       const [quote, historical] = await Promise.all([
         yahooFinance.quote(ticker),
-        yahooFinance.historical(ticker, { period1, interval: '1d' }).catch(() => []),
+        yahooFinance.historical(ticker, { period1, interval: '1d' }).catch((e: unknown) => {
+          console.error(`[market-quotes] historical failed ${ticker}:`, e)
+          return []
+        }),
       ])
 
       const history = (historical as Array<{ date: Date; close: number }>)
@@ -59,14 +63,16 @@ export async function POST(req: NextRequest) {
         { ticker, data, updated_at: now.toISOString() },
         { onConflict: 'ticker' }
       )
+      details[ticker] = { history: history.length }
       updated++
     } catch (err) {
       console.error(`[market-quotes] failed ${ticker}:`, err)
+      details[ticker] = { error: String(err) }
       failed++
     }
   }
 
-  return NextResponse.json({ updated, failed, total: TICKERS.length })
+  return NextResponse.json({ updated, failed, total: TICKERS.length, details })
 }
 
 export async function GET() {
