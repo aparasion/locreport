@@ -68,7 +68,7 @@ export default async function HomePage() {
               <svg className="hero-eyebrow-icon" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                 <rect width="22" height="22" rx="6" fill="url(#hg)"/>
                 <text x="11" y="16" textAnchor="middle" fontSize="13" fontFamily="system-ui,sans-serif" fill="#fff">L</text>
-                <defs><linearGradient id="hg" x1="0" y1="0" x2="22" y2="22" gradientUnits="userSpaceOnUse"><stop stopColor="#3D5AFE"/><stop offset="1" stopColor="#06B6D4"/></linearGradient></defs>
+                <defs><linearGradient id="hg" x1="0" y1="0" x2="22" y2="22" gradientUnits="userSpaceOnUse"><stop stopColor="#0F6E52"/><stop offset="1" stopColor="#2FA37D"/></linearGradient></defs>
               </svg>
               Language services intelligence
             </span>

@@ -23,7 +23,7 @@ export function ArticleEditor({ initialContent = '', onPublish, onSaveDraft, loa
             key={t}
             onClick={() => setTab(t)}
             className={`px-4 py-2 text-sm font-medium capitalize transition-colors ${
-              tab === t ? 'border-b-2 border-[#3D5AFE] text-[#3D5AFE]' : 'text-[#5A6278]'
+              tab === t ? 'border-b-2 border-[#0F6E52] text-[#0F6E52]' : 'text-[#5B665F]'
             }`}
           >
             {t}

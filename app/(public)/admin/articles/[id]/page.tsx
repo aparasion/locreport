@@ -41,13 +41,13 @@ export default function EditArticlePage() {
     setSaving(false)
   }
 
-  if (!article) return <p className="text-[#5A6278]">Loading…</p>
+  if (!article) return <p className="text-[#5B665F]">Loading…</p>
 
   return (
     <div className="max-w-[760px]">
       <div className="flex items-center gap-3 mb-6">
         <Button variant="ghost" size="sm" onClick={() => router.back()}>← Back</Button>
-        <h1 className="text-xl font-bold text-[#111827]">Edit article</h1>
+        <h1 className="text-xl font-bold text-[#15191C]">Edit article</h1>
         {message && <span className="text-sm text-green-600">{message}</span>}
       </div>
 
@@ -61,8 +61,8 @@ export default function EditArticlePage() {
           <Input value={excerpt} onChange={e => setExcerpt(e.target.value)} />
         </div>
         {article.source_url && (
-          <p className="text-xs text-[#5A6278]">
-            Source: <a href={article.source_url} target="_blank" rel="noopener" className="text-[#3D5AFE] hover:underline">{article.source_url}</a>
+          <p className="text-xs text-[#5B665F]">
+            Source: <a href={article.source_url} target="_blank" rel="noopener" className="text-[#0F6E52] hover:underline">{article.source_url}</a>
           </p>
         )}
       </div>

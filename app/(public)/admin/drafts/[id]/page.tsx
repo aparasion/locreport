@@ -84,23 +84,23 @@ export default function DraftReviewPage() {
     setRerunning(false)
   }
 
-  if (!draft) return <p className="text-[#5A6278]">Loading…</p>
+  if (!draft) return <p className="text-[#5B665F]">Loading…</p>
 
   const isPending = draft.status === 'pending' || draft.status === 'rerun'
 
   return (
     <div className="max-w-[760px]">
-      <h1 className="text-2xl font-bold text-[#111827] mb-2">{draft.title}</h1>
+      <h1 className="text-2xl font-bold text-[#15191C] mb-2">{draft.title}</h1>
       {draft.source_url && (
         <a href={draft.source_url} target="_blank" rel="noopener"
-          className="text-sm text-[#3D5AFE] hover:underline mb-4 block">
+          className="text-sm text-[#0F6E52] hover:underline mb-4 block">
           View source →
         </a>
       )}
 
       <div className="flex gap-4 mb-4">
         <div>
-          <label className="block text-xs text-[#5A6278] mb-1">Impact score (1–5) — AI assigns if blank</label>
+          <label className="block text-xs text-[#5B665F] mb-1">Impact score (1–5) — AI assigns if blank</label>
           <select
             value={impactScore}
             onChange={e => setImpactScore(e.target.value)}
@@ -111,7 +111,7 @@ export default function DraftReviewPage() {
           </select>
         </div>
         <div>
-          <label className="block text-xs text-[#5A6278] mb-1">Time horizon — AI assigns if blank</label>
+          <label className="block text-xs text-[#5B665F] mb-1">Time horizon — AI assigns if blank</label>
           <select
             value={timeHorizon}
             onChange={e => setTimeHorizon(e.target.value)}
@@ -129,7 +129,7 @@ export default function DraftReviewPage() {
         {(['preview', 'edit'] as const).map(t => (
           <button key={t} onClick={() => setTab(t)}
             className={`px-4 py-2 text-sm font-medium capitalize ${
-              tab === t ? 'border-b-2 border-[#3D5AFE] text-[#3D5AFE]' : 'text-[#5A6278]'
+              tab === t ? 'border-b-2 border-[#0F6E52] text-[#0F6E52]' : 'text-[#5B665F]'
             }`}>
             {t}
           </button>
@@ -137,7 +137,7 @@ export default function DraftReviewPage() {
       </div>
 
       {rerunning ? (
-        <div className="py-12 text-center text-[#5A6278] text-sm">
+        <div className="py-12 text-center text-[#5B665F] text-sm">
           <div className="mb-3 text-2xl">⟳</div>
           Re-running article through the full generation pipeline…
         </div>
@@ -148,7 +148,7 @@ export default function DraftReviewPage() {
           value={content}
           onChange={e => setContent(e.target.value)}
           rows={24}
-          className="w-full font-mono text-sm border border-gray-200 rounded-lg p-4 focus:outline-none focus:border-[#3D5AFE]"
+          className="w-full font-mono text-sm border border-gray-200 rounded-lg p-4 focus:outline-none focus:border-[#0F6E52]"
         />
       )}
 

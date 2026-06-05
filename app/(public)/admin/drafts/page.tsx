@@ -87,7 +87,7 @@ export default function DraftsPage() {
   return (
     <div>
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6">
-        <h1 className="text-2xl font-bold text-[#111827]">Drafts</h1>
+        <h1 className="text-2xl font-bold text-[#15191C]">Drafts</h1>
         <div className="flex flex-wrap gap-2">
           {STATUS_FILTERS.map(({ label, value }) => (
             <a
@@ -95,8 +95,8 @@ export default function DraftsPage() {
               href={value === 'pending' ? '/admin/drafts' : `/admin/drafts?status=${value}`}
               className={`text-sm px-3 py-1 rounded-full transition-colors ${
                 statusFilter === value
-                  ? 'bg-[#3D5AFE] text-white'
-                  : 'bg-[#EEF1F8] text-[#5A6278] hover:bg-[#E0E4F0]'
+                  ? 'bg-[#0F6E52] text-white'
+                  : 'bg-[#E2F0EA] text-[#5B665F] hover:bg-[#E0E4F0]'
               }`}
             >
               {label}
@@ -108,8 +108,8 @@ export default function DraftsPage() {
       {error && <p className="text-sm text-red-500 mb-4">{error}</p>}
 
       {someSelected && (
-        <div className="flex items-center gap-3 mb-4 px-3 py-2 bg-[#EEF1F8] rounded-lg">
-          <span className="text-sm text-[#5A6278]">{selected.size} selected</span>
+        <div className="flex items-center gap-3 mb-4 px-3 py-2 bg-[#E2F0EA] rounded-lg">
+          <span className="text-sm text-[#5B665F]">{selected.size} selected</span>
           <button
             onClick={bulkReject}
             disabled={bulkBusy}
@@ -119,7 +119,7 @@ export default function DraftsPage() {
           </button>
           <button
             onClick={() => setSelected(new Set())}
-            className="text-sm text-[#5A6278] hover:text-[#111827] ml-auto"
+            className="text-sm text-[#5B665F] hover:text-[#15191C] ml-auto"
           >
             Clear
           </button>
@@ -133,14 +133,14 @@ export default function DraftsPage() {
               type="checkbox"
               checked={allSelected}
               onChange={toggleAll}
-              className="h-4 w-4 rounded border-gray-300 text-[#3D5AFE] cursor-pointer"
+              className="h-4 w-4 rounded border-gray-300 text-[#0F6E52] cursor-pointer"
               aria-label="Select all"
             />
-            <span className="text-xs text-[#5A6278]">Select all</span>
+            <span className="text-xs text-[#5B665F]">Select all</span>
           </div>
         )}
 
-        {loading && <p className="text-[#5A6278] text-sm">Loading…</p>}
+        {loading && <p className="text-[#5B665F] text-sm">Loading…</p>}
 
         {!loading && drafts.map(draft => {
           const ingestedDate = new Date(draft.created_at).toLocaleDateString('en-GB')
@@ -153,15 +153,15 @@ export default function DraftsPage() {
                 type="checkbox"
                 checked={selected.has(draft.id)}
                 onChange={() => toggle(draft.id)}
-                className="h-4 w-4 mt-0.5 rounded border-gray-300 text-[#3D5AFE] cursor-pointer shrink-0"
+                className="h-4 w-4 mt-0.5 rounded border-gray-300 text-[#0F6E52] cursor-pointer shrink-0"
                 aria-label={`Select ${draft.title}`}
               />
               <div className="flex-1 flex items-start justify-between gap-4">
                 <div>
-                  <Link href={`/admin/drafts/${draft.id}`} className="font-medium text-[#111827] hover:text-[#3D5AFE]">
+                  <Link href={`/admin/drafts/${draft.id}`} className="font-medium text-[#15191C] hover:text-[#0F6E52]">
                     {draft.title}
                   </Link>
-                  <p className="text-xs text-[#5A6278] mt-1">
+                  <p className="text-xs text-[#5B665F] mt-1">
                     {sourceDate
                       ? <><span title="Source published">{sourceDate}</span> · <span title="Ingested">{ingestedDate}</span></>
                       : ingestedDate
@@ -175,7 +175,7 @@ export default function DraftsPage() {
           )
         })}
 
-        {!loading && !drafts.length && <p className="text-[#5A6278] text-sm">No drafts found.</p>}
+        {!loading && !drafts.length && <p className="text-[#5B665F] text-sm">No drafts found.</p>}
       </div>
     </div>
   )

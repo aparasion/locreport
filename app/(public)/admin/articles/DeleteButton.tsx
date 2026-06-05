@@ -10,7 +10,7 @@ export function DeleteButton({ id }: { id: string }) {
   if (confirming) {
     return (
       <span className="flex items-center gap-1 shrink-0">
-        <span className="text-xs text-[#5A6278] mr-1">Delete?</span>
+        <span className="text-xs text-[#5B665F] mr-1">Delete?</span>
         <button
           onClick={() => startTransition(() => deleteArticle(id))}
           disabled={pending}
@@ -20,7 +20,7 @@ export function DeleteButton({ id }: { id: string }) {
         </button>
         <button
           onClick={() => setConfirming(false)}
-          className="text-xs px-2 py-1 rounded-md bg-[#EEF1F8] text-[#5A6278] hover:bg-[#E0E4F0]"
+          className="text-xs px-2 py-1 rounded-md bg-[#E2F0EA] text-[#5B665F] hover:bg-[#E0E4F0]"
         >
           No
         </button>
