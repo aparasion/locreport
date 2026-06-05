@@ -5213,15 +5213,22 @@ article.page > h1 {
 .article-row--featured {
   padding: var(--space-6);
   margin-bottom: var(--space-4);
-  background: color-mix(in srgb, var(--accent) 7%, var(--surface));
-  border: 1px solid color-mix(in srgb, var(--accent) 22%, var(--border));
-  border-left: 4px solid var(--accent);
+  background: var(--surface);
+  border: 1px solid color-mix(in srgb, var(--border) 80%, transparent);
   border-radius: var(--radius-lg);
-  box-shadow: 0 2px 12px color-mix(in srgb, var(--accent) 10%, transparent);
+  box-shadow: 0 1px 3px rgba(0,0,0,.06), 0 4px 14px rgba(0,0,0,.07);
+  transition: box-shadow .2s ease;
+}
+.article-row--featured:hover {
+  box-shadow: 0 2px 6px rgba(0,0,0,.07), 0 8px 24px rgba(0,0,0,.10);
 }
 [data-theme="dark"] .article-row--featured {
-  background: color-mix(in srgb, var(--accent) 12%, var(--surface));
-  box-shadow: 0 2px 16px color-mix(in srgb, var(--accent) 14%, transparent);
+  background: var(--surface);
+  border-color: color-mix(in srgb, var(--border) 70%, transparent);
+  box-shadow: 0 1px 3px rgba(0,0,0,.18), 0 4px 16px rgba(0,0,0,.22);
+}
+[data-theme="dark"] .article-row--featured:hover {
+  box-shadow: 0 2px 6px rgba(0,0,0,.22), 0 8px 28px rgba(0,0,0,.30);
 }
 .article-row--featured .article-row__title {
   font-size: 1.65rem;
