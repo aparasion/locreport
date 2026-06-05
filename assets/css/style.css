@@ -250,16 +250,12 @@ article.page:has(.dir-grid) { max-width: var(--site-max-width); overflow-x: hidd
   width: 100%;
   height: 10px;
 }
-.nav-has-dropdown > a {
-  gap: 3px;
-}
 .nav-dropdown-chevron {
   transition: transform 0.2s ease;
   flex-shrink: 0;
   opacity: 0.6;
 }
-.nav-has-dropdown:hover > a .nav-dropdown-chevron,
-.nav-has-dropdown:focus-within > a .nav-dropdown-chevron {
+.nav-has-dropdown.is-open > button .nav-dropdown-chevron {
   transform: rotate(180deg);
   opacity: 1;
 }
@@ -284,8 +280,7 @@ article.page:has(.dir-grid) { max-width: var(--site-max-width); overflow-x: hidd
   list-style: none;
   margin: 0;
 }
-.nav-has-dropdown:hover .nav-dropdown-menu,
-.nav-has-dropdown:focus-within .nav-dropdown-menu {
+.nav-has-dropdown.is-open .nav-dropdown-menu {
   opacity: 1;
   pointer-events: auto;
   transform: translateY(0);
@@ -293,13 +288,29 @@ article.page:has(.dir-grid) { max-width: var(--site-max-width); overflow-x: hidd
 .nav-dropdown-menu li {
   width: 100%;
 }
+.nav-has-dropdown > button {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  color: inherit;
+  padding: 0;
+}
 .nav-dropdown-menu a {
   display: flex;
   width: 100%;
-  padding: var(--space-2) var(--space-3);
+  padding: 8px 12px;
   font-size: 0.85rem;
   border-radius: var(--radius-sm);
   white-space: nowrap;
+}
+.nav-dropdown-menu {
+  padding: 8px;
 }
 
 /* ── Hamburger Toggle ───────────────────────────────────── */

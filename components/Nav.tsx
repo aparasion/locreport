@@ -37,10 +37,22 @@ export function Nav() {
   const [isAdmin, setIsAdmin] = useState(false)
   const [email, setEmail] = useState<string | null>(null)
   const [menuOpen, setMenuOpen] = useState(false)
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null)
   const [searchOpen, setSearchOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
   const [theme, setTheme] = useState<'light' | 'dark'>('light')
   const searchRef = useRef<HTMLInputElement>(null)
+  const navRef = useRef<HTMLElement>(null)
+
+  useEffect(() => {
+    function handleClick(e: MouseEvent) {
+      if (navRef.current && !navRef.current.contains(e.target as Node)) {
+        setOpenDropdown(null)
+      }
+    }
+    document.addEventListener('mousedown', handleClick)
+    return () => document.removeEventListener('mousedown', handleClick)
+  }, [])
 
   useEffect(() => {
     const saved = localStorage.getItem('theme') as 'light' | 'dark' | null
@@ -80,7 +92,7 @@ export function Nav() {
           <Image src="/logodark.png" alt="LocReport" width={120} height={32} className="site-logo-img site-logo-img--dark" priority />
         </Link>
 
-        <nav className={`site-nav${menuOpen ? ' is-open' : ''}${searchOpen ? ' search-expanded' : ''}`}>
+        <nav ref={navRef} className={`site-nav${menuOpen ? ' is-open' : ''}${searchOpen ? ' search-expanded' : ''}`}>
           <button
             className="nav-toggle"
             id="nav-toggle"
@@ -96,17 +108,21 @@ export function Nav() {
           <ul id="site-menu">
             {allLinks.map(link => (
               'dropdown' in link && link.dropdown ? (
-                <li key={link.href} className="nav-has-dropdown">
-                  <Link href={link.href} aria-haspopup="true">
+                <li key={link.href} className={`nav-has-dropdown${openDropdown === link.href ? ' is-open' : ''}`}>
+                  <button
+                    aria-haspopup="true"
+                    aria-expanded={openDropdown === link.href}
+                    onClick={() => setOpenDropdown(v => v === link.href ? null : link.href)}
+                  >
                     {link.label}
                     <svg className="nav-dropdown-chevron" xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 12 12" fill="none" aria-hidden="true">
                       <path d="M2 4l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                     </svg>
-                  </Link>
+                  </button>
                   <ul className="nav-dropdown-menu" role="menu">
                     {link.dropdown.map(child => (
                       <li key={child.href} role="none">
-                        <Link href={child.href} role="menuitem">{child.label}</Link>
+                        <Link href={child.href} role="menuitem" onClick={() => setOpenDropdown(null)}>{child.label}</Link>
                       </li>
                     ))}
                   </ul>
