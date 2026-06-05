@@ -35,7 +35,8 @@ function getTopics(article: Article): string[] {
   return topics
 }
 
-export default async function ArticlesPage() {
+export default async function ArticlesPage({ searchParams }: { searchParams: Promise<{ q?: string }> }) {
+  const { q } = await searchParams
   const supabase = await createClient()
   const { data } = await supabase
     .from('articles')
@@ -54,5 +55,5 @@ export default async function ArticlesPage() {
     topics: getTopics(a),
   }))
 
-  return <AllArticlesClient articles={rows} />
+  return <AllArticlesClient articles={rows} initialQ={q ?? ''} />
 }
