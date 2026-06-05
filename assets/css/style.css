@@ -289,22 +289,29 @@ article.page:has(.dir-grid) { max-width: var(--site-max-width); overflow-x: hidd
   width: 100%;
 }
 .nav-has-dropdown > button {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 3px;
   background: none;
   border: none;
   cursor: pointer;
-  font-family: inherit;
-  font-size: inherit;
-  font-weight: inherit;
-  color: inherit;
-  padding: 0;
+  font-family: var(--font-display);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: color-mix(in srgb, var(--text) 72%, var(--muted));
+  padding: 6px 14px;
+  border-radius: var(--radius-sm);
+  transition: color 0.2s ease, background 0.2s ease;
+}
+.nav-has-dropdown > button:hover,
+.nav-has-dropdown.is-open > button {
+  color: var(--text);
+  background: var(--accent-soft);
 }
 .nav-dropdown-menu a {
   display: flex;
   width: 100%;
-  padding: 8px 12px;
+  padding: 9px 14px;
   font-size: 0.85rem;
   border-radius: var(--radius-sm);
   white-space: nowrap;
