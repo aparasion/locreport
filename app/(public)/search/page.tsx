@@ -3,6 +3,7 @@ import type { Metadata } from 'next'
 import { createClient } from '@/lib/supabase/server'
 import { SIGNALS } from '@/lib/signals'
 import { articleHref } from '@/lib/utils'
+import { SearchRefine } from './SearchRefine'
 
 export const dynamic = 'force-dynamic'
 
@@ -49,8 +50,9 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
       <div className="container" style={{ paddingTop: 'var(--space-8)', paddingBottom: 'var(--space-12)' }}>
         <div style={{ display: 'flex', gap: 'var(--space-8)', alignItems: 'flex-start' }}>
           <div style={{ flex: 1 }}>
+            <SearchRefine initialQ="" />
             <h1 style={{ fontSize: '1.6rem', fontWeight: 700, marginBottom: '0.5rem' }}>Search</h1>
-            <p style={{ color: 'var(--muted)' }}>Enter a search term in the box above.</p>
+            <p style={{ color: 'var(--muted)' }}>Enter a search term above to search across all LocReport sections.</p>
           </div>
           <SearchSidebar latestMonthly={latestMonthly} activeSignals={activeSignals} />
         </div>
@@ -107,6 +109,7 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
 
         {/* Main results */}
         <div style={{ flex: 1, minWidth: 0, maxWidth: 720 }}>
+          <SearchRefine initialQ={query} />
           <h1 style={{ fontSize: '1.5rem', fontWeight: 700, marginBottom: '0.25rem' }}>
             Results for <em style={{ fontStyle: 'normal', color: 'var(--accent)' }}>{query}</em>
           </h1>
