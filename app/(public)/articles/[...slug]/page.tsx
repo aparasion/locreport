@@ -139,6 +139,8 @@ export default async function ArticlePage({ params }: Props) {
         </p>
       )}
 
+      {a.excerpt && <p className="post-lede">{a.excerpt}</p>}
+
       <div className="post-content" dangerouslySetInnerHTML={{ __html: html }} />
 
       <div className="support-box">
