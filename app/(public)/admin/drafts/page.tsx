@@ -86,9 +86,9 @@ export default function DraftsPage() {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6">
         <h1 className="text-2xl font-bold text-[#111827]">Drafts</h1>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
           {STATUS_FILTERS.map(({ label, value }) => (
             <a
               key={value}
