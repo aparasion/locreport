@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { Article } from '@/lib/types'
 import type { Metadata } from 'next'
+import { Suspense } from 'react'
 import AllArticlesClient, { ArticleRow } from '../all-articles/AllArticlesClient'
 
 export const metadata: Metadata = {
@@ -35,8 +36,7 @@ function getTopics(article: Article): string[] {
   return topics
 }
 
-export default async function ArticlesPage({ searchParams }: { searchParams: Promise<{ q?: string }> }) {
-  const { q } = await searchParams
+export default async function ArticlesPage() {
   const supabase = await createClient()
   const { data } = await supabase
     .from('articles')
@@ -55,5 +55,5 @@ export default async function ArticlesPage({ searchParams }: { searchParams: Pro
     topics: getTopics(a),
   }))
 
-  return <AllArticlesClient articles={rows} initialQ={q ?? ''} />
+  return <Suspense><AllArticlesClient articles={rows} /></Suspense>
 }
