@@ -33,7 +33,7 @@ export async function POST(req: NextRequest) {
 
   let updated = 0
   let failed = 0
-  const details: Record<string, { history: number } | { error: string }> = {}
+  const details: Record<string, { history: number; historicalErr?: string } | { error: string }> = {}
 
   for (const ticker of TICKERS) {
     try {
