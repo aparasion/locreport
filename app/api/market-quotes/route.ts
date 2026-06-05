@@ -36,7 +36,7 @@ export async function POST(req: NextRequest) {
     try {
       const [quote, historical] = await Promise.all([
         yahooFinance.quote(ticker),
-        yahooFinance.historical(ticker, { period1, interval: '1d' }).catch(() => []),
+        yahooFinance.historical(ticker, { period1, interval: '1d' }).then(r => r, () => []),
       ])
 
       const history = (historical as Array<{ date: Date; close: number }>)
