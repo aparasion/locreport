@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { Article } from '@/lib/types'
 import type { Metadata } from 'next'
+import { Suspense } from 'react'
 import AllArticlesClient, { ArticleRow } from './AllArticlesClient'
 
 export const metadata: Metadata = {
@@ -54,5 +55,5 @@ export default async function AllArticlesPage() {
     topics: getTopics(a),
   }))
 
-  return <AllArticlesClient articles={rows} />
+  return <Suspense><AllArticlesClient articles={rows} /></Suspense>
 }

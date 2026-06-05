@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
+import { useSearchParams } from 'next/navigation'
 import { articleHref } from '@/lib/utils'
 
 export interface ArticleRow {
@@ -22,14 +23,15 @@ function dateInt(iso: string) {
   return parseInt(iso.slice(0, 10).replace(/-/g, ''), 10)
 }
 
-export default function AllArticlesClient({ articles, initialQ = '' }: { articles: ArticleRow[], initialQ?: string }) {
+export default function AllArticlesClient({ articles }: { articles: ArticleRow[] }) {
+  const searchParams = useSearchParams()
   const [topic, setTopic] = useState('all')
   const [impact, setImpact] = useState('all')
   const [source, setSource] = useState('all')
   const [dateFrom, setDateFrom] = useState('')
   const [dateTo, setDateTo] = useState('')
   const [sort, setSort] = useState('date')
-  const [q, setQ] = useState(initialQ)
+  const [q, setQ] = useState(() => searchParams.get('q') ?? '')
   const [loadedCount, setLoadedCount] = useState(BATCH)
   const [filterOpen, setFilterOpen] = useState(false)
   const sentinelRef = useRef<HTMLDivElement>(null)
