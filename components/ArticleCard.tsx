@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { Article } from '@/lib/types'
-import { articleHref } from '@/lib/utils'
+import { articleHref, extractTeaser } from '@/lib/utils'
 
 const IMPACT_LABEL: Record<number, string> = { 1: 'Routine', 2: 'Notable', 3: 'Significant', 4: 'Major', 5: 'Disruptive' }
 
@@ -20,7 +20,7 @@ export function ArticleCard({ article, featured }: { article: Article; featured?
           <span className="article-row__date">{date}</span>
         </div>
         <h2 className="article-row__title"><Link href={articleHref(article.slug)}>{article.title}</Link></h2>
-        {article.excerpt && <p className="article-row__excerpt">{article.excerpt}</p>}
+        <p className="article-row__excerpt">{article.excerpt || extractTeaser(article.content)}</p>
         <div className="article-row__footer">
           {article.publisher && <span className="article-row__publisher">{article.publisher}</span>}
           <Link className="article-row__read-more" href={articleHref(article.slug)}>Read more →</Link>
@@ -38,7 +38,7 @@ export function ArticleCard({ article, featured }: { article: Article; featured?
         )}
       </div>
       <h2 className="article-row__title"><Link href={articleHref(article.slug)}>{article.title}</Link></h2>
-      {article.excerpt && <p className="article-row__excerpt">{article.excerpt}</p>}
+      <p className="article-row__excerpt">{article.excerpt || extractTeaser(article.content)}</p>
       <div className="article-row__footer">
         {article.publisher && <span className="article-row__publisher">{article.publisher}</span>}
         <Link className="article-row__read-more" href={articleHref(article.slug)}>Read more →</Link>

@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import { Article } from '@/lib/types'
-import { articleHref } from '@/lib/utils'
+import { articleHref, extractTeaser } from '@/lib/utils'
 import { SIGNALS, SIGNAL_MAP } from '@/lib/signals'
 
 // 4 featured signals shown on the homepage pulse panel
@@ -135,7 +135,7 @@ export default async function HomePage() {
                             <span className="article-row__date">{date}</span>
                           </div>
                           <h2 className="article-row__title"><Link href={articleHref(article.slug)}>{article.title}</Link></h2>
-                          <p className="article-row__excerpt">{article.excerpt}</p>
+                          <p className="article-row__excerpt">{article.excerpt || extractTeaser(article.content)}</p>
                           <div className="article-row__footer">
                             {article.publisher && <span className="article-row__publisher">{article.publisher}</span>}
                             <Link className="article-row__read-more" href={articleHref(article.slug)}>Read more →</Link>
@@ -152,7 +152,7 @@ export default async function HomePage() {
                           )}
                         </div>
                         <h2 className="article-row__title"><Link href={articleHref(article.slug)}>{article.title}</Link></h2>
-                        <p className="article-row__excerpt">{article.excerpt}</p>
+                        <p className="article-row__excerpt">{article.excerpt || extractTeaser(article.content)}</p>
                         <div className="article-row__footer">
                           {article.publisher && <span className="article-row__publisher">{article.publisher}</span>}
                           <Link className="article-row__read-more" href={articleHref(article.slug)}>Read more →</Link>
