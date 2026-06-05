@@ -1617,6 +1617,7 @@ ul.nav-dropdown-menu {
 article.post { margin-top: var(--space-8); }
 .post-layout article.post { margin-top: 0; padding-top: var(--space-8); }
 article.post h1 { font-size: clamp(1.8rem, 4vw, 2.5rem); margin-top: 0; margin-bottom: var(--space-4); }
+.post-lede { font-size: 1.1rem; color: var(--muted); line-height: 1.6; margin: var(--space-4) 0 0; font-weight: 400; }
 .post-content { margin-top: var(--space-6); font-size: 1.1rem; line-height: 1.75; }
 .read-time { font-weight: 400; color: var(--muted); }
 

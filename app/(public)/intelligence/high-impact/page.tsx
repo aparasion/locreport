@@ -77,9 +77,11 @@ export default async function HighImpactPage() {
                     <span className="intel-impact-date">{date}</span>
                   </div>
                   <h2 className="intel-impact-title">{a.title}</h2>
-                  {a.business_implications?.[0] && (
+                  {a.business_implications?.[0] ? (
                     <p className="intel-impact-implication">{a.business_implications[0]}</p>
-                  )}
+                  ) : a.excerpt ? (
+                    <p className="intel-impact-implication">{a.excerpt}</p>
+                  ) : null}
                   {a.affected_segments?.length > 0 && (
                     <div className="intel-impact-segments">
                       {a.affected_segments.map(seg => (
