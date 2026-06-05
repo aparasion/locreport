@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient, createServiceClient } from '@/lib/supabase/server'
-import yahooFinance from 'yahoo-finance2'
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+import yahooFinanceRaw from 'yahoo-finance2'
+const yahooFinance = yahooFinanceRaw as any
 
 export const maxDuration = 60
 
@@ -34,14 +36,9 @@ export async function POST(req: NextRequest) {
 
   for (const ticker of TICKERS) {
     try {
-      const historicalFn = yahooFinance.historical as (
-        ticker: string,
-        opts: { period1: Date; interval: string }
-      ) => Promise<Array<{ date: Date; close: number }>>
-
       const [quote, historical] = await Promise.all([
         yahooFinance.quote(ticker),
-        historicalFn(ticker, { period1, interval: '1d' }).catch(() => [] as Array<{ date: Date; close: number }>),
+        yahooFinance.historical(ticker, { period1, interval: '1d' }).catch(() => []),
       ])
 
       const history = (historical as Array<{ date: Date; close: number }>)
