@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient, createServiceClient } from '@/lib/supabase/server'
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-import yahooFinanceRaw from 'yahoo-finance2'
-const yahooFinance = yahooFinanceRaw as any
+import YahooFinanceClass from 'yahoo-finance2'
+const yahooFinance = new (YahooFinanceClass as any)()
 
 export const maxDuration = 60
 
