@@ -60,7 +60,8 @@ export async function POST(req: NextRequest) {
         { onConflict: 'ticker' }
       )
       updated++
-    } catch {
+    } catch (err) {
+      console.error(`[market-quotes] failed ${ticker}:`, err)
       failed++
     }
   }
