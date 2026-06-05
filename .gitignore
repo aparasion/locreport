@@ -4,6 +4,8 @@ _site/
 .jekyll-metadata
 __pycache__/
 node_modules/
+.next/
+next-env.d.ts
 migration.sql
 migration-part-*.sql
 add-missing-columns.sql
