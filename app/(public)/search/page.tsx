@@ -2,6 +2,7 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 import { createClient } from '@/lib/supabase/server'
 import { SIGNALS } from '@/lib/signals'
+import { articleHref } from '@/lib/utils'
 
 export const dynamic = 'force-dynamic'
 
@@ -30,16 +31,33 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
   const { q = '' } = await searchParams
   const query = q.trim()
 
+  const supabase = await createClient()
+
+  // Sidebar data — always fetched
+  const { data: monthlyReports } = await supabase
+    .from('articles')
+    .select('id, title, slug, published_at')
+    .eq('article_type', 'monthly-summary')
+    .order('published_at', { ascending: false })
+    .limit(1)
+
+  const latestMonthly = monthlyReports?.[0] ?? null
+  const activeSignals = SIGNALS.filter(s => s.current_status === 'supported' || s.current_status === 'emerging').slice(0, 6)
+
   if (!query) {
     return (
       <div className="container" style={{ paddingTop: 'var(--space-8)', paddingBottom: 'var(--space-12)' }}>
-        <h1 style={{ fontSize: '1.6rem', fontWeight: 700, marginBottom: '0.5rem' }}>Search</h1>
-        <p style={{ color: 'var(--muted)' }}>Enter a search term in the box above.</p>
+        <div style={{ display: 'flex', gap: 'var(--space-8)', alignItems: 'flex-start' }}>
+          <div style={{ flex: 1 }}>
+            <h1 style={{ fontSize: '1.6rem', fontWeight: 700, marginBottom: '0.5rem' }}>Search</h1>
+            <p style={{ color: 'var(--muted)' }}>Enter a search term in the box above.</p>
+          </div>
+          <SearchSidebar latestMonthly={latestMonthly} activeSignals={activeSignals} />
+        </div>
       </div>
     )
   }
 
-  const supabase = await createClient()
   const qLower = query.toLowerCase()
 
   // Articles from Supabase
@@ -47,6 +65,7 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
     .from('articles')
     .select('id, title, slug, excerpt, publisher, published_at, impact_score')
     .neq('article_type', 'theory')
+    .neq('article_type', 'monthly-summary')
     .or(`title.ilike.%${query}%,excerpt.ilike.%${query}%,publisher.ilike.%${query}%`)
     .order('published_at', { ascending: false })
     .limit(20)
@@ -83,76 +102,130 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
   }
 
   return (
-    <div className="container" style={{ paddingTop: 'var(--space-8)', paddingBottom: 'var(--space-12)', maxWidth: 860 }}>
-      <h1 style={{ fontSize: '1.5rem', fontWeight: 700, marginBottom: '0.25rem' }}>
-        Search results for <em style={{ fontStyle: 'normal', color: 'var(--accent)' }}>{query}</em>
-      </h1>
-      <p style={{ color: 'var(--muted)', fontSize: '0.88rem', marginBottom: 'var(--space-8)' }}>
-        {total} result{total !== 1 ? 's' : ''} across all sections
-      </p>
+    <div className="container" style={{ paddingTop: 'var(--space-8)', paddingBottom: 'var(--space-12)' }}>
+      <div style={{ display: 'flex', gap: 'var(--space-8)', alignItems: 'flex-start' }}>
 
-      {pages.length > 0 && (
-        <Section label="Pages" count={pages.length}>
-          {pages.map(p => (
-            <ResultRow key={p.href} href={p.href} section={p.section}
-              title={<span dangerouslySetInnerHTML={{ __html: highlight(p.title, query) }} />}
-              excerpt={<span dangerouslySetInnerHTML={{ __html: highlight(p.excerpt, query) }} />}
-            />
-          ))}
-        </Section>
-      )}
+        {/* Main results */}
+        <div style={{ flex: 1, minWidth: 0, maxWidth: 720 }}>
+          <h1 style={{ fontSize: '1.5rem', fontWeight: 700, marginBottom: '0.25rem' }}>
+            Results for <em style={{ fontStyle: 'normal', color: 'var(--accent)' }}>{query}</em>
+          </h1>
+          <p style={{ color: 'var(--muted)', fontSize: '0.88rem', marginBottom: 'var(--space-8)' }}>
+            {total} result{total !== 1 ? 's' : ''} across all sections
+          </p>
 
-      {signals.length > 0 && (
-        <Section label="Signals" count={signals.length}>
-          {signals.map(s => (
-            <ResultRow key={s.id} href={`/intelligence/signals/${s.id}`} section="Intelligence"
-              title={<span dangerouslySetInnerHTML={{ __html: highlight(s.title, query) }} />}
-              excerpt={<span dangerouslySetInnerHTML={{ __html: highlight(s.description, query) }} />}
-              meta={<span style={{ fontSize: '0.75rem', color: 'var(--muted)', textTransform: 'capitalize' }}>{s.current_status} · {s.category}</span>}
-            />
-          ))}
-        </Section>
-      )}
+          {pages.length > 0 && (
+            <Section label="Pages" count={pages.length}>
+              {pages.map(p => (
+                <ResultRow key={p.href} href={p.href} section={p.section}
+                  title={<span dangerouslySetInnerHTML={{ __html: highlight(p.title, query) }} />}
+                  excerpt={<span dangerouslySetInnerHTML={{ __html: highlight(p.excerpt, query) }} />}
+                />
+              ))}
+            </Section>
+          )}
 
-      {(articles?.length ?? 0) > 0 && (
-        <Section label="Articles" count={articles!.length}>
-          {articles!.map(a => (
-            <ResultRow key={a.id} href={`/articles/${a.slug}`} section={a.publisher ?? 'Article'}
-              title={<span dangerouslySetInnerHTML={{ __html: highlight(a.title, query) }} />}
-              excerpt={a.excerpt ? <span dangerouslySetInnerHTML={{ __html: highlight(a.excerpt, query) }} /> : null}
-              meta={
-                <span style={{ fontSize: '0.75rem', color: 'var(--muted)', display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
-                  {fmtDate(a.published_at)}
-                  {a.impact_score && a.impact_score >= 2 && (
-                    <span style={{ color: IMPACT_COLOR[a.impact_score], fontWeight: 600 }}>
-                      {IMPACT_LABEL[a.impact_score]}
+          {signals.length > 0 && (
+            <Section label="Signals" count={signals.length}>
+              {signals.map(s => (
+                <ResultRow key={s.id} href={`/intelligence/signals/${s.id}`} section="Intelligence"
+                  title={<span dangerouslySetInnerHTML={{ __html: highlight(s.title, query) }} />}
+                  excerpt={<span dangerouslySetInnerHTML={{ __html: highlight(s.description, query) }} />}
+                  meta={<span style={{ fontSize: '0.75rem', color: 'var(--muted)', textTransform: 'capitalize' }}>{s.current_status} · {s.category}</span>}
+                />
+              ))}
+            </Section>
+          )}
+
+          {(articles?.length ?? 0) > 0 && (
+            <Section label="Articles" count={articles!.length}>
+              {articles!.map(a => (
+                <ResultRow key={a.id} href={articleHref(a.slug)} section={a.publisher ?? 'Article'}
+                  title={<span dangerouslySetInnerHTML={{ __html: highlight(a.title, query) }} />}
+                  excerpt={a.excerpt ? <span dangerouslySetInnerHTML={{ __html: highlight(a.excerpt, query) }} /> : null}
+                  meta={
+                    <span style={{ fontSize: '0.75rem', color: 'var(--muted)', display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+                      {fmtDate(a.published_at)}
+                      {a.impact_score && a.impact_score >= 2 && (
+                        <span style={{ color: IMPACT_COLOR[a.impact_score], fontWeight: 600 }}>
+                          {IMPACT_LABEL[a.impact_score]}
+                        </span>
+                      )}
                     </span>
-                  )}
-                </span>
-              }
-            />
-          ))}
-        </Section>
-      )}
+                  }
+                />
+              ))}
+            </Section>
+          )}
 
-      {(papers?.length ?? 0) > 0 && (
-        <Section label="Research" count={papers!.length}>
-          {papers!.map(a => (
-            <ResultRow key={a.id} href={`/language-science/${a.slug}`} section={a.publisher ?? 'Research'}
-              title={<span dangerouslySetInnerHTML={{ __html: highlight(a.title, query) }} />}
-              excerpt={a.excerpt ? <span dangerouslySetInnerHTML={{ __html: highlight(a.excerpt, query) }} /> : null}
-              meta={<span style={{ fontSize: '0.75rem', color: 'var(--muted)' }}>{fmtDate(a.published_at)}</span>}
-            />
-          ))}
-        </Section>
-      )}
+          {(papers?.length ?? 0) > 0 && (
+            <Section label="Research" count={papers!.length}>
+              {papers!.map(a => (
+                <ResultRow key={a.id} href={`/language-science/${a.slug}`} section={a.publisher ?? 'Research'}
+                  title={<span dangerouslySetInnerHTML={{ __html: highlight(a.title, query) }} />}
+                  excerpt={a.excerpt ? <span dangerouslySetInnerHTML={{ __html: highlight(a.excerpt, query) }} /> : null}
+                  meta={<span style={{ fontSize: '0.75rem', color: 'var(--muted)' }}>{fmtDate(a.published_at)}</span>}
+                />
+              ))}
+            </Section>
+          )}
 
-      {total === 0 && (
-        <p style={{ color: 'var(--muted)', marginTop: 'var(--space-6)' }}>
-          No results found. Try a different search term.
-        </p>
-      )}
+          {total === 0 && (
+            <p style={{ color: 'var(--muted)', marginTop: 'var(--space-6)' }}>
+              No results found. Try a different search term.
+            </p>
+          )}
+        </div>
+
+        <SearchSidebar latestMonthly={latestMonthly} activeSignals={activeSignals} />
+      </div>
     </div>
+  )
+}
+
+function SearchSidebar({ latestMonthly, activeSignals }: {
+  latestMonthly: { title: string; slug: string; published_at: string } | null
+  activeSignals: typeof SIGNALS
+}) {
+  return (
+    <aside className="post-sidebar" style={{ flexShrink: 0, width: 260 }}>
+      {latestMonthly && (
+        <div className="post-sidebar-widget">
+          <p className="post-sidebar-widget__title">Latest Monthly Report</p>
+          <Link href={articleHref(latestMonthly.slug)} style={{ textDecoration: 'none', color: 'var(--text)' }}>
+            <p style={{ fontSize: '0.88rem', fontWeight: 600, lineHeight: 1.4, marginBottom: '0.25rem' }}>{latestMonthly.title}</p>
+            <p style={{ fontSize: '0.76rem', color: 'var(--muted)' }}>
+              {new Date(latestMonthly.published_at).toLocaleDateString('en-GB', { month: 'long', year: 'numeric' })}
+            </p>
+          </Link>
+        </div>
+      )}
+
+      <div className="post-sidebar-widget">
+        <p className="post-sidebar-widget__title">Annual Report</p>
+        <Link href="/reports/2026-annual-global-market-report" style={{ textDecoration: 'none', color: 'var(--text)' }}>
+          <p style={{ fontSize: '0.88rem', fontWeight: 600, lineHeight: 1.4, marginBottom: '0.25rem' }}>2026 Annual Global Market Report</p>
+          <p style={{ fontSize: '0.76rem', color: 'var(--muted)' }}>Localization &amp; Translation Industry</p>
+        </Link>
+      </div>
+
+      <div className="post-sidebar-widget">
+        <p className="post-sidebar-widget__title">Active Signals</p>
+        <ul className="post-sidebar-list" style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+          {activeSignals.map(s => (
+            <li key={s.id} style={{ marginBottom: '0.5rem' }}>
+              <Link href={`/intelligence/signals/${s.id}`} style={{ fontSize: '0.82rem', color: 'var(--text)', textDecoration: 'none', lineHeight: 1.4, display: 'block' }}>
+                {s.title}
+              </Link>
+              <span style={{ fontSize: '0.72rem', color: 'var(--muted)', textTransform: 'capitalize' }}>{s.current_status}</span>
+            </li>
+          ))}
+        </ul>
+        <Link href="/intelligence/signals" style={{ fontSize: '0.78rem', color: 'var(--accent)', textDecoration: 'none', display: 'inline-block', marginTop: '0.5rem' }}>
+          All signals →
+        </Link>
+      </div>
+    </aside>
   )
 }
 
