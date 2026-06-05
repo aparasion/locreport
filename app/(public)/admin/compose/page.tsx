@@ -116,7 +116,7 @@ export default function ComposePage() {
             />
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <Label htmlFor="title">Suggested title</Label>
               <Input id="title" value={title} onChange={e => setTitle(e.target.value)} placeholder="Optional — AI will generate one if empty" className="mt-1" />
@@ -135,7 +135,7 @@ export default function ComposePage() {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <Label htmlFor="source-url">Source URL</Label>
               <Input id="source-url" value={sourceUrl} onChange={e => setSourceUrl(e.target.value)} placeholder="https://…" className="mt-1" />
@@ -146,7 +146,7 @@ export default function ComposePage() {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <Label htmlFor="extra-url-1">Extra source URL 1</Label>
               <Input id="extra-url-1" value={extraUrl1} onChange={e => setExtraUrl1(e.target.value)} placeholder="https://…" className="mt-1" />
@@ -157,7 +157,7 @@ export default function ComposePage() {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <Label htmlFor="extra-url-2">Extra source URL 2</Label>
               <Input id="extra-url-2" value={extraUrl2} onChange={e => setExtraUrl2(e.target.value)} placeholder="https://…" className="mt-1" />
@@ -168,7 +168,7 @@ export default function ComposePage() {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <Label htmlFor="impact-score">Impact score (1–5)</Label>
               <select

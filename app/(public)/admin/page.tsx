@@ -84,7 +84,7 @@ export default function AdminDashboard() {
     <div>
       <h1 className="text-2xl font-bold text-[#111827] mb-6">Dashboard</h1>
 
-      <div className="grid grid-cols-3 gap-4 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
         {[
           { label: 'Published articles', value: stats?.articles },
           { label: 'Pending drafts', value: stats?.drafts },
@@ -101,7 +101,7 @@ export default function AdminDashboard() {
 
         {/* Daily ingest */}
         <div className="p-4 rounded-lg border border-gray-100 bg-white">
-          <div className="flex items-start justify-between gap-4">
+          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
             <div>
               <p className="font-medium text-[#111827]">Run daily ingest</p>
               <p className="text-sm text-[#5A6278] mt-0.5">Fetch RSS sources and generate new article drafts.</p>
@@ -109,6 +109,7 @@ export default function AdminDashboard() {
             <Button
               onClick={() => { setConfirm('ingest'); flash('') }}
               disabled={ingesting || confirm === 'ingest'}
+              className="shrink-0 self-start"
             >
               {ingesting ? 'Running…' : 'Run now'}
             </Button>
@@ -124,7 +125,7 @@ export default function AdminDashboard() {
 
         {/* Monthly report */}
         <div className="p-4 rounded-lg border border-gray-100 bg-white">
-          <div className="flex items-start justify-between gap-4">
+          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
             <div>
               <p className="font-medium text-[#111827]">Generate monthly report</p>
               <p className="text-sm text-[#5A6278] mt-0.5">
@@ -136,6 +137,7 @@ export default function AdminDashboard() {
               variant="secondary"
               onClick={() => { setConfirm('monthly' as Confirm); flash('') }}
               disabled={monthlyRunning || confirm === 'monthly' || (confirm as string) === 'monthly-force'}
+              className="shrink-0 self-start"
             >
               {monthlyRunning ? 'Generating…' : 'Run now'}
             </Button>
@@ -158,7 +160,7 @@ export default function AdminDashboard() {
 
         {/* Market quotes */}
         <div className="p-4 rounded-lg border border-gray-100 bg-white">
-          <div className="flex items-start justify-between gap-4">
+          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
             <div>
               <p className="font-medium text-[#111827]">Refresh market quotes</p>
               <p className="text-sm text-[#5A6278] mt-0.5">
@@ -166,7 +168,7 @@ export default function AdminDashboard() {
                 Set a daily cron-job.org job to POST /api/market-quotes.
               </p>
             </div>
-            <Button variant="secondary" onClick={refreshQuotes} disabled={quotesRunning}>
+            <Button variant="secondary" onClick={refreshQuotes} disabled={quotesRunning} className="shrink-0 self-start">
               {quotesRunning ? 'Refreshing…' : 'Refresh now'}
             </Button>
           </div>
