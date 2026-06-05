@@ -51,14 +51,14 @@ export default function SourcesPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-[#111827] mb-6">RSS Sources</h1>
+      <h1 className="text-2xl font-bold text-[#15191C] mb-6">RSS Sources</h1>
       <div className="grid md:grid-cols-2 gap-8">
         <div>
-          <h2 className="text-sm font-medium text-[#5A6278] uppercase tracking-wide mb-4">Add source</h2>
+          <h2 className="text-sm font-medium text-[#5B665F] uppercase tracking-wide mb-4">Add source</h2>
           <SourceForm onAdded={load} />
         </div>
         <div>
-          <h2 className="text-sm font-medium text-[#5A6278] uppercase tracking-wide mb-4">
+          <h2 className="text-sm font-medium text-[#5B665F] uppercase tracking-wide mb-4">
             Active sources ({sources.filter(s => s.active).length})
           </h2>
           <div className="flex flex-col gap-3">
@@ -76,8 +76,8 @@ export default function SourcesPage() {
                 ) : (
                   <div className="flex items-center justify-between gap-4">
                     <div>
-                      <p className="font-medium text-sm text-[#111827]">{source.name}</p>
-                      <p className="text-xs text-[#5A6278] truncate max-w-48">{source.url}</p>
+                      <p className="font-medium text-sm text-[#15191C]">{source.name}</p>
+                      <p className="text-xs text-[#5B665F] truncate max-w-48">{source.url}</p>
                     </div>
                     <div className="flex gap-2 shrink-0">
                       <Button size="sm" variant="secondary" onClick={() => startEdit(source)}>Edit</Button>

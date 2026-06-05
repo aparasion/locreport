@@ -23,12 +23,12 @@ export function AdminNav() {
       <div className="sm:hidden relative">
         <button
           onClick={() => setOpen(o => !o)}
-          className="flex items-center justify-between w-full px-4 py-2.5 bg-white border border-gray-200 rounded-lg text-sm font-medium text-[#111827]"
+          className="flex items-center justify-between w-full px-4 py-2.5 bg-white border border-gray-200 rounded-lg text-sm font-medium text-[#15191C]"
           aria-expanded={open}
         >
           <span>{current.label}</span>
           <svg
-            className={`w-4 h-4 text-[#5A6278] transition-transform ${open ? 'rotate-180' : ''}`}
+            className={`w-4 h-4 text-[#5B665F] transition-transform ${open ? 'rotate-180' : ''}`}
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -46,8 +46,8 @@ export function AdminNav() {
                 onClick={() => setOpen(false)}
                 className={`block px-4 py-2.5 text-sm font-medium transition-colors ${
                   pathname === href
-                    ? 'bg-[#EEF1F8] text-[#3D5AFE]'
-                    : 'text-[#5A6278] hover:text-[#111827] hover:bg-gray-50'
+                    ? 'bg-[#E2F0EA] text-[#0F6E52]'
+                    : 'text-[#5B665F] hover:text-[#15191C] hover:bg-gray-50'
                 }`}
               >
                 {label}
@@ -65,8 +65,8 @@ export function AdminNav() {
             href={href}
             className={`px-4 py-2 text-sm font-medium rounded-t-lg transition-colors ${
               pathname === href
-                ? 'border-b-2 border-[#3D5AFE] text-[#3D5AFE]'
-                : 'text-[#5A6278] hover:text-[#111827]'
+                ? 'border-b-2 border-[#0F6E52] text-[#0F6E52]'
+                : 'text-[#5B665F] hover:text-[#15191C]'
             }`}
           >
             {label}
