@@ -57,6 +57,9 @@ export default function ComposePage() {
     })
     const data = await res.json()
     setContent(data.content ?? '')
+    // Pre-fill with AI classification if admin hasn't set values manually
+    if (!impactScore && data.impact_score) setImpactScore(String(data.impact_score))
+    if (!timeHorizon && data.time_horizon) setTimeHorizon(data.time_horizon)
     setStage('article')
     setGenerating(false)
   }
@@ -72,6 +75,7 @@ export default function ComposePage() {
     const params = new URLSearchParams()
     if (impactScore) params.set('impact_score', impactScore)
     if (timeHorizon) params.set('time_horizon', timeHorizon)
+    params.set('content_type', contentType)
     const qs = params.toString()
     router.push(draft?.id ? `/admin/drafts/${draft.id}${qs ? '?' + qs : ''}` : '/admin/drafts')
     setPublishing(false)
