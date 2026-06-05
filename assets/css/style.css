@@ -320,6 +320,7 @@ article.page:has(.dir-grid) { max-width: var(--site-max-width); overflow-x: hidd
 }
 .nav-dropdown-menu {
   padding: 9px;
+  margin: 8px;
 }
 
 /* ── Hamburger Toggle ───────────────────────────────────── */
