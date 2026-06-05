@@ -108,18 +108,17 @@ export function Nav() {
           <ul id="site-menu">
             {allLinks.map(link => (
               'dropdown' in link && link.dropdown ? (
-                <li key={link.href} className={`nav-has-dropdown${openDropdown === link.href ? ' is-open' : ''}`}>
-                  <button
-                    aria-haspopup="true"
-                    aria-expanded={openDropdown === link.href}
-                    onClick={() => setOpenDropdown(v => v === link.href ? null : link.href)}
-                  >
+                <li key={link.href} className="nav-has-dropdown"
+                  onMouseEnter={() => setOpenDropdown(link.href)}
+                  onMouseLeave={() => setOpenDropdown(null)}
+                >
+                  <button aria-haspopup="true" aria-expanded={openDropdown === link.href}>
                     {link.label}
                     <svg className="nav-dropdown-chevron" xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 12 12" fill="none" aria-hidden="true">
                       <path d="M2 4l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                     </svg>
                   </button>
-                  <ul className="nav-dropdown-menu" role="menu">
+                  <ul className={`nav-dropdown-menu${openDropdown === link.href ? ' is-open' : ''}`} role="menu">
                     {link.dropdown.map(child => (
                       <li key={child.href} role="none">
                         <Link href={child.href} role="menuitem" onClick={() => setOpenDropdown(null)}>{child.label}</Link>
