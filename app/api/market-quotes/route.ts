@@ -37,10 +37,11 @@ export async function POST(req: NextRequest) {
 
   for (const ticker of TICKERS) {
     try {
+      let historicalErr = ''
       const [quote, historical] = await Promise.all([
         yahooFinance.quote(ticker),
         yahooFinance.historical(ticker, { period1, interval: '1d' }).catch((e: unknown) => {
-          console.error(`[market-quotes] historical failed ${ticker}:`, e)
+          historicalErr = String(e)
           return []
         }),
       ])
@@ -63,7 +64,7 @@ export async function POST(req: NextRequest) {
         { ticker, data, updated_at: now.toISOString() },
         { onConflict: 'ticker' }
       )
-      details[ticker] = { history: history.length }
+      details[ticker] = historicalErr ? { history: 0, historicalErr } : { history: history.length }
       updated++
     } catch (err) {
       console.error(`[market-quotes] failed ${ticker}:`, err)
