@@ -34,12 +34,14 @@ export async function POST(req: NextRequest) {
 
   for (const ticker of TICKERS) {
     try {
-      const fetchHistorical = async () => {
-        try { return await yahooFinance.historical(ticker, { period1, interval: '1d' }) } catch { return [] }
-      }
+      const historicalFn = yahooFinance.historical as (
+        ticker: string,
+        opts: { period1: Date; interval: string }
+      ) => Promise<Array<{ date: Date; close: number }>>
+
       const [quote, historical] = await Promise.all([
         yahooFinance.quote(ticker),
-        fetchHistorical(),
+        historicalFn(ticker, { period1, interval: '1d' }).catch(() => [] as Array<{ date: Date; close: number }>),
       ])
 
       const history = (historical as Array<{ date: Date; close: number }>)
