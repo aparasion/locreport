@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react'
-import { useParams, useRouter } from 'next/navigation'
+import { useParams, useRouter, useSearchParams } from 'next/navigation'
 import { marked } from 'marked'
 import { Draft } from '@/lib/types'
 import { Button } from '@/components/ui/button'
@@ -8,9 +8,12 @@ import { Button } from '@/components/ui/button'
 export default function DraftReviewPage() {
   const { id } = useParams<{ id: string }>()
   const router = useRouter()
+  const searchParams = useSearchParams()
   const [draft, setDraft] = useState<Draft | null>(null)
   const [tab, setTab] = useState<'preview' | 'edit'>('preview')
   const [content, setContent] = useState('')
+  const [impactScore, setImpactScore] = useState(() => searchParams.get('impact_score') ?? '')
+  const [timeHorizon, setTimeHorizon] = useState(() => searchParams.get('time_horizon') ?? '')
   const [loading, setLoading] = useState(false)
   const [rerunning, setRerunning] = useState(false)
   const [confirmRerun, setConfirmRerun] = useState(false)
@@ -33,7 +36,12 @@ export default function DraftReviewPage() {
       const res = await fetch(`/api/drafts/${id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ status, content }),
+        body: JSON.stringify({
+          status,
+          content,
+          impact_score: impactScore ? Number(impactScore) : null,
+          time_horizon: timeHorizon || null,
+        }),
       })
       if (!res.ok) {
         const d = await res.json().catch(() => ({}))
@@ -87,6 +95,33 @@ export default function DraftReviewPage() {
           View source →
         </a>
       )}
+
+      <div className="flex gap-4 mb-4">
+        <div>
+          <label className="block text-xs text-[#5A6278] mb-1">Impact score (1–5)</label>
+          <select
+            value={impactScore}
+            onChange={e => setImpactScore(e.target.value)}
+            className="rounded-md border border-gray-200 px-2 py-1 text-sm"
+          >
+            <option value="">—</option>
+            {[1,2,3,4,5].map(n => <option key={n} value={n}>{n}</option>)}
+          </select>
+        </div>
+        <div>
+          <label className="block text-xs text-[#5A6278] mb-1">Time horizon</label>
+          <select
+            value={timeHorizon}
+            onChange={e => setTimeHorizon(e.target.value)}
+            className="rounded-md border border-gray-200 px-2 py-1 text-sm"
+          >
+            <option value="">—</option>
+            <option value="now">Now</option>
+            <option value="6months">6 months</option>
+            <option value="2years">2 years</option>
+          </select>
+        </div>
+      </div>
 
       <div className="flex gap-2 border-b border-gray-100 mb-4">
         {(['preview', 'edit'] as const).map(t => (

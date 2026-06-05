@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServiceClient } from '@/lib/supabase/server'
 import { slugify } from '@/lib/slugify'
+import { extractTeaser } from '@/lib/utils'
 
 type Params = { params: Promise<{ id: string }> }
 
@@ -34,9 +35,12 @@ export async function PATCH(req: NextRequest, { params }: Params) {
       title,
       slug,
       content,
+      excerpt: extractTeaser(content),
       source_url: draft.source_url,
       draft_id: draft.id,
       article_type: 'industry',
+      impact_score: body.impact_score ?? null,
+      time_horizon: body.time_horizon ?? null,
     })
     if (articleError) return NextResponse.json({ error: articleError.message }, { status: 400 })
   }

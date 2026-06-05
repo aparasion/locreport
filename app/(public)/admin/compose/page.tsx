@@ -63,12 +63,17 @@ export default function ComposePage() {
 
   async function publish(finalContent: string) {
     setPublishing(true)
-    await fetch('/api/drafts', {
+    const res = await fetch('/api/drafts', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ content: finalContent, source_url: sourceUrl || null }),
     })
-    router.push('/admin/drafts')
+    const draft = await res.json()
+    const params = new URLSearchParams()
+    if (impactScore) params.set('impact_score', impactScore)
+    if (timeHorizon) params.set('time_horizon', timeHorizon)
+    const qs = params.toString()
+    router.push(draft?.id ? `/admin/drafts/${draft.id}${qs ? '?' + qs : ''}` : '/admin/drafts')
     setPublishing(false)
   }
 
