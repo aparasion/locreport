@@ -43,6 +43,16 @@ export function Nav() {
   const [theme, setTheme] = useState<'light' | 'dark'>('light')
   const searchRef = useRef<HTMLInputElement>(null)
   const navRef = useRef<HTMLElement>(null)
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  function openMenu(href: string) {
+    if (closeTimer.current) clearTimeout(closeTimer.current)
+    setOpenDropdown(href)
+  }
+
+  function scheduleClose() {
+    closeTimer.current = setTimeout(() => setOpenDropdown(null), 150)
+  }
 
   useEffect(() => {
     function handleClick(e: MouseEvent) {
@@ -109,8 +119,8 @@ export function Nav() {
             {allLinks.map(link => (
               'dropdown' in link && link.dropdown ? (
                 <li key={link.href} className="nav-has-dropdown"
-                  onMouseEnter={() => setOpenDropdown(link.href)}
-                  onMouseLeave={() => setOpenDropdown(null)}
+                  onMouseEnter={() => openMenu(link.href)}
+                  onMouseLeave={scheduleClose}
                 >
                   <button aria-haspopup="true" aria-expanded={openDropdown === link.href}>
                     {link.label}
@@ -118,7 +128,10 @@ export function Nav() {
                       <path d="M2 4l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                     </svg>
                   </button>
-                  <ul className={`nav-dropdown-menu${openDropdown === link.href ? ' is-open' : ''}`} role="menu">
+                  <ul className={`nav-dropdown-menu${openDropdown === link.href ? ' is-open' : ''}`} role="menu"
+                    onMouseEnter={() => openMenu(link.href)}
+                    onMouseLeave={scheduleClose}
+                  >
                     {link.dropdown.map(child => (
                       <li key={child.href} role="none">
                         <Link href={child.href} role="menuitem" onClick={() => setOpenDropdown(null)}>{child.label}</Link>
