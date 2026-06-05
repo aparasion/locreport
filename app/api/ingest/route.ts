@@ -62,9 +62,12 @@ export async function POST(req: NextRequest) {
   const extractorPrompt = await getPrompt(supabase, 'prompt_extractor', DEFAULT_EXTRACTOR_PROMPT)
   const industryPrompt = await getPrompt(supabase, 'prompt_industry', DEFAULT_INDUSTRY_PROMPT)
   let processed = 0
+  const errors: string[] = []
+  const skipped: string[] = []
 
   for (const source of sources) {
     const items = await fetchFeed(source.url)
+    console.log(`[ingest] ${source.url}: ${items.length} items, ${items.filter(i => i.link && !seen.has(i.link)).length} fresh`)
     const fresh = items.filter(i => i.link && !seen.has(i.link)).slice(0, 2)
 
     for (const item of fresh) {
@@ -86,7 +89,9 @@ export async function POST(req: NextRequest) {
         })
         const facts = extractRes.choices[0].message.content ?? ''
 
-        if (facts === 'UNUSABLE_CONTENT') {
+        if (facts.trim() === 'UNUSABLE_CONTENT') {
+          console.log(`[ingest] UNUSABLE_CONTENT: ${item.link}`)
+          skipped.push(item.link)
           seen.add(item.link)
           continue
         }
@@ -110,7 +115,7 @@ export async function POST(req: NextRequest) {
         const title = titleMatch ? titleMatch[1].trim() : item.title
         const slug = slugify(title)
 
-        await supabase.from('drafts').insert({
+        const { error: insertError } = await supabase.from('drafts').insert({
           title,
           slug,
           content,
@@ -120,11 +125,20 @@ export async function POST(req: NextRequest) {
           status: 'pending',
         })
 
-        seen.add(item.link)
-        processed++
-      } catch {}
+        if (insertError) {
+          console.error(`[ingest] DB insert failed for ${item.link}:`, insertError)
+          errors.push(`${item.link}: ${insertError.message}`)
+        } else {
+          seen.add(item.link)
+          processed++
+        }
+      } catch (err) {
+        const msg = err instanceof Error ? err.message : String(err)
+        console.error(`[ingest] Error processing ${item.link}:`, err)
+        errors.push(`${item.link}: ${msg}`)
+      }
     }
   }
 
-  return NextResponse.json({ processed })
+  return NextResponse.json({ processed, skipped: skipped.length, errors })
 }
