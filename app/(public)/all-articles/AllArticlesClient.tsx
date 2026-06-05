@@ -22,13 +22,14 @@ function dateInt(iso: string) {
   return parseInt(iso.slice(0, 10).replace(/-/g, ''), 10)
 }
 
-export default function AllArticlesClient({ articles }: { articles: ArticleRow[] }) {
+export default function AllArticlesClient({ articles, initialQ = '' }: { articles: ArticleRow[], initialQ?: string }) {
   const [topic, setTopic] = useState('all')
   const [impact, setImpact] = useState('all')
   const [source, setSource] = useState('all')
   const [dateFrom, setDateFrom] = useState('')
   const [dateTo, setDateTo] = useState('')
   const [sort, setSort] = useState('date')
+  const [q, setQ] = useState(initialQ)
   const [loadedCount, setLoadedCount] = useState(BATCH)
   const [filterOpen, setFilterOpen] = useState(false)
   const sentinelRef = useRef<HTMLDivElement>(null)
@@ -57,6 +58,7 @@ export default function AllArticlesClient({ articles }: { articles: ArticleRow[]
 
   // Compute filtered+sorted list
   const filtered = (() => {
+    const qLower = q.toLowerCase().trim()
     let list = articles.filter(a => {
       if (topic !== 'all' && !a.topics.includes(topic)) return false
       if (impact !== 'all' && (a.impact_score ?? 0) < parseInt(impact)) return false
@@ -64,6 +66,7 @@ export default function AllArticlesClient({ articles }: { articles: ArticleRow[]
       if (dateFrom && d < dateInt(dateFrom + 'T00:00:00Z')) return false
       if (dateTo && d > dateInt(dateTo + 'T00:00:00Z')) return false
       if (source !== 'all' && (a.publisher ?? '').toLowerCase() !== source) return false
+      if (qLower && !`${a.title} ${a.excerpt ?? ''} ${a.publisher ?? ''}`.toLowerCase().includes(qLower)) return false
       return true
     })
     if (sort === 'impact') {
@@ -77,7 +80,7 @@ export default function AllArticlesClient({ articles }: { articles: ArticleRow[]
   })()
 
   // Reset loaded count when filters change
-  useEffect(() => { setLoadedCount(BATCH) }, [topic, impact, source, dateFrom, dateTo, sort])
+  useEffect(() => { setLoadedCount(BATCH) }, [topic, impact, source, dateFrom, dateTo, sort, q])
 
   // Infinite scroll observer
   useEffect(() => {
