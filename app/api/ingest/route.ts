@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient, createServiceClient } from '@/lib/supabase/server'
-import { fetchFeed } from '@/lib/rss'
+import { fetchFeed, fetchArticleText } from '@/lib/rss'
 import { getOpenAI } from '@/lib/openai'
 import { slugify } from '@/lib/slugify'
 import { DEFAULT_EXTRACTOR_PROMPT, DEFAULT_INDUSTRY_PROMPT } from '@/lib/prompts'
@@ -14,7 +14,7 @@ async function getPrompt(supabase: ReturnType<typeof createServiceClient>, key: 
   }
 }
 
-export const maxDuration = 60
+export const maxDuration = 300
 
 export async function GET(req: NextRequest) {
   return POST(req)
@@ -72,7 +72,10 @@ export async function POST(req: NextRequest) {
 
     for (const item of fresh) {
       try {
-        const articleText = item.contentSnippet ?? item.content ?? ''
+        // Prefer full article text over RSS snippet — RSS feeds only carry teasers
+        const fetchedText = item.link ? await fetchArticleText(item.link) : null
+        const articleText = fetchedText ?? item.contentSnippet ?? item.content ?? ''
+        console.log(`[ingest] article text length for ${item.link}: ${articleText.length} chars${fetchedText ? ' (fetched)' : ' (rss snippet)'}`)
         const extractInput = [
           item.link ? `Source URL: ${item.link}` : '',
           `Title: ${item.title}`,
