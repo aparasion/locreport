@@ -458,16 +458,9 @@ article.page:has(.dir-grid) { max-width: var(--site-max-width); overflow-x: hidd
   pointer-events: auto;
 }
 
-/* Hide nav links when search is expanded (desktop) */
-.site-nav.search-expanded #site-menu {
-  opacity: 0;
-  width: 0;
-  overflow: hidden;
-  pointer-events: none;
-  transition: opacity 0.2s ease, width 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-}
+/* Keep nav links visible when search expands — just shrink flex */
 .site-nav #site-menu {
-  transition: opacity 0.2s ease, width 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: flex 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Results dropdown */
