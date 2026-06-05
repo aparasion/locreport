@@ -4,6 +4,7 @@ import { fetchFeed, fetchArticleText } from '@/lib/rss'
 import { getOpenAI } from '@/lib/openai'
 import { slugify } from '@/lib/slugify'
 import { DEFAULT_EXTRACTOR_PROMPT, DEFAULT_INDUSTRY_PROMPT } from '@/lib/prompts'
+import { classifyArticle } from '@/lib/classify'
 
 async function getPrompt(supabase: ReturnType<typeof createServiceClient>, key: string, fallback: string): Promise<string> {
   try {
@@ -118,6 +119,8 @@ export async function POST(req: NextRequest) {
         const title = titleMatch ? titleMatch[1].trim() : item.title
         const slug = slugify(title)
 
+        const classification = await classifyArticle(openai, content)
+
         const { error: insertError } = await supabase.from('drafts').insert({
           title,
           slug,
@@ -126,6 +129,9 @@ export async function POST(req: NextRequest) {
           source_feed_id: source.id,
           source_published_at: item.pubDate ? new Date(item.pubDate).toISOString() : null,
           status: 'pending',
+          ai_impact_score: classification.impact_score,
+          ai_time_horizon: classification.time_horizon,
+          ai_signal_ids: classification.signal_ids,
         })
 
         if (insertError) {

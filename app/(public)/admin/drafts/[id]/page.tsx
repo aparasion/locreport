@@ -14,6 +14,7 @@ export default function DraftReviewPage() {
   const [content, setContent] = useState('')
   const [impactScore, setImpactScore] = useState(() => searchParams.get('impact_score') ?? '')
   const [timeHorizon, setTimeHorizon] = useState(() => searchParams.get('time_horizon') ?? '')
+  const contentType = searchParams.get('content_type') ?? 'industry'
   const [loading, setLoading] = useState(false)
   const [rerunning, setRerunning] = useState(false)
   const [confirmRerun, setConfirmRerun] = useState(false)
@@ -41,6 +42,7 @@ export default function DraftReviewPage() {
           content,
           impact_score: impactScore ? Number(impactScore) : null,
           time_horizon: timeHorizon || null,
+          content_type: contentType,
         }),
       })
       if (!res.ok) {
@@ -98,7 +100,7 @@ export default function DraftReviewPage() {
 
       <div className="flex gap-4 mb-4">
         <div>
-          <label className="block text-xs text-[#5A6278] mb-1">Impact score (1–5)</label>
+          <label className="block text-xs text-[#5A6278] mb-1">Impact score (1–5) — AI assigns if blank</label>
           <select
             value={impactScore}
             onChange={e => setImpactScore(e.target.value)}
@@ -109,7 +111,7 @@ export default function DraftReviewPage() {
           </select>
         </div>
         <div>
-          <label className="block text-xs text-[#5A6278] mb-1">Time horizon</label>
+          <label className="block text-xs text-[#5A6278] mb-1">Time horizon — AI assigns if blank</label>
           <select
             value={timeHorizon}
             onChange={e => setTimeHorizon(e.target.value)}
