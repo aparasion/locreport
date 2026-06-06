@@ -2,16 +2,15 @@ import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import { Article } from '@/lib/types'
 import { articleHref, extractTeaser } from '@/lib/utils'
-import { SIGNALS, SIGNAL_MAP } from '@/lib/signals'
+import { SIGNALS } from '@/lib/signals'
 
-// 4 featured signals shown on the homepage pulse panel
-const FEATURED_SIGNAL_IDS = [
-  'quality-gap-closure',
-  'agentic-localization-workflows',
-  'lsp-relevance-erosion',
-  'multilingual-llm-gap',
+// Tools surfaced in the hero "Explore" panel — blog + tools focus
+const HERO_TOOLS = [
+  { href: '/compass/llm-pricing', name: 'AI Cost Simulator', desc: 'Compare LLM pricing for localization' },
+  { href: '/compass/locstock', name: 'LocStock', desc: 'Language-industry market tracker' },
+  { href: '/compass/events', name: 'Industry Events', desc: 'Conferences & summits calendar' },
+  { href: '/intelligence/signals', name: 'Signals Tracker', desc: 'Trends shaping the industry' },
 ]
-const FEATURED_SIGNALS = FEATURED_SIGNAL_IDS.map(id => SIGNAL_MAP.get(id)!)
 
 const SOURCES = [
   'TechCrunch','Slator','DeepL','TransPerfect','Crowdin','Phrase','Smartling',
@@ -68,7 +67,7 @@ export default async function HomePage() {
               <svg className="hero-eyebrow-icon" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                 <rect width="22" height="22" rx="6" fill="url(#hg)"/>
                 <text x="11" y="16" textAnchor="middle" fontSize="13" fontFamily="system-ui,sans-serif" fill="#fff">L</text>
-                <defs><linearGradient id="hg" x1="0" y1="0" x2="22" y2="22" gradientUnits="userSpaceOnUse"><stop stopColor="#0F6E52"/><stop offset="1" stopColor="#2FA37D"/></linearGradient></defs>
+                <defs><linearGradient id="hg" x1="0" y1="0" x2="22" y2="22" gradientUnits="userSpaceOnUse"><stop stopColor="#3550F5"/><stop offset="1" stopColor="#7FA1FB"/></linearGradient></defs>
               </svg>
               Language services intelligence
             </span>
@@ -80,20 +79,21 @@ export default async function HomePage() {
               <Link href="/language-science" className="btn btn--hero-research">Language Science</Link>
             </div>
           </div>
-          <div className="hero-split__right" aria-label="Live signal pulse">
+          <div className="hero-split__right" aria-label="Explore tools">
             <div className="hero-intel-panel">
               <div className="hero-intel-panel__head">
-                <span className="hero-intel-panel__label">Signal Pulse</span>
-                <span className="live-indicator"><span className="live-dot" aria-hidden="true" />Live</span>
+                <span className="hero-intel-panel__label">Explore</span>
               </div>
-              {FEATURED_SIGNALS.map(signal => (
-                <Link key={signal.id} href={`/intelligence/signals/${signal.id}`} className="hero-signal-row">
-                  <span className={`hero-signal-status hero-signal-status--${signal.current_status}`} title={signal.current_status} aria-label={signal.current_status} />
-                  <span className="hero-signal-title">{signal.title.length > 62 ? signal.title.slice(0, 62) + '…' : signal.title}</span>
-                  <span className={`hero-signal-cat hero-signal-cat--${signal.category}`}>{signal.category}</span>
+              {HERO_TOOLS.map(tool => (
+                <Link key={tool.href} href={tool.href} className="hero-tool-row">
+                  <span className="hero-tool-row__body">
+                    <span className="hero-tool-row__name">{tool.name}</span>
+                    <span className="hero-tool-row__desc">{tool.desc}</span>
+                  </span>
+                  <span className="hero-tool-row__arrow" aria-hidden="true">→</span>
                 </Link>
               ))}
-              <Link href="/intelligence/signals" className="hero-intel-panel__footer">View all {SIGNALS.length} signals →</Link>
+              <Link href="/compass" className="hero-intel-panel__footer">All tools →</Link>
             </div>
           </div>
         </div>

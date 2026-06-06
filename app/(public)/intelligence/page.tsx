@@ -56,12 +56,6 @@ export default async function IntelligencePage() {
           <span className="intel-link-card__desc">Track active localization and AI signals with linked article evidence.</span>
           <span className="intel-link-card__cta">Open tracker →</span>
         </Link>
-        <Link href="/intelligence/correlations" className="intel-link-card">
-          <span className="intel-link-card__eyebrow">Matrix</span>
-          <span className="intel-link-card__title">Signal Correlation Matrix</span>
-          <span className="intel-link-card__desc">See which signals co-occur across the article base and how strongly they connect.</span>
-          <span className="intel-link-card__cta">Open matrix →</span>
-        </Link>
         <Link href="/intelligence/high-impact" className="intel-link-card">
           <span className="intel-link-card__eyebrow">Articles</span>
           <span className="intel-link-card__title">High Impact Articles</span>
