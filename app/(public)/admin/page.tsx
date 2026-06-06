@@ -100,7 +100,7 @@ export default function AdminDashboard() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-[#15191C] mb-6">Dashboard</h1>
+      <h1 className="text-2xl font-bold mb-6" style={{ color: 'var(--text)' }}>Dashboard</h1>
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
         {[
@@ -109,8 +109,8 @@ export default function AdminDashboard() {
           { label: 'RSS sources', value: stats?.sources },
         ].map(({ label, value }) => (
           <Card key={label}>
-            <p className="text-sm text-[#5B665F]">{label}</p>
-            <p className="text-3xl font-bold text-[#15191C] mt-1">{value ?? '—'}</p>
+            <p className="text-sm" style={{ color: 'var(--muted)' }}>{label}</p>
+            <p className="text-3xl font-bold mt-1" style={{ color: 'var(--text)' }}>{value ?? '—'}</p>
           </Card>
         ))}
       </div>
@@ -118,11 +118,11 @@ export default function AdminDashboard() {
       <div className="flex flex-col gap-6 max-w-[640px]">
 
         {/* Daily ingest */}
-        <div className="p-4 rounded-lg border border-gray-100 bg-white">
+        <div className="p-4 rounded-lg border" style={{ background: 'var(--surface)', borderColor: 'var(--border)' }}>
           <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
             <div>
-              <p className="font-medium text-[#15191C]">Run daily ingest</p>
-              <p className="text-sm text-[#5B665F] mt-0.5">Fetch RSS sources and generate new article drafts.</p>
+              <p className="font-medium" style={{ color: 'var(--text)' }}>Run daily ingest</p>
+              <p className="text-sm mt-0.5" style={{ color: 'var(--muted)' }}>Fetch RSS sources and generate new article drafts.</p>
             </div>
             <Button
               onClick={() => { setConfirm('ingest'); flash('') }}
@@ -133,7 +133,7 @@ export default function AdminDashboard() {
             </Button>
           </div>
           {confirm === 'ingest' && (
-            <div className="mt-3 pt-3 border-t border-gray-100 flex items-center gap-3 text-sm text-[#5B665F]">
+            <div className="mt-3 pt-3 flex flex-wrap items-center gap-3 text-sm" style={{ borderTop: '1px solid var(--border)', color: 'var(--muted)' }}>
               <span>This will fetch all active RSS sources and create new pending drafts. Continue?</span>
               <Button onClick={runIngest} disabled={ingesting}>Confirm</Button>
               <Button variant="ghost" onClick={() => setConfirm(null)}>Cancel</Button>
@@ -142,11 +142,11 @@ export default function AdminDashboard() {
         </div>
 
         {/* Monthly report */}
-        <div className="p-4 rounded-lg border border-gray-100 bg-white">
+        <div className="p-4 rounded-lg border" style={{ background: 'var(--surface)', borderColor: 'var(--border)' }}>
           <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
             <div>
-              <p className="font-medium text-[#15191C]">Generate monthly report</p>
-              <p className="text-sm text-[#5B665F] mt-0.5">
+              <p className="font-medium" style={{ color: 'var(--text)' }}>Generate monthly report</p>
+              <p className="text-sm mt-0.5" style={{ color: 'var(--muted)' }}>
                 Synthesise all {prevMonth} industry articles into a full monthly report.
                 Auto-runs on the 1st of each month via cron-job.org.
               </p>
@@ -161,14 +161,14 @@ export default function AdminDashboard() {
             </Button>
           </div>
           {confirm === 'monthly' && (
-            <div className="mt-3 pt-3 border-t border-gray-100 flex items-center gap-3 text-sm text-[#5B665F]">
+            <div className="mt-3 pt-3 flex flex-wrap items-center gap-3 text-sm" style={{ borderTop: '1px solid var(--border)', color: 'var(--muted)' }}>
               <span>This will generate and publish a monthly report for <strong>{prevMonth}</strong> using all industry articles from that period. Continue?</span>
               <Button onClick={() => runMonthly(false)} disabled={monthlyRunning}>Confirm</Button>
               <Button variant="ghost" onClick={() => setConfirm(null)}>Cancel</Button>
             </div>
           )}
           {(confirm as string) === 'monthly-force' && (
-            <div className="mt-3 pt-3 border-t border-gray-100 flex items-center gap-3 text-sm text-yellow-700">
+            <div className="mt-3 pt-3 flex flex-wrap items-center gap-3 text-sm text-yellow-700" style={{ borderTop: '1px solid var(--border)' }}>
               <span>A report for this period already exists. Generate a new one anyway?</span>
               <Button onClick={() => runMonthly(true)} disabled={monthlyRunning}>Yes, regenerate</Button>
               <Button variant="ghost" onClick={() => { setConfirm(null); flash('') }}>Cancel</Button>
@@ -177,11 +177,11 @@ export default function AdminDashboard() {
         </div>
 
         {/* Backfill authors */}
-        <div className="p-4 rounded-lg border border-gray-100 bg-white">
+        <div className="p-4 rounded-lg border" style={{ background: 'var(--surface)', borderColor: 'var(--border)' }}>
           <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
             <div>
-              <p className="font-medium text-[#15191C]">Backfill article authors</p>
-              <p className="text-sm text-[#5B665F] mt-0.5">
+              <p className="font-medium" style={{ color: 'var(--text)' }}>Backfill article authors</p>
+              <p className="text-sm mt-0.5" style={{ color: 'var(--muted)' }}>
                 Assign desk authors to existing articles that are missing one.
                 Industry Desk for RSS-ingested, Research Desk for theory, Editorial Desk for composed.
               </p>
@@ -196,7 +196,7 @@ export default function AdminDashboard() {
             </Button>
           </div>
           {confirm === 'backfill-authors' && (
-            <div className="mt-3 pt-3 border-t border-gray-100 flex items-center gap-3 text-sm text-[#5B665F]">
+            <div className="mt-3 pt-3 flex flex-wrap items-center gap-3 text-sm" style={{ borderTop: '1px solid var(--border)', color: 'var(--muted)' }}>
               <span>This will update all articles missing an author. The action is reversible via the article editor. Continue?</span>
               <Button onClick={backfillAuthors} disabled={backfillRunning}>Confirm</Button>
               <Button variant="ghost" onClick={() => setConfirm(null)}>Cancel</Button>
@@ -205,11 +205,11 @@ export default function AdminDashboard() {
         </div>
 
         {/* Market quotes */}
-        <div className="p-4 rounded-lg border border-gray-100 bg-white">
+        <div className="p-4 rounded-lg border" style={{ background: 'var(--surface)', borderColor: 'var(--border)' }}>
           <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
             <div>
-              <p className="font-medium text-[#15191C]">Refresh market quotes</p>
-              <p className="text-sm text-[#5B665F] mt-0.5">
+              <p className="font-medium" style={{ color: 'var(--text)' }}>Refresh market quotes</p>
+              <p className="text-sm mt-0.5" style={{ color: 'var(--muted)' }}>
                 Fetch latest prices and 30-day history for all LocStock tickers.
                 Set a daily cron-job.org job to POST /api/market-quotes.
               </p>
@@ -221,7 +221,7 @@ export default function AdminDashboard() {
         </div>
 
         {message && (
-          <p className={`text-sm ${messageType === 'error' ? 'text-red-600' : 'text-[#5B665F]'}`}>
+          <p className={`text-sm ${messageType === 'error' ? 'text-red-600' : ''}`} style={messageType !== 'error' ? { color: 'var(--muted)' } : {}}>
             {message}
           </p>
         )}

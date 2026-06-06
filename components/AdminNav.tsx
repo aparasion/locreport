@@ -23,12 +23,14 @@ export function AdminNav() {
       <div className="sm:hidden relative">
         <button
           onClick={() => setOpen(o => !o)}
-          className="flex items-center justify-between w-full px-4 py-2.5 bg-white border border-gray-200 rounded-lg text-sm font-medium text-[#15191C]"
+          className="flex items-center justify-between w-full px-4 py-2.5 rounded-lg text-sm font-medium transition-colors"
+          style={{ background: 'var(--surface)', borderWidth: 1, borderStyle: 'solid', borderColor: 'var(--border)', color: 'var(--text)' }}
           aria-expanded={open}
         >
           <span>{current.label}</span>
           <svg
-            className={`w-4 h-4 text-[#5B665F] transition-transform ${open ? 'rotate-180' : ''}`}
+            className={`w-4 h-4 transition-transform ${open ? 'rotate-180' : ''}`}
+            style={{ color: 'var(--muted)' }}
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -38,17 +40,16 @@ export function AdminNav() {
           </svg>
         </button>
         {open && (
-          <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden z-50">
+          <div className="absolute top-full left-0 right-0 mt-1 rounded-lg shadow-lg overflow-hidden z-50" style={{ background: 'var(--surface)', borderWidth: 1, borderStyle: 'solid', borderColor: 'var(--border)' }}>
             {links.map(({ href, label }) => (
               <Link
                 key={href}
                 href={href}
                 onClick={() => setOpen(false)}
-                className={`block px-4 py-2.5 text-sm font-medium transition-colors ${
-                  pathname === href
-                    ? 'bg-[#E2F0EA] text-[#0F6E52]'
-                    : 'text-[#5B665F] hover:text-[#15191C] hover:bg-gray-50'
-                }`}
+                className="block px-4 py-2.5 text-sm font-medium transition-colors"
+                style={pathname === href
+                  ? { background: 'var(--accent-soft)', color: 'var(--accent)' }
+                  : { color: 'var(--muted)' }}
               >
                 {label}
               </Link>
@@ -58,16 +59,15 @@ export function AdminNav() {
       </div>
 
       {/* Desktop tab bar */}
-      <div className="hidden sm:flex gap-1 border-b border-gray-100">
+      <div className="hidden sm:flex gap-1" style={{ borderBottom: '1px solid var(--border)' }}>
         {links.map(({ href, label }) => (
           <Link
             key={href}
             href={href}
-            className={`px-4 py-2 text-sm font-medium rounded-t-lg transition-colors ${
-              pathname === href
-                ? 'border-b-2 border-[#0F6E52] text-[#0F6E52]'
-                : 'text-[#5B665F] hover:text-[#15191C]'
-            }`}
+            className="px-4 py-2 text-sm font-medium rounded-t-lg transition-colors"
+            style={pathname === href
+              ? { borderBottom: '2px solid var(--accent)', color: 'var(--accent)', marginBottom: -1 }
+              : { color: 'var(--muted)' }}
           >
             {label}
           </Link>
