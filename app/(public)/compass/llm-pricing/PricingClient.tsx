@@ -53,11 +53,11 @@ const PRESETS = [
 ]
 
 const PROVIDER_COLORS: Record<string, { bg: string, text: string }> = {
-  'OpenAI':         { bg: '#10a37f22', text: '#10a37f' },
-  'Anthropic':      { bg: '#c96e4222', text: '#c96e42' },
-  'Google':         { bg: '#4285f422', text: '#4285f4' },
-  'Meta (via API)': { bg: '#1877f222', text: '#1877f2' },
-  'DeepSeek':       { bg: '#7c3aed22', text: '#7c3aed' },
+  'OpenAI':         { bg: 'var(--warm-soft)', text: 'var(--warm-strong)' },
+  'Anthropic':      { bg: 'var(--warm-soft)', text: 'var(--warm-strong)' },
+  'Google':         { bg: 'var(--warm-soft)', text: 'var(--warm-strong)' },
+  'Meta (via API)': { bg: 'var(--warm-soft)', text: 'var(--warm-strong)' },
+  'DeepSeek':       { bg: 'var(--warm-soft)', text: 'var(--warm-strong)' },
 }
 
 function formatCtx(n: number): string {
@@ -235,7 +235,7 @@ export function PricingClient({ models }: Props) {
         ) : (
           <div className="pricing-results-grid">
             {results.map(m => {
-              const colors = PROVIDER_COLORS[m.provider] ?? { bg: '#88888822', text: '#888' }
+              const colors = PROVIDER_COLORS[m.provider] ?? { bg: 'var(--warm-soft)', text: 'var(--warm-strong)' }
               return (
                 <div key={m.id} className="pricing-model-card">
                   <div className="pricing-model-header">
