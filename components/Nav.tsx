@@ -88,11 +88,11 @@ export function Nav() {
   async function signOut() {
     const supabase = createClient()
     await supabase.auth.signOut()
-    router.push('/login')
+    router.push('/')
     router.refresh()
   }
 
-  const allLinks = [...NAV_LINKS, ...(isAdmin ? [{ href: '/admin', label: 'Admin' }] : [])]
+  const allLinks = NAV_LINKS
 
   return (
     <header className="site-header">
@@ -198,12 +198,22 @@ export function Nav() {
           </button>
 
           {email ? (
-            <button
-              onClick={signOut}
-              style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--muted)', background: 'none', border: 'none', cursor: 'pointer', padding: '6px 10px' }}
-            >
-              Sign out
-            </button>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+              {isAdmin && (
+                <Link
+                  href="/admin"
+                  style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--muted)', padding: '6px 10px', textDecoration: 'none' }}
+                >
+                  Admin
+                </Link>
+              )}
+              <button
+                onClick={signOut}
+                style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--muted)', background: 'none', border: 'none', cursor: 'pointer', padding: '6px 10px' }}
+              >
+                Sign out
+              </button>
+            </div>
           ) : null}
         </nav>
       </div>
