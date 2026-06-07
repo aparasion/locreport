@@ -2421,15 +2421,16 @@ article.page > h1 {
 }
 .filter-bar-inner {
   display: flex;
-  gap: var(--space-5);
+  gap: var(--space-3);
   align-items: flex-start;
   justify-content: space-between;
 }
 .filter-bar-left {
   display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-5);
+  flex-wrap: nowrap;
+  gap: var(--space-3);
   align-items: flex-start;
+  min-width: 0;
 }
 .filter-group {
   display: flex;
@@ -2522,7 +2523,7 @@ article.page > h1 {
   background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%236b7280' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 10px center;
-  min-width: 130px;
+  min-width: 0;
   transition: border-color 0.2s ease;
 }
 .filter-select:hover { border-color: color-mix(in srgb, var(--accent) 40%, transparent); }
