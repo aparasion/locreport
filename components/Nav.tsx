@@ -124,12 +124,14 @@ export function Nav() {
                   onMouseEnter={() => openMenu(link.href)}
                   onMouseLeave={scheduleClose}
                 >
-                  <button aria-haspopup="true" aria-expanded={openDropdown === link.href}>
-                    {link.label}
-                    <svg className="nav-dropdown-chevron" xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-                      <path d="M2 4l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
-                  </button>
+                  <div className="nav-dropdown-trigger">
+                    <Link href={link.href} onClick={() => setMenuOpen(false)}>{link.label}</Link>
+                    <button aria-haspopup="true" aria-expanded={openDropdown === link.href} aria-label={`Toggle ${link.label} menu`}>
+                      <svg className="nav-dropdown-chevron" xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                        <path d="M2 4l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
+                    </button>
+                  </div>
                   <ul className={`nav-dropdown-menu${openDropdown === link.href ? ' is-open' : ''}`} role="menu"
                     onMouseEnter={() => openMenu(link.href)}
                     onMouseLeave={scheduleClose}
