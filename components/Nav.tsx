@@ -67,9 +67,9 @@ export function Nav() {
   useEffect(() => {
     const saved = localStorage.getItem('theme') as 'light' | 'dark' | null
     if (saved) { setTheme(saved); document.documentElement.setAttribute('data-theme', saved) }
-    const supabase = createClient()
-    supabase.auth.getUser().then(({ data: { user } }) => {
-      if (user) { setEmail(user.email ?? null); setIsAdmin(user.email === process.env.NEXT_PUBLIC_ADMIN_EMAIL) }
+    fetch('/api/me').then(r => r.json()).then(({ email, isAdmin }) => {
+      setEmail(email)
+      setIsAdmin(isAdmin)
     })
   }, [])
 
@@ -88,6 +88,8 @@ export function Nav() {
   async function signOut() {
     const supabase = createClient()
     await supabase.auth.signOut()
+    setEmail(null)
+    setIsAdmin(false)
     router.push('/')
     router.refresh()
   }
