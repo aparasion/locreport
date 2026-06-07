@@ -57,6 +57,7 @@ export function Nav() {
     function handleClick(e: MouseEvent) {
       if (navRef.current && !navRef.current.contains(e.target as Node)) {
         setOpenDropdown(null)
+        setMenuOpen(false)
       }
     }
     document.addEventListener('mousedown', handleClick)
@@ -133,14 +134,14 @@ export function Nav() {
                   >
                     {link.dropdown.map(child => (
                       <li key={child.href} role="none">
-                        <Link href={child.href} role="menuitem" onClick={() => setOpenDropdown(null)}>{child.label}</Link>
+                        <Link href={child.href} role="menuitem" onClick={() => { setOpenDropdown(null); setMenuOpen(false) }}>{child.label}</Link>
                       </li>
                     ))}
                   </ul>
                 </li>
               ) : (
                 <li key={link.href}>
-                  <Link href={link.href}>{link.label}</Link>
+                  <Link href={link.href} onClick={() => setMenuOpen(false)}>{link.label}</Link>
                 </li>
               )
             ))}
