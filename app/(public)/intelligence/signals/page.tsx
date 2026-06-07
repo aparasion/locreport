@@ -40,6 +40,7 @@ export default async function SignalsPage() {
     <div className="container" style={{ paddingTop: 'var(--space-8)', paddingBottom: 'var(--space-12)' }}>
 
       <div className="signals-hub-header">
+        <h1 className="signals-hub-title">Signal Tracker</h1>
         <p className="signals-hub-desc">
           A living tracker of high-impact claims in localization and AI, with linked evidence from published coverage. Click any signal to explore its evidence base.
         </p>

@@ -1926,6 +1926,7 @@ a.internal-link:hover { border-bottom-style: solid; border-color: var(--accent);
 
 /* ── Signals Hub Header ───────────────────────────────── */
 .signals-hub-header { margin-bottom: var(--space-6); }
+.signals-hub-title { font-size: clamp(1.6rem, 3.5vw, 2.4rem); font-weight: 800; letter-spacing: -0.03em; margin: 0 0 var(--space-3); color: var(--text); }
 .signals-hub-desc { color: var(--muted); font-size: 0.95rem; line-height: 1.6; margin: 0 0 var(--space-5); max-width: 720px; }
 .signals-hub-stats {
   display: flex; gap: 0; flex-wrap: nowrap; margin-bottom: var(--space-5);
