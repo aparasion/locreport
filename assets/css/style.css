@@ -5592,6 +5592,7 @@ article.page > h1 {
   .article-row--featured .article-row__title { font-size: 1.35rem; }
   .article-row__excerpt { max-width: 100%; }
   .home-sidebar { grid-template-columns: 1fr; }
+  .article-row:not(.article-row--featured) { padding-left: var(--space-3); }
 }
 
 /* ── Compass ───────────────────────────────────────────────── */
