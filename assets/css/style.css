@@ -2421,6 +2421,12 @@ article.page > h1 {
 }
 .filter-bar-inner {
   display: flex;
+  gap: var(--space-5);
+  align-items: flex-start;
+  justify-content: space-between;
+}
+.filter-bar-left {
+  display: flex;
   flex-wrap: wrap;
   gap: var(--space-5);
   align-items: flex-start;
@@ -2431,7 +2437,7 @@ article.page > h1 {
   gap: var(--space-2);
 }
 .filter-group--sort {
-  margin-left: auto;
+  flex-shrink: 0;
 }
 .filter-label {
   font-size: 0.68rem;
@@ -2788,8 +2794,9 @@ article.page > h1 {
     margin-top: var(--space-3);
   }
   .all-articles-filter-bar.is-open .filter-bar-collapsible { display: block; }
-  .filter-bar-inner { gap: var(--space-3); }
-  .filter-group--sort { margin-left: 0; }
+  .filter-bar-inner { gap: var(--space-3); flex-direction: column; }
+  .filter-bar-left { gap: var(--space-3); }
+  .filter-group--sort { align-self: flex-start; }
   .research-filter-panel .filter-group { width: 100%; }
   .research-filter-panel .filter-select { width: 100%; min-width: 0; }
   .article-card { flex-direction: column; gap: var(--space-2); padding: var(--space-3) var(--space-4); }

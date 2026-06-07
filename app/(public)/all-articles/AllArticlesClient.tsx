@@ -135,42 +135,44 @@ export default function AllArticlesClient({ articles }: { articles: ArticleRow[]
 
         <div className="filter-bar-collapsible">
           <div className="filter-bar-inner">
-            <div className="filter-group">
-              <label className="filter-label" htmlFor="topic-select">Topic</label>
-              <select className="filter-select" id="topic-select" value={topic} onChange={e => setTopic(e.target.value)}>
-                <option value="all">All topics</option>
-                <option value="quality">Quality</option>
-                <option value="operations">Operations</option>
-                <option value="governance">Governance</option>
-                <option value="market">Market</option>
-                <option value="strategy">Strategy</option>
-              </select>
-            </div>
-            <div className="filter-group">
-              <label className="filter-label" htmlFor="impact-select">Impact</label>
-              <select className="filter-select" id="impact-select" value={impact} onChange={e => setImpact(e.target.value)}>
-                <option value="all">All levels</option>
-                <option value="4">Major+</option>
-                <option value="3">Significant+</option>
-                <option value="2">Notable+</option>
-              </select>
-            </div>
-            <div className="filter-group">
-              <label className="filter-label" htmlFor="source-filter">Source</label>
-              <select className="filter-select" id="source-filter" value={source} onChange={e => setSource(e.target.value)}>
-                <option value="all">All sources</option>
-                {sourceOptions.map(o => (
-                  <option key={o.value} value={o.value}>{o.label}</option>
-                ))}
-              </select>
-            </div>
-            <div className="filter-group">
-              <label className="filter-label" htmlFor="date-from">From</label>
-              <input type="date" className="filter-select filter-date" id="date-from" value={dateFrom} onChange={e => setDateFrom(e.target.value)} />
-            </div>
-            <div className="filter-group">
-              <label className="filter-label" htmlFor="date-to">To</label>
-              <input type="date" className="filter-select filter-date" id="date-to" value={dateTo} onChange={e => setDateTo(e.target.value)} />
+            <div className="filter-bar-left">
+              <div className="filter-group">
+                <label className="filter-label" htmlFor="topic-select">Topic</label>
+                <select className="filter-select" id="topic-select" value={topic} onChange={e => setTopic(e.target.value)}>
+                  <option value="all">All topics</option>
+                  <option value="quality">Quality</option>
+                  <option value="operations">Operations</option>
+                  <option value="governance">Governance</option>
+                  <option value="market">Market</option>
+                  <option value="strategy">Strategy</option>
+                </select>
+              </div>
+              <div className="filter-group">
+                <label className="filter-label" htmlFor="impact-select">Impact</label>
+                <select className="filter-select" id="impact-select" value={impact} onChange={e => setImpact(e.target.value)}>
+                  <option value="all">All levels</option>
+                  <option value="4">Major+</option>
+                  <option value="3">Significant+</option>
+                  <option value="2">Notable+</option>
+                </select>
+              </div>
+              <div className="filter-group">
+                <label className="filter-label" htmlFor="source-filter">Source</label>
+                <select className="filter-select" id="source-filter" value={source} onChange={e => setSource(e.target.value)}>
+                  <option value="all">All sources</option>
+                  {sourceOptions.map(o => (
+                    <option key={o.value} value={o.value}>{o.label}</option>
+                  ))}
+                </select>
+              </div>
+              <div className="filter-group">
+                <label className="filter-label" htmlFor="date-from">From</label>
+                <input type="date" className="filter-select filter-date" id="date-from" value={dateFrom} onChange={e => setDateFrom(e.target.value)} />
+              </div>
+              <div className="filter-group">
+                <label className="filter-label" htmlFor="date-to">To</label>
+                <input type="date" className="filter-select filter-date" id="date-to" value={dateTo} onChange={e => setDateTo(e.target.value)} />
+              </div>
             </div>
             <div className="filter-group filter-group--sort">
               <label className="filter-label" htmlFor="sort-select">Sort</label>
