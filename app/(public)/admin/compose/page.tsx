@@ -64,12 +64,24 @@ export default function ComposePage() {
     setGenerating(false)
   }
 
+  function derivePublisher(): string | null {
+    const filled = [sourceUrl, extraUrl1, extraUrl2].filter(u => u.trim())
+    if (filled.length === 0) return null
+    if (filled.length > 1) return 'locreport.com'
+    try {
+      const hostname = new URL(filled[0]).hostname.replace(/^www\./, '')
+      return hostname
+    } catch {
+      return null
+    }
+  }
+
   async function publish(finalContent: string) {
     setPublishing(true)
     const res = await fetch('/api/drafts', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ content: finalContent, source_url: sourceUrl || null }),
+      body: JSON.stringify({ content: finalContent, source_url: sourceUrl || null, publisher: derivePublisher() }),
     })
     const draft = await res.json()
     const params = new URLSearchParams()
