@@ -10,7 +10,7 @@ export default function PrivacyPage() {
     <div className="container" style={{ paddingTop: 'var(--space-8)', paddingBottom: 'var(--space-12)' }}>
       <article className="page-prose">
         <h1>Privacy Policy</h1>
-        <p style={{ color: 'var(--muted)', fontSize: '0.85rem' }}><strong>Effective Date:</strong> March 15, 2026</p>
+        <p style={{ color: 'var(--muted)', fontSize: '0.85rem' }}><strong>Effective Date:</strong> June 8, 2026</p>
 
         <p>LocReport ("we," "us," or "our") operates the website locreport.com. This Privacy Policy explains how we collect, use, and protect your information.</p>
 
@@ -18,12 +18,13 @@ export default function PrivacyPage() {
 
         <p><strong>Information you provide directly:</strong></p>
         <ul>
-          <li><strong>Contact form:</strong> name, email address, and message content (processed via Web3Forms)</li>
+          <li><strong>Contact form:</strong> name, email address, subject, and message content</li>
         </ul>
 
         <p><strong>Information collected automatically:</strong></p>
         <ul>
           <li><strong>Analytics:</strong> We use Google Analytics to collect anonymized usage data such as pages visited, referral sources, browser type, and approximate geographic location. Google Analytics may set cookies on your device.</li>
+          <li><strong>Market data:</strong> When you view market quotes or financial data, requests are made to a third-party financial data provider (Twelve Data). No personal data is transmitted in these requests.</li>
           <li><strong>Local storage:</strong> We store your theme preference (light/dark mode) in your browser's local storage. This data stays on your device and is not transmitted to us.</li>
         </ul>
 
@@ -31,6 +32,7 @@ export default function PrivacyPage() {
         <ul>
           <li>To respond to inquiries submitted through our contact form</li>
           <li>To analyze site traffic and improve our content and user experience</li>
+          <li>Contact form submissions are stored in our database and a notification email is sent to our team via Resend</li>
           <li>We do not sell, rent, or share your personal information with third parties for marketing purposes</li>
         </ul>
 
@@ -38,11 +40,14 @@ export default function PrivacyPage() {
 
         <p>We rely on the following third-party services, each with their own privacy policies:</p>
         <ul>
+          <li><strong>Vercel</strong> (website hosting and deployment)</li>
+          <li><strong>Supabase</strong> (database and authentication)</li>
+          <li><strong>Resend</strong> (transactional email delivery for contact form submissions)</li>
+          <li><strong>OpenAI, Anthropic Claude, Google Gemini</strong> (content and editorial support services)</li>
+          <li><strong>Twelve Data</strong> (financial market data)</li>
           <li><strong>Google Analytics</strong> (traffic analysis)</li>
-          <li><strong>Web3Forms</strong> (contact form processing)</li>
-          <li><strong>Buy Me a Coffee</strong> (voluntary support)</li>
           <li><strong>Google Fonts</strong> (typeface delivery)</li>
-          <li><strong>Vercel</strong> (website hosting)</li>
+          <li><strong>Buy Me a Coffee</strong> (voluntary support)</li>
         </ul>
 
         <p>We encourage you to review the privacy policies of these services.</p>
@@ -53,7 +58,7 @@ export default function PrivacyPage() {
 
         <h2>Data Retention</h2>
 
-        <p>Contact form submissions are retained only as long as necessary to respond to your inquiry. Analytics data is retained in accordance with Google Analytics default settings.</p>
+        <p>Contact form submissions stored in our database are retained only as long as necessary to respond to your inquiry. Analytics data is retained in accordance with Google Analytics default settings. We do not store any financial market data you view on the site.</p>
 
         <h2>Your Rights</h2>
 
