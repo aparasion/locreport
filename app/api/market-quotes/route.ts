@@ -38,16 +38,17 @@ export async function POST(req: NextRequest) {
   for (const ticker of TICKERS) {
     try {
       let historicalErr = ''
-      const [quote, historical] = await Promise.all([
+      const [quote, chart] = await Promise.all([
         yahooFinance.quote(ticker),
-        yahooFinance.historical(ticker, { period1, interval: '1d' }).catch((e: unknown) => {
+        yahooFinance.chart(ticker, { period1, interval: '1d' }).catch((e: unknown) => {
           historicalErr = String(e)
-          return []
+          return null
         }),
       ])
 
-      const history = (historical as Array<{ date: Date; close: number }>)
-        .map(h => ({ date: h.date.toISOString().slice(0, 10), close: h.close }))
+      const history = ((chart?.quotes ?? []) as Array<{ date: Date; close: number | null }>)
+        .filter(h => h.close != null)
+        .map(h => ({ date: (h.date as Date).toISOString().slice(0, 10), close: h.close as number }))
         .sort((a, b) => a.date.localeCompare(b.date))
 
       const data = {
