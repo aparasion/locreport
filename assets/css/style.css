@@ -4945,6 +4945,8 @@ article.page > h1 {
 
 /* ── Post Meta Actions ───────────────────────────────────── */
 .post-meta-actions { display: flex; align-items: center; gap: var(--space-2); }
+.admin-edit-btn { font-size: 0.78rem; font-weight: 600; padding: 0.2rem 0.65rem; border-radius: 4px; border: 1px solid var(--color-emerald-500); color: var(--color-emerald-600); text-decoration: none; transition: background 0.15s, color 0.15s; }
+.admin-edit-btn:hover { background: var(--color-emerald-500); color: #fff; }
 
 /* ── Dashboard ───────────────────────────────────────────── */
 .dashboard-page { max-width: var(--content-width); margin: 0 auto; padding: var(--space-8) var(--space-4); }
