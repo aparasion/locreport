@@ -3,6 +3,7 @@ import { createClient, createServiceClient } from '@/lib/supabase/server'
 import { fetchFeed, fetchArticleText } from '@/lib/rss'
 import { getOpenAI } from '@/lib/openai'
 import { slugify } from '@/lib/slugify'
+import { domainToPublisher } from '@/lib/utils'
 import { DEFAULT_EXTRACTOR_PROMPT, DEFAULT_INDUSTRY_PROMPT } from '@/lib/prompts'
 import { classifyArticle } from '@/lib/classify'
 
@@ -121,12 +122,18 @@ export async function POST(req: NextRequest) {
 
         const classification = await classifyArticle(openai, content)
 
+        let publisher: string | null = null
+        try {
+          publisher = domainToPublisher(new URL(source.url).hostname)
+        } catch { /* keep null */ }
+
         const { error: insertError } = await supabase.from('drafts').insert({
           title,
           slug,
           content,
           source_url: item.link,
           source_feed_id: source.id,
+          publisher,
           source_published_at: item.pubDate ? new Date(item.pubDate).toISOString() : null,
           status: 'pending',
           ai_impact_score: classification.impact_score,

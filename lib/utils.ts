@@ -1,3 +1,64 @@
+const DOMAIN_PUBLISHER_MAP: Record<string, string> = {
+  'locreport.com': 'LocReport',
+  'slator.com': 'Slator',
+  'argosmultilingual.com': 'Argos Multilingual',
+  'argos-multilingual.com': 'Argos Multilingual',
+  'nimdzi.com': 'Nimdzi Insights',
+  'csa-research.com': 'CSA Research',
+  'common-sense-advisory.com': 'Common Sense Advisory',
+  'multilingual.com': 'Multilingual',
+  'gala-global.org': 'GALA',
+  'taus.net': 'TAUS',
+  'atanet.org': 'ATA',
+  'proz.com': 'ProZ',
+  'translatorscafe.com': 'TranslatorsCafe',
+  'tcworld.info': 'tcworld',
+  'sdl.com': 'SDL',
+  'rws.com': 'RWS',
+  'translated.com': 'Translated',
+  'lionbridge.com': 'Lionbridge',
+  'transperfect.com': 'TransPerfect',
+  'welocalize.com': 'Welocalize',
+  'languageline.com': 'LanguageLine',
+  'moravia.com': 'Moravia',
+  'xillio.com': 'Xillio',
+  'memsource.com': 'Memsource',
+  'phrase.com': 'Phrase',
+  'smartling.com': 'Smartling',
+  'transifex.com': 'Transifex',
+  'crowdin.com': 'Crowdin',
+  'lokalise.com': 'Lokalise',
+  'matecat.com': 'MateCat',
+  'wordbee.com': 'Wordbee',
+  'xtm-intl.com': 'XTM International',
+  'globalese.com': 'Globalese',
+  'lilt.com': 'Lilt',
+  'modernmt.eu': 'ModernMT',
+  'unbabel.com': 'Unbabel',
+  'deepl.com': 'DeepL',
+  'google.com': 'Google',
+  'microsoft.com': 'Microsoft',
+  'amazon.com': 'Amazon',
+  'openai.com': 'OpenAI',
+  'techcrunch.com': 'TechCrunch',
+  'wired.com': 'Wired',
+  'theverge.com': 'The Verge',
+  'forbes.com': 'Forbes',
+  'reuters.com': 'Reuters',
+  'bloomberg.com': 'Bloomberg',
+}
+
+export function domainToPublisher(hostname: string): string {
+  const clean = hostname.replace(/^www\./, '').toLowerCase()
+  if (DOMAIN_PUBLISHER_MAP[clean]) return DOMAIN_PUBLISHER_MAP[clean]
+  // Generic fallback: strip TLD, split on hyphens/dots, title-case each word
+  const withoutTld = clean.replace(/\.[^.]+$/, '')
+  return withoutTld
+    .split(/[-.]/)
+    .map(w => w.charAt(0).toUpperCase() + w.slice(1))
+    .join(' ')
+}
+
 export function cn(...classes: (string | undefined | null | false)[]): string {
   return classes.filter(Boolean).join(' ')
 }
