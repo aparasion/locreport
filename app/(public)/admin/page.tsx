@@ -10,7 +10,6 @@ export default function AdminDashboard() {
   const [ingesting, setIngesting] = useState(false)
   const [monthlyRunning, setMonthlyRunning] = useState(false)
   const [quotesRunning, setQuotesRunning] = useState(false)
-  const [migratingPublishers, setMigratingPublishers] = useState(false)
 const [confirm, setConfirm] = useState<Confirm>(null)
   const [message, setMessage] = useState('')
   const [messageType, setMessageType] = useState<'ok' | 'error'>('ok')
@@ -63,22 +62,6 @@ const [confirm, setConfirm] = useState<Confirm>(null)
     )
     setMonthlyRunning(false)
     if (res.ok) fetch('/api/stats').then(r => r.json()).then(setStats)
-  }
-
-  async function migratePublishers() {
-    setMigratingPublishers(true)
-    flash('')
-    const res = await fetch('/api/admin/migrate-publishers', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ dryRun: false }),
-    })
-    const data = await res.json()
-    flash(
-      res.ok ? `Publisher names updated: ${data.applied} articles migrated.` : (data.error ?? 'Migration failed.'),
-      res.ok ? 'ok' : 'error',
-    )
-    setMigratingPublishers(false)
   }
 
   async function refreshQuotes() {
@@ -173,21 +156,6 @@ const [confirm, setConfirm] = useState<Confirm>(null)
               <Button variant="ghost" onClick={() => { setConfirm(null); flash('') }}>Cancel</Button>
             </div>
           )}
-        </div>
-
-        {/* Migrate publisher names */}
-        <div className="p-4 rounded-lg border" style={{ background: 'var(--surface)', borderColor: 'var(--border)' }}>
-          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
-            <div>
-              <p className="font-medium" style={{ color: 'var(--text)' }}>Migrate publisher names</p>
-              <p className="text-sm mt-0.5" style={{ color: 'var(--muted)' }}>
-                Replace bare domain names (e.g. slator.com) with proper company names (e.g. Slator) across all published articles.
-              </p>
-            </div>
-            <Button variant="secondary" onClick={migratePublishers} disabled={migratingPublishers} className="shrink-0 self-start">
-              {migratingPublishers ? 'Migrating…' : 'Run migration'}
-            </Button>
-          </div>
         </div>
 
         {/* Market quotes */}
