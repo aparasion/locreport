@@ -180,8 +180,8 @@ export function LocStockClient({ quotes, updatedAt }: Props) {
         </div>
       </div>
 
-      {/* 30-day performance chart — dynamically loaded, no SSR */}
-      <LocStockChart quotes={quotes} />
+      {/* Performance chart — dynamically loaded, no SSR */}
+      <LocStockChart quotes={quotes} tickers={filtered.map(c => c.t)} />
 
       <div className="market-filters">
         {cats.map(cat => (

@@ -10,9 +10,64 @@ export interface RssItem {
 
 const parser = new Parser()
 
+/**
+ * Fetch the full text of an article URL by downloading the page HTML and
+ * stripping tags. Returns null if the fetch fails or the URL looks like it
+ * won't yield readable article text (e.g. Google News redirect URLs).
+ */
+export async function fetchArticleText(url: string): Promise<string | null> {
+  // Google News article URLs require JS rendering — skip them
+  if (url.includes('news.google.com/rss/articles/')) return null
+
+  try {
+    const res = await fetch(url, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (compatible; LocReport/1.0; +https://locreport.com)',
+        'Accept': 'text/html,application/xhtml+xml',
+      },
+      signal: AbortSignal.timeout(8000),
+    })
+    if (!res.ok) {
+      console.warn(`[rss] fetchArticleText HTTP ${res.status} for ${url}`)
+      return null
+    }
+    const html = await res.text()
+    return htmlToText(html)
+  } catch (err) {
+    console.warn(`[rss] fetchArticleText failed for ${url}:`, err instanceof Error ? err.message : err)
+    return null
+  }
+}
+
+function htmlToText(html: string): string {
+  // Remove script, style, nav, header, footer, aside blocks entirely
+  let text = html
+    .replace(/<(script|style|nav|header|footer|aside|noscript)[^>]*>[\s\S]*?<\/\1>/gi, ' ')
+    // Remove all remaining tags
+    .replace(/<[^>]+>/g, ' ')
+    // Decode common HTML entities
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#039;/g, "'")
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&#\d+;/g, ' ')
+    // Collapse whitespace
+    .replace(/\s+/g, ' ')
+    .trim()
+
+  // Cap at ~8 000 chars to avoid excessive token usage
+  return text.slice(0, 8000)
+}
+
 export async function fetchFeed(url: string): Promise<RssItem[]> {
   try {
-    const feed = await parser.parseURL(url)
+    // Use fetch + parseString to avoid rss-parser's internal url.parse() call
+    const res = await fetch(url, { headers: { 'User-Agent': 'LocReport/1.0' } })
+    if (!res.ok) throw new Error(`HTTP ${res.status}`)
+    const xml = await res.text()
+    const feed = await parser.parseString(xml)
     return feed.items.map((item) => ({
       title: item.title ?? '',
       link: item.link ?? '',
@@ -20,7 +75,8 @@ export async function fetchFeed(url: string): Promise<RssItem[]> {
       content: item.content,
       pubDate: item.pubDate,
     }))
-  } catch {
+  } catch (err) {
+    console.error(`[rss] fetchFeed failed for ${url}:`, err)
     return []
   }
 }

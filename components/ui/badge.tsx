@@ -10,7 +10,7 @@ export function Badge({ variant = 'default', className, ...props }: BadgeProps) 
     <span
       className={cn(
         'inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium',
-        variant === 'default' && 'bg-[#EEF1F8] text-[#3D5AFE]',
+        variant === 'default' && 'bg-[#E2F0EA] text-[#0F6E52]',
         variant === 'success' && 'bg-green-100 text-green-700',
         variant === 'warning' && 'bg-yellow-100 text-yellow-700',
         variant === 'danger' && 'bg-red-100 text-red-700',

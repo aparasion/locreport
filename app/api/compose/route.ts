@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient, createServiceClient } from '@/lib/supabase/server'
 import { getOpenAI } from '@/lib/openai'
 import { DEFAULT_EXTRACTOR_PROMPT, DEFAULT_INDUSTRY_PROMPT, DEFAULT_THEORY_PROMPT } from '@/lib/prompts'
+import { classifyArticle } from '@/lib/classify'
 
 async function getPrompt(key: string, fallback: string): Promise<string> {
   try {
@@ -66,7 +67,9 @@ export async function POST(req: NextRequest) {
         { role: 'user', content: userContent },
       ],
     })
-    return NextResponse.json({ content: completion.choices[0].message.content ?? '' })
+    const content = completion.choices[0].message.content ?? ''
+    const classification = await classifyArticle(openai, content)
+    return NextResponse.json({ content, ...classification })
   }
 
   return NextResponse.json({ error: 'Invalid stage' }, { status: 400 })

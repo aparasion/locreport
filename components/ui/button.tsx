@@ -14,9 +14,9 @@ export function Button({ variant = 'primary', size = 'md', className, ...props }
         size === 'sm' && 'px-3 py-1.5 text-sm',
         size === 'md' && 'px-4 py-2 text-sm',
         size === 'lg' && 'px-6 py-3 text-base',
-        variant === 'primary' && 'bg-[#3D5AFE] text-white hover:bg-[#3049E6]',
-        variant === 'secondary' && 'bg-[#EEF1F8] text-[#111827] hover:bg-[#E0E4F0]',
-        variant === 'ghost' && 'bg-transparent text-[#5A6278] hover:bg-[#EEF1F8]',
+        variant === 'primary' && 'bg-[var(--accent)] text-white hover:bg-[var(--accent-hover)]',
+        variant === 'secondary' && 'bg-[var(--bg-secondary)] text-[var(--text)] hover:opacity-80',
+        variant === 'ghost' && 'bg-transparent text-[var(--muted)] hover:bg-[var(--bg-secondary)]',
         variant === 'danger' && 'bg-red-600 text-white hover:bg-red-700',
         className
       )}

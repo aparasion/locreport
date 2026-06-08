@@ -1,9 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient, createServiceClient } from '@/lib/supabase/server'
-import { fetchFeed } from '@/lib/rss'
+import { fetchFeed, fetchArticleText } from '@/lib/rss'
 import { getOpenAI } from '@/lib/openai'
 import { slugify } from '@/lib/slugify'
+import { domainToPublisher } from '@/lib/utils'
 import { DEFAULT_EXTRACTOR_PROMPT, DEFAULT_INDUSTRY_PROMPT } from '@/lib/prompts'
+import { classifyArticle } from '@/lib/classify'
 
 async function getPrompt(supabase: ReturnType<typeof createServiceClient>, key: string, fallback: string): Promise<string> {
   try {
@@ -14,7 +16,11 @@ async function getPrompt(supabase: ReturnType<typeof createServiceClient>, key: 
   }
 }
 
-export const maxDuration = 60
+export const maxDuration = 300
+
+export async function GET(req: NextRequest) {
+  return POST(req)
+}
 
 export async function POST(req: NextRequest) {
   const auth = req.headers.get('Authorization')
@@ -58,14 +64,20 @@ export async function POST(req: NextRequest) {
   const extractorPrompt = await getPrompt(supabase, 'prompt_extractor', DEFAULT_EXTRACTOR_PROMPT)
   const industryPrompt = await getPrompt(supabase, 'prompt_industry', DEFAULT_INDUSTRY_PROMPT)
   let processed = 0
+  const errors: string[] = []
+  const skipped: string[] = []
 
   for (const source of sources) {
     const items = await fetchFeed(source.url)
+    console.log(`[ingest] ${source.url}: ${items.length} items, ${items.filter(i => i.link && !seen.has(i.link)).length} fresh`)
     const fresh = items.filter(i => i.link && !seen.has(i.link)).slice(0, 2)
 
     for (const item of fresh) {
       try {
-        const articleText = item.contentSnippet ?? item.content ?? ''
+        // Prefer full article text over RSS snippet — RSS feeds only carry teasers
+        const fetchedText = item.link ? await fetchArticleText(item.link) : null
+        const articleText = fetchedText ?? item.contentSnippet ?? item.content ?? ''
+        console.log(`[ingest] article text length for ${item.link}: ${articleText.length} chars${fetchedText ? ' (fetched)' : ' (rss snippet)'}`)
         const extractInput = [
           item.link ? `Source URL: ${item.link}` : '',
           `Title: ${item.title}`,
@@ -82,7 +94,9 @@ export async function POST(req: NextRequest) {
         })
         const facts = extractRes.choices[0].message.content ?? ''
 
-        if (facts === 'UNUSABLE_CONTENT') {
+        if (facts.trim() === 'UNUSABLE_CONTENT') {
+          console.log(`[ingest] UNUSABLE_CONTENT: ${item.link}`)
+          skipped.push(item.link)
           seen.add(item.link)
           continue
         }
@@ -106,21 +120,41 @@ export async function POST(req: NextRequest) {
         const title = titleMatch ? titleMatch[1].trim() : item.title
         const slug = slugify(title)
 
-        await supabase.from('drafts').insert({
+        const classification = await classifyArticle(openai, content)
+
+        let publisher: string | null = null
+        try {
+          publisher = domainToPublisher(new URL(source.url).hostname)
+        } catch { /* keep null */ }
+
+        const { error: insertError } = await supabase.from('drafts').insert({
           title,
           slug,
           content,
           source_url: item.link,
           source_feed_id: source.id,
+          publisher,
           source_published_at: item.pubDate ? new Date(item.pubDate).toISOString() : null,
           status: 'pending',
+          ai_impact_score: classification.impact_score,
+          ai_time_horizon: classification.time_horizon,
+          ai_signal_ids: classification.signal_ids,
         })
 
-        seen.add(item.link)
-        processed++
-      } catch {}
+        if (insertError) {
+          console.error(`[ingest] DB insert failed for ${item.link}:`, insertError)
+          errors.push(`${item.link}: ${insertError.message}`)
+        } else {
+          seen.add(item.link)
+          processed++
+        }
+      } catch (err) {
+        const msg = err instanceof Error ? err.message : String(err)
+        console.error(`[ingest] Error processing ${item.link}:`, err)
+        errors.push(`${item.link}: ${msg}`)
+      }
     }
   }
 
-  return NextResponse.json({ processed })
+  return NextResponse.json({ processed, skipped: skipped.length, errors })
 }

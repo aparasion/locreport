@@ -13,6 +13,8 @@ export default function EditArticlePage() {
   const [article, setArticle] = useState<Article | null>(null)
   const [title, setTitle] = useState('')
   const [excerpt, setExcerpt] = useState('')
+  const [slug, setSlug] = useState('')
+  const [publisher, setPublisher] = useState('')
   const [saving, setSaving] = useState(false)
   const [message, setMessage] = useState('')
 
@@ -21,6 +23,8 @@ export default function EditArticlePage() {
       setArticle(a)
       setTitle(a.title)
       setExcerpt(a.excerpt ?? '')
+      setSlug(a.slug ?? '')
+      setPublisher(a.publisher ?? '')
     })
   }, [id])
 
@@ -30,7 +34,7 @@ export default function EditArticlePage() {
     const res = await fetch(`/api/articles/${id}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ title, excerpt, content }),
+      body: JSON.stringify({ title, excerpt, content, slug, publisher: publisher || null }),
     })
     if (res.ok) {
       setMessage('Saved.')
@@ -41,13 +45,13 @@ export default function EditArticlePage() {
     setSaving(false)
   }
 
-  if (!article) return <p className="text-[#5A6278]">Loading…</p>
+  if (!article) return <p className="text-[#5B665F]">Loading…</p>
 
   return (
     <div className="max-w-[760px]">
       <div className="flex items-center gap-3 mb-6">
         <Button variant="ghost" size="sm" onClick={() => router.back()}>← Back</Button>
-        <h1 className="text-xl font-bold text-[#111827]">Edit article</h1>
+        <h1 className="text-xl font-bold text-[#15191C]">Edit article</h1>
         {message && <span className="text-sm text-green-600">{message}</span>}
       </div>
 
@@ -60,9 +64,17 @@ export default function EditArticlePage() {
           <Label>Excerpt</Label>
           <Input value={excerpt} onChange={e => setExcerpt(e.target.value)} />
         </div>
+        <div>
+          <Label>Slug</Label>
+          <Input value={slug} onChange={e => setSlug(e.target.value)} />
+        </div>
+        <div>
+          <Label>Publisher</Label>
+          <Input value={publisher} onChange={e => setPublisher(e.target.value)} placeholder="e.g. Argos Multilingual" />
+        </div>
         {article.source_url && (
-          <p className="text-xs text-[#5A6278]">
-            Source: <a href={article.source_url} target="_blank" rel="noopener" className="text-[#3D5AFE] hover:underline">{article.source_url}</a>
+          <p className="text-xs text-[#5B665F]">
+            Source: <a href={article.source_url} target="_blank" rel="noopener" className="text-[#0F6E52] hover:underline">{article.source_url}</a>
           </p>
         )}
       </div>

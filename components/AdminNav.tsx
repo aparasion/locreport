@@ -1,6 +1,7 @@
 'use client'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { useState } from 'react'
 
 const links = [
   { href: '/admin', label: 'Dashboard' },
@@ -13,21 +14,65 @@ const links = [
 
 export function AdminNav() {
   const pathname = usePathname()
+  const [open, setOpen] = useState(false)
+  const current = links.find(l => l.href === pathname) ?? links[0]
+
   return (
-    <nav className="flex gap-1 border-b border-gray-100 mb-6">
-      {links.map(({ href, label }) => (
-        <Link
-          key={href}
-          href={href}
-          className={`px-4 py-2 text-sm font-medium rounded-t-lg transition-colors ${
-            pathname === href
-              ? 'border-b-2 border-[#3D5AFE] text-[#3D5AFE]'
-              : 'text-[#5A6278] hover:text-[#111827]'
-          }`}
+    <nav className="mb-6">
+      {/* Mobile dropdown */}
+      <div className="sm:hidden relative">
+        <button
+          onClick={() => setOpen(o => !o)}
+          className="flex items-center justify-between w-full px-4 py-2.5 rounded-lg text-sm font-medium transition-colors"
+          style={{ background: 'var(--surface)', borderWidth: 1, borderStyle: 'solid', borderColor: 'var(--border)', color: 'var(--text)' }}
+          aria-expanded={open}
         >
-          {label}
-        </Link>
-      ))}
+          <span>{current.label}</span>
+          <svg
+            className={`w-4 h-4 transition-transform ${open ? 'rotate-180' : ''}`}
+            style={{ color: 'var(--muted)' }}
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            aria-hidden
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+        {open && (
+          <div className="absolute top-full left-0 right-0 mt-1 rounded-lg shadow-lg overflow-hidden z-50" style={{ background: 'var(--surface)', borderWidth: 1, borderStyle: 'solid', borderColor: 'var(--border)' }}>
+            {links.map(({ href, label }) => (
+              <Link
+                key={href}
+                href={href}
+                onClick={() => setOpen(false)}
+                className="block px-4 py-2.5 text-sm font-medium transition-colors"
+                style={pathname === href
+                  ? { background: 'var(--accent-soft)', color: 'var(--accent)' }
+                  : { color: 'var(--muted)' }}
+              >
+                {label}
+              </Link>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Desktop tab bar */}
+      <div className="hidden sm:flex gap-1" style={{ borderBottom: '1px solid var(--border)' }}>
+        {links.map(({ href, label }) => (
+          <Link
+            key={href}
+            href={href}
+            className="px-4 py-2 text-sm font-medium rounded-t-lg transition-colors"
+            style={pathname === href
+              ? { borderBottom: '2px solid var(--accent)', color: 'var(--accent)', marginBottom: -1 }
+              : { color: 'var(--muted)' }}
+          >
+            {label}
+          </Link>
+        ))}
+      </div>
     </nav>
   )
 }

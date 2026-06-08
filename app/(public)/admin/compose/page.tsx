@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
+import { domainToPublisher } from '@/lib/utils'
 
 type Stage = 'form' | 'facts' | 'article'
 
@@ -57,18 +58,39 @@ export default function ComposePage() {
     })
     const data = await res.json()
     setContent(data.content ?? '')
+    // Pre-fill with AI classification if admin hasn't set values manually
+    if (!impactScore && data.impact_score) setImpactScore(String(data.impact_score))
+    if (!timeHorizon && data.time_horizon) setTimeHorizon(data.time_horizon)
     setStage('article')
     setGenerating(false)
   }
 
+  function derivePublisher(): string | null {
+    const filled = [sourceUrl, extraUrl1, extraUrl2].filter(u => u.trim())
+    if (filled.length === 0) return 'LocReport'
+    if (filled.length > 1) return 'LocReport'
+    try {
+      const hostname = new URL(filled[0]).hostname
+      return domainToPublisher(hostname)
+    } catch {
+      return null
+    }
+  }
+
   async function publish(finalContent: string) {
     setPublishing(true)
-    await fetch('/api/drafts', {
+    const res = await fetch('/api/drafts', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ content: finalContent, source_url: sourceUrl || null }),
+      body: JSON.stringify({ content: finalContent, source_url: sourceUrl || null, publisher: derivePublisher() }),
     })
-    router.push('/admin/drafts')
+    const draft = await res.json()
+    const params = new URLSearchParams()
+    if (impactScore) params.set('impact_score', impactScore)
+    if (timeHorizon) params.set('time_horizon', timeHorizon)
+    params.set('content_type', contentType)
+    const qs = params.toString()
+    router.push(draft?.id ? `/admin/drafts/${draft.id}${qs ? '?' + qs : ''}` : '/admin/drafts')
     setPublishing(false)
   }
 
@@ -80,8 +102,8 @@ export default function ComposePage() {
     return (
       <div className="max-w-[760px]">
         <div className="flex items-center gap-3 mb-6">
-          <h1 className="text-2xl font-bold text-[#111827]">Compose</h1>
-          <button onClick={() => setStage('facts')} className="text-sm text-[#3D5AFE] hover:underline">← Back to facts</button>
+          <h1 className="text-2xl font-bold text-[#15191C]">Compose</h1>
+          <button onClick={() => setStage('facts')} className="text-sm text-[#0F6E52] hover:underline">← Back to facts</button>
         </div>
         <ArticleEditor
           initialContent={content}
@@ -95,7 +117,7 @@ export default function ComposePage() {
 
   return (
     <div className="max-w-[760px]">
-      <h1 className="text-2xl font-bold text-[#111827] mb-6">Compose</h1>
+      <h1 className="text-2xl font-bold text-[#15191C] mb-6">Compose</h1>
 
       {stage === 'form' && (
         <div className="flex flex-col gap-5">
@@ -111,7 +133,7 @@ export default function ComposePage() {
             />
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <Label htmlFor="title">Suggested title</Label>
               <Input id="title" value={title} onChange={e => setTitle(e.target.value)} placeholder="Optional — AI will generate one if empty" className="mt-1" />
@@ -130,7 +152,7 @@ export default function ComposePage() {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <Label htmlFor="source-url">Source URL</Label>
               <Input id="source-url" value={sourceUrl} onChange={e => setSourceUrl(e.target.value)} placeholder="https://…" className="mt-1" />
@@ -141,7 +163,7 @@ export default function ComposePage() {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <Label htmlFor="extra-url-1">Extra source URL 1</Label>
               <Input id="extra-url-1" value={extraUrl1} onChange={e => setExtraUrl1(e.target.value)} placeholder="https://…" className="mt-1" />
@@ -152,7 +174,7 @@ export default function ComposePage() {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <Label htmlFor="extra-url-2">Extra source URL 2</Label>
               <Input id="extra-url-2" value={extraUrl2} onChange={e => setExtraUrl2(e.target.value)} placeholder="https://…" className="mt-1" />
@@ -163,7 +185,7 @@ export default function ComposePage() {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <Label htmlFor="impact-score">Impact score (1–5)</Label>
               <select
@@ -215,8 +237,8 @@ export default function ComposePage() {
       {stage === 'facts' && (
         <div className="flex flex-col gap-5">
           <div className="flex items-center gap-3">
-            <h2 className="text-lg font-semibold text-[#111827]">Extracted facts</h2>
-            <button onClick={() => setStage('form')} className="text-sm text-[#3D5AFE] hover:underline">← Edit inputs</button>
+            <h2 className="text-lg font-semibold text-[#15191C]">Extracted facts</h2>
+            <button onClick={() => setStage('form')} className="text-sm text-[#0F6E52] hover:underline">← Edit inputs</button>
           </div>
           <Textarea
             value={facts}

@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react'
-import { useParams, useRouter } from 'next/navigation'
+import { useParams, useRouter, useSearchParams } from 'next/navigation'
 import { marked } from 'marked'
 import { Draft } from '@/lib/types'
 import { Button } from '@/components/ui/button'
@@ -8,9 +8,13 @@ import { Button } from '@/components/ui/button'
 export default function DraftReviewPage() {
   const { id } = useParams<{ id: string }>()
   const router = useRouter()
+  const searchParams = useSearchParams()
   const [draft, setDraft] = useState<Draft | null>(null)
   const [tab, setTab] = useState<'preview' | 'edit'>('preview')
   const [content, setContent] = useState('')
+  const [impactScore, setImpactScore] = useState(() => searchParams.get('impact_score') ?? '')
+  const [timeHorizon, setTimeHorizon] = useState(() => searchParams.get('time_horizon') ?? '')
+  const contentType = searchParams.get('content_type') ?? 'industry'
   const [loading, setLoading] = useState(false)
   const [rerunning, setRerunning] = useState(false)
   const [confirmRerun, setConfirmRerun] = useState(false)
@@ -33,7 +37,13 @@ export default function DraftReviewPage() {
       const res = await fetch(`/api/drafts/${id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ status, content }),
+        body: JSON.stringify({
+          status,
+          content,
+          impact_score: impactScore ? Number(impactScore) : null,
+          time_horizon: timeHorizon || null,
+          content_type: contentType,
+        }),
       })
       if (!res.ok) {
         const d = await res.json().catch(() => ({}))
@@ -74,25 +84,52 @@ export default function DraftReviewPage() {
     setRerunning(false)
   }
 
-  if (!draft) return <p className="text-[#5A6278]">Loading…</p>
+  if (!draft) return <p className="text-[#5B665F]">Loading…</p>
 
   const isPending = draft.status === 'pending' || draft.status === 'rerun'
 
   return (
     <div className="max-w-[760px]">
-      <h1 className="text-2xl font-bold text-[#111827] mb-2">{draft.title}</h1>
+      <h1 className="text-2xl font-bold text-[#15191C] mb-2">{draft.title}</h1>
       {draft.source_url && (
         <a href={draft.source_url} target="_blank" rel="noopener"
-          className="text-sm text-[#3D5AFE] hover:underline mb-4 block">
+          className="text-sm text-[#0F6E52] hover:underline mb-4 block">
           View source →
         </a>
       )}
+
+      <div className="flex gap-4 mb-4">
+        <div>
+          <label className="block text-xs text-[#5B665F] mb-1">Impact score (1–5) — AI assigns if blank</label>
+          <select
+            value={impactScore}
+            onChange={e => setImpactScore(e.target.value)}
+            className="rounded-md border border-gray-200 px-2 py-1 text-sm"
+          >
+            <option value="">—</option>
+            {[1,2,3,4,5].map(n => <option key={n} value={n}>{n}</option>)}
+          </select>
+        </div>
+        <div>
+          <label className="block text-xs text-[#5B665F] mb-1">Time horizon — AI assigns if blank</label>
+          <select
+            value={timeHorizon}
+            onChange={e => setTimeHorizon(e.target.value)}
+            className="rounded-md border border-gray-200 px-2 py-1 text-sm"
+          >
+            <option value="">—</option>
+            <option value="now">Now</option>
+            <option value="6months">6 months</option>
+            <option value="2years">2 years</option>
+          </select>
+        </div>
+      </div>
 
       <div className="flex gap-2 border-b border-gray-100 mb-4">
         {(['preview', 'edit'] as const).map(t => (
           <button key={t} onClick={() => setTab(t)}
             className={`px-4 py-2 text-sm font-medium capitalize ${
-              tab === t ? 'border-b-2 border-[#3D5AFE] text-[#3D5AFE]' : 'text-[#5A6278]'
+              tab === t ? 'border-b-2 border-[#0F6E52] text-[#0F6E52]' : 'text-[#5B665F]'
             }`}>
             {t}
           </button>
@@ -100,7 +137,7 @@ export default function DraftReviewPage() {
       </div>
 
       {rerunning ? (
-        <div className="py-12 text-center text-[#5A6278] text-sm">
+        <div className="py-12 text-center text-[#5B665F] text-sm">
           <div className="mb-3 text-2xl">⟳</div>
           Re-running article through the full generation pipeline…
         </div>
@@ -111,7 +148,7 @@ export default function DraftReviewPage() {
           value={content}
           onChange={e => setContent(e.target.value)}
           rows={24}
-          className="w-full font-mono text-sm border border-gray-200 rounded-lg p-4 focus:outline-none focus:border-[#3D5AFE]"
+          className="w-full font-mono text-sm border border-gray-200 rounded-lg p-4 focus:outline-none focus:border-[#0F6E52]"
         />
       )}
 

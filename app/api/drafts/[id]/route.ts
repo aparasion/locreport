@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServiceClient } from '@/lib/supabase/server'
 import { slugify } from '@/lib/slugify'
+import { extractTeaser } from '@/lib/utils'
+import { classifyArticle } from '@/lib/classify'
+import { getOpenAI } from '@/lib/openai'
 
 type Params = { params: Promise<{ id: string }> }
 
@@ -38,7 +41,9 @@ export async function PATCH(req: NextRequest, { params }: Params) {
       title,
       slug,
       content,
+      excerpt: extractTeaser(content),
       source_url: draft.source_url,
+      publisher: draft.publisher ?? null,
       draft_id: draft.id,
       article_type: body.content_type === 'theory' ? 'theory' : 'industry',
       author,

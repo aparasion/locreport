@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
+import { useSearchParams } from 'next/navigation'
 import { articleHref } from '@/lib/utils'
 
 export interface ArticleRow {
@@ -31,12 +32,15 @@ function dateInt(iso: string) {
 }
 
 export default function AllArticlesClient({ articles }: { articles: ArticleRow[] }) {
+  const searchParams = useSearchParams()
   const [topic, setTopic] = useState('all')
   const [impact, setImpact] = useState('all')
   const [category, setCategory] = useState('all')
   const [dateFrom, setDateFrom] = useState('')
   const [dateTo, setDateTo] = useState('')
   const [sort, setSort] = useState('date')
+  const [sourceSort, setSourceSort] = useState<'count' | 'alpha'>('count')
+  const [q, setQ] = useState(() => searchParams.get('q') ?? '')
   const [loadedCount, setLoadedCount] = useState(BATCH)
   const [filterOpen, setFilterOpen] = useState(false)
   const sentinelRef = useRef<HTMLDivElement>(null)
@@ -51,6 +55,7 @@ export default function AllArticlesClient({ articles }: { articles: ArticleRow[]
 
   // Compute filtered+sorted list
   const filtered = (() => {
+    const qLower = q.toLowerCase().trim()
     let list = articles.filter(a => {
       if (topic !== 'all' && !a.topics.includes(topic)) return false
       if (impact !== 'all' && (a.impact_score ?? 0) < parseInt(impact)) return false

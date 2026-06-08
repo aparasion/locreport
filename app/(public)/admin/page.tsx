@@ -10,7 +10,8 @@ export default function AdminDashboard() {
   const [ingesting, setIngesting] = useState(false)
   const [monthlyRunning, setMonthlyRunning] = useState(false)
   const [quotesRunning, setQuotesRunning] = useState(false)
-  const [confirm, setConfirm] = useState<Confirm>(null)
+  const [migratingPublishers, setMigratingPublishers] = useState(false)
+const [confirm, setConfirm] = useState<Confirm>(null)
   const [message, setMessage] = useState('')
   const [messageType, setMessageType] = useState<'ok' | 'error'>('ok')
 
@@ -64,6 +65,22 @@ export default function AdminDashboard() {
     if (res.ok) fetch('/api/stats').then(r => r.json()).then(setStats)
   }
 
+  async function migratePublishers() {
+    setMigratingPublishers(true)
+    flash('')
+    const res = await fetch('/api/admin/migrate-publishers', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ dryRun: false }),
+    })
+    const data = await res.json()
+    flash(
+      res.ok ? `Publisher names updated: ${data.applied} articles migrated.` : (data.error ?? 'Migration failed.'),
+      res.ok ? 'ok' : 'error',
+    )
+    setMigratingPublishers(false)
+  }
+
   async function refreshQuotes() {
     setQuotesRunning(true)
     flash('')
@@ -82,17 +99,17 @@ export default function AdminDashboard() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-[#111827] mb-6">Dashboard</h1>
+      <h1 className="text-2xl font-bold mb-6" style={{ color: 'var(--text)' }}>Dashboard</h1>
 
-      <div className="grid grid-cols-3 gap-4 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
         {[
           { label: 'Published articles', value: stats?.articles },
           { label: 'Pending drafts', value: stats?.drafts },
           { label: 'RSS sources', value: stats?.sources },
         ].map(({ label, value }) => (
           <Card key={label}>
-            <p className="text-sm text-[#5A6278]">{label}</p>
-            <p className="text-3xl font-bold text-[#111827] mt-1">{value ?? '—'}</p>
+            <p className="text-sm" style={{ color: 'var(--muted)' }}>{label}</p>
+            <p className="text-3xl font-bold mt-1" style={{ color: 'var(--text)' }}>{value ?? '—'}</p>
           </Card>
         ))}
       </div>
@@ -100,21 +117,22 @@ export default function AdminDashboard() {
       <div className="flex flex-col gap-6 max-w-[640px]">
 
         {/* Daily ingest */}
-        <div className="p-4 rounded-lg border border-gray-100 bg-white">
-          <div className="flex items-start justify-between gap-4">
+        <div className="p-4 rounded-lg border" style={{ background: 'var(--surface)', borderColor: 'var(--border)' }}>
+          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
             <div>
-              <p className="font-medium text-[#111827]">Run daily ingest</p>
-              <p className="text-sm text-[#5A6278] mt-0.5">Fetch RSS sources and generate new article drafts.</p>
+              <p className="font-medium" style={{ color: 'var(--text)' }}>Run daily ingest</p>
+              <p className="text-sm mt-0.5" style={{ color: 'var(--muted)' }}>Fetch RSS sources and generate new article drafts.</p>
             </div>
             <Button
               onClick={() => { setConfirm('ingest'); flash('') }}
               disabled={ingesting || confirm === 'ingest'}
+              className="shrink-0 self-start"
             >
               {ingesting ? 'Running…' : 'Run now'}
             </Button>
           </div>
           {confirm === 'ingest' && (
-            <div className="mt-3 pt-3 border-t border-gray-100 flex items-center gap-3 text-sm text-[#5A6278]">
+            <div className="mt-3 pt-3 flex flex-wrap items-center gap-3 text-sm" style={{ borderTop: '1px solid var(--border)', color: 'var(--muted)' }}>
               <span>This will fetch all active RSS sources and create new pending drafts. Continue?</span>
               <Button onClick={runIngest} disabled={ingesting}>Confirm</Button>
               <Button variant="ghost" onClick={() => setConfirm(null)}>Cancel</Button>
@@ -123,11 +141,11 @@ export default function AdminDashboard() {
         </div>
 
         {/* Monthly report */}
-        <div className="p-4 rounded-lg border border-gray-100 bg-white">
-          <div className="flex items-start justify-between gap-4">
+        <div className="p-4 rounded-lg border" style={{ background: 'var(--surface)', borderColor: 'var(--border)' }}>
+          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
             <div>
-              <p className="font-medium text-[#111827]">Generate monthly report</p>
-              <p className="text-sm text-[#5A6278] mt-0.5">
+              <p className="font-medium" style={{ color: 'var(--text)' }}>Generate monthly report</p>
+              <p className="text-sm mt-0.5" style={{ color: 'var(--muted)' }}>
                 Synthesise all {prevMonth} industry articles into a full monthly report.
                 Auto-runs on the 1st of each month via cron-job.org.
               </p>
@@ -136,19 +154,20 @@ export default function AdminDashboard() {
               variant="secondary"
               onClick={() => { setConfirm('monthly' as Confirm); flash('') }}
               disabled={monthlyRunning || confirm === 'monthly' || (confirm as string) === 'monthly-force'}
+              className="shrink-0 self-start"
             >
               {monthlyRunning ? 'Generating…' : 'Run now'}
             </Button>
           </div>
           {confirm === 'monthly' && (
-            <div className="mt-3 pt-3 border-t border-gray-100 flex items-center gap-3 text-sm text-[#5A6278]">
+            <div className="mt-3 pt-3 flex flex-wrap items-center gap-3 text-sm" style={{ borderTop: '1px solid var(--border)', color: 'var(--muted)' }}>
               <span>This will generate and publish a monthly report for <strong>{prevMonth}</strong> using all industry articles from that period. Continue?</span>
               <Button onClick={() => runMonthly(false)} disabled={monthlyRunning}>Confirm</Button>
               <Button variant="ghost" onClick={() => setConfirm(null)}>Cancel</Button>
             </div>
           )}
           {(confirm as string) === 'monthly-force' && (
-            <div className="mt-3 pt-3 border-t border-gray-100 flex items-center gap-3 text-sm text-yellow-700">
+            <div className="mt-3 pt-3 flex flex-wrap items-center gap-3 text-sm text-yellow-700" style={{ borderTop: '1px solid var(--border)' }}>
               <span>A report for this period already exists. Generate a new one anyway?</span>
               <Button onClick={() => runMonthly(true)} disabled={monthlyRunning}>Yes, regenerate</Button>
               <Button variant="ghost" onClick={() => { setConfirm(null); flash('') }}>Cancel</Button>
@@ -156,24 +175,39 @@ export default function AdminDashboard() {
           )}
         </div>
 
-        {/* Market quotes */}
-        <div className="p-4 rounded-lg border border-gray-100 bg-white">
-          <div className="flex items-start justify-between gap-4">
+        {/* Migrate publisher names */}
+        <div className="p-4 rounded-lg border" style={{ background: 'var(--surface)', borderColor: 'var(--border)' }}>
+          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
             <div>
-              <p className="font-medium text-[#111827]">Refresh market quotes</p>
-              <p className="text-sm text-[#5A6278] mt-0.5">
+              <p className="font-medium" style={{ color: 'var(--text)' }}>Migrate publisher names</p>
+              <p className="text-sm mt-0.5" style={{ color: 'var(--muted)' }}>
+                Replace bare domain names (e.g. slator.com) with proper company names (e.g. Slator) across all published articles.
+              </p>
+            </div>
+            <Button variant="secondary" onClick={migratePublishers} disabled={migratingPublishers} className="shrink-0 self-start">
+              {migratingPublishers ? 'Migrating…' : 'Run migration'}
+            </Button>
+          </div>
+        </div>
+
+        {/* Market quotes */}
+        <div className="p-4 rounded-lg border" style={{ background: 'var(--surface)', borderColor: 'var(--border)' }}>
+          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
+            <div>
+              <p className="font-medium" style={{ color: 'var(--text)' }}>Refresh market quotes</p>
+              <p className="text-sm mt-0.5" style={{ color: 'var(--muted)' }}>
                 Fetch latest prices and 30-day history for all LocStock tickers.
                 Set a daily cron-job.org job to POST /api/market-quotes.
               </p>
             </div>
-            <Button variant="secondary" onClick={refreshQuotes} disabled={quotesRunning}>
+            <Button variant="secondary" onClick={refreshQuotes} disabled={quotesRunning} className="shrink-0 self-start">
               {quotesRunning ? 'Refreshing…' : 'Refresh now'}
             </Button>
           </div>
         </div>
 
         {message && (
-          <p className={`text-sm ${messageType === 'error' ? 'text-red-600' : 'text-[#5A6278]'}`}>
+          <p className={`text-sm ${messageType === 'error' ? 'text-red-600' : ''}`} style={messageType !== 'error' ? { color: 'var(--muted)' } : {}}>
             {message}
           </p>
         )}

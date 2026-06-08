@@ -14,20 +14,20 @@ export default async function AdminArticlesPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-[#111827] mb-6">Published Articles</h1>
+      <h1 className="text-2xl font-bold text-[#15191C] mb-6">Published Articles</h1>
       <div className="max-w-[760px]">
         {(articles as Partial<Article>[])?.map((a) => (
           <div key={a.id} className="border-b border-gray-100 py-4 flex items-start justify-between gap-4">
             <div>
-              <p className="font-medium text-[#111827] text-sm">{a.title}</p>
-              <p className="text-xs text-[#5A6278] mt-0.5">
+              <p className="font-medium text-[#15191C] text-sm">{a.title}</p>
+              <p className="text-xs text-[#5B665F] mt-0.5">
                 {a.published_at ? new Date(a.published_at).toLocaleDateString() : ''} · {a.publisher ?? '—'}
               </p>
             </div>
             <div className="flex items-center gap-2 shrink-0">
               <Link
                 href={`/admin/articles/${a.id}`}
-                className="text-sm px-3 py-1 rounded-lg bg-[#EEF1F8] text-[#5A6278] hover:bg-[#E0E4F0]"
+                className="text-sm px-3 py-1 rounded-lg bg-[#E2F0EA] text-[#5B665F] hover:bg-[#E0E4F0]"
               >
                 Edit
               </Link>

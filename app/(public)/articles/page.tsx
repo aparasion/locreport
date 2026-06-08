@@ -3,6 +3,7 @@ import { Article } from '@/lib/types'
 import type { Metadata } from 'next'
 import { Suspense } from 'react'
 import AllArticlesClient, { ArticleRow } from '../all-articles/AllArticlesClient'
+import { extractTeaser } from '@/lib/utils'
 
 export const metadata: Metadata = {
   title: 'All Articles — LocReport',

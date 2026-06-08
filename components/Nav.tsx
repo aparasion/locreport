@@ -11,7 +11,6 @@ const NAV_LINKS = [
   {
     href: '/intelligence', label: 'Intelligence', dropdown: [
       { href: '/intelligence/signals', label: 'Signals tracker' },
-      { href: '/intelligence/correlations', label: 'Correlation matrix' },
       { href: '/intelligence/high-impact', label: 'High impact articles' },
     ]
   },
@@ -37,17 +36,40 @@ export function Nav() {
   const [isAdmin, setIsAdmin] = useState(false)
   const [email, setEmail] = useState<string | null>(null)
   const [menuOpen, setMenuOpen] = useState(false)
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null)
   const [searchOpen, setSearchOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
   const [theme, setTheme] = useState<'light' | 'dark'>('light')
   const searchRef = useRef<HTMLInputElement>(null)
+  const navRef = useRef<HTMLElement>(null)
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  function openMenu(href: string) {
+    if (closeTimer.current) clearTimeout(closeTimer.current)
+    setOpenDropdown(href)
+  }
+
+  function scheduleClose() {
+    closeTimer.current = setTimeout(() => setOpenDropdown(null), 150)
+  }
+
+  useEffect(() => {
+    function handleClick(e: MouseEvent) {
+      if (navRef.current && !navRef.current.contains(e.target as Node)) {
+        setOpenDropdown(null)
+        setMenuOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClick)
+    return () => document.removeEventListener('mousedown', handleClick)
+  }, [])
 
   useEffect(() => {
     const saved = localStorage.getItem('theme') as 'light' | 'dark' | null
     if (saved) { setTheme(saved); document.documentElement.setAttribute('data-theme', saved) }
-    const supabase = createClient()
-    supabase.auth.getUser().then(({ data: { user } }) => {
-      if (user) { setEmail(user.email ?? null); setIsAdmin(user.email === process.env.NEXT_PUBLIC_ADMIN_EMAIL) }
+    fetch('/api/me').then(r => r.json()).then(({ email, isAdmin }) => {
+      setEmail(email)
+      setIsAdmin(isAdmin)
     })
   }, [])
 
@@ -66,11 +88,13 @@ export function Nav() {
   async function signOut() {
     const supabase = createClient()
     await supabase.auth.signOut()
-    router.push('/login')
+    setEmail(null)
+    setIsAdmin(false)
+    router.push('/')
     router.refresh()
   }
 
-  const allLinks = [...NAV_LINKS, ...(isAdmin ? [{ href: '/admin', label: 'Admin' }] : [])]
+  const allLinks = NAV_LINKS
 
   return (
     <header className="site-header">
@@ -80,7 +104,7 @@ export function Nav() {
           <Image src="/logodark.png" alt="LocReport" width={120} height={32} className="site-logo-img site-logo-img--dark" priority />
         </Link>
 
-        <nav className={`site-nav${menuOpen ? ' is-open' : ''}${searchOpen ? ' search-expanded' : ''}`}>
+        <nav ref={navRef} className={`site-nav${menuOpen ? ' is-open' : ''}${searchOpen ? ' search-expanded' : ''}`}>
           <button
             className="nav-toggle"
             id="nav-toggle"
@@ -96,24 +120,32 @@ export function Nav() {
           <ul id="site-menu">
             {allLinks.map(link => (
               'dropdown' in link && link.dropdown ? (
-                <li key={link.href} className="nav-has-dropdown">
-                  <Link href={link.href} aria-haspopup="true">
-                    {link.label}
-                    <svg className="nav-dropdown-chevron" xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-                      <path d="M2 4l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
-                  </Link>
-                  <ul className="nav-dropdown-menu" role="menu">
+                <li key={link.href} className="nav-has-dropdown"
+                  onMouseEnter={() => openMenu(link.href)}
+                  onMouseLeave={scheduleClose}
+                >
+                  <div className="nav-dropdown-trigger">
+                    <Link href={link.href} onClick={() => setMenuOpen(false)}>{link.label}</Link>
+                    <button aria-haspopup="true" aria-expanded={openDropdown === link.href} aria-label={`Toggle ${link.label} menu`}>
+                      <svg className="nav-dropdown-chevron" xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                        <path d="M2 4l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
+                    </button>
+                  </div>
+                  <ul className={`nav-dropdown-menu${openDropdown === link.href ? ' is-open' : ''}`} role="menu"
+                    onMouseEnter={() => openMenu(link.href)}
+                    onMouseLeave={scheduleClose}
+                  >
                     {link.dropdown.map(child => (
                       <li key={child.href} role="none">
-                        <Link href={child.href} role="menuitem">{child.label}</Link>
+                        <Link href={child.href} role="menuitem" onClick={() => { setOpenDropdown(null); setMenuOpen(false) }}>{child.label}</Link>
                       </li>
                     ))}
                   </ul>
                 </li>
               ) : (
                 <li key={link.href}>
-                  <Link href={link.href}>{link.label}</Link>
+                  <Link href={link.href} onClick={() => setMenuOpen(false)}>{link.label}</Link>
                 </li>
               )
             ))}
@@ -134,12 +166,18 @@ export function Nav() {
                 ref={searchRef}
                 type="text"
                 className="search-inline-input"
-                placeholder="Search articles…"
+                placeholder="Search LocReport…"
                 autoComplete="off"
-                aria-label="Search articles"
+                aria-label="Search LocReport"
                 value={searchQuery}
                 onChange={e => setSearchQuery(e.target.value)}
-                onKeyDown={e => { if (e.key === 'Enter' && searchQuery) router.push(`/articles?q=${encodeURIComponent(searchQuery)}`) }}
+                onKeyDown={e => {
+                  if (e.key === 'Enter' && searchQuery) {
+                    router.push(`/search?q=${encodeURIComponent(searchQuery)}`)
+                    setSearchOpen(false)
+                    setSearchQuery('')
+                  }
+                }}
               />
               <button className="search-inline-close" aria-label="Close search" onClick={() => { setSearchOpen(false); setSearchQuery('') }}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -164,12 +202,22 @@ export function Nav() {
           </button>
 
           {email ? (
-            <button
-              onClick={signOut}
-              style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--muted)', background: 'none', border: 'none', cursor: 'pointer', padding: '6px 10px' }}
-            >
-              Sign out
-            </button>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+              {isAdmin && (
+                <Link
+                  href="/admin"
+                  style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--muted)', padding: '6px 10px', textDecoration: 'none' }}
+                >
+                  Admin
+                </Link>
+              )}
+              <button
+                onClick={signOut}
+                style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--muted)', background: 'none', border: 'none', cursor: 'pointer', padding: '6px 10px' }}
+              >
+                Sign out
+              </button>
+            </div>
           ) : null}
         </nav>
       </div>
