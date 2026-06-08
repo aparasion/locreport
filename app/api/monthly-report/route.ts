@@ -50,7 +50,7 @@ export async function POST(req: NextRequest) {
     .from('articles')
     .select('id, title')
     .eq('article_type', 'monthly-summary')
-    .ilike('slug', `%${period}%`)
+    .or(`slug.ilike.%${period}%,title.ilike.%${monthName} ${year}%`)
     .limit(1)
 
   if (existing?.length && !force) {
