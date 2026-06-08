@@ -13,6 +13,8 @@ export default function EditArticlePage() {
   const [article, setArticle] = useState<Article | null>(null)
   const [title, setTitle] = useState('')
   const [excerpt, setExcerpt] = useState('')
+  const [slug, setSlug] = useState('')
+  const [publisher, setPublisher] = useState('')
   const [saving, setSaving] = useState(false)
   const [message, setMessage] = useState('')
 
@@ -21,6 +23,8 @@ export default function EditArticlePage() {
       setArticle(a)
       setTitle(a.title)
       setExcerpt(a.excerpt ?? '')
+      setSlug(a.slug ?? '')
+      setPublisher(a.publisher ?? '')
     })
   }, [id])
 
@@ -30,7 +34,7 @@ export default function EditArticlePage() {
     const res = await fetch(`/api/articles/${id}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ title, excerpt, content }),
+      body: JSON.stringify({ title, excerpt, content, slug, publisher: publisher || null }),
     })
     if (res.ok) {
       setMessage('Saved.')
@@ -59,6 +63,14 @@ export default function EditArticlePage() {
         <div>
           <Label>Excerpt</Label>
           <Input value={excerpt} onChange={e => setExcerpt(e.target.value)} />
+        </div>
+        <div>
+          <Label>Slug</Label>
+          <Input value={slug} onChange={e => setSlug(e.target.value)} />
+        </div>
+        <div>
+          <Label>Publisher</Label>
+          <Input value={publisher} onChange={e => setPublisher(e.target.value)} placeholder="e.g. Argos Multilingual" />
         </div>
         {article.source_url && (
           <p className="text-xs text-[#5B665F]">

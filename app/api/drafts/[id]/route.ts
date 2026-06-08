@@ -63,6 +63,7 @@ export async function PATCH(req: NextRequest, { params }: Params) {
       content,
       excerpt: extractTeaser(content),
       source_url: draft.source_url,
+      publisher: draft.publisher ?? null,
       draft_id: draft.id,
       article_type: contentType,
       author,
