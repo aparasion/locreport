@@ -86,6 +86,11 @@
       "source": "/research/",
       "destination": "/language-science",
       "permanent": true
+    },
+    {
+      "source": "/articles/may-2026-localization-and-translation-industry-report-mq014946",
+      "destination": "/articles/monthly-report-may-2026",
+      "permanent": true
     }
   ]
 }
