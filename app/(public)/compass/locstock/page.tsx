@@ -23,14 +23,24 @@ export default async function LocStockPage() {
     if (!updatedAt || row.updated_at > updatedAt) updatedAt = row.updated_at
   }
 
+  const staticData = await import('@/assets/data/market_quotes.json')
+
   // Fallback to static JSON if Supabase table is empty
   if (!Object.keys(quotes).length) {
-    const staticData = await import('@/assets/data/market_quotes.json')
     return (
       <div className="container" style={{ paddingTop: 'var(--space-8)', paddingBottom: 'var(--space-12)' }}>
         <LocStockClient quotes={staticData.quotes as Record<string, unknown>} updatedAt={staticData.updated_at} />
       </div>
     )
+  }
+
+  // Supplement missing history from static JSON (Supabase data pre-dates history tracking)
+  const staticQuotes = staticData.quotes as Record<string, { history?: unknown[] }>
+  for (const ticker of Object.keys(quotes)) {
+    const q = quotes[ticker] as Record<string, unknown>
+    if (!q.history && staticQuotes[ticker]?.history) {
+      q.history = staticQuotes[ticker].history
+    }
   }
 
   return (
