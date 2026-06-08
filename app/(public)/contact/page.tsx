@@ -12,10 +12,18 @@ export default function ContactPage() {
     setErrorMsg('')
 
     const form = e.currentTarget
+    const email = (form.elements.namedItem('email') as HTMLInputElement).value
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/
+    if (email && !emailPattern.test(email)) {
+      setStatus('error')
+      setErrorMsg('Please enter a valid email address.')
+      return
+    }
+
     const data = {
       name: (form.elements.namedItem('name') as HTMLInputElement).value,
-      email: (form.elements.namedItem('email') as HTMLInputElement).value,
-      subject: (form.elements.namedItem('subject') as HTMLTextAreaElement).value,
+      email,
+      subject: (form.elements.namedItem('subject') as HTMLInputElement).value,
       message: (form.elements.namedItem('message') as HTMLTextAreaElement).value,
     }
 
@@ -58,7 +66,7 @@ export default function ContactPage() {
 
             <div className="form-group">
               <label htmlFor="email">Email</label>
-              <input type="email" name="email" id="email" />
+              <input type="email" name="email" id="email" pattern="[^\s@]+@[^\s@]+\.[^\s@]{2,}" title="Enter a valid email address" />
             </div>
 
             <div className="form-group">
