@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
+import { domainToPublisher } from '@/lib/utils'
 
 type Stage = 'form' | 'facts' | 'article'
 
@@ -66,11 +67,11 @@ export default function ComposePage() {
 
   function derivePublisher(): string | null {
     const filled = [sourceUrl, extraUrl1, extraUrl2].filter(u => u.trim())
-    if (filled.length === 0) return 'locreport.com'
-    if (filled.length > 1) return 'locreport.com'
+    if (filled.length === 0) return 'LocReport'
+    if (filled.length > 1) return 'LocReport'
     try {
-      const hostname = new URL(filled[0]).hostname.replace(/^www\./, '')
-      return hostname
+      const hostname = new URL(filled[0]).hostname
+      return domainToPublisher(hostname)
     } catch {
       return null
     }
