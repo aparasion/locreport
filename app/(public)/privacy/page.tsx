@@ -43,7 +43,7 @@ export default function PrivacyPage() {
           <li><strong>Vercel</strong> (website hosting and deployment)</li>
           <li><strong>Supabase</strong> (database and authentication)</li>
           <li><strong>Resend</strong> (transactional email delivery for contact form submissions)</li>
-          <li><strong>OpenAI</strong> (content and editorial support services)</li>
+          <li><strong>OpenAI, Anthropic Claude, Google Gemini</strong> (content and editorial support services)</li>
           <li><strong>Twelve Data</strong> (financial market data)</li>
           <li><strong>Google Analytics</strong> (traffic analysis)</li>
           <li><strong>Google Fonts</strong> (typeface delivery)</li>
