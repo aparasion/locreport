@@ -3,6 +3,11 @@ import { Article } from '@/lib/types'
 import { articleHref, extractTeaser } from '@/lib/utils'
 
 const IMPACT_LABEL: Record<number, string> = { 1: 'Routine', 2: 'Notable', 3: 'Significant', 4: 'Major', 5: 'Disruptive' }
+const CATEGORY_LABEL: Record<string, string> = {
+  industry: 'Current news',
+  'monthly-summary': 'Monthly report',
+  theory: 'Research',
+}
 
 export function ArticleCard({ article, featured }: { article: Article; featured?: boolean }) {
   const date = new Date(article.published_at).toLocaleDateString('en-US', {
@@ -22,7 +27,10 @@ export function ArticleCard({ article, featured }: { article: Article; featured?
         <h2 className="article-row__title"><Link href={articleHref(article.slug)}>{article.title}</Link></h2>
         <p className="article-row__excerpt">{article.excerpt || extractTeaser(article.content)}</p>
         <div className="article-row__footer">
-          {article.publisher && <span className="article-row__publisher">{article.publisher}</span>}
+          {article.author && <span className="article-row__publisher">{article.author}</span>}
+          {article.article_type && CATEGORY_LABEL[article.article_type] && (
+            <span className="article-card-category">{CATEGORY_LABEL[article.article_type]}</span>
+          )}
           <Link className="article-row__read-more" href={articleHref(article.slug)}>Read more →</Link>
         </div>
       </article>
@@ -40,7 +48,10 @@ export function ArticleCard({ article, featured }: { article: Article; featured?
       <h2 className="article-row__title"><Link href={articleHref(article.slug)}>{article.title}</Link></h2>
       <p className="article-row__excerpt">{article.excerpt || extractTeaser(article.content)}</p>
       <div className="article-row__footer">
-        {article.publisher && <span className="article-row__publisher">{article.publisher}</span>}
+        {article.author && <span className="article-row__publisher">{article.author}</span>}
+        {article.article_type && CATEGORY_LABEL[article.article_type] && (
+          <span className="article-card-category">{CATEGORY_LABEL[article.article_type]}</span>
+        )}
         <Link className="article-row__read-more" href={articleHref(article.slug)}>Read more →</Link>
       </div>
     </article>

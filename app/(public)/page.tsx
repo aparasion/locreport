@@ -137,7 +137,7 @@ export default async function HomePage() {
                           <h2 className="article-row__title"><Link href={articleHref(article.slug)}>{article.title}</Link></h2>
                           <p className="article-row__excerpt">{article.excerpt || extractTeaser(article.content)}</p>
                           <div className="article-row__footer">
-                            {article.publisher && <span className="article-row__publisher">{article.publisher}</span>}
+                            {article.author && <span className="article-row__publisher">{article.author}</span>}
                             <Link className="article-row__read-more" href={articleHref(article.slug)}>Read more →</Link>
                           </div>
                         </article>
@@ -154,7 +154,7 @@ export default async function HomePage() {
                         <h2 className="article-row__title"><Link href={articleHref(article.slug)}>{article.title}</Link></h2>
                         <p className="article-row__excerpt">{article.excerpt || extractTeaser(article.content)}</p>
                         <div className="article-row__footer">
-                          {article.publisher && <span className="article-row__publisher">{article.publisher}</span>}
+                          {article.author && <span className="article-row__publisher">{article.author}</span>}
                           <Link className="article-row__read-more" href={articleHref(article.slug)}>Read more →</Link>
                         </div>
                       </article>
