@@ -116,7 +116,7 @@ export function LocStockChart({ quotes, tickers }: { quotes: Record<string, unkn
                 <ReferenceLine y={100} stroke="var(--muted,#94a3b8)" strokeDasharray="4 2" />
                 <Tooltip
                   formatter={(v: unknown) => [`${Number(v).toFixed(1)}`, 'Index']}
-                  labelFormatter={(l: string) => `Date: ${l}`}
+                  labelFormatter={(l) => `Date: ${l}`}
                   contentStyle={{ fontSize: 12 }}
                 />
                 <Line
