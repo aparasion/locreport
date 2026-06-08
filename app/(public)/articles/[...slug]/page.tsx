@@ -105,7 +105,31 @@ export default async function ArticlePage({ params }: Props) {
 
   const articleUrl = `https://locreport.com/articles/${a.slug.split('/').pop()}`
 
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: a.title,
+    description: a.excerpt ?? undefined,
+    url: articleUrl,
+    datePublished: a.published_at,
+    dateModified: a.updated_at ?? a.published_at,
+    author: a.author ? { '@type': 'Person', name: a.author } : { '@type': 'Organization', name: 'LocReport' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'LocReport',
+      url: 'https://locreport.com',
+      logo: { '@type': 'ImageObject', url: 'https://locreport.com/icon.png' },
+    },
+    image: 'https://locreport.com/og-image.jpg',
+    mainEntityOfPage: { '@type': 'WebPage', '@id': articleUrl },
+  }
+
   const articleEl = (
+    <>
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+    />
     <article className="post">
       <nav className="breadcrumb" aria-label="Breadcrumb">
         <ol>
@@ -150,6 +174,7 @@ export default async function ArticlePage({ params }: Props) {
         </a>
       </div>
     </article>
+    </>
   )
 
   if (hasSidebar) {
