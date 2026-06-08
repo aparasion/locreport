@@ -31,6 +31,7 @@ export default function AllArticlesClient({ articles }: { articles: ArticleRow[]
   const [dateFrom, setDateFrom] = useState('')
   const [dateTo, setDateTo] = useState('')
   const [sort, setSort] = useState('date')
+  const [sourceSort, setSourceSort] = useState<'count' | 'alpha'>('count')
   const [q, setQ] = useState(() => searchParams.get('q') ?? '')
   const [loadedCount, setLoadedCount] = useState(BATCH)
   const [filterOpen, setFilterOpen] = useState(false)
@@ -45,9 +46,13 @@ export default function AllArticlesClient({ articles }: { articles: ArticleRow[]
       if (!map[key]) map[key] = { label: a.publisher, count: 0 }
       map[key].count++
     }
-    return Object.entries(map)
-      .sort((a, b) => b[1].count - a[1].count)
-      .map(([key, v]) => ({ value: key, label: `${v.label} (${v.count})` }))
+    const entries = Object.entries(map)
+    if (sourceSort === 'alpha') {
+      entries.sort((a, b) => a[1].label.localeCompare(b[1].label))
+    } else {
+      entries.sort((a, b) => b[1].count - a[1].count)
+    }
+    return entries.map(([key, v]) => ({ value: key, label: `${v.label} (${v.count})` }))
   })()
 
   // URL hash support
@@ -103,7 +108,7 @@ export default function AllArticlesClient({ articles }: { articles: ArticleRow[]
 
   function clearAll() {
     setTopic('all'); setImpact('all'); setSource('all')
-    setDateFrom(''); setDateTo(''); setSort('date')
+    setDateFrom(''); setDateTo(''); setSort('date'); setSourceSort('count')
   }
 
   return (
@@ -157,7 +162,23 @@ export default function AllArticlesClient({ articles }: { articles: ArticleRow[]
                 </select>
               </div>
               <div className="filter-group">
-                <label className="filter-label" htmlFor="source-filter">Source</label>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.375rem' }}>
+                  <label className="filter-label" htmlFor="source-filter" style={{ marginBottom: 0 }}>Source</label>
+                  <button
+                    type="button"
+                    title={sourceSort === 'count' ? 'Sort alphabetically' : 'Sort by publications'}
+                    onClick={() => setSourceSort(s => s === 'count' ? 'alpha' : 'count')}
+                    style={{
+                      display: 'inline-flex', alignItems: 'center', gap: '0.2rem',
+                      fontSize: '0.68rem', fontWeight: 600, letterSpacing: '0.03em',
+                      padding: '0.1rem 0.35rem', borderRadius: '0.25rem',
+                      border: '1px solid var(--border)', background: 'var(--surface)',
+                      color: 'var(--text-muted)', cursor: 'pointer', lineHeight: 1,
+                    }}
+                  >
+                    {sourceSort === 'count' ? 'A–Z' : '#'}
+                  </button>
+                </div>
                 <select className="filter-select" id="source-filter" value={source} onChange={e => setSource(e.target.value)}>
                   <option value="all">All sources</option>
                   {sourceOptions.map(o => (
