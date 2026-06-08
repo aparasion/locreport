@@ -5329,7 +5329,9 @@ article.page > h1 {
 
 /* Featured first article */
 .article-row--featured {
-  padding: 1.125rem 0;
+  padding: 1.125rem;
+  margin-left: -1.125rem;
+  margin-right: -1.125rem;
   margin-bottom: var(--space-4);
   background: var(--surface);
   border: 1px solid color-mix(in srgb, var(--border) 80%, transparent);
