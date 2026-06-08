@@ -103,6 +103,9 @@ export default async function ArticlePage({ params }: Props) {
 
   const hasSidebar = !!a.impact_score || articleSignals.length > 0 || relatedArticles.length > 0
 
+  const { data: { user } } = await supabase.auth.getUser()
+  const isAdmin = !!user
+
   const articleUrl = `https://locreport.com/articles/${a.slug.split('/').pop()}`
 
   const jsonLd = {
@@ -147,6 +150,11 @@ export default async function ArticlePage({ params }: Props) {
           {date}<span className="read-time"> · {readMinutes} min read</span>
         </p>
         <div className="post-meta-actions">
+          {isAdmin && (
+            <Link href={`/admin/articles/${a.id}`} className="admin-edit-btn">
+              Edit
+            </Link>
+          )}
           <ShareButton title={a.title} url={articleUrl} />
         </div>
       </div>

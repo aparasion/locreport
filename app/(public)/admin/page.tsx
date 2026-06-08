@@ -3,15 +3,13 @@ import { useEffect, useState } from 'react'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 
-type Confirm = 'ingest' | 'monthly' | 'fix-articles' | null
+type Confirm = 'ingest' | 'monthly' | null
 
 export default function AdminDashboard() {
   const [stats, setStats] = useState<{ articles: number; drafts: number; sources: number } | null>(null)
   const [ingesting, setIngesting] = useState(false)
   const [monthlyRunning, setMonthlyRunning] = useState(false)
   const [quotesRunning, setQuotesRunning] = useState(false)
-  const [fixRunning, setFixRunning] = useState(false)
-  const [fixResult, setFixResult] = useState<string | null>(null)
 const [confirm, setConfirm] = useState<Confirm>(null)
   const [message, setMessage] = useState('')
   const [messageType, setMessageType] = useState<'ok' | 'error'>('ok')
@@ -64,27 +62,6 @@ const [confirm, setConfirm] = useState<Confirm>(null)
     )
     setMonthlyRunning(false)
     if (res.ok) fetch('/api/stats').then(r => r.json()).then(setStats)
-  }
-
-  async function runFixArticles() {
-    setConfirm(null)
-    setFixRunning(true)
-    setFixResult(null)
-    const res = await fetch('/api/admin/fix-articles', { method: 'POST' })
-    const data = await res.json()
-    if (!res.ok) {
-      setFixResult(`Error: ${data.error ?? 'Unknown error'}`)
-    } else {
-      const updated = data.results?.filter((r: { status: string }) => r.status === 'updated').length ?? 0
-      const skipped = data.results?.filter((r: { status: string }) => r.status === 'skipped').length ?? 0
-      const errors = data.results?.filter((r: { status: string }) => r.status === 'error').length ?? 0
-      const lines = [`Done: ${updated} updated, ${skipped} skipped, ${errors} errors.`]
-      for (const r of data.results ?? []) {
-        lines.push(`• ${r.title ?? r.oldSlug}: ${r.status}${r.newPublisher ? ` — publisher: "${r.newPublisher}"` : ''}${r.reason ? ` (${r.reason})` : ''}`)
-      }
-      setFixResult(lines.join('\n'))
-    }
-    setFixRunning(false)
   }
 
   async function refreshQuotes() {
@@ -178,36 +155,6 @@ const [confirm, setConfirm] = useState<Confirm>(null)
               <Button onClick={() => runMonthly(true)} disabled={monthlyRunning}>Yes, regenerate</Button>
               <Button variant="ghost" onClick={() => { setConfirm(null); flash('') }}>Cancel</Button>
             </div>
-          )}
-        </div>
-
-        {/* Fix article slugs & publishers */}
-        <div className="p-4 rounded-lg border" style={{ background: 'var(--surface)', borderColor: 'var(--border)' }}>
-          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
-            <div>
-              <p className="font-medium" style={{ color: 'var(--text)' }}>Fix article slugs &amp; publishers</p>
-              <p className="text-sm mt-0.5" style={{ color: 'var(--muted)' }}>
-                One-time fix: strips random suffixes from 7 article slugs and sets publisher from source URL.
-              </p>
-            </div>
-            <Button
-              variant="secondary"
-              onClick={() => { setConfirm('fix-articles'); setFixResult(null) }}
-              disabled={fixRunning || confirm === 'fix-articles'}
-              className="shrink-0 self-start"
-            >
-              {fixRunning ? 'Fixing…' : 'Run fix'}
-            </Button>
-          </div>
-          {confirm === 'fix-articles' && (
-            <div className="mt-3 pt-3 flex flex-wrap items-center gap-3 text-sm" style={{ borderTop: '1px solid var(--border)', color: 'var(--muted)' }}>
-              <span>This will update slugs and publisher fields for 7 articles. Continue?</span>
-              <Button onClick={runFixArticles} disabled={fixRunning}>Confirm</Button>
-              <Button variant="ghost" onClick={() => setConfirm(null)}>Cancel</Button>
-            </div>
-          )}
-          {fixResult && (
-            <pre className="mt-3 text-xs whitespace-pre-wrap" style={{ color: 'var(--muted)' }}>{fixResult}</pre>
           )}
         </div>
 
