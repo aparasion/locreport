@@ -11,7 +11,7 @@ export async function POST(req: NextRequest) {
   const supabase = createServiceClient()
   const { data, error } = await supabase
     .from('articles')
-    .insert({ title, slug, content, article_type: 'industry' })
+    .insert({ title, slug, content, article_type: 'industry', author: 'LocReport Editorial Desk', publisher: 'LocReport' })
     .select()
     .single()
 

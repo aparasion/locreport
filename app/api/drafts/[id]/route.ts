@@ -39,8 +39,6 @@ export async function PATCH(req: NextRequest, { params }: Params) {
     let author: string
     if (contentType === 'theory') {
       author = 'LocReport Research Desk'
-    } else if (draft.source_feed_id) {
-      author = 'LocReport Industry Desk'
     } else {
       author = 'LocReport Editorial Desk'
     }
@@ -63,7 +61,7 @@ export async function PATCH(req: NextRequest, { params }: Params) {
       content,
       excerpt: extractTeaser(content),
       source_url: draft.source_url,
-      publisher: draft.publisher ?? null,
+      publisher: draft.publisher ?? 'LocReport',
       draft_id: draft.id,
       article_type: contentType,
       author,

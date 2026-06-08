@@ -56,5 +56,21 @@ export default async function ArticlesPage() {
     topics: getTopics(a),
   }))
 
-  return <Suspense><AllArticlesClient articles={rows} /></Suspense>
+  const STATIC_REPORTS: ArticleRow[] = [
+    {
+      id: 'static-annual-2026',
+      title: 'Localization & Translation Industry: 2026 Annual Report',
+      slug: '2026-annual-global-market-report',
+      href: '/reports/2026-annual-global-market-report',
+      excerpt: 'A data-rich strategic brief covering market evolution, AI disruption, competitive dynamics, and forward-looking implications for language services stakeholders.',
+      publisher: 'LocReport',
+      impact_score: 5,
+      published_at: '2026-04-01T00:00:00.000Z',
+      topics: ['quality', 'operations', 'governance', 'market', 'strategy'],
+    },
+  ]
+
+  const allRows = [...STATIC_REPORTS, ...rows]
+
+  return <Suspense><AllArticlesClient articles={allRows} /></Suspense>
 }

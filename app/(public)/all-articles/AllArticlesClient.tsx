@@ -9,6 +9,7 @@ export interface ArticleRow {
   id: string
   title: string
   slug: string
+  href?: string
   excerpt: string | null
   publisher: string | null
   impact_score: number | null
@@ -228,7 +229,7 @@ export default function AllArticlesClient({ articles }: { articles: ArticleRow[]
             return (
               <Link
                 key={article.id}
-                href={articleHref(article.slug)}
+                href={article.href ?? articleHref(article.slug)}
                 className="article-card"
               >
                 <div className="article-card-body">
