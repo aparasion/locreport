@@ -33,6 +33,7 @@ const ANNUAL_REPORT_HTML = `
   <p class="annual-report__eyebrow">LocReport &middot; April 2026</p>
   <h2>Localization &amp; Translation Industry: 2026 Annual Report</h2>
   <p class="annual-report__dek">A data-rich strategic brief covering market evolution, AI disruption, competitive dynamics, and forward-looking implications for language services stakeholders.</p>
+  <p class="annual-report__author">By LocReport Editorial Desk</p>
   <div class="annual-report__stats">
     <div class="annual-report__stat">
       <span class="annual-report__stat-value">$71.7B</span>

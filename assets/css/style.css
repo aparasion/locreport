@@ -3100,6 +3100,13 @@ article.page > h1 {
   line-height: 1.65;
 }
 
+.annual-report__author {
+  margin: var(--space-3) 0 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+  font-style: italic;
+}
+
 /* Key stats strip */
 .annual-report__stats {
   display: grid;
