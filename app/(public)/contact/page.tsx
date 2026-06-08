@@ -2,9 +2,27 @@
 
 import { useState } from 'react'
 
+const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/
+
 export default function ContactPage() {
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
   const [errorMsg, setErrorMsg] = useState('')
+  const [emailError, setEmailError] = useState('')
+
+  function handleEmailBlur(e: React.FocusEvent<HTMLInputElement>) {
+    const val = e.target.value
+    if (val && !emailPattern.test(val)) {
+      setEmailError('Please enter a valid email address.')
+    } else {
+      setEmailError('')
+    }
+  }
+
+  function handleEmailChange(e: React.ChangeEvent<HTMLInputElement>) {
+    if (emailError && emailPattern.test(e.target.value)) {
+      setEmailError('')
+    }
+  }
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -13,10 +31,10 @@ export default function ContactPage() {
 
     const form = e.currentTarget
     const email = (form.elements.namedItem('email') as HTMLInputElement).value
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/
+
     if (email && !emailPattern.test(email)) {
-      setStatus('error')
-      setErrorMsg('Please enter a valid email address.')
+      setEmailError('Please enter a valid email address.')
+      setStatus('idle')
       return
     }
 
@@ -66,7 +84,16 @@ export default function ContactPage() {
 
             <div className="form-group">
               <label htmlFor="email">Email</label>
-              <input type="email" name="email" id="email" pattern="[^\s@]+@[^\s@]+\.[^\s@]{2,}" title="Enter a valid email address" />
+              <input
+                type="email"
+                name="email"
+                id="email"
+                onBlur={handleEmailBlur}
+                onChange={handleEmailChange}
+              />
+              {emailError && (
+                <span style={{ color: 'red', fontSize: '0.8rem' }}>{emailError}</span>
+              )}
             </div>
 
             <div className="form-group">
