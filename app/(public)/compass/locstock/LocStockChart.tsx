@@ -1,6 +1,6 @@
 'use client'
 import {
-  LineChart, Line, XAxis, YAxis, Tooltip,
+  AreaChart, Area, XAxis, YAxis, Tooltip,
   ResponsiveContainer, CartesianGrid, ReferenceLine,
 } from 'recharts'
 import { useState } from 'react'
@@ -70,6 +70,13 @@ export function LocStockChart({ quotes, tickers }: { quotes: Record<string, unkn
 
   const noData = tickerCount === 0 || chartData.length < 2
 
+  // Derive direction from last valid index value vs base 100
+  const lastValue = [...chartData].reverse().find(d => d.index != null)?.index ?? 100
+  const dir = lastValue > 100.5 ? 'up' : lastValue < 99.5 ? 'down' : 'flat'
+  const COLOR = { up: '#22c55e', down: '#ef4444', flat: '#94a3b8' }
+  const lineColor = COLOR[dir]
+  const gradientId = `locindex-grad-${dir}`
+
   return (
     <div className="market-chart-section">
       <div className="market-chart-header">
@@ -99,7 +106,13 @@ export function LocStockChart({ quotes, tickers }: { quotes: Record<string, unkn
         ) : (
           <div className="market-chart-wrap">
             <ResponsiveContainer width="100%" height={260}>
-              <LineChart data={chartData} margin={{ top: 8, right: 16, left: 0, bottom: 0 }}>
+              <AreaChart data={chartData} margin={{ top: 8, right: 16, left: 0, bottom: 0 }}>
+                <defs>
+                  <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor={lineColor} stopOpacity={0.15} />
+                    <stop offset="95%" stopColor={lineColor} stopOpacity={0} />
+                  </linearGradient>
+                </defs>
                 <CartesianGrid strokeDasharray="3 3" stroke="var(--border,#e5e7eb)" />
                 <XAxis
                   dataKey="date"
@@ -119,15 +132,16 @@ export function LocStockChart({ quotes, tickers }: { quotes: Record<string, unkn
                   labelFormatter={(l) => `Date: ${l}`}
                   contentStyle={{ fontSize: 12 }}
                 />
-                <Line
+                <Area
                   type="monotone"
                   dataKey="index"
-                  stroke="var(--accent,#3550F5)"
+                  stroke={lineColor}
+                  fill={`url(#${gradientId})`}
                   dot={false}
                   strokeWidth={2.5}
                   connectNulls
                 />
-              </LineChart>
+              </AreaChart>
             </ResponsiveContainer>
           </div>
         )
