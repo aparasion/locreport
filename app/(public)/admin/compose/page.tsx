@@ -66,7 +66,7 @@ export default function ComposePage() {
 
   function derivePublisher(): string | null {
     const filled = [sourceUrl, extraUrl1, extraUrl2].filter(u => u.trim())
-    if (filled.length === 0) return null
+    if (filled.length === 0) return 'locreport.com'
     if (filled.length > 1) return 'locreport.com'
     try {
       const hostname = new URL(filled[0]).hostname.replace(/^www\./, '')
