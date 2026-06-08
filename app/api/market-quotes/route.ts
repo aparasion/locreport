@@ -46,7 +46,7 @@ export async function POST(req: NextRequest) {
         }),
       ])
 
-      const history = (chart?.quotes ?? [] as Array<{ date: Date; close: number | null }>)
+      const history = ((chart?.quotes ?? []) as Array<{ date: Date; close: number | null }>)
         .filter(h => h.close != null)
         .map(h => ({ date: (h.date as Date).toISOString().slice(0, 10), close: h.close as number }))
         .sort((a, b) => a.date.localeCompare(b.date))
