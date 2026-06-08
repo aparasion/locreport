@@ -24,6 +24,7 @@ export async function POST(req: NextRequest) {
   const { error: emailError } = await resend.emails.send({
     from: 'LocReport Contact <onboarding@resend.dev>',
     to: process.env.CONTACT_EMAIL!,
+    replyTo: email || undefined,
     subject: `[LocReport Contact] ${subject}`,
     text: `Name: ${name}\nEmail: ${email || 'not provided'}\n\n${message}`,
   })

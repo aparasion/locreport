@@ -63,7 +63,7 @@ export default function ContactPage() {
 
             <div className="form-group">
               <label htmlFor="subject">Subject</label>
-              <textarea name="subject" id="subject" rows={2} required />
+              <input type="text" name="subject" id="subject" required />
             </div>
 
             <div className="form-group">
