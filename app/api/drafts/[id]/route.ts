@@ -43,11 +43,10 @@ export async function PATCH(req: NextRequest, { params }: Params) {
       content,
       excerpt: extractTeaser(content),
       source_url: draft.source_url,
-      publisher: draft.publisher ?? null,
+      publisher: 'LocReport',
       draft_id: draft.id,
       article_type: body.content_type === 'theory' ? 'theory' : 'industry',
       author,
-      publisher: 'LocReport',
     })
     if (articleError) return NextResponse.json({ error: articleError.message }, { status: 400 })
   }
