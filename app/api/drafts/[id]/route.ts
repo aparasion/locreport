@@ -30,13 +30,19 @@ export async function PATCH(req: NextRequest, { params }: Params) {
     const title = titleMatch ? titleMatch[1].trim() : draft.title
     const slug = slugify(title)
 
+    const author = body.content_type === 'theory'
+      ? 'LocReport Research Desk'
+      : 'LocReport Editorial Desk'
+
     const { error: articleError } = await supabase.from('articles').insert({
       title,
       slug,
       content,
       source_url: draft.source_url,
       draft_id: draft.id,
-      article_type: 'industry',
+      article_type: body.content_type === 'theory' ? 'theory' : 'industry',
+      author,
+      publisher: 'LocReport',
     })
     if (articleError) return NextResponse.json({ error: articleError.message }, { status: 400 })
   }

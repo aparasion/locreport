@@ -8,11 +8,19 @@ export interface ArticleRow {
   id: string
   title: string
   slug: string
+  href?: string
   excerpt: string | null
-  publisher: string | null
+  author: string | null
+  article_type: string
   impact_score: number | null
   published_at: string
   topics: string[]
+}
+
+const CATEGORY_LABEL: Record<string, string> = {
+  industry: 'Current news',
+  'monthly-summary': 'Monthly report',
+  annual: 'Annual report',
 }
 
 const IMPACT_LABEL: Record<number, string> = { 2: 'Notable', 3: 'Significant', 4: 'Major', 5: 'Disruptive' }
@@ -25,27 +33,13 @@ function dateInt(iso: string) {
 export default function AllArticlesClient({ articles }: { articles: ArticleRow[] }) {
   const [topic, setTopic] = useState('all')
   const [impact, setImpact] = useState('all')
-  const [source, setSource] = useState('all')
+  const [category, setCategory] = useState('all')
   const [dateFrom, setDateFrom] = useState('')
   const [dateTo, setDateTo] = useState('')
   const [sort, setSort] = useState('date')
   const [loadedCount, setLoadedCount] = useState(BATCH)
   const [filterOpen, setFilterOpen] = useState(false)
   const sentinelRef = useRef<HTMLDivElement>(null)
-
-  // Populate source options from article data
-  const sourceOptions = (() => {
-    const map: Record<string, { label: string; count: number }> = {}
-    for (const a of articles) {
-      if (!a.publisher) continue
-      const key = a.publisher.toLowerCase()
-      if (!map[key]) map[key] = { label: a.publisher, count: 0 }
-      map[key].count++
-    }
-    return Object.entries(map)
-      .sort((a, b) => b[1].count - a[1].count)
-      .map(([key, v]) => ({ value: key, label: `${v.label} (${v.count})` }))
-  })()
 
   // URL hash support
   useEffect(() => {
@@ -63,7 +57,7 @@ export default function AllArticlesClient({ articles }: { articles: ArticleRow[]
       const d = dateInt(a.published_at)
       if (dateFrom && d < dateInt(dateFrom + 'T00:00:00Z')) return false
       if (dateTo && d > dateInt(dateTo + 'T00:00:00Z')) return false
-      if (source !== 'all' && (a.publisher ?? '').toLowerCase() !== source) return false
+      if (category !== 'all' && a.article_type !== category) return false
       return true
     })
     if (sort === 'impact') {
@@ -77,7 +71,7 @@ export default function AllArticlesClient({ articles }: { articles: ArticleRow[]
   })()
 
   // Reset loaded count when filters change
-  useEffect(() => { setLoadedCount(BATCH) }, [topic, impact, source, dateFrom, dateTo, sort])
+  useEffect(() => { setLoadedCount(BATCH) }, [topic, impact, category, dateFrom, dateTo, sort])
 
   // Infinite scroll observer
   useEffect(() => {
@@ -94,10 +88,10 @@ export default function AllArticlesClient({ articles }: { articles: ArticleRow[]
   }, [loadedCount, filtered.length])
 
   const visible = filtered.slice(0, loadedCount)
-  const activeBadge = [topic !== 'all', impact !== 'all', source !== 'all', !!dateFrom, !!dateTo].filter(Boolean).length
+  const activeBadge = [topic !== 'all', impact !== 'all', category !== 'all', !!dateFrom, !!dateTo].filter(Boolean).length
 
   function clearAll() {
-    setTopic('all'); setImpact('all'); setSource('all')
+    setTopic('all'); setImpact('all'); setCategory('all')
     setDateFrom(''); setDateTo(''); setSort('date')
   }
 
@@ -151,12 +145,12 @@ export default function AllArticlesClient({ articles }: { articles: ArticleRow[]
               </select>
             </div>
             <div className="filter-group">
-              <label className="filter-label" htmlFor="source-filter">Source</label>
-              <select className="filter-select" id="source-filter" value={source} onChange={e => setSource(e.target.value)}>
-                <option value="all">All sources</option>
-                {sourceOptions.map(o => (
-                  <option key={o.value} value={o.value}>{o.label}</option>
-                ))}
+              <label className="filter-label" htmlFor="category-filter">Category</label>
+              <select className="filter-select" id="category-filter" value={category} onChange={e => setCategory(e.target.value)}>
+                <option value="all">All categories</option>
+                <option value="industry">Current news</option>
+                <option value="monthly-summary">Monthly reports</option>
+                <option value="annual">Annual reports</option>
               </select>
             </div>
             <div className="filter-group">
@@ -200,7 +194,7 @@ export default function AllArticlesClient({ articles }: { articles: ArticleRow[]
             return (
               <Link
                 key={article.id}
-                href={articleHref(article.slug)}
+                href={article.href ?? articleHref(article.slug)}
                 className="article-card"
               >
                 <div className="article-card-body">
@@ -225,8 +219,11 @@ export default function AllArticlesClient({ articles }: { articles: ArticleRow[]
                       {IMPACT_LABEL[article.impact_score]}
                     </span>
                   )}
-                  {article.publisher && (
-                    <span className="article-card-source">{article.publisher}</span>
+                  {article.author && (
+                    <span className="article-card-source">{article.author}</span>
+                  )}
+                  {CATEGORY_LABEL[article.article_type] && (
+                    <span className="article-card-category">{CATEGORY_LABEL[article.article_type]}</span>
                   )}
                 </div>
               </Link>

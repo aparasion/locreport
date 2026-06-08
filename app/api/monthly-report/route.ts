@@ -122,7 +122,8 @@ export async function POST(req: NextRequest) {
       slug,
       content: reportContent,
       article_type: 'monthly-summary',
-      author: 'LocReport Industry Desk',
+      author: 'LocReport Editorial Desk',
+      publisher: 'LocReport',
       tags: ['monthly', 'roundup', 'localization'],
       published_at: publishedAt,
     })

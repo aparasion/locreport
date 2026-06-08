@@ -2664,6 +2664,13 @@ article.page > h1 {
   white-space: nowrap;
 }
 
+.article-card-category {
+  font-size: 0.68rem;
+  color: var(--accent);
+  white-space: nowrap;
+  font-weight: 500;
+}
+
 /* ── Monthly Report Post ────────────────────────────────── */
 .monthly-report-post .post-content h2 { margin-top: var(--space-8); }
 .monthly-report-post .post-content h3 { margin-top: var(--space-6); }
