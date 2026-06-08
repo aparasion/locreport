@@ -11,10 +11,17 @@ export interface ArticleRow {
   slug: string
   href?: string
   excerpt: string | null
-  publisher: string | null
+  author: string | null
+  article_type: string
   impact_score: number | null
   published_at: string
   topics: string[]
+}
+
+const CATEGORY_LABEL: Record<string, string> = {
+  industry: 'Current news',
+  'monthly-summary': 'Monthly report',
+  annual: 'Annual report',
 }
 
 const IMPACT_LABEL: Record<number, string> = { 2: 'Notable', 3: 'Significant', 4: 'Major', 5: 'Disruptive' }
@@ -28,7 +35,7 @@ export default function AllArticlesClient({ articles }: { articles: ArticleRow[]
   const searchParams = useSearchParams()
   const [topic, setTopic] = useState('all')
   const [impact, setImpact] = useState('all')
-  const [source, setSource] = useState('all')
+  const [category, setCategory] = useState('all')
   const [dateFrom, setDateFrom] = useState('')
   const [dateTo, setDateTo] = useState('')
   const [sort, setSort] = useState('date')
@@ -37,24 +44,6 @@ export default function AllArticlesClient({ articles }: { articles: ArticleRow[]
   const [loadedCount, setLoadedCount] = useState(BATCH)
   const [filterOpen, setFilterOpen] = useState(false)
   const sentinelRef = useRef<HTMLDivElement>(null)
-
-  // Populate source options from article data
-  const sourceOptions = (() => {
-    const map: Record<string, { label: string; count: number }> = {}
-    for (const a of articles) {
-      if (!a.publisher) continue
-      const key = a.publisher.toLowerCase()
-      if (!map[key]) map[key] = { label: a.publisher, count: 0 }
-      map[key].count++
-    }
-    const entries = Object.entries(map)
-    if (sourceSort === 'alpha') {
-      entries.sort((a, b) => a[1].label.localeCompare(b[1].label))
-    } else {
-      entries.sort((a, b) => b[1].count - a[1].count)
-    }
-    return entries.map(([key, v]) => ({ value: key, label: `${v.label} (${v.count})` }))
-  })()
 
   // URL hash support
   useEffect(() => {
@@ -73,8 +62,7 @@ export default function AllArticlesClient({ articles }: { articles: ArticleRow[]
       const d = dateInt(a.published_at)
       if (dateFrom && d < dateInt(dateFrom + 'T00:00:00Z')) return false
       if (dateTo && d > dateInt(dateTo + 'T00:00:00Z')) return false
-      if (source !== 'all' && (a.publisher ?? '').toLowerCase() !== source) return false
-      if (qLower && !`${a.title} ${a.excerpt ?? ''} ${a.publisher ?? ''}`.toLowerCase().includes(qLower)) return false
+      if (category !== 'all' && a.article_type !== category) return false
       return true
     })
     if (sort === 'impact') {
@@ -88,7 +76,7 @@ export default function AllArticlesClient({ articles }: { articles: ArticleRow[]
   })()
 
   // Reset loaded count when filters change
-  useEffect(() => { setLoadedCount(BATCH) }, [topic, impact, source, dateFrom, dateTo, sort, q])
+  useEffect(() => { setLoadedCount(BATCH) }, [topic, impact, category, dateFrom, dateTo, sort])
 
   // Infinite scroll observer
   useEffect(() => {
@@ -105,11 +93,11 @@ export default function AllArticlesClient({ articles }: { articles: ArticleRow[]
   }, [loadedCount, filtered.length])
 
   const visible = filtered.slice(0, loadedCount)
-  const activeBadge = [topic !== 'all', impact !== 'all', source !== 'all', !!dateFrom, !!dateTo].filter(Boolean).length
+  const activeBadge = [topic !== 'all', impact !== 'all', category !== 'all', !!dateFrom, !!dateTo].filter(Boolean).length
 
   function clearAll() {
-    setTopic('all'); setImpact('all'); setSource('all')
-    setDateFrom(''); setDateTo(''); setSort('date'); setSourceSort('count')
+    setTopic('all'); setImpact('all'); setCategory('all')
+    setDateFrom(''); setDateTo(''); setSort('date')
   }
 
   return (
@@ -141,60 +129,42 @@ export default function AllArticlesClient({ articles }: { articles: ArticleRow[]
 
         <div className="filter-bar-collapsible">
           <div className="filter-bar-inner">
-            <div className="filter-bar-left">
-              <div className="filter-group">
-                <label className="filter-label" htmlFor="topic-select">Topic</label>
-                <select className="filter-select" id="topic-select" value={topic} onChange={e => setTopic(e.target.value)}>
-                  <option value="all">All topics</option>
-                  <option value="quality">Quality</option>
-                  <option value="operations">Operations</option>
-                  <option value="governance">Governance</option>
-                  <option value="market">Market</option>
-                  <option value="strategy">Strategy</option>
-                </select>
-              </div>
-              <div className="filter-group">
-                <label className="filter-label" htmlFor="impact-select">Impact</label>
-                <select className="filter-select" id="impact-select" value={impact} onChange={e => setImpact(e.target.value)}>
-                  <option value="all">All levels</option>
-                  <option value="4">Major+</option>
-                  <option value="3">Significant+</option>
-                  <option value="2">Notable+</option>
-                </select>
-              </div>
-              <div className="filter-group">
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.375rem' }}>
-                  <label className="filter-label" htmlFor="source-filter" style={{ marginBottom: 0 }}>Source</label>
-                  <button
-                    type="button"
-                    title={sourceSort === 'count' ? 'Sort alphabetically' : 'Sort by publications'}
-                    onClick={() => setSourceSort(s => s === 'count' ? 'alpha' : 'count')}
-                    style={{
-                      display: 'inline-flex', alignItems: 'center', gap: '0.2rem',
-                      fontSize: '0.68rem', fontWeight: 600, letterSpacing: '0.03em',
-                      padding: '0.1rem 0.35rem', borderRadius: '0.25rem',
-                      border: '1px solid var(--border)', background: 'var(--surface)',
-                      color: 'var(--text-muted)', cursor: 'pointer', lineHeight: 1,
-                    }}
-                  >
-                    {sourceSort === 'count' ? 'A–Z' : '#'}
-                  </button>
-                </div>
-                <select className="filter-select" id="source-filter" value={source} onChange={e => setSource(e.target.value)}>
-                  <option value="all">All sources</option>
-                  {sourceOptions.map(o => (
-                    <option key={o.value} value={o.value}>{o.label}</option>
-                  ))}
-                </select>
-              </div>
-              <div className="filter-group">
-                <label className="filter-label" htmlFor="date-from">From</label>
-                <input type="date" className="filter-select filter-date" id="date-from" value={dateFrom} onChange={e => setDateFrom(e.target.value)} />
-              </div>
-              <div className="filter-group">
-                <label className="filter-label" htmlFor="date-to">To</label>
-                <input type="date" className="filter-select filter-date" id="date-to" value={dateTo} onChange={e => setDateTo(e.target.value)} />
-              </div>
+            <div className="filter-group">
+              <label className="filter-label" htmlFor="topic-select">Topic</label>
+              <select className="filter-select" id="topic-select" value={topic} onChange={e => setTopic(e.target.value)}>
+                <option value="all">All topics</option>
+                <option value="quality">Quality</option>
+                <option value="operations">Operations</option>
+                <option value="governance">Governance</option>
+                <option value="market">Market</option>
+                <option value="strategy">Strategy</option>
+              </select>
+            </div>
+            <div className="filter-group">
+              <label className="filter-label" htmlFor="impact-select">Impact</label>
+              <select className="filter-select" id="impact-select" value={impact} onChange={e => setImpact(e.target.value)}>
+                <option value="all">All levels</option>
+                <option value="4">Major+</option>
+                <option value="3">Significant+</option>
+                <option value="2">Notable+</option>
+              </select>
+            </div>
+            <div className="filter-group">
+              <label className="filter-label" htmlFor="category-filter">Category</label>
+              <select className="filter-select" id="category-filter" value={category} onChange={e => setCategory(e.target.value)}>
+                <option value="all">All categories</option>
+                <option value="industry">Current news</option>
+                <option value="monthly-summary">Monthly reports</option>
+                <option value="annual">Annual reports</option>
+              </select>
+            </div>
+            <div className="filter-group">
+              <label className="filter-label" htmlFor="date-from">From</label>
+              <input type="date" className="filter-select filter-date" id="date-from" value={dateFrom} onChange={e => setDateFrom(e.target.value)} />
+            </div>
+            <div className="filter-group">
+              <label className="filter-label" htmlFor="date-to">To</label>
+              <input type="date" className="filter-select filter-date" id="date-to" value={dateTo} onChange={e => setDateTo(e.target.value)} />
             </div>
             <div className="filter-group filter-group--sort">
               <label className="filter-label" htmlFor="sort-select">Sort</label>
@@ -254,8 +224,11 @@ export default function AllArticlesClient({ articles }: { articles: ArticleRow[]
                       {IMPACT_LABEL[article.impact_score]}
                     </span>
                   )}
-                  {article.publisher && (
-                    <span className="article-card-source">{article.publisher}</span>
+                  {article.author && (
+                    <span className="article-card-source">{article.author}</span>
+                  )}
+                  {CATEGORY_LABEL[article.article_type] && (
+                    <span className="article-card-category">{CATEGORY_LABEL[article.article_type]}</span>
                   )}
                 </div>
               </Link>

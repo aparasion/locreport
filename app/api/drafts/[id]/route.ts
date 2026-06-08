@@ -33,27 +33,9 @@ export async function PATCH(req: NextRequest, { params }: Params) {
     const title = titleMatch ? titleMatch[1].trim() : draft.title
     const slug = slugify(title)
 
-    const contentType: 'industry' | 'theory' = body.content_type === 'theory' ? 'theory' : 'industry'
-
-    // Determine author based on origin and content type
-    let author: string
-    if (contentType === 'theory') {
-      author = 'LocReport Research Desk'
-    } else {
-      author = 'LocReport Editorial Desk'
-    }
-
-    // Auto-classify if impact_score or time_horizon not provided
-    let { impact_score, time_horizon } = body as { impact_score?: number | null; time_horizon?: string | null }
-    let signal_ids: string[] = body.signal_ids ?? []
-
-    if (!impact_score || !time_horizon) {
-      const openai = getOpenAI()
-      const classification = await classifyArticle(openai, content)
-      if (!impact_score) impact_score = classification.impact_score
-      if (!time_horizon) time_horizon = classification.time_horizon
-      if (!signal_ids.length) signal_ids = classification.signal_ids
-    }
+    const author = body.content_type === 'theory'
+      ? 'LocReport Research Desk'
+      : 'LocReport Editorial Desk'
 
     const { error: articleError } = await supabase.from('articles').insert({
       title,
@@ -61,13 +43,10 @@ export async function PATCH(req: NextRequest, { params }: Params) {
       content,
       excerpt: extractTeaser(content),
       source_url: draft.source_url,
-      publisher: draft.publisher ?? 'LocReport',
+      publisher: 'LocReport',
       draft_id: draft.id,
-      article_type: contentType,
+      article_type: body.content_type === 'theory' ? 'theory' : 'industry',
       author,
-      impact_score: impact_score ?? null,
-      time_horizon: time_horizon ?? null,
-      signal_ids: signal_ids.length ? signal_ids : [],
     })
     if (articleError) return NextResponse.json({ error: articleError.message }, { status: 400 })
   }

@@ -37,11 +37,26 @@ function getTopics(article: Article): string[] {
   return topics
 }
 
+const STATIC_REPORTS: ArticleRow[] = [
+  {
+    id: 'static-annual-2026',
+    title: 'Localization & Translation Industry: 2026 Annual Report',
+    slug: '2026-annual-global-market-report',
+    href: '/reports/2026-annual-global-market-report',
+    excerpt: 'A data-rich strategic brief covering market evolution, AI disruption, competitive dynamics, and forward-looking implications for language services stakeholders.',
+    author: 'LocReport Editorial Desk',
+    article_type: 'annual',
+    impact_score: 5,
+    published_at: '2026-04-01T00:00:00.000Z',
+    topics: ['quality', 'operations', 'governance', 'market', 'strategy'],
+  },
+]
+
 export default async function ArticlesPage() {
   const supabase = await createClient()
   const { data } = await supabase
     .from('articles')
-    .select('id, title, slug, excerpt, content, publisher, impact_score, signal_ids, published_at')
+    .select('id, title, slug, excerpt, author, article_type, impact_score, signal_ids, published_at')
     .neq('article_type', 'theory')
     .order('published_at', { ascending: false })
 
@@ -49,28 +64,13 @@ export default async function ArticlesPage() {
     id: a.id,
     title: a.title,
     slug: a.slug,
-    excerpt: a.excerpt ?? (a.content ? extractTeaser(a.content) : null),
-    publisher: a.publisher,
+    excerpt: a.excerpt ?? null,
+    author: a.author ?? null,
+    article_type: a.article_type ?? 'industry',
     impact_score: a.impact_score,
     published_at: a.published_at,
     topics: getTopics(a),
   }))
 
-  const STATIC_REPORTS: ArticleRow[] = [
-    {
-      id: 'static-annual-2026',
-      title: 'Localization & Translation Industry: 2026 Annual Report',
-      slug: '2026-annual-global-market-report',
-      href: '/reports/2026-annual-global-market-report',
-      excerpt: 'A data-rich strategic brief covering market evolution, AI disruption, competitive dynamics, and forward-looking implications for language services stakeholders.',
-      publisher: 'LocReport',
-      impact_score: 5,
-      published_at: '2026-04-01T00:00:00.000Z',
-      topics: ['quality', 'operations', 'governance', 'market', 'strategy'],
-    },
-  ]
-
-  const allRows = [...STATIC_REPORTS, ...rows]
-
-  return <Suspense><AllArticlesClient articles={allRows} /></Suspense>
+  return <Suspense><AllArticlesClient articles={[...STATIC_REPORTS, ...rows]} /></Suspense>
 }
