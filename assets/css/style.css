@@ -5330,8 +5330,6 @@ article.page > h1 {
 /* Featured first article */
 .article-row--featured {
   padding: 1.125rem;
-  margin-left: -1.125rem;
-  margin-right: -1.125rem;
   margin-bottom: var(--space-4);
   background: var(--surface);
   border: 1px solid color-mix(in srgb, var(--border) 80%, transparent);
@@ -5635,6 +5633,13 @@ article.page > h1 {
 
   .post-layout { grid-template-columns: 1fr; max-width: var(--content-width); }
   .post-sidebar { position: static; padding-top: 0; }
+}
+
+@media (min-width: 1024px) {
+  .article-row--featured {
+    margin-left: -1.125rem;
+    margin-right: -1.125rem;
+  }
 }
 
 @media (max-width: 768px) {
