@@ -28,8 +28,8 @@ export async function POST(req: NextRequest) {
 
   const service = createServiceClient()
   const now = new Date()
-  // 30-day history window — pass as ISO string for v3 compatibility
-  const period1 = new Date(now.getTime() - 31 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10)
+  // Fetch history from start of 2024 to support all period filters
+  const period1 = '2024-01-01'
 
   let updated = 0
   let failed = 0
