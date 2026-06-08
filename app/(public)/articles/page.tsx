@@ -3,7 +3,6 @@ import { Article } from '@/lib/types'
 import type { Metadata } from 'next'
 import { Suspense } from 'react'
 import AllArticlesClient, { ArticleRow } from '../all-articles/AllArticlesClient'
-import { extractTeaser } from '@/lib/utils'
 
 export const metadata: Metadata = {
   title: 'All Articles — LocReport',
@@ -56,7 +55,7 @@ export default async function ArticlesPage() {
   const supabase = await createClient()
   const { data } = await supabase
     .from('articles')
-    .select('id, title, slug, excerpt, content, author, article_type, impact_score, signal_ids, published_at')
+    .select('id, title, slug, excerpt, author, article_type, impact_score, signal_ids, published_at')
     .neq('article_type', 'theory')
     .order('published_at', { ascending: false })
 
@@ -64,7 +63,7 @@ export default async function ArticlesPage() {
     id: a.id,
     title: a.title,
     slug: a.slug,
-    excerpt: a.excerpt ?? (a.content ? extractTeaser(a.content) : null),
+    excerpt: a.excerpt ?? null,
     author: a.author ?? null,
     article_type: a.article_type ?? 'industry',
     impact_score: a.impact_score,
