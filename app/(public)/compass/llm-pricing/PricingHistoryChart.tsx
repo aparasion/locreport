@@ -176,8 +176,9 @@ export function PricingHistoryChart({ models, history }: Props) {
   const yTickFormatter = (v: number) =>
     viewMode === 'pct' ? `${v > 0 ? '+' : ''}${v}%` : `$${v}`
 
-  const tooltipFormatter = (value: number | string, name: string) => {
+  const tooltipFormatter = (value: number | string | undefined, name: string) => {
     const label = modelMap.get(name)?.name ?? name
+    if (value == null) return ['-', label]
     if (viewMode === 'pct') {
       const n = Number(value)
       return [`${n > 0 ? '+' : ''}${n}% vs launch`, label]
