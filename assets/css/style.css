@@ -6297,19 +6297,45 @@ kbd, code {
 .cta-inner h2, .cta-inner h3 { color: var(--featured-text); }
 
 /* ── Pricing History Chart ── */
-.phc-root { margin-top: var(--space-10); }
+.phc-root { margin-top: var(--space-10); scroll-margin-top: 80px; }
 .phc-header { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-4); margin-bottom: var(--space-5); flex-wrap: wrap; }
-.phc-title { font-size: 1.25rem; font-weight: 700; color: var(--heading); margin: 0 0 var(--space-1); }
+.phc-header-left { flex: 1; min-width: 0; }
+.phc-title-row { display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-1); }
+.phc-title { font-size: 1.25rem; font-weight: 700; color: var(--heading); margin: 0; }
 .phc-subtitle { font-size: 0.85rem; color: var(--muted); margin: 0; }
+.phc-controls { display: flex; flex-direction: column; gap: var(--space-2); align-items: flex-end; flex-shrink: 0; }
 .phc-toggle-group { display: flex; gap: 0; border: 1.5px solid var(--border); border-radius: 100px; overflow: hidden; flex-shrink: 0; }
 .phc-toggle-btn { padding: 6px 20px; font-size: 0.82rem; font-weight: 600; background: transparent; border: none; cursor: pointer; color: var(--muted); transition: all 0.15s; }
 .phc-toggle-btn.active { background: var(--accent); color: #fff; }
+.phc-toggle-btn--pct.active { background: #059669; }
 [data-theme="dark"] .phc-toggle-btn.active { color: #0B0B0D; }
+/* Share button */
+.phc-share-btn { display: inline-flex; align-items: center; gap: 5px; padding: 4px 12px; font-size: 0.75rem; font-weight: 600; background: transparent; border: 1.5px solid var(--border); border-radius: 100px; cursor: pointer; color: var(--muted); transition: all 0.15s; line-height: 1; }
+.phc-share-btn:hover { border-color: var(--accent); color: var(--accent); }
+/* Price movers strip */
+.phc-movers { display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-2); margin-bottom: var(--space-4); padding: var(--space-3) var(--space-4); background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); }
+.phc-movers-label { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); margin-right: var(--space-1); }
+.phc-mover-badge { display: inline-flex; align-items: center; gap: 5px; padding: 3px 10px; font-size: 0.75rem; border-radius: 100px; border: 1.5px solid transparent; }
+.phc-mover-badge.drop { background: #dcfce7; color: #15803d; border-color: #bbf7d0; }
+.phc-mover-badge.drop strong { color: #16a34a; }
+.phc-mover-badge.rise { background: #fee2e2; color: #b91c1c; border-color: #fecaca; }
+.phc-mover-badge.rise strong { color: #dc2626; }
+[data-theme="dark"] .phc-mover-badge.drop { background: #14532d40; color: #4ade80; border-color: #15803d60; }
+[data-theme="dark"] .phc-mover-badge.drop strong { color: #86efac; }
+[data-theme="dark"] .phc-mover-badge.rise { background: #7f1d1d40; color: #f87171; border-color: #b91c1c60; }
+[data-theme="dark"] .phc-mover-badge.rise strong { color: #fca5a5; }
+/* Chip delta badge */
+.phc-chip-delta { font-size: 0.65rem; font-weight: 700; padding: 1px 5px; border-radius: 4px; margin-left: 2px; }
+.phc-chip-delta.down { color: #16a34a; }
+.phc-chip-delta.up { color: #dc2626; }
+[data-theme="dark"] .phc-chip-delta.down { color: #4ade80; }
+[data-theme="dark"] .phc-chip-delta.up { color: #f87171; }
+/* Rest */
 .phc-model-picker { display: flex; flex-direction: column; gap: var(--space-3); margin-bottom: var(--space-5); background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: var(--space-4) var(--space-5); }
 .phc-provider-group { display: flex; align-items: center; gap: var(--space-3); flex-wrap: wrap; }
 .phc-provider-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); min-width: 90px; flex-shrink: 0; }
 .phc-chips { display: flex; flex-wrap: wrap; gap: 6px; }
-.phc-chip { padding: 4px 14px; font-size: 0.78rem; font-weight: 600; background: transparent; border: 1.5px solid var(--border); border-radius: 100px; cursor: pointer; color: var(--muted); transition: all 0.15s; }
+.phc-chip { display: inline-flex; align-items: center; gap: 2px; padding: 4px 14px; font-size: 0.78rem; font-weight: 600; background: transparent; border: 1.5px solid var(--border); border-radius: 100px; cursor: pointer; color: var(--muted); transition: all 0.15s; }
 .phc-chip:hover { border-color: var(--accent); color: var(--accent); }
 .phc-chart-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: var(--space-5); margin-bottom: var(--space-4); }
 .phc-empty { text-align: center; padding: var(--space-8) 0; color: var(--muted); font-size: 0.9rem; }
