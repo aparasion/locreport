@@ -37,6 +37,9 @@ export async function PATCH(req: NextRequest, { params }: Params) {
       ? 'LocReport Research Desk'
       : 'LocReport Editorial Desk'
 
+    const openai = getOpenAI()
+    const classification = await classifyArticle(openai, content)
+
     const { error: articleError } = await supabase.from('articles').insert({
       title,
       slug,
@@ -47,6 +50,11 @@ export async function PATCH(req: NextRequest, { params }: Params) {
       draft_id: draft.id,
       article_type: body.content_type === 'theory' ? 'theory' : 'industry',
       author,
+      impact_score: classification.impact_score,
+      time_horizon: classification.time_horizon,
+      signal_ids: classification.signal_ids,
+      business_implications: classification.business_implications,
+      affected_segments: classification.affected_segments,
     })
     if (articleError) return NextResponse.json({ error: articleError.message }, { status: 400 })
   }

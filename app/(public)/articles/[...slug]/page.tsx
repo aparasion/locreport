@@ -60,7 +60,9 @@ export default async function ArticlePage({ params }: Props) {
       content = contentTrimmed.slice(excerptNorm.length).trimStart()
     }
   }
-  const html = marked.parse(content) as string
+  const rawHtml = marked.parse(content) as string
+  // Add target/_blank + rel=noopener to all external links in rendered content
+  const html = rawHtml.replace(/<a (href="https?:\/\/)/g, '<a target="_blank" rel="noopener" $1')
   const date = new Date(a.published_at).toLocaleDateString('en-US', {
     year: 'numeric', month: 'long', day: 'numeric',
   })

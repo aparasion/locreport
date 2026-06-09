@@ -3,13 +3,14 @@ import { useEffect, useState } from 'react'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 
-type Confirm = 'ingest' | 'monthly' | null
+type Confirm = 'ingest' | 'monthly' | 'reclassify' | null
 
 export default function AdminDashboard() {
   const [stats, setStats] = useState<{ articles: number; drafts: number; sources: number } | null>(null)
   const [ingesting, setIngesting] = useState(false)
   const [monthlyRunning, setMonthlyRunning] = useState(false)
   const [quotesRunning, setQuotesRunning] = useState(false)
+  const [reclassifying, setReclassifying] = useState(false)
 const [confirm, setConfirm] = useState<Confirm>(null)
   const [message, setMessage] = useState('')
   const [messageType, setMessageType] = useState<'ok' | 'error'>('ok')
@@ -62,6 +63,33 @@ const [confirm, setConfirm] = useState<Confirm>(null)
     )
     setMonthlyRunning(false)
     if (res.ok) fetch('/api/stats').then(r => r.json()).then(setStats)
+  }
+
+  async function reclassifyArticles() {
+    setConfirm(null)
+    setReclassifying(true)
+    flash('')
+    const slugs = [
+      'forcing-the-fit-mqm-in-the-age-of-automated-evaluation',
+      'designing-ai-enabled-localization-workflows-for-enterprise-operations',
+      'every-market-is-a-new-market',
+      'beyond-the-word-count-how-to-prove-saas-localization-roi-in-2026',
+    ]
+    const res = await fetch('/api/admin/reclassify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ slugs }),
+    })
+    const data = await res.json()
+    if (res.ok) {
+      const summary = Object.entries(data.results as Record<string, string>)
+        .map(([slug, status]) => `${slug.split('-').slice(-2).join('-')}: ${status}`)
+        .join(', ')
+      flash(`Reclassified: ${summary}`)
+    } else {
+      flash(data.error ?? 'Reclassify failed.', 'error')
+    }
+    setReclassifying(false)
   }
 
   async function refreshQuotes() {
@@ -154,6 +182,33 @@ const [confirm, setConfirm] = useState<Confirm>(null)
               <span>A report for this period already exists. Generate a new one anyway?</span>
               <Button onClick={() => runMonthly(true)} disabled={monthlyRunning}>Yes, regenerate</Button>
               <Button variant="ghost" onClick={() => { setConfirm(null); flash('') }}>Cancel</Button>
+            </div>
+          )}
+        </div>
+
+        {/* Reclassify articles */}
+        <div className="p-4 rounded-lg border" style={{ background: 'var(--surface)', borderColor: 'var(--border)' }}>
+          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
+            <div>
+              <p className="font-medium" style={{ color: 'var(--text)' }}>Reclassify Editorial Desk articles</p>
+              <p className="text-sm mt-0.5" style={{ color: 'var(--muted)' }}>
+                Re-runs AI classification on 4 articles missing impact score, signals, and business implications.
+              </p>
+            </div>
+            <Button
+              variant="secondary"
+              onClick={() => { setConfirm('reclassify'); flash('') }}
+              disabled={reclassifying || confirm === 'reclassify'}
+              className="shrink-0 self-start"
+            >
+              {reclassifying ? 'Running…' : 'Reclassify'}
+            </Button>
+          </div>
+          {confirm === 'reclassify' && (
+            <div className="mt-3 pt-3 flex flex-wrap items-center gap-3 text-sm" style={{ borderTop: '1px solid var(--border)', color: 'var(--muted)' }}>
+              <span>This will overwrite impact score, signals, business implications, and affected segments for 4 articles. Continue?</span>
+              <Button onClick={reclassifyArticles} disabled={reclassifying}>Confirm</Button>
+              <Button variant="ghost" onClick={() => setConfirm(null)}>Cancel</Button>
             </div>
           )}
         </div>
