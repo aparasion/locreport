@@ -16,7 +16,6 @@ const STATIC_PAGES = [
   { title: 'LocStock — Localization Market Index', href: '/compass/locstock', section: 'Compass', excerpt: 'Live equity overview of 34 publicly traded companies in language services and AI translation.' },
   { title: 'Compass — Industry Tools', href: '/compass', section: 'Compass', excerpt: 'Market intelligence tools: LocStock, industry directory, events, LLM pricing tracker.' },
   { title: 'Intelligence Overview', href: '/intelligence', section: 'Intelligence', excerpt: 'High-impact signals, trends and analysis for the localization industry.' },
-  { title: 'Language Science', href: '/language-science', section: 'Language Science', excerpt: 'Research papers and academic literature on translation, language technology, and NLP.' },
   { title: 'Industry Directory', href: '/compass/directory', section: 'Compass', excerpt: 'Directory of companies in language services, translation technology, and localization.' },
   { title: 'LLM Pricing Tracker', href: '/compass/llm-pricing', section: 'Compass', excerpt: 'Comparative pricing for large language models used in translation and localization.' },
   { title: 'Events', href: '/compass/events', section: 'Compass', excerpt: 'Upcoming and recent industry events in localization and language technology.' },
@@ -72,15 +71,6 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
     .order('published_at', { ascending: false })
     .limit(20)
 
-  // Research papers from Supabase
-  const { data: papers } = await supabase
-    .from('articles')
-    .select('id, title, slug, excerpt, publisher, published_at')
-    .eq('article_type', 'theory')
-    .or(`title.ilike.%${query}%,excerpt.ilike.%${query}%`)
-    .order('published_at', { ascending: false })
-    .limit(10)
-
   // Signals (static)
   const signals = SIGNALS.filter(s =>
     s.title.toLowerCase().includes(qLower) ||
@@ -94,7 +84,7 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
     p.excerpt.toLowerCase().includes(qLower)
   )
 
-  const total = (articles?.length ?? 0) + (papers?.length ?? 0) + signals.length + pages.length
+  const total = (articles?.length ?? 0) + signals.length + pages.length
 
   const IMPACT_LABEL: Record<number, string> = { 2: 'Notable', 3: 'Significant', 4: 'Major', 5: 'Disruptive' }
   const IMPACT_COLOR: Record<number, string> = { 2: '#6b7280', 3: '#f59e0b', 4: '#ef4444', 5: '#7c3aed' }
@@ -156,18 +146,6 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
                       )}
                     </span>
                   }
-                />
-              ))}
-            </Section>
-          )}
-
-          {(papers?.length ?? 0) > 0 && (
-            <Section label="Research" count={papers!.length}>
-              {papers!.map(a => (
-                <ResultRow key={a.id} href={`/language-science/${a.slug}`} section={a.publisher ?? 'Research'}
-                  title={<span dangerouslySetInnerHTML={{ __html: highlight(a.title, query) }} />}
-                  excerpt={a.excerpt ? <span dangerouslySetInnerHTML={{ __html: highlight(a.excerpt, query) }} /> : null}
-                  meta={<span style={{ fontSize: '0.75rem', color: 'var(--muted)' }}>{fmtDate(a.published_at)}</span>}
                 />
               ))}
             </Section>

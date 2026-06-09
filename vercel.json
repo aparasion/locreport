@@ -77,16 +77,11 @@
       "destination": "/articles/international-search-summit-new-york",
       "permanent": true
     },
-    {
-      "source": "/research",
-      "destination": "/language-science",
-      "permanent": true
-    },
-    {
-      "source": "/research/",
-      "destination": "/language-science",
-      "permanent": true
-    },
+    { "source": "/research", "destination": "/articles", "permanent": true },
+    { "source": "/research/", "destination": "/articles", "permanent": true },
+    { "source": "/language-science", "destination": "/articles", "permanent": true },
+    { "source": "/language-science/", "destination": "/articles", "permanent": true },
+    { "source": "/language-science/:slug", "destination": "/articles/:slug", "permanent": true },
     {
       "source": "/articles/may-2026-localization-and-translation-industry-report-mq014946",
       "destination": "/articles/monthly-report-may-2026",

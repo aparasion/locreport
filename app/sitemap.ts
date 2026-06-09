@@ -17,7 +17,6 @@ const STATIC_PAGES: MetadataRoute.Sitemap = [
   { url: `${BASE_URL}/compass/events`, changeFrequency: 'weekly', priority: 0.6 },
   { url: `${BASE_URL}/compass/llm-pricing`, changeFrequency: 'weekly', priority: 0.6 },
   { url: `${BASE_URL}/compass/directory`, changeFrequency: 'monthly', priority: 0.6 },
-  { url: `${BASE_URL}/language-science`, changeFrequency: 'weekly', priority: 0.7 },
   { url: `${BASE_URL}/about`, changeFrequency: 'yearly', priority: 0.4 },
   { url: `${BASE_URL}/contact`, changeFrequency: 'yearly', priority: 0.3 },
 ]
