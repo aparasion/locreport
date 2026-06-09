@@ -1,4 +1,5 @@
 import { Nav } from '@/components/Nav'
+import { BackToTop } from '@/components/BackToTop'
 import Link from 'next/link'
 import Image from 'next/image'
 
@@ -8,6 +9,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
     <>
       <Nav />
       {children}
+      <BackToTop />
       <footer className="site-footer">
         <div className="footer-shell">
           <div className="footer-top">
