@@ -91,6 +91,13 @@
       "source": "/articles/may-2026-localization-and-translation-industry-report-mq014946",
       "destination": "/articles/monthly-report-may-2026",
       "permanent": true
-    }
+    },
+    { "source": "/translation/:year/:month/:day/:slug.html", "destination": "/articles/:slug", "permanent": true },
+    { "source": "/translation/:year/:month/:day/:slug", "destination": "/articles/:slug", "permanent": true },
+    { "source": "/articles/:year/:month/:day/:slug", "destination": "/articles/:slug", "permanent": true },
+    { "source": "/:year(\\d{4})/:month(\\d{2})/:day(\\d{2})/:slug/", "destination": "/articles/:slug", "permanent": true },
+    { "source": "/:year(\\d{4})/:month(\\d{2})/:day(\\d{2})/:slug", "destination": "/articles/:slug", "permanent": true },
+    { "source": "/login/", "destination": "/login", "permanent": true },
+    { "source": "/cdn-cgi/l/email-protection", "destination": "/", "permanent": true }
   ]
 }
