@@ -13,6 +13,7 @@ export const revalidate = 86400
 type Props = { params: Promise<{ slug: string[] }> }
 
 const IMPACT_LABEL: Record<number, string> = { 1: 'Routine', 2: 'Notable', 3: 'Significant', 4: 'Major', 5: 'Disruptive' }
+const TYPE_LABEL: Record<string, string> = { industry: 'Industry Analysis', theory: 'Language Science', 'monthly-summary': 'Monthly Report' }
 
 async function fetchArticle(slugParts: string[]) {
   const supabase = await createClient()
@@ -144,36 +145,46 @@ export default async function ArticlePage({ params }: Props) {
         </ol>
       </nav>
 
-      <h1>{a.title}</h1>
+      <header className="post-header">
+        {a.article_type && (
+          <p className="post-eyebrow">{TYPE_LABEL[a.article_type] ?? a.article_type}</p>
+        )}
 
-      <div className="post-meta-row">
-        <p className="post-meta">
-          {a.author && <><span className="post-author">{a.author}</span> · </>}
-          {date}<span className="read-time"> · {readMinutes} min read</span>
-        </p>
-        <div className="post-meta-actions">
-          {isAdmin && (
-            <Link href={`/admin/articles/${a.id}`} className="admin-edit-btn">
-              Edit
-            </Link>
-          )}
-          <ShareButton title={a.title} url={articleUrl} />
+        <h1>{a.title}</h1>
+
+        <div className="post-meta-row">
+          <p className="post-meta">
+            {a.author && <><span className="post-author">{a.author}</span> · </>}
+            {date}<span className="read-time"> · {readMinutes} min read</span>
+          </p>
+          <div className="post-meta-actions">
+            {isAdmin && (
+              <Link href={`/admin/articles/${a.id}`} className="admin-edit-btn">
+                Edit
+              </Link>
+            )}
+            <ShareButton title={a.title} url={articleUrl} />
+          </div>
         </div>
+
+        {/* Signal context */}
+        {articleSignals.length > 0 && (
+          <p className="signal-context">
+            {articleSignals.map((s, i) => (
+              <span key={s.id}>
+                <Link href={`/intelligence/signals/${s.id}`}>{s.title}</Link>
+                {i < articleSignals.length - 1 ? ', ' : ''}
+              </span>
+            ))}
+          </p>
+        )}
+
+        {a.excerpt && <p className="post-lede">{a.excerpt}</p>}
+      </header>
+
+      <div className="post-content-divider">
+        <span>Article</span>
       </div>
-
-      {/* Signal context */}
-      {articleSignals.length > 0 && (
-        <p className="signal-context">
-          {articleSignals.map((s, i) => (
-            <span key={s.id}>
-              <Link href={`/intelligence/signals/${s.id}`}>{s.title}</Link>
-              {i < articleSignals.length - 1 ? ', ' : ''}
-            </span>
-          ))}
-        </p>
-      )}
-
-      {a.excerpt && <p className="post-lede">{a.excerpt}</p>}
 
       <div className="post-content" dangerouslySetInnerHTML={{ __html: html }} />
 
