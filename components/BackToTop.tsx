@@ -13,39 +13,45 @@ export function BackToTop() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  if (!visible) return null
-
   return (
     <button
       onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
       aria-label="Back to top"
       style={{
         position: 'fixed',
-        bottom: '1.5rem',
-        right: '1.5rem',
+        bottom: '1.75rem',
+        right: '1.75rem',
         zIndex: 50,
+        width: '2.5rem',
+        height: '2.5rem',
         display: 'flex',
         alignItems: 'center',
-        gap: '0.4rem',
-        padding: '0.5rem 0.875rem',
-        borderRadius: 'var(--radius-md, 10px)',
-        background: 'var(--accent)',
-        color: '#fff',
-        border: 'none',
+        justifyContent: 'center',
+        borderRadius: '50%',
+        background: 'var(--surface)',
+        color: 'var(--accent)',
+        border: '1.5px solid var(--border)',
         cursor: 'pointer',
-        fontSize: '0.8125rem',
-        fontWeight: 600,
-        fontFamily: 'var(--font-body)',
-        boxShadow: '0 2px 12px rgba(0,0,0,0.18)',
-        transition: 'background 0.15s, transform 0.15s',
+        boxShadow: '0 2px 16px rgba(53,80,245,0.10), 0 1px 4px rgba(0,0,0,0.07)',
+        opacity: visible ? 1 : 0,
+        pointerEvents: visible ? 'auto' : 'none',
+        transform: visible ? 'translateY(0)' : 'translateY(0.5rem)',
+        transition: 'opacity 0.2s, transform 0.2s',
       }}
-      onMouseEnter={e => (e.currentTarget.style.background = 'var(--accent-hover)')}
-      onMouseLeave={e => (e.currentTarget.style.background = 'var(--accent)')}
+      onMouseEnter={e => {
+        e.currentTarget.style.background = 'var(--accent)'
+        e.currentTarget.style.color = '#fff'
+        e.currentTarget.style.borderColor = 'var(--accent)'
+      }}
+      onMouseLeave={e => {
+        e.currentTarget.style.background = 'var(--surface)'
+        e.currentTarget.style.color = 'var(--accent)'
+        e.currentTarget.style.borderColor = 'var(--border)'
+      }}
     >
-      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
         <polyline points="18 15 12 9 6 15" />
       </svg>
-      Top
     </button>
   )
 }
