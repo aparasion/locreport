@@ -324,7 +324,8 @@ export function PricingHistoryChart({ models, history }: Props) {
                 width={58}
               />
               <Tooltip
-                formatter={tooltipFormatter}
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                formatter={tooltipFormatter as any}
                 labelFormatter={(label) => formatDate(String(label))}
                 contentStyle={{
                   background: 'var(--card)',
