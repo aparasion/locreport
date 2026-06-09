@@ -189,10 +189,20 @@ export default async function ArticlePage({ params }: Props) {
       <div className="post-content" dangerouslySetInnerHTML={{ __html: html }} />
 
       <div className="support-box">
-        <p className="support-box__text">LocReport is free and independent. If it helps you stay informed, consider buying us a coffee — it goes a long way.</p>
-        <a href="https://buymeacoffee.com/locreport" target="_blank" rel="noopener" className="support-box__btn">
-          ☕ Buy me a coffee
-        </a>
+        <div className="support-box__inner">
+          <div className="support-box__copy">
+            <p className="support-box__headline">Keep independent coverage alive.</p>
+            <p className="support-box__text">No ads. No paywall. No corporate backing. Just sharp, weekly intelligence on the language industry — free, because it should be.</p>
+          </div>
+          <div className="support-box__actions">
+            <a href="https://buymeacoffee.com/locreport" target="_blank" rel="noopener" className="support-box__btn">
+              Support LocReport →
+            </a>
+            <a href={`https://twitter.com/intent/tweet?url=https://locreport.com${articleHref(a)}&text=${encodeURIComponent(a.title)}`} target="_blank" rel="noopener" className="support-box__share">
+              Share this article
+            </a>
+          </div>
+        </div>
       </div>
     </article>
     </>
