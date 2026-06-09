@@ -168,7 +168,7 @@ export function PricingHistoryChart({ models, history }: Props) {
                   `$${value}/1M`,
                   modelMap.get(String(name))?.name ?? name,
                 ]}
-                labelFormatter={formatDate}
+                labelFormatter={(label) => formatDate(String(label))}
                 contentStyle={{
                   background: 'var(--card)',
                   border: '1px solid var(--border)',
