@@ -257,15 +257,22 @@ To add a new signal: edit `lib/signals.ts`. No DB migration needed — signals a
 **Design tokens** are in `assets/css/style.css` as CSS variables:
 
 ```
---color-emerald-*    Primary brand (emerald green tones)
---color-ink-*        Text/dark tones
---color-pearl-*      Background/light tones
---color-gold-*       Accent tones
---font-display       Fraunces (serif, Google Fonts)
---font-body          Inter (sans-serif, Google Fonts)
+--accent / --accent-hover / --accent-soft / --accent-light
+                     Primary brand — indigo-blue (#3550F5 light, #6B83FF dark)
+--gold / --warm      Secondary micro-accent — warm amber (#B5740F light, #E0A33E dark)
+--bg / --bg-secondary / --surface
+                     Surfaces — white/near-white (light), near-black (dark)
+--text / --muted     Ink tones (#1D1D1F / #6E6E73 light; #F5F5F7 / #98989D dark)
+--border / --hairline Subtle separators
+--font-display       Space Grotesk (headings, Google Fonts)
+--font-body          Inter (body, Google Fonts)
+--font-mono          JetBrains Mono (code)
 --site-max-width     1200px
---page-gutter        Responsive padding (1rem mobile → 2rem desktop)
+--page-gutter        Responsive padding (0.75rem mobile → 1.5rem desktop)
+--radius-sm/md/lg/xl Border-radius scale (6px → 20px)
 ```
+
+> Note: The old CSS comment at the top of `style.css` references "Emerald & Ink" — this is outdated. The actual brand accent is indigo-blue, not emerald. Display font is Space Grotesk, not Fraunces.
 
 **Theme:** `data-theme="dark"` on `<html>` activates dark mode via CSS variable overrides.
 
