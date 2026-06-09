@@ -164,9 +164,9 @@ export function PricingHistoryChart({ models, history }: Props) {
                 width={52}
               />
               <Tooltip
-                formatter={(value: number, name: string) => [
+                formatter={(value, name) => [
                   `$${value}/1M`,
-                  modelMap.get(name)?.name ?? name,
+                  modelMap.get(String(name))?.name ?? name,
                 ]}
                 labelFormatter={formatDate}
                 contentStyle={{
