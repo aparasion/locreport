@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 
-type Confirm = 'ingest' | 'monthly' | 'reclassify' | null
+type Confirm = 'ingest' | 'monthly' | 'reclassify' | 'reclassify-all' | null
 
 export default function AdminDashboard() {
   const [stats, setStats] = useState<{ articles: number; drafts: number; sources: number } | null>(null)
@@ -65,27 +65,29 @@ const [confirm, setConfirm] = useState<Confirm>(null)
     if (res.ok) fetch('/api/stats').then(r => r.json()).then(setStats)
   }
 
-  async function reclassifyArticles() {
+  async function reclassifyArticles(allMissing = false) {
     setConfirm(null)
     setReclassifying(true)
     flash('')
-    const slugs = [
-      'forcing-the-fit-mqm-in-the-age-of-automated-evaluation',
-      'designing-ai-enabled-localization-workflows-for-enterprise-operations',
-      'every-market-is-a-new-market',
-      'beyond-the-word-count-how-to-prove-saas-localization-roi-in-2026',
-    ]
+    const body = allMissing
+      ? { all_missing: true }
+      : {
+          slugs: [
+            'forcing-the-fit-mqm-in-the-age-of-automated-evaluation',
+            'designing-ai-enabled-localization-workflows-for-enterprise-operations',
+            'every-market-is-a-new-market',
+            'beyond-the-word-count-how-to-prove-saas-localization-roi-in-2026',
+          ],
+        }
     const res = await fetch('/api/admin/reclassify', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ slugs }),
+      body: JSON.stringify(body),
     })
     const data = await res.json()
     if (res.ok) {
-      const summary = Object.entries(data.results as Record<string, string>)
-        .map(([slug, status]) => `${slug.split('-').slice(-2).join('-')}: ${status}`)
-        .join(', ')
-      flash(`Reclassified: ${summary}`)
+      const updated = Object.values(data.results as Record<string, string>).filter(s => s === 'updated').length
+      flash(`Reclassified ${updated} of ${data.count} articles.`)
     } else {
       flash(data.error ?? 'Reclassify failed.', 'error')
     }
@@ -190,24 +192,39 @@ const [confirm, setConfirm] = useState<Confirm>(null)
         <div className="p-4 rounded-lg border" style={{ background: 'var(--surface)', borderColor: 'var(--border)' }}>
           <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
             <div>
-              <p className="font-medium" style={{ color: 'var(--text)' }}>Reclassify Editorial Desk articles</p>
+              <p className="font-medium" style={{ color: 'var(--text)' }}>Reclassify unclassified articles</p>
               <p className="text-sm mt-0.5" style={{ color: 'var(--muted)' }}>
-                Re-runs AI classification on 4 articles missing impact score, signals, and business implications.
+                Re-runs AI classification on articles missing impact score, signals, and business implications.
               </p>
             </div>
-            <Button
-              variant="secondary"
-              onClick={() => { setConfirm('reclassify'); flash('') }}
-              disabled={reclassifying || confirm === 'reclassify'}
-              className="shrink-0 self-start"
-            >
-              {reclassifying ? 'Running…' : 'Reclassify'}
-            </Button>
+            <div className="flex gap-2 shrink-0 self-start">
+              <Button
+                variant="secondary"
+                onClick={() => { setConfirm('reclassify-all'); flash('') }}
+                disabled={reclassifying || confirm === 'reclassify-all'}
+              >
+                {reclassifying ? 'Running…' : 'All unclassified'}
+              </Button>
+              <Button
+                variant="secondary"
+                onClick={() => { setConfirm('reclassify'); flash('') }}
+                disabled={reclassifying || confirm === 'reclassify'}
+              >
+                4 named articles
+              </Button>
+            </div>
           </div>
+          {confirm === 'reclassify-all' && (
+            <div className="mt-3 pt-3 flex flex-wrap items-center gap-3 text-sm" style={{ borderTop: '1px solid var(--border)', color: 'var(--muted)' }}>
+              <span>Reclassify up to 20 most recent articles with no impact score. Continue?</span>
+              <Button onClick={() => reclassifyArticles(true)} disabled={reclassifying}>Confirm</Button>
+              <Button variant="ghost" onClick={() => setConfirm(null)}>Cancel</Button>
+            </div>
+          )}
           {confirm === 'reclassify' && (
             <div className="mt-3 pt-3 flex flex-wrap items-center gap-3 text-sm" style={{ borderTop: '1px solid var(--border)', color: 'var(--muted)' }}>
-              <span>This will overwrite impact score, signals, business implications, and affected segments for 4 articles. Continue?</span>
-              <Button onClick={reclassifyArticles} disabled={reclassifying}>Confirm</Button>
+              <span>Reclassify the 4 named Editorial Desk articles. Continue?</span>
+              <Button onClick={() => reclassifyArticles(false)} disabled={reclassifying}>Confirm</Button>
               <Button variant="ghost" onClick={() => setConfirm(null)}>Cancel</Button>
             </div>
           )}

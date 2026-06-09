@@ -10,24 +10,41 @@ export async function POST(req: NextRequest) {
 
   const body = await req.json()
   const slugs: string[] = body.slugs ?? []
-  if (!slugs.length) return NextResponse.json({ error: 'No slugs provided' }, { status: 400 })
+  const allMissing: boolean = body.all_missing === true
+
+  if (!slugs.length && !allMissing) {
+    return NextResponse.json({ error: 'Provide slugs or set all_missing: true' }, { status: 400 })
+  }
 
   const service = createServiceClient()
   const openai = getOpenAI()
   const results: Record<string, string> = {}
 
-  for (const slug of slugs) {
-    const { data: article, error } = await service
+  let articles: { id: string; slug: string; content: string }[] = []
+
+  if (allMissing) {
+    const { data, error } = await service
       .from('articles')
-      .select('id, content')
-      .eq('slug', slug)
-      .maybeSingle()
-
-    if (error || !article) {
-      results[slug] = 'not found'
-      continue
+      .select('id, slug, content')
+      .is('impact_score', null)
+      .neq('article_type', 'monthly-summary')
+      .order('published_at', { ascending: false })
+      .limit(20)
+    if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+    articles = data ?? []
+  } else {
+    for (const slug of slugs) {
+      const { data, error } = await service
+        .from('articles')
+        .select('id, slug, content')
+        .eq('slug', slug)
+        .maybeSingle()
+      if (error || !data) { results[slug] = 'not found'; continue }
+      articles.push(data)
     }
+  }
 
+  for (const article of articles) {
     const classification = await classifyArticle(openai, article.content)
     const { error: updateError } = await service
       .from('articles')
@@ -40,8 +57,8 @@ export async function POST(req: NextRequest) {
       })
       .eq('id', article.id)
 
-    results[slug] = updateError ? `error: ${updateError.message}` : 'updated'
+    results[article.slug] = updateError ? `error: ${updateError.message}` : 'updated'
   }
 
-  return NextResponse.json({ results })
+  return NextResponse.json({ results, count: articles.length })
 }
