@@ -1,14 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServiceClient } from '@/lib/supabase/server'
-import { slugify } from '@/lib/slugify'
+import { slugify, uniqueSlug } from '@/lib/slugify'
 
 export async function POST(req: NextRequest) {
   const { content } = await req.json()
   const titleMatch = content.match(/^#\s+(.+)$/m)
   const title = titleMatch ? titleMatch[1].trim() : 'Untitled'
-  const slug = slugify(title)
-
   const supabase = createServiceClient()
+  const slug = await uniqueSlug(slugify(title), 'articles', supabase)
   const { data, error } = await supabase
     .from('articles')
     .insert({ title, slug, content, article_type: 'industry', author: 'LocReport Editorial Desk', publisher: 'LocReport' })

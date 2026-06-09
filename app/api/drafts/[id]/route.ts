@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServiceClient } from '@/lib/supabase/server'
-import { slugify } from '@/lib/slugify'
+import { slugify, uniqueSlug } from '@/lib/slugify'
 import { extractTeaser } from '@/lib/utils'
 import { classifyArticle } from '@/lib/classify'
 import { getOpenAI } from '@/lib/openai'
@@ -31,7 +31,7 @@ export async function PATCH(req: NextRequest, { params }: Params) {
     const content = body.content ?? draft.content
     const titleMatch = content.match(/^#\s+(.+)$/m)
     const title = titleMatch ? titleMatch[1].trim() : draft.title
-    const slug = slugify(title)
+    const slug = await uniqueSlug(slugify(title), 'articles', supabase)
 
     const author = body.content_type === 'theory'
       ? 'LocReport Research Desk'

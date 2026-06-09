@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient, createServiceClient } from '@/lib/supabase/server'
 import { getOpenAI } from '@/lib/openai'
-import { slugify } from '@/lib/slugify'
+import { slugify, uniqueSlug } from '@/lib/slugify'
 import { DEFAULT_MONTHLY_PROMPT } from '@/lib/prompts'
 
 async function getPrompt(): Promise<string> {
@@ -111,7 +111,7 @@ export async function POST(req: NextRequest) {
   const reportContent = completion.choices[0].message.content?.trim() ?? ''
   const titleMatch = reportContent.match(/^#\s+(.+)$/m)
   const title = titleMatch ? titleMatch[1].trim() : `Monthly Report — ${monthName} ${year}`
-  const slug = slugify(title)
+  const slug = await uniqueSlug(slugify(title), 'articles', service)
 
   const publishedAt = new Date(year, month, 1).toISOString() // publish on 1st of current month
 

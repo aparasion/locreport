@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient, createServiceClient } from '@/lib/supabase/server'
 import { fetchFeed, fetchArticleText } from '@/lib/rss'
 import { getOpenAI } from '@/lib/openai'
-import { slugify } from '@/lib/slugify'
+import { slugify, uniqueSlug } from '@/lib/slugify'
 import { domainToPublisher } from '@/lib/utils'
 import { DEFAULT_EXTRACTOR_PROMPT, DEFAULT_INDUSTRY_PROMPT } from '@/lib/prompts'
 import { classifyArticle } from '@/lib/classify'
@@ -118,7 +118,7 @@ export async function POST(req: NextRequest) {
         const content = generateRes.choices[0].message.content ?? ''
         const titleMatch = content.match(/^#\s+(.+)$/m)
         const title = titleMatch ? titleMatch[1].trim() : item.title
-        const slug = slugify(title)
+        const slug = await uniqueSlug(slugify(title), 'drafts', supabase)
 
         const classification = await classifyArticle(openai, content)
 

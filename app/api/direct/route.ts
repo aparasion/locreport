@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient, createServiceClient } from '@/lib/supabase/server'
 import { getOpenAI } from '@/lib/openai'
 import { classifyArticle } from '@/lib/classify'
-import { slugify } from '@/lib/slugify'
+import { slugify, uniqueSlug } from '@/lib/slugify'
 
 export async function POST(req: NextRequest) {
   const supabase = await createClient()
@@ -29,9 +29,8 @@ export async function POST(req: NextRequest) {
 
   const primarySourceUrl = sources[0]?.url ?? null
 
-  const slug = slugify(title.trim())
-
   const db = createServiceClient()
+  const slug = await uniqueSlug(slugify(title.trim()), 'drafts', db)
   const { data, error } = await db
     .from('drafts')
     .insert({
