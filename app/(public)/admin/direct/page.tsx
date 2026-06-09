@@ -1,6 +1,7 @@
 'use client'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { marked } from 'marked'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -19,6 +20,7 @@ export default function DirectComposePage() {
   const [extraUrl2, setExtraUrl2] = useState('')
   const [extraSourceName2, setExtraSourceName2] = useState('')
 
+  const [tab, setTab] = useState<'write' | 'preview'>('write')
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState('')
 
@@ -89,15 +91,40 @@ export default function DirectComposePage() {
         </div>
 
         <div>
-          <Label htmlFor="content">Article content <span className="text-red-500">*</span></Label>
-          <Textarea
-            id="content"
-            value={content}
-            onChange={e => setContent(e.target.value)}
-            rows={18}
-            placeholder="Paste the full article text here. It will be published exactly as written."
-            className="mt-1 font-mono text-sm"
-          />
+          <div className="flex items-center justify-between mb-1">
+            <Label htmlFor="content">Article content <span className="text-red-500">*</span></Label>
+            <div className="flex gap-1" style={{ borderBottom: '1px solid var(--border)' }}>
+              {(['write', 'preview'] as const).map(t => (
+                <button
+                  key={t}
+                  type="button"
+                  onClick={() => setTab(t)}
+                  className="px-3 py-1 text-xs font-medium capitalize rounded-t"
+                  style={tab === t
+                    ? { borderBottom: '2px solid var(--accent)', color: 'var(--accent)', marginBottom: -1 }
+                    : { color: 'var(--muted)' }}
+                >
+                  {t}
+                </button>
+              ))}
+            </div>
+          </div>
+          {tab === 'write' ? (
+            <Textarea
+              id="content"
+              value={content}
+              onChange={e => setContent(e.target.value)}
+              rows={18}
+              placeholder="Paste the full article text here. It will be published exactly as written."
+              className="mt-1 font-mono text-sm"
+            />
+          ) : (
+            <div
+              className="prose mt-1 min-h-[18rem] rounded-md border p-4 text-sm overflow-auto"
+              style={{ borderColor: 'var(--border)', background: 'var(--surface)' }}
+              dangerouslySetInnerHTML={{ __html: content ? marked.parse(content) as string : '<p style="color:var(--muted)">Nothing to preview yet.</p>' }}
+            />
+          )}
           <p className="text-xs mt-1" style={{ color: 'var(--muted)' }}>
             Supports Markdown. Content is published unchanged.
           </p>
