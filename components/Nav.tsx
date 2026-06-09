@@ -20,7 +20,6 @@ const NAV_LINKS = [
       { href: '/reports/monthly', label: 'Monthly reports' },
     ]
   },
-  { href: '/language-science', label: 'Language Science' },
   {
     href: '/compass', label: 'Compass', dropdown: [
       { href: '/compass/locstock', label: 'LocStock' },
