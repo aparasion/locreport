@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
-import { LLM_MODELS } from '@/lib/data/llm-pricing'
+import { LLM_MODELS, LLM_PRICE_HISTORY } from '@/lib/data/llm-pricing'
 import { PricingClient } from './PricingClient'
+import { PricingHistoryChart } from './PricingHistoryChart'
 
 export const metadata: Metadata = {
   title: 'AI Translation Cost Simulator | LocReport Compass',
@@ -15,6 +16,7 @@ export default function LLMPricingPage() {
         Build your language programme pair by pair, set word volumes, and compare monthly API costs across leading LLMs.
       </p>
       <PricingClient models={LLM_MODELS} />
+      <PricingHistoryChart models={LLM_MODELS} history={LLM_PRICE_HISTORY} />
     </div>
   )
 }

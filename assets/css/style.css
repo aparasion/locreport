@@ -5993,3 +5993,22 @@ kbd, code {
 
 /* Headings inside dark "featured" blocks must stay light */
 .cta-inner h2, .cta-inner h3 { color: var(--featured-text); }
+
+/* ── Pricing History Chart ── */
+.phc-root { margin-top: var(--space-10); }
+.phc-header { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-4); margin-bottom: var(--space-5); flex-wrap: wrap; }
+.phc-title { font-size: 1.25rem; font-weight: 700; color: var(--heading); margin: 0 0 var(--space-1); }
+.phc-subtitle { font-size: 0.85rem; color: var(--muted); margin: 0; }
+.phc-toggle-group { display: flex; gap: 0; border: 1.5px solid var(--border); border-radius: 100px; overflow: hidden; flex-shrink: 0; }
+.phc-toggle-btn { padding: 6px 20px; font-size: 0.82rem; font-weight: 600; background: transparent; border: none; cursor: pointer; color: var(--muted); transition: all 0.15s; }
+.phc-toggle-btn.active { background: var(--accent); color: #fff; }
+[data-theme="dark"] .phc-toggle-btn.active { color: #0B0B0D; }
+.phc-model-picker { display: flex; flex-direction: column; gap: var(--space-3); margin-bottom: var(--space-5); background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: var(--space-4) var(--space-5); }
+.phc-provider-group { display: flex; align-items: center; gap: var(--space-3); flex-wrap: wrap; }
+.phc-provider-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); min-width: 90px; flex-shrink: 0; }
+.phc-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.phc-chip { padding: 4px 14px; font-size: 0.78rem; font-weight: 600; background: transparent; border: 1.5px solid var(--border); border-radius: 100px; cursor: pointer; color: var(--muted); transition: all 0.15s; }
+.phc-chip:hover { border-color: var(--accent); color: var(--accent); }
+.phc-chart-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: var(--space-5); margin-bottom: var(--space-4); }
+.phc-empty { text-align: center; padding: var(--space-8) 0; color: var(--muted); font-size: 0.9rem; }
+.phc-disclaimer { font-size: 0.78rem; color: var(--muted); border-left: 3px solid var(--border); padding-left: var(--space-3); margin: 0; }
