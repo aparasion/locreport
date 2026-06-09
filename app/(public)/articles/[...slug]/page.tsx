@@ -198,7 +198,7 @@ export default async function ArticlePage({ params }: Props) {
             <a href="https://buymeacoffee.com/locreport" target="_blank" rel="noopener" className="support-box__btn">
               Support LocReport →
             </a>
-            <a href={`https://twitter.com/intent/tweet?url=https://locreport.com${articleHref(a)}&text=${encodeURIComponent(a.title)}`} target="_blank" rel="noopener" className="support-box__share">
+            <a href={`https://twitter.com/intent/tweet?url=https://locreport.com${articleHref(a.slug)}&text=${encodeURIComponent(a.title)}`} target="_blank" rel="noopener" className="support-box__share">
               Share this article
             </a>
           </div>
