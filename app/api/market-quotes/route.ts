@@ -78,8 +78,8 @@ export async function POST(req: NextRequest) {
 
   // Fetch quotes and history in parallel — batch all symbols in one request each
   const [quotesRes, historyRes] = await Promise.all([
-    fetch(`${TD_BASE}/quote?symbol=${encodeURIComponent(symbols)}&apikey=${key}`),
-    fetch(`${TD_BASE}/time_series?symbol=${encodeURIComponent(symbols)}&interval=1day&start_date=2024-01-01&outputsize=5000&apikey=${key}`),
+    fetch(`${TD_BASE}/quote?symbol=${symbols}&apikey=${key}`),
+    fetch(`${TD_BASE}/time_series?symbol=${symbols}&interval=1day&start_date=2024-01-01&outputsize=5000&apikey=${key}`),
   ])
 
   const quotesJson = await quotesRes.json() as Record<string, TDQuote>
