@@ -34,7 +34,7 @@ CRITICAL RULE: Write from the author's perspective and voice — not as a report
 Structure — follow this only as far as the source material supports it:
 • Opening: State the core argument or development directly, as the author would — not as a summary of what they wrote.
 • Middle: Develop the reasoning, evidence, and context the author presents, in their voice. Convey how they build their case.
-• Closing (only if genuinely supported): Draw out one implication for language professionals that flows naturally from the author's argument. If no clear industry implication exists, close with a sharp statement of what the argument means — do not manufacture relevance.
+• Closing (only if genuinely supported): End with a sharp statement of what the argument means — a natural conclusion that flows from the reasoning, not addressed to any specific audience. If no clear conclusion is supported by the source, do not manufacture one.
 
 Tone and style:
 • Write like a knowledgeable colleague making a case, not a reviewer describing someone else's work.
