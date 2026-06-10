@@ -85,6 +85,14 @@ export async function POST(req: NextRequest) {
   const quotesJson = await quotesRes.json() as Record<string, TDQuote>
   const historyJson = await historyRes.json() as Record<string, TDSeries>
 
+  // If Twelve Data returned a top-level error (e.g. plan limit, invalid key), bail early
+  if ((quotesJson as { status?: string }).status === 'error') {
+    const msg = (quotesJson as { message?: string }).message ?? 'Unknown Twelve Data error'
+    console.error('[market-quotes] API error:', msg, quotesJson)
+    return NextResponse.json({ error: msg, raw: quotesJson }, { status: 502 })
+  }
+  console.log('[market-quotes] quote keys received:', Object.keys(quotesJson).slice(0, 5))
+
   let updated = 0
   let failed = 0
   const details: Record<string, { history: number } | { error: string }> = {}
