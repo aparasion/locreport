@@ -14,7 +14,7 @@ export default function EventsPage() {
       <p style={{ color: 'var(--muted)', marginBottom: 'var(--space-6)' }}>
         Upcoming localization, machine translation, and AI language conferences.
       </p>
-      <EventsClient events={EVENTS} today="2026-06-04" />
+      <EventsClient events={EVENTS} today={new Date().toISOString().slice(0, 10)} />
     </div>
   )
 }
