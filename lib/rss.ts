@@ -16,8 +16,13 @@ const parser = new Parser()
  * won't yield readable article text (e.g. Google News redirect URLs).
  */
 export async function fetchArticleText(url: string): Promise<string | null> {
-  // Google News article URLs require JS rendering — skip them
-  if (url.includes('news.google.com/rss/articles/')) return null
+  // Google News redirect URLs: follow the HTTP redirect to reach the real article
+  if (url.includes('news.google.com/rss/articles/')) {
+    const resolved = await resolveGoogleNewsUrl(url)
+    if (!resolved) return null
+    console.log(`[rss] Google News resolved: ${url} → ${resolved}`)
+    url = resolved
+  }
 
   try {
     const res = await fetch(url, {
@@ -35,6 +40,28 @@ export async function fetchArticleText(url: string): Promise<string | null> {
     return htmlToText(html)
   } catch (err) {
     console.warn(`[rss] fetchArticleText failed for ${url}:`, err instanceof Error ? err.message : err)
+    return null
+  }
+}
+
+async function resolveGoogleNewsUrl(url: string): Promise<string | null> {
+  try {
+    const res = await fetch(url, {
+      headers: { 'User-Agent': 'Mozilla/5.0 (compatible; LocReport/1.0; +https://locreport.com)' },
+      redirect: 'manual',
+      signal: AbortSignal.timeout(5000),
+    })
+    const location = res.headers.get('location')
+    if (location && !location.includes('news.google.com')) return location
+    // Some Google News URLs do a JS redirect — try following normally and read the final URL
+    const followed = await fetch(url, {
+      headers: { 'User-Agent': 'Mozilla/5.0 (compatible; LocReport/1.0; +https://locreport.com)' },
+      redirect: 'follow',
+      signal: AbortSignal.timeout(5000),
+    })
+    if (followed.url && !followed.url.includes('news.google.com')) return followed.url
+    return null
+  } catch {
     return null
   }
 }
