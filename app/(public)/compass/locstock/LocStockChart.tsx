@@ -18,13 +18,13 @@ interface Quote {
 
 type Period = '2024' | '2025' | 'ytd' | '1m' | '1w' | '1d'
 
-const PERIODS: { key: Period; label: string; start: () => string }[] = [
-  { key: '2024', label: '2024', start: () => '2024-01-01' },
-  { key: '2025', label: '2025', start: () => '2025-01-01' },
-  { key: 'ytd',  label: 'YTD',  start: () => `${new Date().getFullYear()}-01-01` },
-  { key: '1m',   label: '1M',   start: () => { const d = new Date(); d.setMonth(d.getMonth() - 1); return d.toISOString().slice(0, 10) } },
-  { key: '1w',   label: '1W',   start: () => { const d = new Date(); d.setDate(d.getDate() - 7); return d.toISOString().slice(0, 10) } },
-  { key: '1d',   label: '1D',   start: () => { const d = new Date(); d.setDate(d.getDate() - 2); return d.toISOString().slice(0, 10) } },
+const PERIODS: { key: Period; label: string; start: () => string; step: number }[] = [
+  { key: '2024', label: '2024', start: () => '2024-01-01', step: 5 },
+  { key: '2025', label: '2025', start: () => '2025-01-01', step: 4 },
+  { key: 'ytd',  label: 'YTD',  start: () => `${new Date().getFullYear()}-01-01`, step: 3 },
+  { key: '1m',   label: '1M',   start: () => { const d = new Date(); d.setMonth(d.getMonth() - 1); return d.toISOString().slice(0, 10) }, step: 1 },
+  { key: '1w',   label: '1W',   start: () => { const d = new Date(); d.setDate(d.getDate() - 7); return d.toISOString().slice(0, 10) }, step: 1 },
+  { key: '1d',   label: '1D',   start: () => { const d = new Date(); d.setDate(d.getDate() - 2); return d.toISOString().slice(0, 10) }, step: 1 },
 ]
 
 export function LocStockChart({ quotes, tickers }: { quotes: Record<string, unknown>; tickers: string[] }) {
@@ -54,9 +54,12 @@ export function LocStockChart({ quotes, tickers }: { quotes: Record<string, unkn
     if (h[0]) bases[t] = h[0].close
   }
 
+  const { step } = PERIODS.find(p => p.key === period)!
+  const sampledDates = dates.filter((_, i) => i % step === 0 || i === dates.length - 1)
+
   // Build equal-weighted index
-  const chartData = dates.length >= 2
-    ? dates.map(date => {
+  const chartData = sampledDates.length >= 2
+    ? sampledDates.map(date => {
         const values: number[] = []
         for (const [t, h] of Object.entries(histories)) {
           const pt = h.find(p => p.date === date)
@@ -68,7 +71,7 @@ export function LocStockChart({ quotes, tickers }: { quotes: Record<string, unkn
       })
     : []
 
-  const noData = tickerCount === 0 || chartData.length < 2
+  const noData = tickerCount === 0 || sampledDates.length < 2
 
   // Derive direction from last valid index value vs base 100
   const lastValue = [...chartData].reverse().find(d => d.index != null)?.index ?? 100
