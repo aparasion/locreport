@@ -45,7 +45,7 @@ export async function POST(req: NextRequest) {
 
   const service = createServiceClient()
   const now = new Date()
-  const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000)
+  const historyStart = new Date('2024-01-01')
 
   let updated = 0
   let failed = 0
@@ -56,7 +56,7 @@ export async function POST(req: NextRequest) {
       const [quote, chart] = await Promise.all([
         yahooFinance.quote(ticker) as Promise<unknown>,
         yahooFinance.chart(ticker, {
-          period1: thirtyDaysAgo,
+          period1: historyStart,
           interval: '1d',
         }),
       ])
