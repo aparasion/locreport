@@ -88,15 +88,6 @@ export default function SourcesPage() {
             <h2 className="text-sm font-medium uppercase tracking-wide" style={{ color: 'var(--muted)' }}>
               Active sources ({activeSources.length}) · {batches.length} batch{batches.length !== 1 ? 'es' : ''}
             </h2>
-            {activeSources.length > 0 && (
-              <IngestButton
-                label="Ingest all"
-                sourceIds={activeSources.map(s => s.id)}
-                requireConfirm
-                confirmMessage={`Fetch all ${activeSources.length} active sources and create pending drafts?`}
-                onDone={load}
-              />
-            )}
           </div>
 
           {batches.map((batch, batchIndex) => {
