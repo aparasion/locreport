@@ -87,7 +87,8 @@ export async function POST(req: NextRequest) {
       details[ticker] = { history: history.length }
       updated++
     } catch (err) {
-      console.error(`[market-quotes] failed ${ticker}:`, err)
+      const msg = err instanceof Error ? `${err.message}\n${err.stack}` : String(err)
+      console.error(`[market-quotes] failed ${ticker}:`, msg)
       details[ticker] = { error: String(err) }
       failed++
     }
