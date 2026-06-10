@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient, createServiceClient } from '@/lib/supabase/server'
-import { YahooFinance } from 'yahoo-finance2'
-const yahooFinance = new YahooFinance()
+import YahooFinanceClass from 'yahoo-finance2'
+const yahooFinance = new YahooFinanceClass()
 
 export const maxDuration = 60
 
