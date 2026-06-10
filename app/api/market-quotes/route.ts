@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient, createServiceClient } from '@/lib/supabase/server'
-import yahooFinance from 'yahoo-finance2'
+import { YahooFinance } from 'yahoo-finance2'
+const yahooFinance = new YahooFinance()
 
 export const maxDuration = 60
 
@@ -87,7 +88,8 @@ export async function POST(req: NextRequest) {
       details[ticker] = { history: history.length }
       updated++
     } catch (err) {
-      console.error(`[market-quotes] failed ${ticker}:`, err)
+      const msg = err instanceof Error ? `${err.message}\n${err.stack}` : String(err)
+      console.error(`[market-quotes] failed ${ticker}:`, msg)
       details[ticker] = { error: String(err) }
       failed++
     }
