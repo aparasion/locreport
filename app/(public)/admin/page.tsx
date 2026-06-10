@@ -2,9 +2,9 @@
 import { useEffect, useState } from 'react'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { IngestButton } from '@/components/IngestButton'
+import { IngestButton, type IngestResult } from '@/components/IngestButton'
 
-type Confirm = 'monthly' | 'monthly-force' | null
+type Confirm = 'ingest' | 'monthly' | 'monthly-force' | null
 
 export default function AdminDashboard() {
   const [stats, setStats] = useState<{ articles: number; drafts: number; sources: number } | null>(null)
@@ -99,15 +99,25 @@ export default function AdminDashboard() {
                 Runs automatically via GitHub Actions at 10:30 UTC daily.
               </p>
             </div>
-            <div className="shrink-0 self-start">
-              <IngestButton
-                label="Run now"
-                requireConfirm
-                confirmMessage="Fetch all active RSS sources and create new pending drafts?"
-                onDone={refreshStats}
-              />
-            </div>
+            <Button
+              variant="secondary"
+              onClick={() => { setConfirm('ingest' as Confirm); flash('') }}
+              disabled={confirm === 'ingest'}
+              className="shrink-0 self-start"
+            >
+              Run now
+            </Button>
           </div>
+          {confirm === 'ingest' && (
+            <div className="mt-3 pt-3 flex flex-wrap items-center gap-3 text-sm" style={{ borderTop: '1px solid var(--border)', color: 'var(--muted)' }}>
+              <span>Fetch all active RSS sources and create new pending drafts. Continue?</span>
+              <IngestButton
+                label="Confirm"
+                onDone={(result: IngestResult) => { setConfirm(null); refreshStats(); flash(`+${result.processed} draft${result.processed !== 1 ? 's' : ''} created, ${result.skipped} skipped.`) }}
+              />
+              <Button variant="ghost" onClick={() => setConfirm(null)}>Cancel</Button>
+            </div>
+          )}
         </div>
 
         {/* Monthly report */}
