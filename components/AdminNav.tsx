@@ -8,6 +8,7 @@ const links = [
   { href: '/admin/drafts', label: 'Drafts' },
   { href: '/admin/articles', label: 'Articles' },
   { href: '/admin/sources', label: 'Sources' },
+  { href: '/admin/events', label: 'Events' },
   { href: '/admin/compose', label: 'Compose' },
   { href: '/admin/direct', label: 'Direct' },
   { href: '/admin/prompts', label: 'Prompts' },
