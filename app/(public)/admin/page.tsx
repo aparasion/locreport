@@ -4,7 +4,7 @@ import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { IngestButton } from '@/components/IngestButton'
 
-type Confirm = 'monthly' | null
+type Confirm = 'monthly' | 'monthly-force' | null
 
 export default function AdminDashboard() {
   const [stats, setStats] = useState<{ articles: number; drafts: number; sources: number } | null>(null)
