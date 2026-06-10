@@ -4,6 +4,24 @@ import yahooFinance from 'yahoo-finance2'
 
 export const maxDuration = 60
 
+interface YFQuote {
+  regularMarketPrice?: number
+  regularMarketChange?: number
+  regularMarketChangePercent?: number
+  regularMarketPreviousClose?: number
+  currency?: string
+  marketCap?: number
+}
+
+interface YFChartBar {
+  date: Date
+  close?: number | null
+}
+
+interface YFChart {
+  quotes?: YFChartBar[]
+}
+
 const TICKERS = [
   'NVDA','GOOGL','MSFT','META','AMZN','NFLX','DUOL','RWS.L',
   'SOUN','AI','BIDU','035420.KS','0700.HK','SPOT','ADBE','ORCL',
@@ -35,27 +53,30 @@ export async function POST(req: NextRequest) {
   await Promise.all(TICKERS.map(async (ticker) => {
     try {
       const [quote, chart] = await Promise.all([
-        yahooFinance.quote(ticker),
+        yahooFinance.quote(ticker) as Promise<unknown>,
         yahooFinance.chart(ticker, {
           period1: thirtyDaysAgo,
           interval: '1d',
         }),
       ])
 
-      if (!quote.regularMarketPrice) throw new Error('No price data')
+      const q = quote as YFQuote
+      const c = chart as unknown as YFChart
 
-      const history = (chart.quotes ?? [])
+      if (!q.regularMarketPrice) throw new Error('No price data')
+
+      const history = (c.quotes ?? [])
         .filter(b => b.close != null)
         .map(b => ({ date: new Date(b.date).toISOString().slice(0, 10), close: b.close as number }))
         .sort((a, b) => a.date.localeCompare(b.date))
 
       const data = {
-        price:      quote.regularMarketPrice,
-        change:     quote.regularMarketChange ?? 0,
-        change_pct: quote.regularMarketChangePercent ?? 0,
-        prev_close: quote.regularMarketPreviousClose ?? 0,
-        currency:   quote.currency ?? 'USD',
-        market_cap: quote.marketCap ?? 0,
+        price:      q.regularMarketPrice,
+        change:     q.regularMarketChange ?? 0,
+        change_pct: q.regularMarketChangePercent ?? 0,
+        prev_close: q.regularMarketPreviousClose ?? 0,
+        currency:   q.currency ?? 'USD',
+        market_cap: q.marketCap ?? 0,
         history,
       }
 
