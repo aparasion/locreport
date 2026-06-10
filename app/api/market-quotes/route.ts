@@ -78,12 +78,20 @@ export async function POST(req: NextRequest) {
 
   // Fetch quotes and history in parallel — batch all symbols in one request each
   const [quotesRes, historyRes] = await Promise.all([
-    fetch(`${TD_BASE}/quote?symbol=${encodeURIComponent(symbols)}&apikey=${key}`),
-    fetch(`${TD_BASE}/time_series?symbol=${encodeURIComponent(symbols)}&interval=1day&start_date=2024-01-01&outputsize=5000&apikey=${key}`),
+    fetch(`${TD_BASE}/quote?symbol=${symbols}&apikey=${key}`),
+    fetch(`${TD_BASE}/time_series?symbol=${symbols}&interval=1day&start_date=2024-01-01&outputsize=5000&apikey=${key}`),
   ])
 
   const quotesJson = await quotesRes.json() as Record<string, TDQuote>
   const historyJson = await historyRes.json() as Record<string, TDSeries>
+
+  // If Twelve Data returned a top-level error (e.g. plan limit, invalid key), bail early
+  if ((quotesJson as { status?: string }).status === 'error') {
+    const msg = (quotesJson as { message?: string }).message ?? 'Unknown Twelve Data error'
+    console.error('[market-quotes] API error:', msg, quotesJson)
+    return NextResponse.json({ error: msg, raw: quotesJson }, { status: 502 })
+  }
+  console.log('[market-quotes] quote keys received:', Object.keys(quotesJson).slice(0, 5))
 
   let updated = 0
   let failed = 0
