@@ -68,13 +68,18 @@ export async function fetchFeed(url: string): Promise<RssItem[]> {
     if (!res.ok) throw new Error(`HTTP ${res.status}`)
     const xml = await res.text()
     const feed = await parser.parseString(xml)
-    return feed.items.map((item) => ({
-      title: item.title ?? '',
-      link: item.link ?? '',
-      contentSnippet: item.contentSnippet,
-      content: item.content,
-      pubDate: item.pubDate,
-    }))
+    const base = new URL(url).origin
+    return feed.items.map((item) => {
+      let link = item.link ?? ''
+      if (link && link.startsWith('/')) link = base + link
+      return {
+        title: item.title ?? '',
+        link,
+        contentSnippet: item.contentSnippet,
+        content: item.content,
+        pubDate: item.pubDate,
+      }
+    })
   } catch (err) {
     console.error(`[rss] fetchFeed failed for ${url}:`, err)
     return []
