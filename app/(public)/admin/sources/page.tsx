@@ -2,6 +2,7 @@
 import { useEffect, useState, useCallback } from 'react'
 import { RssSource } from '@/lib/types'
 import { SourceForm } from '@/components/SourceForm'
+import { IngestButton } from '@/components/IngestButton'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -10,76 +11,10 @@ const BATCH_SIZE = 3
 
 type SourceWithStats = RssSource & { recent_drafts: number }
 
-type IngestState = 'idle' | 'running' | 'done' | 'error'
-type IngestResult = { processed: number; skipped: number; errors: string[] }
-
 function groupIntoBatches<T>(arr: T[], size: number): T[][] {
   const batches: T[][] = []
   for (let i = 0; i < arr.length; i += size) batches.push(arr.slice(i, i + size))
   return batches
-}
-
-function IngestButton({
-  label,
-  sourceIds,
-  onDone,
-}: {
-  label: string
-  sourceIds: string[]
-  onDone?: (result: IngestResult) => void
-}) {
-  const [state, setState] = useState<IngestState>('idle')
-  const [result, setResult] = useState<IngestResult | null>(null)
-
-  async function run() {
-    setState('running')
-    setResult(null)
-    try {
-      const params = sourceIds.length ? `?sources=${sourceIds.join(',')}` : ''
-      const res = await fetch(`/api/ingest${params}`, { method: 'POST' })
-      if (!res.ok) throw new Error(`HTTP ${res.status}`)
-      const data: IngestResult = await res.json()
-      setResult(data)
-      setState('done')
-      onDone?.(data)
-    } catch {
-      setState('error')
-    }
-  }
-
-  if (state === 'running') {
-    return (
-      <Button size="sm" variant="secondary" disabled>
-        <span className="animate-pulse">Running…</span>
-      </Button>
-    )
-  }
-
-  if (state === 'done' && result) {
-    return (
-      <div className="flex items-center gap-2">
-        <span className="text-xs" style={{ color: result.processed > 0 ? 'var(--accent)' : 'var(--muted)' }}>
-          {result.processed > 0 ? `+${result.processed} draft${result.processed !== 1 ? 's' : ''}` : '0 fresh'}
-        </span>
-        <Button size="sm" variant="ghost" onClick={() => { setState('idle'); setResult(null) }}>↺</Button>
-      </div>
-    )
-  }
-
-  if (state === 'error') {
-    return (
-      <div className="flex items-center gap-2">
-        <span className="text-xs" style={{ color: 'var(--destructive, #e53e3e)' }}>Failed</span>
-        <Button size="sm" variant="ghost" onClick={() => setState('idle')}>↺</Button>
-      </div>
-    )
-  }
-
-  return (
-    <Button size="sm" variant="secondary" onClick={run}>
-      {label}
-    </Button>
-  )
 }
 
 export default function SourcesPage() {
@@ -157,6 +92,9 @@ export default function SourcesPage() {
               <IngestButton
                 label="Ingest all"
                 sourceIds={activeSources.map(s => s.id)}
+                requireConfirm
+                confirmMessage={`Fetch all ${activeSources.length} active sources and create pending drafts?`}
+                onDone={load}
               />
             )}
           </div>
