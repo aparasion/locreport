@@ -34,10 +34,12 @@ export async function POST(req: NextRequest) {
   }
 
   const supabase = createServiceClient()
-  const { data: sources } = await supabase
-    .from('rss_sources')
-    .select('*')
-    .eq('active', true)
+  const { searchParams } = new URL(req.url)
+  const sourceFilter = searchParams.get('sources')?.split(',').map(s => s.trim()).filter(Boolean) ?? []
+
+  let sourcesQuery = supabase.from('rss_sources').select('*').eq('active', true)
+  if (sourceFilter.length > 0) sourcesQuery = sourcesQuery.in('id', sourceFilter)
+  const { data: sources } = await sourcesQuery
 
   if (!sources?.length) return NextResponse.json({ processed: 0 })
 

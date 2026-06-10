@@ -2,12 +2,6 @@
   "buildCommand": "npm run build",
   "outputDirectory": ".next",
   "framework": "nextjs",
-  "crons": [
-    {
-      "path": "/api/ingest",
-      "schedule": "30 10 * * *"
-    }
-  ],
   "redirects": [
     { "source": "/market", "destination": "/compass/locstock", "permanent": true },
     { "source": "/market/", "destination": "/compass/locstock", "permanent": true },
