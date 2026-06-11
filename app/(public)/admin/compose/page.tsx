@@ -6,8 +6,6 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
-import { domainToPublisher } from '@/lib/utils'
-
 type Stage = 'form' | 'facts' | 'article'
 
 export default function ComposePage() {
@@ -34,6 +32,7 @@ export default function ComposePage() {
   const [extracting, setExtracting] = useState(false)
   const [generating, setGenerating] = useState(false)
   const [publishing, setPublishing] = useState(false)
+  const [publishError, setPublishError] = useState('')
 
   async function extractFacts() {
     if (!articleContent.trim()) return
@@ -65,32 +64,30 @@ export default function ComposePage() {
     setGenerating(false)
   }
 
-  function derivePublisher(): string | null {
-    const filled = [sourceUrl, extraUrl1, extraUrl2].filter(u => u.trim())
-    if (filled.length === 0) return 'LocReport'
-    if (filled.length > 1) return 'LocReport'
-    try {
-      const hostname = new URL(filled[0]).hostname
-      return domainToPublisher(hostname)
-    } catch {
-      return null
-    }
-  }
-
-  async function publish(finalContent: string) {
+async function publish(finalContent: string) {
     setPublishing(true)
-    const res = await fetch('/api/drafts', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ content: finalContent, source_url: sourceUrl || null, publisher: derivePublisher() }),
-    })
-    const draft = await res.json()
-    const params = new URLSearchParams()
-    if (impactScore) params.set('impact_score', impactScore)
-    if (timeHorizon) params.set('time_horizon', timeHorizon)
-    params.set('content_type', contentType)
-    const qs = params.toString()
-    router.push(draft?.id ? `/admin/drafts/${draft.id}${qs ? '?' + qs : ''}` : '/admin/drafts')
+    setPublishError('')
+    try {
+      const res = await fetch('/api/drafts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ content: finalContent, source_url: sourceUrl || null }),
+      })
+      const draft = await res.json()
+      if (!res.ok || !draft?.id) {
+        setPublishError(draft?.error ?? `Failed to save draft (HTTP ${res.status})`)
+        setPublishing(false)
+        return
+      }
+      const params = new URLSearchParams()
+      if (impactScore) params.set('impact_score', impactScore)
+      if (timeHorizon) params.set('time_horizon', timeHorizon)
+      params.set('content_type', contentType)
+      const qs = params.toString()
+      router.push(`/admin/drafts/${draft.id}${qs ? '?' + qs : ''}`)
+    } catch (err) {
+      setPublishError(err instanceof Error ? err.message : 'Network error')
+    }
     setPublishing(false)
   }
 
@@ -105,6 +102,11 @@ export default function ComposePage() {
           <h1 className="text-2xl font-bold text-[#15191C]">Compose</h1>
           <button onClick={() => setStage('facts')} className="text-sm text-[#0F6E52] hover:underline">← Back to facts</button>
         </div>
+        {publishError && (
+          <div className="mb-4 rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+            {publishError}
+          </div>
+        )}
         <ArticleEditor
           initialContent={content}
           onPublish={publish}
