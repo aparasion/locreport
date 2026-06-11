@@ -105,7 +105,7 @@ export default async function DirectoryEntryPage({ params }: { params: Promise<{
           <a
             href={entry.website}
             target="_blank"
-            rel="noopener noreferrer"
+            rel="noopener"
             className="dir-entry-meta-link"
           >
             {entry.website.replace(/^https?:\/\//, '')}

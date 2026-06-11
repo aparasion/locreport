@@ -32,7 +32,7 @@ export function DirectoryLogo({ domain, name, logoUrl, website }: Props) {
     )
 
   return (
-    <a href={website} target="_blank" rel="noopener noreferrer" className="dir-entry-logo-link" aria-label={`Visit ${name} website`}>
+    <a href={website} target="_blank" rel="noopener" className="dir-entry-logo-link" aria-label={`Visit ${name} website`}>
       {inner}
     </a>
   )
