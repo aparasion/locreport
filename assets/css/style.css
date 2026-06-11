@@ -6183,7 +6183,7 @@ article.page > h1 {
 .dir-entry-tagline { font-size: 1.05rem; color: var(--muted); line-height: 1.6; max-width: 640px; margin: 0; }
 .dir-entry-cta { display: inline-flex; align-items: center; gap: 6px; padding: 10px 20px; background: var(--accent); color: #fff; border-radius: var(--radius-md); font-size: 0.875rem; font-weight: 600; text-decoration: none; transition: background 0.15s; white-space: nowrap; flex-shrink: 0; align-self: flex-start; margin-top: 4px; }
 .dir-entry-cta:hover { background: var(--accent-hover); }
-.dir-entry-meta-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; margin-bottom: var(--space-6); }
+.dir-entry-meta-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; margin-bottom: var(--space-6); }
 .dir-entry-meta-item { display: flex; flex-direction: column; gap: 4px; padding: var(--space-4) var(--space-4); background: var(--surface); }
 .dir-entry-meta-full { grid-column: 1 / -1; }
 .dir-entry-meta-label { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--muted); }
