@@ -232,7 +232,7 @@ Populated from legacy Jekyll migration to prevent re-ingesting old content.
 ## Content Pipeline
 
 ```
-1. INGEST (manual trigger or /api/ingest)
+1. INGEST (GitHub Actions daily cron at 10:30 UTC, or workflow_dispatch)
    → Fetch active RSS sources from DB
    → Deduplicate against seen_urls
    → For each new item: fetch full text via DEFAULT_EXTRACTOR_PROMPT (OpenAI)
@@ -369,14 +369,18 @@ CRON_SECRET                   — Secret to authenticate cron requests
 
 ---
 
-## Cron Jobs
+## Scheduled Jobs
 
-No cron jobs are currently configured in `vercel.json`. The ingest pipeline is triggered manually from the admin dashboard or by calling `/api/ingest` directly. Monthly reports are also triggered manually.
+Daily ingest runs via **GitHub Actions** (`.github/workflows/ingest.yml`), not Vercel cron:
 
-To re-enable scheduled ingest, add to `vercel.json`:
-```json
-"crons": [{ "path": "/api/ingest", "schedule": "30 10 * * *" }]
-```
+| Schedule | Trigger | Purpose |
+|---|---|---|
+| `30 10 * * *` (10:30 UTC daily) | GitHub Actions cron | POST `/api/ingest` with `CRON_SECRET` header |
+| On-demand | `workflow_dispatch` | Manual trigger from GitHub Actions UI |
+
+`vercel.json` has **no cron jobs configured**. The `CRON_SECRET` env var must be set in both Vercel (for the API route to validate) and the GitHub repository secrets (for the workflow to authenticate).
+
+Monthly reports are triggered manually from the admin dashboard.
 
 ---
 
