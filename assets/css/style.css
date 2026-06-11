@@ -6169,15 +6169,15 @@ article.page > h1 {
 
 /* LocStock — sparklines & chart */
 .market-sparkline { display: block; margin: 6px 0 4px; opacity: 0.85; }
-.market-chart-section { background: var(--card-bg, #fff); border: 1px solid var(--border, #e5e7eb); border-radius: 12px; padding: 20px; margin-bottom: 24px; }
+.market-chart-section { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 24px; }
 .market-chart-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
 .market-chart-title { font-size: 0.82rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; display: flex; align-items: center; gap: 8px; }
-.market-chart-count { font-size: 0.72rem; font-weight: 500; color: var(--muted); background: var(--surface, #f8fafc); border: 1px solid var(--border, #e5e7eb); border-radius: 20px; padding: 1px 7px; text-transform: none; letter-spacing: 0; }
+.market-chart-count { font-size: 0.72rem; font-weight: 500; color: var(--muted); background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 20px; padding: 1px 7px; text-transform: none; letter-spacing: 0; }
 .market-chart-controls { display: flex; align-items: center; gap: 8px; }
-.market-period-group { display: flex; gap: 2px; background: var(--surface, #f1f5f9); border-radius: 8px; padding: 3px; }
-.market-period-btn { font-size: 0.75rem; font-weight: 500; color: var(--muted, #6b7280); background: none; border: none; cursor: pointer; padding: 3px 9px; border-radius: 6px; transition: background .15s, color .15s; }
-.market-period-btn:hover { color: var(--text, #111); background: var(--card-bg, #fff); }
-.market-period-btn.active { color: var(--accent, #3550F5); background: var(--card-bg, #fff); font-weight: 600; box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+.market-period-group { display: flex; gap: 2px; background: var(--bg-secondary); border-radius: 8px; padding: 3px; }
+.market-period-btn { font-size: 0.75rem; font-weight: 500; color: var(--muted); background: none; border: none; cursor: pointer; padding: 3px 9px; border-radius: 6px; transition: background .15s, color .15s; }
+.market-period-btn:hover { color: var(--text); background: var(--surface); }
+.market-period-btn.active { color: var(--accent); background: var(--surface); font-weight: 600; box-shadow: 0 1px 3px rgba(0,0,0,.08); }
 .market-chart-toggle { font-size: 0.78rem; color: var(--muted, #6b7280); background: none; border: none; cursor: pointer; padding: 2px 6px; }
 .market-chart-toggle:hover { color: var(--text, #111); }
 .market-chart-wrap { width: 100%; }
