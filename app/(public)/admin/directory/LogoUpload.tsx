@@ -1,6 +1,6 @@
 'use client'
 import { useState, useRef, useCallback } from 'react'
-import { createBrowserClient } from '@/lib/supabase/client'
+import { createClient } from '@/lib/supabase/client'
 
 interface Props {
   slug: string
@@ -34,7 +34,7 @@ export function LogoUpload({ slug, currentUrl, onUploaded }: Props) {
 
     const ext = file.name.split('.').pop() || 'png'
     const path = `${slug}.${ext}`
-    const supabase = createBrowserClient()
+    const supabase = createClient()
 
     const { error: upErr } = await supabase.storage
       .from('directory-logos')
