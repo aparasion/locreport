@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { DIRECTORY } from '@/lib/data/directory'
 import { createClient } from '@/lib/supabase/server'
+import { DirectoryLogo } from './DirectoryLogo'
 
 export const revalidate = 3600
 
@@ -73,13 +74,7 @@ export default async function DirectoryEntryPage({ params }: { params: Promise<{
           <p className="dir-entry-tagline">{entry.description}</p>
         </div>
         <div className="dir-entry-hero-aside">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={logoUrl}
-            alt={`${entry.name} logo`}
-            className="dir-entry-logo"
-            onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none' }}
-          />
+          <DirectoryLogo domain={domain} name={entry.name} />
           <a
             href={entry.website}
             target="_blank"
