@@ -215,17 +215,26 @@ export default function AdminDirectoryPage() {
             {editingSlug ? `Editing: ${form.name}` : 'Add entry'}
           </h2>
           <form onSubmit={submit} className="flex flex-col gap-3">
-            <Input
-              placeholder="Company / tool name *"
-              value={form.name}
-              onChange={e => set('name', e.target.value)}
-              required
-            />
-            <Input
-              placeholder="Slug (auto-generated)"
-              value={form.slug}
-              onChange={e => set('slug', e.target.value)}
-            />
+            <div className="grid grid-cols-[1fr_auto] gap-3 items-start">
+              <div className="flex flex-col gap-3">
+                <Input
+                  placeholder="Company / tool name *"
+                  value={form.name}
+                  onChange={e => set('name', e.target.value)}
+                  required
+                />
+                <Input
+                  placeholder="Slug (auto-generated)"
+                  value={form.slug}
+                  onChange={e => set('slug', e.target.value)}
+                />
+              </div>
+              <LogoUpload
+                slug={form.slug}
+                currentUrl={form.logo_url || undefined}
+                onUploaded={url => set('logo_url', url)}
+              />
+            </div>
             <div>
               <label className="text-xs mb-1 block" style={{ color: 'var(--muted)' }}>Category</label>
               <select style={selectStyle} value={form.category} onChange={e => set('category', e.target.value)}>
@@ -283,11 +292,6 @@ export default function AdminDirectoryPage() {
               placeholder="Tags (comma-separated, e.g. tms, api, enterprise)"
               value={form.tags}
               onChange={e => set('tags', e.target.value)}
-            />
-            <LogoUpload
-              slug={form.slug}
-              currentUrl={form.logo_url || undefined}
-              onUploaded={url => set('logo_url', url)}
             />
 
             <div className="flex gap-2">
