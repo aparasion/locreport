@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card } from '@/components/ui/card'
 import type { DirectoryEntry } from '@/lib/data/directory'
+import { LogoUpload } from './LogoUpload'
 
 const CATEGORIES = [
   { value: 'tms', label: 'TMS' },
@@ -36,6 +37,7 @@ const EMPTY_FORM = {
   address: '',
   type: '',
   tags: '',
+  logo_url: '',
 }
 
 type FormState = typeof EMPTY_FORM
@@ -95,6 +97,7 @@ export default function AdminDirectoryPage() {
       address: entry.address || '',
       type: entry.type,
       tags: (entry.tags || []).join(', '),
+      logo_url: entry.logo_url || '',
     })
     setMessage('')
     window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -281,6 +284,11 @@ export default function AdminDirectoryPage() {
               value={form.tags}
               onChange={e => set('tags', e.target.value)}
             />
+            <LogoUpload
+              slug={form.slug}
+              currentUrl={form.logo_url || undefined}
+              onUploaded={url => set('logo_url', url)}
+            />
 
             <div className="flex gap-2">
               <Button type="submit" disabled={saving} className="flex-1">
@@ -330,6 +338,10 @@ export default function AdminDirectoryPage() {
             {filtered.map(entry => (
               <Card key={entry.slug || entry.name} className="p-3">
                 <div className="flex items-start justify-between gap-3">
+                  {entry.logo_url && (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={entry.logo_url} alt="" style={{ width: 32, height: 32, objectFit: 'contain', borderRadius: 4, border: '1px solid var(--border)', padding: 2, background: 'var(--surface)', flexShrink: 0 }} />
+                  )}
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2 flex-wrap">
                       <p className="font-semibold text-sm" style={{ color: 'var(--text)' }}>{entry.name}</p>

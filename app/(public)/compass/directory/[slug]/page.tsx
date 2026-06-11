@@ -74,7 +74,7 @@ export default async function DirectoryEntryPage({ params }: { params: Promise<{
           <p className="dir-entry-tagline">{entry.description}</p>
         </div>
         <div className="dir-entry-hero-aside">
-          <DirectoryLogo domain={domain} name={entry.name} />
+          <DirectoryLogo domain={domain} name={entry.name} logoUrl={entry.logo_url} />
           <a
             href={entry.website}
             target="_blank"
