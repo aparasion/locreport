@@ -51,6 +51,8 @@ export default async function DirectoryEntryPage({ params }: { params: Promise<{
   if (!entry) notFound()
 
   const catLabel = CAT_DISPLAY[entry.category] ?? entry.category
+  const domain = entry.website.replace(/^https?:\/\//, '').replace(/\/.*$/, '')
+  const logoUrl = `https://logo.clearbit.com/${domain}`
 
   return (
     <div className="container" style={{ paddingTop: 'var(--space-8)', paddingBottom: 'var(--space-12)' }}>
@@ -70,22 +72,31 @@ export default async function DirectoryEntryPage({ params }: { params: Promise<{
           </div>
           <p className="dir-entry-tagline">{entry.description}</p>
         </div>
-        <a
-          href={entry.website}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="dir-entry-cta"
-        >
-          Visit website
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-            <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/>
-            <polyline points="15 3 21 3 21 9"/>
-            <line x1="10" y1="14" x2="21" y2="3"/>
-          </svg>
-        </a>
+        <div className="dir-entry-hero-aside">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={logoUrl}
+            alt={`${entry.name} logo`}
+            className="dir-entry-logo"
+            onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none' }}
+          />
+          <a
+            href={entry.website}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="dir-entry-cta"
+          >
+            Visit website
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/>
+              <polyline points="15 3 21 3 21 9"/>
+              <line x1="10" y1="14" x2="21" y2="3"/>
+            </svg>
+          </a>
+        </div>
       </div>
 
-      {/* Meta grid */}
+      {/* Meta grid — Category | Type | Founded | HQ | Website, then Address full-width */}
       <div className="dir-entry-meta-grid">
         <div className="dir-entry-meta-item">
           <span className="dir-entry-meta-label">Category</span>
@@ -103,12 +114,6 @@ export default async function DirectoryEntryPage({ params }: { params: Promise<{
           <span className="dir-entry-meta-label">Headquarters</span>
           <span className="dir-entry-meta-value">{entry.hq}</span>
         </div>
-        {entry.address && (
-          <div className="dir-entry-meta-item dir-entry-meta-full">
-            <span className="dir-entry-meta-label">Address</span>
-            <span className="dir-entry-meta-value">{entry.address}</span>
-          </div>
-        )}
         <div className="dir-entry-meta-item">
           <span className="dir-entry-meta-label">Website</span>
           <a
@@ -120,6 +125,12 @@ export default async function DirectoryEntryPage({ params }: { params: Promise<{
             {entry.website.replace(/^https?:\/\//, '')}
           </a>
         </div>
+        {entry.address && (
+          <div className="dir-entry-meta-item dir-entry-meta-full">
+            <span className="dir-entry-meta-label">Address</span>
+            <span className="dir-entry-meta-value">{entry.address}</span>
+          </div>
+        )}
       </div>
 
       {/* About */}
