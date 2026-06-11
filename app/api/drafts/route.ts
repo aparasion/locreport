@@ -12,14 +12,14 @@ export async function GET() {
 }
 
 export async function POST(req: NextRequest) {
-  const { content, source_url, publisher } = await req.json()
+  const { content, source_url } = await req.json()
   const titleMatch = content.match(/^#\s+(.+)$/m)
   const title = titleMatch ? titleMatch[1].trim() : 'Untitled'
   const supabase = createServiceClient()
   const slug = await uniqueSlug(slugify(title), 'drafts', supabase)
   const { data, error } = await supabase
     .from('drafts')
-    .insert({ title, slug, content, source_url: source_url ?? null, publisher: publisher ?? null, status: 'pending' })
+    .insert({ title, slug, content, source_url: source_url ?? null, status: 'pending' })
     .select()
     .single()
 
