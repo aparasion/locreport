@@ -33,6 +33,39 @@ const CAT_DISPLAY: Record<string, string> = {
   terminology: 'Terminology', research: 'Research', community: 'Community',
 }
 
+function CardLogo({ entry }: { entry: DirectoryEntry }) {
+  const domain = entry.website.replace(/^https?:\/\//, '').replace(/\/.*$/, '')
+  const initial = entry.name.charAt(0).toUpperCase()
+  const [src, setSrc] = useState<string | null>(
+    entry.logo_url || `https://logo.clearbit.com/${domain}`
+  )
+  const [failed, setFailed] = useState(false)
+
+  if (failed || !src) {
+    return (
+      <div className="dir-card-logo-fallback" aria-hidden="true">
+        {initial}
+      </div>
+    )
+  }
+
+  return (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src={src}
+      alt=""
+      className="dir-card-logo"
+      onError={() => {
+        if (entry.logo_url && src === entry.logo_url) {
+          setSrc(`https://logo.clearbit.com/${domain}`)
+        } else {
+          setFailed(true)
+        }
+      }}
+    />
+  )
+}
+
 export function DirectoryClient({ entries }: Props) {
   const [search, setSearch] = useState('')
   const [category, setCategory] = useState('all')
@@ -99,20 +132,27 @@ export function DirectoryClient({ entries }: Props) {
             href={`/compass/directory/${entry.slug || entry.name.toLowerCase().replace(/\s+/g, '-')}`}
             className="dir-card"
           >
-            <div className="dir-card-top">
-              <span className="dir-card-name">{entry.name}</span>
-              <span className="dir-card-cat">{CAT_DISPLAY[entry.category] ?? entry.category}</span>
+            <div className="dir-card-header">
+              <CardLogo entry={entry} />
+              <div className="dir-card-header-text">
+                <div className="dir-card-top">
+                  <span className="dir-card-name">{entry.name}</span>
+                  <span className="dir-card-cat">{CAT_DISPLAY[entry.category] ?? entry.category}</span>
+                </div>
+                <div className="dir-card-meta">
+                  <span>{entry.hq}</span>
+                  <span>Est. {entry.founded}</span>
+                </div>
+              </div>
             </div>
-            <div className="dir-card-meta">
-              <span>{entry.hq}</span>
-              <span>Est. {entry.founded}</span>
-            </div>
-            <div className="dir-card-type">{entry.type}</div>
             <p className="dir-card-desc">{entry.description}</p>
-            <div className="dir-card-arrow" aria-hidden="true">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <polyline points="9 18 15 12 9 6"/>
-              </svg>
+            <div className="dir-card-footer">
+              <span className="dir-card-type">{entry.type}</span>
+              <div className="dir-card-arrow" aria-hidden="true">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="9 18 15 12 9 6"/>
+                </svg>
+              </div>
             </div>
           </Link>
         ))}

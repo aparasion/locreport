@@ -6165,8 +6165,13 @@ article.page > h1 {
 .dir-card-meta { font-size: 0.75rem; color: var(--muted); display: flex; gap: var(--space-3); flex-wrap: wrap; }
 .dir-card-desc { font-size: 0.82rem; color: var(--muted); line-height: 1.6; margin: 0; flex: 1; }
 .dir-card-type { font-size: 0.72rem; color: var(--muted); }
-.dir-card-arrow { display: flex; align-items: center; justify-content: flex-end; color: var(--muted); opacity: 0; transition: opacity 0.15s, color 0.15s; margin-top: auto; }
+.dir-card-arrow { display: flex; align-items: center; justify-content: flex-end; color: var(--muted); opacity: 0; transition: opacity 0.15s, color 0.15s; }
 .dir-card:hover .dir-card-arrow { opacity: 1; color: var(--accent); }
+.dir-card-header { display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-2); }
+.dir-card-logo { width: 40px; height: 40px; object-fit: contain; border-radius: var(--radius-sm); border: 1px solid var(--border); padding: 4px; background: var(--bg); flex-shrink: 0; }
+.dir-card-logo-fallback { width: 40px; height: 40px; border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--accent-soft); color: var(--accent); font-size: 1.1rem; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-family: var(--font-display); }
+.dir-card-header-text { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+.dir-card-footer { display: flex; align-items: center; justify-content: space-between; margin-top: auto; padding-top: var(--space-2); border-top: 1px solid var(--border); }
 .dir-count { font-size: 0.82rem; color: var(--muted); margin-bottom: var(--space-4); }
 
 /* Directory entry detail page */
@@ -6185,10 +6190,10 @@ article.page > h1 {
 .dir-entry-cat { font-size: 0.7rem; font-weight: 700; padding: 4px 12px; border-radius: 100px; background: var(--accent-soft); color: var(--accent); text-transform: uppercase; letter-spacing: 0.06em; white-space: nowrap; }
 .dir-entry-tagline { font-size: 1.05rem; color: var(--muted); line-height: 1.6; max-width: 640px; margin: 0; }
 .dir-entry-hero-aside { display: flex; flex-direction: column; align-items: center; gap: var(--space-3); flex-shrink: 0; }
-.dir-entry-logo { width: 96px; height: 96px; object-fit: contain; border-radius: var(--radius-md); background: var(--surface); border: 1px solid var(--border); padding: 10px; display: block; }
-.dir-entry-logo-fallback { width: 96px; height: 96px; border-radius: var(--radius-md); background: var(--accent-soft); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: 800; color: var(--accent); font-family: var(--font-display); flex-shrink: 0; }
-.dir-entry-cta { display: inline-flex; align-items: center; gap: 6px; padding: 10px 20px; background: var(--accent); color: #fff; border-radius: var(--radius-md); font-size: 0.875rem; font-weight: 600; text-decoration: none; transition: background 0.15s; white-space: nowrap; }
-.dir-entry-cta:hover { background: var(--accent-hover); }
+.dir-entry-logo-link { display: block; border-radius: var(--radius-md); transition: opacity 0.15s; }
+.dir-entry-logo-link:hover { opacity: 0.82; }
+.dir-entry-logo { width: 192px; height: 192px; object-fit: contain; border-radius: var(--radius-md); background: var(--surface); border: 1px solid var(--border); padding: 16px; display: block; }
+.dir-entry-logo-fallback { width: 192px; height: 192px; border-radius: var(--radius-md); background: var(--accent-soft); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 4rem; font-weight: 800; color: var(--accent); font-family: var(--font-display); flex-shrink: 0; }
 .dir-entry-meta-grid { display: flex; flex-wrap: wrap; border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; margin-bottom: var(--space-6); }
 .dir-entry-meta-item { display: flex; flex-direction: column; gap: 4px; padding: var(--space-4); background: var(--surface); flex: 1 1 150px; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); min-width: 0; }
 .dir-entry-meta-item:last-child { border-right: none; }
