@@ -6170,7 +6170,10 @@ article.page > h1 {
 .dir-count { font-size: 0.82rem; color: var(--muted); margin-bottom: var(--space-4); }
 
 /* Directory entry detail page */
-.dir-breadcrumb { display: flex; align-items: center; gap: 6px; font-size: 0.82rem; color: var(--muted); margin-bottom: var(--space-6); }
+.dir-breadcrumb-row { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); margin-bottom: var(--space-6); flex-wrap: wrap; }
+.dir-breadcrumb { display: flex; align-items: center; gap: 6px; font-size: 0.82rem; color: var(--muted); }
+.dir-admin-edit-btn { display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; font-size: 0.78rem; font-weight: 600; color: var(--muted); background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius-md); text-decoration: none; transition: color 0.15s, border-color 0.15s, background 0.15s; white-space: nowrap; }
+.dir-admin-edit-btn:hover { color: var(--accent); border-color: var(--accent); background: var(--accent-soft); }
 .dir-breadcrumb-link { color: var(--accent); text-decoration: none; }
 .dir-breadcrumb-link:hover { text-decoration: underline; }
 .dir-breadcrumb-sep { color: var(--muted); }

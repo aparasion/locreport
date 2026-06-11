@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation'
 import { DIRECTORY } from '@/lib/data/directory'
 import { createClient } from '@/lib/supabase/server'
 import { DirectoryLogo } from './DirectoryLogo'
+import { AdminEditButton } from './AdminEditButton'
 
 export const revalidate = 3600
 
@@ -58,11 +59,14 @@ export default async function DirectoryEntryPage({ params }: { params: Promise<{
   return (
     <div className="container" style={{ paddingTop: 'var(--space-8)', paddingBottom: 'var(--space-12)' }}>
       {/* Breadcrumb */}
-      <nav className="dir-breadcrumb" aria-label="Breadcrumb">
-        <Link href="/compass/directory" className="dir-breadcrumb-link">Directory</Link>
-        <span className="dir-breadcrumb-sep" aria-hidden="true">›</span>
-        <span className="dir-breadcrumb-current">{entry.name}</span>
-      </nav>
+      <div className="dir-breadcrumb-row">
+        <nav className="dir-breadcrumb" aria-label="Breadcrumb">
+          <Link href="/compass/directory" className="dir-breadcrumb-link">Directory</Link>
+          <span className="dir-breadcrumb-sep" aria-hidden="true">›</span>
+          <span className="dir-breadcrumb-current">{entry.name}</span>
+        </nav>
+        <AdminEditButton slug={entry.slug} />
+      </div>
 
       {/* Hero */}
       <div className="dir-entry-hero">

@@ -1,6 +1,7 @@
 'use client'
 import { useEffect, useState, useCallback } from 'react'
 import Link from 'next/link'
+import { useSearchParams } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card } from '@/components/ui/card'
@@ -53,6 +54,7 @@ function slugify(name: string) {
 }
 
 export default function AdminDirectoryPage() {
+  const searchParams = useSearchParams()
   const [entries, setEntries] = useState<DirectoryEntry[]>([])
   const [form, setForm] = useState<FormState>(EMPTY_FORM)
   const [editingSlug, setEditingSlug] = useState<string | null>(null)
@@ -69,7 +71,30 @@ export default function AdminDirectoryPage() {
     if (data.length > 0 && data[0].id && /^[0-9a-f-]{36}$/.test(data[0].id)) {
       setIsDbBacked(true)
     }
-  }, [])
+    // Auto-open entry for editing if ?edit=slug is in the URL
+    const editSlug = searchParams?.get('edit')
+    if (editSlug) {
+      const target = data.find(e => e.slug === editSlug)
+      if (target) {
+        setEditingSlug(target.slug)
+        setForm({
+          name: target.name,
+          slug: target.slug,
+          category: target.category,
+          website: target.website,
+          description: target.description,
+          long_description: target.long_description || '',
+          founded: String(target.founded),
+          hq: target.hq,
+          address: target.address || '',
+          type: target.type,
+          tags: (target.tags || []).join(', '),
+          logo_url: target.logo_url || '',
+        })
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+      }
+    }
+  }, [searchParams])
 
   useEffect(() => { load() }, [load])
 
