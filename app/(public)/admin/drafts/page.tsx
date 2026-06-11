@@ -87,17 +87,18 @@ export default function DraftsPage() {
   return (
     <div>
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6">
-        <h1 className="text-2xl font-bold text-[#15191C]">Drafts</h1>
+        <h1 className="text-2xl font-bold" style={{ color: 'var(--text)' }}>Drafts</h1>
         <div className="flex flex-wrap gap-2">
           {STATUS_FILTERS.map(({ label, value }) => (
             <a
               key={value}
               href={value === 'pending' ? '/admin/drafts' : `/admin/drafts?status=${value}`}
-              className={`text-sm px-3 py-1 rounded-full transition-colors ${
+              className="text-sm px-3 py-1 rounded-full transition-colors"
+              style={
                 statusFilter === value
-                  ? 'bg-[#0F6E52] text-white'
-                  : 'bg-[#E2F0EA] text-[#5B665F] hover:bg-[#E0E4F0]'
-              }`}
+                  ? { background: 'var(--accent)', color: '#fff' }
+                  : { background: 'var(--bg-secondary)', color: 'var(--muted)' }
+              }
             >
               {label}
             </a>
@@ -108,18 +109,19 @@ export default function DraftsPage() {
       {error && <p className="text-sm text-red-500 mb-4">{error}</p>}
 
       {someSelected && (
-        <div className="flex items-center gap-3 mb-4 px-3 py-2 bg-[#E2F0EA] rounded-lg">
-          <span className="text-sm text-[#5B665F]">{selected.size} selected</span>
+        <div className="flex items-center gap-3 mb-4 px-3 py-2 rounded-lg" style={{ background: 'var(--accent-soft)', border: '1px solid var(--border)' }}>
+          <span className="text-sm" style={{ color: 'var(--muted)' }}>{selected.size} selected</span>
           <button
             onClick={bulkReject}
             disabled={bulkBusy}
-            className="text-sm font-medium text-red-600 hover:text-red-800 disabled:opacity-50"
+            className="text-sm font-medium text-red-500 hover:text-red-400 disabled:opacity-50"
           >
             {bulkBusy ? 'Rejecting…' : 'Reject selected'}
           </button>
           <button
             onClick={() => setSelected(new Set())}
-            className="text-sm text-[#5B665F] hover:text-[#15191C] ml-auto"
+            className="text-sm ml-auto"
+            style={{ color: 'var(--muted)' }}
           >
             Clear
           </button>
@@ -128,19 +130,20 @@ export default function DraftsPage() {
 
       <div className="max-w-[760px]">
         {!loading && drafts.length > 0 && (
-          <div className="flex items-center gap-3 border-b border-gray-100 pb-3 mb-1">
+          <div className="flex items-center gap-3 pb-3 mb-1" style={{ borderBottom: '1px solid var(--border)' }}>
             <input
               type="checkbox"
               checked={allSelected}
               onChange={toggleAll}
-              className="h-4 w-4 rounded border-gray-300 text-[#0F6E52] cursor-pointer"
+              className="h-4 w-4 rounded cursor-pointer"
+              style={{ accentColor: 'var(--accent)' }}
               aria-label="Select all"
             />
-            <span className="text-xs text-[#5B665F]">Select all</span>
+            <span className="text-xs" style={{ color: 'var(--muted)' }}>Select all</span>
           </div>
         )}
 
-        {loading && <p className="text-[#5B665F] text-sm">Loading…</p>}
+        {loading && <p className="text-sm" style={{ color: 'var(--muted)' }}>Loading…</p>}
 
         {!loading && drafts.map(draft => {
           const ingestedDate = new Date(draft.created_at).toLocaleDateString('en-GB')
@@ -148,20 +151,25 @@ export default function DraftsPage() {
             ? new Date(draft.source_published_at).toLocaleDateString('en-GB')
             : null
           return (
-            <div key={draft.id} className="border-b border-gray-100 py-4 last:border-0 flex items-start gap-3">
+            <div key={draft.id} className="py-4 last:border-0 flex items-start gap-3" style={{ borderBottom: '1px solid var(--border)' }}>
               <input
                 type="checkbox"
                 checked={selected.has(draft.id)}
                 onChange={() => toggle(draft.id)}
-                className="h-4 w-4 mt-0.5 rounded border-gray-300 text-[#0F6E52] cursor-pointer shrink-0"
+                className="h-4 w-4 mt-0.5 rounded cursor-pointer shrink-0"
+                style={{ accentColor: 'var(--accent)' }}
                 aria-label={`Select ${draft.title}`}
               />
               <div className="flex-1 flex items-start justify-between gap-4">
                 <div>
-                  <Link href={`/admin/drafts/${draft.id}`} className="font-medium text-[#15191C] hover:text-[#0F6E52]">
+                  <Link
+                    href={`/admin/drafts/${draft.id}`}
+                    className="font-medium hover:underline"
+                    style={{ color: 'var(--text)' }}
+                  >
                     {draft.title}
                   </Link>
-                  <p className="text-xs text-[#5B665F] mt-1">
+                  <p className="text-xs mt-1" style={{ color: 'var(--muted)' }}>
                     {sourceDate
                       ? <><span title="Source published">{sourceDate}</span> · <span title="Ingested">{ingestedDate}</span></>
                       : ingestedDate
@@ -175,7 +183,7 @@ export default function DraftsPage() {
           )
         })}
 
-        {!loading && !drafts.length && <p className="text-[#5B665F] text-sm">No drafts found.</p>}
+        {!loading && !drafts.length && <p className="text-sm" style={{ color: 'var(--muted)' }}>No drafts found.</p>}
       </div>
     </div>
   )

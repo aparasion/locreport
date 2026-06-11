@@ -14,20 +14,25 @@ export default async function AdminArticlesPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-[#15191C] mb-6">Published Articles</h1>
+      <h1 className="text-2xl font-bold mb-6" style={{ color: 'var(--text)' }}>Published Articles</h1>
       <div className="max-w-[760px]">
         {(articles as Partial<Article>[])?.map((a) => (
-          <div key={a.id} className="border-b border-gray-100 py-4 flex items-start justify-between gap-4">
+          <div
+            key={a.id}
+            className="py-4 flex items-start justify-between gap-4"
+            style={{ borderBottom: '1px solid var(--border)' }}
+          >
             <div>
-              <p className="font-medium text-[#15191C] text-sm">{a.title}</p>
-              <p className="text-xs text-[#5B665F] mt-0.5">
+              <p className="font-medium text-sm" style={{ color: 'var(--text)' }}>{a.title}</p>
+              <p className="text-xs mt-0.5" style={{ color: 'var(--muted)' }}>
                 {a.published_at ? new Date(a.published_at).toLocaleDateString() : ''} · {a.publisher ?? '—'}
               </p>
             </div>
             <div className="flex items-center gap-2 shrink-0">
               <Link
                 href={`/admin/articles/${a.id}`}
-                className="text-sm px-3 py-1 rounded-lg bg-[#E2F0EA] text-[#5B665F] hover:bg-[#E0E4F0]"
+                className="text-sm px-3 py-1 rounded-lg transition-colors"
+                style={{ background: 'var(--bg-secondary)', color: 'var(--muted)', border: '1px solid var(--border)' }}
               >
                 Edit
               </Link>
