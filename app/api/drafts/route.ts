@@ -12,9 +12,9 @@ export async function GET() {
 }
 
 export async function POST(req: NextRequest) {
-  const { content, source_url } = await req.json()
+  const { content, source_url, title: providedTitle } = await req.json()
   const titleMatch = content.match(/^#\s+(.+)$/m)
-  const title = titleMatch ? titleMatch[1].trim() : 'Untitled'
+  const title = titleMatch?.[1]?.trim() || providedTitle?.trim() || 'Untitled'
   const supabase = createServiceClient()
   const slug = await uniqueSlug(slugify(title), 'drafts', supabase)
   const { data, error } = await supabase

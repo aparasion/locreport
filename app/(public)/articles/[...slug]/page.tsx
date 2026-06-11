@@ -52,13 +52,26 @@ export default async function ArticlePage({ params }: Props) {
 
   const a = article as Article
 
-  // Strip excerpt from top of content (generator often duplicates it)
+  // Strip excerpt from top of content body (AI-generated content often starts with the same sentence)
   let content = a.content
   if (a.excerpt) {
-    const excerptNorm = a.excerpt.trim()
-    const contentTrimmed = content.trimStart()
-    if (contentTrimmed.startsWith(excerptNorm)) {
-      content = contentTrimmed.slice(excerptNorm.length).trimStart()
+    // Skip optional H1 heading, then check if the first paragraph normalizes to the excerpt
+    const headingMatch = content.match(/^(#[^\n]+\n+)/)
+    const bodyStart = headingMatch ? headingMatch[0].length : 0
+    const body = content.slice(bodyStart)
+    const paraEnd = body.indexOf('\n\n')
+    if (paraEnd > -1) {
+      const firstPara = body.slice(0, paraEnd)
+      const plainFirst = firstPara
+        .replace(/!\[.*?\]\(.*?\)/g, '')
+        .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+        .replace(/[*_`~]+/g, '')
+        .replace(/\s+/g, ' ')
+        .trim()
+      const excerptCore = a.excerpt.replace(/[.!?]+$/, '').replace(/\s+/g, ' ').trim()
+      if (plainFirst.startsWith(excerptCore.slice(0, Math.min(60, excerptCore.length)))) {
+        content = content.slice(0, bodyStart) + body.slice(paraEnd).trimStart()
+      }
     }
   }
   const rawHtml = marked.parse(content) as string
