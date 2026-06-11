@@ -6156,16 +6156,47 @@ article.page > h1 {
 .dir-cat-btn { padding: 6px 14px; border-radius: 100px; border: 1px solid var(--border); background: var(--surface); color: var(--muted); font-size: 0.78rem; font-weight: 700; cursor: pointer; transition: all 0.15s; white-space: nowrap; }
 .dir-cat-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
 .dir-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: var(--space-4); }
-.dir-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); padding: var(--space-4) var(--space-5); display: flex; flex-direction: column; gap: var(--space-2); transition: box-shadow 0.18s, border-color 0.18s; }
+.dir-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); padding: var(--space-4) var(--space-5); display: flex; flex-direction: column; gap: var(--space-2); transition: box-shadow 0.18s, border-color 0.18s; text-decoration: none; color: inherit; position: relative; }
 .dir-card:hover { box-shadow: var(--card-shadow-hover); border-color: var(--accent); }
 .dir-card-top { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); }
 .dir-card-name { font-size: 1rem; font-weight: 800; color: var(--accent); text-decoration: none; }
-.dir-card-name:hover { text-decoration: underline; }
+.dir-card:hover .dir-card-name { text-decoration: underline; }
 .dir-card-cat { font-size: 0.65rem; font-weight: 700; padding: 2px 8px; border-radius: 100px; background: var(--accent-soft); color: var(--accent); text-transform: uppercase; letter-spacing: 0.05em; }
 .dir-card-meta { font-size: 0.75rem; color: var(--muted); display: flex; gap: var(--space-3); flex-wrap: wrap; }
-.dir-card-desc { font-size: 0.82rem; color: var(--muted); line-height: 1.6; margin: 0; }
+.dir-card-desc { font-size: 0.82rem; color: var(--muted); line-height: 1.6; margin: 0; flex: 1; }
 .dir-card-type { font-size: 0.72rem; color: var(--muted); }
+.dir-card-arrow { display: flex; align-items: center; justify-content: flex-end; color: var(--muted); opacity: 0; transition: opacity 0.15s, color 0.15s; margin-top: auto; }
+.dir-card:hover .dir-card-arrow { opacity: 1; color: var(--accent); }
 .dir-count { font-size: 0.82rem; color: var(--muted); margin-bottom: var(--space-4); }
+
+/* Directory entry detail page */
+.dir-breadcrumb { display: flex; align-items: center; gap: 6px; font-size: 0.82rem; color: var(--muted); margin-bottom: var(--space-6); }
+.dir-breadcrumb-link { color: var(--accent); text-decoration: none; }
+.dir-breadcrumb-link:hover { text-decoration: underline; }
+.dir-breadcrumb-sep { color: var(--muted); }
+.dir-breadcrumb-current { color: var(--muted); }
+.dir-entry-hero { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-5); margin-bottom: var(--space-6); flex-wrap: wrap; }
+.dir-entry-hero-main { flex: 1; min-width: 0; }
+.dir-entry-header { display: flex; align-items: center; gap: var(--space-3); flex-wrap: wrap; margin-bottom: var(--space-3); }
+.dir-entry-name { font-size: clamp(1.6rem, 4vw, 2.4rem); font-weight: 800; color: var(--text); margin: 0; line-height: 1.1; font-family: var(--font-display); }
+.dir-entry-cat { font-size: 0.7rem; font-weight: 700; padding: 4px 12px; border-radius: 100px; background: var(--accent-soft); color: var(--accent); text-transform: uppercase; letter-spacing: 0.06em; white-space: nowrap; }
+.dir-entry-tagline { font-size: 1.05rem; color: var(--muted); line-height: 1.6; max-width: 640px; margin: 0; }
+.dir-entry-cta { display: inline-flex; align-items: center; gap: 6px; padding: 10px 20px; background: var(--accent); color: #fff; border-radius: var(--radius-md); font-size: 0.875rem; font-weight: 600; text-decoration: none; transition: background 0.15s; white-space: nowrap; flex-shrink: 0; align-self: flex-start; margin-top: 4px; }
+.dir-entry-cta:hover { background: var(--accent-hover); }
+.dir-entry-meta-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; margin-bottom: var(--space-6); }
+.dir-entry-meta-item { display: flex; flex-direction: column; gap: 4px; padding: var(--space-4) var(--space-4); background: var(--surface); }
+.dir-entry-meta-full { grid-column: 1 / -1; }
+.dir-entry-meta-label { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--muted); }
+.dir-entry-meta-value { font-size: 0.9rem; font-weight: 500; color: var(--text); }
+.dir-entry-meta-link { font-size: 0.9rem; font-weight: 500; color: var(--accent); text-decoration: none; }
+.dir-entry-meta-link:hover { text-decoration: underline; }
+.dir-entry-body { margin-bottom: var(--space-6); padding: var(--space-5) var(--space-6); background: var(--bg-secondary); border-radius: var(--radius-lg); border: 1px solid var(--border); }
+.dir-entry-section-title { font-size: 1rem; font-weight: 700; color: var(--text); margin: 0 0 var(--space-3) 0; font-family: var(--font-display); }
+.dir-entry-long-desc { font-size: 0.95rem; color: var(--text); line-height: 1.75; margin: 0; }
+.dir-entry-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: var(--space-6); }
+.dir-entry-tag { font-size: 0.72rem; font-weight: 600; padding: 3px 10px; border-radius: 100px; background: var(--bg-secondary); border: 1px solid var(--border); color: var(--muted); text-transform: lowercase; letter-spacing: 0.02em; }
+.dir-entry-back { display: inline-flex; align-items: center; gap: 5px; font-size: 0.875rem; color: var(--muted); text-decoration: none; transition: color 0.15s; }
+.dir-entry-back:hover { color: var(--accent); }
 
 /* LocStock — sparklines & chart */
 .market-sparkline { display: block; margin: 6px 0 4px; opacity: 0.85; }
