@@ -64,14 +64,17 @@ export default function ComposePage() {
     setGenerating(false)
   }
 
-async function publish(finalContent: string) {
+  async function publish(finalContent: string) {
     setPublishing(true)
     setPublishError('')
+    // Prefer H1 in generated content, fall back to the form's title field
+    const titleFromContent = finalContent.match(/^#\s+(.+)$/m)?.[1]?.trim()
+    const derivedTitle = titleFromContent || title.trim() || undefined
     try {
       const res = await fetch('/api/drafts', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ content: finalContent, source_url: sourceUrl || null }),
+        body: JSON.stringify({ content: finalContent, source_url: sourceUrl || null, title: derivedTitle }),
       })
       const draft = await res.json()
       if (!res.ok || !draft?.id) {
