@@ -55,19 +55,19 @@ export default function PromptsPage() {
     setValues(v => ({ ...v, [key]: defaultVal }))
   }
 
-  if (loading) return <div className="text-sm text-[#5B665F]">Loading prompts…</div>
+  if (loading) return <div className="text-sm" style={{ color: 'var(--muted)' }}>Loading prompts…</div>
 
   return (
     <div className="max-w-[860px]">
-      <h1 className="text-2xl font-bold text-[#15191C] mb-2">Prompt Editor</h1>
-      <p className="text-sm text-[#5B665F] mb-8">Edit the AI prompts used during article generation. Changes take effect immediately for all new articles.</p>
+      <h1 className="text-2xl font-bold mb-2" style={{ color: 'var(--text)' }}>Prompt Editor</h1>
+      <p className="text-sm mb-8" style={{ color: 'var(--muted)' }}>Edit the AI prompts used during article generation. Changes take effect immediately for all new articles.</p>
 
       <div className="flex flex-col gap-10">
         {PROMPTS.map(({ key, label, default: defaultVal }) => (
           <div key={key}>
-            <Label className="text-base font-semibold text-[#15191C] mb-1 block">{label}</Label>
+            <Label className="text-base font-semibold mb-1 block" style={{ color: 'var(--text)' }}>{label}</Label>
             {key === 'prompt_monthly' && (
-              <p className="text-xs text-[#5B665F] mb-2">Used by the Next.js monthly report generator. The Jekyll GitHub Actions script has its own copy — update both if you change the structure.</p>
+              <p className="text-xs mb-2" style={{ color: 'var(--muted)' }}>Used by the Next.js monthly report generator. The Jekyll GitHub Actions script has its own copy — update both if you change the structure.</p>
             )}
             <Textarea
               value={values[key]}

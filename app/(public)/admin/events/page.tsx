@@ -1,5 +1,6 @@
 'use client'
 import { useEffect, useState, useCallback } from 'react'
+import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card } from '@/components/ui/card'
@@ -18,30 +19,54 @@ const EMPTY_FORM = {
   tags: '',
 }
 
+function datesOverlap(aStart: string, aEnd: string, bStart: string, bEnd: string) {
+  return aStart <= bEnd && aEnd >= bStart
+}
+
+function findDuplicate(form: typeof EMPTY_FORM, events: Event[]): Event | null {
+  const name = form.name.trim().toLowerCase()
+  if (!name || !form.start_date) return null
+  const end = form.end_date || form.start_date
+  return events.find(ev => {
+    if (ev.name.trim().toLowerCase() !== name) return false
+    const evEnd = ev.end_date || ev.start_date
+    return datesOverlap(form.start_date, end, ev.start_date, evEnd)
+  }) ?? null
+}
+
 export default function AdminEventsPage() {
   const [events, setEvents] = useState<Event[]>([])
   const [form, setForm] = useState(EMPTY_FORM)
   const [saving, setSaving] = useState(false)
   const [message, setMessage] = useState('')
   const [isDbBacked, setIsDbBacked] = useState(false)
+  const [duplicate, setDuplicate] = useState<Event | null>(null)
 
   const load = useCallback(async () => {
     const res = await fetch('/api/events')
     const data: Event[] = await res.json()
     setEvents(data)
-    // Heuristic: if the first event has a UUID-style id it came from DB
     if (data.length > 0 && /^[0-9a-f-]{36}$/.test(data[0].id)) setIsDbBacked(true)
   }, [])
 
   useEffect(() => { load() }, [load])
 
   function set(field: keyof typeof EMPTY_FORM, value: string) {
-    setForm(f => ({ ...f, [field]: value }))
+    const updated = { ...form, [field]: value }
+    setForm(updated)
+    setDuplicate(findDuplicate(updated, events))
   }
 
   async function submit(e: React.FormEvent) {
     e.preventDefault()
     if (!form.name || !form.start_date) return
+
+    const dupe = findDuplicate(form, events)
+    if (dupe) {
+      setDuplicate(dupe)
+      return
+    }
+
     setSaving(true)
     setMessage('')
 
@@ -59,6 +84,7 @@ export default function AdminEventsPage() {
 
     if (res.ok) {
       setForm(EMPTY_FORM)
+      setDuplicate(null)
       setMessage('Event added.')
       setIsDbBacked(true)
       load()
@@ -171,10 +197,30 @@ export default function AdminEventsPage() {
               value={form.tags}
               onChange={e => set('tags', e.target.value)}
             />
-            <Button type="submit" disabled={saving}>
+
+            {duplicate && (
+              <div className="rounded-lg px-4 py-3 text-sm" style={{ background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.3)', color: 'var(--text)' }}>
+                <p className="font-medium mb-1" style={{ color: 'rgb(239,68,68)' }}>Event already exists</p>
+                <p style={{ color: 'var(--muted)' }}>
+                  &ldquo;{duplicate.name}&rdquo; ({duplicate.start_date}
+                  {duplicate.end_date && duplicate.end_date !== duplicate.start_date ? ` – ${duplicate.end_date}` : ''})
+                  is already in the calendar.{' '}
+                  <Link
+                    href="/compass/events"
+                    target="_blank"
+                    className="underline underline-offset-2"
+                    style={{ color: 'var(--accent)' }}
+                  >
+                    View events calendar →
+                  </Link>
+                </p>
+              </div>
+            )}
+
+            <Button type="submit" disabled={saving || !!duplicate}>
               {saving ? 'Adding…' : 'Add event'}
             </Button>
-            {message && (
+            {message && !duplicate && (
               <p className="text-sm" style={{ color: message === 'Event added.' ? 'var(--accent)' : 'var(--destructive, red)' }}>
                 {message}
               </p>
