@@ -11,6 +11,7 @@ export interface DirectoryEntry {
   address: string
   type: string
   tags: string[]
+  logo_url?: string
 }
 
 export const DIRECTORY: DirectoryEntry[] = [
