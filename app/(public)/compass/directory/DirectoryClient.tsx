@@ -1,5 +1,6 @@
 'use client'
 import { useState, useMemo } from 'react'
+import Link from 'next/link'
 import type { DirectoryEntry } from '@/lib/data/directory'
 
 interface Props {
@@ -93,25 +94,27 @@ export function DirectoryClient({ entries }: Props) {
 
       <div className="dir-grid">
         {results.map(entry => (
-          <div key={entry.name} className="dir-card">
+          <Link
+            key={entry.slug || entry.name}
+            href={`/compass/directory/${entry.slug || entry.name.toLowerCase().replace(/\s+/g, '-')}`}
+            className="dir-card"
+          >
             <div className="dir-card-top">
-              <a
-                href={entry.website}
-                target="_blank"
-                rel="noopener"
-                className="dir-card-name"
-              >
-                {entry.name}
-              </a>
+              <span className="dir-card-name">{entry.name}</span>
               <span className="dir-card-cat">{CAT_DISPLAY[entry.category] ?? entry.category}</span>
             </div>
             <div className="dir-card-meta">
-              <span>🌍 {entry.hq}</span>
+              <span>{entry.hq}</span>
               <span>Est. {entry.founded}</span>
             </div>
             <div className="dir-card-type">{entry.type}</div>
             <p className="dir-card-desc">{entry.description}</p>
-          </div>
+            <div className="dir-card-arrow" aria-hidden="true">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="9 18 15 12 9 6"/>
+              </svg>
+            </div>
+          </Link>
         ))}
       </div>
     </>
