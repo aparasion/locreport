@@ -21,11 +21,12 @@
 | Framework | Next.js 15.3.3, App Router, TypeScript 5 strict |
 | Styling | TailwindCSS 4 + PostCSS, custom CSS vars (`assets/css/style.css`) |
 | Database | Supabase (PostgreSQL) — SSR + browser clients |
-| AI | OpenAI GPT (content generation, classification) |
+| AI | OpenAI GPT-4o-mini (content generation, classification) |
+| Charts | Recharts 3 (LocStock + LLM pricing visualizations) |
 | Market data | Yahoo Finance 2 (LocStock tickers) |
 | Email | Resend (contact form) |
 | Analytics | Google Analytics 4 (G-1KQKEEP1PL) |
-| Deployment | Vercel with cron jobs |
+| Deployment | Vercel (no active cron jobs in vercel.json — ingest triggered manually) |
 
 ---
 
@@ -35,12 +36,12 @@
 app/
   (auth)/login/          — Supabase email/password login
   (public)/              — All public-facing pages (see Route Map below)
-  api/                   — API routes (REST + cron handlers)
+  api/                   — API routes (REST handlers + admin utilities)
   layout.tsx             — Root layout: global metadata, GA4 scripts
   globals.css            — Tailwind imports
 
 components/
-  ui/                    — Primitive UI components (Button, Card, Input, Badge, etc.)
+  ui/                    — Primitive UI components (Button, Card, Input, Badge, Textarea, Label)
   Nav.tsx                — Site header with dropdown nav + search + theme toggle
   AdminNav.tsx           — Admin section sidebar
   ArticleCard.tsx        — Article preview card used across listing pages
@@ -48,29 +49,37 @@ components/
   DraftCard.tsx          — Draft management card
   ShareButton.tsx        — Social share button on article pages
   ReadingProgress.tsx    — Scroll progress indicator
+  BackToTop.tsx          — Scroll-to-top button (rendered in (public)/layout.tsx)
+  IngestButton.tsx       — Manual RSS ingest trigger button (admin)
+  SourceForm.tsx         — Form for adding/editing RSS sources
 
 lib/
   supabase/server.ts     — SSR Supabase client (use in Server Components/API routes)
   supabase/client.ts     — Browser Supabase client (use in Client Components)
   types.ts               — Core TypeScript types: Article, Draft, RssSource
-  signals.ts             — 14 hardcoded industry signals + SIGNAL_MAP (id → signal)
-  openai.ts              — OpenAI client singleton
+  signals.ts             — 13 hardcoded industry signals + SIGNAL_MAP (id → signal)
+  openai.ts              — OpenAI client singleton (GPT-4o-mini)
   prompts.ts             — LLM system prompts (also editable in DB settings table)
-  classify.ts            — Article type classification logic
-  rss.ts                 — RSS parsing utilities
+  classify.ts            — Article classification logic (impact, signals, segments, implications)
+  rss.ts                 — RSS parsing, HTML-to-text, Google News redirect resolution
   slugify.ts             — URL-safe slug generation
   utils.ts               — articleHref(), extractTeaser(), cn() (Tailwind merge)
   data/
-    events.ts            — 2026 industry calendar (hardcoded)
-    directory.ts         — 100+ localization tech companies/tools (hardcoded)
-    llm-pricing.ts       — LLM provider pricing data (hardcoded)
+    events.ts            — 2026 industry calendar (11 events, hardcoded)
+    directory.ts         — 31 localization tech vendors (hardcoded)
+    llm-pricing.ts       — LLM provider pricing snapshots (12 models tracked, hardcoded)
 
 assets/
-  css/style.css          — Design system: emerald/ink palette, Fraunces + Inter fonts
-  data/market_quotes.json — Cached ticker prices for LocStock (updated by cron)
+  css/style.css          — Design system: indigo-blue palette, Space Grotesk + Inter fonts
+  data/market_quotes.json — Cached ticker prices for LocStock (updated by /api/market-quotes)
 
-public/                  — Static assets (favicon, OG image, logos)
-vercel.json              — Build config, cron schedules, 301 redirects
+public/
+  favicon.ico, icon.png  — Favicons
+  logolight.png          — Logo for light mode
+  logodark.png           — Logo for dark mode
+  og-image.jpg           — OG image (1200×630)
+
+vercel.json              — Build config, 301 redirects (no active cron jobs)
 ```
 
 ---
@@ -81,27 +90,37 @@ vercel.json              — Build config, cron schedules, 301 redirects
 
 | Path | File | Notes |
 |---|---|---|
-| `/` | `page.tsx` | Hero + featured articles + sidebar |
+| `/` | `page.tsx` | Hero + featured articles grouped by day + hero tools panel |
 | `/articles` | `articles/page.tsx` | All articles, filterable by topic |
 | `/articles/[slug]` | `articles/[...slug]/page.tsx` | Article detail, 24h ISR revalidation |
 | `/intelligence` | `intelligence/page.tsx` | Signals dashboard + stats |
-| `/intelligence/signals` | `intelligence/signals/page.tsx` | All 14 active signals |
+| `/intelligence/signals` | `intelligence/signals/page.tsx` | All 13 active signals |
 | `/intelligence/signals/[id]` | `intelligence/signals/[id]/page.tsx` | Signal detail + linked articles |
 | `/intelligence/high-impact` | `intelligence/high-impact/page.tsx` | Articles with impact score ≥ 4 |
 | `/reports` | `reports/page.tsx` | Reports hub (annual + monthly) |
 | `/reports/2026-annual-global-market-report` | `reports/2026-annual.../page.tsx` | Hardcoded static annual report |
 | `/reports/monthly` | `reports/monthly/page.tsx` | Dynamic monthly reports from DB |
 | `/compass` | `compass/page.tsx` | Tools hub overview |
-| `/compass/locstock` | `compass/locstock/page.tsx` | 34-ticker market index + Recharts |
+| `/compass/locstock` | `compass/locstock/page.tsx` | Market index + Recharts |
 | `/compass/events` | `compass/events/page.tsx` | 2026 industry events calendar |
-| `/compass/llm-pricing` | `compass/llm-pricing/page.tsx` | Interactive LLM pricing simulator |
-| `/compass/directory` | `compass/directory/page.tsx` | 100+ tech companies directory |
-| `/language-science` | `language-science/page.tsx` | Research papers + academic content |
+| `/compass/llm-pricing` | `compass/llm-pricing/page.tsx` | Interactive LLM pricing simulator + history chart |
+| `/compass/directory` | `compass/directory/page.tsx` | 31 localization tech vendors |
 | `/search` | `search/page.tsx` | Full-text search (`?q=...`) |
 | `/about` | `about/page.tsx` | About page |
 | `/contact` | `contact/page.tsx` | Contact form (uses Resend) |
 | `/privacy` | `privacy/page.tsx` | Privacy policy |
 | `/terms` | `terms/page.tsx` | Terms of service |
+
+> Note: `/language-science` no longer exists as a route — it redirects to `/articles` via vercel.json.
+
+### Client Components (co-located with pages)
+
+Several Compass and other sections use co-located client components:
+- `compass/locstock/LocStockClient.tsx` + `LocStockChart.tsx`
+- `compass/llm-pricing/PricingClient.tsx` + `PricingHistoryChart.tsx`
+- `compass/events/EventsClient.tsx`
+- `compass/directory/DirectoryClient.tsx`
+- `search/SearchRefine.tsx`
 
 ### Admin Routes (`app/(public)/admin/`) — Auth-gated
 
@@ -115,27 +134,34 @@ vercel.json              — Build config, cron schedules, 301 redirects
 | `/admin/compose` | Manually write a new article |
 | `/admin/prompts` | Edit LLM system prompts stored in DB |
 | `/admin/sources` | Manage RSS feed sources |
+| `/admin/direct` | Direct article ingestion tool |
+| `/admin/events` | Event management |
 
 ### API Routes (`app/api/`)
 
 | Endpoint | Method | Purpose |
 |---|---|---|
-| `/api/ingest` | GET/POST | RSS fetch → draft creation (daily cron at 10:30 UTC) |
+| `/api/ingest` | GET/POST | RSS fetch → draft creation |
 | `/api/market-quotes` | POST | Fetch + cache ticker prices to market_quotes.json |
 | `/api/monthly-report` | POST | Generate monthly synthesis via OpenAI |
 | `/api/drafts` | GET/POST | List/create drafts |
-| `/api/drafts/[id]` | GET/PUT/DELETE | Draft CRUD |
+| `/api/drafts/[id]` | GET/PATCH/DELETE | Draft CRUD |
 | `/api/drafts/[id]/rerun` | POST | Regenerate draft via LLM |
-| `/api/articles` | POST | Create article from markdown |
-| `/api/articles/[id]` | GET/PUT/DELETE | Article CRUD |
+| `/api/articles` | GET/POST | List/create articles |
+| `/api/articles/[id]` | GET/PATCH/DELETE | Article CRUD |
 | `/api/compose` | POST | Publish manually-composed article |
 | `/api/contact` | POST | Contact form → Resend email |
 | `/api/me` | GET | Current user + admin status |
 | `/api/settings` | GET/POST | App settings (prompts, admin prefs) |
 | `/api/sources` | GET/POST | RSS source management |
-| `/api/sources/[id]` | PUT/DELETE | Single RSS source |
+| `/api/sources/[id]` | PATCH/DELETE | Single RSS source |
 | `/api/stats` | GET | Dashboard stats: article/draft/source counts |
 | `/api/seen-urls` | GET | Legacy Jekyll URLs (deduplication) |
+| `/api/events` | GET/POST | Events CRUD |
+| `/api/events/[id]` | GET/PATCH/DELETE | Single event |
+| `/api/direct` | POST | Direct article submission |
+| `/api/admin/backfill-authors` | POST | Admin utility: backfill article authors |
+| `/api/admin/reclassify` | POST | Admin utility: reclassify articles via LLM |
 
 ---
 
@@ -152,7 +178,7 @@ article_type 'industry' | 'theory' | 'monthly-summary'
 author text
 publisher text
 source_url text
-signal_ids uuid[]
+signal_ids text[]
 signal_stance text
 signal_confidence text
 impact_score int (1–5)
@@ -193,7 +219,7 @@ created_at timestamptz
 key text PK
 value text
 ```
-Stores: `DEFAULT_INDUSTRY_PROMPT`, `DEFAULT_EXTRACTOR_PROMPT`, admin preferences.
+Stores: `DEFAULT_INDUSTRY_PROMPT`, `DEFAULT_EXTRACTOR_PROMPT`, `DEFAULT_MONTHLY_PROMPT`, `DEFAULT_THEORY_PROMPT`, admin preferences.
 
 ### `seen_urls`
 ```
@@ -206,8 +232,7 @@ Populated from legacy Jekyll migration to prevent re-ingesting old content.
 ## Content Pipeline
 
 ```
-1. INGEST (daily cron, 10:30 UTC)
-   /api/ingest
+1. INGEST (manual trigger or /api/ingest)
    → Fetch active RSS sources from DB
    → Deduplicate against seen_urls
    → For each new item: fetch full text via DEFAULT_EXTRACTOR_PROMPT (OpenAI)
@@ -227,7 +252,7 @@ Populated from legacy Jekyll migration to prevent re-ingesting old content.
    Approved draft → article record created with all signal/impact metadata
    Article appears on public site immediately (ISR revalidation handles caching)
 
-4. MONTHLY REPORT (1st of month cron OR manual trigger)
+4. MONTHLY REPORT (manual trigger from admin dashboard)
    /api/monthly-report
    → Fetches all articles from previous month
    → Sends to OpenAI for synthesis
@@ -238,15 +263,31 @@ Populated from legacy Jekyll migration to prevent re-ingesting old content.
 
 ## Signals System
 
-Signals are the intelligence layer — 14 hardcoded trend signals in `lib/signals.ts`.
+Signals are the intelligence layer — 13 hardcoded trend signals in `lib/signals.ts`.
 
 Each signal has:
-- `id`, `name`, `category`, `status`, `momentum`
+- `id`, `title`, `category`, `current_status`, `momentum`
+- `first_seen` date, `description`, `keywords`, `watched_tickers` (stock symbols)
 - Categories: `quality`, `operations`, `governance`, `market`, `strategy`
 - Status: `supported`, `emerging`, `disputed`
 - Momentum: `rising`, `stable`, `declining`
 
 `SIGNAL_MAP` (Map<id, signal>) is used across the codebase to resolve signal IDs to signal objects. Articles can be tagged with multiple `signal_ids`.
+
+**Current signals (13):**
+1. `quality-gap-closure` — AI quality gap reduced with human-in-the-loop validation
+2. `governance-in-ai-workflows` — Translation governance in AI assistant workflows
+3. `localization-operating-system` — End-to-end AI localization platforms
+4. `measurable-quality-evaluation` — MQM-style quality evaluation becoming API-native
+5. `translation-memory-obsolescence` — Traditional TM displaced by LLM-native approaches
+6. `human-post-editing-contraction` — MTPE volume declining in high-resource pairs
+7. `agentic-localization-workflows` — AI agents autonomously managing localization pipelines
+8. `multimodal-content-localization` — Localization expanding to video/audio/interactive
+9. `regulatory-fragmentation` — Diverging regional AI/language regulations
+10. `localization-first-content-design` — Organizations designing content locale-aware
+11. `multilingual-llm-gap` — LLM quality degrades for non-English/low-resource pairs
+12. `ai-company-language-strategy` — AI labs making explicit product decisions on language
+13. `lsp-relevance-erosion` — Boutique/mid-tier LSPs losing relevance vs. mega-LSPs/direct-to-AI
 
 To add a new signal: edit `lib/signals.ts`. No DB migration needed — signals are pure code.
 
@@ -259,20 +300,20 @@ To add a new signal: edit `lib/signals.ts`. No DB migration needed — signals a
 ```
 --accent / --accent-hover / --accent-soft / --accent-light
                      Primary brand — indigo-blue (#3550F5 light, #6B83FF dark)
---gold / --warm      Secondary micro-accent — warm amber (#B5740F light, #E0A33E dark)
+--gold / --warm      Secondary micro-accent — warm amber (#B5740F light)
 --bg / --bg-secondary / --surface
-                     Surfaces — white/near-white (light), near-black (dark)
+                     Surfaces — white/#F5F5F7 (light), #0B0B0D/#161618 (dark)
 --text / --muted     Ink tones (#1D1D1F / #6E6E73 light; #F5F5F7 / #98989D dark)
 --border / --hairline Subtle separators
 --font-display       Space Grotesk (headings, Google Fonts)
---font-body          Inter (body, Google Fonts)
+--font-body          Inter (body, system font stack)
 --font-mono          JetBrains Mono (code)
 --site-max-width     1200px
+--content-width      760px
 --page-gutter        Responsive padding (0.75rem mobile → 1.5rem desktop)
 --radius-sm/md/lg/xl Border-radius scale (6px → 20px)
+--space-1 … --space-16  Spacing scale (0.25rem → 8rem)
 ```
-
-> Note: The old CSS comment at the top of `style.css` references "Emerald & Ink" — this is outdated. The actual brand accent is indigo-blue, not emerald. Display font is Space Grotesk, not Fraunces.
 
 **Theme:** `data-theme="dark"` on `<html>` activates dark mode via CSS variable overrides.
 
@@ -288,7 +329,7 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY — Supabase anon key (public)
 SUPABASE_SERVICE_ROLE_KEY     — Supabase service role key (server-only, never expose)
 OPENAI_API_KEY                — OpenAI API key
 RESEND_API_KEY                — Resend email service key
-CRON_SECRET                   — Secret to authenticate Vercel cron requests
+CRON_SECRET                   — Secret to authenticate cron requests
 ```
 
 ---
@@ -323,25 +364,37 @@ CRON_SECRET                   — Secret to authenticate Vercel cron requests
 - `app/(public)/admin/layout.tsx` checks session and redirects to `/login` if unauthenticated
 - Admin status determined by `api/me` checking Supabase user metadata
 
+### LLM model
+- `lib/openai.ts` sets the model (currently GPT-4o-mini) — do not hardcode model strings elsewhere
+
 ---
 
-## Cron Jobs (vercel.json)
+## Cron Jobs
 
-| Schedule | Endpoint | Purpose |
-|---|---|---|
-| `30 10 * * *` (10:30 UTC daily) | `/api/ingest` | Fetch RSS → create drafts |
+No cron jobs are currently configured in `vercel.json`. The ingest pipeline is triggered manually from the admin dashboard or by calling `/api/ingest` directly. Monthly reports are also triggered manually.
 
-Monthly report is triggered manually from admin dashboard OR can be added as a cron on the 1st.
+To re-enable scheduled ingest, add to `vercel.json`:
+```json
+"crons": [{ "path": "/api/ingest", "schedule": "30 10 * * *" }]
+```
 
 ---
 
 ## SEO Infrastructure
 
-- **Metadata API:** Next.js 13+ metadata exports on every public page
+- **Metadata API:** Next.js metadata exports on every public page
 - **OG image:** `/public/og-image.jpg` (1200×630)
 - **Sitemap:** `app/sitemap.ts` → `/sitemap.xml` (dynamic, includes all published articles)
 - **Robots:** `app/robots.ts` → `/robots.txt` (blocks crawlers from admin, api, CLAUDE.md)
-- **301 Redirects:** `vercel.json` preserves SEO from legacy Jekyll URLs
+- **301 Redirects:** `vercel.json` — preserves SEO from legacy Jekyll URLs and old route names:
+  - `/market` → `/compass/locstock`
+  - `/events` → `/compass/events`
+  - `/tools/llm-pricing` → `/compass/llm-pricing`
+  - `/tools/directory` → `/compass/directory`
+  - `/research`, `/language-science` → `/articles`
+  - `/language-science/:slug` → `/articles/:slug`
+  - Legacy date-based paths `/articles/:year/:month/:day/:slug` → `/articles/:slug`
+  - 8 specific article slug cleanups
 - **GA4:** G-1KQKEEP1PL, loaded via `next/script` with `afterInteractive` strategy
 - **Canonical URLs:** via `metadataBase: https://locreport.com`
 
@@ -385,3 +438,4 @@ Monthly report is triggered manually from admin dashboard OR can be added as a c
 - Do not bypass the draft approval workflow by inserting directly to `articles` table from the ingest pipeline
 - Do not hardcode the OpenAI model string — check `lib/openai.ts` for the current model reference
 - Do not add new cron jobs without updating `vercel.json`
+- Do not create a `/language-science` page — that route is permanently redirected to `/articles`
