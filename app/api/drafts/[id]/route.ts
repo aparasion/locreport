@@ -30,8 +30,12 @@ export async function PATCH(req: NextRequest, { params }: Params) {
 
     const content = body.content ?? draft.content
     const titleMatch = content.match(/^#\s+(.+)$/m)
-    const title = titleMatch ? titleMatch[1].trim() : draft.title
-    const slug = await uniqueSlug(slugify(title), 'articles', supabase)
+    const title = body.title?.trim() || titleMatch?.[1]?.trim() || draft.title || 'Untitled'
+    const baseSlug = body.slug?.trim() || slugify(title)
+    const slug = await uniqueSlug(baseSlug, 'articles', supabase)
+    const excerpt = body.excerpt?.trim() || extractTeaser(content)
+    const publisher = body.publisher?.trim() || 'LocReport'
+    const source_url = body.source_url !== undefined ? body.source_url : draft.source_url
 
     const author = body.content_type === 'theory'
       ? 'LocReport Research Desk'
@@ -44,9 +48,9 @@ export async function PATCH(req: NextRequest, { params }: Params) {
       title,
       slug,
       content,
-      excerpt: extractTeaser(content),
-      source_url: draft.source_url,
-      publisher: 'LocReport',
+      excerpt,
+      source_url,
+      publisher,
       draft_id: draft.id,
       article_type: body.content_type === 'theory' ? 'theory' : 'industry',
       author,
@@ -61,6 +65,8 @@ export async function PATCH(req: NextRequest, { params }: Params) {
 
   const patch: Record<string, unknown> = { status: body.status }
   if (body.content !== undefined) patch.content = body.content
+  if (body.title !== undefined) patch.title = body.title
+  if (body.source_url !== undefined) patch.source_url = body.source_url
 
   const { data, error } = await supabase
     .from('drafts')

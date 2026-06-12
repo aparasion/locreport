@@ -4,14 +4,36 @@ import { useParams, useRouter, useSearchParams } from 'next/navigation'
 import { marked } from 'marked'
 import { Draft } from '@/lib/types'
 import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Textarea } from '@/components/ui/textarea'
+
+function clientSlugify(text: string): string {
+  return text
+    .toLowerCase()
+    .replace(/[^\w\s-]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '')
+    .slice(0, 80)
+}
 
 export default function DraftReviewPage() {
   const { id } = useParams<{ id: string }>()
   const router = useRouter()
   const searchParams = useSearchParams()
   const [draft, setDraft] = useState<Draft | null>(null)
-  const [tab, setTab] = useState<'preview' | 'edit'>('preview')
+  const [tab, setTab] = useState<'write' | 'preview'>('write')
   const [content, setContent] = useState('')
+
+  // Metadata fields
+  const [editTitle, setEditTitle] = useState('')
+  const [editExcerpt, setEditExcerpt] = useState('')
+  const [editSlug, setEditSlug] = useState('')
+  const [editPublisher, setEditPublisher] = useState('LocReport')
+  const [editSourceUrl, setEditSourceUrl] = useState('')
+  const [slugManuallyEdited, setSlugManuallyEdited] = useState(false)
+
   const [impactScore, setImpactScore] = useState(() => searchParams.get('impact_score') ?? '')
   const [timeHorizon, setTimeHorizon] = useState(() => searchParams.get('time_horizon') ?? '')
   const contentType = searchParams.get('content_type') ?? 'industry'
@@ -26,9 +48,22 @@ export default function DraftReviewPage() {
       .then((d: Draft) => {
         setDraft(d)
         setContent(d.content)
+        // Extract title from H1 in content, fall back to draft.title
+        const h1 = d.content.match(/^#\s+(.+)$/m)?.[1]?.trim()
+        const resolvedTitle = h1 || d.title || ''
+        setEditTitle(resolvedTitle)
+        setEditSlug(clientSlugify(resolvedTitle))
+        setEditSourceUrl(d.source_url ?? '')
       })
       .catch(() => setError('Failed to load draft.'))
   }, [id])
+
+  // Auto-update slug when title changes (unless manually edited)
+  useEffect(() => {
+    if (!slugManuallyEdited) {
+      setEditSlug(clientSlugify(editTitle))
+    }
+  }, [editTitle, slugManuallyEdited])
 
   async function action(status: 'approved' | 'rejected') {
     setLoading(true)
@@ -40,6 +75,11 @@ export default function DraftReviewPage() {
         body: JSON.stringify({
           status,
           content,
+          title: editTitle || undefined,
+          excerpt: editExcerpt || undefined,
+          slug: editSlug || undefined,
+          publisher: editPublisher || undefined,
+          source_url: editSourceUrl || null,
           impact_score: impactScore ? Number(impactScore) : null,
           time_horizon: timeHorizon || null,
           content_type: contentType,
@@ -76,6 +116,10 @@ export default function DraftReviewPage() {
       const updated: Draft = await res.json()
       setDraft(updated)
       setContent(updated.content)
+      const h1 = updated.content.match(/^#\s+(.+)$/m)?.[1]?.trim()
+      const resolvedTitle = h1 || updated.title || ''
+      setEditTitle(resolvedTitle)
+      setSlugManuallyEdited(false)
       setTab('preview')
     } catch {
       setError('Network error during re-run.')
@@ -90,54 +134,115 @@ export default function DraftReviewPage() {
 
   return (
     <div className="max-w-[760px]">
-      <h1 className="text-2xl font-bold text-[#15191C] mb-2">{draft.title}</h1>
-      {draft.source_url && (
-        <a href={draft.source_url} target="_blank" rel="noopener"
-          className="text-sm text-[#0F6E52] hover:underline mb-4 block">
-          View source →
-        </a>
-      )}
 
-      <div className="flex gap-4 mb-4">
+      {/* Metadata fields */}
+      <div className="flex flex-col gap-4 mb-6">
         <div>
-          <label className="block text-xs text-[#5B665F] mb-1">Impact score (1–5) — AI assigns if blank</label>
-          <select
-            value={impactScore}
-            onChange={e => setImpactScore(e.target.value)}
-            className="rounded-md border border-gray-200 px-2 py-1 text-sm"
-          >
-            <option value="">—</option>
-            {[1,2,3,4,5].map(n => <option key={n} value={n}>{n}</option>)}
-          </select>
+          <Label htmlFor="edit-title">Title</Label>
+          <Input
+            id="edit-title"
+            value={editTitle}
+            onChange={e => setEditTitle(e.target.value)}
+            placeholder="Article title"
+            className="mt-1 text-lg font-semibold"
+          />
         </div>
+
         <div>
-          <label className="block text-xs text-[#5B665F] mb-1">Time horizon — AI assigns if blank</label>
-          <select
-            value={timeHorizon}
-            onChange={e => setTimeHorizon(e.target.value)}
-            className="rounded-md border border-gray-200 px-2 py-1 text-sm"
-          >
-            <option value="">—</option>
-            <option value="now">Now</option>
-            <option value="6months">6 months</option>
-            <option value="2years">2 years</option>
-          </select>
+          <Label htmlFor="edit-excerpt">Excerpt</Label>
+          <Textarea
+            id="edit-excerpt"
+            value={editExcerpt}
+            onChange={e => setEditExcerpt(e.target.value)}
+            rows={2}
+            placeholder="Short description shown in listings (auto-extracted from content if left blank)"
+            className="mt-1 text-sm"
+          />
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <Label htmlFor="edit-slug">Slug</Label>
+            <Input
+              id="edit-slug"
+              value={editSlug}
+              onChange={e => { setEditSlug(e.target.value); setSlugManuallyEdited(true) }}
+              placeholder="url-friendly-slug"
+              className="mt-1 font-mono text-sm"
+            />
+          </div>
+          <div>
+            <Label htmlFor="edit-publisher">Publisher</Label>
+            <Input
+              id="edit-publisher"
+              value={editPublisher}
+              onChange={e => setEditPublisher(e.target.value)}
+              placeholder="LocReport"
+              className="mt-1"
+            />
+          </div>
+        </div>
+
+        <div>
+          <Label htmlFor="edit-source-url">Source URL</Label>
+          <Input
+            id="edit-source-url"
+            value={editSourceUrl}
+            onChange={e => setEditSourceUrl(e.target.value)}
+            placeholder="https://…"
+            className="mt-1"
+          />
+          {editSourceUrl && (
+            <a href={editSourceUrl} target="_blank" rel="noopener"
+              className="text-xs mt-1 block" style={{ color: 'var(--accent)' }}>
+              View source →
+            </a>
+          )}
+        </div>
+
+        <div className="flex gap-4">
+          <div>
+            <label className="block text-xs mb-1" style={{ color: 'var(--muted)' }}>Impact score (1–5)</label>
+            <select
+              value={impactScore}
+              onChange={e => setImpactScore(e.target.value)}
+              className="rounded-md border border-gray-200 px-2 py-1 text-sm"
+            >
+              <option value="">— AI assigns</option>
+              {[1,2,3,4,5].map(n => <option key={n} value={n}>{n}</option>)}
+            </select>
+          </div>
+          <div>
+            <label className="block text-xs mb-1" style={{ color: 'var(--muted)' }}>Time horizon</label>
+            <select
+              value={timeHorizon}
+              onChange={e => setTimeHorizon(e.target.value)}
+              className="rounded-md border border-gray-200 px-2 py-1 text-sm"
+            >
+              <option value="">— AI assigns</option>
+              <option value="now">Now</option>
+              <option value="6months">6 months</option>
+              <option value="2years">2 years</option>
+            </select>
+          </div>
         </div>
       </div>
 
-      <div className="flex gap-2 border-b border-gray-100 mb-4">
-        {(['preview', 'edit'] as const).map(t => (
+      {/* Write / Preview tabs */}
+      <div className="flex gap-2 border-b mb-4" style={{ borderColor: 'var(--border)' }}>
+        {(['write', 'preview'] as const).map(t => (
           <button key={t} onClick={() => setTab(t)}
-            className={`px-4 py-2 text-sm font-medium capitalize ${
-              tab === t ? 'border-b-2 border-[#0F6E52] text-[#0F6E52]' : 'text-[#5B665F]'
-            }`}>
+            className="px-4 py-2 text-sm font-medium capitalize"
+            style={tab === t
+              ? { borderBottom: '2px solid var(--accent)', color: 'var(--accent)', marginBottom: -1 }
+              : { color: 'var(--muted)' }}>
             {t}
           </button>
         ))}
       </div>
 
       {rerunning ? (
-        <div className="py-12 text-center text-[#5B665F] text-sm">
+        <div className="py-12 text-center text-sm" style={{ color: 'var(--muted)' }}>
           <div className="mb-3 text-2xl">⟳</div>
           Re-running article through the full generation pipeline…
         </div>
@@ -148,14 +253,16 @@ export default function DraftReviewPage() {
           value={content}
           onChange={e => setContent(e.target.value)}
           rows={24}
-          className="w-full font-mono text-sm border border-gray-200 rounded-lg p-4 focus:outline-none focus:border-[#0F6E52]"
+          className="w-full font-mono text-sm border rounded-lg p-4 focus:outline-none"
+          style={{ borderColor: 'var(--border)', background: 'var(--surface)' }}
         />
       )}
 
       {error && <p className="mt-4 text-sm text-red-600">{error}</p>}
 
       {confirmRerun && (
-        <div className="mt-4 p-4 bg-yellow-50 border border-yellow-200 rounded-lg text-sm text-yellow-800 flex items-center justify-between gap-4">
+        <div className="mt-4 p-4 rounded-lg text-sm flex items-center justify-between gap-4"
+          style={{ background: '#fefce8', border: '1px solid #fde68a', color: '#92400e' }}>
           <span>Re-run this article through the full 2-stage pipeline? The current content will be replaced.</span>
           <div className="flex gap-2 shrink-0">
             <Button onClick={rerun}>Confirm</Button>
