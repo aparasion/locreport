@@ -103,7 +103,7 @@ export function Nav() {
           <Image src="/logodark.png" alt="LocReport" width={120} height={32} className="site-logo-img site-logo-img--dark" priority />
         </Link>
 
-        <nav ref={navRef} className={`site-nav${menuOpen ? ' is-open' : ''}${searchOpen ? ' search-expanded' : ''}`}>
+        <nav ref={navRef} className={`site-nav${menuOpen ? ' is-open' : ''}`}>
           <button
             className="nav-toggle"
             id="nav-toggle"
@@ -149,7 +149,9 @@ export function Nav() {
               )
             ))}
           </ul>
+        </nav>
 
+        <div className={`nav-actions${searchOpen ? ' search-expanded' : ''}`}>
           {/* Inline search */}
           <div className={`search-inline${searchOpen ? ' is-expanded' : ''}`} id="search-inline">
             <button className="search-toggle" id="search-toggle" aria-label="Open search" aria-expanded={searchOpen} onClick={toggleSearch}>
@@ -218,7 +220,7 @@ export function Nav() {
               </button>
             </div>
           ) : null}
-        </nav>
+        </div>
       </div>
       <ReadingProgress />
     </header>
