@@ -808,6 +808,7 @@ ul.nav-dropdown-menu {
 [data-theme="dark"] .hero-orb--1 { background: radial-gradient(circle, rgba(107, 131, 255, 0.30) 0%, transparent 70%); }
 [data-theme="dark"] .hero-orb--2 { background: radial-gradient(circle, rgba(127, 161, 251, 0.22) 0%, transparent 70%); }
 [data-theme="dark"] .hero-orb--3 { background: radial-gradient(circle, rgba(107, 131, 255, 0.24) 0%, transparent 70%); }
+[data-theme="dark"] .hero::before { background: var(--featured-bg); }
 
 @keyframes orbDrift1 {
   0%   { transform: translate(0, 0) scale(1); opacity: 0.8; }
