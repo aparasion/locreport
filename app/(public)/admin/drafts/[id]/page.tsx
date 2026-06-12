@@ -28,11 +28,11 @@ export default function DraftReviewPage() {
 
   // Metadata fields
   const [editTitle, setEditTitle] = useState('')
-  const [editExcerpt, setEditExcerpt] = useState('')
-  const [editSlug, setEditSlug] = useState('')
-  const [editPublisher, setEditPublisher] = useState('LocReport')
+  const [editExcerpt, setEditExcerpt] = useState(() => searchParams.get('excerpt') ?? '')
+  const [editSlug, setEditSlug] = useState(() => searchParams.get('slug') ?? '')
+  const [editPublisher, setEditPublisher] = useState(() => searchParams.get('publisher') ?? 'LocReport')
   const [editSourceUrl, setEditSourceUrl] = useState('')
-  const [slugManuallyEdited, setSlugManuallyEdited] = useState(false)
+  const [slugManuallyEdited, setSlugManuallyEdited] = useState(() => !!searchParams.get('slug'))
 
   const [impactScore, setImpactScore] = useState(() => searchParams.get('impact_score') ?? '')
   const [timeHorizon, setTimeHorizon] = useState(() => searchParams.get('time_horizon') ?? '')

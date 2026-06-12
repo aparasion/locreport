@@ -8,10 +8,36 @@ import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 type Stage = 'form' | 'facts' | 'article'
 
+function clientSlugify(text: string): string {
+  return text
+    .toLowerCase()
+    .replace(/[^\w\s-]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '')
+    .slice(0, 80)
+}
+
+function extractExcerpt(markdown: string): string {
+  // First non-heading, non-empty paragraph
+  const lines = markdown.split('\n')
+  const paragraphLines: string[] = []
+  for (const line of lines) {
+    const trimmed = line.trim()
+    if (!trimmed || trimmed.startsWith('#')) {
+      if (paragraphLines.length) break
+      continue
+    }
+    paragraphLines.push(trimmed)
+    if (paragraphLines.join(' ').length > 200) break
+  }
+  return paragraphLines.join(' ').slice(0, 280)
+}
+
 export default function ComposePage() {
   const router = useRouter()
 
-  // Form fields
+  // Input form fields
   const [articleContent, setArticleContent] = useState('')
   const [title, setTitle] = useState('')
   const [sourceUrl, setSourceUrl] = useState('')
@@ -24,6 +50,13 @@ export default function ComposePage() {
   const [impactScore, setImpactScore] = useState('')
   const [timeHorizon, setTimeHorizon] = useState('')
   const [extraPrompt, setExtraPrompt] = useState('')
+
+  // Article-stage metadata (AI-populated, admin-editable)
+  const [editTitle, setEditTitle] = useState('')
+  const [editExcerpt, setEditExcerpt] = useState('')
+  const [editSlug, setEditSlug] = useState('')
+  const [editPublisher, setEditPublisher] = useState('LocReport')
+  const [slugManuallyEdited, setSlugManuallyEdited] = useState(false)
 
   // Pipeline state
   const [stage, setStage] = useState<Stage>('form')
@@ -56,25 +89,38 @@ export default function ComposePage() {
       body: JSON.stringify({ stage: 'generate', facts, title, sourceUrl, extraPrompt, contentType }),
     })
     const data = await res.json()
-    setContent(data.content ?? '')
-    // Pre-fill with AI classification if admin hasn't set values manually
+    const generated = data.content ?? ''
+    setContent(generated)
+
+    // Pre-fill metadata from generated content
+    const h1 = generated.match(/^#\s+(.+)$/m)?.[1]?.trim() ?? title.trim()
+    setEditTitle(h1)
+    setEditExcerpt(extractExcerpt(generated))
+    if (!slugManuallyEdited) setEditSlug(clientSlugify(h1))
+
     if (!impactScore && data.impact_score) setImpactScore(String(data.impact_score))
     if (!timeHorizon && data.time_horizon) setTimeHorizon(data.time_horizon)
     setStage('article')
     setGenerating(false)
   }
 
-  async function publish(finalContent: string) {
+  function handleEditTitleChange(value: string) {
+    setEditTitle(value)
+    if (!slugManuallyEdited) setEditSlug(clientSlugify(value))
+  }
+
+  async function save(finalContent: string) {
     setPublishing(true)
     setPublishError('')
-    // Prefer H1 in generated content, fall back to the form's title field
-    const titleFromContent = finalContent.match(/^#\s+(.+)$/m)?.[1]?.trim()
-    const derivedTitle = titleFromContent || title.trim() || undefined
     try {
       const res = await fetch('/api/drafts', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ content: finalContent, source_url: sourceUrl || null, title: derivedTitle }),
+        body: JSON.stringify({
+          content: finalContent,
+          source_url: sourceUrl || null,
+          title: editTitle || undefined,
+        }),
       })
       const draft = await res.json()
       if (!res.ok || !draft?.id) {
@@ -86,16 +132,14 @@ export default function ComposePage() {
       if (impactScore) params.set('impact_score', impactScore)
       if (timeHorizon) params.set('time_horizon', timeHorizon)
       params.set('content_type', contentType)
-      const qs = params.toString()
-      router.push(`/admin/drafts/${draft.id}${qs ? '?' + qs : ''}`)
+      if (editExcerpt) params.set('excerpt', editExcerpt)
+      if (editSlug) params.set('slug', editSlug)
+      if (editPublisher) params.set('publisher', editPublisher)
+      router.push(`/admin/drafts/${draft.id}?${params.toString()}`)
     } catch (err) {
       setPublishError(err instanceof Error ? err.message : 'Network error')
     }
     setPublishing(false)
-  }
-
-  async function saveDraft(finalContent: string) {
-    return publish(finalContent)
   }
 
   if (stage === 'article' && content) {
@@ -103,8 +147,56 @@ export default function ComposePage() {
       <div className="max-w-[760px]">
         <div className="flex items-center gap-3 mb-6">
           <h1 className="text-2xl font-bold text-[#15191C]">Compose</h1>
-          <button onClick={() => setStage('facts')} className="text-sm text-[#0F6E52] hover:underline">← Back to facts</button>
+          <button onClick={() => setStage('facts')} className="text-sm hover:underline" style={{ color: 'var(--accent)' }}>← Back to facts</button>
         </div>
+
+        {/* AI-generated metadata — editable before saving */}
+        <div className="flex flex-col gap-4 mb-6 p-4 rounded-lg border" style={{ borderColor: 'var(--border)', background: 'var(--bg-secondary)' }}>
+          <p className="text-xs font-medium uppercase tracking-wide" style={{ color: 'var(--muted)' }}>Article metadata — review before saving</p>
+
+          <div>
+            <Label htmlFor="edit-title">Title</Label>
+            <Input
+              id="edit-title"
+              value={editTitle}
+              onChange={e => handleEditTitleChange(e.target.value)}
+              className="mt-1"
+            />
+          </div>
+
+          <div>
+            <Label htmlFor="edit-excerpt">Excerpt</Label>
+            <Textarea
+              id="edit-excerpt"
+              value={editExcerpt}
+              onChange={e => setEditExcerpt(e.target.value)}
+              rows={2}
+              className="mt-1 text-sm"
+            />
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <Label htmlFor="edit-slug">Slug</Label>
+              <Input
+                id="edit-slug"
+                value={editSlug}
+                onChange={e => { setEditSlug(e.target.value); setSlugManuallyEdited(true) }}
+                className="mt-1 font-mono text-sm"
+              />
+            </div>
+            <div>
+              <Label htmlFor="edit-publisher">Publisher</Label>
+              <Input
+                id="edit-publisher"
+                value={editPublisher}
+                onChange={e => setEditPublisher(e.target.value)}
+                className="mt-1"
+              />
+            </div>
+          </div>
+        </div>
+
         {publishError && (
           <div className="mb-4 rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
             {publishError}
@@ -112,8 +204,8 @@ export default function ComposePage() {
         )}
         <ArticleEditor
           initialContent={content}
-          onPublish={publish}
-          onSaveDraft={saveDraft}
+          onPublish={save}
+          onSaveDraft={save}
           loading={publishing}
         />
       </div>
@@ -243,7 +335,7 @@ export default function ComposePage() {
         <div className="flex flex-col gap-5">
           <div className="flex items-center gap-3">
             <h2 className="text-lg font-semibold text-[#15191C]">Extracted facts</h2>
-            <button onClick={() => setStage('form')} className="text-sm text-[#0F6E52] hover:underline">← Edit inputs</button>
+            <button onClick={() => setStage('form')} className="text-sm hover:underline" style={{ color: 'var(--accent)' }}>← Edit inputs</button>
           </div>
           <Textarea
             value={facts}
