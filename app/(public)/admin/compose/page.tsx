@@ -155,9 +155,7 @@ export default function ComposePage() {
         </div>
 
         {/* AI-generated metadata — editable before saving */}
-        <div className="flex flex-col gap-4 mb-6 p-4 rounded-lg border" style={{ borderColor: 'var(--border)', background: 'var(--bg-secondary)' }}>
-          <p className="text-xs font-medium uppercase tracking-wide" style={{ color: 'var(--muted)' }}>Article metadata — review before saving</p>
-
+        <div className="flex flex-col gap-4 mb-6">
           <div>
             <Label htmlFor="edit-title">Title</Label>
             <Input
@@ -175,6 +173,7 @@ export default function ComposePage() {
               value={editExcerpt}
               onChange={e => setEditExcerpt(e.target.value)}
               rows={2}
+              placeholder="Short description shown in listings (auto-extracted from content if left blank)"
               className="mt-1 text-sm"
             />
           </div>
