@@ -76,6 +76,66 @@ export default function NotFound() {
     <>
       <Nav />
       <style>{`
+        /* ── hero ── */
+        .nf-hero {
+          background: var(--gradient-hero);
+          padding: var(--space-12) var(--page-gutter);
+          text-align: center;
+          position: relative;
+          overflow: hidden;
+        }
+        .nf-hero-orbs {
+          position: absolute; inset: 0; pointer-events: none;
+          background:
+            radial-gradient(ellipse 60% 50% at 20% 50%, rgba(53,80,245,0.08) 0%, transparent 70%),
+            radial-gradient(ellipse 50% 60% at 80% 40%, rgba(127,161,251,0.07) 0%, transparent 70%);
+        }
+        .nf-hero-badge {
+          display: inline-flex; align-items: center;
+          background: var(--accent-soft); border: 1px solid rgba(53,80,245,0.2);
+          border-radius: var(--radius-xl); padding: 0.3rem 1rem;
+          margin-bottom: var(--space-5);
+        }
+        .nf-hero-badge span {
+          font-family: var(--font-mono); font-size: 0.75rem;
+          color: var(--accent); letter-spacing: 0.1em; font-weight: 600;
+        }
+        .nf-hero h1 {
+          font-family: var(--font-display); font-weight: 700;
+          font-size: clamp(2rem, 5vw, 3.25rem); line-height: 1.15;
+          color: var(--text); margin: 0 0 var(--space-4);
+          letter-spacing: -0.02em;
+        }
+        .nf-hero-sub {
+          font-size: clamp(1rem, 2.5vw, 1.2rem); color: var(--muted);
+          margin: 0 0 var(--space-6); line-height: 1.65;
+          max-width: 520px; margin-inline: auto; margin-bottom: var(--space-6);
+        }
+        .nf-hero-btn-secondary {
+          display: inline-flex; align-items: center; gap: 0.45rem;
+          background: var(--bg-secondary); color: var(--text);
+          border: 1px solid var(--border);
+          padding: 0.6rem 1.4rem; border-radius: var(--radius-md);
+          font-weight: 500; font-size: 0.95rem;
+        }
+        /* dark overrides */
+        [data-theme="dark"] .nf-hero { background: var(--featured-bg); }
+        [data-theme="dark"] .nf-hero-orbs {
+          background:
+            radial-gradient(ellipse 60% 50% at 20% 50%, rgba(53,80,245,0.18) 0%, transparent 70%),
+            radial-gradient(ellipse 50% 60% at 80% 40%, rgba(181,116,15,0.12) 0%, transparent 70%);
+        }
+        [data-theme="dark"] .nf-hero-badge {
+          background: rgba(53,80,245,0.18); border-color: rgba(107,131,255,0.3);
+        }
+        [data-theme="dark"] .nf-hero-badge span { color: var(--accent-light); }
+        [data-theme="dark"] .nf-hero h1 { color: var(--featured-text); }
+        [data-theme="dark"] .nf-hero-sub { color: var(--featured-muted); }
+        [data-theme="dark"] .nf-hero-btn-secondary {
+          background: rgba(255,255,255,0.08); color: var(--featured-text);
+          border-color: rgba(255,255,255,0.15);
+        }
+        /* ── cards ── */
         .nf-card {
           display: flex; align-items: flex-start; gap: 1rem;
           background: var(--surface); border: 1px solid var(--border);
@@ -92,45 +152,17 @@ export default function NotFound() {
       <main style={{ minHeight: '80vh', background: 'var(--bg)', paddingBottom: 'var(--space-16)' }}>
 
         {/* Hero band */}
-        <section style={{
-          background: 'var(--featured-bg)',
-          padding: 'var(--space-12) var(--page-gutter)',
-          textAlign: 'center',
-          position: 'relative',
-          overflow: 'hidden',
-        }}>
-          {/* Decorative blurred orbs */}
-          <div aria-hidden="true" style={{
-            position: 'absolute', inset: 0, pointerEvents: 'none',
-            background: 'radial-gradient(ellipse 60% 50% at 20% 50%, rgba(53,80,245,0.18) 0%, transparent 70%), radial-gradient(ellipse 50% 60% at 80% 40%, rgba(181,116,15,0.12) 0%, transparent 70%)',
-          }} />
+        <section className="nf-hero">
+          <div className="nf-hero-orbs" aria-hidden="true" />
 
           <div style={{ position: 'relative', maxWidth: 'var(--content-width)', margin: '0 auto' }}>
-            {/* 404 badge */}
-            <div style={{
-              display: 'inline-flex', alignItems: 'center', gap: '0.5rem',
-              background: 'rgba(53,80,245,0.18)', border: '1px solid rgba(107,131,255,0.3)',
-              borderRadius: 'var(--radius-xl)', padding: '0.3rem 1rem',
-              marginBottom: 'var(--space-5)',
-            }}>
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: 'var(--accent-light)', letterSpacing: '0.1em', fontWeight: 600 }}>
-                ERROR 404
-              </span>
+            <div className="nf-hero-badge">
+              <span>ERROR 404</span>
             </div>
 
-            <h1 style={{
-              fontFamily: 'var(--font-display)', fontWeight: 700,
-              fontSize: 'clamp(2rem, 5vw, 3.25rem)', lineHeight: 1.15,
-              color: 'var(--featured-text)', margin: '0 0 var(--space-4)',
-              letterSpacing: '-0.02em',
-            }}>
-              Lost in translation&hellip;?
-            </h1>
+            <h1>Lost in translation&hellip;?</h1>
 
-            <p style={{
-              fontSize: 'clamp(1rem, 2.5vw, 1.2rem)', color: 'var(--featured-muted)',
-              margin: '0 0 var(--space-6)', lineHeight: 1.65, maxWidth: '520px', marginInline: 'auto',
-            }}>
+            <p className="nf-hero-sub">
               This page doesn&rsquo;t exist — or it may have moved as the industry evolves. The language services world shifts fast; apparently so do URLs.
             </p>
 
@@ -139,18 +171,12 @@ export default function NotFound() {
                 display: 'inline-flex', alignItems: 'center', gap: '0.45rem',
                 background: 'var(--accent)', color: '#fff',
                 padding: '0.6rem 1.4rem', borderRadius: 'var(--radius-md)',
-                fontWeight: 600, fontSize: '0.95rem', transition: 'background 0.2s',
+                fontWeight: 600, fontSize: '0.95rem',
               }}>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
                 Back to home
               </Link>
-              <Link href="/articles" style={{
-                display: 'inline-flex', alignItems: 'center', gap: '0.45rem',
-                background: 'rgba(255,255,255,0.08)', color: 'var(--featured-text)',
-                border: '1px solid rgba(255,255,255,0.15)',
-                padding: '0.6rem 1.4rem', borderRadius: 'var(--radius-md)',
-                fontWeight: 500, fontSize: '0.95rem',
-              }}>
+              <Link href="/articles" className="nf-hero-btn-secondary">
                 Browse articles
               </Link>
             </div>
