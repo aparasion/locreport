@@ -93,6 +93,16 @@
     { "source": "/feed.xml", "destination": "/sitemap.xml", "permanent": true },
     { "source": "/404.html", "destination": "/", "permanent": true },
     { "source": "/reports/monthly/:year/:month", "destination": "/reports/monthly", "permanent": true },
-    { "source": "/reports/monthly/:year/:month/", "destination": "/reports/monthly", "permanent": true }
+    { "source": "/reports/monthly/:year/:month/", "destination": "/reports/monthly", "permanent": true },
+    { "source": "/articles/humanx-2026-what-vistatec-took-away-from-ais-most-talked-ab", "destination": "/articles/humanx-2026--what-vistatec-took-away-from-ais-most-talked-ab", "permanent": true },
+    { "source": "/articles/smartling-achieves-iso-27001-certification-strengthening-sec", "destination": "/articles/smartling-achieves-iso-27001-certification-strengthening-sec-1", "permanent": true },
+    { "source": "/articles/measuring-translation-quality-when-you-dont-speak-the-langua", "destination": "/articles/measuring-translation-quality-when-you-dont-speak-the-langua-1", "permanent": true },
+    { "source": "/articles/industry-lingopal-wins-2026-nab-show-product-of-the-year-awa", "destination": "/articles/lingopal-wins-2026-nab-show-product-of-the-year-award", "permanent": true },
+    { "source": "/articles/the-future-of-language-intelligence-a-conversation-with-xtm", "destination": "/articles/the-future-of-language-intelligence-a-conversation-with-xtm-1", "permanent": true },
+    { "source": "/articles/the-2026-slator-", "destination": "/articles/the-2026-slator-index", "permanent": true },
+    { "source": "/articles/broadcasting-ai-dubbing-for-broadcasters-what-teams-need-now", "destination": "/articles/ai-dubbing-for-broadcasters-what-teams-need-now", "permanent": true },
+    { "source": "/articles/mastering-social-media-moves", "destination": "/articles/mastering-social-media-moves-1", "permanent": true },
+    { "source": "/articles/how-to-turn-technical-documentation-into-multilingual-videos", "destination": "/articles/how-to-turn-technical-documentation-into-multilingual-videos-1", "permanent": true },
+    { "source": "/articles/finalmente-facebook-makes-it-easier-to-post-status-updates-i", "destination": "/articles/finalmente-facebook-makes-it-easier-to-post-status-updates-i-1", "permanent": true }
   ]
 }
