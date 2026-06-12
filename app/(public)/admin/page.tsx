@@ -4,12 +4,13 @@ import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { IngestButton, type IngestResult } from '@/components/IngestButton'
 
-type Confirm = 'ingest' | 'monthly' | 'monthly-force' | null
+type Confirm = 'ingest' | 'monthly' | 'monthly-force' | 'backfill' | null
 
 export default function AdminDashboard() {
   const [stats, setStats] = useState<{ articles: number; drafts: number; sources: number } | null>(null)
   const [monthlyRunning, setMonthlyRunning] = useState(false)
   const [quotesRunning, setQuotesRunning] = useState(false)
+  const [backfillRunning, setBackfillRunning] = useState(false)
   const [confirm, setConfirm] = useState<Confirm>(null)
   const [message, setMessage] = useState('')
   const [messageType, setMessageType] = useState<'ok' | 'error'>('ok')
@@ -52,6 +53,23 @@ export default function AdminDashboard() {
     )
     setMonthlyRunning(false)
     if (res.ok) fetch('/api/stats').then(r => r.json()).then(setStats)
+  }
+
+  async function runBackfill() {
+    setConfirm(null)
+    setBackfillRunning(true)
+    flash('')
+    const res = await fetch('/api/admin/backfill-authors', { method: 'POST' })
+    const data = await res.json()
+    if (res.ok) {
+      const parts = Object.entries(data.breakdown ?? {})
+        .map(([byline, count]) => `${count} → ${byline}`)
+        .join(', ')
+      flash(`Authors reassigned: ${data.updated} articles. ${parts}`)
+    } else {
+      flash(data.error ?? 'Backfill failed.', 'error')
+    }
+    setBackfillRunning(false)
   }
 
   async function refreshQuotes() {
@@ -169,6 +187,33 @@ export default function AdminDashboard() {
               {quotesRunning ? 'Refreshing…' : 'Refresh now'}
             </Button>
           </div>
+        </div>
+
+        {/* Reassign authors */}
+        <div className="p-4 rounded-lg border" style={{ background: 'var(--surface)', borderColor: 'var(--border)' }}>
+          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
+            <div>
+              <p className="font-medium" style={{ color: 'var(--text)' }}>Reassign article authors</p>
+              <p className="text-sm mt-0.5" style={{ color: 'var(--muted)' }}>
+                Rewrite the author field on every article: RSS-originated → Industry Desk, everything else → Editorial Desk.
+              </p>
+            </div>
+            <Button
+              variant="secondary"
+              onClick={() => { setConfirm('backfill'); flash('') }}
+              disabled={backfillRunning || confirm === 'backfill'}
+              className="shrink-0 self-start"
+            >
+              {backfillRunning ? 'Running…' : 'Run now'}
+            </Button>
+          </div>
+          {confirm === 'backfill' && (
+            <div className="mt-3 pt-3 flex flex-wrap items-center gap-3 text-sm" style={{ borderTop: '1px solid var(--border)', color: 'var(--muted)' }}>
+              <span>This will overwrite the author field on <strong>all</strong> articles. Continue?</span>
+              <Button onClick={runBackfill} disabled={backfillRunning}>Confirm</Button>
+              <Button variant="ghost" onClick={() => setConfirm(null)}>Cancel</Button>
+            </div>
+          )}
         </div>
 
         {message && (
