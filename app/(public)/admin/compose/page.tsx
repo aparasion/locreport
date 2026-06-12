@@ -109,7 +109,7 @@ export default function ComposePage() {
     if (!slugManuallyEdited) setEditSlug(clientSlugify(value))
   }
 
-  async function save(finalContent: string) {
+  async function save(finalContent: string, redirectToDraft = false) {
     setPublishing(true)
     setPublishError('')
     try {
@@ -126,6 +126,10 @@ export default function ComposePage() {
       if (!res.ok || !draft?.id) {
         setPublishError(draft?.error ?? `Failed to save draft (HTTP ${res.status})`)
         setPublishing(false)
+        return
+      }
+      if (!redirectToDraft) {
+        router.push('/admin/drafts')
         return
       }
       const params = new URLSearchParams()
@@ -204,8 +208,8 @@ export default function ComposePage() {
         )}
         <ArticleEditor
           initialContent={content}
-          onPublish={save}
-          onSaveDraft={save}
+          onPublish={c => save(c, true)}
+          onSaveDraft={c => save(c, false)}
           loading={publishing}
         />
       </div>
