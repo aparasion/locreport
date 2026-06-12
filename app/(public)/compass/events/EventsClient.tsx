@@ -1,5 +1,5 @@
 'use client'
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useRef } from 'react'
 import type { Event } from '@/lib/data/events'
 
 interface Props {
@@ -49,6 +49,36 @@ function getEventMonths(events: Event[]): { year: number; month: number }[] {
   })
 }
 
+function EventCard({ ev, isPast }: { ev: Event; isPast: boolean }) {
+  return (
+    <div className={`event-card${isPast ? ' is-past' : ''}`}>
+      <div className="event-card-top">
+        <span className="event-date">{formatDateRange(ev.start_date, ev.end_date)}</span>
+        <span className={`event-badge event-badge--${ev.category}`}>{ev.category}</span>
+      </div>
+      <h3 className="event-name">{ev.name}</h3>
+      <p className="event-organizer">{ev.organizer}</p>
+      <div className="event-location">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          <path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/>
+          <circle cx="12" cy="10" r="3"/>
+        </svg>
+        {ev.location}
+        <span style={{ marginLeft: 6, fontSize: '0.72rem', fontWeight: 600, padding: '1px 6px', background: 'var(--bg-secondary)', borderRadius: '100px', color: 'var(--muted)' }}>
+          {ev.format}
+        </span>
+      </div>
+      <p className="event-desc">
+        {ev.description.length > 220 ? ev.description.slice(0, 220) + '…' : ev.description}
+      </p>
+      <div className="event-tags">
+        {ev.tags.map(tag => <span key={tag} className="event-tag">{tag}</span>)}
+      </div>
+      <a href={ev.url} target="_blank" rel="noopener" className="event-link">Learn more →</a>
+    </div>
+  )
+}
+
 const FILTERS = [
   { value: 'all', label: 'All' },
   { value: 'conference', label: 'Conferences' },
@@ -59,8 +89,32 @@ export function EventsClient({ events, today }: Props) {
   const [filter, setFilter] = useState<string>('all')
   const [view, setView] = useState<'list' | 'calendar'>('list')
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null)
+  const [query, setQuery] = useState('')
+  const searchRef = useRef<HTMLInputElement>(null)
 
-  const filtered = filter === 'all' ? events : events.filter(e => e.category === filter)
+  const filtered = useMemo(() => {
+    let list = filter === 'all' ? events : events.filter(e => e.category === filter)
+    if (query.trim()) {
+      const q = query.toLowerCase()
+      list = list.filter(e =>
+        e.name.toLowerCase().includes(q) ||
+        e.organizer.toLowerCase().includes(q) ||
+        e.location.toLowerCase().includes(q) ||
+        e.description.toLowerCase().includes(q) ||
+        e.tags.some(t => t.toLowerCase().includes(q))
+      )
+    }
+    return list
+  }, [events, filter, query])
+
+  const upcomingEvents = useMemo(
+    () => filtered.filter(e => e.end_date >= today).sort((a, b) => a.start_date.localeCompare(b.start_date)),
+    [filtered, today]
+  )
+  const pastEvents = useMemo(
+    () => filtered.filter(e => e.end_date < today).sort((a, b) => b.start_date.localeCompare(a.start_date)),
+    [filtered, today]
+  )
 
   // All months with events (across unfiltered set so navigation is stable)
   const allMonths = useMemo(() => getEventMonths(events), [events])
@@ -101,6 +155,31 @@ export function EventsClient({ events, today }: Props) {
 
   return (
     <>
+      {/* Search */}
+      <div className="events-search-wrap">
+        <span className="events-search-icon" aria-hidden="true">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.3" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+        </span>
+        <input
+          ref={searchRef}
+          className="events-search-input"
+          type="search"
+          placeholder="Search events by name, location, or keyword…"
+          value={query}
+          onChange={e => setQuery(e.target.value)}
+          aria-label="Search events"
+        />
+        {query && (
+          <button className="events-search-clear" onClick={() => { setQuery(''); searchRef.current?.focus() }} aria-label="Clear search">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+          </button>
+        )}
+      </div>
+
       <div className="events-toolbar">
         <div className="events-filter-bar">
           {FILTERS.map(f => (
@@ -139,40 +218,31 @@ export function EventsClient({ events, today }: Props) {
       </div>
 
       {view === 'list' ? (
-        <div className="events-grid">
-          {filtered.map(ev => {
-            const isPast = ev.end_date < today
-            return (
-              <div key={ev.id} className={`event-card${isPast ? ' is-past' : ''}`}>
-                <div className="event-card-top">
-                  <span className="event-date">{formatDateRange(ev.start_date, ev.end_date)}</span>
-                  <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap', justifyContent: 'flex-end' }}>
-                    <span className={`event-badge event-badge--${ev.category}`}>{ev.category}</span>
-                    {isPast && <span className="event-badge event-badge--past">Past</span>}
-                  </div>
-                </div>
-                <h3 className="event-name">{ev.name}</h3>
-                <p className="event-organizer">{ev.organizer}</p>
-                <div className="event-location">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                    <path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/>
-                    <circle cx="12" cy="10" r="3"/>
-                  </svg>
-                  {ev.location}
-                  <span style={{ marginLeft: 6, fontSize: '0.72rem', fontWeight: 600, padding: '1px 6px', background: 'var(--bg-secondary)', borderRadius: '100px', color: 'var(--muted)' }}>
-                    {ev.format}
-                  </span>
-                </div>
-                <p className="event-desc">
-                  {ev.description.length > 220 ? ev.description.slice(0, 220) + '…' : ev.description}
-                </p>
-                <div className="event-tags">
-                  {ev.tags.map(tag => <span key={tag} className="event-tag">{tag}</span>)}
-                </div>
-                <a href={ev.url} target="_blank" rel="noopener" className="event-link">Learn more →</a>
+        <div>
+          {filtered.length === 0 && (
+            <p style={{ color: 'var(--muted)', fontSize: '0.9rem', marginTop: 'var(--space-6)' }}>No events match your search.</p>
+          )}
+
+          {upcomingEvents.length > 0 && (
+            <div className="events-grid">
+              {upcomingEvents.map(ev => (
+                <EventCard key={ev.id} ev={ev} isPast={false} />
+              ))}
+            </div>
+          )}
+
+          {pastEvents.length > 0 && (
+            <div className="events-past-section">
+              <div className="events-past-heading">
+                <span>Past Events</span>
               </div>
-            )
-          })}
+              <div className="events-grid">
+                {pastEvents.map(ev => (
+                  <EventCard key={ev.id} ev={ev} isPast={true} />
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       ) : (
         <div className="cal-view">
