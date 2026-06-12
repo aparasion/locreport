@@ -219,10 +219,17 @@ article.page:has(.dir-grid) { max-width: var(--site-max-width); overflow-x: hidd
   max-width: var(--site-max-width);
   margin: 0 auto;
   padding: 0 var(--page-gutter);
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  height: 64px;
+}
+
+.nav-actions {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  height: 64px;
+  justify-content: flex-end;
+  gap: var(--space-1);
 }
 
 .site-logo {
@@ -246,6 +253,7 @@ article.page:has(.dir-grid) { max-width: var(--site-max-width); overflow-x: hidd
 .site-nav {
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 .site-nav ul {
   list-style: none;
@@ -3091,8 +3099,8 @@ article.page > h1 {
 
 @media (max-width: 640px) {
   .nav-toggle { display: flex; }
-  .header-shell { height: 56px; }
-  .site-nav { position: static; }
+  .header-shell { height: 56px; grid-template-columns: auto 1fr auto; }
+  .site-nav { position: static; justify-content: flex-start; }
   .site-nav > #site-menu {
     display: none;
     position: fixed;
