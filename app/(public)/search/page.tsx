@@ -9,6 +9,10 @@ export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
   title: 'Search — LocReport',
+  robots: {
+    index: false,
+    follow: true,
+  },
 }
 
 const STATIC_PAGES = [
