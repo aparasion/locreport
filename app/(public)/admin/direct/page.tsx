@@ -7,10 +7,24 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 
+function clientSlugify(text: string): string {
+  return text
+    .toLowerCase()
+    .replace(/[^\w\s-]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '')
+    .slice(0, 80)
+}
+
 export default function DirectComposePage() {
   const router = useRouter()
 
   const [title, setTitle] = useState('')
+  const [excerpt, setExcerpt] = useState('')
+  const [slug, setSlug] = useState('')
+  const [slugManuallyEdited, setSlugManuallyEdited] = useState(false)
+  const [publisher, setPublisher] = useState('LocReport')
   const [content, setContent] = useState('')
   const [contentType, setContentType] = useState<'industry' | 'theory'>('industry')
   const [sourceUrl, setSourceUrl] = useState('')
@@ -24,6 +38,11 @@ export default function DirectComposePage() {
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState('')
 
+  function handleTitleChange(value: string) {
+    setTitle(value)
+    if (!slugManuallyEdited) setSlug(clientSlugify(value))
+  }
+
   async function submit() {
     if (!title.trim() || !content.trim()) return
     setSubmitting(true)
@@ -35,6 +54,9 @@ export default function DirectComposePage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           title,
+          excerpt,
+          slug: slug || undefined,
+          publisher,
           content,
           contentType,
           sourceUrl,
@@ -84,10 +106,45 @@ export default function DirectComposePage() {
           <Input
             id="title"
             value={title}
-            onChange={e => setTitle(e.target.value)}
+            onChange={e => handleTitleChange(e.target.value)}
             placeholder="Article title"
             className="mt-1"
           />
+        </div>
+
+        <div>
+          <Label htmlFor="excerpt">Excerpt</Label>
+          <Textarea
+            id="excerpt"
+            value={excerpt}
+            onChange={e => setExcerpt(e.target.value)}
+            rows={2}
+            placeholder="Short description shown in listings (auto-extracted from content if left blank)"
+            className="mt-1 text-sm"
+          />
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <Label htmlFor="slug">Slug</Label>
+            <Input
+              id="slug"
+              value={slug}
+              onChange={e => { setSlug(e.target.value); setSlugManuallyEdited(true) }}
+              placeholder="auto-generated-from-title"
+              className="mt-1 font-mono text-sm"
+            />
+          </div>
+          <div>
+            <Label htmlFor="publisher">Publisher</Label>
+            <Input
+              id="publisher"
+              value={publisher}
+              onChange={e => setPublisher(e.target.value)}
+              placeholder="LocReport"
+              className="mt-1"
+            />
+          </div>
         </div>
 
         <div>
