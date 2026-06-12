@@ -81,6 +81,19 @@ export default function DraftsPage() {
     setBulkBusy(false)
   }
 
+  async function bulkDelete() {
+    if (!selected.size) return
+    if (!confirm(`Permanently delete ${selected.size} draft${selected.size > 1 ? 's' : ''}? This cannot be undone.`)) return
+    setBulkBusy(true)
+    await fetch('/api/drafts', {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ids: Array.from(selected) }),
+    })
+    await load()
+    setBulkBusy(false)
+  }
+
   const allSelected = drafts.length > 0 && selected.size === drafts.length
   const someSelected = selected.size > 0
 
@@ -111,13 +124,24 @@ export default function DraftsPage() {
       {someSelected && (
         <div className="flex items-center gap-3 mb-4 px-3 py-2 rounded-lg" style={{ background: 'var(--accent-soft)', border: '1px solid var(--border)' }}>
           <span className="text-sm" style={{ color: 'var(--muted)' }}>{selected.size} selected</span>
-          <button
-            onClick={bulkReject}
-            disabled={bulkBusy}
-            className="text-sm font-medium text-red-500 hover:text-red-400 disabled:opacity-50"
-          >
-            {bulkBusy ? 'Rejecting…' : 'Reject selected'}
-          </button>
+          {statusFilter !== 'rejected' && (
+            <button
+              onClick={bulkReject}
+              disabled={bulkBusy}
+              className="text-sm font-medium text-red-500 hover:text-red-400 disabled:opacity-50"
+            >
+              {bulkBusy ? 'Rejecting…' : 'Reject selected'}
+            </button>
+          )}
+          {statusFilter === 'rejected' && (
+            <button
+              onClick={bulkDelete}
+              disabled={bulkBusy}
+              className="text-sm font-medium text-red-500 hover:text-red-400 disabled:opacity-50"
+            >
+              {bulkBusy ? 'Deleting…' : 'Delete selected'}
+            </button>
+          )}
           <button
             onClick={() => setSelected(new Set())}
             className="text-sm ml-auto"
