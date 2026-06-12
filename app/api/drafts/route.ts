@@ -38,3 +38,15 @@ export async function PATCH(req: NextRequest) {
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
   return NextResponse.json({ ok: true })
 }
+
+// Bulk delete drafts — does NOT touch seen_urls so ingest won't re-process them
+export async function DELETE(req: NextRequest) {
+  const { ids } = await req.json()
+  if (!Array.isArray(ids) || !ids.length) {
+    return NextResponse.json({ error: 'ids array required' }, { status: 400 })
+  }
+  const supabase = createServiceClient()
+  const { error } = await supabase.from('drafts').delete().in('id', ids)
+  if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+  return NextResponse.json({ ok: true })
+}
