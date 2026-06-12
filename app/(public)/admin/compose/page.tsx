@@ -109,7 +109,7 @@ export default function ComposePage() {
     if (!slugManuallyEdited) setEditSlug(clientSlugify(value))
   }
 
-  async function save(finalContent: string) {
+  async function save(finalContent: string, redirectToDraft = false) {
     setPublishing(true)
     setPublishError('')
     try {
@@ -126,6 +126,10 @@ export default function ComposePage() {
       if (!res.ok || !draft?.id) {
         setPublishError(draft?.error ?? `Failed to save draft (HTTP ${res.status})`)
         setPublishing(false)
+        return
+      }
+      if (!redirectToDraft) {
+        router.push('/admin/drafts')
         return
       }
       const params = new URLSearchParams()
@@ -151,9 +155,7 @@ export default function ComposePage() {
         </div>
 
         {/* AI-generated metadata — editable before saving */}
-        <div className="flex flex-col gap-4 mb-6 p-4 rounded-lg border" style={{ borderColor: 'var(--border)', background: 'var(--bg-secondary)' }}>
-          <p className="text-xs font-medium uppercase tracking-wide" style={{ color: 'var(--muted)' }}>Article metadata — review before saving</p>
-
+        <div className="flex flex-col gap-4 mb-6">
           <div>
             <Label htmlFor="edit-title">Title</Label>
             <Input
@@ -171,6 +173,7 @@ export default function ComposePage() {
               value={editExcerpt}
               onChange={e => setEditExcerpt(e.target.value)}
               rows={2}
+              placeholder="Short description shown in listings (auto-extracted from content if left blank)"
               className="mt-1 text-sm"
             />
           </div>
@@ -204,8 +207,8 @@ export default function ComposePage() {
         )}
         <ArticleEditor
           initialContent={content}
-          onPublish={save}
-          onSaveDraft={save}
+          onPublish={c => save(c, true)}
+          onSaveDraft={c => save(c, false)}
           loading={publishing}
         />
       </div>
