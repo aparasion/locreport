@@ -68,8 +68,23 @@ export async function POST(req: NextRequest) {
       ],
     })
     const content = completion.choices[0].message.content ?? ''
+
+    // Extract H1 from content, or generate a title if none present
+    let articleTitle = content.match(/^#\s+(.+)$/m)?.[1]?.trim() ?? ''
+    if (!articleTitle) {
+      const titleCompletion = await openai.chat.completions.create({
+        model: 'gpt-4o-mini',
+        messages: [
+          { role: 'system', content: 'Write a concise, compelling article title (no markdown, no quotes, max 12 words). Respond with only the title.' },
+          { role: 'user', content: `Generate a title for this article:\n\n${content.slice(0, 800)}` },
+        ],
+        max_tokens: 60,
+      })
+      articleTitle = titleCompletion.choices[0].message.content?.trim() ?? ''
+    }
+
     const classification = await classifyArticle(openai, content)
-    return NextResponse.json({ content, ...classification })
+    return NextResponse.json({ content, title: articleTitle, ...classification })
   }
 
   return NextResponse.json({ error: 'Invalid stage' }, { status: 400 })
