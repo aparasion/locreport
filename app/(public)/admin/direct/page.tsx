@@ -84,7 +84,7 @@ export default function DirectComposePage() {
       if (classification?.signal_ids?.length) params.set('signal_ids', classification.signal_ids.join(','))
       const qs = params.toString()
 
-      router.push(draft?.id ? `/admin/drafts/${draft.id}${qs ? '?' + qs : ''}` : '/admin/drafts')
+      router.push('/admin/drafts')
     } catch {
       setError('Network error — please try again.')
       setSubmitting(false)
