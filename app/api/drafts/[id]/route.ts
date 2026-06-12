@@ -37,8 +37,8 @@ export async function PATCH(req: NextRequest, { params }: Params) {
     const publisher = body.publisher?.trim() || 'LocReport'
     const source_url = body.source_url !== undefined ? body.source_url : draft.source_url
 
-    const author = body.content_type === 'theory'
-      ? 'LocReport Research Desk'
+    const author = draft.source_feed_id
+      ? 'LocReport Industry Desk'
       : 'LocReport Editorial Desk'
 
     const openai = getOpenAI()

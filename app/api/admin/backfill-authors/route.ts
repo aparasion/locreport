@@ -10,16 +10,14 @@ export async function POST(req: NextRequest) {
 
   const service = createServiceClient()
 
-  // Fetch all articles without an author
   const { data: articles, error: fetchError } = await service
     .from('articles')
-    .select('id, article_type, draft_id')
-    .is('author', null)
+    .select('id, draft_id')
 
   if (fetchError) return NextResponse.json({ error: fetchError.message }, { status: 500 })
-  if (!articles?.length) return NextResponse.json({ updated: 0, message: 'No articles missing author' })
+  if (!articles?.length) return NextResponse.json({ updated: 0, message: 'No articles found' })
 
-  // Fetch drafts for articles that have a draft_id, to check source_feed_id
+  // Fetch source_feed_id for all drafts linked to these articles
   const draftIds = articles.map(a => a.draft_id).filter(Boolean) as string[]
   const draftFeedMap = new Map<string, string | null>()
 
@@ -33,31 +31,16 @@ export async function POST(req: NextRequest) {
     }
   }
 
-  // Determine author for each article
+  // RSS-originated articles → Industry Desk; everything else → Editorial Desk
   const updates: Array<{ id: string; author: string }> = []
   for (const article of articles) {
-    let author: string
-    if (article.article_type === 'theory') {
-      author = 'LocReport Research Desk'
-    } else if (article.article_type === 'monthly-summary') {
-      author = 'LocReport Industry Desk'
-    } else {
-      // industry: check if it came from RSS ingest (has draft with source_feed_id)
-      const feedId = article.draft_id ? draftFeedMap.get(article.draft_id) : undefined
-      if (feedId) {
-        author = 'LocReport Industry Desk'
-      } else if (article.draft_id && draftFeedMap.has(article.draft_id)) {
-        // draft exists but source_feed_id is null — came from Compose
-        author = 'LocReport Editorial Desk'
-      } else {
-        // No draft link — direct insert, treat as industry
-        author = 'LocReport Industry Desk'
-      }
-    }
+    const feedId = article.draft_id ? draftFeedMap.get(article.draft_id) : undefined
+    const author = feedId
+      ? 'LocReport Industry Desk'
+      : 'LocReport Editorial Desk'
     updates.push({ id: article.id, author })
   }
 
-  // Apply updates
   const results = await Promise.allSettled(
     updates.map(({ id, author }) =>
       service.from('articles').update({ author }).eq('id', id)
