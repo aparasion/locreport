@@ -44,7 +44,7 @@ export async function POST(req: NextRequest) {
   }
 
   if (stage === 'generate') {
-    const { facts, title } = body
+    const { facts, title, sourceName, extraUrl1, extraSourceName1, extraUrl2, extraSourceName2 } = body
     const isTheory = contentType === 'theory'
     const basePrompt = isTheory
       ? await getPrompt('prompt_theory', DEFAULT_THEORY_PROMPT)
@@ -54,8 +54,20 @@ export async function POST(req: NextRequest) {
       ? `${basePrompt}\n\nADDITIONAL INSTRUCTIONS:\n${extraPrompt}`
       : basePrompt
 
+    const sources = [
+      sourceUrl ? { url: sourceUrl, name: sourceName?.trim() || null } : null,
+      extraUrl1?.trim() ? { url: extraUrl1.trim(), name: extraSourceName1?.trim() || null } : null,
+      extraUrl2?.trim() ? { url: extraUrl2.trim(), name: extraSourceName2?.trim() || null } : null,
+    ].filter(Boolean) as { url: string; name: string | null }[]
+
+    const sourcesBlock = sources.length
+      ? sources.map((s, i) =>
+          `Source ${i + 1}: ${s.name ? `${s.name} — ` : ''}${s.url}`
+        ).join('\n')
+      : ''
+
     const userContent = [
-      sourceUrl ? `Source URL: ${sourceUrl}` : '',
+      sourcesBlock,
       title ? `Suggested title: ${title}` : '',
       `Extracted facts:\n${facts}`,
     ].filter(Boolean).join('\n\n')

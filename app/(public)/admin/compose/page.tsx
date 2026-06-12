@@ -86,7 +86,7 @@ export default function ComposePage() {
     const res = await fetch('/api/compose', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ stage: 'generate', facts, title, sourceUrl, extraPrompt, contentType }),
+      body: JSON.stringify({ stage: 'generate', facts, title, sourceUrl, sourceName, extraUrl1, extraSourceName1, extraUrl2, extraSourceName2, extraPrompt, contentType }),
     })
     const data = await res.json()
     const generated = data.content ?? ''
