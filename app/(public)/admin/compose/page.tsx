@@ -92,11 +92,11 @@ export default function ComposePage() {
     const generated = data.content ?? ''
     setContent(generated)
 
-    // Pre-fill metadata from generated content
-    const h1 = generated.match(/^#\s+(.+)$/m)?.[1]?.trim() ?? title.trim()
-    setEditTitle(h1)
+    // Pre-fill metadata — API returns resolved title (H1 or AI-generated)
+    const resolvedTitle = data.title?.trim() || generated.match(/^#\s+(.+)$/m)?.[1]?.trim() || title.trim()
+    setEditTitle(resolvedTitle)
     setEditExcerpt(extractExcerpt(generated))
-    if (!slugManuallyEdited) setEditSlug(clientSlugify(h1))
+    if (!slugManuallyEdited) setEditSlug(clientSlugify(resolvedTitle))
 
     if (!impactScore && data.impact_score) setImpactScore(String(data.impact_score))
     if (!timeHorizon && data.time_horizon) setTimeHorizon(data.time_horizon)
