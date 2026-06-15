@@ -12,17 +12,30 @@ export async function POST(req: NextRequest) {
   const slugs: string[] = body.slugs ?? []
   const allMissing: boolean = body.all_missing === true
 
-  if (!slugs.length && !allMissing) {
-    return NextResponse.json({ error: 'Provide slugs or set all_missing: true' }, { status: 400 })
+  if (!slugs.length && !allMissing && !body.all) {
+    return NextResponse.json({ error: 'Provide slugs, set all_missing: true, or set all: true' }, { status: 400 })
   }
 
   const service = createServiceClient()
   const openai = getOpenAI()
   const results: Record<string, string> = {}
 
+  const allArticles: boolean = body.all === true
+  const offset: number = body.offset ?? 0
+  const batchSize: number = Math.min(body.batch_size ?? 20, 50)
+
   let articles: { id: string; slug: string; content: string }[] = []
 
-  if (allMissing) {
+  if (allArticles) {
+    const { data, error } = await service
+      .from('articles')
+      .select('id, slug, content')
+      .neq('article_type', 'monthly-summary')
+      .order('published_at', { ascending: false })
+      .range(offset, offset + batchSize - 1)
+    if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+    articles = data ?? []
+  } else if (allMissing) {
     const { data, error } = await service
       .from('articles')
       .select('id, slug, content')
@@ -60,5 +73,10 @@ export async function POST(req: NextRequest) {
     results[article.slug] = updateError ? `error: ${updateError.message}` : 'updated'
   }
 
-  return NextResponse.json({ results, count: articles.length })
+  const hasMore = allArticles && articles.length === batchSize
+  return NextResponse.json({
+    results,
+    count: articles.length,
+    ...(allArticles && { next_offset: hasMore ? offset + batchSize : null }),
+  })
 }
