@@ -68,10 +68,18 @@ export async function POST(req: NextRequest) {
   const errors: string[] = []
   const skipped: string[] = []
 
+  const maxAgeDays = 30
+  const cutoff = new Date(Date.now() - maxAgeDays * 24 * 60 * 60 * 1000)
+
   for (const source of sources) {
     const items = await fetchFeed(source.url)
-    console.log(`[ingest] ${source.url}: ${items.length} items, ${items.filter(i => i.link && !seen.has(i.link)).length} fresh`)
-    const fresh = items.filter(i => i.link && !seen.has(i.link)).slice(0, 5)
+    const recent = items.filter(i => {
+      if (!i.pubDate) return true // no date → don't filter out
+      const pub = new Date(i.pubDate)
+      return !isNaN(pub.getTime()) && pub >= cutoff
+    })
+    console.log(`[ingest] ${source.url}: ${items.length} items, ${recent.filter(i => i.link && !seen.has(i.link)).length} fresh within ${maxAgeDays}d`)
+    const fresh = recent.filter(i => i.link && !seen.has(i.link)).slice(0, 5)
 
     for (const item of fresh) {
       try {
