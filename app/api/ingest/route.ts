@@ -71,7 +71,7 @@ export async function POST(req: NextRequest) {
   for (const source of sources) {
     const items = await fetchFeed(source.url)
     console.log(`[ingest] ${source.url}: ${items.length} items, ${items.filter(i => i.link && !seen.has(i.link)).length} fresh`)
-    const fresh = items.filter(i => i.link && !seen.has(i.link)).slice(0, 2)
+    const fresh = items.filter(i => i.link && !seen.has(i.link)).slice(0, 5)
 
     for (const item of fresh) {
       try {
