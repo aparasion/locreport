@@ -27,8 +27,9 @@ export async function fetchArticleText(url: string): Promise<string | null> {
   try {
     const res = await fetch(url, {
       headers: {
-        'User-Agent': 'Mozilla/5.0 (compatible; LocReport/1.0; +https://locreport.com)',
-        'Accept': 'text/html,application/xhtml+xml',
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+        'Accept-Language': 'en-US,en;q=0.9',
       },
       signal: AbortSignal.timeout(8000),
     })
@@ -47,7 +48,7 @@ export async function fetchArticleText(url: string): Promise<string | null> {
 async function resolveGoogleNewsUrl(url: string): Promise<string | null> {
   try {
     const res = await fetch(url, {
-      headers: { 'User-Agent': 'Mozilla/5.0 (compatible; LocReport/1.0; +https://locreport.com)' },
+      headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36' },
       redirect: 'manual',
       signal: AbortSignal.timeout(5000),
     })
@@ -55,7 +56,7 @@ async function resolveGoogleNewsUrl(url: string): Promise<string | null> {
     if (location && !location.includes('news.google.com')) return location
     // Some Google News URLs do a JS redirect — try following normally and read the final URL
     const followed = await fetch(url, {
-      headers: { 'User-Agent': 'Mozilla/5.0 (compatible; LocReport/1.0; +https://locreport.com)' },
+      headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36' },
       redirect: 'follow',
       signal: AbortSignal.timeout(5000),
     })
@@ -91,7 +92,13 @@ function htmlToText(html: string): string {
 export async function fetchFeed(url: string): Promise<RssItem[]> {
   try {
     // Use fetch + parseString to avoid rss-parser's internal url.parse() call
-    const res = await fetch(url, { headers: { 'User-Agent': 'LocReport/1.0' } })
+    const res = await fetch(url, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36',
+        'Accept': 'application/rss+xml, application/atom+xml, application/xml;q=0.9, text/xml;q=0.8, */*;q=0.7',
+        'Accept-Language': 'en-US,en;q=0.9',
+      },
+    })
     if (!res.ok) throw new Error(`HTTP ${res.status}`)
     const xml = await res.text()
     const feed = await parser.parseString(xml)
