@@ -4,12 +4,14 @@ import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { IngestButton, type IngestResult } from '@/components/IngestButton'
 
-type Confirm = 'ingest' | 'monthly' | 'monthly-force' | null
+type Confirm = 'ingest' | 'monthly' | 'monthly-force' | 'reclassify' | null
 
 export default function AdminDashboard() {
   const [stats, setStats] = useState<{ articles: number; drafts: number; sources: number } | null>(null)
   const [monthlyRunning, setMonthlyRunning] = useState(false)
   const [quotesRunning, setQuotesRunning] = useState(false)
+  const [reclassifyRunning, setReclassifyRunning] = useState(false)
+  const [reclassifyProgress, setReclassifyProgress] = useState<{ done: number; total: number } | null>(null)
   const [confirm, setConfirm] = useState<Confirm>(null)
   const [message, setMessage] = useState('')
   const [messageType, setMessageType] = useState<'ok' | 'error'>('ok')
@@ -52,6 +54,42 @@ export default function AdminDashboard() {
     )
     setMonthlyRunning(false)
     if (res.ok) fetch('/api/stats').then(r => r.json()).then(setStats)
+  }
+
+  async function reclassifyAll() {
+    setConfirm(null)
+    setReclassifyRunning(true)
+    setReclassifyProgress({ done: 0, total: 0 })
+    flash('')
+    let offset = 0
+    let totalDone = 0
+    const batchSize = 20
+    try {
+      while (true) {
+        const res = await fetch('/api/admin/reclassify', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ all: true, offset, batch_size: batchSize }),
+        })
+        if (!res.ok) {
+          const data = await res.json()
+          flash(data.error ?? 'Reclassification failed.', 'error')
+          break
+        }
+        const data = await res.json()
+        totalDone += data.count
+        setReclassifyProgress({ done: totalDone, total: totalDone })
+        if (data.next_offset === null || data.count === 0) {
+          flash(`Reclassification complete — ${totalDone} article${totalDone !== 1 ? 's' : ''} updated.`)
+          break
+        }
+        offset = data.next_offset
+      }
+    } catch {
+      flash('Reclassification failed — network error.', 'error')
+    }
+    setReclassifyRunning(false)
+    setReclassifyProgress(null)
   }
 
   async function refreshQuotes() {
@@ -169,6 +207,38 @@ export default function AdminDashboard() {
               {quotesRunning ? 'Refreshing…' : 'Refresh now'}
             </Button>
           </div>
+        </div>
+
+        {/* Reclassify all articles */}
+        <div className="p-4 rounded-lg border" style={{ background: 'var(--surface)', borderColor: 'var(--border)' }}>
+          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
+            <div>
+              <p className="font-medium" style={{ color: 'var(--text)' }}>Reclassify all articles</p>
+              <p className="text-sm mt-0.5" style={{ color: 'var(--muted)' }}>
+                Re-run the classifier on every published article using the current prompt and signal list.
+                Updates impact scores, signals, affected segments, and business implications.
+              </p>
+            </div>
+            <Button
+              variant="secondary"
+              onClick={() => { setConfirm('reclassify'); flash('') }}
+              disabled={reclassifyRunning || confirm === 'reclassify'}
+              className="shrink-0 self-start"
+            >
+              {reclassifyRunning
+                ? reclassifyProgress
+                  ? `Updating… (${reclassifyProgress.done} done)`
+                  : 'Starting…'
+                : 'Run now'}
+            </Button>
+          </div>
+          {confirm === 'reclassify' && (
+            <div className="mt-3 pt-3 flex flex-wrap items-center gap-3 text-sm" style={{ borderTop: '1px solid var(--border)', color: 'var(--muted)' }}>
+              <span>This will overwrite classification data on all published articles. It may take several minutes. Continue?</span>
+              <Button onClick={reclassifyAll} disabled={reclassifyRunning}>Confirm</Button>
+              <Button variant="ghost" onClick={() => setConfirm(null)}>Cancel</Button>
+            </div>
+          )}
         </div>
 
         {message && (
