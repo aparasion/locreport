@@ -28,11 +28,11 @@ export async function GET() {
 }
 
 export async function POST(req: NextRequest) {
-  const { url, name } = await req.json()
+  const { url, name, keywords } = await req.json()
   const supabase = createServiceClient()
   const { data, error } = await supabase
     .from('rss_sources')
-    .insert({ url, name })
+    .insert({ url, name, keywords: keywords ?? [] })
     .select()
     .single()
   if (error) return NextResponse.json({ error: error.message }, { status: 400 })
