@@ -79,7 +79,13 @@ export async function POST(req: NextRequest) {
       return !isNaN(pub.getTime()) && pub >= cutoff
     })
     console.log(`[ingest] ${source.url}: ${items.length} items, ${recent.filter(i => i.link && !seen.has(i.link)).length} fresh within ${maxAgeDays}d`)
-    const fresh = recent.filter(i => i.link && !seen.has(i.link)).slice(0, 5)
+    const keywords: string[] = (source.keywords ?? []).map((k: string) => k.toLowerCase())
+    const matchesKeywords = (item: { title: string; contentSnippet?: string }) => {
+      if (keywords.length === 0) return true
+      const haystack = `${item.title} ${item.contentSnippet ?? ''}`.toLowerCase()
+      return keywords.some(k => haystack.includes(k))
+    }
+    const fresh = recent.filter(i => i.link && !seen.has(i.link) && matchesKeywords(i)).slice(0, 5)
 
     for (const item of fresh) {
       try {

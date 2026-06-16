@@ -22,6 +22,7 @@ export default function SourcesPage() {
   const [editingId, setEditingId] = useState<string | null>(null)
   const [editName, setEditName] = useState('')
   const [editUrl, setEditUrl] = useState('')
+  const [editKeywords, setEditKeywords] = useState('')
 
   const load = useCallback(() => {
     fetch('/api/sources').then(r => r.json()).then(setSources)
@@ -48,13 +49,15 @@ export default function SourcesPage() {
     setEditingId(source.id)
     setEditName(source.name)
     setEditUrl(source.url)
+    setEditKeywords((source.keywords ?? []).join(', '))
   }
 
   async function saveEdit(id: string) {
+    const keywords = editKeywords.split(',').map(k => k.trim().toLowerCase()).filter(Boolean)
     await fetch(`/api/sources/${id}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name: editName, url: editUrl }),
+      body: JSON.stringify({ name: editName, url: editUrl, keywords }),
     })
     setEditingId(null)
     load()
@@ -119,6 +122,7 @@ export default function SourcesPage() {
                         <div className="flex flex-col gap-2">
                           <Input value={editName} onChange={e => setEditName(e.target.value)} placeholder="Name" />
                           <Input value={editUrl} onChange={e => setEditUrl(e.target.value)} placeholder="URL" />
+                          <Input value={editKeywords} onChange={e => setEditKeywords(e.target.value)} placeholder="Keywords (comma-separated)" />
                           <div className="flex gap-2">
                             <Button size="sm" onClick={() => saveEdit(source.id)}>Save</Button>
                             <Button size="sm" variant="ghost" onClick={() => setEditingId(null)}>Cancel</Button>
@@ -129,6 +133,11 @@ export default function SourcesPage() {
                           <div className="min-w-0">
                             <p className="font-medium text-sm" style={{ color: 'var(--text)' }}>{source.name}</p>
                             <p className="text-xs truncate" style={{ color: 'var(--muted)' }}>{source.url}</p>
+                            {source.keywords?.length > 0 && (
+                              <p className="text-xs mt-0.5" style={{ color: 'var(--muted)' }}>
+                                Keywords: {source.keywords.join(', ')}
+                              </p>
+                            )}
                             {source.recent_drafts > 0 && (
                               <p className="text-xs mt-0.5" style={{ color: 'var(--accent)' }}>
                                 {source.recent_drafts} draft{source.recent_drafts !== 1 ? 's' : ''} (30d)

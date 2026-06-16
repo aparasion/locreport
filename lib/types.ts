@@ -3,6 +3,7 @@ export interface RssSource {
   url: string
   name: string
   active: boolean
+  keywords: string[]
   created_at: string
 }
 
