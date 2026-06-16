@@ -17,6 +17,8 @@ export default function EditArticlePage() {
   const [publisher, setPublisher] = useState('')
   const [saving, setSaving] = useState(false)
   const [message, setMessage] = useState('')
+  const [impactScore, setImpactScore] = useState<number | null>(null)
+  const [timeHorizon, setTimeHorizon] = useState<string>('')
 
   useEffect(() => {
     fetch(`/api/articles/${id}`).then(r => r.json()).then((a: Article) => {
@@ -25,6 +27,8 @@ export default function EditArticlePage() {
       setExcerpt(a.excerpt ?? '')
       setSlug(a.slug ?? '')
       setPublisher(a.publisher ?? '')
+      setImpactScore(a.impact_score ?? null)
+      setTimeHorizon(a.time_horizon ?? '')
     })
   }, [id])
 
@@ -34,7 +38,7 @@ export default function EditArticlePage() {
     const res = await fetch(`/api/articles/${id}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ title, excerpt, content, slug, publisher: publisher || null }),
+      body: JSON.stringify({ title, excerpt, content, slug, publisher: publisher || null, impact_score: impactScore, time_horizon: timeHorizon || null }),
     })
     if (res.ok) {
       setMessage('Saved.')
@@ -71,6 +75,36 @@ export default function EditArticlePage() {
         <div>
           <Label>Publisher</Label>
           <Input value={publisher} onChange={e => setPublisher(e.target.value)} placeholder="e.g. Argos Multilingual" />
+        </div>
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <Label>Impact score</Label>
+            <select
+              value={impactScore ?? ''}
+              onChange={e => setImpactScore(e.target.value ? Number(e.target.value) : null)}
+              className="w-full mt-1 rounded-md border px-3 py-2 text-sm"
+              style={{ background: 'var(--bg)', borderColor: 'var(--border)', color: 'var(--text)' }}
+            >
+              <option value="">— not set —</option>
+              {[1, 2, 3, 4, 5].map(n => (
+                <option key={n} value={n}>{n} — {['Minimal', 'Low', 'Moderate', 'High', 'Critical'][n - 1]}</option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <Label>Time horizon</Label>
+            <select
+              value={timeHorizon}
+              onChange={e => setTimeHorizon(e.target.value)}
+              className="w-full mt-1 rounded-md border px-3 py-2 text-sm"
+              style={{ background: 'var(--bg)', borderColor: 'var(--border)', color: 'var(--text)' }}
+            >
+              <option value="">— not set —</option>
+              <option value="now">Now</option>
+              <option value="6months">6 months</option>
+              <option value="long-term">Long-term</option>
+            </select>
+          </div>
         </div>
         {article.source_url && (
           <p className="text-xs text-[#5B665F]">
