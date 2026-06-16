@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import { createClient } from '@/lib/supabase/server'
 import { Article } from '@/lib/types'
 import { articleHref, extractTeaser } from '@/lib/utils'
@@ -64,11 +65,7 @@ export default async function HomePage() {
         <div className="hero-split container">
           <div className="hero-split__left">
             <span className="hero-eyebrow">
-              <svg className="hero-eyebrow-icon" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <rect width="22" height="22" rx="6" fill="url(#hg)"/>
-                <text x="11" y="16" textAnchor="middle" fontSize="13" fontFamily="system-ui,sans-serif" fill="#fff">L</text>
-                <defs><linearGradient id="hg" x1="0" y1="0" x2="22" y2="22" gradientUnits="userSpaceOnUse"><stop stopColor="#3550F5"/><stop offset="1" stopColor="#7FA1FB"/></linearGradient></defs>
-              </svg>
+              <Image className="hero-eyebrow-icon" src="/icon.png" alt="" width={22} height={22} aria-hidden="true" />
               Language services intelligence
             </span>
             <h1>The pulse of the language services industry</h1>
