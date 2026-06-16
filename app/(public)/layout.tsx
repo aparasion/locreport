@@ -35,7 +35,6 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
                 <li><Link href="/articles">All articles</Link></li>
                 <li><Link href="/intelligence">Intelligence</Link></li>
                 <li><Link href="/reports/monthly">Monthly reports</Link></li>
-                <li><Link href="/language-science">Language Science</Link></li>
                 <li><Link href="/compass">Compass</Link></li>
               </ul>
             </div>
