@@ -65,7 +65,7 @@ export default async function HomePage() {
         <div className="hero-split container">
           <div className="hero-split__left">
             <span className="hero-eyebrow">
-              <Image className="hero-eyebrow-icon" src="/icon.png" alt="" width={22} height={22} aria-hidden="true" />
+              <Image className="hero-eyebrow-icon" src="/icon.png" alt="" width={18} height={18} aria-hidden="true" />
               Language services intelligence
             </span>
             <h1>The pulse of the language services industry</h1>
