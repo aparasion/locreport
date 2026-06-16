@@ -17,7 +17,11 @@ export async function GET() {
   // If DB is empty, return static seed data
   if (!data || data.length === 0) return NextResponse.json(EVENTS)
 
-  return NextResponse.json(data)
+  // Merge DB events with static events, DB takes precedence for same id
+  const dbIds = new Set(data.map((e: { id: string }) => e.id))
+  const merged = [...data, ...EVENTS.filter(e => !dbIds.has(e.id))]
+  merged.sort((a, b) => a.start_date.localeCompare(b.start_date))
+  return NextResponse.json(merged)
 }
 
 export async function POST(req: NextRequest) {
