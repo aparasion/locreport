@@ -186,10 +186,6 @@ export default function AllArticlesClient({ articles }: { articles: ArticleRow[]
         </div>
       </section>
 
-      <p style={{ marginBottom: 'var(--space-4)', padding: 'var(--space-3) var(--space-4)', background: 'var(--surface)', border: '1px solid var(--border)', borderLeft: '3px solid var(--accent)', borderRadius: 'var(--radius-md)', fontSize: '0.9rem' }}>
-        Looking for research articles? Visit <Link href="/research" style={{ color: 'var(--accent)', fontWeight: 600 }}>Language Science</Link>
-      </p>
-
       <section className="all-articles-feed-section">
         <div className="all-articles-feed">
           {visible.map(article => {
