@@ -863,9 +863,9 @@ ul.nav-dropdown-menu {
   animation: fadeInUp 0.6s ease both;
 }
 .hero-eyebrow-icon {
-  width: 22px;
-  height: 22px;
-  border-radius: 6px;
+  width: 18px;
+  height: 18px;
+  border-radius: 5px;
 }
 
 .hero h1 {
