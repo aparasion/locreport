@@ -3,14 +3,13 @@ import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
-import { DEFAULT_EXTRACTOR_PROMPT, DEFAULT_INDUSTRY_PROMPT, DEFAULT_THEORY_PROMPT, DEFAULT_MONTHLY_PROMPT } from '@/lib/prompts'
+import { DEFAULT_EXTRACTOR_PROMPT, DEFAULT_INDUSTRY_PROMPT, DEFAULT_MONTHLY_PROMPT } from '@/lib/prompts'
 
-type PromptKey = 'prompt_extractor' | 'prompt_industry' | 'prompt_theory' | 'prompt_monthly'
+type PromptKey = 'prompt_extractor' | 'prompt_industry' | 'prompt_monthly'
 
 const PROMPTS: { key: PromptKey; label: string; default: string }[] = [
   { key: 'prompt_extractor', label: 'Stage 1 — Extractor (fact extraction)', default: DEFAULT_EXTRACTOR_PROMPT },
   { key: 'prompt_industry', label: 'Stage 2 — Industry editorial (LocReport voice)', default: DEFAULT_INDUSTRY_PROMPT },
-  { key: 'prompt_theory', label: 'Stage 2 — Theory / research (science writer voice)', default: DEFAULT_THEORY_PROMPT },
   { key: 'prompt_monthly', label: 'Monthly report (2000-word synthesis)', default: DEFAULT_MONTHLY_PROMPT },
 ]
 
@@ -18,7 +17,6 @@ export default function PromptsPage() {
   const [values, setValues] = useState<Record<PromptKey, string>>({
     prompt_extractor: '',
     prompt_industry: '',
-    prompt_theory: '',
     prompt_monthly: '',
   })
   const [saving, setSaving] = useState<PromptKey | null>(null)
@@ -32,7 +30,6 @@ export default function PromptsPage() {
         setValues(v => ({
           prompt_extractor: settings.prompt_extractor || DEFAULT_EXTRACTOR_PROMPT,
           prompt_industry: settings.prompt_industry || DEFAULT_INDUSTRY_PROMPT,
-          prompt_theory: settings.prompt_theory || DEFAULT_THEORY_PROMPT,
           prompt_monthly: settings.prompt_monthly || DEFAULT_MONTHLY_PROMPT,
         }))
         setLoading(false)

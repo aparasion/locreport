@@ -52,7 +52,7 @@ export async function PATCH(req: NextRequest, { params }: Params) {
       source_url,
       publisher,
       draft_id: draft.id,
-      article_type: body.content_type === 'theory' ? 'theory' : 'industry',
+      article_type: 'industry',
       author,
       impact_score: classification.impact_score,
       time_horizon: classification.time_horizon,

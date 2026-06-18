@@ -27,7 +27,6 @@ export default async function HomePage() {
   const { data: articles } = await supabase
     .from('articles')
     .select('*')
-    .neq('article_type', 'theory')
     .order('published_at', { ascending: false })
     .limit(60)
 

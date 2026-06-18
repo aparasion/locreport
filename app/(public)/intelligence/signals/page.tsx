@@ -22,7 +22,6 @@ export default async function SignalsPage() {
   const { data: articles } = await supabase
     .from('articles')
     .select('signal_ids')
-    .neq('article_type', 'theory')
     .neq('article_type', 'monthly-summary')
 
   const signalCounts = new Map<string, number>()

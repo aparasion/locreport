@@ -26,7 +26,7 @@ export default function DirectComposePage() {
   const [slugManuallyEdited, setSlugManuallyEdited] = useState(false)
   const [publisher, setPublisher] = useState('LocReport')
   const [content, setContent] = useState('')
-  const [contentType, setContentType] = useState<'industry' | 'theory'>('industry')
+  const [contentType] = useState('industry')
   const [sourceUrl, setSourceUrl] = useState('')
   const [sourceName, setSourceName] = useState('')
   const [extraUrl1, setExtraUrl1] = useState('')
@@ -185,19 +185,6 @@ export default function DirectComposePage() {
           <p className="text-xs mt-1" style={{ color: 'var(--muted)' }}>
             Supports Markdown. Content is published unchanged.
           </p>
-        </div>
-
-        <div>
-          <Label htmlFor="content-type">Content type</Label>
-          <select
-            id="content-type"
-            value={contentType}
-            onChange={e => setContentType(e.target.value as 'industry' | 'theory')}
-            className="mt-1 w-full rounded-md border border-gray-200 px-3 py-2 text-sm"
-          >
-            <option value="industry">Industry / news</option>
-            <option value="theory">Theory / research</option>
-          </select>
         </div>
 
         <div className="border-t pt-4" style={{ borderColor: 'var(--border)' }}>

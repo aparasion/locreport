@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient, createServiceClient } from '@/lib/supabase/server'
 import { getOpenAI } from '@/lib/openai'
-import { DEFAULT_EXTRACTOR_PROMPT, DEFAULT_INDUSTRY_PROMPT, DEFAULT_THEORY_PROMPT } from '@/lib/prompts'
+import { DEFAULT_EXTRACTOR_PROMPT, DEFAULT_INDUSTRY_PROMPT } from '@/lib/prompts'
 
 type Params = { params: Promise<{ id: string }> }
 
@@ -41,8 +41,6 @@ export async function POST(req: NextRequest, { params }: Params) {
 
   try {
     const openai = getOpenAI()
-    const isTheory = draft.article_type === 'theory'
-
     // Stage 1: extract facts
     const extractorPrompt = await getPrompt('prompt_extractor', DEFAULT_EXTRACTOR_PROMPT)
     const extractInput = [
@@ -60,9 +58,7 @@ export async function POST(req: NextRequest, { params }: Params) {
     const facts = extractRes.choices[0].message.content ?? ''
 
     // Stage 2: generate article
-    const basePrompt = isTheory
-      ? await getPrompt('prompt_theory', DEFAULT_THEORY_PROMPT)
-      : await getPrompt('prompt_industry', DEFAULT_INDUSTRY_PROMPT)
+    const basePrompt = await getPrompt('prompt_industry', DEFAULT_INDUSTRY_PROMPT)
 
     const generateInput = [
       draft.source_url ? `Source URL: ${draft.source_url}` : '',

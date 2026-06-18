@@ -13,7 +13,7 @@ export const revalidate = 86400
 type Props = { params: Promise<{ slug: string[] }> }
 
 const IMPACT_LABEL: Record<number, string> = { 1: 'Routine', 2: 'Notable', 3: 'Significant', 4: 'Major', 5: 'Disruptive' }
-const TYPE_LABEL: Record<string, string> = { industry: 'Industry Analysis', theory: 'Language Science', 'monthly-summary': 'Monthly Report' }
+const TYPE_LABEL: Record<string, string> = { industry: 'Industry Analysis', 'monthly-summary': 'Monthly Report' }
 
 async function fetchArticle(slugParts: string[]) {
   const supabase = await createClient()
@@ -98,7 +98,6 @@ export default async function ArticlePage({ params }: Props) {
       .from('articles')
       .select('id, title, slug, publisher, published_at, signal_ids')
       .neq('slug', a.slug)
-      .neq('article_type', 'theory')
       .overlaps('signal_ids', a.signal_ids)
       .order('published_at', { ascending: false })
       .limit(5)
@@ -109,7 +108,6 @@ export default async function ArticlePage({ params }: Props) {
       .from('articles')
       .select('id, title, slug, publisher, published_at, signal_ids')
       .neq('slug', a.slug)
-      .neq('article_type', 'theory')
       .order('published_at', { ascending: false })
       .limit(5 - relatedArticles.length)
     const existingIds = new Set(relatedArticles.map(r => r.id))
