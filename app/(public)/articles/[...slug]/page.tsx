@@ -62,6 +62,8 @@ export default async function ArticlePage({ params }: Props) {
     const paraEnd = body.indexOf('\n\n')
     if (paraEnd > -1) {
       const firstPara = body.slice(0, paraEnd)
+      // Don't strip if the paragraph has been intentionally formatted with links
+      const hasLinks = /\[([^\]]+)\]\([^)]+\)/.test(firstPara)
       const plainFirst = firstPara
         .replace(/!\[.*?\]\(.*?\)/g, '')
         .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
@@ -69,7 +71,7 @@ export default async function ArticlePage({ params }: Props) {
         .replace(/\s+/g, ' ')
         .trim()
       const excerptCore = a.excerpt.replace(/[.!?]+$/, '').replace(/\s+/g, ' ').trim()
-      if (plainFirst.startsWith(excerptCore.slice(0, Math.min(60, excerptCore.length)))) {
+      if (!hasLinks && plainFirst.startsWith(excerptCore.slice(0, Math.min(60, excerptCore.length)))) {
         content = content.slice(0, bodyStart) + body.slice(paraEnd).trimStart()
       }
     }
