@@ -38,6 +38,8 @@ export default function DraftReviewPage() {
   const [timeHorizon, setTimeHorizon] = useState(() => searchParams.get('time_horizon') ?? '')
   const contentType = searchParams.get('content_type') ?? 'industry'
   const [loading, setLoading] = useState(false)
+  const [saving, setSaving] = useState(false)
+  const [savedAt, setSavedAt] = useState<Date | null>(null)
   const [rerunning, setRerunning] = useState(false)
   const [confirmRerun, setConfirmRerun] = useState(false)
   const [error, setError] = useState('')
@@ -64,6 +66,31 @@ export default function DraftReviewPage() {
       setEditSlug(clientSlugify(editTitle))
     }
   }, [editTitle, slugManuallyEdited])
+
+  async function saveDraft() {
+    setSaving(true)
+    setError('')
+    try {
+      const res = await fetch(`/api/drafts/${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          content,
+          title: editTitle || undefined,
+          source_url: editSourceUrl || null,
+        }),
+      })
+      if (!res.ok) {
+        const d = await res.json().catch(() => ({}))
+        setError(d.error ?? `Save failed (${res.status})`)
+      } else {
+        setSavedAt(new Date())
+      }
+    } catch {
+      setError('Network error — please try again.')
+    }
+    setSaving(false)
+  }
 
   async function action(status: 'approved' | 'rejected') {
     setLoading(true)
@@ -271,14 +298,24 @@ export default function DraftReviewPage() {
         </div>
       )}
 
-      {isPending && !rerunning && (
-        <div className="flex gap-3 mt-6">
-          <Button onClick={() => action('approved')} disabled={loading}>Approve & publish</Button>
-          <Button variant="danger" onClick={() => action('rejected')} disabled={loading}>Reject</Button>
-          <Button variant="secondary" onClick={() => setConfirmRerun(true)} disabled={loading || confirmRerun}>Re-run</Button>
-          <Button variant="ghost" onClick={() => router.back()}>Back</Button>
-        </div>
-      )}
+      <div className="flex gap-3 mt-6 flex-wrap items-center">
+        {isPending && !rerunning && (
+          <>
+            <Button onClick={() => action('approved')} disabled={loading || saving}>Approve & publish</Button>
+            <Button variant="danger" onClick={() => action('rejected')} disabled={loading || saving}>Reject</Button>
+            <Button variant="secondary" onClick={() => setConfirmRerun(true)} disabled={loading || saving || confirmRerun}>Re-run</Button>
+          </>
+        )}
+        <Button variant="secondary" onClick={saveDraft} disabled={saving || loading || rerunning}>
+          {saving ? 'Saving…' : 'Save draft'}
+        </Button>
+        {savedAt && !saving && (
+          <span className="text-xs" style={{ color: 'var(--muted)' }}>
+            Saved {savedAt.toLocaleTimeString()}
+          </span>
+        )}
+        <Button variant="ghost" onClick={() => router.back()}>Back</Button>
+      </div>
     </div>
   )
 }
