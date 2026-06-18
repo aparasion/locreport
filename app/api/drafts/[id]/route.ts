@@ -63,7 +63,8 @@ export async function PATCH(req: NextRequest, { params }: Params) {
     if (articleError) return NextResponse.json({ error: articleError.message }, { status: 400 })
   }
 
-  const patch: Record<string, unknown> = { status: body.status }
+  const patch: Record<string, unknown> = {}
+  if (body.status !== undefined) patch.status = body.status
   if (body.content !== undefined) patch.content = body.content
   if (body.title !== undefined) patch.title = body.title
   if (body.source_url !== undefined) patch.source_url = body.source_url
