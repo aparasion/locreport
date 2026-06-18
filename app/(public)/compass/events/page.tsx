@@ -19,9 +19,10 @@ async function getEvents(): Promise<Event[]> {
       .order('start_date', { ascending: true })
 
     if (error || !data || data.length === 0) return EVENTS
-    // Merge DB events with static events, DB takes precedence for same id
-    const dbIds = new Set(data.map((e: Event) => e.id))
-    const merged = [...data, ...EVENTS.filter(e => !dbIds.has(e.id))]
+    // Merge: DB events take precedence. A static event is excluded if any DB event
+    // has the same slug (static event ids become slugs when migrated to DB).
+    const dbSlugs = new Set(data.map((e: Event) => e.slug).filter(Boolean))
+    const merged = [...data, ...EVENTS.filter(e => !dbSlugs.has(e.id))]
     merged.sort((a, b) => a.start_date.localeCompare(b.start_date))
     return merged as Event[]
   } catch {
