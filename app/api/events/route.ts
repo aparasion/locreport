@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { EVENTS } from '@/lib/data/events'
+import { slugify } from '@/lib/slugify'
 
 export async function GET() {
   const supabase = await createClient()
@@ -28,9 +29,12 @@ export async function POST(req: NextRequest) {
   const supabase = await createClient()
   const body = await req.json()
 
+  const year = (body.start_date ?? '').slice(0, 4)
+  const slug = slugify(`${body.name}${year ? `-${year}` : ''}`)
+
   const { data, error } = await supabase
     .from('events')
-    .insert([body])
+    .insert([{ ...body, slug }])
     .select()
     .single()
 

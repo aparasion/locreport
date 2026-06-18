@@ -58,7 +58,7 @@ function EventCard({ ev, isPast }: { ev: Event; isPast: boolean }) {
         <span className={`event-badge event-badge--${ev.category}`}>{ev.category}</span>
       </div>
       <h3 className="event-name">
-        <Link href={`/compass/events/${ev.id}`} style={{ color: 'inherit', textDecoration: 'none' }}>
+        <Link href={`/compass/events/${ev.slug ?? ev.id}`} style={{ color: 'inherit', textDecoration: 'none' }}>
           {ev.name}
         </Link>
       </h3>
@@ -346,7 +346,7 @@ export function EventsClient({ events, today }: Props) {
                 <span className="cal-detail-date">{formatDateRange(activeSelected.start_date, activeSelected.end_date)}</span>
               </div>
               <h3 className="cal-detail-name">
-                <Link href={`/compass/events/${activeSelected.id}`} style={{ color: 'inherit', textDecoration: 'none' }}>
+                <Link href={`/compass/events/${activeSelected.slug ?? activeSelected.id}`} style={{ color: 'inherit', textDecoration: 'none' }}>
                   {activeSelected.name}
                 </Link>
               </h3>

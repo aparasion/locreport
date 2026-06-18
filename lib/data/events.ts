@@ -1,5 +1,6 @@
 export interface Event {
   id: string
+  slug?: string
   name: string
   organizer: string
   start_date: string
