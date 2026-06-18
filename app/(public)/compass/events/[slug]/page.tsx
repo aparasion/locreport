@@ -28,12 +28,11 @@ function formatDateRange(start: string, end: string): string {
 async function getEvent(slug: string): Promise<Event | null> {
   try {
     const supabase = await createClient()
-    const { data, error } = await supabase
-      .from('events')
-      .select('*')
-      .eq('id', slug)
-      .single()
-    if (!error && data) return data as Event
+    // Try slug column first (DB-created events), then id (static events merged into DB)
+    const { data: bySlug } = await supabase.from('events').select('*').eq('slug', slug).maybeSingle()
+    if (bySlug) return bySlug as Event
+    const { data: byId } = await supabase.from('events').select('*').eq('id', slug).maybeSingle()
+    if (byId) return byId as Event
   } catch {}
   return EVENTS.find(e => e.id === slug) ?? null
 }
