@@ -18,9 +18,10 @@ export async function GET() {
   // If DB is empty, return static seed data
   if (!data || data.length === 0) return NextResponse.json(EVENTS)
 
-  // Merge DB events with static events, DB takes precedence for same id
-  const dbIds = new Set(data.map((e: { id: string }) => e.id))
-  const merged = [...data, ...EVENTS.filter(e => !dbIds.has(e.id))]
+  // Merge: DB events take precedence. A static event is excluded if any DB event
+  // has the same slug (static event ids become slugs when migrated to DB).
+  const dbSlugs = new Set(data.map((e: { slug?: string }) => e.slug).filter(Boolean))
+  const merged = [...data, ...EVENTS.filter(e => !dbSlugs.has(e.id))]
   merged.sort((a, b) => a.start_date.localeCompare(b.start_date))
   return NextResponse.json(merged)
 }
