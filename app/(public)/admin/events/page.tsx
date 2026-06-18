@@ -37,6 +37,7 @@ function findDuplicate(form: typeof EMPTY_FORM, events: Event[]): Event | null {
 export default function AdminEventsPage() {
   const [events, setEvents] = useState<Event[]>([])
   const [form, setForm] = useState(EMPTY_FORM)
+  const [editingId, setEditingId] = useState<string | null>(null)
   const [saving, setSaving] = useState(false)
   const [message, setMessage] = useState('')
   const [isDbBacked, setIsDbBacked] = useState(false)
@@ -57,11 +58,36 @@ export default function AdminEventsPage() {
     setDuplicate(findDuplicate(updated, events))
   }
 
+  function startEdit(ev: Event) {
+    setForm({
+      name: ev.name,
+      organizer: ev.organizer ?? '',
+      start_date: ev.start_date,
+      end_date: ev.end_date ?? '',
+      location: ev.location ?? '',
+      format: ev.format,
+      category: ev.category,
+      url: ev.url ?? '',
+      description: ev.description ?? '',
+      tags: (ev.tags ?? []).join(', '),
+    })
+    setEditingId(ev.id)
+    setDuplicate(null)
+    setMessage('')
+  }
+
+  function cancelEdit() {
+    setForm(EMPTY_FORM)
+    setEditingId(null)
+    setDuplicate(null)
+    setMessage('')
+  }
+
   async function submit(e: React.FormEvent) {
     e.preventDefault()
     if (!form.name || !form.start_date) return
 
-    const dupe = findDuplicate(form, events)
+    const dupe = findDuplicate(form, editingId ? events.filter(ev => ev.id !== editingId) : events)
     if (dupe) {
       setDuplicate(dupe)
       return
@@ -76,21 +102,28 @@ export default function AdminEventsPage() {
       end_date: form.end_date || form.start_date,
     }
 
-    const res = await fetch('/api/events', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
-    })
+    const res = editingId
+      ? await fetch(`/api/events/${editingId}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        })
+      : await fetch('/api/events', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        })
 
     if (res.ok) {
       setForm(EMPTY_FORM)
+      setEditingId(null)
       setDuplicate(null)
-      setMessage('Event added.')
+      setMessage(editingId ? 'Event updated.' : 'Event added.')
       setIsDbBacked(true)
       load()
     } else {
       const err = await res.json()
-      setMessage(err.error ?? 'Failed to add event.')
+      setMessage(err.error ?? (editingId ? 'Failed to update event.' : 'Failed to add event.'))
     }
     setSaving(false)
   }
@@ -98,6 +131,7 @@ export default function AdminEventsPage() {
   async function remove(id: string) {
     if (!confirm('Delete this event?')) return
     await fetch(`/api/events/${id}`, { method: 'DELETE' })
+    if (editingId === id) cancelEdit()
     load()
   }
 
@@ -114,7 +148,9 @@ export default function AdminEventsPage() {
       <div className="grid md:grid-cols-2 gap-8">
         {/* Add form */}
         <div>
-          <h2 className="text-sm font-medium uppercase tracking-wide mb-4" style={{ color: 'var(--muted)' }}>Add event</h2>
+          <h2 className="text-sm font-medium uppercase tracking-wide mb-4" style={{ color: 'var(--muted)' }}>
+            {editingId ? 'Edit event' : 'Add event'}
+          </h2>
           <form onSubmit={submit} className="flex flex-col gap-3">
             <Input
               placeholder="Event name *"
@@ -217,11 +253,16 @@ export default function AdminEventsPage() {
               </div>
             )}
 
-            <Button type="submit" disabled={saving || !!duplicate}>
-              {saving ? 'Adding…' : 'Add event'}
-            </Button>
+            <div className="flex gap-2">
+              <Button type="submit" disabled={saving || !!duplicate}>
+                {saving ? (editingId ? 'Saving…' : 'Adding…') : (editingId ? 'Save changes' : 'Add event')}
+              </Button>
+              {editingId && (
+                <Button type="button" variant="secondary" onClick={cancelEdit}>Cancel</Button>
+              )}
+            </div>
             {message && !duplicate && (
-              <p className="text-sm" style={{ color: message === 'Event added.' ? 'var(--accent)' : 'var(--destructive, red)' }}>
+              <p className="text-sm" style={{ color: message.startsWith('Event') ? 'var(--accent)' : 'var(--destructive, red)' }}>
                 {message}
               </p>
             )}
@@ -248,9 +289,10 @@ export default function AdminEventsPage() {
                     </p>
                   </div>
                   {isDbBacked && (
-                    <Button size="sm" variant="danger" onClick={() => remove(ev.id)} className="shrink-0">
-                      Delete
-                    </Button>
+                    <div className="flex gap-2 shrink-0">
+                      <Button size="sm" variant="secondary" onClick={() => startEdit(ev)}>Edit</Button>
+                      <Button size="sm" variant="danger" onClick={() => remove(ev.id)}>Delete</Button>
+                    </div>
                   )}
                 </div>
               </Card>
