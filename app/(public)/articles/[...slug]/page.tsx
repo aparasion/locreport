@@ -74,6 +74,9 @@ export default async function ArticlePage({ params }: Props) {
       }
     }
   }
+  // Strip leading H1 — title is already rendered in the page header
+  content = content.replace(/^#\s+[^\n]+\n?/, '')
+
   const rawHtml = marked.parse(content) as string
   // Add target/_blank + rel=noopener to all external links in rendered content
   const html = rawHtml.replace(/<a (href="https?:\/\/)/g, '<a target="_blank" rel="noopener" $1')
