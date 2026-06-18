@@ -16,7 +16,6 @@ export default async function IntelligencePage() {
   const { data: articles } = await supabase
     .from('articles')
     .select('impact_score, published_at')
-    .neq('article_type', 'theory')
 
   const totalArticles = articles?.length ?? 0
   const highImpact = (articles ?? []).filter(a => (a.impact_score ?? 0) >= 4).length

@@ -46,7 +46,7 @@ export default function ComposePage() {
   const [extraSourceName1, setExtraSourceName1] = useState('')
   const [extraUrl2, setExtraUrl2] = useState('')
   const [extraSourceName2, setExtraSourceName2] = useState('')
-  const [contentType, setContentType] = useState<'industry' | 'theory'>('industry')
+  const [contentType] = useState('industry')
   const [impactScore, setImpactScore] = useState('')
   const [timeHorizon, setTimeHorizon] = useState('')
   const [extraPrompt, setExtraPrompt] = useState('')
@@ -238,19 +238,7 @@ export default function ComposePage() {
               <Label htmlFor="title">Suggested title</Label>
               <Input id="title" value={title} onChange={e => setTitle(e.target.value)} placeholder="Optional — AI will generate one if empty" className="mt-1" />
             </div>
-            <div>
-              <Label htmlFor="content-type">Content type</Label>
-              <select
-                id="content-type"
-                value={contentType}
-                onChange={e => setContentType(e.target.value as 'industry' | 'theory')}
-                className="mt-1 w-full rounded-md border border-gray-200 px-3 py-2 text-sm"
-              >
-                <option value="industry">Industry / news</option>
-                <option value="theory">Theory / research</option>
-              </select>
             </div>
-          </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>

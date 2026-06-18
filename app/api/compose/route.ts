@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient, createServiceClient } from '@/lib/supabase/server'
 import { getOpenAI } from '@/lib/openai'
-import { DEFAULT_EXTRACTOR_PROMPT, DEFAULT_INDUSTRY_PROMPT, DEFAULT_THEORY_PROMPT } from '@/lib/prompts'
+import { DEFAULT_EXTRACTOR_PROMPT, DEFAULT_INDUSTRY_PROMPT } from '@/lib/prompts'
 import { classifyArticle } from '@/lib/classify'
 
 async function getPrompt(key: string, fallback: string): Promise<string> {
@@ -45,10 +45,7 @@ export async function POST(req: NextRequest) {
 
   if (stage === 'generate') {
     const { facts, title, sourceName, extraUrl1, extraSourceName1, extraUrl2, extraSourceName2 } = body
-    const isTheory = contentType === 'theory'
-    const basePrompt = isTheory
-      ? await getPrompt('prompt_theory', DEFAULT_THEORY_PROMPT)
-      : await getPrompt('prompt_industry', DEFAULT_INDUSTRY_PROMPT)
+    const basePrompt = await getPrompt('prompt_industry', DEFAULT_INDUSTRY_PROMPT)
 
     const systemPrompt = extraPrompt
       ? `${basePrompt}\n\nADDITIONAL INSTRUCTIONS:\n${extraPrompt}`

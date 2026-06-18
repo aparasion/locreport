@@ -69,7 +69,6 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
   const { data: articles } = await supabase
     .from('articles')
     .select('id, title, slug, excerpt, publisher, published_at, impact_score')
-    .neq('article_type', 'theory')
     .neq('article_type', 'monthly-summary')
     .or(`title.ilike.%${query}%,excerpt.ilike.%${query}%,publisher.ilike.%${query}%`)
     .order('published_at', { ascending: false })

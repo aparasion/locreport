@@ -44,7 +44,6 @@ export default async function SignalPage({ params }: Props) {
     .from('articles')
     .select('id, title, slug, excerpt, publisher, impact_score, signal_stance, published_at')
     .contains('signal_ids', [id])
-    .neq('article_type', 'theory')
     .neq('article_type', 'monthly-summary')
     .order('published_at', { ascending: false })
 

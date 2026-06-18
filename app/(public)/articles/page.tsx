@@ -57,7 +57,6 @@ export default async function ArticlesPage() {
   const { data } = await supabase
     .from('articles')
     .select('id, title, slug, excerpt, author, article_type, impact_score, signal_ids, published_at')
-    .neq('article_type', 'theory')
     .order('published_at', { ascending: false })
 
   const rows: ArticleRow[] = ((data as Article[]) ?? []).map(a => ({

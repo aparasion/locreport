@@ -26,7 +26,7 @@ export interface Article {
   slug: string
   excerpt: string | null
   content: string
-  article_type: 'industry' | 'theory' | 'monthly-summary'
+  article_type: 'industry' | 'monthly-summary'
   author: string | null
   publisher: string | null
   source_url: string | null

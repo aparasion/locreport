@@ -6,7 +6,6 @@ const IMPACT_LABEL: Record<number, string> = { 1: 'Routine', 2: 'Notable', 3: 'S
 const CATEGORY_LABEL: Record<string, string> = {
   industry: 'Current news',
   'monthly-summary': 'Monthly report',
-  theory: 'Research',
 }
 
 export function ArticleCard({ article, featured }: { article: Article; featured?: boolean }) {
