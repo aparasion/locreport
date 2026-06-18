@@ -43,14 +43,32 @@ export default function AdminEventsPage() {
   const [isDbBacked, setIsDbBacked] = useState(false)
   const [duplicate, setDuplicate] = useState<Event | null>(null)
 
+  const [migrating, setMigrating] = useState(false)
+
   const load = useCallback(async () => {
     const res = await fetch('/api/events')
     const data: Event[] = await res.json()
     setEvents(data)
-    if (data.length > 0 && /^[0-9a-f-]{36}$/.test(data[0].id)) setIsDbBacked(true)
+    // DB-backed if any event has a UUID id
+    if (data.some(e => /^[0-9a-f-]{36}$/.test(e.id))) setIsDbBacked(true)
   }, [])
 
   useEffect(() => { load() }, [load])
+
+  async function migrateToDb() {
+    setMigrating(true)
+    setMessage('')
+    const res = await fetch('/api/admin/seed-events', { method: 'POST' })
+    const data = await res.json()
+    if (res.ok) {
+      setMessage(data.inserted > 0 ? `Migrated ${data.inserted} events to database.` : data.message)
+      setIsDbBacked(true)
+      load()
+    } else {
+      setMessage(data.error ?? 'Migration failed.')
+    }
+    setMigrating(false)
+  }
 
   function set(field: keyof typeof EMPTY_FORM, value: string) {
     const updated = { ...form, [field]: value }
@@ -140,9 +158,17 @@ export default function AdminEventsPage() {
       <h1 className="text-2xl font-bold mb-6" style={{ color: 'var(--text)' }}>Events</h1>
 
       {!isDbBacked && events.length > 0 && (
-        <div className="mb-6 rounded-lg px-4 py-3 text-sm" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border)', color: 'var(--muted)' }}>
-          Currently showing static/hardcoded events. Events you add here will be stored in the database and displayed on the public page instead.
+        <div className="mb-6 rounded-lg px-4 py-3 text-sm flex items-center justify-between gap-4 flex-wrap" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border)', color: 'var(--muted)' }}>
+          <span>Showing hardcoded static events — migrate to database to enable editing and deletion.</span>
+          <Button size="sm" onClick={migrateToDb} disabled={migrating}>
+            {migrating ? 'Migrating…' : 'Migrate to database'}
+          </Button>
         </div>
+      )}
+      {message && (
+        <p className="mb-4 text-sm" style={{ color: message.startsWith('Failed') ? 'red' : 'var(--accent)' }}>
+          {message}
+        </p>
       )}
 
       <div className="grid md:grid-cols-2 gap-8">
@@ -261,11 +287,6 @@ export default function AdminEventsPage() {
                 <Button type="button" variant="secondary" onClick={cancelEdit}>Cancel</Button>
               )}
             </div>
-            {message && !duplicate && (
-              <p className="text-sm" style={{ color: message.startsWith('Event') ? 'var(--accent)' : 'var(--destructive, red)' }}>
-                {message}
-              </p>
-            )}
           </form>
         </div>
 
