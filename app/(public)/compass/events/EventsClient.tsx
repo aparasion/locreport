@@ -1,5 +1,6 @@
 'use client'
 import { useState, useMemo, useRef } from 'react'
+import Link from 'next/link'
 import type { Event } from '@/lib/data/events'
 
 interface Props {
@@ -56,7 +57,11 @@ function EventCard({ ev, isPast }: { ev: Event; isPast: boolean }) {
         <span className="event-date">{formatDateRange(ev.start_date, ev.end_date)}</span>
         <span className={`event-badge event-badge--${ev.category}`}>{ev.category}</span>
       </div>
-      <h3 className="event-name">{ev.name}</h3>
+      <h3 className="event-name">
+        <Link href={`/compass/events/${ev.id}`} style={{ color: 'inherit', textDecoration: 'none' }}>
+          {ev.name}
+        </Link>
+      </h3>
       <p className="event-organizer">{ev.organizer}</p>
       <div className="event-location">
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -340,7 +345,11 @@ export function EventsClient({ events, today }: Props) {
                 <span className={`event-badge event-badge--${activeSelected.category}`}>{activeSelected.category}</span>
                 <span className="cal-detail-date">{formatDateRange(activeSelected.start_date, activeSelected.end_date)}</span>
               </div>
-              <h3 className="cal-detail-name">{activeSelected.name}</h3>
+              <h3 className="cal-detail-name">
+                <Link href={`/compass/events/${activeSelected.id}`} style={{ color: 'inherit', textDecoration: 'none' }}>
+                  {activeSelected.name}
+                </Link>
+              </h3>
               <p className="cal-detail-organizer">{activeSelected.organizer}</p>
               <div className="cal-detail-location">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
