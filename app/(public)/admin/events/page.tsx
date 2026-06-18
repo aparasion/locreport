@@ -17,6 +17,11 @@ const EMPTY_FORM = {
   url: '',
   description: '',
   tags: '',
+  slug: '',
+}
+
+function toSlug(text: string) {
+  return text.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '').slice(0, 80)
 }
 
 function datesOverlap(aStart: string, aEnd: string, bStart: string, bEnd: string) {
@@ -38,40 +43,25 @@ export default function AdminEventsPage() {
   const [events, setEvents] = useState<Event[]>([])
   const [form, setForm] = useState(EMPTY_FORM)
   const [editingId, setEditingId] = useState<string | null>(null)
+  const [slugManuallyEdited, setSlugManuallyEdited] = useState(false)
   const [saving, setSaving] = useState(false)
   const [message, setMessage] = useState('')
-  const [isDbBacked, setIsDbBacked] = useState(false)
   const [duplicate, setDuplicate] = useState<Event | null>(null)
-
-  const [migrating, setMigrating] = useState(false)
 
   const load = useCallback(async () => {
     const res = await fetch('/api/events')
     const data: Event[] = await res.json()
     setEvents(data)
-    // DB-backed if any event has a UUID id
-    if (data.some(e => /^[0-9a-f-]{36}$/.test(e.id))) setIsDbBacked(true)
   }, [])
 
   useEffect(() => { load() }, [load])
 
-  async function migrateToDb() {
-    setMigrating(true)
-    setMessage('')
-    const res = await fetch('/api/admin/seed-events', { method: 'POST' })
-    const data = await res.json()
-    if (res.ok) {
-      setMessage(data.inserted > 0 ? `Migrated ${data.inserted} events to database.` : data.message)
-      setIsDbBacked(true)
-      load()
-    } else {
-      setMessage(data.error ?? 'Migration failed.')
-    }
-    setMigrating(false)
-  }
-
   function set(field: keyof typeof EMPTY_FORM, value: string) {
     const updated = { ...form, [field]: value }
+    // Auto-derive slug from name when adding (not when editing, not when slug was manually touched)
+    if (field === 'name' && !editingId && !slugManuallyEdited) {
+      updated.slug = toSlug(value)
+    }
     setForm(updated)
     setDuplicate(findDuplicate(updated, events))
   }
@@ -88,8 +78,10 @@ export default function AdminEventsPage() {
       url: ev.url ?? '',
       description: ev.description ?? '',
       tags: (ev.tags ?? []).join(', '),
+      slug: ev.slug ?? '',
     })
     setEditingId(ev.id)
+    setSlugManuallyEdited(true)
     setDuplicate(null)
     setMessage('')
   }
@@ -97,6 +89,7 @@ export default function AdminEventsPage() {
   function cancelEdit() {
     setForm(EMPTY_FORM)
     setEditingId(null)
+    setSlugManuallyEdited(false)
     setDuplicate(null)
     setMessage('')
   }
@@ -118,6 +111,7 @@ export default function AdminEventsPage() {
       ...form,
       tags: form.tags.split(',').map(t => t.trim()).filter(Boolean),
       end_date: form.end_date || form.start_date,
+      slug: form.slug.trim() || toSlug(form.name),
     }
 
     const res = editingId
@@ -135,9 +129,9 @@ export default function AdminEventsPage() {
     if (res.ok) {
       setForm(EMPTY_FORM)
       setEditingId(null)
+      setSlugManuallyEdited(false)
       setDuplicate(null)
       setMessage(editingId ? 'Event updated.' : 'Event added.')
-      setIsDbBacked(true)
       load()
     } else {
       const err = await res.json()
@@ -157,22 +151,8 @@ export default function AdminEventsPage() {
     <div>
       <h1 className="text-2xl font-bold mb-6" style={{ color: 'var(--text)' }}>Events</h1>
 
-      {!isDbBacked && events.length > 0 && (
-        <div className="mb-6 rounded-lg px-4 py-3 text-sm flex items-center justify-between gap-4 flex-wrap" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border)', color: 'var(--muted)' }}>
-          <span>Showing hardcoded static events — migrate to database to enable editing and deletion.</span>
-          <Button size="sm" onClick={migrateToDb} disabled={migrating}>
-            {migrating ? 'Migrating…' : 'Migrate to database'}
-          </Button>
-        </div>
-      )}
-      {message && (
-        <p className="mb-4 text-sm" style={{ color: message.startsWith('Failed') ? 'red' : 'var(--accent)' }}>
-          {message}
-        </p>
-      )}
-
       <div className="grid md:grid-cols-2 gap-8">
-        {/* Add form */}
+        {/* Add / Edit form */}
         <div>
           <h2 className="text-sm font-medium uppercase tracking-wide mb-4" style={{ color: 'var(--muted)' }}>
             {editingId ? 'Edit event' : 'Add event'}
@@ -246,6 +226,15 @@ export default function AdminEventsPage() {
               value={form.url}
               onChange={e => set('url', e.target.value)}
             />
+            <div>
+              <label className="text-xs mb-1 block" style={{ color: 'var(--muted)' }}>Slug (URL path)</label>
+              <Input
+                placeholder="auto-generated-from-name"
+                value={form.slug}
+                onChange={e => { setSlugManuallyEdited(true); set('slug', toSlug(e.target.value)) }}
+                className="font-mono text-sm"
+              />
+            </div>
             <textarea
               placeholder="Description"
               value={form.description}
@@ -287,6 +276,11 @@ export default function AdminEventsPage() {
                 <Button type="button" variant="secondary" onClick={cancelEdit}>Cancel</Button>
               )}
             </div>
+            {message && !duplicate && (
+              <p className="text-sm" style={{ color: message.startsWith('Failed') ? 'red' : 'var(--accent)' }}>
+                {message}
+              </p>
+            )}
           </form>
         </div>
 
@@ -294,7 +288,6 @@ export default function AdminEventsPage() {
         <div>
           <h2 className="text-sm font-medium uppercase tracking-wide mb-4" style={{ color: 'var(--muted)' }}>
             {events.length} event{events.length !== 1 ? 's' : ''}
-            {isDbBacked ? ' (from database)' : ' (static)'}
           </h2>
           <div className="flex flex-col gap-3">
             {events.map(ev => (
@@ -309,12 +302,10 @@ export default function AdminEventsPage() {
                       {ev.organizer} · {ev.format} · {ev.category}
                     </p>
                   </div>
-                  {isDbBacked && (
-                    <div className="flex gap-2 shrink-0">
-                      <Button size="sm" variant="secondary" onClick={() => startEdit(ev)}>Edit</Button>
-                      <Button size="sm" variant="danger" onClick={() => remove(ev.id)}>Delete</Button>
-                    </div>
-                  )}
+                  <div className="flex gap-2 shrink-0">
+                    <Button size="sm" variant="secondary" onClick={() => startEdit(ev)}>Edit</Button>
+                    <Button size="sm" variant="danger" onClick={() => remove(ev.id)}>Delete</Button>
+                  </div>
                 </div>
               </Card>
             ))}
