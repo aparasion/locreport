@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import { useParams, useRouter, useSearchParams } from 'next/navigation'
 import { marked } from 'marked'
 import { Draft } from '@/lib/types'
+import { extractTeaser } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -49,13 +50,17 @@ export default function DraftReviewPage() {
       .then(r => r.json())
       .then((d: Draft) => {
         setDraft(d)
-        setContent(d.content)
-        // Extract title from H1 in content, fall back to draft.title
-        const h1 = d.content.match(/^#\s+(.+)$/m)?.[1]?.trim()
-        const resolvedTitle = h1 || d.title || ''
-        setEditTitle(resolvedTitle)
-        setEditSlug(clientSlugify(resolvedTitle))
+        // Strip leading H1 from content (legacy drafts may still have it)
+        const strippedContent = d.content.replace(/^#\s+.+\n?/, '').trimStart()
+        setContent(strippedContent)
+        setEditTitle(d.title || '')
+        setEditSlug(clientSlugify(d.title || ''))
         setEditSourceUrl(d.source_url ?? '')
+        // Auto-populate excerpt from first two sentences if not set via URL param
+        if (!searchParams.get('excerpt')) {
+          const autoExcerpt = extractTeaser(strippedContent)
+          if (autoExcerpt) setEditExcerpt(autoExcerpt)
+        }
       })
       .catch(() => setError('Failed to load draft.'))
   }, [id])
