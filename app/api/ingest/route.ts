@@ -5,6 +5,7 @@ import { getOpenAI } from '@/lib/openai'
 import { slugify, uniqueSlug } from '@/lib/slugify'
 import { DEFAULT_EXTRACTOR_PROMPT, DEFAULT_INDUSTRY_PROMPT } from '@/lib/prompts'
 import { classifyArticle } from '@/lib/classify'
+import { extractTeaser } from '@/lib/utils'
 
 async function getPrompt(supabase: ReturnType<typeof createServiceClient>, key: string, fallback: string): Promise<string> {
   try {
@@ -143,9 +144,7 @@ export async function POST(req: NextRequest) {
         const title = titleMatch ? titleMatch[1].trim() : item.title
         // Strip the H1 from the body — title is stored separately
         const content = rawContent.replace(/^#\s+.+\n?/, '').trimStart()
-        // Extract excerpt from first non-empty paragraph
-        const firstPara = content.split(/\n\n+/).find(p => p.trim().length > 0) ?? ''
-        const excerpt = firstPara.replace(/[#*_`]/g, '').trim().slice(0, 300) || null
+        const excerpt = extractTeaser(content) || null
         const slug = await uniqueSlug(slugify(title), 'drafts', supabase)
 
         const classification = await classifyArticle(openai, content)

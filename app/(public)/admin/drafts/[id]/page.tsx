@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import { useParams, useRouter, useSearchParams } from 'next/navigation'
 import { marked } from 'marked'
 import { Draft } from '@/lib/types'
+import { extractTeaser } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -55,10 +56,9 @@ export default function DraftReviewPage() {
         setEditTitle(d.title || '')
         setEditSlug(clientSlugify(d.title || ''))
         setEditSourceUrl(d.source_url ?? '')
-        // Auto-populate excerpt from first paragraph if not set via URL param
+        // Auto-populate excerpt from first two sentences if not set via URL param
         if (!searchParams.get('excerpt')) {
-          const firstPara = strippedContent.split(/\n\n+/).find(p => p.trim().length > 0) ?? ''
-          const autoExcerpt = firstPara.replace(/[#*_`]/g, '').trim().slice(0, 300)
+          const autoExcerpt = extractTeaser(strippedContent)
           if (autoExcerpt) setEditExcerpt(autoExcerpt)
         }
       })

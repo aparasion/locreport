@@ -70,7 +70,7 @@ export function articleHref(slug: string): string {
 }
 
 // Extracts 1-2 plain-text sentences from markdown content for use as a teaser.
-export function extractTeaser(content: string, maxSentences = 1): string {
+export function extractTeaser(content: string, maxSentences = 2): string {
   const plain = content
     .replace(/```[\s\S]*?```/g, '')           // fenced code blocks
     .replace(/`[^`\n]+`/g, '')               // inline code
