@@ -49,13 +49,18 @@ export default function DraftReviewPage() {
       .then(r => r.json())
       .then((d: Draft) => {
         setDraft(d)
-        setContent(d.content)
-        // Extract title from H1 in content, fall back to draft.title
-        const h1 = d.content.match(/^#\s+(.+)$/m)?.[1]?.trim()
-        const resolvedTitle = h1 || d.title || ''
-        setEditTitle(resolvedTitle)
-        setEditSlug(clientSlugify(resolvedTitle))
+        // Strip leading H1 from content (legacy drafts may still have it)
+        const strippedContent = d.content.replace(/^#\s+.+\n?/, '').trimStart()
+        setContent(strippedContent)
+        setEditTitle(d.title || '')
+        setEditSlug(clientSlugify(d.title || ''))
         setEditSourceUrl(d.source_url ?? '')
+        // Auto-populate excerpt from first paragraph if not set via URL param
+        if (!searchParams.get('excerpt')) {
+          const firstPara = strippedContent.split(/\n\n+/).find(p => p.trim().length > 0) ?? ''
+          const autoExcerpt = firstPara.replace(/[#*_`]/g, '').trim().slice(0, 300)
+          if (autoExcerpt) setEditExcerpt(autoExcerpt)
+        }
       })
       .catch(() => setError('Failed to load draft.'))
   }, [id])

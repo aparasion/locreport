@@ -138,9 +138,14 @@ export async function POST(req: NextRequest) {
             { role: 'user', content: generateInput },
           ],
         })
-        const content = generateRes.choices[0].message.content ?? ''
-        const titleMatch = content.match(/^#\s+(.+)$/m)
+        const rawContent = generateRes.choices[0].message.content ?? ''
+        const titleMatch = rawContent.match(/^#\s+(.+)$/m)
         const title = titleMatch ? titleMatch[1].trim() : item.title
+        // Strip the H1 from the body — title is stored separately
+        const content = rawContent.replace(/^#\s+.+\n?/, '').trimStart()
+        // Extract excerpt from first non-empty paragraph
+        const firstPara = content.split(/\n\n+/).find(p => p.trim().length > 0) ?? ''
+        const excerpt = firstPara.replace(/[#*_`]/g, '').trim().slice(0, 300) || null
         const slug = await uniqueSlug(slugify(title), 'drafts', supabase)
 
         const classification = await classifyArticle(openai, content)
@@ -149,6 +154,7 @@ export async function POST(req: NextRequest) {
           title,
           slug,
           content,
+          excerpt,
           source_url: item.link,
           source_feed_id: source.id,
           source_published_at: item.pubDate ? new Date(item.pubDate).toISOString() : null,
