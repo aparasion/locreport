@@ -2,7 +2,7 @@ import { notFound, redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { marked } from 'marked'
 import { Article } from '@/lib/types'
-import { articleHref } from '@/lib/utils'
+import { articleHref, extractTeaser } from '@/lib/utils'
 import { SIGNAL_MAP } from '@/lib/signals'
 import { ShareButton } from '@/components/ShareButton'
 import Link from 'next/link'
@@ -52,28 +52,21 @@ export default async function ArticlePage({ params }: Props) {
 
   const a = article as Article
 
-  // Strip excerpt from top of content body (AI-generated content often starts with the same sentence)
+  // Derive the lede from the first 2 sentences of the article content
+  const teaser = extractTeaser(a.content, 2)
+
+  // Strip the first paragraph from the body — it's shown as the lede above the article
   let content = a.content
-  if (a.excerpt) {
-    // Skip optional H1 heading, then check if the first paragraph normalizes to the excerpt
-    const headingMatch = content.match(/^(#[^\n]+\n+)/)
-    const bodyStart = headingMatch ? headingMatch[0].length : 0
-    const body = content.slice(bodyStart)
-    const paraEnd = body.indexOf('\n\n')
-    if (paraEnd > -1) {
-      const firstPara = body.slice(0, paraEnd)
-      // Don't strip if the paragraph has been intentionally formatted with links
-      const hasLinks = /\[([^\]]+)\]\([^)]+\)/.test(firstPara)
-      const plainFirst = firstPara
-        .replace(/!\[.*?\]\(.*?\)/g, '')
-        .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
-        .replace(/[*_`~]+/g, '')
-        .replace(/\s+/g, ' ')
-        .trim()
-      const excerptCore = a.excerpt.replace(/[.!?]+$/, '').replace(/\s+/g, ' ').trim()
-      if (!hasLinks && plainFirst.startsWith(excerptCore.slice(0, Math.min(60, excerptCore.length)))) {
-        content = content.slice(0, bodyStart) + body.slice(paraEnd).trimStart()
-      }
+  const headingMatch = content.match(/^(#[^\n]+\n+)/)
+  const bodyStart = headingMatch ? headingMatch[0].length : 0
+  const body = content.slice(bodyStart)
+  const paraEnd = body.indexOf('\n\n')
+  if (paraEnd > -1) {
+    const firstPara = body.slice(0, paraEnd)
+    // Don't strip if the paragraph has links — it may be intentionally formatted
+    const hasLinks = /\[([^\]]+)\]\([^)]+\)/.test(firstPara)
+    if (!hasLinks) {
+      content = content.slice(0, bodyStart) + body.slice(paraEnd).trimStart()
     }
   }
   // Strip leading H1 — title is already rendered in the page header
@@ -195,7 +188,7 @@ export default async function ArticlePage({ params }: Props) {
           </p>
         )}
 
-        {a.excerpt && <p className="post-lede">{a.excerpt}</p>}
+        {teaser && <p className="post-lede">{teaser}</p>}
       </header>
 
       <div className="post-content-divider">
