@@ -70,12 +70,21 @@ export function articleHref(slug: string): string {
 }
 
 // Extracts 1-2 plain-text sentences from markdown content for use as a teaser.
+// Skips paragraphs that contain links so the excerpt is always link-free.
 export function extractTeaser(content: string, maxSentences = 2): string {
-  const plain = content
-    .replace(/```[\s\S]*?```/g, '')           // fenced code blocks
+  const hasLink = /\[([^\]]+)\]\([^)]+\)|<a\s/i
+
+  // Split into paragraphs, skip headings and link-containing paragraphs
+  const paragraphs = content
+    .replace(/```[\s\S]*?```/g, '')  // strip code blocks before splitting
+    .split(/\n\n+/)
+    .map(p => p.trim())
+    .filter(p => p && !p.startsWith('#') && !hasLink.test(p))
+
+  const plain = (paragraphs[0] ?? content)
     .replace(/`[^`\n]+`/g, '')               // inline code
     .replace(/!\[.*?\]\(.*?\)/g, '')          // images
-    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1') // links → keep text
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1') // links → keep text (safety fallback)
     .replace(/^#{1,6}\s+/gm, '')             // headings
     .replace(/^[-*_]{3,}\s*$/gm, '')         // horizontal rules
     .replace(/^\s*[-*+]\s+/gm, '')           // unordered list items
