@@ -12,7 +12,6 @@ export default function EditArticlePage() {
   const router = useRouter()
   const [article, setArticle] = useState<Article | null>(null)
   const [title, setTitle] = useState('')
-  const [excerpt, setExcerpt] = useState('')
   const [slug, setSlug] = useState('')
   const [publisher, setPublisher] = useState('')
   const [saving, setSaving] = useState(false)
@@ -24,7 +23,6 @@ export default function EditArticlePage() {
     fetch(`/api/articles/${id}`).then(r => r.json()).then((a: Article) => {
       setArticle(a)
       setTitle(a.title)
-      setExcerpt(a.excerpt ?? '')
       setSlug(a.slug ?? '')
       setPublisher(a.publisher ?? '')
       setImpactScore(a.impact_score ?? null)
@@ -38,7 +36,7 @@ export default function EditArticlePage() {
     const res = await fetch(`/api/articles/${id}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ title, excerpt, content, slug, publisher: publisher || null, impact_score: impactScore, time_horizon: timeHorizon || null }),
+      body: JSON.stringify({ title, content, slug, publisher: publisher || null, impact_score: impactScore, time_horizon: timeHorizon || null }),
     })
     if (res.ok) {
       setMessage('Saved.')
@@ -63,10 +61,6 @@ export default function EditArticlePage() {
         <div>
           <Label>Title</Label>
           <Input value={title} onChange={e => setTitle(e.target.value)} />
-        </div>
-        <div>
-          <Label>Excerpt</Label>
-          <Input value={excerpt} onChange={e => setExcerpt(e.target.value)} />
         </div>
         <div>
           <Label>Slug</Label>

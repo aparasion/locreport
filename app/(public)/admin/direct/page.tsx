@@ -21,7 +21,6 @@ export default function DirectComposePage() {
   const router = useRouter()
 
   const [title, setTitle] = useState('')
-  const [excerpt, setExcerpt] = useState('')
   const [slug, setSlug] = useState('')
   const [slugManuallyEdited, setSlugManuallyEdited] = useState(false)
   const [publisher, setPublisher] = useState('LocReport')
@@ -54,7 +53,6 @@ export default function DirectComposePage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           title,
-          excerpt,
           slug: slug || undefined,
           publisher,
           content,
@@ -109,18 +107,6 @@ export default function DirectComposePage() {
             onChange={e => handleTitleChange(e.target.value)}
             placeholder="Article title"
             className="mt-1"
-          />
-        </div>
-
-        <div>
-          <Label htmlFor="excerpt">Excerpt</Label>
-          <Textarea
-            id="excerpt"
-            value={excerpt}
-            onChange={e => setExcerpt(e.target.value)}
-            rows={2}
-            placeholder="Short description shown in listings (auto-extracted from content if left blank)"
-            className="mt-1 text-sm"
           />
         </div>
 
