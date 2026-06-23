@@ -2,7 +2,7 @@ import { notFound, redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { marked } from 'marked'
 import { Article } from '@/lib/types'
-import { articleHref, extractTeaser } from '@/lib/utils'
+import { articleHref } from '@/lib/utils'
 import { SIGNAL_MAP } from '@/lib/signals'
 import { ShareButton } from '@/components/ShareButton'
 import Link from 'next/link'
@@ -52,25 +52,8 @@ export default async function ArticlePage({ params }: Props) {
 
   const a = article as Article
 
-  // Derive the lede from the first 2 sentences of the article content
-  const teaser = extractTeaser(a.content, 2)
-
-  // Strip the first paragraph from the body — it's shown as the lede above the article
-  let content = a.content
-  const headingMatch = content.match(/^(#[^\n]+\n+)/)
-  const bodyStart = headingMatch ? headingMatch[0].length : 0
-  const body = content.slice(bodyStart)
-  const paraEnd = body.indexOf('\n\n')
-  if (paraEnd > -1) {
-    const firstPara = body.slice(0, paraEnd)
-    // Don't strip if the paragraph has links — it may be intentionally formatted
-    const hasLinks = /\[([^\]]+)\]\([^)]+\)/.test(firstPara)
-    if (!hasLinks) {
-      content = content.slice(0, bodyStart) + body.slice(paraEnd).trimStart()
-    }
-  }
   // Strip leading H1 — title is already rendered in the page header
-  content = content.replace(/^#\s+[^\n]+\n?/, '')
+  let content = a.content.replace(/^#\s+[^\n]+\n?/, '')
 
   const rawHtml = marked.parse(content) as string
   // Add target/_blank + rel=noopener to all external links in rendered content
@@ -188,7 +171,6 @@ export default async function ArticlePage({ params }: Props) {
           </p>
         )}
 
-        {teaser && <p className="post-lede">{teaser}</p>}
       </header>
 
       <div className="post-content-divider">

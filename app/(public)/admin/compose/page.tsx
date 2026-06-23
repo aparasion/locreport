@@ -18,21 +18,6 @@ function clientSlugify(text: string): string {
     .slice(0, 80)
 }
 
-function extractExcerpt(markdown: string): string {
-  // First non-heading, non-empty paragraph
-  const lines = markdown.split('\n')
-  const paragraphLines: string[] = []
-  for (const line of lines) {
-    const trimmed = line.trim()
-    if (!trimmed || trimmed.startsWith('#')) {
-      if (paragraphLines.length) break
-      continue
-    }
-    paragraphLines.push(trimmed)
-    if (paragraphLines.join(' ').length > 200) break
-  }
-  return paragraphLines.join(' ').slice(0, 280)
-}
 
 export default function ComposePage() {
   const router = useRouter()
@@ -53,7 +38,6 @@ export default function ComposePage() {
 
   // Article-stage metadata (AI-populated, admin-editable)
   const [editTitle, setEditTitle] = useState('')
-  const [editExcerpt, setEditExcerpt] = useState('')
   const [editSlug, setEditSlug] = useState('')
   const [editPublisher, setEditPublisher] = useState('LocReport')
   const [slugManuallyEdited, setSlugManuallyEdited] = useState(false)
@@ -95,7 +79,6 @@ export default function ComposePage() {
     // Pre-fill metadata — API returns resolved title (H1 or AI-generated)
     const resolvedTitle = data.title?.trim() || generated.match(/^#\s+(.+)$/m)?.[1]?.trim() || title.trim()
     setEditTitle(resolvedTitle)
-    setEditExcerpt(extractExcerpt(generated))
     if (!slugManuallyEdited) setEditSlug(clientSlugify(resolvedTitle))
 
     if (!impactScore && data.impact_score) setImpactScore(String(data.impact_score))
@@ -136,7 +119,6 @@ export default function ComposePage() {
       if (impactScore) params.set('impact_score', impactScore)
       if (timeHorizon) params.set('time_horizon', timeHorizon)
       params.set('content_type', contentType)
-      if (editExcerpt) params.set('excerpt', editExcerpt)
       if (editSlug) params.set('slug', editSlug)
       if (editPublisher) params.set('publisher', editPublisher)
       router.push(`/admin/drafts/${draft.id}?${params.toString()}`)
@@ -163,18 +145,6 @@ export default function ComposePage() {
               value={editTitle}
               onChange={e => handleEditTitleChange(e.target.value)}
               className="mt-1"
-            />
-          </div>
-
-          <div>
-            <Label htmlFor="edit-excerpt">Excerpt</Label>
-            <Textarea
-              id="edit-excerpt"
-              value={editExcerpt}
-              onChange={e => setEditExcerpt(e.target.value)}
-              rows={2}
-              placeholder="Short description shown in listings (auto-extracted from content if left blank)"
-              className="mt-1 text-sm"
             />
           </div>
 

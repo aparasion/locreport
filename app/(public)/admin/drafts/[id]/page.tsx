@@ -3,11 +3,9 @@ import { useEffect, useState } from 'react'
 import { useParams, useRouter, useSearchParams } from 'next/navigation'
 import { marked } from 'marked'
 import { Draft } from '@/lib/types'
-import { extractTeaser } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { Textarea } from '@/components/ui/textarea'
 
 function clientSlugify(text: string): string {
   return text
@@ -29,7 +27,6 @@ export default function DraftReviewPage() {
 
   // Metadata fields
   const [editTitle, setEditTitle] = useState('')
-  const [editExcerpt, setEditExcerpt] = useState(() => searchParams.get('excerpt') ?? '')
   const [editSlug, setEditSlug] = useState(() => searchParams.get('slug') ?? '')
   const [editPublisher, setEditPublisher] = useState(() => searchParams.get('publisher') ?? 'LocReport')
   const [editSourceUrl, setEditSourceUrl] = useState('')
@@ -56,11 +53,6 @@ export default function DraftReviewPage() {
         setEditTitle(d.title || '')
         setEditSlug(clientSlugify(d.title || ''))
         setEditSourceUrl(d.source_url ?? '')
-        // Auto-populate excerpt from first two sentences if not set via URL param
-        if (!searchParams.get('excerpt')) {
-          const autoExcerpt = extractTeaser(strippedContent)
-          if (autoExcerpt) setEditExcerpt(autoExcerpt)
-        }
       })
       .catch(() => setError('Failed to load draft.'))
   }, [id])
@@ -108,7 +100,6 @@ export default function DraftReviewPage() {
           status,
           content,
           title: editTitle || undefined,
-          excerpt: editExcerpt || undefined,
           slug: editSlug || undefined,
           publisher: editPublisher || undefined,
           source_url: editSourceUrl || null,
@@ -177,18 +168,6 @@ export default function DraftReviewPage() {
             onChange={e => setEditTitle(e.target.value)}
             placeholder="Article title"
             className="mt-1 text-lg font-semibold"
-          />
-        </div>
-
-        <div>
-          <Label htmlFor="edit-excerpt">Excerpt</Label>
-          <Textarea
-            id="edit-excerpt"
-            value={editExcerpt}
-            onChange={e => setEditExcerpt(e.target.value)}
-            rows={2}
-            placeholder="Short description shown in listings (auto-extracted from content if left blank)"
-            className="mt-1 text-sm"
           />
         </div>
 
