@@ -29,7 +29,7 @@ export async function POST(req: NextRequest) {
 
   const svc = createServiceClient()
 
-  let query = svc.from('articles').select('id, title, source_url, slug')
+  let query = svc.from('articles').select('id, title, source_url, slug, draft_id')
   if (article_id) query = query.eq('id', article_id)
   else if (slug) query = query.eq('slug', slug)
   else return NextResponse.json({ error: 'Provide article_id or slug' }, { status: 400 })
