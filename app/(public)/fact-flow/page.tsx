@@ -57,6 +57,17 @@ export default async function FactFlowPage() {
     .order('created_at', { ascending: false })
     .limit(120)
 
+  // Resolve article slugs for all facts that have an article_id
+  const articleIds = [...new Set((facts ?? []).map(f => f.article_id).filter(Boolean))]
+  const slugMap = new Map<string, string>()
+  if (articleIds.length > 0) {
+    const { data: articles } = await supabase
+      .from('articles')
+      .select('id, slug')
+      .in('id', articleIds as string[])
+    for (const a of articles ?? []) slugMap.set(a.id, a.slug)
+  }
+
   const grouped = groupByDay(facts ?? [])
 
   return (
@@ -89,16 +100,12 @@ export default async function FactFlowPage() {
         .ff-bubble-body { display: flex; align-items: baseline; gap: var(--space-4); }
         .ff-bullet { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); flex-shrink: 0; margin-top: 7px; opacity: .5; }
         .ff-content { font-size: 0.975rem; line-height: 1.55; color: var(--text); flex: 1; }
+        .ff-content-link { font-size: 0.975rem; line-height: 1.55; color: var(--text); flex: 1; text-decoration: none; display: block; }
+        .ff-content-link:hover { color: var(--accent); }
+        .ff-bubble:has(.ff-content-link) { cursor: pointer; }
 
-        .ff-bubble-footer { display: flex; align-items: center; justify-content: space-between; margin-top: var(--space-3); gap: var(--space-3); flex-wrap: wrap; }
-        .ff-meta { display: flex; align-items: center; gap: var(--space-2); flex-wrap: wrap; }
-        .ff-source-name { font-size: 0.72rem; font-weight: 600; color: var(--muted); }
-        .ff-source-link { font-size: 0.72rem; color: var(--muted); text-decoration: none; }
-        .ff-source-link:hover { color: var(--accent); }
-        .ff-sep { font-size: 0.72rem; color: var(--hairline); }
+        .ff-bubble-footer { display: flex; align-items: center; margin-top: var(--space-3); }
         .ff-time { font-size: 0.7rem; color: var(--muted); }
-        .ff-article-link { font-size: 0.75rem; font-weight: 600; color: var(--accent); text-decoration: none; white-space: nowrap; }
-        .ff-article-link:hover { text-decoration: underline; }
 
         .ff-empty { text-align: center; padding: var(--space-16) 0; color: var(--muted); }
         .ff-empty h2 { font-family: var(--font-display); font-size: 1.25rem; color: var(--text); margin-bottom: var(--space-2); }
@@ -136,30 +143,26 @@ export default async function FactFlowPage() {
                 <span className="ff-day-count">{count} facts</span>
               </div>
               <div className="ff-stream">
-                {items.map(fact => (
-                  <div key={fact.id} className="ff-bubble">
-                    <div className="ff-bubble-body">
-                      <span className="ff-bullet" aria-hidden="true" />
-                      <p className="ff-content">{fact.content}</p>
-                    </div>
-                    <div className="ff-bubble-footer">
-                      <div className="ff-meta">
-                        {fact.source_name && <span className="ff-source-name">{fact.source_name}</span>}
-                        {fact.source_name && fact.source_url && <span className="ff-sep">·</span>}
-                        {fact.source_url && (
-                          <a href={fact.source_url} target="_blank" rel="noopener noreferrer" className="ff-source-link">
-                            source ↗
-                          </a>
+                {items.map(fact => {
+                  const slug = fact.article_id ? slugMap.get(fact.article_id) : undefined
+                  return (
+                    <div key={fact.id} className="ff-bubble">
+                      <div className="ff-bubble-body">
+                        <span className="ff-bullet" aria-hidden="true" />
+                        {slug ? (
+                          <Link href={`/articles/${slug}`} className="ff-content-link">{fact.content}</Link>
+                        ) : (
+                          <p className="ff-content">{fact.content}</p>
                         )}
-                        <span className="ff-sep">·</span>
+                      </div>
+                      <div className="ff-bubble-footer">
                         <time className="ff-time" dateTime={fact.created_at} title={formatDate(fact.created_at)}>
                           {timeAgo(fact.created_at)}
                         </time>
                       </div>
-                      {fact.article_id ? <ArticleLink articleId={fact.article_id} /> : null}
                     </div>
-                  </div>
-                ))}
+                  )
+                })}
               </div>
             </div>
           ))
@@ -169,17 +172,3 @@ export default async function FactFlowPage() {
   )
 }
 
-async function ArticleLink({ articleId }: { articleId: string }) {
-  const supabase = await createClient()
-  const { data } = await supabase
-    .from('articles')
-    .select('slug')
-    .eq('id', articleId)
-    .single()
-  if (!data?.slug) return null
-  return (
-    <Link href={`/articles/${data.slug}`} className="ff-article-link">
-      Read article →
-    </Link>
-  )
-}
