@@ -117,9 +117,7 @@ export default async function FactFlowPage() {
         .ff-content-link { font-size: 0.975rem; line-height: 1.55; color: var(--text); flex: 1; text-decoration: none; display: block; }
         .ff-content-link:hover { color: var(--accent); }
         .ff-bubble:has(.ff-content-link) { cursor: pointer; }
-
-        .ff-bubble-footer { display: flex; align-items: center; margin-top: var(--space-3); }
-        .ff-time { font-size: 0.7rem; color: var(--muted); }
+        .ff-time { font-size: 0.68rem; color: var(--muted); white-space: nowrap; float: right; margin-left: var(--space-3); line-height: 1.55; }
 
         .ff-empty { text-align: center; padding: var(--space-16) 0; color: var(--muted); }
         .ff-empty h2 { font-family: var(--font-display); font-size: 1.25rem; color: var(--text); margin-bottom: var(--space-2); }
@@ -166,16 +164,16 @@ export default async function FactFlowPage() {
                     <div key={fact.id} className="ff-bubble">
                       <div className="ff-bubble-body">
                         <span className="ff-bullet" aria-hidden="true" />
-                        {slug ? (
-                          <Link href={`/articles/${slug}`} className="ff-content-link">{fact.content}</Link>
-                        ) : (
-                          <p className="ff-content">{fact.content}</p>
-                        )}
-                      </div>
-                      <div className="ff-bubble-footer">
-                        <time className="ff-time" dateTime={fact.created_at} title={formatDate(fact.created_at)}>
-                          {timeAgo(fact.created_at)}
-                        </time>
+                        <div style={{ flex: 1 }}>
+                          <time className="ff-time" dateTime={fact.created_at} title={formatDate(fact.created_at)}>
+                            {timeAgo(fact.created_at)}
+                          </time>
+                          {slug ? (
+                            <Link href={`/articles/${slug}`} className="ff-content-link">{fact.content}</Link>
+                          ) : (
+                            <span className="ff-content">{fact.content}</span>
+                          )}
+                        </div>
                       </div>
                     </div>
                   )
