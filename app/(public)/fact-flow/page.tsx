@@ -108,12 +108,10 @@ export default async function FactFlowPage() {
         <div className="ff-hero">
           <div className="ff-hero-eyebrow">
             <span className="ff-hero-dot" />
-            <span className="ff-hero-label">Live signal stream</span>
+            <span className="ff-hero-label">Live stream</span>
           </div>
           <h1>Fact Flow</h1>
-          <p className="ff-hero-desc">
-            2–3 key signals distilled from each industry source, as they are processed. What happened, who did it, why it matters.
-          </p>
+          <p className="ff-hero-desc">Bare facts served real-time.</p>
           <a href="/fact-flow/feed.xml" className="ff-rss-link">
             <svg className="ff-rss-icon" xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
               <circle cx="6.18" cy="17.82" r="2.18"/>
@@ -126,8 +124,8 @@ export default async function FactFlowPage() {
 
         {grouped.length === 0 ? (
           <div className="ff-empty">
-            <h2>No signals yet</h2>
-            <p>Signals will appear here as articles are ingested.</p>
+            <h2>No facts yet</h2>
+            <p>Facts will appear here as articles are ingested.</p>
           </div>
         ) : (
           grouped.map(({ label, count, items }) => (
@@ -135,7 +133,7 @@ export default async function FactFlowPage() {
               <div className="ff-day-header">
                 <span className="ff-day-label">{label}</span>
                 <span className="ff-day-line" />
-                <span className="ff-day-count">{count} signals</span>
+                <span className="ff-day-count">{count} facts</span>
               </div>
               <div className="ff-stream">
                 {items.map(fact => (
