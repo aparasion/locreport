@@ -133,5 +133,5 @@ export async function POST(req: NextRequest) {
 
   if (insertError) return NextResponse.json({ error: insertError.message }, { status: 500 })
 
-  return NextResponse.json({ ok: true, article_slug: article.slug, facts_saved: parsed.length, text_source: textSource })
+  return NextResponse.json({ ok: true, article_slug: article.slug, facts_saved: distilled.length, text_source: textSource })
 }
