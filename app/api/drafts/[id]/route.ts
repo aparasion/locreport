@@ -61,6 +61,19 @@ export async function PATCH(req: NextRequest, { params }: Params) {
       affected_segments: classification.affected_segments,
     })
     if (articleError) return NextResponse.json({ error: articleError.message }, { status: 400 })
+
+    // Link facts from this draft to the newly created article
+    const { data: articleRow } = await supabase
+      .from('articles')
+      .select('id')
+      .eq('draft_id', draft.id)
+      .single()
+    if (articleRow?.id) {
+      await supabase
+        .from('facts')
+        .update({ article_id: articleRow.id })
+        .eq('draft_id', draft.id)
+    }
   }
 
   const patch: Record<string, unknown> = {}
