@@ -105,12 +105,8 @@ export default async function FactFlowPage() {
         .ff-content-link:hover { color: var(--accent); }
         .ff-bubble:has(.ff-content-link) { cursor: pointer; }
 
-        .ff-bubble-footer { display: flex; align-items: center; justify-content: space-between; margin-top: var(--space-3); gap: var(--space-3); }
+        .ff-bubble-footer { display: flex; align-items: center; margin-top: var(--space-3); }
         .ff-time { font-size: 0.7rem; color: var(--muted); }
-        .ff-bubble .social-share-dd__toggle { font-size: 0.72rem; padding: 3px 8px; gap: 4px; }
-        .ff-bubble .social-share-dd__icon { width: 12px; height: 12px; }
-        .ff-bubble .social-share-dd__chevron { width: 10px; height: 10px; }
-        .ff-bubble .social-share-dd__label { font-size: 0.72rem; }
 
         .ff-empty { text-align: center; padding: var(--space-16) 0; color: var(--muted); }
         .ff-empty h2 { font-family: var(--font-display); font-size: 1.25rem; color: var(--text); margin-bottom: var(--space-2); }
@@ -124,14 +120,17 @@ export default async function FactFlowPage() {
             <span className="ff-hero-sep" aria-hidden="true" />
             <p className="ff-hero-desc">Bare facts served real-time.</p>
           </div>
-          <a href="/fact-flow/feed.xml" className="ff-rss-link">
-            <svg className="ff-rss-icon" xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-              <circle cx="6.18" cy="17.82" r="2.18"/>
-              <path d="M4 11.64A8.36 8.36 0 0 1 12.36 20"/>
-              <path d="M4 6a14 14 0 0 1 14 14"/>
-            </svg>
-            RSS Feed
-          </a>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
+            <a href="/fact-flow/feed.xml" className="ff-rss-link">
+              <svg className="ff-rss-icon" xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <circle cx="6.18" cy="17.82" r="2.18"/>
+                <path d="M4 11.64A8.36 8.36 0 0 1 12.36 20"/>
+                <path d="M4 6a14 14 0 0 1 14 14"/>
+              </svg>
+              RSS Feed
+            </a>
+            <ShareButton title="Fact Flow — LocReport" url="https://locreport.com/fact-flow" />
+          </div>
         </div>
 
         {grouped.length === 0 ? (
@@ -164,12 +163,6 @@ export default async function FactFlowPage() {
                         <time className="ff-time" dateTime={fact.created_at} title={formatDate(fact.created_at)}>
                           {timeAgo(fact.created_at)}
                         </time>
-                        {slug && (
-                          <ShareButton
-                            title={fact.content}
-                            url={`https://locreport.com/articles/${slug}`}
-                          />
-                        )}
                       </div>
                     </div>
                   )
