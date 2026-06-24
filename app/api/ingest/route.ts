@@ -102,8 +102,8 @@ export async function POST(req: NextRequest) {
         }
         console.log(`[ingest] article text length for ${item.link}: ${articleText.length} chars${fetchedText ? ' (fetched)' : ' (rss snippet)'}`)
 
-        if (articleText.length < 200) {
-          console.log(`[ingest] skipping ${item.link}: text too short (${articleText.length} chars, likely paywalled)`)
+        if (articleText.length < 50) {
+          console.log(`[ingest] skipping ${item.link}: text too short (${articleText.length} chars)`)
           skipped.push(item.link)
           seen.add(item.link)
           continue
