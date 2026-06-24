@@ -3,14 +3,15 @@ import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
-import { DEFAULT_EXTRACTOR_PROMPT, DEFAULT_INDUSTRY_PROMPT, DEFAULT_MONTHLY_PROMPT } from '@/lib/prompts'
+import { DEFAULT_EXTRACTOR_PROMPT, DEFAULT_INDUSTRY_PROMPT, DEFAULT_MONTHLY_PROMPT, DEFAULT_FACTFLOW_PROMPT } from '@/lib/prompts'
 
-type PromptKey = 'prompt_extractor' | 'prompt_industry' | 'prompt_monthly'
+type PromptKey = 'prompt_extractor' | 'prompt_industry' | 'prompt_monthly' | 'prompt_factflow'
 
-const PROMPTS: { key: PromptKey; label: string; default: string }[] = [
+const PROMPTS: { key: PromptKey; label: string; hint?: string; default: string }[] = [
   { key: 'prompt_extractor', label: 'Stage 1 — Extractor (fact extraction)', default: DEFAULT_EXTRACTOR_PROMPT },
   { key: 'prompt_industry', label: 'Stage 2 — Industry editorial (LocReport voice)', default: DEFAULT_INDUSTRY_PROMPT },
-  { key: 'prompt_monthly', label: 'Monthly report (2000-word synthesis)', default: DEFAULT_MONTHLY_PROMPT },
+  { key: 'prompt_factflow', label: 'Fact Flow — news signal distillation', hint: 'Runs after Stage 1 to produce 1–3 self-contained news bullets for the Fact Flow page.', default: DEFAULT_FACTFLOW_PROMPT },
+  { key: 'prompt_monthly', label: 'Monthly report (2000-word synthesis)', hint: 'Used by the Next.js monthly report generator. The Jekyll GitHub Actions script has its own copy — update both if you change the structure.', default: DEFAULT_MONTHLY_PROMPT },
 ]
 
 export default function PromptsPage() {
@@ -18,6 +19,7 @@ export default function PromptsPage() {
     prompt_extractor: '',
     prompt_industry: '',
     prompt_monthly: '',
+    prompt_factflow: '',
   })
   const [saving, setSaving] = useState<PromptKey | null>(null)
   const [saved, setSaved] = useState<PromptKey | null>(null)
@@ -31,6 +33,7 @@ export default function PromptsPage() {
           prompt_extractor: settings.prompt_extractor || DEFAULT_EXTRACTOR_PROMPT,
           prompt_industry: settings.prompt_industry || DEFAULT_INDUSTRY_PROMPT,
           prompt_monthly: settings.prompt_monthly || DEFAULT_MONTHLY_PROMPT,
+          prompt_factflow: settings.prompt_factflow || DEFAULT_FACTFLOW_PROMPT,
         }))
         setLoading(false)
       })
@@ -60,12 +63,10 @@ export default function PromptsPage() {
       <p className="text-sm mb-8" style={{ color: 'var(--muted)' }}>Edit the AI prompts used during article generation. Changes take effect immediately for all new articles.</p>
 
       <div className="flex flex-col gap-10">
-        {PROMPTS.map(({ key, label, default: defaultVal }) => (
+        {PROMPTS.map(({ key, label, hint, default: defaultVal }) => (
           <div key={key}>
             <Label className="text-base font-semibold mb-1 block" style={{ color: 'var(--text)' }}>{label}</Label>
-            {key === 'prompt_monthly' && (
-              <p className="text-xs mb-2" style={{ color: 'var(--muted)' }}>Used by the Next.js monthly report generator. The Jekyll GitHub Actions script has its own copy — update both if you change the structure.</p>
-            )}
+            {hint && <p className="text-xs mb-2" style={{ color: 'var(--muted)' }}>{hint}</p>}
             <Textarea
               value={values[key]}
               onChange={e => setValues(v => ({ ...v, [key]: e.target.value }))}
