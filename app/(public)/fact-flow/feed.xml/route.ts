@@ -20,33 +20,40 @@ export async function GET() {
 
   const { data: facts } = await supabase
     .from('facts')
-    .select('id, content, category, source_url, source_name, article_id, created_at')
+    .select('id, content, category, article_id, created_at')
     .order('created_at', { ascending: false })
     .limit(100)
 
-  type FactRow = { id: string; content: string; category: string; source_url: string | null; source_name: string | null; article_id: string | null; created_at: string }
-  const items = (facts as FactRow[] ?? []).map(f => {
-    const label = CATEGORY_LABELS[f.category as FactCategory] ?? f.category
-    const title = `[${label}] ${f.content.slice(0, 80)}${f.content.length > 80 ? '…' : ''}`
-    const link = f.article_id
-      ? `${BASE_URL}/articles/${f.article_id}`
-      : f.source_url ?? `${BASE_URL}/fact-flow`
-    const description = escapeXml(f.content)
-    const pubDate = new Date(f.created_at).toUTCString()
-    const guid = `${BASE_URL}/fact-flow#${f.id}`
-    const sourcePart = f.source_name ? `<source url="${escapeXml(f.source_url ?? '')}">${escapeXml(f.source_name)}</source>` : ''
+  // Resolve article slugs in one query
+  const articleIds = [...new Set((facts ?? []).map(f => f.article_id).filter(Boolean))] as string[]
+  const slugMap = new Map<string, string>()
+  if (articleIds.length > 0) {
+    const { data: articles } = await supabase
+      .from('articles')
+      .select('id, slug')
+      .in('id', articleIds)
+    for (const a of articles ?? []) slugMap.set(a.id, a.slug)
+  }
 
-    return `
+  type FactRow = { id: string; content: string; category: string; article_id: string | null; created_at: string }
+  const items = (facts as FactRow[] ?? [])
+    .filter(f => f.article_id && slugMap.has(f.article_id))
+    .map(f => {
+      const slug = slugMap.get(f.article_id!)!
+      const link = `${BASE_URL}/articles/${slug}`
+      const title = f.content.slice(0, 100) + (f.content.length > 100 ? '…' : '')
+      const pubDate = new Date(f.created_at).toUTCString()
+      const guid = `${BASE_URL}/fact-flow#${f.id}`
+
+      return `
     <item>
       <title>${escapeXml(title)}</title>
       <link>${escapeXml(link)}</link>
       <guid isPermaLink="false">${escapeXml(guid)}</guid>
       <pubDate>${pubDate}</pubDate>
-      <description>${description}</description>
-      <category>${escapeXml(label)}</category>
-      ${sourcePart}
+      <description>${escapeXml(f.content)}</description>
     </item>`
-  }).join('\n')
+    }).join('\n')
 
   const lastBuildDate = facts?.[0]
     ? new Date(facts[0].created_at).toUTCString()
@@ -57,7 +64,7 @@ export async function GET() {
   <channel>
     <title>LocReport Fact Flow</title>
     <link>${BASE_URL}/fact-flow</link>
-    <description>Raw facts, data points, milestones, and quotes extracted from localization and language technology industry sources.</description>
+    <description>Bare facts from the localization and language technology industry, linking to full articles on LocReport.</description>
     <language>en-us</language>
     <lastBuildDate>${lastBuildDate}</lastBuildDate>
     <atom:link href="${BASE_URL}/fact-flow/feed.xml" rel="self" type="application/rss+xml"/>
