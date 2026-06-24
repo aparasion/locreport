@@ -2,8 +2,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient, createServiceClient } from '@/lib/supabase/server'
 import { fetchArticleText } from '@/lib/rss'
 import { getOpenAI } from '@/lib/openai'
-import { DEFAULT_EXTRACTOR_PROMPT } from '@/lib/prompts'
-import { parseFacts } from '@/lib/facts'
+import { DEFAULT_EXTRACTOR_PROMPT, DEFAULT_FACTFLOW_PROMPT } from '@/lib/prompts'
+import { parseDistilledFacts } from '@/lib/facts'
 
 export const maxDuration = 60
 
@@ -90,9 +90,18 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: `UNUSABLE_CONTENT from ${textSource}` }, { status: 422 })
   }
 
-  const parsed = parseFacts(raw)
-  if (parsed.length === 0) {
-    return NextResponse.json({ error: 'No facts parsed from extractor output', raw }, { status: 422 })
+  // Distil into 2-3 curated news bullets
+  const factFlowPrompt = await getPrompt(svc, 'prompt_factflow', DEFAULT_FACTFLOW_PROMPT)
+  const distilRes = await openai.chat.completions.create({
+    model: 'gpt-4o-mini',
+    messages: [
+      { role: 'system', content: factFlowPrompt },
+      { role: 'user', content: raw },
+    ],
+  })
+  const distilled = parseDistilledFacts(distilRes.choices[0].message.content ?? '')
+  if (distilled.length === 0) {
+    return NextResponse.json({ error: 'No facts parsed after distillation', raw }, { status: 422 })
   }
 
   // Resolve source_name from rss_sources via draft linkage if available
@@ -113,9 +122,9 @@ export async function POST(req: NextRequest) {
   }
 
   const { error: insertError } = await svc.from('facts').insert(
-    parsed.map(f => ({
-      content: f.content,
-      category: f.category,
+    distilled.map(content => ({
+      content,
+      category: 'news',
       source_url: article.source_url,
       source_name: sourceName,
       article_id: article.id,
@@ -124,5 +133,5 @@ export async function POST(req: NextRequest) {
 
   if (insertError) return NextResponse.json({ error: insertError.message }, { status: 500 })
 
-  return NextResponse.json({ ok: true, article_slug: article.slug, facts_saved: parsed.length, text_source: textSource })
+  return NextResponse.json({ ok: true, article_slug: article.slug, facts_saved: distilled.length, text_source: textSource })
 }

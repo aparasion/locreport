@@ -53,3 +53,13 @@ export const CATEGORY_LABELS: Record<FactCategory, string> = {
   milestone: 'Milestone',
   quote: 'Quote',
 }
+
+export function parseDistilledFacts(raw: string): string[] {
+  return raw
+    .split('\n')
+    .map(l => l.trim())
+    .filter(l => /^\d+\./.test(l))
+    .map(l => l.replace(/^\d+\.\s*/, '').trim())
+    .filter(l => l.length > 10)
+    .slice(0, 3)
+}

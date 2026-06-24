@@ -3,10 +3,10 @@ import { createClient, createServiceClient } from '@/lib/supabase/server'
 import { fetchFeed, fetchArticleText } from '@/lib/rss'
 import { getOpenAI } from '@/lib/openai'
 import { slugify, uniqueSlug } from '@/lib/slugify'
-import { DEFAULT_EXTRACTOR_PROMPT, DEFAULT_INDUSTRY_PROMPT } from '@/lib/prompts'
+import { DEFAULT_EXTRACTOR_PROMPT, DEFAULT_INDUSTRY_PROMPT, DEFAULT_FACTFLOW_PROMPT } from '@/lib/prompts'
 import { classifyArticle } from '@/lib/classify'
 import { extractTeaser } from '@/lib/utils'
-import { parseFacts } from '@/lib/facts'
+import { parseDistilledFacts } from '@/lib/facts'
 
 async function getPrompt(supabase: ReturnType<typeof createServiceClient>, key: string, fallback: string): Promise<string> {
   try {
@@ -183,17 +183,27 @@ export async function POST(req: NextRequest) {
             .limit(1)
             .single()
 
-          const parsedFacts = parseFacts(facts)
-          if (parsedFacts.length > 0 && draftRow?.id) {
-            await supabase.from('facts').insert(
-              parsedFacts.map(f => ({
-                content: f.content,
-                category: f.category,
-                source_url: item.link,
-                source_name: source.name,
-                draft_id: draftRow.id,
-              }))
-            )
+          if (draftRow?.id) {
+            const factFlowPrompt = await getPrompt(supabase, 'prompt_factflow', DEFAULT_FACTFLOW_PROMPT)
+            const distilRes = await openai.chat.completions.create({
+              model: 'gpt-4o-mini',
+              messages: [
+                { role: 'system', content: factFlowPrompt },
+                { role: 'user', content: facts },
+              ],
+            })
+            const distilled = parseDistilledFacts(distilRes.choices[0].message.content ?? '')
+            if (distilled.length > 0) {
+              await supabase.from('facts').insert(
+                distilled.map(content => ({
+                  content,
+                  category: 'news',
+                  source_url: item.link,
+                  source_name: source.name,
+                  draft_id: draftRow.id,
+                }))
+              )
+            }
           }
 
           seen.add(item.link)
