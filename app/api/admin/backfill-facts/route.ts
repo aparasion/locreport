@@ -29,17 +29,13 @@ export async function POST(req: NextRequest) {
 
   const svc = createServiceClient()
 
-  let query = svc.from('articles').select('id, title, source_url, slug, draft_id')
+  let query = svc.from('articles').select('id, title, content, source_url, slug, draft_id')
   if (article_id) query = query.eq('id', article_id)
   else if (slug) query = query.eq('slug', slug)
   else return NextResponse.json({ error: 'Provide article_id or slug' }, { status: 400 })
 
   const { data: article, error: articleError } = await query.single()
   if (articleError || !article) return NextResponse.json({ error: 'Article not found' }, { status: 404 })
-
-  if (!article.source_url) {
-    return NextResponse.json({ error: 'Article has no source_url — cannot extract facts' }, { status: 400 })
-  }
 
   // Check if facts already exist for this article
   const { count } = await svc
@@ -54,16 +50,32 @@ export async function POST(req: NextRequest) {
   const extractorPrompt = await getPrompt(svc, 'prompt_extractor', DEFAULT_EXTRACTOR_PROMPT)
   const openai = getOpenAI()
 
-  const articleText = await fetchArticleText(article.source_url)
-  if (!articleText || articleText.length < 200) {
-    return NextResponse.json({ error: `Source text too short or inaccessible (${articleText?.length ?? 0} chars)` }, { status: 422 })
+  // Try source URL first; fall back to the published article body
+  let extractText: string | null = null
+  let textSource = 'source'
+
+  if (article.source_url) {
+    const fetched = await fetchArticleText(article.source_url)
+    if (fetched && fetched.length >= 200) {
+      extractText = fetched
+    }
+  }
+
+  if (!extractText) {
+    // Use the published article content (strip markdown for cleaner extraction)
+    extractText = article.content ?? null
+    textSource = 'article body'
+  }
+
+  if (!extractText || extractText.length < 200) {
+    return NextResponse.json({ error: 'No usable text found in source or article body' }, { status: 422 })
   }
 
   const extractInput = [
-    `Source URL: ${article.source_url}`,
+    article.source_url ? `Source URL: ${article.source_url}` : '',
     `Title: ${article.title}`,
-    `Article content:\n${articleText}`,
-  ].join('\n\n')
+    `Article content:\n${extractText}`,
+  ].filter(Boolean).join('\n\n')
 
   const extractRes = await openai.chat.completions.create({
     model: 'gpt-4o-mini',
@@ -75,7 +87,7 @@ export async function POST(req: NextRequest) {
   const raw = extractRes.choices[0].message.content ?? ''
 
   if (raw.trim() === 'UNUSABLE_CONTENT') {
-    return NextResponse.json({ error: 'Source returned UNUSABLE_CONTENT' }, { status: 422 })
+    return NextResponse.json({ error: `UNUSABLE_CONTENT from ${textSource}` }, { status: 422 })
   }
 
   const parsed = parseFacts(raw)
@@ -112,5 +124,5 @@ export async function POST(req: NextRequest) {
 
   if (insertError) return NextResponse.json({ error: insertError.message }, { status: 500 })
 
-  return NextResponse.json({ ok: true, article_slug: article.slug, facts_saved: parsed.length })
+  return NextResponse.json({ ok: true, article_slug: article.slug, facts_saved: parsed.length, text_source: textSource })
 }
