@@ -82,18 +82,24 @@ export async function POST(req: NextRequest) {
     })
     console.log(`[ingest] ${source.url}: ${items.length} items, ${recent.filter(i => i.link && !seen.has(i.link)).length} fresh within ${maxAgeDays}d`)
     const keywords: string[] = (source.keywords ?? []).map((k: string) => k.toLowerCase())
-    const matchesKeywords = (item: { title: string; contentSnippet?: string }) => {
+    const matchesKeywords = (text: string) => {
       if (keywords.length === 0) return true
-      const haystack = `${item.title} ${item.contentSnippet ?? ''}`.toLowerCase()
-      return keywords.some(k => haystack.includes(k))
+      return keywords.some(k => text.includes(k))
     }
-    const fresh = recent.filter(i => i.link && !seen.has(i.link) && matchesKeywords(i)).slice(0, 5)
+    const fresh = recent.filter(i => i.link && !seen.has(i.link)).slice(0, 15)
 
     for (const item of fresh) {
       try {
         // Prefer full article text over RSS snippet — RSS feeds only carry teasers
         const fetchedText = item.link ? await fetchArticleText(item.link) : null
         const articleText = fetchedText ?? item.contentSnippet ?? item.content ?? ''
+
+        // Keyword filter runs on full text (title + fetched body) so body-only mentions aren't missed
+        const keywordHaystack = `${item.title} ${articleText}`.toLowerCase()
+        if (!matchesKeywords(keywordHaystack)) {
+          console.log(`[ingest] skipping ${item.link}: no keyword match`)
+          continue
+        }
         console.log(`[ingest] article text length for ${item.link}: ${articleText.length} chars${fetchedText ? ' (fetched)' : ' (rss snippet)'}`)
 
         if (articleText.length < 200) {
