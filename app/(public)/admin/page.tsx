@@ -10,6 +10,8 @@ export default function AdminDashboard() {
   const [stats, setStats] = useState<{ articles: number; drafts: number; sources: number } | null>(null)
   const [monthlyRunning, setMonthlyRunning] = useState(false)
   const [quotesRunning, setQuotesRunning] = useState(false)
+  const [backfillRunning, setBackfillRunning] = useState(false)
+  const [backfillSlug, setBackfillSlug] = useState('')
   const [confirm, setConfirm] = useState<Confirm>(null)
   const [message, setMessage] = useState('')
   const [messageType, setMessageType] = useState<'ok' | 'error'>('ok')
@@ -52,6 +54,27 @@ export default function AdminDashboard() {
     )
     setMonthlyRunning(false)
     if (res.ok) fetch('/api/stats').then(r => r.json()).then(setStats)
+  }
+
+  async function backfillFacts() {
+    const slug = backfillSlug.trim()
+    if (!slug) return
+    setBackfillRunning(true)
+    flash('')
+    const res = await fetch('/api/admin/backfill-facts', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ slug }),
+    })
+    const data = await res.json()
+    flash(
+      res.ok
+        ? `Backfilled ${data.facts_saved} facts for "${slug}".`
+        : (data.error ?? data.message ?? 'Backfill failed.'),
+      res.ok ? 'ok' : 'error',
+    )
+    if (res.ok) setBackfillSlug('')
+    setBackfillRunning(false)
   }
 
   async function refreshQuotes() {
@@ -153,6 +176,29 @@ export default function AdminDashboard() {
               <Button variant="ghost" onClick={() => { setConfirm(null); flash('') }}>Cancel</Button>
             </div>
           )}
+        </div>
+
+        {/* Backfill facts */}
+        <div className="p-4 rounded-lg border" style={{ background: 'var(--surface)', borderColor: 'var(--border)' }}>
+          <p className="font-medium mb-0.5" style={{ color: 'var(--text)' }}>Backfill Fact Flow</p>
+          <p className="text-sm mb-3" style={{ color: 'var(--muted)' }}>
+            Re-fetch and extract facts from an article&apos;s source URL. Use for articles ingested before Fact Flow was enabled.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-2">
+            <input
+              type="text"
+              value={backfillSlug}
+              onChange={e => setBackfillSlug(e.target.value)}
+              placeholder="article-slug"
+              className="flex-1 text-sm px-3 py-2 rounded-md border"
+              style={{ background: 'var(--bg)', borderColor: 'var(--border)', color: 'var(--text)' }}
+              onKeyDown={e => { if (e.key === 'Enter') backfillFacts() }}
+              disabled={backfillRunning}
+            />
+            <Button variant="secondary" onClick={backfillFacts} disabled={backfillRunning || !backfillSlug.trim()} className="shrink-0">
+              {backfillRunning ? 'Extracting…' : 'Backfill facts'}
+            </Button>
+          </div>
         </div>
 
         {/* Market quotes */}
