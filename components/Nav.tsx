@@ -8,6 +8,7 @@ import { ReadingProgress } from '@/components/ReadingProgress'
 
 const NAV_LINKS = [
   { href: '/articles', label: 'All articles' },
+  { href: '/fact-flow', label: 'Fact Flow' },
   {
     href: '/intelligence', label: 'Intelligence', dropdown: [
       { href: '/intelligence/signals', label: 'Signals tracker' },

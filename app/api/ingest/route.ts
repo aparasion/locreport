@@ -6,6 +6,7 @@ import { slugify, uniqueSlug } from '@/lib/slugify'
 import { DEFAULT_EXTRACTOR_PROMPT, DEFAULT_INDUSTRY_PROMPT } from '@/lib/prompts'
 import { classifyArticle } from '@/lib/classify'
 import { extractTeaser } from '@/lib/utils'
+import { parseFacts } from '@/lib/facts'
 
 async function getPrompt(supabase: ReturnType<typeof createServiceClient>, key: string, fallback: string): Promise<string> {
   try {
@@ -167,6 +168,28 @@ export async function POST(req: NextRequest) {
           console.error(`[ingest] DB insert failed for ${item.link}:`, insertError)
           errors.push(`${item.link}: ${insertError.message}`)
         } else {
+          // Save extracted facts linked to the draft
+          const { data: draftRow } = await supabase
+            .from('drafts')
+            .select('id')
+            .eq('source_url', item.link)
+            .order('created_at', { ascending: false })
+            .limit(1)
+            .single()
+
+          const parsedFacts = parseFacts(facts)
+          if (parsedFacts.length > 0 && draftRow?.id) {
+            await supabase.from('facts').insert(
+              parsedFacts.map(f => ({
+                content: f.content,
+                category: f.category,
+                source_url: item.link,
+                source_name: source.name,
+                draft_id: draftRow.id,
+              }))
+            )
+          }
+
           seen.add(item.link)
           processed++
         }

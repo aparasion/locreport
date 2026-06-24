@@ -6,6 +6,7 @@ const BASE_URL = 'https://locreport.com'
 const STATIC_PAGES: MetadataRoute.Sitemap = [
   { url: BASE_URL, changeFrequency: 'daily', priority: 1.0 },
   { url: `${BASE_URL}/articles`, changeFrequency: 'daily', priority: 0.9 },
+  { url: `${BASE_URL}/fact-flow`, changeFrequency: 'daily', priority: 0.8 },
   { url: `${BASE_URL}/intelligence`, changeFrequency: 'daily', priority: 0.8 },
   { url: `${BASE_URL}/intelligence/signals`, changeFrequency: 'weekly', priority: 0.7 },
   { url: `${BASE_URL}/intelligence/high-impact`, changeFrequency: 'daily', priority: 0.7 },
