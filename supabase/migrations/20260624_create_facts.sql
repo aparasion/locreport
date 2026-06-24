@@ -12,3 +12,8 @@ CREATE TABLE IF NOT EXISTS facts (
 CREATE INDEX IF NOT EXISTS facts_created_at_idx ON facts(created_at DESC);
 CREATE INDEX IF NOT EXISTS facts_draft_id_idx ON facts(draft_id);
 CREATE INDEX IF NOT EXISTS facts_article_id_idx ON facts(article_id);
+
+ALTER TABLE facts ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "facts_public_read" ON facts
+  FOR SELECT USING (true);
