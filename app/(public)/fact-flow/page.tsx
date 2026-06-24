@@ -75,16 +75,16 @@ export default async function FactFlowPage() {
       <style>{`
         .ff-page { max-width: var(--content-width); margin: 0 auto; padding: var(--space-8) var(--page-gutter); }
 
-        .ff-hero { margin-bottom: var(--space-8); }
-        .ff-hero-eyebrow { display: flex; align-items: center; gap: var(--space-2); margin-bottom: var(--space-3); }
-        .ff-hero-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); animation: ff-pulse 2s ease-in-out infinite; }
+        .ff-hero { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); margin-bottom: var(--space-6); flex-wrap: wrap; }
+        .ff-hero-left { display: flex; align-items: center; gap: var(--space-3); }
+        .ff-hero-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); flex-shrink: 0; animation: ff-pulse 2s ease-in-out infinite; }
         @keyframes ff-pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(.8)} }
-        .ff-hero-label { font-size: 0.72rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
-        .ff-hero h1 { font-family: var(--font-display); font-size: clamp(1.75rem,4vw,2.5rem); font-weight: 700; letter-spacing: -.02em; color: var(--text); margin: 0 0 var(--space-3); }
-        .ff-hero-desc { font-size: 1rem; color: var(--muted); line-height: 1.6; max-width: 520px; margin: 0 0 var(--space-4); }
-        .ff-rss-link { display: inline-flex; align-items: center; gap: 6px; font-size: 0.8rem; font-weight: 600; color: var(--muted); text-decoration: none; padding: 6px 12px; border: 1px solid var(--border); border-radius: var(--radius-md); transition: all .15s; }
+        .ff-hero h1 { font-family: var(--font-display); font-size: 1.35rem; font-weight: 700; letter-spacing: -.02em; color: var(--text); margin: 0; }
+        .ff-hero-sep { width: 1px; height: 1.1em; background: var(--border); flex-shrink: 0; }
+        .ff-hero-desc { font-size: 0.85rem; color: var(--muted); margin: 0; }
+        .ff-rss-link { display: inline-flex; align-items: center; gap: 5px; font-size: 0.75rem; font-weight: 600; color: var(--muted); text-decoration: none; padding: 5px 11px; border: 1px solid var(--border); border-radius: var(--radius-md); transition: all .15s; white-space: nowrap; }
         .ff-rss-link:hover { color: var(--accent); border-color: var(--accent); background: var(--accent-soft); }
-        .ff-rss-icon { color: #E8773E; }
+        .ff-rss-icon { color: #E8773E; flex-shrink: 0; }
 
         .ff-day-group { margin-bottom: var(--space-8); }
         .ff-day-header { display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-4); }
@@ -113,12 +113,12 @@ export default async function FactFlowPage() {
 
       <div className="ff-page">
         <div className="ff-hero">
-          <div className="ff-hero-eyebrow">
-            <span className="ff-hero-dot" />
-            <span className="ff-hero-label">Live stream</span>
+          <div className="ff-hero-left">
+            <span className="ff-hero-dot" aria-hidden="true" />
+            <h1>Fact Flow</h1>
+            <span className="ff-hero-sep" aria-hidden="true" />
+            <p className="ff-hero-desc">Bare facts served real-time.</p>
           </div>
-          <h1>Fact Flow</h1>
-          <p className="ff-hero-desc">Bare facts served real-time.</p>
           <a href="/fact-flow/feed.xml" className="ff-rss-link">
             <svg className="ff-rss-icon" xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
               <circle cx="6.18" cy="17.82" r="2.18"/>
