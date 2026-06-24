@@ -83,7 +83,7 @@ export default async function FactFlowPage() {
         .ff-hero h1 { font-family: var(--font-display); font-size: 1.35rem; font-weight: 700; letter-spacing: -.02em; color: var(--text); margin: 0; }
         .ff-hero-sep { width: 1px; height: 1.1em; background: var(--border); flex-shrink: 0; }
         .ff-hero-desc { font-size: 0.85rem; color: var(--muted); margin: 0; }
-        .ff-rss-link { display: inline-flex; align-items: center; gap: 5px; font-size: 0.75rem; font-weight: 600; color: var(--muted); text-decoration: none; padding: 5px 11px; border: 1px solid var(--border); border-radius: var(--radius-md); transition: all .15s; white-space: nowrap; }
+        .ff-rss-link { display: inline-flex; align-items: center; gap: 5px; font-size: 0.78rem; font-weight: 600; color: var(--text); text-decoration: none; padding: 2px 4px; border: 1px solid var(--border); border-radius: 6px; background: var(--surface); transition: all .15s; white-space: nowrap; }
         .ff-rss-link:hover { color: var(--accent); border-color: var(--accent); background: var(--accent-soft); }
         .ff-rss-icon { color: #E8773E; flex-shrink: 0; }
 
