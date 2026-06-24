@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import Link from 'next/link'
 import type { Metadata } from 'next'
+import { ShareButton } from '@/components/ShareButton'
 
 export const revalidate = 3600
 
@@ -104,8 +105,12 @@ export default async function FactFlowPage() {
         .ff-content-link:hover { color: var(--accent); }
         .ff-bubble:has(.ff-content-link) { cursor: pointer; }
 
-        .ff-bubble-footer { display: flex; align-items: center; margin-top: var(--space-3); }
+        .ff-bubble-footer { display: flex; align-items: center; justify-content: space-between; margin-top: var(--space-3); gap: var(--space-3); }
         .ff-time { font-size: 0.7rem; color: var(--muted); }
+        .ff-bubble .social-share-dd__toggle { font-size: 0.72rem; padding: 3px 8px; gap: 4px; }
+        .ff-bubble .social-share-dd__icon { width: 12px; height: 12px; }
+        .ff-bubble .social-share-dd__chevron { width: 10px; height: 10px; }
+        .ff-bubble .social-share-dd__label { font-size: 0.72rem; }
 
         .ff-empty { text-align: center; padding: var(--space-16) 0; color: var(--muted); }
         .ff-empty h2 { font-family: var(--font-display); font-size: 1.25rem; color: var(--text); margin-bottom: var(--space-2); }
@@ -159,6 +164,12 @@ export default async function FactFlowPage() {
                         <time className="ff-time" dateTime={fact.created_at} title={formatDate(fact.created_at)}>
                           {timeAgo(fact.created_at)}
                         </time>
+                        {slug && (
+                          <ShareButton
+                            title={fact.content}
+                            url={`https://locreport.com/articles/${slug}`}
+                          />
+                        )}
                       </div>
                     </div>
                   )
