@@ -13,7 +13,6 @@ export const revalidate = 86400
 type Props = { params: Promise<{ slug: string[] }> }
 
 const IMPACT_LABEL: Record<number, string> = { 1: 'Routine', 2: 'Notable', 3: 'Significant', 4: 'Major', 5: 'Disruptive' }
-const TYPE_LABEL: Record<string, string> = { industry: 'Industry Analysis', 'monthly-summary': 'Monthly Report' }
 
 async function fetchArticle(slugParts: string[]) {
   const supabase = await createClient()
@@ -54,6 +53,8 @@ export default async function ArticlePage({ params }: Props) {
 
   // Strip leading H1 — title is already rendered in the page header
   let content = a.content.replace(/^#\s+[^\n]+\n?/, '')
+  // Strip leading blockquote (excerpt summary) that LLM includes at the top
+  content = content.replace(/^\s*>[^\n]*(\n>[^\n]*)*/m, '').trimStart()
 
   const rawHtml = marked.parse(content) as string
   // Add target/_blank + rel=noopener to all external links in rendered content
@@ -138,10 +139,6 @@ export default async function ArticlePage({ params }: Props) {
       </nav>
 
       <header className="post-header">
-        {a.article_type && (
-          <p className="post-eyebrow">{TYPE_LABEL[a.article_type] ?? a.article_type}</p>
-        )}
-
         <h1>{a.title}</h1>
 
         <div className="post-meta-row">
@@ -158,24 +155,7 @@ export default async function ArticlePage({ params }: Props) {
             <ShareButton title={a.title} url={articleUrl} />
           </div>
         </div>
-
-        {/* Signal context */}
-        {articleSignals.length > 0 && (
-          <p className="signal-context">
-            {articleSignals.map((s, i) => (
-              <span key={s.id}>
-                <Link href={`/intelligence/signals/${s.id}`}>{s.title}</Link>
-                {i < articleSignals.length - 1 ? ', ' : ''}
-              </span>
-            ))}
-          </p>
-        )}
-
       </header>
-
-      <div className="post-content-divider">
-        <span>Article</span>
-      </div>
 
       <div className="post-content" dangerouslySetInnerHTML={{ __html: html }} />
 
