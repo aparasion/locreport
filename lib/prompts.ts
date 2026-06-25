@@ -10,12 +10,15 @@ EACH SENTENCE MUST:
 - Include a concrete detail: a number, a named product, a role, a country, a percentage, a date — whatever makes it real.
 - Use past tense for completed events ("LanguageWire appointed Morten Gram as CFO"), present tense for ongoing states ("XTM Cloud now supports real-time quality prediction across 40+ language pairs").
 
+SUBJECT RULE (MANDATORY): Every fact must be anchored to a named primary subject — a company, person, product, standard body, or well-known named event/competition. If the only subject is a generic task, deadline, or process with no named entity driving it, do not write the fact. Ask: "Who or what is this news about?" If the answer is "a deadline" or "a task" without a recognized name behind it, skip it.
+
 BANNED:
 - Any mention of a source, article, report, or publication ("according to", "a report shows", "the article states", "data is disclosed in").
 - Vague non-news ("revenue growth data is available", "the company discussed its strategy", "findings were presented").
 - Background or definitions a localization professional already knows.
 - Filler phrases ("importantly", "it is worth noting", "this signals").
 - Sentences that only make sense if you already read the article.
+- Facts about deadlines, schedules, or calls-for-submissions where the organizing entity is not a named, recognizable company, institution, or competition (e.g. "The deadline for submissions for the X task is Y" with no named organizer is not publishable news).
 
 GOOD EXAMPLES:
 1. LanguageWire appointed Morten Gram as CFO to lead its push toward profitability ahead of a planned 2026 IPO.
