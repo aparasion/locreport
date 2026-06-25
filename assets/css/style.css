@@ -6115,9 +6115,10 @@ article.page > h1 {
 .pcfg-pairs-list { display: flex; flex-direction: column; gap: 0; }
 .pcfg-pair-row { display: grid; grid-template-columns: 1fr auto 1fr 120px auto; gap: var(--space-2); align-items: center; padding: var(--space-2) 0; border-bottom: 1px solid var(--border); }
 .pcfg-arrow { color: var(--muted); font-size: 0.9rem; text-align: center; }
-.pcfg-select { padding: 5px 8px; border: 1px solid var(--border); border-radius: 6px; background: var(--bg); color: var(--text); font-size: 0.82rem; font-family: inherit; width: 100%; outline: none; cursor: pointer; }
-.pcfg-select:focus { border-color: var(--accent); }
-.pcfg-words { padding: 5px 8px; border: 1px solid var(--border); border-radius: 6px; background: var(--bg); color: var(--text); font-size: 0.82rem; font-family: inherit; width: 100%; outline: none; text-align: right; }
+.pcfg-select { padding: 5px 8px; border: 1px solid var(--hairline); border-radius: 6px; background: var(--bg-secondary); color: var(--text); font-size: 0.82rem; font-family: inherit; width: 100%; outline: none; cursor: pointer; }
+.pcfg-select:focus { border-color: var(--accent); background: var(--bg); }
+.pcfg-words { padding: 5px 8px; border: 1px solid var(--hairline); border-radius: 6px; background: var(--bg-secondary); color: var(--text); font-size: 0.82rem; font-family: inherit; width: 100%; outline: none; text-align: right; }
+.pcfg-words:focus { border-color: var(--accent); background: var(--bg); }
 .pcfg-words:focus { border-color: var(--accent); }
 .pcfg-remove-btn { background: none; border: none; cursor: pointer; color: var(--muted); padding: 2px 6px; border-radius: 4px; transition: color 0.15s; }
 .pcfg-remove-btn:hover { color: #ef4444; }
@@ -6397,9 +6398,12 @@ kbd, code {
 .dir-search, .dir-sort, .pcfg-select, .pcfg-words {
   border-radius: var(--radius-md);
   font-family: var(--font-ui);
+  background: var(--bg-secondary);
+  border-color: var(--hairline);
 }
 .dir-search:focus, .dir-sort:focus, .pcfg-select:focus, .pcfg-words:focus {
   border-color: var(--accent);
+  background: var(--bg);
   box-shadow: 0 0 0 3px var(--accent-soft);
 }
 
