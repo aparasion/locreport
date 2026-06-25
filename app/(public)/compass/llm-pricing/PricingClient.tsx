@@ -223,7 +223,7 @@ export function PricingClient({ models }: Props) {
 
       <div className="pricing-results-section">
         <div className="pricing-results-header">
-          <span className="pricing-results-label">{results.length} models shown</span>
+          <span className="pricing-results-label">{results.length} models</span>
           <button className="pricing-sort-toggle" onClick={() => setSortAsc(v => !v)}>
             {sortAsc ? '↑ Cheapest first' : '↓ Most expensive first'}
           </button>
@@ -233,38 +233,26 @@ export function PricingClient({ models }: Props) {
             Add language pairs with word volumes to see cost estimates.
           </p>
         ) : (
-          <div className="pricing-results-grid">
-            {results.map(m => {
+          <div className="pricing-results-list">
+            <div className="pricing-list-header">
+              <span className="pricing-list-col-rank">#</span>
+              <span className="pricing-list-col-name">Model</span>
+              <span className="pricing-list-col-cost">Est. cost/mo</span>
+              <span className="pricing-list-col-rates">Input · Output / 1M tok</span>
+              <span className="pricing-list-col-ctx">Context</span>
+            </div>
+            {results.map((m, i) => {
               const colors = PROVIDER_COLORS[m.provider] ?? { bg: 'var(--warm-soft)', text: 'var(--warm-strong)' }
               return (
-                <div key={m.id} className="pricing-model-card">
-                  <div className="pricing-model-header">
-                    <span className="pricing-model-name">{m.name}</span>
+                <div key={m.id} className="pricing-list-row">
+                  <span className="pricing-list-rank">{i + 1}</span>
+                  <span className="pricing-list-name">
+                    <span className="pricing-list-model">{m.name}</span>
                     <span className="pricing-provider-chip" style={{ background: colors.bg, color: colors.text }}>{m.provider}</span>
-                  </div>
-                  <div>
-                    <div className="pricing-cost">${m.monthlyCost.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
-                    <div className="pricing-cost-label">estimated/month</div>
-                  </div>
-                  <div className="pricing-meta">
-                    <div className="pricing-meta-item">
-                      <span className="pricing-meta-label">Input</span>
-                      <span className="pricing-meta-value">${m.input}/1M</span>
-                    </div>
-                    <div className="pricing-meta-item">
-                      <span className="pricing-meta-label">Output</span>
-                      <span className="pricing-meta-value">${m.output}/1M</span>
-                    </div>
-                    <div className="pricing-meta-item">
-                      <span className="pricing-meta-label">Context</span>
-                      <span className="pricing-meta-value">{formatCtx(m.context)}</span>
-                    </div>
-                    <div className="pricing-meta-item">
-                      <span className="pricing-meta-label">API calls</span>
-                      <span className="pricing-meta-value">{m.totalCalls.toLocaleString()}</span>
-                    </div>
-                  </div>
-                  <p className="pricing-notes">{m.notes}</p>
+                  </span>
+                  <span className="pricing-list-cost">${m.monthlyCost.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+                  <span className="pricing-list-rates">${m.input} · ${m.output}</span>
+                  <span className="pricing-list-ctx">{formatCtx(m.context)}</span>
                 </div>
               )
             })}
