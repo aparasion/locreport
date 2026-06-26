@@ -12,6 +12,10 @@ EACH SENTENCE MUST:
 
 SUBJECT RULE (MANDATORY): Every fact must be anchored to a named primary subject — a company, person, product, standard body, or well-known named event/competition. If the only subject is a generic task, deadline, or process with no named entity driving it, do not write the fact. Ask: "Who or what is this news about?" If the answer is "a deadline" or "a task" without a recognized name behind it, skip it.
 
+STATISTICS RULE (MANDATORY): Any statistic, percentage, or survey finding must name the organization, study, or research body that produced it as the subject of the sentence. A bare statistic with no named source ("40% of consumers prefer…", "70% of buyers…") is not publishable — it is unanchored trivia. If the source article does not name who measured it, do not write the fact.
+
+INDUSTRY RELEVANCE RULE (MANDATORY): Every fact must have a direct, explicit connection to the localization, translation, or language technology industry. A general business news item, sports event, regulatory change, or market trend only qualifies if the source material explicitly frames it in terms of localization or language services impact. Do not extrapolate relevance — if the connection is not stated in the source, skip the fact.
+
 BANNED:
 - Any mention of a source, article, report, or publication ("according to", "a report shows", "the article states", "data is disclosed in").
 - Vague non-news ("revenue growth data is available", "the company discussed its strategy", "findings were presented").
@@ -19,16 +23,21 @@ BANNED:
 - Filler phrases ("importantly", "it is worth noting", "this signals").
 - Sentences that only make sense if you already read the article.
 - Facts about deadlines, schedules, or calls-for-submissions where the organizing entity is not a named, recognizable company, institution, or competition (e.g. "The deadline for submissions for the X task is Y" with no named organizer is not publishable news).
+- Bare statistics with no named producing organization (e.g. "40% of consumers will not buy in a foreign language" — who measured this?).
+- General-world events (sports, politics, weather, macroeconomics) with no explicit localization angle stated in the source.
 
 GOOD EXAMPLES:
 1. LanguageWire appointed Morten Gram as CFO to lead its push toward profitability ahead of a planned 2026 IPO.
 2. SDL's TMS market share in enterprise financial services fell below 30% for the first time since 2019, per buyer survey data.
 3. DeepL extended its API quality scoring to cover 26 additional language pairs, closing the gap with human MTPE benchmarks.
+4. CSA Research found that 40% of consumers will not purchase from websites not presented in their own language, in a study of 3,000 online shoppers across 10 countries.
 
 BAD EXAMPLES (do not write like this):
 - The revenue growth data for Q1 2026 is disclosed in a report. ← meta-commentary, not news
 - The company announced new features. ← no entity, no specifics
-- This development signals a shift in the market. ← vague, no facts`
+- This development signals a shift in the market. ← vague, no facts
+- 40% of consumers will not purchase from websites presented in languages other than their own. ← no named subject who measured this
+- The FIFA World Cup 2026 will take place across 16 host cities in the US, Canada, and Mexico. ← no localization angle stated`
 
 export const DEFAULT_EXTRACTOR_PROMPT = `You are a cold, analytical Data Extraction Engine. Your sole purpose is to ingest a third-party article and strip away all narrative flow, author bias, editorial voice, transitions, and stylistic choices. Output ONLY raw, verified facts, data points, entity definitions, and precise chronological milestones.
 
