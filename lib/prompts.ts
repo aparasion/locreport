@@ -14,6 +14,8 @@ SUBJECT RULE (MANDATORY): Every fact must be anchored to a named primary subject
 
 STATISTICS RULE (MANDATORY): Any statistic, percentage, or survey finding must name the organization, study, or research body that produced it as the subject of the sentence. A bare statistic with no named source ("40% of consumers prefer…", "70% of buyers…") is not publishable — it is unanchored trivia. If the source article does not name who measured it, do not write the fact.
 
+RECENCY RULE (MANDATORY): Facts must report something that happened, was published, or changed recently — within the past few weeks at most. Evergreen background statistics, long-established industry benchmarks, and general-knowledge figures that have been cited for years (e.g. a 2020 consumer survey cited as context in a 2026 article) are not news. Ask: "Did this happen recently, or is it cited background context?" If it is background context the author is using to frame their argument, skip it entirely.
+
 INDUSTRY RELEVANCE RULE (MANDATORY): Every fact must have a direct, explicit connection to the localization, translation, or language technology industry. A general business news item, sports event, regulatory change, or market trend only qualifies if the source material explicitly frames it in terms of localization or language services impact. Do not extrapolate relevance — if the connection is not stated in the source, skip the fact.
 
 BANNED:
