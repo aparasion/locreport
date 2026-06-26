@@ -8,16 +8,21 @@ interface Props {
 }
 
 const CATEGORIES = [
-  { value: 'all',            label: 'All' },
-  { value: 'tms',            label: 'TMS' },
-  { value: 'cat',            label: 'CAT Tools' },
-  { value: 'ai-mt',          label: 'AI / MT' },
-  { value: 'lsp',            label: 'LSPs' },
-  { value: 'av-localization',label: 'AV Localization' },
-  { value: 'interpreting',   label: 'Interpreting' },
-  { value: 'terminology',    label: 'Terminology' },
-  { value: 'research',       label: 'Research' },
-  { value: 'community',      label: 'Community' },
+  { value: 'all',              label: 'All' },
+  { value: 'tms',              label: 'TMS' },
+  { value: 'cat',              label: 'CAT Tools' },
+  { value: 'ai-mt',            label: 'AI / MT' },
+  { value: 'lsp',              label: 'LSPs' },
+  { value: 'av-localization',  label: 'AV Localization' },
+  { value: 'interpreting',     label: 'Interpreting' },
+  { value: 'voice-ai',         label: 'Voice AI' },
+  { value: 'data-ai',          label: 'Data & AI' },
+  { value: 'terminology',      label: 'Terminology' },
+  { value: 'transcription',    label: 'Transcription' },
+  { value: 'live-communication', label: 'Live Comms' },
+  { value: 'ai-sign',          label: 'Sign Language AI' },
+  { value: 'research',         label: 'Research' },
+  { value: 'community',        label: 'Community' },
 ]
 
 const SORT_OPTIONS = [
@@ -30,7 +35,10 @@ const SORT_OPTIONS = [
 const CAT_DISPLAY: Record<string, string> = {
   tms: 'TMS', cat: 'CAT', 'ai-mt': 'AI/MT', lsp: 'LSP',
   'av-localization': 'AV', interpreting: 'Interpreting',
-  terminology: 'Terminology', research: 'Research', community: 'Community',
+  'voice-ai': 'Voice AI', 'data-ai': 'Data & AI',
+  terminology: 'Terminology', transcription: 'Transcription',
+  'live-communication': 'Live Comms', 'ai-sign': 'Sign AI',
+  research: 'Research', community: 'Community',
 }
 
 function CardLogo({ entry }: { entry: DirectoryEntry }) {
