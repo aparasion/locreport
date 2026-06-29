@@ -1,6 +1,25 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createServiceClient } from '@/lib/supabase/server'
+import { createClient, createServiceClient } from '@/lib/supabase/server'
 import { slugify, uniqueSlug } from '@/lib/slugify'
+
+export async function GET(req: NextRequest) {
+  const slug = req.nextUrl.searchParams.get('slug')
+  if (!slug) return NextResponse.json({ error: 'slug param required' }, { status: 400 })
+
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+
+  const svc = createServiceClient()
+  const { data, error } = await svc
+    .from('articles')
+    .select('id, slug, title')
+    .eq('slug', slug)
+    .single()
+
+  if (error || !data) return NextResponse.json({ error: 'Not found' }, { status: 404 })
+  return NextResponse.json(data)
+}
 
 export async function POST(req: NextRequest) {
   const { content } = await req.json()
