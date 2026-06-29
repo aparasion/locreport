@@ -247,8 +247,149 @@ function FactRow({ fact, onDeleted, onSaved, onLinked }: {
   )
 }
 
+function AddFactForm({ onAdded }: { onAdded: (fact: Fact) => void }) {
+  const [open, setOpen] = useState(false)
+  const [content, setContent] = useState('')
+  const [slug, setSlug] = useState('')
+  const [sourceUrl, setSourceUrl] = useState('')
+  const [busy, setBusy] = useState(false)
+  const [error, setError] = useState('')
+
+  async function submit(e: React.FormEvent) {
+    e.preventDefault()
+    if (!content.trim()) return
+    setBusy(true)
+    setError('')
+    const res = await fetch('/api/facts', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ content: content.trim(), slug: slug.trim() || null, source_url: sourceUrl.trim() || null }),
+    })
+    setBusy(false)
+    if (!res.ok) {
+      const d = await res.json().catch(() => ({}))
+      setError(d.error ?? 'Failed to add fact')
+      return
+    }
+    const newFact: Fact = await res.json()
+    // Attach the slug so it renders correctly in the list
+    if (slug.trim()) newFact.articles = [{ slug: slug.trim() }]
+    onAdded(newFact)
+    setContent('')
+    setSlug('')
+    setSourceUrl('')
+    setOpen(false)
+  }
+
+  if (!open) {
+    return (
+      <button
+        onClick={() => setOpen(true)}
+        style={{
+          fontSize: '0.82rem', padding: '6px 14px', borderRadius: 'var(--radius-md)',
+          background: 'var(--accent)', color: '#fff', border: 'none', cursor: 'pointer',
+          fontFamily: 'var(--font-body)',
+        }}
+      >
+        + Add fact
+      </button>
+    )
+  }
+
+  return (
+    <form
+      onSubmit={submit}
+      style={{
+        marginBottom: 'var(--space-6)', padding: 'var(--space-4)',
+        borderRadius: 'var(--radius-lg)', border: '1px solid var(--border)',
+        background: 'var(--bg-secondary)', display: 'flex', flexDirection: 'column', gap: 'var(--space-3)',
+      }}
+    >
+      <p style={{ margin: 0, fontSize: '0.85rem', fontWeight: 600, color: 'var(--text)' }}>New fact</p>
+
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+        <label style={{ fontSize: '0.75rem', color: 'var(--muted)' }}>Content</label>
+        <textarea
+          value={content}
+          onChange={e => setContent(e.target.value)}
+          rows={3}
+          placeholder="Self-contained news sentence…"
+          required
+          style={{
+            padding: 'var(--space-2) var(--space-3)', borderRadius: 'var(--radius-md)',
+            border: '1px solid var(--border)', background: 'var(--bg)', color: 'var(--text)',
+            fontSize: '0.9rem', lineHeight: 1.5, resize: 'vertical', fontFamily: 'var(--font-body)',
+          }}
+        />
+      </div>
+
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--space-3)' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+          <label style={{ fontSize: '0.75rem', color: 'var(--muted)' }}>Article slug (optional)</label>
+          <input
+            type="text"
+            value={slug}
+            onChange={e => setSlug(e.target.value)}
+            placeholder="my-article-slug"
+            style={{
+              padding: '6px 10px', borderRadius: 'var(--radius-md)',
+              border: '1px solid var(--border)', background: 'var(--bg)', color: 'var(--text)',
+              fontSize: '0.82rem', fontFamily: 'var(--font-mono)',
+            }}
+          />
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+          <label style={{ fontSize: '0.75rem', color: 'var(--muted)' }}>Source URL (optional)</label>
+          <input
+            type="url"
+            value={sourceUrl}
+            onChange={e => setSourceUrl(e.target.value)}
+            placeholder="https://…"
+            style={{
+              padding: '6px 10px', borderRadius: 'var(--radius-md)',
+              border: '1px solid var(--border)', background: 'var(--bg)', color: 'var(--text)',
+              fontSize: '0.82rem', fontFamily: 'var(--font-body)',
+            }}
+          />
+        </div>
+      </div>
+
+      {error && <p style={{ fontSize: '0.75rem', color: '#dc2626', margin: 0 }}>{error}</p>}
+
+      <div style={{ display: 'flex', gap: 'var(--space-2)' }}>
+        <button
+          type="submit"
+          disabled={busy || !content.trim()}
+          style={{
+            fontSize: '0.82rem', padding: '6px 14px', borderRadius: 'var(--radius-md)',
+            background: 'var(--accent)', color: '#fff', border: 'none', cursor: 'pointer',
+            opacity: (busy || !content.trim()) ? 0.6 : 1,
+          }}
+        >
+          {busy ? 'Adding…' : 'Add fact'}
+        </button>
+        <button
+          type="button"
+          onClick={() => { setOpen(false); setContent(''); setSlug(''); setSourceUrl(''); setError('') }}
+          disabled={busy}
+          style={{
+            fontSize: '0.82rem', padding: '6px 14px', borderRadius: 'var(--radius-md)',
+            background: 'var(--bg)', color: 'var(--muted)', border: '1px solid var(--border)', cursor: 'pointer',
+          }}
+        >
+          Cancel
+        </button>
+      </div>
+    </form>
+  )
+}
+
 export function FactFlowAdmin({ initialFacts }: { initialFacts: Fact[] }) {
   const [facts, setFacts] = useState(initialFacts)
+
+  function handleAdded(fact: Fact) {
+    setFacts(f => [fact, ...f])
+  }
 
   function handleDeleted(id: string) {
     setFacts(f => f.filter(x => x.id !== id))
@@ -264,9 +405,13 @@ export function FactFlowAdmin({ initialFacts }: { initialFacts: Fact[] }) {
 
   return (
     <div>
-      <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 'var(--space-6)' }}>
+      <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 'var(--space-4)' }}>
         <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '1.4rem', fontWeight: 700, color: 'var(--text)', margin: 0 }}>Fact Flow</h1>
         <span style={{ fontSize: '0.8rem', color: 'var(--muted)' }}>{facts.length} facts</span>
+      </div>
+
+      <div style={{ maxWidth: 760, marginBottom: 'var(--space-4)' }}>
+        <AddFactForm onAdded={handleAdded} />
       </div>
 
       {facts.length === 0 ? (
