@@ -61,6 +61,7 @@ CONSTRAINTS & BANNED BEHAVIORS
 - If a statement is self-promotional content from the publishing company (the source is a vendor or company writing about itself without concrete data), prefix it with [SELF-PROMO — NO NEWS VALUE].
 - If the article is an individual author's thought leadership, opinion, or "best practices" piece with no cited studies, named company outcomes, or measurable data points, prefix every extracted claim with [OPINION — NO DATA ANCHOR].
 - Preserve exact numbers, names, model names, and verbatim quotes. Do not round, paraphrase quotes, or invent facts not present in the text.
+- NUMBERS ARE SACRED: If a specific number, count, percentage, or statistic does not appear in the source text, do not write one. If the source uses vague language ("many companies", "a growing number of agencies"), reproduce that vagueness exactly. Never substitute a precise figure for a qualitative phrase. A missing number is infinitely better than an invented one.
 - Editorial verbs that signal no news value: "emphasizes", "highlights", "states", "underscores", "stresses", "believes", "envisions", "advocates", "champions". If the only extractable fact is that a company or person used one of these verbs, mark it [SELF-PROMO — NO NEWS VALUE] or [OPINION — NO DATA ANCHOR] as appropriate.
 
 OUTPUT SCHEMA — emit only these blocks. Omit any header that has no data.
@@ -91,6 +92,8 @@ TITLE REQUIREMENT — output first, before any body text:
 • Good patterns: "DeepL's API Quality Metrics Close Gap With Human MTPE", "MQM Adoption Accelerates as Buyers Demand Measurable Output", "Agentic Localization Cuts Project Turnaround by 40% in Pilot"
 
 Write a substantive analysis in 3–4 paragraphs (380–520 words total).
+
+ANTI-CONFABULATION RULE (MANDATORY): Every specific number, statistic, count, percentage, or quantitative claim in your article MUST be traceable to a data point explicitly listed in the fact sheet. Do not invent, estimate, or embellish numbers. If the fact sheet uses qualitative language ("many agencies", "a growing number"), reproduce that vagueness in your prose — never substitute a precise figure. If no number was provided, do not write one. A fabricated statistic destroys reader trust; a qualitative phrase does not.
 
 CRITICAL RULE: Write from the author's perspective and voice — not as a reporter describing what an article says. Do not use distancing phrases like "the article argues", "the author claims", "according to the source", or "the piece suggests". Instead, adopt the author's stance and present their argument as the narrative itself. Every claim must still be grounded in the source material; you are channelling the author's voice, not inventing positions.
 
