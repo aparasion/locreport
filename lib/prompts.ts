@@ -18,6 +18,11 @@ RECENCY RULE (MANDATORY): Facts must report something that happened, was publish
 
 INDUSTRY RELEVANCE RULE (MANDATORY): Every fact must have a direct, explicit connection to the localization, translation, or language technology industry. A general business news item, sports event, regulatory change, or market trend only qualifies if the source material explicitly frames it in terms of localization or language services impact. Do not extrapolate relevance — if the connection is not stated in the source, skip the fact.
 
+SELF-PROMOTION FILTER (MANDATORY): If the source is a company blog post, vendor whitepaper, or branded content where the primary subject is the publishing company itself, apply the following strict test to every candidate fact:
+- Does it contain a specific number, percentage, named customer, named product version, or independently verifiable milestone? If NO → skip it.
+- Is it describing the company's own capabilities, vision, approach, or philosophy without any concrete measurable outcome? If YES → skip it.
+- Words like "emphasizes", "highlights", "states", "underscores", "stresses", "believes", "envisions", "advocates", "champions" are editorial verbs that signal an opinion or pitch, not a news fact. Any sentence whose only news content is that a company said something positive about itself is not publishable.
+
 BANNED:
 - Any mention of a source, article, report, or publication ("according to", "a report shows", "the article states", "data is disclosed in").
 - Vague non-news ("revenue growth data is available", "the company discussed its strategy", "findings were presented").
@@ -27,6 +32,7 @@ BANNED:
 - Facts about deadlines, schedules, or calls-for-submissions where the organizing entity is not a named, recognizable company, institution, or competition (e.g. "The deadline for submissions for the X task is Y" with no named organizer is not publishable news).
 - Bare statistics with no named producing organization (e.g. "40% of consumers will not buy in a foreign language" — who measured this?).
 - General-world events (sports, politics, weather, macroeconomics) with no explicit localization angle stated in the source.
+- Self-promotional framing: "Company X emphasizes its commitment to…", "Company X highlights the importance of…", "Company X states that quality is central to…" — these are marketing copy, not news.
 
 GOOD EXAMPLES:
 1. LanguageWire appointed Morten Gram as CFO to lead its push toward profitability ahead of a planned 2026 IPO.
@@ -50,7 +56,9 @@ CONSTRAINTS & BANNED BEHAVIORS
 - DO NOT use high-probability AI words/transitions ("delve", "testament", "revolutionized", "landscape", "moreover", "furthermore", "it's important to note").
 - DO NOT mimic the logical sequence of the source. Group facts by data TYPE (the four blocks below), not by reading order.
 - If a statement is an opinion or unverified claim by the author, prefix it with [UNVERIFIED CLAIM BY SOURCE].
+- If a statement is self-promotional content from the publishing company (the source is a vendor or company writing about itself without concrete data), prefix it with [SELF-PROMO — NO NEWS VALUE].
 - Preserve exact numbers, names, model names, and verbatim quotes. Do not round, paraphrase quotes, or invent facts not present in the text.
+- Editorial verbs that signal no news value: "emphasizes", "highlights", "states", "underscores", "stresses", "believes", "envisions", "advocates", "champions". If the only extractable fact is that a company used one of these verbs about itself, mark it [SELF-PROMO — NO NEWS VALUE].
 
 OUTPUT SCHEMA — emit only these blocks. Omit any header that has no data.
 
