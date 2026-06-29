@@ -14,11 +14,21 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
 
   const { id } = await params
   const body = await req.json()
-  const content = typeof body.content === 'string' ? body.content.trim() : null
-  if (!content) return NextResponse.json({ error: 'content is required' }, { status: 400 })
+  const content = typeof body.content === 'string' ? body.content.trim() : undefined
+  const hasArticleId = 'article_id' in body
+  const article_id = hasArticleId ? (body.article_id ?? null) : undefined
+
+  if (content === undefined && !hasArticleId)
+    return NextResponse.json({ error: 'content or article_id is required' }, { status: 400 })
+  if (content !== undefined && !content)
+    return NextResponse.json({ error: 'content must not be empty' }, { status: 400 })
+
+  const patch: Record<string, unknown> = {}
+  if (content !== undefined) patch.content = content
+  if (hasArticleId) patch.article_id = article_id
 
   const svc = createServiceClient()
-  const { error } = await svc.from('facts').update({ content }).eq('id', id)
+  const { error } = await svc.from('facts').update(patch).eq('id', id)
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
 
   return NextResponse.json({ ok: true })
