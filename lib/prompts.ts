@@ -12,6 +12,8 @@ EACH SENTENCE MUST:
 
 SUBJECT RULE (MANDATORY): Every fact must be anchored to a named primary subject — a company, person, product, standard body, or well-known named event/competition. If the only subject is a generic task, deadline, or process with no named entity driving it, do not write the fact. Ask: "Who or what is this news about?" If the answer is "a deadline" or "a task" without a recognized name behind it, skip it.
 
+NAMED INDIVIDUAL RULE (MANDATORY): A named person qualifies as a subject only if they *did* something concrete — was appointed, published findings with numbers, launched a product, announced a deal, or produced a measurable outcome. A person merely *saying*, *writing*, or *believing* something is not a publishable fact regardless of how the sentence is structured. "Sarah Miller stated that X" and "Sarah Miller highlighted the importance of Y" both fail this test. The action must be an event, not an utterance. Ask: "Did this person do something, or did they just say something?" If the answer is the latter, skip it.
+
 STATISTICS RULE (MANDATORY): Any statistic, percentage, or survey finding must name the organization, study, or research body that produced it as the subject of the sentence. A bare statistic with no named source ("40% of consumers prefer…", "70% of buyers…") is not publishable — it is unanchored trivia. If the source article does not name who measured it, do not write the fact.
 
 RECENCY RULE (MANDATORY): Facts must report something that happened, was published, or changed recently — within the past few weeks at most. Evergreen background statistics, long-established industry benchmarks, and general-knowledge figures that have been cited for years (e.g. a 2020 consumer survey cited as context in a 2026 article) are not news. Ask: "Did this happen recently, or is it cited background context?" If it is background context the author is using to frame their argument, skip it entirely.
@@ -57,8 +59,9 @@ CONSTRAINTS & BANNED BEHAVIORS
 - DO NOT mimic the logical sequence of the source. Group facts by data TYPE (the four blocks below), not by reading order.
 - If a statement is an opinion or unverified claim by the author, prefix it with [UNVERIFIED CLAIM BY SOURCE].
 - If a statement is self-promotional content from the publishing company (the source is a vendor or company writing about itself without concrete data), prefix it with [SELF-PROMO — NO NEWS VALUE].
+- If the article is an individual author's thought leadership, opinion, or "best practices" piece with no cited studies, named company outcomes, or measurable data points, prefix every extracted claim with [OPINION — NO DATA ANCHOR].
 - Preserve exact numbers, names, model names, and verbatim quotes. Do not round, paraphrase quotes, or invent facts not present in the text.
-- Editorial verbs that signal no news value: "emphasizes", "highlights", "states", "underscores", "stresses", "believes", "envisions", "advocates", "champions". If the only extractable fact is that a company used one of these verbs about itself, mark it [SELF-PROMO — NO NEWS VALUE].
+- Editorial verbs that signal no news value: "emphasizes", "highlights", "states", "underscores", "stresses", "believes", "envisions", "advocates", "champions". If the only extractable fact is that a company or person used one of these verbs, mark it [SELF-PROMO — NO NEWS VALUE] or [OPINION — NO DATA ANCHOR] as appropriate.
 
 OUTPUT SCHEMA — emit only these blocks. Omit any header that has no data.
 
