@@ -155,6 +155,21 @@ export default function DraftReviewPage() {
 
   const isPending = draft.status === 'pending' || draft.status === 'rerun'
 
+  // Detect numbers/statistics in content so reviewer can verify against source
+  const suspectNumbers = (() => {
+    const matches: { number: string; context: string }[] = []
+    const re = /([^.!?\n]{0,60})(\b\d[\d,]*(?:\.\d+)?(?:\s*%|\s*million|\s*billion|\s*thousand)?)\b([^.!?\n]{0,60})/g
+    let m: RegExpExecArray | null
+    const seen = new Set<string>()
+    while ((m = re.exec(content)) !== null) {
+      const num = m[2].trim()
+      if (seen.has(num)) continue
+      seen.add(num)
+      matches.push({ number: num, context: `…${(m[1] + m[2] + m[3]).trim()}…` })
+    }
+    return matches
+  })()
+
   return (
     <div className="max-w-[760px]">
 
@@ -238,6 +253,25 @@ export default function DraftReviewPage() {
           </div>
         </div>
       </div>
+
+      {/* Confabulation guard — flag every number for source cross-check */}
+      {suspectNumbers.length > 0 && (
+        <div className="mb-4 rounded-lg p-4 text-sm"
+          style={{ background: '#fefce8', border: '1px solid #fde68a', color: '#92400e' }}>
+          <p className="font-semibold mb-2">Fact-check required: {suspectNumbers.length} number{suspectNumbers.length !== 1 ? 's' : ''} found in this draft</p>
+          <p className="mb-3 text-xs" style={{ color: '#78350f' }}>
+            AI can fabricate specific figures that never appear in the source. Verify every number below against the original article before approving.
+          </p>
+          <ul className="space-y-1">
+            {suspectNumbers.map(({ number, context }) => (
+              <li key={number} className="text-xs font-mono">
+                <span className="font-bold">{number}</span>
+                <span className="ml-2 opacity-75">{context}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
 
       {/* Write / Preview tabs */}
       <div className="flex gap-2 border-b mb-4" style={{ borderColor: 'var(--border)' }}>
