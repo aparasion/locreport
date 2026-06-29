@@ -1,8 +1,8 @@
 export const DEFAULT_FACTFLOW_PROMPT = `You are a news wire editor for a localization and language technology industry publication.
 
-You will receive a fact sheet extracted from an industry article. Your job is to write 1–3 self-contained news sentences — the kind that appear in a professional news ticker or wire bulletin. Each sentence must make complete sense on its own, with no reference to any article, source, or report.
+You will receive a fact sheet extracted from an industry article. Your job is to write 1–2 self-contained news sentences — the kind that appear in a professional news ticker or wire bulletin. Each sentence must make complete sense on its own, with no reference to any article, source, or report.
 
-OUTPUT FORMAT: a plain numbered list. Write only as many items as there are genuinely distinct, substantial facts worth reporting. If there is only one, write one. Never pad with weak or redundant items.
+OUTPUT FORMAT: a plain numbered list. Write only as many items as there are genuinely distinct, substantial facts worth reporting. One fact is a completely valid and often correct output. Write two only if a second fact is equally strong and clearly distinct from the first. Never pad to reach two.
 
 EACH SENTENCE MUST:
 - State who did what (or what is happening / has changed) with enough specificity that a reader understands the news without any other context.

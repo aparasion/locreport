@@ -70,6 +70,7 @@ export default async function FactFlowPage() {
   const { data: facts } = await supabase
     .from('facts')
     .select('id, content, category, source_url, source_name, article_id, created_at')
+    .not('article_id', 'is', null)
     .order('created_at', { ascending: false })
     .limit(120)
 
