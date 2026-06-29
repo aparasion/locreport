@@ -10,7 +10,7 @@ type Fact = {
   source_url: string | null
   article_id: string | null
   created_at: string
-  articles: { slug: string } | null
+  articles: { slug: string }[] | null
 }
 
 function timeAgo(iso: string): string {
@@ -32,7 +32,7 @@ function FactRow({ fact, onDeleted, onSaved, onLinked }: {
   const [editing, setEditing] = useState(false)
   const [draft, setDraft] = useState(fact.content)
   const [linkingArticle, setLinkingArticle] = useState(false)
-  const [slugInput, setSlugInput] = useState(fact.articles?.slug ?? '')
+  const [slugInput, setSlugInput] = useState(fact.articles?.[0]?.slug ?? '')
   const [confirming, setConfirming] = useState(false)
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState('')
@@ -96,7 +96,7 @@ function FactRow({ fact, onDeleted, onSaved, onLinked }: {
     onDeleted(fact.id)
   }
 
-  const articleSlug = fact.articles?.slug ?? null
+  const articleSlug = fact.articles?.[0]?.slug ?? null
 
   return (
     <div style={{ borderBottom: '1px solid var(--border)', padding: 'var(--space-4) 0' }}>
@@ -259,7 +259,7 @@ export function FactFlowAdmin({ initialFacts }: { initialFacts: Fact[] }) {
   }
 
   function handleLinked(id: string, article_id: string | null, slug: string | null) {
-    setFacts(f => f.map(x => x.id === id ? { ...x, article_id, articles: slug ? { slug } : null } : x))
+    setFacts(f => f.map(x => x.id === id ? { ...x, article_id, articles: slug ? [{ slug }] : null } : x))
   }
 
   return (
