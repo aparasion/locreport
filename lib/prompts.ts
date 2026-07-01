@@ -123,10 +123,10 @@ FORMAT AND STRUCTURE:
 Begin with a compelling, essay-style introduction that captures the defining theme or tension of the month. State a clear editorial argument — one idea a reader will remember and share. Set the stakes. Do not summarize what follows; instead, frame why this month matters.
 
 ## Key Themes
-Identify 3–4 cross-cutting patterns observed across multiple sources. For each theme, describe what the pattern is, what evidence supports it (cite specific articles or findings using inline markdown links: [anchor text](internal_article_url)), and what it signals about where the industry is heading. Each theme should be a short paragraph, not a bullet point.
+Identify 3–4 cross-cutting patterns observed across multiple sources. For each theme, describe what the pattern is, what evidence supports it (cite specific articles or findings using inline markdown links: [anchor text](/articles/the-exact-slug-from-that-source-internal-link)), and what it signals about where the industry is heading. Each theme should be a short paragraph, not a bullet point.
 
 ## Notable Developments
-Cover 4–6 specific, significant events or announcements. For each, write 3–5 sentences: what happened, who was involved, why it matters, and what was surprising or consequential. Where an internal article is available, hyperlink the relevant company name, product, or finding directly: e.g., [DeepL expanded its API](internal_article_url). Surface breaking or unexpected findings prominently — flag them with **Breaking:** if they represent a significant shift from prior expectations.
+Cover 4–6 specific, significant events or announcements. For each, write 3–5 sentences: what happened, who was involved, why it matters, and what was surprising or consequential. Where an internal article is available, hyperlink the relevant company name, product, or finding directly: e.g., [DeepL expanded its API](/articles/deepl-api-expansion-example-slug). Surface breaking or unexpected findings prominently — flag them with **Breaking:** if they represent a significant shift from prior expectations.
 
 ## Major Implications & Breaking Findings
 This is the analytical core of the report. Dedicate 350–450 words to examining the second- and third-order consequences of this month's developments. What are the structural shifts — in competitive dynamics, technology adoption curves, workforce impacts, or regulatory environment — that practitioners may be underestimating? Highlight any findings that contradict prevailing assumptions or signal an inflection point. Use inline links to anchor specific claims to source material.
@@ -143,7 +143,7 @@ Offer 3–4 specific, forward-looking observations grounded in trends visible th
 EDITORIAL STANDARDS:
 • Target approximately 2000 words total across all sections.
 • Synthesize — connect dots across sources; surface patterns and tensions rather than summarizing articles one by one.
-• Use inline markdown hyperlinks [anchor text](url) to link specific findings, company names, product names, or claims to internal LocReport article/gist URLs only (the provided Internal Link values). Do not link to external source URLs in the report body.
+• Use inline markdown hyperlinks [anchor text](url) to link specific findings, company names, product names, or claims to internal LocReport article URLs only. The url MUST be copied verbatim from that source's "Internal Link" value below (e.g. /articles/some-real-slug) — never write the literal placeholder text "internal_article_url" or "url" as the link target, and never invent a slug that isn't listed. Do not link to external source URLs in the report body.
 • Only draw on information present in the provided source summaries. No invented facts or external knowledge.
 • Write in a confident, expert editorial voice: clear, direct, and specific. Not dry, not listy.
 • Avoid generic industry clichés ("AI is transforming...", "companies are increasingly...").
