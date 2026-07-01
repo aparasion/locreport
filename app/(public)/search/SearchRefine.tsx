@@ -15,7 +15,7 @@ export function SearchRefine({ initialQ }: { initialQ: string }) {
   return (
     <form onSubmit={submit} style={{ display: 'flex', gap: '0.5rem', marginBottom: 'var(--space-6)' }}>
       <div style={{
-        flex: 1, display: 'flex', alignItems: 'center', gap: '0.5rem',
+        flex: 1, minWidth: 0, display: 'flex', alignItems: 'center', gap: '0.5rem',
         background: 'var(--surface)', border: '1px solid var(--border)',
         borderRadius: 'var(--radius-sm)', padding: '0 var(--space-3)',
         height: 42, boxSizing: 'border-box',
@@ -30,7 +30,7 @@ export function SearchRefine({ initialQ }: { initialQ: string }) {
           onChange={e => setValue(e.target.value)}
           placeholder="Refine your search…"
           style={{
-            flex: 1, border: 'none', background: 'none', outline: 'none',
+            flex: 1, minWidth: 0, width: '100%', border: 'none', background: 'none', outline: 'none',
             fontSize: '0.95rem', color: 'var(--text)', fontFamily: 'inherit',
           }}
         />
@@ -44,7 +44,7 @@ export function SearchRefine({ initialQ }: { initialQ: string }) {
         )}
       </div>
       <button type="submit" style={{
-        padding: '0 var(--space-4)', height: 42, background: 'var(--accent)', color: '#fff',
+        flexShrink: 0, padding: '0 var(--space-4)', height: 42, background: 'var(--accent)', color: '#fff',
         border: 'none', borderRadius: 'var(--radius-sm)', fontWeight: 600,
         fontSize: '0.875rem', cursor: 'pointer', whiteSpace: 'nowrap',
       }}>
