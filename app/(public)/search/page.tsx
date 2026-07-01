@@ -51,8 +51,8 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
   if (!query) {
     return (
       <div className="container" style={{ paddingTop: 'var(--space-8)', paddingBottom: 'var(--space-12)' }}>
-        <div style={{ display: 'flex', gap: 'var(--space-8)', alignItems: 'flex-start' }}>
-          <div style={{ flex: 1 }}>
+        <div className="search-layout">
+          <div className="search-main" style={{ maxWidth: 'none' }}>
             <SearchRefine initialQ="" />
             <h1 style={{ fontSize: '1.6rem', fontWeight: 700, marginBottom: '0.5rem' }}>Search</h1>
             <p style={{ color: 'var(--muted)' }}>Enter a search term above to search across all LocReport sections.</p>
@@ -98,10 +98,10 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
 
   return (
     <div className="container" style={{ paddingTop: 'var(--space-8)', paddingBottom: 'var(--space-12)' }}>
-      <div style={{ display: 'flex', gap: 'var(--space-8)', alignItems: 'flex-start' }}>
+      <div className="search-layout">
 
         {/* Main results */}
-        <div style={{ flex: 1, minWidth: 0, maxWidth: 720 }}>
+        <div className="search-main">
           <SearchRefine initialQ={query} />
           <h1 style={{ fontSize: '1.5rem', fontWeight: 700, marginBottom: '0.25rem' }}>
             Results for <em style={{ fontStyle: 'normal', color: 'var(--accent)' }}>{query}</em>
@@ -172,7 +172,7 @@ function SearchSidebar({ latestMonthly, activeSignals }: {
   activeSignals: typeof SIGNALS
 }) {
   return (
-    <aside className="post-sidebar" style={{ flexShrink: 0, width: 260 }}>
+    <aside className="post-sidebar search-sidebar">
       {latestMonthly && (
         <div className="post-sidebar-widget">
           <p className="post-sidebar-widget__title">Latest Monthly Report</p>

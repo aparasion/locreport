@@ -5949,6 +5949,27 @@ article.page > h1 {
   .article-row:not(.article-row--featured) { padding-left: var(--space-3); }
 }
 
+/* ── Search ────────────────────────────────────────────────── */
+.search-layout {
+  display: flex;
+  gap: var(--space-8);
+  align-items: flex-start;
+}
+.search-main {
+  flex: 1;
+  min-width: 0;
+  max-width: 720px;
+}
+.search-sidebar {
+  flex-shrink: 0;
+  width: 260px;
+}
+@media (max-width: 768px) {
+  .search-layout { flex-direction: column; gap: var(--space-6); }
+  .search-main { max-width: 100%; width: 100%; }
+  .search-sidebar { width: 100%; position: static; padding-top: 0; }
+}
+
 /* ── Compass ───────────────────────────────────────────────── */
 .compass-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: var(--space-5); margin-top: var(--space-6); }
 .compass-card { display: flex; flex-direction: column; gap: var(--space-3); padding: var(--space-6); background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); text-decoration: none; color: var(--text); transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease; }
