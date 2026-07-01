@@ -38,6 +38,7 @@ const COMPANIES = [
   { t:'BIDU',      s:'BIDU',   n:'Baidu Inc.',              ex:'NASDAQ',         co:'CN', cat:'bigtech'           },
   { t:'035420.KS', s:'NAVER',  n:'Naver Corporation',       ex:'KRX',            co:'KR', cat:'bigtech'           },
   { t:'0700.HK',   s:'0700',   n:'Tencent Holdings',        ex:'HKEX',           co:'HK', cat:'bigtech'           },
+  { t:'BABA',      s:'BABA',   n:'Alibaba Group Holding',   ex:'NYSE',           co:'CN', cat:'bigtech'           },
   { t:'SPOT',      s:'SPOT',   n:'Spotify Technology S.A.', ex:'NYSE',           co:'SE', cat:'media'             },
   { t:'ADBE',      s:'ADBE',   n:'Adobe Inc.',              ex:'NASDAQ',         co:'US', cat:'enterprise'        },
   { t:'ORCL',      s:'ORCL',   n:'Oracle Corporation',      ex:'NYSE',           co:'US', cat:'enterprise'        },
@@ -48,6 +49,7 @@ const COMPANIES = [
   { t:'TASK',      s:'TASK',   n:'TaskUs Inc.',             ex:'NASDAQ',         co:'US', cat:'bpo'               },
   { t:'INFY',      s:'INFY',   n:'Infosys Ltd',             ex:'NYSE',           co:'IN', cat:'bpo'               },
   { t:'WIT',       s:'WIT',    n:'Wipro Ltd',               ex:'NYSE',           co:'IN', cat:'bpo'               },
+  { t:'CNXC',      s:'CNXC',   n:'Concentrix Corporation',  ex:'NASDAQ',         co:'US', cat:'bpo'               },
   { t:'ZOO.L',     s:'ZOO',    n:'ZOO Digital Group plc',   ex:'LSE AIM',        co:'UK', cat:'lsp'               },
   { t:'APX.AX',    s:'APX',    n:'Appen Limited',           ex:'ASX',            co:'AU', cat:'lsp'               },
   { t:'AIM.AX',    s:'AIM',    n:'Ai-Media Technologies',   ex:'ASX',            co:'AU', cat:'lsp'               },
@@ -60,6 +62,7 @@ const COMPANIES = [
   { t:'ONEI',      s:'ONEI',   n:'OneMeta Inc.',            ex:'OTCQB',          co:'US', cat:'lsp'               },
   { t:'STAR7.MI',  s:'STAR7',  n:'STAR7 S.p.A.',            ex:'Euronext Milan', co:'IT', cat:'lsp', warn:'⚠ Delisting planned' },
   { t:'301236.SZ', s:'301236', n:'iSoftStone Technology',   ex:'SZSE',           co:'CN', cat:'aidata'            },
+  { t:'002230.SZ', s:'002230', n:'iFlytek Co., Ltd.',       ex:'SZSE',           co:'CN', cat:'aidata'            },
 ] as const
 
 // Featured tickers shown in the performance chart
@@ -77,7 +80,7 @@ const COUNTRY_FLAGS: Record<string, string> = {
 
 const CURRENCY_SYMBOLS: Record<string, string> = {
   USD:'$', EUR:'€', GBP:'£', GBp:'p', HKD:'HK$', KRW:'₩', JPY:'¥',
-  AUD:'A$', CAD:'C$', NZD:'NZ$',
+  AUD:'A$', CAD:'C$', NZD:'NZ$', CNY:'CN¥',
 }
 
 const DELISTED = [
@@ -156,7 +159,7 @@ export function LocStockClient({ quotes, updatedAt }: Props) {
       <div className="market-hero">
         <h1>LocStock</h1>
         <p className="market-subtitle">
-          Live equity overview of 34 publicly traded companies with exposure to language services,
+          Live equity overview of 38 publicly traded companies with exposure to language services,
           AI translation, and localization technology across 14 global exchanges.
         </p>
       </div>
