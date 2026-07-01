@@ -12,8 +12,6 @@ export default function AdminDashboard() {
   const [quotesRunning, setQuotesRunning] = useState(false)
   const [backfillRunning, setBackfillRunning] = useState(false)
   const [backfillSlug, setBackfillSlug] = useState('')
-  const [fixLinksRunning, setFixLinksRunning] = useState(false)
-  const [fixLinksSlug, setFixLinksSlug] = useState('')
   const [confirm, setConfirm] = useState<Confirm>(null)
   const [message, setMessage] = useState('')
   const [messageType, setMessageType] = useState<'ok' | 'error'>('ok')
@@ -77,25 +75,6 @@ export default function AdminDashboard() {
     )
     if (res.ok) setBackfillSlug('')
     setBackfillRunning(false)
-  }
-
-  async function fixReportLinks() {
-    setFixLinksRunning(true)
-    flash('')
-    const res = await fetch('/api/admin/fix-report-links', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(fixLinksSlug.trim() ? { slug: fixLinksSlug.trim() } : {}),
-    })
-    const data = await res.json()
-    flash(
-      res.ok
-        ? `Fixed links in "${data.title}" (${data.slug}) — ${data.links_after.length} internal link${data.links_after.length !== 1 ? 's' : ''} resolved.`
-        : (data.error ?? 'Link repair failed.'),
-      res.ok ? 'ok' : 'error',
-    )
-    if (res.ok) setFixLinksSlug('')
-    setFixLinksRunning(false)
   }
 
   async function refreshQuotes() {
@@ -218,29 +197,6 @@ export default function AdminDashboard() {
             />
             <Button variant="secondary" onClick={backfillFacts} disabled={backfillRunning || !backfillSlug.trim()} className="shrink-0">
               {backfillRunning ? 'Extracting…' : 'Backfill facts'}
-            </Button>
-          </div>
-        </div>
-
-        {/* Fix report links */}
-        <div className="p-4 rounded-lg border" style={{ background: 'var(--surface)', borderColor: 'var(--border)' }}>
-          <p className="font-medium mb-0.5" style={{ color: 'var(--text)' }}>Fix monthly report links</p>
-          <p className="text-sm mb-3" style={{ color: 'var(--muted)' }}>
-            Re-resolve broken internal links (e.g. pointing to a placeholder URL) in a monthly report against that month&apos;s source articles. Leave blank to auto-detect the most recent broken report.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-2">
-            <input
-              type="text"
-              value={fixLinksSlug}
-              onChange={e => setFixLinksSlug(e.target.value)}
-              placeholder="report-slug (optional)"
-              className="flex-1 text-sm px-3 py-2 rounded-md border"
-              style={{ background: 'var(--bg)', borderColor: 'var(--border)', color: 'var(--text)' }}
-              onKeyDown={e => { if (e.key === 'Enter') fixReportLinks() }}
-              disabled={fixLinksRunning}
-            />
-            <Button variant="secondary" onClick={fixReportLinks} disabled={fixLinksRunning} className="shrink-0">
-              {fixLinksRunning ? 'Fixing…' : 'Fix links'}
             </Button>
           </div>
         </div>
