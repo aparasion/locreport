@@ -27,6 +27,14 @@ async function fetchArticle(slugParts: string[]) {
     .from('articles').select('*').ilike('slug', `%/${bare}`).maybeSingle()
   if (bySuffix) return { article: bySuffix as Article, shouldRedirect: false }
 
+  // Legacy URLs (pre-migration Jekyll permalinks, RSS-title truncation) sometimes carry a
+  // slug that's a truncated/un-deduped prefix of the current one (slugify() cuts titles to
+  // 80 chars and appends "-2", "-3", ... on collision). Redirect to the unique DB slug this
+  // one is a prefix of, rather than 404ing on every retitle/dedup drift.
+  const { data: byPrefix } = await supabase
+    .from('articles').select('*').ilike('slug', `${bare}%`).limit(2)
+  if (byPrefix?.length === 1) return { article: byPrefix[0] as Article, shouldRedirect: true }
+
   return null
 }
 
