@@ -283,6 +283,32 @@ article.page:has(.dir-grid) { max-width: var(--site-max-width); overflow-x: hidd
   color: var(--text);
   font-weight: 600;
 }
+.nav-live-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: 6px;
+  padding: 1px 6px;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: var(--accent-soft);
+  border-radius: 20px;
+  line-height: 1.6;
+}
+.nav-live-badge__dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: nav-live-pulse 2s ease-in-out infinite;
+}
+@keyframes nav-live-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.75); }
+}
 
 /* ── Nav Dropdown ───────────────────────────────────────── */
 .nav-has-dropdown {
@@ -5731,6 +5757,52 @@ article.page > h1 {
   text-decoration: none;
 }
 .sidebar-widget__more:hover { text-decoration: underline; }
+
+/* Fact Flow widget */
+.sidebar-widget--factflow {
+  border-color: rgba(53, 80, 245, 0.25);
+}
+.sidebar-widget__title-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: var(--space-2);
+}
+.sidebar-factflow__dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  margin-right: 6px;
+  vertical-align: middle;
+  animation: nav-live-pulse 2s ease-in-out infinite;
+}
+.sidebar-factflow__desc {
+  font-size: 0.78rem;
+  color: var(--muted);
+  line-height: 1.5;
+  margin: 0 0 var(--space-3);
+}
+.sidebar-factflow__item {
+  padding: var(--space-2) 0;
+  border-bottom: 1px solid var(--border);
+}
+.sidebar-factflow__item:last-of-type { border-bottom: none; }
+.sidebar-factflow__time {
+  display: block;
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 2px;
+}
+.sidebar-factflow__content {
+  display: block;
+  font-size: 0.82rem;
+  color: var(--text);
+  line-height: 1.45;
+}
 
 /* Report widget */
 .sidebar-widget--report {

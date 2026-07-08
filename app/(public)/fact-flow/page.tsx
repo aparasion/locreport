@@ -97,6 +97,7 @@ export default async function FactFlowPage() {
         .ff-hero-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); flex-shrink: 0; animation: ff-pulse 2s ease-in-out infinite; }
         @keyframes ff-pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(.8)} }
         .ff-hero h1 { font-family: var(--font-display); font-size: 1.35rem; font-weight: 700; letter-spacing: -.02em; color: var(--text); margin: 0; }
+        .ff-live-badge { font-size: 0.62rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--accent); background: var(--accent-soft); padding: 2px 8px; border-radius: 20px; }
         .ff-hero-sep { width: 1px; height: 1.1em; background: var(--border); flex-shrink: 0; }
         .ff-hero-desc { font-size: 0.85rem; color: var(--muted); margin: 0; }
         .ff-rss-link { display: inline-flex; align-items: center; gap: 5px; font-size: 0.78rem; font-weight: 600; color: var(--text); text-decoration: none; padding: 2px 4px; border: 1px solid var(--border); border-radius: 6px; background: var(--surface); transition: all .15s; white-space: nowrap; }
@@ -131,8 +132,9 @@ export default async function FactFlowPage() {
           <div className="ff-hero-left">
             <span className="ff-hero-dot" aria-hidden="true" />
             <h1>Fact Flow</h1>
+            <span className="ff-live-badge">Live</span>
             <span className="ff-hero-sep" aria-hidden="true" />
-            <p className="ff-hero-desc">Bare facts served real-time.</p>
+            <p className="ff-hero-desc">Verified facts the moment they're confirmed — often hours before the full article runs.</p>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
             <a href="/fact-flow/feed.xml" className="ff-rss-link">

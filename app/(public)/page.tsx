@@ -22,6 +22,16 @@ const SOURCES = [
 
 const IMPACT_LABEL: Record<number, string> = { 1: 'Routine', 2: 'Notable', 3: 'Significant', 4: 'Major', 5: 'Disruptive' }
 
+function timeAgo(iso: string): string {
+  const diff = Date.now() - new Date(iso).getTime()
+  const m = Math.floor(diff / 60000)
+  if (m < 1) return 'just now'
+  if (m < 60) return `${m}m ago`
+  const h = Math.floor(m / 60)
+  if (h < 24) return `${h}h ago`
+  return `${Math.floor(h / 24)}d ago`
+}
+
 export default async function HomePage() {
   const supabase = await createClient()
   const { data: articles } = await supabase
@@ -29,6 +39,12 @@ export default async function HomePage() {
     .select('*')
     .order('published_at', { ascending: false })
     .limit(60)
+
+  const { data: latestFacts } = await supabase
+    .from('facts')
+    .select('id, content, created_at')
+    .order('created_at', { ascending: false })
+    .limit(4)
 
   // Group by day (up to 3 days)
   const byDay = new Map<string, Article[]>()
@@ -174,6 +190,25 @@ export default async function HomePage() {
         </main>
 
         <aside className="home-sidebar" aria-label="Sidebar">
+          {latestFacts && latestFacts.length > 0 && (
+            <div className="sidebar-widget sidebar-widget--factflow">
+              <div className="sidebar-widget__title-row">
+                <h3 className="sidebar-widget__title" style={{ margin: 0 }}>
+                  <span className="sidebar-factflow__dot" aria-hidden="true" />
+                  Fact Flow — Live
+                </h3>
+              </div>
+              <p className="sidebar-factflow__desc">Verified facts as they break — minutes after primary sources, hours before the full story.</p>
+              {latestFacts.map(fact => (
+                <div key={fact.id} className="sidebar-factflow__item">
+                  <span className="sidebar-factflow__time">{timeAgo(fact.created_at)}</span>
+                  <span className="sidebar-factflow__content">{fact.content}</span>
+                </div>
+              ))}
+              <Link href="/fact-flow" className="sidebar-widget__more">Follow the live feed →</Link>
+            </div>
+          )}
+
           {latestReport && (
             <div className="sidebar-widget sidebar-widget--report">
               <p className="sidebar-report__eyebrow">Monthly Report · {new Date(latestReport.published_at).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</p>

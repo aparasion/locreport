@@ -8,7 +8,7 @@ import { ReadingProgress } from '@/components/ReadingProgress'
 
 const NAV_LINKS = [
   { href: '/articles', label: 'All articles' },
-  { href: '/fact-flow', label: 'Fact Flow' },
+  { href: '/fact-flow', label: 'Fact Flow', live: true },
   {
     href: '/intelligence', label: 'Intelligence', dropdown: [
       { href: '/intelligence/signals', label: 'Signals tracker' },
@@ -145,7 +145,15 @@ export function Nav() {
                 </li>
               ) : (
                 <li key={link.href}>
-                  <Link href={link.href} onClick={() => setMenuOpen(false)}>{link.label}</Link>
+                  <Link href={link.href} onClick={() => setMenuOpen(false)}>
+                    {link.label}
+                    {'live' in link && link.live && (
+                      <span className="nav-live-badge" title="Updated in real-time">
+                        <span className="nav-live-badge__dot" aria-hidden="true" />
+                        Live
+                      </span>
+                    )}
+                  </Link>
                 </li>
               )
             ))}
