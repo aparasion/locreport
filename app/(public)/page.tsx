@@ -4,7 +4,7 @@ import type { Metadata } from 'next'
 import { createClient } from '@/lib/supabase/server'
 import { Article } from '@/lib/types'
 import { articleHref, extractTeaser } from '@/lib/utils'
-import { SIGNALS } from '@/lib/signals'
+import { SIGNALS, SIGNAL_MAP } from '@/lib/signals'
 
 export const metadata: Metadata = {
   alternates: { canonical: '/' },
@@ -51,9 +51,25 @@ export default async function HomePage() {
     .order('created_at', { ascending: false })
     .limit(4)
 
+  const allArticles = (articles as Article[]) ?? []
+
+  // Today's briefing: impact-ranked lead from the freshest coverage,
+  // plus a rail of recent high-impact stories.
+  const leadPool = allArticles.slice(0, 20)
+  const lead = [...leadPool].sort(
+    (a, b) => (b.impact_score ?? 0) - (a.impact_score ?? 0) || b.published_at.localeCompare(a.published_at)
+  )[0]
+  const highImpactRail = allArticles
+    .filter(a => a.id !== lead?.id && (a.impact_score ?? 0) >= 4)
+    .slice(0, 4)
+  const leadSignals = (lead?.signal_ids ?? [])
+    .map(id => SIGNAL_MAP.get(id))
+    .filter((s): s is NonNullable<typeof s> => Boolean(s))
+    .slice(0, 3)
+
   // Group by day (up to 3 days)
   const byDay = new Map<string, Article[]>()
-  for (const a of (articles as Article[]) ?? []) {
+  for (const a of allArticles) {
     const day = new Date(a.published_at).toLocaleDateString('en-US', {
       year: 'numeric', month: '2-digit', day: '2-digit',
     })
@@ -127,38 +143,70 @@ export default async function HomePage() {
       {/* ── Home Layout: Main + Sidebar ── */}
       <div className="home-layout container">
         <main className="home-main">
-          {[...byDay.entries()].map(([, dayArticles], dayIndex) => {
-            const displayDate = new Date(dayArticles[0].published_at).toLocaleDateString('en-US', {
+          {/* ── Today's briefing: impact-ranked lead + high-impact rail ── */}
+          {lead && (
+            <section className="briefing" aria-label="Today's briefing">
+              <div className="briefing__head">
+                <span className="briefing__eyebrow">Today’s briefing</span>
+                <span className="briefing__date">
+                  {new Date(lead.published_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+                </span>
+              </div>
+              <div className="briefing__grid">
+                <article className="briefing__lead">
+                  <div className="briefing__lead-meta">
+                    {lead.impact_score && (
+                      <span className={`impact-badge impact-badge--${lead.impact_score}`}>
+                        {IMPACT_LABEL[lead.impact_score] ?? ''}
+                      </span>
+                    )}
+                    {lead.author && <span className="briefing__publisher">{lead.author}</span>}
+                  </div>
+                  <h2 className="briefing__title"><Link href={articleHref(lead.slug)}>{lead.title}</Link></h2>
+                  <p className="briefing__excerpt">{lead.excerpt || extractTeaser(lead.content)}</p>
+                  {leadSignals.length > 0 && (
+                    <div className="briefing__signals">
+                      {leadSignals.map(s => (
+                        <Link key={s.id} href={`/intelligence/signals/${s.id}`} className="briefing__signal-chip">
+                          {s.title.length > 42 ? s.title.slice(0, 42) + '…' : s.title}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                  <Link className="article-row__read-more" href={articleHref(lead.slug)}>Read the story →</Link>
+                </article>
+                {highImpactRail.length > 0 && (
+                  <div className="briefing__rail" aria-label="High impact stories">
+                    <span className="briefing__rail-label">High impact</span>
+                    {highImpactRail.map(a => (
+                      <Link key={a.id} href={articleHref(a.slug)} className="briefing__rail-item">
+                        <span className="briefing__rail-item-title">{a.title}</span>
+                        <span className="briefing__rail-item-meta">
+                          {IMPACT_LABEL[a.impact_score ?? 0] ?? ''} · {new Date(a.published_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                        </span>
+                      </Link>
+                    ))}
+                    <Link href="/intelligence/high-impact" className="sidebar-widget__more">All high-impact →</Link>
+                  </div>
+                )}
+              </div>
+            </section>
+          )}
+
+          {/* Slot: signal momentum strip (Phase 4) */}
+
+          {[...byDay.entries()].map(([, allDayArticles], dayIndex) => {
+            const dayArticles = allDayArticles.filter(a => a.id !== lead?.id)
+            if (dayArticles.length === 0) return null
+            const displayDate = new Date(allDayArticles[0].published_at).toLocaleDateString('en-US', {
               year: 'numeric', month: 'long', day: 'numeric',
             })
             return (
               <section key={dayIndex} className="day-section">
                 <h2 className="day-header">{displayDate}</h2>
                 <div className="article-list">
-                  {dayArticles.map((article, i) => {
-                    const isFeatured = dayIndex === 0 && i === 0
+                  {dayArticles.map(article => {
                     const date = new Date(article.published_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
-                    if (isFeatured) {
-                      return (
-                        <article key={article.id} className="article-row article-row--featured">
-                          <div className="article-row__header">
-                            <span className="article-row__badge article-row__badge--latest">Latest</span>
-                            {article.impact_score && (
-                              <span className={`impact-badge impact-badge--${article.impact_score}`}>
-                                {IMPACT_LABEL[article.impact_score] ?? ''}
-                              </span>
-                            )}
-                            <span className="article-row__date">{date}</span>
-                          </div>
-                          <h2 className="article-row__title"><Link href={articleHref(article.slug)}>{article.title}</Link></h2>
-                          <p className="article-row__excerpt">{article.excerpt || extractTeaser(article.content)}</p>
-                          <div className="article-row__footer">
-                            {article.author && <span className="article-row__publisher">{article.author}</span>}
-                            <Link className="article-row__read-more" href={articleHref(article.slug)}>Read more →</Link>
-                          </div>
-                        </article>
-                      )
-                    }
                     return (
                       <article key={article.id} className="article-row">
                         <div className="article-row__header">
@@ -180,6 +228,8 @@ export default async function HomePage() {
               </section>
             )
           })}
+
+          {/* Slot: SubscribeForm band (Phase 3) */}
 
           {/* CTA */}
           <section className="cta-section">

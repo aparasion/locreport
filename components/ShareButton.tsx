@@ -4,7 +4,16 @@ import { useState, useRef, useEffect } from 'react'
 export function ShareButton({ title, url }: { title: string; url: string }) {
   const [open, setOpen] = useState(false)
   const [copied, setCopied] = useState(false)
+  const [canNativeShare, setCanNativeShare] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    // Native share sheet is the better experience on touch devices; keep the
+    // dropdown for desktop where target pickers are less useful.
+    setCanNativeShare(
+      typeof navigator.share === 'function' && window.matchMedia('(pointer: coarse)').matches
+    )
+  }, [])
 
   useEffect(() => {
     function handleClick(e: MouseEvent) {
@@ -31,7 +40,17 @@ export function ShareButton({ title, url }: { title: string; url: string }) {
         aria-expanded={open}
         aria-haspopup="true"
         aria-label="Share"
-        onClick={() => setOpen(v => !v)}
+        onClick={async () => {
+          if (canNativeShare) {
+            try {
+              await navigator.share({ title, url })
+              return
+            } catch (err) {
+              if (err instanceof DOMException && err.name === 'AbortError') return
+            }
+          }
+          setOpen(v => !v)
+        }}
       >
         <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" className="social-share-dd__icon">
           <path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92S19.61 16.08 18 16.08z"/>

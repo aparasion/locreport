@@ -12,3 +12,5 @@ add-missing-columns.sql
 seed-rss-sources.sql
 .claude/
 tsconfig.tsbuildinfo
+.env
+.env*.local
