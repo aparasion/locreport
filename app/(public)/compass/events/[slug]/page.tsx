@@ -48,6 +48,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return {
     title: `${ev.name} | Industry Events — LocReport`,
     description: ev.description,
+    alternates: { canonical: `/compass/events/${slug}` },
   }
 }
 

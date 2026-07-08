@@ -8,6 +8,7 @@ import { extractTeaser } from '@/lib/utils'
 export const metadata: Metadata = {
   title: 'All Articles — LocReport',
   description: 'Browse all localization industry articles by topic — quality, operations, governance, market dynamics, and strategy.',
+  alternates: { canonical: '/articles' },
 }
 
 export const revalidate = 3600

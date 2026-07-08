@@ -6,6 +6,7 @@ import { createClient } from '@/lib/supabase/server'
 export const metadata: Metadata = {
   title: 'Intelligence — LocReport',
   description: 'Actionable localization intelligence — trend signals, impact scoring, and strategic decision-making.',
+  alternates: { canonical: '/intelligence' },
 }
 
 export const revalidate = 3600

@@ -29,6 +29,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `${signal.title} — LocReport Intelligence`,
     description: signal.description,
+    alternates: { canonical: `/intelligence/signals/${id}` },
   }
 }
 

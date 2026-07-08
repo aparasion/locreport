@@ -35,7 +35,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const result = await fetchArticle(slug)
   if (!result) return {}
   const { article: a } = result
-  return { title: `${a.title} — LocReport`, description: a.excerpt ?? undefined }
+  const canonicalSlug = a.slug.split('/').pop()
+  return {
+    title: `${a.title} — LocReport`,
+    description: a.excerpt ?? undefined,
+    alternates: { canonical: `/articles/${canonicalSlug}` },
+  }
 }
 
 export default async function ArticlePage({ params }: Props) {

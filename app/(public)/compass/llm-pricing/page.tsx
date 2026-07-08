@@ -6,6 +6,7 @@ import { PricingHistoryChart } from './PricingHistoryChart'
 export const metadata: Metadata = {
   title: 'AI Translation Cost Simulator | LocReport Compass',
   description: 'Compare monthly API translation costs across GPT-4o, Claude, Gemini, DeepSeek and more. Build your language programme pair by pair.',
+  alternates: { canonical: '/compass/llm-pricing' },
 }
 
 export default function LLMPricingPage() {
