@@ -4,6 +4,7 @@ import { slugify, uniqueSlug } from '@/lib/slugify'
 import { extractTeaser } from '@/lib/utils'
 import { classifyArticle } from '@/lib/classify'
 import { getOpenAI } from '@/lib/openai'
+import { embedAndStoreArticle } from '@/lib/embeddings'
 
 type Params = { params: Promise<{ id: string }> }
 
@@ -73,6 +74,7 @@ export async function PATCH(req: NextRequest, { params }: Params) {
         .from('facts')
         .update({ article_id: articleRow.id })
         .eq('draft_id', draft.id)
+      await embedAndStoreArticle(supabase, articleRow.id)
     }
   }
 

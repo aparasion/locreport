@@ -41,4 +41,6 @@ export interface Article {
   published_at: string
   updated_at: string
   draft_id: string | null
+  // pgvector column; PostgREST returns it serialized as a string
+  embedding?: string | null
 }

@@ -3,6 +3,7 @@ import { createClient, createServiceClient } from '@/lib/supabase/server'
 import { getOpenAI } from '@/lib/openai'
 import { slugify, uniqueSlug } from '@/lib/slugify'
 import { DEFAULT_MONTHLY_PROMPT } from '@/lib/prompts'
+import { embedAndStoreArticle } from '@/lib/embeddings'
 
 async function getPrompt(): Promise<string> {
   try {
@@ -133,6 +134,8 @@ export async function POST(req: NextRequest) {
   if (insertError) {
     return NextResponse.json({ error: insertError.message }, { status: 500 })
   }
+
+  await embedAndStoreArticle(service, article.id)
 
   return NextResponse.json({ ok: true, period, article_count: articles.length, id: article.id, title })
 }
