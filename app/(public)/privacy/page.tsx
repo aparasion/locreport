@@ -3,6 +3,7 @@ import type { Metadata } from 'next'
 export const metadata: Metadata = {
   title: 'Privacy Policy — LocReport',
   description: 'LocReport privacy policy — how we collect, use, and protect your data on locreport.com.',
+  alternates: { canonical: '/privacy' },
 }
 
 export default function PrivacyPage() {

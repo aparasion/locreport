@@ -1,9 +1,14 @@
 import Link from 'next/link'
 import Image from 'next/image'
+import type { Metadata } from 'next'
 import { createClient } from '@/lib/supabase/server'
 import { Article } from '@/lib/types'
 import { articleHref, extractTeaser } from '@/lib/utils'
 import { SIGNALS } from '@/lib/signals'
+
+export const metadata: Metadata = {
+  alternates: { canonical: '/' },
+}
 
 // Tools surfaced in the hero "Explore" panel — blog + tools focus
 const HERO_TOOLS = [

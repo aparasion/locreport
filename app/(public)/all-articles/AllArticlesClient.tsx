@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { articleHref } from '@/lib/utils'
 
@@ -25,7 +25,6 @@ const CATEGORY_LABEL: Record<string, string> = {
 }
 
 const IMPACT_LABEL: Record<number, string> = { 2: 'Notable', 3: 'Significant', 4: 'Major', 5: 'Disruptive' }
-const BATCH = 30
 
 function dateInt(iso: string) {
   return parseInt(iso.slice(0, 10).replace(/-/g, ''), 10)
@@ -41,9 +40,7 @@ export default function AllArticlesClient({ articles }: { articles: ArticleRow[]
   const [sort, setSort] = useState('date')
   const [sourceSort, setSourceSort] = useState<'count' | 'alpha'>('count')
   const [q, setQ] = useState(() => searchParams.get('q') ?? '')
-  const [loadedCount, setLoadedCount] = useState(BATCH)
   const [filterOpen, setFilterOpen] = useState(false)
-  const sentinelRef = useRef<HTMLDivElement>(null)
 
   // URL hash support
   useEffect(() => {
@@ -75,24 +72,6 @@ export default function AllArticlesClient({ articles }: { articles: ArticleRow[]
     return list
   })()
 
-  // Reset loaded count when filters change
-  useEffect(() => { setLoadedCount(BATCH) }, [topic, impact, category, dateFrom, dateTo, sort])
-
-  // Infinite scroll observer
-  useEffect(() => {
-    if (loadedCount >= filtered.length) return
-    const el = sentinelRef.current
-    if (!el) return
-    const obs = new IntersectionObserver(entries => {
-      if (entries[0].isIntersecting) {
-        setLoadedCount(c => Math.min(c + BATCH, filtered.length))
-      }
-    }, { rootMargin: '300px' })
-    obs.observe(el)
-    return () => obs.disconnect()
-  }, [loadedCount, filtered.length])
-
-  const visible = filtered.slice(0, loadedCount)
   const activeBadge = [topic !== 'all', impact !== 'all', category !== 'all', !!dateFrom, !!dateTo].filter(Boolean).length
 
   function clearAll() {
@@ -188,7 +167,7 @@ export default function AllArticlesClient({ articles }: { articles: ArticleRow[]
 
       <section className="all-articles-feed-section">
         <div className="all-articles-feed">
-          {visible.map(article => {
+          {filtered.map(article => {
             const dateDisplay = new Date(article.published_at).toLocaleDateString('en-US', {
               month: 'short', day: 'numeric', year: 'numeric',
             })
@@ -231,11 +210,6 @@ export default function AllArticlesClient({ articles }: { articles: ArticleRow[]
             )
           })}
         </div>
-
-        {loadedCount < filtered.length && (
-          <div className="autoload-loader is-active">Loading more…</div>
-        )}
-        <div ref={sentinelRef} className="autoload-sentinel" />
       </section>
     </div>
   )

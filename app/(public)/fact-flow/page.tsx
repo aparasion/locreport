@@ -23,6 +23,7 @@ export function generateMetadata(): Metadata {
       images: ['https://locreport.com/og-factflow.png'],
     },
     alternates: {
+      canonical: '/fact-flow',
       types: {
         'application/rss+xml': 'https://locreport.com/fact-flow/feed.xml',
       },

@@ -3,6 +3,7 @@ import type { Metadata } from 'next'
 export const metadata: Metadata = {
   title: 'Terms of Service — LocReport',
   description: 'LocReport terms of service — usage rights, content permissions, and AI training policies for locreport.com.',
+  alternates: { canonical: '/terms' },
 }
 
 export default function TermsPage() {
