@@ -90,16 +90,19 @@ export default async function FactFlowPage() {
   return (
     <>
       <style>{`
-        .ff-page { max-width: var(--content-width); margin: 0 auto; padding: var(--space-8) var(--page-gutter); }
+        .ff-page { max-width: var(--content-width); margin: 0 auto; padding: var(--space-6) var(--page-gutter) var(--space-8); }
 
-        .ff-hero { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); margin-bottom: var(--space-6); flex-wrap: wrap; }
-        .ff-hero-left { display: flex; align-items: center; gap: var(--space-3); }
+        .ff-hero { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); margin-bottom: var(--space-5); flex-wrap: wrap; }
+        .ff-hero-left { display: flex; align-items: center; gap: var(--space-2); min-width: 0; flex-wrap: nowrap; }
         .ff-hero-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); flex-shrink: 0; animation: ff-pulse 2s ease-in-out infinite; }
         @keyframes ff-pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(.8)} }
-        .ff-hero h1 { font-family: var(--font-display); font-size: 1.35rem; font-weight: 700; letter-spacing: -.02em; color: var(--text); margin: 0; }
-        .ff-live-badge { font-size: 0.62rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--accent); background: var(--accent-soft); padding: 2px 8px; border-radius: 20px; }
+        .ff-hero h1 { font-family: var(--font-display); font-size: 1.2rem; font-weight: 700; letter-spacing: -.02em; color: var(--text); margin: 0; white-space: nowrap; flex-shrink: 0; }
+        .ff-live-badge { font-size: 0.62rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--accent); background: var(--accent-soft); padding: 2px 8px; border-radius: 20px; flex-shrink: 0; }
         .ff-hero-sep { width: 1px; height: 1.1em; background: var(--border); flex-shrink: 0; }
-        .ff-hero-desc { font-size: 0.85rem; color: var(--muted); margin: 0; }
+        .ff-hero-desc { font-size: 0.82rem; color: var(--muted); margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+        @media (max-width: 640px) {
+          .ff-hero-desc, .ff-hero-sep { display: none; }
+        }
         .ff-rss-link { display: inline-flex; align-items: center; gap: 5px; font-size: 0.78rem; font-weight: 600; color: var(--text); text-decoration: none; padding: 2px 4px; border: 1px solid var(--border); border-radius: 6px; background: var(--surface); transition: all .15s; white-space: nowrap; }
         .ff-rss-link:hover { color: var(--accent); border-color: var(--accent); background: var(--accent-soft); }
         .ff-rss-icon { color: #E8773E; flex-shrink: 0; }
