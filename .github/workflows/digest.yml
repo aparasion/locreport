@@ -1,0 +1,38 @@
+name: Digest Send
+on:
+  schedule:
+    # Weekly digest — Mondays 07:00 UTC
+    - cron: '0 7 * * 1'
+    # Daily digest — 07:00 UTC every day (only reaches subscribers on the daily frequency)
+    - cron: '0 7 * * *'
+  workflow_dispatch:
+    inputs:
+      frequency:
+        description: 'Digest frequency to send'
+        required: true
+        default: 'weekly'
+        type: choice
+        options:
+          - weekly
+          - daily
+
+jobs:
+  digest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Determine frequency
+        id: freq
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "value=${{ inputs.frequency }}" >> "$GITHUB_OUTPUT"
+          elif [ "${{ github.event.schedule }}" = "0 7 * * 1" ]; then
+            echo "value=weekly" >> "$GITHUB_OUTPUT"
+          else
+            echo "value=daily" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Send digest
+        run: |
+          curl -f --max-time 300 -X POST "https://locreport.com/api/digest/send?frequency=${{ steps.freq.outputs.value }}" \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
+            -H "Content-Type: application/json"

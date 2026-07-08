@@ -6689,3 +6689,40 @@ kbd, code {
 .search-sidebar__signal:hover { color: var(--accent); }
 .search-sidebar__signal-status { font-size: 0.72rem; color: var(--muted); text-transform: capitalize; }
 .search-sidebar__more { font-size: 0.78rem; color: var(--accent); display: inline-block; margin-top: 0.5rem; }
+
+/* ── Digest subscription ── */
+.subscribe-band { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: var(--space-5); align-items: center; margin: var(--space-8) 0; padding: var(--space-6); background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-xl); }
+.subscribe-band__title { font-family: var(--font-display); font-size: 1.3rem; font-weight: 600; letter-spacing: -0.01em; margin: 0 0 var(--space-2); }
+.subscribe-band__text { font-size: 0.9rem; line-height: 1.55; color: var(--muted); margin: 0; }
+@media (max-width: 760px) { .subscribe-band { grid-template-columns: 1fr; } }
+.subscribe-form { width: 100%; }
+.subscribe-form__row { display: flex; gap: var(--space-2); flex-wrap: wrap; }
+.subscribe-form__input { flex: 1; min-width: 200px; padding: 10px 14px; font-size: 0.9rem; font-family: var(--font-body); color: var(--text); background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-md); outline: none; transition: border-color 0.15s; }
+.subscribe-form__input:focus { border-color: var(--accent); }
+.subscribe-form__btn { white-space: nowrap; }
+.subscribe-form__note { font-size: 0.76rem; color: var(--muted); margin: var(--space-2) 0 0; }
+.subscribe-form__confirm { font-size: 0.9rem; font-weight: 600; color: var(--accent); margin: 0; }
+.subscribe-form__error { font-size: 0.8rem; color: #dc2626; margin: var(--space-2) 0 0; }
+.post-subscribe { margin: var(--space-8) 0 var(--space-4); padding: var(--space-5); background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); }
+.post-subscribe__title { font-size: 0.95rem; font-weight: 700; margin: 0 0 var(--space-3); }
+
+/* ── Subscribe status + manage pages ── */
+.subscribe-status-page { max-width: 560px; padding-top: var(--space-10); padding-bottom: var(--space-12); }
+.subscribe-status-page h1 { font-size: 1.7rem; margin-bottom: var(--space-3); }
+.subscribe-status__text { color: var(--muted); line-height: 1.6; margin-bottom: var(--space-5); }
+.subscribe-status__actions { display: flex; gap: var(--space-3); flex-wrap: wrap; }
+.subscribe-manage-page { max-width: 640px; padding-top: var(--space-10); padding-bottom: var(--space-12); }
+.subscribe-manage-page h1 { font-size: 1.7rem; margin-bottom: var(--space-3); }
+.manage-form { display: flex; flex-direction: column; gap: var(--space-6); margin-top: var(--space-6); }
+.manage-form__heading { font-size: 1rem; font-weight: 700; margin: 0 0 var(--space-1); }
+.manage-form__hint { font-size: 0.82rem; color: var(--muted); margin: 0 0 var(--space-3); }
+.manage-form__signals { display: flex; flex-direction: column; gap: var(--space-2); }
+.manage-form__signal { display: flex; align-items: flex-start; gap: var(--space-2); padding: var(--space-2) var(--space-3); border: 1px solid var(--border); border-radius: var(--radius-md); cursor: pointer; transition: border-color 0.15s; }
+.manage-form__signal:hover { border-color: var(--accent); }
+.manage-form__signal input { margin-top: 3px; accent-color: var(--accent); }
+.manage-form__signal-title { display: block; font-size: 0.88rem; font-weight: 600; line-height: 1.4; }
+.manage-form__signal-cat { display: block; font-size: 0.72rem; color: var(--muted); text-transform: capitalize; }
+.manage-form__actions { display: flex; gap: var(--space-3); align-items: center; flex-wrap: wrap; }
+.manage-form__unsub { color: #dc2626; }
+.manage-form__status { font-size: 0.85rem; font-weight: 600; color: var(--accent); margin: 0; }
+.manage-form__status--error { color: #dc2626; }

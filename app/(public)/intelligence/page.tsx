@@ -2,6 +2,7 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 import { SIGNALS } from '@/lib/signals'
 import { createClient } from '@/lib/supabase/server'
+import { SubscribeForm } from '@/components/SubscribeForm'
 
 export const metadata: Metadata = {
   title: 'Intelligence — LocReport',
@@ -62,6 +63,17 @@ export default async function IntelligencePage() {
           <span className="intel-link-card__desc">Review recent significant, major, and disruptive localization industry coverage.</span>
           <span className="intel-link-card__cta">Open articles →</span>
         </Link>
+      </section>
+
+      <section className="subscribe-band" aria-label="Subscribe to the digest">
+        <div className="subscribe-band__copy">
+          <h2 className="subscribe-band__title">Signals in your inbox</h2>
+          <p className="subscribe-band__text">
+            Follow the signals you care about — the weekly digest filters
+            stories to your picks and minimum impact level.
+          </p>
+        </div>
+        <SubscribeForm />
       </section>
 
       <div className="intel-disclaimer">

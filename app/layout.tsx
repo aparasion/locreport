@@ -36,6 +36,11 @@ export const metadata: Metadata = {
   openGraph: {
     images: [{ url: '/og-image.jpg', width: 1200, height: 630 }],
   },
+  alternates: {
+    types: {
+      'application/rss+xml': [{ url: '/feed.xml', title: 'LocReport — All articles' }],
+    },
+  },
 }
 
 // Runs before first paint so the persisted (or OS-preferred) theme applies

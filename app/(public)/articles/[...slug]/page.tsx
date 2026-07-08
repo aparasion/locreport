@@ -5,6 +5,7 @@ import { Article } from '@/lib/types'
 import { articleHref } from '@/lib/utils'
 import { SIGNAL_MAP } from '@/lib/signals'
 import { ShareButton } from '@/components/ShareButton'
+import { SubscribeForm } from '@/components/SubscribeForm'
 import Link from 'next/link'
 import type { Metadata } from 'next'
 
@@ -180,6 +181,11 @@ export default async function ArticlePage({ params }: Props) {
       </header>
 
       <div className="post-content" dangerouslySetInnerHTML={{ __html: html }} />
+
+      <div className="post-subscribe">
+        <p className="post-subscribe__title">Get stories like this in your inbox</p>
+        <SubscribeForm compact />
+      </div>
 
       <div className="support-box">
         <div className="support-box__inner">

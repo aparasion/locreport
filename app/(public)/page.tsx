@@ -5,6 +5,7 @@ import { createClient } from '@/lib/supabase/server'
 import { Article } from '@/lib/types'
 import { articleHref, extractTeaser } from '@/lib/utils'
 import { SIGNALS, SIGNAL_MAP } from '@/lib/signals'
+import { SubscribeForm } from '@/components/SubscribeForm'
 
 export const metadata: Metadata = {
   alternates: { canonical: '/' },
@@ -229,7 +230,17 @@ export default async function HomePage() {
             )
           })}
 
-          {/* Slot: SubscribeForm band (Phase 3) */}
+          {/* Digest subscription */}
+          <section className="subscribe-band" aria-label="Subscribe to the digest">
+            <div className="subscribe-band__copy">
+              <h2 className="subscribe-band__title">The industry, digested</h2>
+              <p className="subscribe-band__text">
+                One weekly email: impact-ranked stories, mapped to the signals
+                shaping language services. No noise.
+              </p>
+            </div>
+            <SubscribeForm />
+          </section>
 
           {/* CTA */}
           <section className="cta-section">
