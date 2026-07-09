@@ -136,15 +136,17 @@ export default async function HomePage() {
               <div className="hero-intel-panel__head">
                 <span className="hero-intel-panel__label">Explore</span>
               </div>
-              {HERO_TOOLS.map(tool => (
-                <Link key={tool.href} href={tool.href} className="hero-tool-row">
-                  <span className="hero-tool-row__body">
-                    <span className="hero-tool-row__name">{tool.name}</span>
-                    <span className="hero-tool-row__desc">{tool.desc}</span>
-                  </span>
-                  <span className="hero-tool-row__arrow" aria-hidden="true">→</span>
-                </Link>
-              ))}
+              <div className="hero-tool-list">
+                {HERO_TOOLS.map(tool => (
+                  <Link key={tool.href} href={tool.href} className="hero-tool-row">
+                    <span className="hero-tool-row__body">
+                      <span className="hero-tool-row__name">{tool.name}</span>
+                      <span className="hero-tool-row__desc">{tool.desc}</span>
+                    </span>
+                    <span className="hero-tool-row__arrow" aria-hidden="true">→</span>
+                  </Link>
+                ))}
+              </div>
               <Link href="/compass" className="hero-intel-panel__footer">All tools →</Link>
             </div>
           </div>
@@ -312,12 +314,14 @@ export default async function HomePage() {
 
           <div className="sidebar-widget">
             <h3 className="sidebar-widget__title">Active Signals</h3>
-            {SIGNALS.slice(0, 6).map(signal => (
-              <Link key={signal.id} href={`/intelligence/signals/${signal.id}`} className="sidebar-signal">
-                <span className={`sidebar-signal__status sidebar-signal__status--${signal.current_status}`} aria-label={signal.current_status} />
-                <span className="sidebar-signal__title">{signal.title.length > 58 ? signal.title.slice(0, 58) + '…' : signal.title}</span>
-              </Link>
-            ))}
+            <div className="sidebar-signal-list">
+              {SIGNALS.slice(0, 6).map(signal => (
+                <Link key={signal.id} href={`/intelligence/signals/${signal.id}`} className="sidebar-signal">
+                  <span className={`sidebar-signal__status sidebar-signal__status--${signal.current_status}`} aria-label={signal.current_status} />
+                  <span className="sidebar-signal__title">{signal.title.length > 58 ? signal.title.slice(0, 58) + '…' : signal.title}</span>
+                </Link>
+              ))}
+            </div>
             <Link href="/intelligence/signals" className="sidebar-widget__more">All {SIGNALS.length} signals →</Link>
           </div>
         </aside>
