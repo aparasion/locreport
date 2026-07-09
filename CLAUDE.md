@@ -426,9 +426,11 @@ Scheduled work runs via **GitHub Actions**, not Vercel cron:
 | Schedule | Workflow | Purpose |
 |---|---|---|
 | `30 10 * * *` (10:30 UTC daily) | `ingest.yml` | POST `/api/ingest` with `CRON_SECRET` header |
-| `0 7 * * 1` (Mondays 07:00 UTC) | `digest.yml` | POST `/api/digest/send?frequency=weekly` |
-| `0 7 * * *` (07:00 UTC daily) | `digest.yml` | POST `/api/digest/send?frequency=daily` (only reaches daily-frequency subscribers) |
+| Fridays 1pm Central European time | `digest.yml` | POST `/api/digest/send?frequency=weekly` |
+| Workdays (Mon–Fri) 4pm Central European time | `digest.yml` | POST `/api/digest/send?frequency=daily` (only reaches daily-frequency subscribers) |
 | On-demand | `workflow_dispatch` on both | Manual trigger from GitHub Actions UI (digest has a frequency picker) |
+
+GitHub Actions cron is UTC-only and ignores DST, so `digest.yml` schedules **both** possible UTC offsets for each target local time (e.g. `0 11 * * 5` and `0 12 * * 5` for 1pm Friday) and a runtime guard checks the actual `Europe/Berlin` clock to decide which firing should actually send — the other is a no-op. This keeps the send time pinned to 1pm/4pm local wall-clock time year-round instead of drifting an hour across the DST boundary.
 
 `vercel.json` has **no cron jobs configured**. The `CRON_SECRET` env var must be set in both Vercel (for the API route to validate) and the GitHub repository secrets (for the workflow to authenticate).
 
