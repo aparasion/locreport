@@ -163,11 +163,11 @@ export default async function HomePage() {
       {/* ── Home Layout: Main + Sidebar ── */}
       <div className="home-layout container">
         <main className="home-main">
-          {/* ── Today's briefing: impact-ranked lead + high-impact rail ── */}
+          {/* ── Latest story: impact-ranked lead + high-impact rail ── */}
           {lead && (
-            <section className="briefing" aria-label="Today's briefing">
+            <section className="briefing" aria-label="Latest story">
               <div className="briefing__head">
-                <span className="briefing__eyebrow">Today’s briefing</span>
+                <span className="briefing__eyebrow">Latest story</span>
                 <span className="briefing__date">
                   {new Date(lead.published_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
                 </span>

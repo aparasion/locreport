@@ -5402,7 +5402,7 @@ article.page > h1 {
 .hero--split {
   text-align: left;
   padding: var(--space-10) 0 var(--space-10);
-  min-height: 520px;
+  min-height: 460px;
   display: flex;
   align-items: center;
 }
@@ -5518,7 +5518,9 @@ article.page > h1 {
 .hero-signal-cat--strategy   { background: rgba(225,29,72,0.12);   color: #E11D48; }
 .hero-intel-panel__footer {
   display: block;
-  margin-top: var(--space-3);
+  margin-top: var(--space-2);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--border);
   font-size: 0.8rem;
   font-weight: 600;
   color: var(--accent);
@@ -5533,7 +5535,7 @@ article.page > h1 {
   align-items: center;
   justify-content: space-between;
   gap: var(--space-3);
-  padding: var(--space-3) var(--space-2);
+  padding: var(--space-4) var(--space-2);
   margin: 0 calc(-1 * var(--space-2));
   border-bottom: 1px solid var(--border);
   border-radius: var(--radius-sm);
