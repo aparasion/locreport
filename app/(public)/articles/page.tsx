@@ -43,9 +43,9 @@ const STATIC_REPORTS: FeedRow[] = [
     excerpt: 'A data-rich strategic brief covering market evolution, AI disruption, competitive dynamics, and forward-looking implications for language services stakeholders.',
     author: 'LocReport Editorial Desk',
     article_type: 'annual',
-    impact_score: 5,
+    impact_score: null,
     published_at: '2026-04-01T00:00:00.000Z',
-    topics: TOPIC_IDS,
+    topics: [],
   },
 ]
 
@@ -127,7 +127,16 @@ export default async function ArticlesPage({ searchParams }: { searchParams: Pro
   }))
 
   const staticMatches = STATIC_REPORTS.filter(r => staticReportMatches(r, f))
-  if (f.page === 1 && f.sort !== 'oldest') rows = [...staticMatches, ...rows]
+  if (f.page === 1 && staticMatches.length > 0) {
+    rows = [...staticMatches, ...rows]
+    if (f.sort === 'impact') {
+      rows.sort((a, b) => (b.impact_score ?? 0) - (a.impact_score ?? 0) || +new Date(b.published_at) - +new Date(a.published_at))
+    } else {
+      rows.sort((a, b) => f.sort === 'oldest'
+        ? +new Date(a.published_at) - +new Date(b.published_at)
+        : +new Date(b.published_at) - +new Date(a.published_at))
+    }
+  }
 
   const filteredCount = (count ?? 0) + staticMatches.length
   const archiveTotal = (totalCount ?? 0) + STATIC_REPORTS.length
