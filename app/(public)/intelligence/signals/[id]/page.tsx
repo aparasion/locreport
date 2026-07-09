@@ -5,6 +5,8 @@ import { SIGNAL_MAP, STATUS_LABEL, MOMENTUM_ICON, CATEGORY_COLOR } from '@/lib/s
 import { createClient } from '@/lib/supabase/server'
 import { Article } from '@/lib/types'
 import { articleHref } from '@/lib/utils'
+import { computeMomentum, weeklySeries } from '@/lib/intelligence'
+import { SignalSparkline } from '@/components/SignalSparkline'
 
 export const revalidate = 3600
 
@@ -132,6 +134,25 @@ export default async function SignalPage({ params }: Props) {
             <span className="signal-page__stat-label">Contradicts</span>
           </div>
         </div>
+
+        {/* Coverage trend */}
+        {(() => {
+          const weekly = weeklySeries(articles.map(a => a.published_at))
+          const recent = weekly.slice(8).reduce((sum, w) => sum + w.count, 0)
+          const prior = weekly.slice(0, 8).reduce((sum, w) => sum + w.count, 0)
+          const momentum = computeMomentum(recent, prior)
+          return (
+            <div className="signal-page__section">
+              <h2 className="signal-page__section-title">Coverage trend</h2>
+              <p className="signal-page__section-desc">
+                Weekly article volume over the last 16 weeks — coverage momentum is{' '}
+                <strong>{momentum}</strong> ({recent} article{recent !== 1 ? 's' : ''} in the
+                trailing 8 weeks vs {prior} before).
+              </p>
+              <SignalSparkline data={weekly} height={56} />
+            </div>
+          )
+        })()}
 
         {/* Related signals */}
         {relatedSignals.length > 0 && (

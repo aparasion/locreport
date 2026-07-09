@@ -6,6 +6,8 @@ import { Article } from '@/lib/types'
 import { articleHref, extractTeaser } from '@/lib/utils'
 import { SIGNALS, SIGNAL_MAP } from '@/lib/signals'
 import { SubscribeForm } from '@/components/SubscribeForm'
+import { MomentumStrip } from '@/components/MomentumStrip'
+import { getIntelligenceData, signalShortLabel } from '@/lib/intelligence'
 
 export const metadata: Metadata = {
   alternates: { canonical: '/' },
@@ -89,6 +91,23 @@ export default async function HomePage() {
     .order('published_at', { ascending: false })
     .limit(1)
     .maybeSingle()
+
+  // Signal momentum strip: rising signals first, busiest coverage as filler
+  const intel = await getIntelligenceData(supabase)
+  const rising = intel.signalSeries.filter(s => s.observedMomentum === 'rising')
+  const filler = intel.signalSeries
+    .filter(s => s.observedMomentum !== 'rising')
+    .sort((a, b) => b.recentCount - a.recentCount)
+  const momentumItems = [...rising.sort((a, b) => b.recentCount - a.recentCount), ...filler]
+    .slice(0, 4)
+    .filter(s => s.recentCount > 0)
+    .map(s => ({
+      id: s.signalId,
+      label: signalShortLabel(s.signalId),
+      momentum: s.observedMomentum,
+      recentCount: s.recentCount,
+      weekly: s.weekly,
+    }))
 
   return (
     <>
@@ -194,7 +213,7 @@ export default async function HomePage() {
             </section>
           )}
 
-          {/* Slot: signal momentum strip (Phase 4) */}
+          <MomentumStrip items={momentumItems} />
 
           {[...byDay.entries()].map(([, allDayArticles], dayIndex) => {
             const dayArticles = allDayArticles.filter(a => a.id !== lead?.id)

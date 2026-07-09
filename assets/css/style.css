@@ -21,6 +21,7 @@
   --accent-hover:   #2840D6;
   --accent-soft:    rgba(53, 80, 245, 0.08);
   --accent-light:   #7FA1FB;
+  --viz-neutral:    #9CA3AF;
   --brand-text:     #2840D6;
   --brand-wordmark-color: #1D1D1F;
 
@@ -92,6 +93,7 @@
   --accent-hover:   #8A9CFF;
   --accent-soft:    rgba(107, 131, 255, 0.16);
   --accent-light:   #A6B6FF;
+  --viz-neutral:    #7A7A80;
   --brand-text:     #8A9CFF;
   --brand-wordmark-color: #E7E7EA;
 
@@ -6726,3 +6728,35 @@ kbd, code {
 .manage-form__unsub { color: #dc2626; }
 .manage-form__status { font-size: 0.85rem; font-weight: 600; color: var(--accent); margin: 0; }
 .manage-form__status--error { color: #dc2626; }
+
+/* ── Intelligence dashboard charts ── */
+.intel-section { margin: var(--space-8) 0; }
+.intel-section__title { font-family: var(--font-display); font-size: 1.15rem; font-weight: 600; letter-spacing: -0.01em; margin: 0 0 var(--space-1); }
+.intel-section__sub { font-size: 0.82rem; color: var(--muted); margin: 0 0 var(--space-4); }
+.momentum-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: var(--space-3); }
+.momentum-panel { display: flex; flex-direction: column; gap: 4px; padding: var(--space-4); background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); transition: border-color 0.15s; }
+.momentum-panel:hover { border-color: var(--accent); }
+.momentum-panel__head { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-2); }
+.momentum-panel__label { font-size: 0.85rem; font-weight: 700; color: var(--text); line-height: 1.3; }
+.momentum-panel__badge { flex-shrink: 0; font-size: 0.7rem; font-weight: 700; }
+.momentum-panel__badge--rising { color: #16a34a; }
+.momentum-panel__badge--stable { color: var(--muted); }
+.momentum-panel__badge--declining { color: #dc2626; }
+[data-theme="dark"] .momentum-panel__badge--rising { color: #4ade80; }
+[data-theme="dark"] .momentum-panel__badge--declining { color: #f87171; }
+.momentum-panel__total { font-size: 0.72rem; color: var(--muted); margin: 0; }
+.momentum-panel__chart { height: 96px; margin-top: var(--space-1); }
+.momentum-panel__empty { font-size: 0.78rem; color: var(--muted); margin: var(--space-3) 0; }
+.impact-chart { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: var(--space-4) var(--space-4) var(--space-2); }
+.signal-sparkline { width: 100%; }
+.signal-sparkline__flat { display: block; height: 1.5px; margin-top: 17px; background: var(--border); }
+
+/* Homepage momentum strip */
+.momentum-strip { margin-bottom: var(--space-8); }
+.momentum-strip__head { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-3); margin-bottom: var(--space-3); }
+.momentum-strip__title { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.14em; color: var(--accent); margin: 0; }
+.momentum-strip__grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: var(--space-3); }
+.momentum-strip__item { display: flex; flex-direction: column; gap: 2px; padding: var(--space-3); background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); transition: border-color 0.15s; }
+.momentum-strip__item:hover { border-color: var(--accent); }
+.momentum-strip__label { font-size: 0.76rem; font-weight: 700; color: var(--text); line-height: 1.3; }
+.momentum-strip__meta { font-size: 0.68rem; color: var(--muted); }

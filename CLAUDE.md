@@ -20,11 +20,11 @@
 |---|---|
 | Framework | Next.js 15.3.3, App Router, TypeScript 5 strict |
 | Styling | TailwindCSS 4 + PostCSS, custom CSS vars (`assets/css/style.css`) |
-| Database | Supabase (PostgreSQL) — SSR + browser clients |
-| AI | OpenAI GPT-4o-mini (content generation, classification) |
-| Charts | Recharts 3 (LocStock + LLM pricing visualizations) |
+| Database | Supabase (PostgreSQL + pgvector) — SSR + browser clients |
+| AI | OpenAI GPT-4o/4o-mini (content generation, classification) + text-embedding-3-small (semantic search) |
+| Charts | Recharts 3 (Intelligence dashboard, LocStock + LLM pricing visualizations) |
 | Market data | Yahoo Finance 2 (LocStock tickers) |
-| Email | Resend (contact form) |
+| Email | Resend (contact form + digest subscriptions with double opt-in) |
 | Analytics | Google Analytics 4 (G-1KQKEEP1PL) |
 | Deployment | Vercel (no active cron jobs in vercel.json — ingest triggered manually) |
 
@@ -37,12 +37,16 @@ app/
   (auth)/login/          — Supabase email/password login
   (public)/              — All public-facing pages (see Route Map below)
   api/                   — API routes (REST handlers + admin utilities)
-  layout.tsx             — Root layout: global metadata, GA4 scripts
+  layout.tsx             — Root layout: global metadata, GA4 scripts, next/font, pre-paint theme script
   globals.css            — Tailwind imports
 
 components/
   ui/                    — Primitive UI components (Button, Card, Input, Badge, Textarea, Label)
   Nav.tsx                — Site header with dropdown nav + search + theme toggle
+  SubscribeForm.tsx      — Digest email capture (homepage, article footer, /intelligence)
+  MomentumStrip.tsx      — Homepage signal-momentum strip (lazy-loads sparklines)
+  SignalSparkline.tsx    — Tiny weekly-volume area chart (signals index/detail, homepage)
+  BackfillEmbeddingsButton.tsx — Admin one-click embeddings backfill loop
   AdminNav.tsx           — Admin section sidebar
   ArticleCard.tsx        — Article preview card used across listing pages
   ArticleEditor.tsx      — Markdown editor (admin only)
@@ -59,6 +63,12 @@ lib/
   types.ts               — Core TypeScript types: Article, Draft, RssSource
   signals.ts             — 13 hardcoded industry signals + SIGNAL_MAP (id → signal)
   openai.ts              — OpenAI client singleton (GPT-4o-mini)
+  embeddings.ts          — EMBEDDING_MODEL constant + embedText/embedAndStoreArticle (text-embedding-3-small)
+  intelligence.ts        — Signal time-series bucketing + coverage-momentum computation for dashboard charts
+  topics.ts              — Topic definitions (signals + keywords) shared by /articles filters and badges
+  email/
+    templates.ts         — Inline-styled HTML email builders (confirm + digest)
+    send.ts              — Resend client helper, SITE_URL, digest from-address
   prompts.ts             — LLM system prompts (also editable in DB settings table)
   classify.ts            — Article classification logic (impact, signals, segments, implications)
   rss.ts                 — RSS parsing, HTML-to-text, Google News redirect resolution
@@ -91,7 +101,7 @@ vercel.json              — Build config, 301 redirects (no active cron jobs)
 | Path | File | Notes |
 |---|---|---|
 | `/` | `page.tsx` | Hero + featured articles grouped by day + hero tools panel |
-| `/articles` | `articles/page.tsx` | All articles, filterable by topic |
+| `/articles` | `articles/page.tsx` | All articles — server-side filters + pagination via URL params (`topic`, `impact`, `category`, `from`, `to`, `sort`, `page`) |
 | `/articles/[slug]` | `articles/[...slug]/page.tsx` | Article detail, 24h ISR revalidation |
 | `/intelligence` | `intelligence/page.tsx` | Signals dashboard + stats |
 | `/intelligence/signals` | `intelligence/signals/page.tsx` | All 13 active signals |
@@ -105,7 +115,11 @@ vercel.json              — Build config, 301 redirects (no active cron jobs)
 | `/compass/events` | `compass/events/page.tsx` | 2026 industry events calendar |
 | `/compass/llm-pricing` | `compass/llm-pricing/page.tsx` | Interactive LLM pricing simulator + history chart |
 | `/compass/directory` | `compass/directory/page.tsx` | 31 localization tech vendors |
-| `/search` | `search/page.tsx` | Full-text search (`?q=...`) |
+| `/search` | `search/page.tsx` | Hybrid semantic + full-text search (`?q=...`), RRF-ranked via `hybrid_search_articles` RPC with keyword/ilike fallbacks |
+| `/subscribe/confirm` | `subscribe/confirm/page.tsx` | Double-opt-in confirmation (`?token=`), noindex |
+| `/subscribe/manage` | `subscribe/manage/page.tsx` | Tokenized digest preferences (signals, min impact, frequency), noindex |
+| `/subscribe/unsubscribed` | `subscribe/unsubscribed/page.tsx` | Post-unsubscribe confirmation, noindex |
+| `/feed.xml` | `feed.xml/route.ts` | Articles RSS feed (latest 50) |
 | `/about` | `about/page.tsx` | About page |
 | `/contact` | `contact/page.tsx` | Contact form (uses Resend) |
 | `/privacy` | `privacy/page.tsx` | Privacy policy |
@@ -162,6 +176,11 @@ Several Compass and other sections use co-located client components:
 | `/api/direct` | POST | Direct article submission |
 | `/api/admin/backfill-authors` | POST | Admin utility: backfill article authors |
 | `/api/admin/reclassify` | POST | Admin utility: reclassify articles via LLM |
+| `/api/admin/backfill-embeddings` | POST | Embed articles with null embedding, batched; returns `{embedded, remaining}` (admin session or CRON_SECRET) |
+| `/api/subscribe` | POST | Digest signup → pending subscriber + Resend confirm email (double opt-in) |
+| `/api/subscribe/preferences` | POST | Token-authenticated preference updates / unsubscribe |
+| `/api/subscribe/unsubscribe` | GET/POST | One-click unsubscribe (`?token=`); POST is the RFC 8058 List-Unsubscribe target |
+| `/api/digest/send` | POST | Compose + send personalized digest via Resend batch (`?frequency=weekly\|daily`, CRON_SECRET or admin) |
 
 ---
 
@@ -189,7 +208,11 @@ tags text[]
 published_at timestamptz
 updated_at timestamptz
 draft_id uuid FK → drafts.id
+embedding vector(1536)         — pgvector, HNSW-indexed; set on publish, backfillable
+fts tsvector (generated)       — weighted full-text column (title A, excerpt B, content C), GIN-indexed
 ```
+
+RPCs (in `supabase/migrations/20260708_pgvector_search.sql`): `hybrid_search_articles(query_text, query_embedding, match_count)` — Reciprocal Rank Fusion of vector + full-text rankings; `keyword_search_articles(query_text, match_count)` — full-text fallback; `match_articles(query_embedding, match_count, exclude_id)` — nearest neighbors for related reading.
 
 ### `drafts`
 ```
@@ -226,6 +249,32 @@ Stores: `DEFAULT_INDUSTRY_PROMPT`, `DEFAULT_EXTRACTOR_PROMPT`, `DEFAULT_MONTHLY_
 url text PK
 ```
 Populated from legacy Jekyll migration to prevent re-ingesting old content.
+
+### `subscribers`
+```
+id uuid PK
+email text UNIQUE
+status 'pending' | 'active' | 'unsubscribed'
+signal_prefs text[]        — signal ids from lib/signals.ts; empty = all signals
+min_impact int (1–5)
+frequency 'weekly' | 'daily'
+confirm_token uuid         — double-opt-in link
+manage_token uuid          — preferences/unsubscribe links
+confirmed_at / unsubscribed_at / last_sent_at timestamptz
+created_at timestamptz
+```
+RLS enabled with no policies — service-role access only. Same for `digest_sends`.
+
+### `digest_sends`
+```
+id uuid PK
+subscriber_id uuid FK → subscribers.id
+period_start / period_end timestamptz
+article_ids uuid[]
+resend_id text
+sent_at timestamptz
+```
+Audit trail + idempotency for digest runs (re-runs skip subscribers with `last_sent_at` inside the period).
 
 ---
 
@@ -330,6 +379,7 @@ SUPABASE_SERVICE_ROLE_KEY     — Supabase service role key (server-only, never 
 OPENAI_API_KEY                — OpenAI API key
 RESEND_API_KEY                — Resend email service key
 CRON_SECRET                   — Secret to authenticate cron requests
+DIGEST_FROM_EMAIL             — Optional digest sender (falls back to Resend onboarding address until locreport.com is verified in Resend)
 ```
 
 ---
@@ -371,12 +421,14 @@ CRON_SECRET                   — Secret to authenticate cron requests
 
 ## Scheduled Jobs
 
-Daily ingest runs via **GitHub Actions** (`.github/workflows/ingest.yml`), not Vercel cron:
+Scheduled work runs via **GitHub Actions**, not Vercel cron:
 
-| Schedule | Trigger | Purpose |
+| Schedule | Workflow | Purpose |
 |---|---|---|
-| `30 10 * * *` (10:30 UTC daily) | GitHub Actions cron | POST `/api/ingest` with `CRON_SECRET` header |
-| On-demand | `workflow_dispatch` | Manual trigger from GitHub Actions UI |
+| `30 10 * * *` (10:30 UTC daily) | `ingest.yml` | POST `/api/ingest` with `CRON_SECRET` header |
+| `0 7 * * 1` (Mondays 07:00 UTC) | `digest.yml` | POST `/api/digest/send?frequency=weekly` |
+| `0 7 * * *` (07:00 UTC daily) | `digest.yml` | POST `/api/digest/send?frequency=daily` (only reaches daily-frequency subscribers) |
+| On-demand | `workflow_dispatch` on both | Manual trigger from GitHub Actions UI (digest has a frequency picker) |
 
 `vercel.json` has **no cron jobs configured**. The `CRON_SECRET` env var must be set in both Vercel (for the API route to validate) and the GitHub repository secrets (for the workflow to authenticate).
 
@@ -389,7 +441,8 @@ Monthly reports are triggered manually from the admin dashboard.
 - **Metadata API:** Next.js metadata exports on every public page
 - **OG image:** `/public/og-image.jpg` (1200×630)
 - **Sitemap:** `app/sitemap.ts` → `/sitemap.xml` (dynamic, includes all published articles)
-- **Robots:** `app/robots.ts` → `/robots.txt` (blocks crawlers from admin, api, CLAUDE.md)
+- **Robots:** `app/robots.ts` → `/robots.txt` (blocks crawlers from admin, api, CLAUDE.md, /subscribe pages)
+- **RSS:** `/feed.xml` (all articles) + `/fact-flow/feed.xml` (facts); RSS alternate declared in root layout metadata
 - **301 Redirects:** `vercel.json` — preserves SEO from legacy Jekyll URLs and old route names:
   - `/market` → `/compass/locstock`
   - `/events` → `/compass/events`
