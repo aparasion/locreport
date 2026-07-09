@@ -283,7 +283,7 @@ export default async function HomePage() {
                   Fact Flow — Live
                 </h3>
               </div>
-              <p className="sidebar-factflow__desc">Verified facts as they break — minutes after primary sources, hours before the full story.</p>
+              <p className="sidebar-factflow__desc">Verified facts as they break!</p>
               {latestFacts.map(fact => (
                 <div key={fact.id} className="sidebar-factflow__item">
                   <span className="sidebar-factflow__time">{timeAgo(fact.created_at)}</span>
