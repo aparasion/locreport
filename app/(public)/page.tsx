@@ -172,7 +172,7 @@ export default async function HomePage() {
                   {new Date(lead.published_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
                 </span>
               </div>
-              <div className="briefing__grid">
+              <div className={`briefing__grid${highImpactRail.length === 0 ? ' briefing__grid--single' : ''}`}>
                 <article className="briefing__lead">
                   <div className="briefing__lead-meta">
                     {lead.impact_score && (
