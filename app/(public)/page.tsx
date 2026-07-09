@@ -133,9 +133,6 @@ export default async function HomePage() {
           </div>
           <div className="hero-split__right" aria-label="Explore tools">
             <div className="hero-intel-panel">
-              <div className="hero-intel-panel__head">
-                <span className="hero-intel-panel__label">Explore</span>
-              </div>
               <div className="hero-tool-list">
                 {HERO_TOOLS.map(tool => (
                   <Link key={tool.href} href={tool.href} className="hero-tool-row">
