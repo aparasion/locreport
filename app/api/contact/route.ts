@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServiceClient } from '@/lib/supabase/server'
 import { Resend } from 'resend'
+import { fromWithName } from '@/lib/email/send'
 
 export async function POST(req: NextRequest) {
   const resend = new Resend(process.env.RESEND_API_KEY)
@@ -21,7 +22,7 @@ export async function POST(req: NextRequest) {
   }
 
   const { error: emailError } = await resend.emails.send({
-    from: 'LocReport Contact <onboarding@resend.dev>',
+    from: fromWithName('LocReport Contact'),
     to: process.env.CONTACT_EMAIL!,
     replyTo: email || undefined,
     subject: `[LocReport Contact] ${subject}`,

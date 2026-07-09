@@ -11,6 +11,11 @@ const BRAND = {
   border: '#E5E5EA',
 }
 
+// Direct asset URL (not the Next.js image optimizer) — email clients need a
+// stable, cacheable URL. logolight.png is the dark logo intended for the
+// light email header.
+const LOGO_URL = 'https://locreport.com/logolight.png'
+
 const IMPACT_LABEL: Record<number, string> = { 1: 'Routine', 2: 'Notable', 3: 'Significant', 4: 'Major', 5: 'Disruptive' }
 
 function escapeHtml(s: string): string {
@@ -30,7 +35,9 @@ function shell(bodyHtml: string, footerHtml: string): string {
     <tr><td align="center">
       <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background:${BRAND.surface};border-radius:12px;border:1px solid ${BRAND.border};overflow:hidden;">
         <tr><td style="padding:28px 32px 20px;border-bottom:1px solid ${BRAND.border};">
-          <span style="font-size:20px;font-weight:800;letter-spacing:-0.02em;color:${BRAND.text};">Loc<span style="color:${BRAND.accent};">Report</span></span>
+          <a href="https://locreport.com" style="text-decoration:none;">
+            <img src="${LOGO_URL}" alt="LocReport" width="128" height="34" style="display:block;height:34px;width:auto;border:0;outline:none;text-decoration:none;">
+          </a>
         </td></tr>
         <tr><td style="padding:28px 32px;">
           ${bodyHtml}
