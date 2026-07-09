@@ -6635,6 +6635,7 @@ kbd, code {
 .briefing__eyebrow { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.14em; color: var(--accent); }
 .briefing__date { font-size: 0.8rem; color: var(--muted); }
 .briefing__grid { display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr); gap: var(--space-6); }
+.briefing__grid--single { grid-template-columns: minmax(0, 1fr); }
 .briefing__lead { display: flex; flex-direction: column; gap: var(--space-3); align-items: flex-start; }
 .briefing__lead-meta { display: flex; align-items: center; gap: var(--space-3); }
 .briefing__publisher { font-size: 0.78rem; color: var(--muted); }
