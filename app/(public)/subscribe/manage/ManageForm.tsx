@@ -104,8 +104,8 @@ export default function ManageForm({ token, initial }: { token: string; initial:
           value={frequency}
           onChange={e => { setFrequency(e.target.value); setStatus('idle') }}
         >
-          <option value="weekly">Weekly (Mondays)</option>
-          <option value="daily">Daily</option>
+          <option value="weekly">Weekly (Fridays)</option>
+          <option value="daily">Daily (workdays)</option>
         </select>
       </section>
 
