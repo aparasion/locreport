@@ -138,7 +138,7 @@ export default async function FactFlowPage() {
             <h1>Fact Flow</h1>
             <span className="ff-live-badge">Live</span>
             <span className="ff-hero-sep" aria-hidden="true" />
-            <p className="ff-hero-desc">Verified facts the moment they're confirmed — often hours before the full article runs.</p>
+            <p className="ff-hero-desc">Verified facts the moment they're confirmed!</p>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
             <a href="/fact-flow/feed.xml" className="ff-rss-link">
