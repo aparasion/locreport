@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServiceClient } from '@/lib/supabase/server'
+import { embedAndStoreArticle } from '@/lib/embeddings'
 
 type Params = { params: Promise<{ id: string }> }
 
@@ -22,6 +23,9 @@ export async function PATCH(req: NextRequest, { params }: Params) {
     .select()
     .single()
   if (error) return NextResponse.json({ error: error.message }, { status: 400 })
+  if (body.title !== undefined || body.excerpt !== undefined || body.content !== undefined) {
+    await embedAndStoreArticle(supabase, id)
+  }
   return NextResponse.json(data)
 }
 

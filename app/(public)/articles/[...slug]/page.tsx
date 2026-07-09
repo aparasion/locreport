@@ -5,6 +5,7 @@ import { Article } from '@/lib/types'
 import { articleHref } from '@/lib/utils'
 import { SIGNAL_MAP } from '@/lib/signals'
 import { ShareButton } from '@/components/ShareButton'
+import { SubscribeForm } from '@/components/SubscribeForm'
 import Link from 'next/link'
 import type { Metadata } from 'next'
 
@@ -85,10 +86,19 @@ export default async function ArticlePage({ params }: Props) {
     .map(id => SIGNAL_MAP.get(id))
     .filter(Boolean) as NonNullable<ReturnType<typeof SIGNAL_MAP.get>>[]
 
-  // Fetch related articles — by shared signal, falling back to recent articles
+  // Fetch related articles — semantic nearest-neighbors when this article has
+  // an embedding, then shared-signal overlap, then recency as a final fill.
   const supabase = await createClient()
   let relatedArticles: Article[] = []
-  if (articleSignals.length > 0) {
+  if (a.embedding) {
+    const { data: semantic } = await supabase.rpc('match_articles', {
+      query_embedding: a.embedding,
+      match_count: 5,
+      exclude_id: a.id,
+    })
+    relatedArticles = (semantic as Article[]) ?? []
+  }
+  if (relatedArticles.length === 0 && articleSignals.length > 0) {
     const { data: related } = await supabase
       .from('articles')
       .select('id, title, slug, publisher, published_at, signal_ids')
@@ -171,6 +181,11 @@ export default async function ArticlePage({ params }: Props) {
       </header>
 
       <div className="post-content" dangerouslySetInnerHTML={{ __html: html }} />
+
+      <div className="post-subscribe">
+        <p className="post-subscribe__title">Get stories like this in your inbox</p>
+        <SubscribeForm compact />
+      </div>
 
       <div className="support-box">
         <div className="support-box__inner">

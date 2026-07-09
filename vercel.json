@@ -102,7 +102,6 @@
     { "source": "/cdn-cgi/l/email-protection", "destination": "/", "permanent": true },
     { "source": "/support", "destination": "/contact", "permanent": true },
     { "source": "/support/", "destination": "/contact", "permanent": true },
-    { "source": "/feed.xml", "destination": "/sitemap.xml", "permanent": true },
     { "source": "/404.html", "destination": "/", "permanent": true },
     { "source": "/reports/monthly/:year/:month", "destination": "/reports/monthly", "permanent": true },
     { "source": "/reports/monthly/:year/:month/", "destination": "/reports/monthly", "permanent": true },

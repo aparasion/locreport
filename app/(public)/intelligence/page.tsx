@@ -2,6 +2,10 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 import { SIGNALS } from '@/lib/signals'
 import { createClient } from '@/lib/supabase/server'
+import { SubscribeForm } from '@/components/SubscribeForm'
+import { getIntelligenceData, signalShortLabel } from '@/lib/intelligence'
+import { SignalMomentumChart } from './SignalMomentumChart'
+import { ImpactDistributionChart } from './ImpactDistributionChart'
 
 export const metadata: Metadata = {
   title: 'Intelligence — LocReport',
@@ -14,14 +18,27 @@ export const revalidate = 3600
 export default async function IntelligencePage() {
   const supabase = await createClient()
 
-  const { data: articles } = await supabase
-    .from('articles')
-    .select('impact_score, published_at')
+  const [{ data: articles }, intel] = await Promise.all([
+    supabase.from('articles').select('impact_score, published_at'),
+    getIntelligenceData(supabase),
+  ])
 
   const totalArticles = articles?.length ?? 0
   const highImpact = (articles ?? []).filter(a => (a.impact_score ?? 0) >= 4).length
   const nowMonth = new Date().toISOString().slice(0, 7)
   const thisMonth = (articles ?? []).filter(a => a.published_at?.slice(0, 7) === nowMonth).length
+
+  const seriesById = new Map(intel.signalSeries.map(s => [s.signalId, s]))
+  const momentumPanels = intel.topSignalIds.map(id => {
+    const s = seriesById.get(id)!
+    return {
+      id,
+      label: signalShortLabel(id),
+      momentum: s.observedMomentum,
+      total: s.total,
+      monthly: intel.monthlyRows.map(row => ({ month: row.month, count: (row[id] as number) ?? 0 })),
+    }
+  })
 
   return (
     <div className="container" style={{ paddingBottom: 'var(--space-12)' }}>
@@ -49,6 +66,23 @@ export default async function IntelligencePage() {
         </div>
       </section>
 
+      <section className="intel-section" aria-label="Signal coverage momentum">
+        <h2 className="intel-section__title">Signal coverage momentum</h2>
+        <p className="intel-section__sub">
+          Monthly article volume for the five most-covered signals over the last 12 months.
+          Momentum compares the trailing 8 weeks of coverage with the 8 before.
+        </p>
+        <SignalMomentumChart panels={momentumPanels} />
+      </section>
+
+      <section className="intel-section" aria-label="Impact distribution">
+        <h2 className="intel-section__title">Impact distribution</h2>
+        <p className="intel-section__sub">
+          How coverage skews across impact levels — the last 90 days against the 90 before.
+        </p>
+        <ImpactDistributionChart data={intel.impactBuckets} />
+      </section>
+
       <section className="intel-link-grid" aria-label="Intelligence tools">
         <Link href="/intelligence/signals" className="intel-link-card">
           <span className="intel-link-card__eyebrow">Tracker</span>
@@ -62,6 +96,17 @@ export default async function IntelligencePage() {
           <span className="intel-link-card__desc">Review recent significant, major, and disruptive localization industry coverage.</span>
           <span className="intel-link-card__cta">Open articles →</span>
         </Link>
+      </section>
+
+      <section className="subscribe-band" aria-label="Subscribe to the digest">
+        <div className="subscribe-band__copy">
+          <h2 className="subscribe-band__title">Signals in your inbox</h2>
+          <p className="subscribe-band__text">
+            Follow the signals you care about — the weekly digest filters
+            stories to your picks and minimum impact level.
+          </p>
+        </div>
+        <SubscribeForm />
       </section>
 
       <div className="intel-disclaimer">

@@ -3,6 +3,7 @@ import type { Metadata } from 'next'
 import { createClient } from '@/lib/supabase/server'
 import { SIGNALS } from '@/lib/signals'
 import { articleHref } from '@/lib/utils'
+import { embedText } from '@/lib/embeddings'
 import { SearchRefine } from './SearchRefine'
 
 export const dynamic = 'force-dynamic'
@@ -25,10 +26,71 @@ const STATIC_PAGES = [
   { title: 'Events', href: '/compass/events', section: 'Compass', excerpt: 'Upcoming and recent industry events in localization and language technology.' },
 ]
 
+interface ArticleResult {
+  id: string
+  title: string
+  slug: string
+  excerpt: string | null
+  publisher: string | null
+  article_type: string | null
+  published_at: string
+  impact_score: number | null
+}
+
+/**
+ * Hybrid semantic + keyword search with graceful degradation:
+ * 1. Embed the query and run RRF-fused vector + full-text search (RPC)
+ * 2. If embedding fails (OpenAI outage), keyword-only full-text RPC
+ * 3. If the RPCs don't exist yet (migration not applied), legacy ilike
+ */
+async function searchArticles(
+  supabase: Awaited<ReturnType<typeof createClient>>,
+  query: string
+): Promise<{ results: ArticleResult[]; mode: 'hybrid' | 'keyword' | 'basic' }> {
+  try {
+    const embedding = await embedText(query)
+    const { data, error } = await supabase.rpc('hybrid_search_articles', {
+      query_text: query,
+      query_embedding: embedding,
+      match_count: 24,
+    })
+    if (!error && data) {
+      return { results: (data as ArticleResult[]).filter(a => a.article_type !== 'monthly-summary').slice(0, 20), mode: 'hybrid' }
+    }
+  } catch (err) {
+    console.error('hybrid search failed, falling back to keyword search', err)
+  }
+
+  const { data: keywordData, error: keywordError } = await supabase.rpc('keyword_search_articles', {
+    query_text: query,
+    match_count: 24,
+  })
+  if (!keywordError && keywordData) {
+    return { results: (keywordData as ArticleResult[]).filter(a => a.article_type !== 'monthly-summary').slice(0, 20), mode: 'keyword' }
+  }
+
+  // Legacy path for environments where the search migration hasn't run.
+  const sanitized = query.replace(/[,%().]/g, ' ').trim()
+  const { data } = await supabase
+    .from('articles')
+    .select('id, title, slug, excerpt, publisher, article_type, published_at, impact_score')
+    .neq('article_type', 'monthly-summary')
+    .or(`title.ilike.%${sanitized}%,excerpt.ilike.%${sanitized}%,publisher.ilike.%${sanitized}%`)
+    .order('published_at', { ascending: false })
+    .limit(20)
+  return { results: (data as ArticleResult[]) ?? [], mode: 'basic' }
+}
+
 function highlight(text: string, q: string): string {
   if (!q || !text) return text
   const escaped = q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
   return text.replace(new RegExp(`(${escaped})`, 'gi'), '<mark>$1</mark>')
+}
+
+const IMPACT_LABEL: Record<number, string> = { 2: 'Notable', 3: 'Significant', 4: 'Major', 5: 'Disruptive' }
+
+function fmtDate(iso: string) {
+  return new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })
 }
 
 export default async function SearchPage({ searchParams }: { searchParams: Promise<{ q?: string }> }) {
@@ -50,12 +112,12 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
 
   if (!query) {
     return (
-      <div className="container" style={{ paddingTop: 'var(--space-8)', paddingBottom: 'var(--space-12)' }}>
+      <div className="container search-page">
         <div className="search-layout">
           <div className="search-main" style={{ maxWidth: 'none' }}>
             <SearchRefine initialQ="" />
-            <h1 style={{ fontSize: '1.6rem', fontWeight: 700, marginBottom: '0.5rem' }}>Search</h1>
-            <p style={{ color: 'var(--muted)' }}>Enter a search term above to search across all LocReport sections.</p>
+            <h1 className="search-heading">Search</h1>
+            <p className="search-subtitle">Search by topic, company, or concept — results are ranked by meaning, not just keyword matches.</p>
           </div>
           <SearchSidebar latestMonthly={latestMonthly} activeSignals={activeSignals} />
         </div>
@@ -64,15 +126,7 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
   }
 
   const qLower = query.toLowerCase()
-
-  // Articles from Supabase
-  const { data: articles } = await supabase
-    .from('articles')
-    .select('id, title, slug, excerpt, publisher, published_at, impact_score')
-    .neq('article_type', 'monthly-summary')
-    .or(`title.ilike.%${query}%,excerpt.ilike.%${query}%,publisher.ilike.%${query}%`)
-    .order('published_at', { ascending: false })
-    .limit(20)
+  const { results: articles, mode } = await searchArticles(supabase, query)
 
   // Signals (static)
   const signals = SIGNALS.filter(s =>
@@ -87,27 +141,21 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
     p.excerpt.toLowerCase().includes(qLower)
   )
 
-  const total = (articles?.length ?? 0) + signals.length + pages.length
-
-  const IMPACT_LABEL: Record<number, string> = { 2: 'Notable', 3: 'Significant', 4: 'Major', 5: 'Disruptive' }
-  const IMPACT_COLOR: Record<number, string> = { 2: '#6b7280', 3: '#f59e0b', 4: '#ef4444', 5: '#7c3aed' }
-
-  function fmtDate(iso: string) {
-    return new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })
-  }
+  const total = articles.length + signals.length + pages.length
 
   return (
-    <div className="container" style={{ paddingTop: 'var(--space-8)', paddingBottom: 'var(--space-12)' }}>
+    <div className="container search-page">
       <div className="search-layout">
 
         {/* Main results */}
         <div className="search-main">
           <SearchRefine initialQ={query} />
-          <h1 style={{ fontSize: '1.5rem', fontWeight: 700, marginBottom: '0.25rem' }}>
-            Results for <em style={{ fontStyle: 'normal', color: 'var(--accent)' }}>{query}</em>
+          <h1 className="search-heading search-heading--results">
+            Results for <em className="search-heading__query">{query}</em>
           </h1>
-          <p style={{ color: 'var(--muted)', fontSize: '0.88rem', marginBottom: 'var(--space-8)' }}>
+          <p className="search-meta">
             {total} result{total !== 1 ? 's' : ''} across all sections
+            {mode === 'hybrid' && ' · ranked by relevance'}
           </p>
 
           {pages.length > 0 && (
@@ -127,23 +175,23 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
                 <ResultRow key={s.id} href={`/intelligence/signals/${s.id}`} section="Intelligence"
                   title={<span dangerouslySetInnerHTML={{ __html: highlight(s.title, query) }} />}
                   excerpt={<span dangerouslySetInnerHTML={{ __html: highlight(s.description, query) }} />}
-                  meta={<span style={{ fontSize: '0.75rem', color: 'var(--muted)', textTransform: 'capitalize' }}>{s.current_status} · {s.category}</span>}
+                  meta={<span className="search-result__meta-text">{s.current_status} · {s.category}</span>}
                 />
               ))}
             </Section>
           )}
 
-          {(articles?.length ?? 0) > 0 && (
-            <Section label="Articles" count={articles!.length}>
-              {articles!.map(a => (
+          {articles.length > 0 && (
+            <Section label="Articles" count={articles.length}>
+              {articles.map(a => (
                 <ResultRow key={a.id} href={articleHref(a.slug)} section={a.publisher ?? 'Article'}
                   title={<span dangerouslySetInnerHTML={{ __html: highlight(a.title, query) }} />}
                   excerpt={a.excerpt ? <span dangerouslySetInnerHTML={{ __html: highlight(a.excerpt, query) }} /> : null}
                   meta={
-                    <span style={{ fontSize: '0.75rem', color: 'var(--muted)', display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+                    <span className="search-result__meta-text search-result__meta-text--row">
                       {fmtDate(a.published_at)}
                       {a.impact_score && a.impact_score >= 2 && (
-                        <span style={{ color: IMPACT_COLOR[a.impact_score], fontWeight: 600 }}>
+                        <span className={`search-result__impact search-result__impact--${a.impact_score}`}>
                           {IMPACT_LABEL[a.impact_score]}
                         </span>
                       )}
@@ -155,7 +203,7 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
           )}
 
           {total === 0 && (
-            <p style={{ color: 'var(--muted)', marginTop: 'var(--space-6)' }}>
+            <p className="search-empty">
               No results found. Try a different search term.
             </p>
           )}
@@ -176,9 +224,9 @@ function SearchSidebar({ latestMonthly, activeSignals }: {
       {latestMonthly && (
         <div className="post-sidebar-widget">
           <p className="post-sidebar-widget__title">Latest Monthly Report</p>
-          <Link href={articleHref(latestMonthly.slug)} style={{ textDecoration: 'none', color: 'var(--text)' }}>
-            <p style={{ fontSize: '0.88rem', fontWeight: 600, lineHeight: 1.4, marginBottom: '0.25rem' }}>{latestMonthly.title}</p>
-            <p style={{ fontSize: '0.76rem', color: 'var(--muted)' }}>
+          <Link href={articleHref(latestMonthly.slug)} className="search-sidebar__link">
+            <p className="search-sidebar__link-title">{latestMonthly.title}</p>
+            <p className="search-sidebar__link-sub">
               {new Date(latestMonthly.published_at).toLocaleDateString('en-GB', { month: 'long', year: 'numeric' })}
             </p>
           </Link>
@@ -187,25 +235,25 @@ function SearchSidebar({ latestMonthly, activeSignals }: {
 
       <div className="post-sidebar-widget">
         <p className="post-sidebar-widget__title">Annual Report</p>
-        <Link href="/reports/2026-annual-global-market-report" style={{ textDecoration: 'none', color: 'var(--text)' }}>
-          <p style={{ fontSize: '0.88rem', fontWeight: 600, lineHeight: 1.4, marginBottom: '0.25rem' }}>2026 Annual Global Market Report</p>
-          <p style={{ fontSize: '0.76rem', color: 'var(--muted)' }}>Localization &amp; Translation Industry</p>
+        <Link href="/reports/2026-annual-global-market-report" className="search-sidebar__link">
+          <p className="search-sidebar__link-title">2026 Annual Global Market Report</p>
+          <p className="search-sidebar__link-sub">Localization &amp; Translation Industry</p>
         </Link>
       </div>
 
       <div className="post-sidebar-widget">
         <p className="post-sidebar-widget__title">Active Signals</p>
-        <ul className="post-sidebar-list" style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+        <ul className="search-sidebar__list">
           {activeSignals.map(s => (
-            <li key={s.id} style={{ marginBottom: '0.5rem' }}>
-              <Link href={`/intelligence/signals/${s.id}`} style={{ fontSize: '0.82rem', color: 'var(--text)', textDecoration: 'none', lineHeight: 1.4, display: 'block' }}>
+            <li key={s.id}>
+              <Link href={`/intelligence/signals/${s.id}`} className="search-sidebar__signal">
                 {s.title}
               </Link>
-              <span style={{ fontSize: '0.72rem', color: 'var(--muted)', textTransform: 'capitalize' }}>{s.current_status}</span>
+              <span className="search-sidebar__signal-status">{s.current_status}</span>
             </li>
           ))}
         </ul>
-        <Link href="/intelligence/signals" style={{ fontSize: '0.78rem', color: 'var(--accent)', textDecoration: 'none', display: 'inline-block', marginTop: '0.5rem' }}>
+        <Link href="/intelligence/signals" className="search-sidebar__more">
           All signals →
         </Link>
       </div>
@@ -215,12 +263,12 @@ function SearchSidebar({ latestMonthly, activeSignals }: {
 
 function Section({ label, count, children }: { label: string; count: number; children: React.ReactNode }) {
   return (
-    <div style={{ marginBottom: 'var(--space-8)' }}>
-      <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.5rem', marginBottom: 'var(--space-3)', borderBottom: '1px solid var(--border)', paddingBottom: '0.4rem' }}>
-        <span style={{ fontWeight: 700, fontSize: '0.78rem', textTransform: 'uppercase', letterSpacing: '0.06em', color: 'var(--muted)' }}>{label}</span>
-        <span style={{ fontSize: '0.75rem', color: 'var(--muted)', opacity: 0.7 }}>{count}</span>
+    <div className="search-section">
+      <div className="search-section__head">
+        <span className="search-section__label">{label}</span>
+        <span className="search-section__count">{count}</span>
       </div>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.1rem' }}>{children}</div>
+      <div className="search-section__body">{children}</div>
     </div>
   )
 }
@@ -233,14 +281,14 @@ function ResultRow({ href, title, excerpt, meta, section }: {
   section: string
 }) {
   return (
-    <Link href={href} style={{ display: 'block', padding: '0.75rem 0', borderBottom: '1px solid var(--border, #f0f0f0)', textDecoration: 'none', color: 'inherit' }}>
-      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '1rem' }}>
-        <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ fontWeight: 600, fontSize: '0.95rem', marginBottom: '0.2rem', color: 'var(--text)' }}>{title}</div>
-          {excerpt && <div style={{ fontSize: '0.83rem', color: 'var(--muted)', lineHeight: 1.5, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>{excerpt}</div>}
-          {meta && <div style={{ marginTop: '0.25rem' }}>{meta}</div>}
+    <Link href={href} className="search-result">
+      <div className="search-result__inner">
+        <div className="search-result__main">
+          <div className="search-result__title">{title}</div>
+          {excerpt && <div className="search-result__excerpt">{excerpt}</div>}
+          {meta && <div className="search-result__meta">{meta}</div>}
         </div>
-        <span style={{ flexShrink: 0, fontSize: '0.72rem', fontWeight: 600, color: 'var(--accent)', background: 'var(--accent-light, #eef2ff)', padding: '0.15rem 0.5rem', borderRadius: 4, whiteSpace: 'nowrap' }}>{section}</span>
+        <span className="search-result__section">{section}</span>
       </div>
     </Link>
   )

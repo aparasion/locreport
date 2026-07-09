@@ -39,7 +39,10 @@ export function Nav() {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null)
   const [searchOpen, setSearchOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
-  const [theme, setTheme] = useState<'light' | 'dark'>('light')
+  const [theme, setTheme] = useState<'light' | 'dark'>(() => {
+    if (typeof document === 'undefined') return 'light'
+    return document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light'
+  })
   const searchRef = useRef<HTMLInputElement>(null)
   const navRef = useRef<HTMLElement>(null)
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -65,8 +68,10 @@ export function Nav() {
   }, [])
 
   useEffect(() => {
-    const saved = localStorage.getItem('theme') as 'light' | 'dark' | null
-    if (saved) { setTheme(saved); document.documentElement.setAttribute('data-theme', saved) }
+    // Theme is stamped on <html> before paint by the inline script in app/layout.tsx;
+    // sync state in case hydration raced it.
+    const current = document.documentElement.getAttribute('data-theme')
+    if (current === 'dark' || current === 'light') setTheme(current)
     fetch('/api/me').then(r => r.json()).then(({ email, isAdmin }) => {
       setEmail(email)
       setIsAdmin(isAdmin)

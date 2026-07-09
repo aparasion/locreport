@@ -2,6 +2,8 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 import { SIGNALS } from '@/lib/signals'
 import { createClient } from '@/lib/supabase/server'
+import { getIntelligenceData } from '@/lib/intelligence'
+import { SignalSparkline } from '@/components/SignalSparkline'
 
 export const metadata: Metadata = {
   title: 'Signal Tracker — LocReport Intelligence',
@@ -20,10 +22,11 @@ const MOMENTUM_LABEL: Record<string, string> = {
 export default async function SignalsPage() {
   const supabase = await createClient()
 
-  const { data: articles } = await supabase
-    .from('articles')
-    .select('signal_ids')
-    .neq('article_type', 'monthly-summary')
+  const [{ data: articles }, intel] = await Promise.all([
+    supabase.from('articles').select('signal_ids').neq('article_type', 'monthly-summary'),
+    getIntelligenceData(supabase),
+  ])
+  const seriesById = new Map(intel.signalSeries.map(s => [s.signalId, s]))
 
   const signalCounts = new Map<string, number>()
   for (const a of articles ?? []) {
@@ -82,6 +85,7 @@ export default async function SignalsPage() {
               </div>
               <h2 className="signals-index-card__title">{signal.title}</h2>
               <p className="signals-index-card__desc">{signal.description}</p>
+              <SignalSparkline data={seriesById.get(signal.id)?.weekly ?? []} height={30} />
               <div className="signals-index-card__bottom">
                 <span className="signal-tile__count">{count} article{count !== 1 ? 's' : ''}</span>
                 <span className="signals-index-card__cta">View signal →</span>

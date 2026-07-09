@@ -11,7 +11,10 @@ export function ReadingProgress() {
   useEffect(() => {
     if (!isArticle) { setPct(0); return }
 
+    let ticking = false
+
     function update() {
+      ticking = false
       const article = document.querySelector('article.post') as HTMLElement | null
       if (!article) return
       const top = article.getBoundingClientRect().top + window.scrollY
@@ -21,9 +24,19 @@ export function ReadingProgress() {
       setPct(p)
     }
 
-    window.addEventListener('scroll', update, { passive: true })
+    function onScroll() {
+      if (ticking) return
+      ticking = true
+      requestAnimationFrame(update)
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true })
+    window.addEventListener('resize', onScroll, { passive: true })
     update()
-    return () => window.removeEventListener('scroll', update)
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', onScroll)
+    }
   }, [isArticle, pathname])
 
   if (!isArticle) return null

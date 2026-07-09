@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { IngestButton, type IngestResult } from '@/components/IngestButton'
+import { BackfillEmbeddingsButton } from '@/components/BackfillEmbeddingsButton'
 
 type Confirm = 'ingest' | 'monthly' | 'monthly-force' | null
 
@@ -141,6 +142,22 @@ export default function AdminDashboard() {
               <Button variant="ghost" onClick={() => setConfirm(null)}>Cancel</Button>
             </div>
           )}
+        </div>
+
+        {/* Embeddings backfill */}
+        <div className="p-4 rounded-lg border" style={{ background: 'var(--surface)', borderColor: 'var(--border)' }}>
+          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
+            <div>
+              <p className="font-medium" style={{ color: 'var(--text)' }}>Backfill embeddings</p>
+              <p className="text-sm mt-0.5" style={{ color: 'var(--muted)' }}>
+                Generate semantic-search vectors for articles that don&apos;t have one yet.
+                New articles are embedded automatically on publish.
+              </p>
+            </div>
+            <div className="shrink-0 self-start">
+              <BackfillEmbeddingsButton />
+            </div>
+          </div>
         </div>
 
         {/* Monthly report */}
