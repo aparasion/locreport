@@ -5437,21 +5437,6 @@ article.page > h1 {
 [data-theme="dark"] .hero-intel-panel {
   background: color-mix(in srgb, var(--surface) 80%, transparent);
 }
-.hero-intel-panel__head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: var(--space-4);
-  padding-bottom: var(--space-3);
-  border-bottom: 1px solid var(--border);
-}
-.hero-intel-panel__label {
-  font-size: 0.72rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--muted);
-}
 .live-indicator {
   display: inline-flex;
   align-items: center;
