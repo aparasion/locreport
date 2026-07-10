@@ -7,6 +7,7 @@ import { DEFAULT_EXTRACTOR_PROMPT, DEFAULT_INDUSTRY_PROMPT, DEFAULT_FACTFLOW_PRO
 import { classifyArticle } from '@/lib/classify'
 import { extractTeaser } from '@/lib/utils'
 import { parseDistilledFacts } from '@/lib/facts'
+import { getDirectoryEntries, linkifyCompanyMentions } from '@/lib/companyLinks'
 
 async function getPrompt(supabase: ReturnType<typeof createServiceClient>, key: string, fallback: string): Promise<string> {
   try {
@@ -66,6 +67,7 @@ export async function POST(req: NextRequest) {
   const openai = getOpenAI()
   const extractorPrompt = await getPrompt(supabase, 'prompt_extractor', DEFAULT_EXTRACTOR_PROMPT)
   const industryPrompt = await getPrompt(supabase, 'prompt_industry', DEFAULT_INDUSTRY_PROMPT)
+  const directoryEntries = await getDirectoryEntries(supabase)
   let processed = 0
   const errors: string[] = []
   const skipped: string[] = []
@@ -150,11 +152,13 @@ export async function POST(req: NextRequest) {
         const titleMatch = rawContent.match(/^#\s+(.+)$/m)
         const title = titleMatch ? titleMatch[1].trim() : item.title
         // Strip the H1 from the body — title is stored separately
-        const content = rawContent.replace(/^#\s+.+\n?/, '').trimStart()
-        const excerpt = extractTeaser(content) || null
+        const strippedContent = rawContent.replace(/^#\s+.+\n?/, '').trimStart()
+        const excerpt = extractTeaser(strippedContent) || null
         const slug = await uniqueSlug(slugify(title), 'drafts', supabase)
 
-        const classification = await classifyArticle(openai, content)
+        const classification = await classifyArticle(openai, strippedContent)
+        // Auto-link mentions of directory companies to their /compass/directory page
+        const content = linkifyCompanyMentions(strippedContent, directoryEntries)
 
         const { error: insertError } = await supabase.from('drafts').insert({
           title,

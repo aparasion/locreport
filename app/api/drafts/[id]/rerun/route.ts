@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient, createServiceClient } from '@/lib/supabase/server'
 import { getOpenAI } from '@/lib/openai'
 import { DEFAULT_EXTRACTOR_PROMPT, DEFAULT_INDUSTRY_PROMPT } from '@/lib/prompts'
+import { getDirectoryEntries, linkifyCompanyMentions } from '@/lib/companyLinks'
 
 type Params = { params: Promise<{ id: string }> }
 
@@ -73,7 +74,9 @@ export async function POST(req: NextRequest, { params }: Params) {
         { role: 'user', content: generateInput },
       ],
     })
-    const newContent = generateRes.choices[0].message.content ?? ''
+    const rawNewContent = generateRes.choices[0].message.content ?? ''
+    const directoryEntries = await getDirectoryEntries(service)
+    const newContent = linkifyCompanyMentions(rawNewContent, directoryEntries)
 
     const { data: updated, error: updateError } = await service
       .from('drafts')

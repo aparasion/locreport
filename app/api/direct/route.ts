@@ -3,6 +3,7 @@ import { createClient, createServiceClient } from '@/lib/supabase/server'
 import { getOpenAI } from '@/lib/openai'
 import { classifyArticle } from '@/lib/classify'
 import { slugify, uniqueSlug } from '@/lib/slugify'
+import { getDirectoryEntries, linkifyCompanyMentions } from '@/lib/companyLinks'
 
 export async function POST(req: NextRequest) {
   const supabase = await createClient()
@@ -31,12 +32,14 @@ export async function POST(req: NextRequest) {
 
   const db = createServiceClient()
   const slug = await uniqueSlug(slugify(title.trim()), 'drafts', db)
+  const directoryEntries = await getDirectoryEntries(db)
+  const linkedContent = linkifyCompanyMentions(content, directoryEntries)
   const { data, error } = await db
     .from('drafts')
     .insert({
       title: title.trim(),
       slug,
-      content,
+      content: linkedContent,
       source_url: primarySourceUrl,
       status: 'pending',
     })
