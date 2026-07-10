@@ -5,6 +5,7 @@ import { extractTeaser } from '@/lib/utils'
 import { classifyArticle } from '@/lib/classify'
 import { getOpenAI } from '@/lib/openai'
 import { embedAndStoreArticle } from '@/lib/embeddings'
+import { getDirectoryEntries, linkifyCompanyMentions } from '@/lib/companyLinks'
 
 type Params = { params: Promise<{ id: string }> }
 
@@ -44,11 +45,14 @@ export async function PATCH(req: NextRequest, { params }: Params) {
 
     const openai = getOpenAI()
     const classification = await classifyArticle(openai, content)
+    // Auto-link mentions of directory companies to their /compass/directory page
+    const directoryEntries = await getDirectoryEntries(supabase)
+    const linkedContent = linkifyCompanyMentions(content, directoryEntries)
 
     const { error: articleError } = await supabase.from('articles').insert({
       title,
       slug,
-      content,
+      content: linkedContent,
       excerpt,
       source_url,
       publisher,

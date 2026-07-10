@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient, createServiceClient } from '@/lib/supabase/server'
 import { slugify, uniqueSlug } from '@/lib/slugify'
 import { embedAndStoreArticle } from '@/lib/embeddings'
+import { getDirectoryEntries, linkifyCompanyMentions } from '@/lib/companyLinks'
 
 export async function GET(req: NextRequest) {
   const slug = req.nextUrl.searchParams.get('slug')
@@ -28,9 +29,11 @@ export async function POST(req: NextRequest) {
   const title = titleMatch ? titleMatch[1].trim() : 'Untitled'
   const supabase = createServiceClient()
   const slug = await uniqueSlug(slugify(title), 'articles', supabase)
+  const directoryEntries = await getDirectoryEntries(supabase)
+  const linkedContent = linkifyCompanyMentions(content, directoryEntries)
   const { data, error } = await supabase
     .from('articles')
-    .insert({ title, slug, content, article_type: 'industry', author: 'LocReport Editorial Desk', publisher: 'LocReport' })
+    .insert({ title, slug, content: linkedContent, article_type: 'industry', author: 'LocReport Editorial Desk', publisher: 'LocReport' })
     .select()
     .single()
 
