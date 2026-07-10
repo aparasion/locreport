@@ -36,17 +36,22 @@ jobs:
           fi
 
           SCHEDULE="${{ github.event.schedule }}"
-          LOCAL_HOUR="$(TZ='Europe/Berlin' date +%H)"
+          # GitHub Actions can delay a scheduled run by hours under load, so
+          # matching on the exact target hour is unreliable — a late-firing
+          # run would see the wrong local hour and skip every time. Match on
+          # which DST offset is currently active instead: that only flips
+          # twice a year, so a delayed run still resolves correctly.
+          CURRENT_OFFSET="$(TZ='Europe/Berlin' date +%z)"
 
           case "$SCHEDULE" in
-            "0 11 * * 5"|"0 12 * * 5")
-              FREQUENCY="weekly"
-              TARGET_HOUR="13"
-              ;;
-            "0 14 * * 1-5"|"0 15 * * 1-5")
-              FREQUENCY="daily"
-              TARGET_HOUR="16"
-              ;;
+            "0 11 * * 5")
+              FREQUENCY="weekly"; EXPECTED_OFFSET="+0200" ;;
+            "0 12 * * 5")
+              FREQUENCY="weekly"; EXPECTED_OFFSET="+0100" ;;
+            "0 14 * * 1-5")
+              FREQUENCY="daily"; EXPECTED_OFFSET="+0200" ;;
+            "0 15 * * 1-5")
+              FREQUENCY="daily"; EXPECTED_OFFSET="+0100" ;;
             *)
               echo "Unrecognized schedule: $SCHEDULE" >&2
               exit 1
@@ -54,9 +59,7 @@ jobs:
           esac
 
           echo "value=$FREQUENCY" >> "$GITHUB_OUTPUT"
-          # Both UTC offsets fire every matching day; only the one that
-          # currently matches Central European local time should proceed.
-          if [ "$LOCAL_HOUR" = "$TARGET_HOUR" ]; then
+          if [ "$CURRENT_OFFSET" = "$EXPECTED_OFFSET" ]; then
             echo "proceed=true" >> "$GITHUB_OUTPUT"
           else
             echo "proceed=false" >> "$GITHUB_OUTPUT"
