@@ -77,7 +77,7 @@ lib/
   data/
     events.ts            — 2026 industry calendar (11 events, hardcoded)
     directory.ts         — 31 localization tech vendors (hardcoded)
-    llm-pricing.ts       — LLM provider pricing snapshots (12 models tracked, hardcoded)
+    llm-pricing.ts       — LLM provider pricing (12 models tracked); static values are the seed/fallback, overlaid at render time with live data from `llm_pricing_quotes`/`llm_pricing_history` (see `/api/llm-pricing`)
 
 assets/
   css/style.css          — Design system: indigo-blue palette, Space Grotesk + Inter fonts
@@ -156,7 +156,8 @@ Several Compass and other sections use co-located client components:
 | Endpoint | Method | Purpose |
 |---|---|---|
 | `/api/ingest` | GET/POST | RSS fetch → draft creation |
-| `/api/market-quotes` | POST | Fetch + cache ticker prices to market_quotes.json |
+| `/api/market-quotes` | GET/POST | POST: fetch ticker prices + history from Yahoo Finance, upsert to `market_quotes` table (admin session or CRON_SECRET). GET: read cached quotes |
+| `/api/llm-pricing` | GET/POST | POST: fetch current per-token pricing from OpenRouter, upsert to `llm_pricing_quotes`/`llm_pricing_history` (admin session or CRON_SECRET). GET: read cached pricing + history |
 | `/api/monthly-report` | POST | Generate monthly synthesis via OpenAI |
 | `/api/drafts` | GET/POST | List/create drafts |
 | `/api/drafts/[id]` | GET/PATCH/DELETE | Draft CRUD |
@@ -275,6 +276,25 @@ resend_id text
 sent_at timestamptz
 ```
 Audit trail + idempotency for digest runs (re-runs skip subscribers with `last_sent_at` inside the period).
+
+### `llm_pricing_quotes`
+```
+model_id text PK          — matches LLMModel.id in lib/data/llm-pricing.ts
+data jsonb                — {input, output, context, provider, name} ($ per 1M tokens)
+updated_at timestamptz
+```
+Current pricing snapshot, refreshed by `/api/llm-pricing` POST from the OpenRouter public models API. RLS enabled with no policies — service-role access only. Same for `llm_pricing_history`.
+
+### `llm_pricing_history`
+```
+id uuid PK
+model_id text
+date date
+input / output numeric    — $ per 1M tokens
+created_at timestamptz
+UNIQUE(model_id, date)
+```
+One row per price change per model (a new row is only inserted when the price differs from the latest stored value), powering the `/compass/llm-pricing` history chart alongside the static seed history in `lib/data/llm-pricing.ts`.
 
 ---
 

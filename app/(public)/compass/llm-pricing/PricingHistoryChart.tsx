@@ -356,7 +356,7 @@ export function PricingHistoryChart({ models, history }: Props) {
       </div>
 
       <p className="phc-disclaimer">
-        Snapshots reflect announced API list prices at point of change. Historical data is manually curated — verify against provider documentation for accuracy.
+        Snapshots reflect announced API list prices at point of change, refreshed automatically — verify against provider documentation for accuracy.
       </p>
     </div>
   )
