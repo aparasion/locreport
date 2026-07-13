@@ -11,6 +11,7 @@ export default function AdminDashboard() {
   const [stats, setStats] = useState<{ articles: number; drafts: number; sources: number } | null>(null)
   const [monthlyRunning, setMonthlyRunning] = useState(false)
   const [quotesRunning, setQuotesRunning] = useState(false)
+  const [pricingRunning, setPricingRunning] = useState(false)
   const [backfillRunning, setBackfillRunning] = useState(false)
   const [backfillSlug, setBackfillSlug] = useState('')
   const [confirm, setConfirm] = useState<Confirm>(null)
@@ -88,6 +89,18 @@ export default function AdminDashboard() {
       res.ok ? 'ok' : 'error',
     )
     setQuotesRunning(false)
+  }
+
+  async function refreshPricing() {
+    setPricingRunning(true)
+    flash('')
+    const res = await fetch('/api/llm-pricing', { method: 'POST' })
+    const data = await res.json()
+    flash(
+      res.ok ? `LLM pricing updated: ${data.updated} models (${data.failed} failed).` : (data.error ?? 'Update failed.'),
+      res.ok ? 'ok' : 'error',
+    )
+    setPricingRunning(false)
   }
 
   const now = new Date()
@@ -230,6 +243,22 @@ export default function AdminDashboard() {
             </div>
             <Button variant="secondary" onClick={refreshQuotes} disabled={quotesRunning} className="shrink-0 self-start">
               {quotesRunning ? 'Refreshing…' : 'Refresh now'}
+            </Button>
+          </div>
+        </div>
+
+        {/* LLM pricing */}
+        <div className="p-4 rounded-lg border" style={{ background: 'var(--surface)', borderColor: 'var(--border)' }}>
+          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
+            <div>
+              <p className="font-medium" style={{ color: 'var(--text)' }}>Refresh LLM pricing</p>
+              <p className="text-sm mt-0.5" style={{ color: 'var(--muted)' }}>
+                Fetch current per-token pricing for tracked models from OpenRouter and log any price changes.
+                Set a daily cron-job.org job to POST /api/llm-pricing.
+              </p>
+            </div>
+            <Button variant="secondary" onClick={refreshPricing} disabled={pricingRunning} className="shrink-0 self-start">
+              {pricingRunning ? 'Refreshing…' : 'Refresh now'}
             </Button>
           </div>
         </div>

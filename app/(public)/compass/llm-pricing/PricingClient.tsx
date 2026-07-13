@@ -218,7 +218,7 @@ export function PricingClient({ models }: Props) {
       </div>
 
       <p className="pricing-disclaimer">
-        Prices are indicative API list prices per 1M tokens as of mid-2025. Actual costs vary by provider pricing tier, caching, batching, and model version. Always verify current pricing on provider documentation.
+        Prices are API list prices per 1M tokens, refreshed automatically from provider pricing data. Actual costs vary by pricing tier, caching, batching, and model version. Always verify current pricing on provider documentation.
       </p>
 
       <div className="pricing-results-section">
