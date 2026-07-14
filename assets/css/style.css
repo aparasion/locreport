@@ -209,9 +209,7 @@ article.page:has(.dir-grid) { max-width: var(--site-max-width); overflow-x: hidd
   position: sticky;
   top: 0;
   z-index: 40;
-  background: var(--glass-bg);
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  background: var(--surface);
   border-bottom: 1px solid var(--border);
   transition: background 0.3s ease;
 }
