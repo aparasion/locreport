@@ -51,6 +51,7 @@ export default async function HomePage() {
   const { data: latestFacts } = await supabase
     .from('facts')
     .select('id, content, created_at')
+    .not('article_id', 'is', null)
     .order('created_at', { ascending: false })
     .limit(4)
 
