@@ -50,10 +50,20 @@ export default async function HomePage() {
 
   const { data: latestFacts } = await supabase
     .from('facts')
-    .select('id, content, created_at')
+    .select('id, content, created_at, article_id')
     .not('article_id', 'is', null)
     .order('created_at', { ascending: false })
     .limit(4)
+
+  const factArticleIds = [...new Set((latestFacts ?? []).map(f => f.article_id).filter(Boolean))]
+  const factSlugMap = new Map<string, string>()
+  if (factArticleIds.length > 0) {
+    const { data: factArticles } = await supabase
+      .from('articles')
+      .select('id, slug')
+      .in('id', factArticleIds as string[])
+    for (const a of factArticles ?? []) factSlugMap.set(a.id, a.slug)
+  }
 
   const allArticles = (articles as Article[]) ?? []
 
@@ -284,12 +294,19 @@ export default async function HomePage() {
                 </h3>
               </div>
               <p className="sidebar-factflow__desc">Verified facts as they break!</p>
-              {latestFacts.map(fact => (
-                <div key={fact.id} className="sidebar-factflow__item">
-                  <span className="sidebar-factflow__time">{timeAgo(fact.created_at)}</span>
-                  <span className="sidebar-factflow__content">{fact.content}</span>
-                </div>
-              ))}
+              {latestFacts.map(fact => {
+                const slug = fact.article_id ? factSlugMap.get(fact.article_id) : undefined
+                return (
+                  <div key={fact.id} className="sidebar-factflow__item">
+                    <span className="sidebar-factflow__time">{timeAgo(fact.created_at)}</span>
+                    {slug ? (
+                      <Link href={articleHref(slug)} className="sidebar-factflow__content">{fact.content}</Link>
+                    ) : (
+                      <span className="sidebar-factflow__content">{fact.content}</span>
+                    )}
+                  </div>
+                )
+              })}
               <Link href="/fact-flow" className="sidebar-widget__more">Follow the live feed →</Link>
             </div>
           )}
