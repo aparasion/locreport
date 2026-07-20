@@ -1,8 +1,22 @@
 'use client'
 
+import Script from 'next/script'
 import { useState } from 'react'
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/
+const recaptchaSiteKey = '6Ld7gVwtAAAAAGBDtEUJSiOyzLCOYsfB3thG_d9X'
+
+type RecaptchaWidget = {
+  render: (container: string | HTMLElement, parameters: { sitekey: string }) => number
+  getResponse: (widgetId?: number) => string
+  reset: (widgetId?: number) => void
+}
+
+declare global {
+  interface Window {
+    grecaptcha?: RecaptchaWidget
+  }
+}
 
 export default function ContactPage() {
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
@@ -31,10 +45,17 @@ export default function ContactPage() {
 
     const form = e.currentTarget
     const email = (form.elements.namedItem('email') as HTMLInputElement).value
+    const recaptchaToken = window.grecaptcha?.getResponse()
 
     if (email && !emailPattern.test(email)) {
       setEmailError('Please enter a valid email address.')
       setStatus('idle')
+      return
+    }
+
+    if (!recaptchaToken) {
+      setStatus('error')
+      setErrorMsg('Please complete the reCAPTCHA checkbox before sending your message.')
       return
     }
 
@@ -43,6 +64,7 @@ export default function ContactPage() {
       email,
       subject: (form.elements.namedItem('subject') as HTMLInputElement).value,
       message: (form.elements.namedItem('message') as HTMLTextAreaElement).value,
+      recaptchaToken,
     }
 
     try {
@@ -59,14 +81,17 @@ export default function ContactPage() {
 
       setStatus('success')
       form.reset()
+      window.grecaptcha?.reset()
     } catch (err) {
       setStatus('error')
       setErrorMsg(err instanceof Error ? err.message : 'Something went wrong')
+      window.grecaptcha?.reset()
     }
   }
 
   return (
     <div className="container" style={{ paddingTop: 'var(--space-8)', paddingBottom: 'var(--space-12)' }}>
+      <Script src="https://www.google.com/recaptcha/api.js" async defer strategy="afterInteractive" />
       <article className="page-prose">
         <h1>Contact</h1>
         <p>Have a tip, correction, or want to contribute? Use the form below to get in touch.</p>
@@ -104,6 +129,10 @@ export default function ContactPage() {
             <div className="form-group">
               <label htmlFor="message">Message</label>
               <textarea name="message" id="message" rows={6} required />
+            </div>
+
+            <div className="form-group">
+              <div className="g-recaptcha" data-sitekey={recaptchaSiteKey}></div>
             </div>
 
             {status === 'error' && (
