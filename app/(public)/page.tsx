@@ -67,9 +67,9 @@ export default async function HomePage() {
 
   const allArticles = (articles as Article[]) ?? []
 
-  // Today's briefing: impact-ranked lead from the freshest coverage,
+  // Today's briefing: impact-ranked lead from the latest 10 articles,
   // plus a rail of recent high-impact stories.
-  const leadPool = allArticles.slice(0, 20)
+  const leadPool = allArticles.slice(0, 10)
   const lead = [...leadPool].sort(
     (a, b) => (b.impact_score ?? 0) - (a.impact_score ?? 0) || b.published_at.localeCompare(a.published_at)
   )[0]
