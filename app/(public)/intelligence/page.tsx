@@ -18,15 +18,16 @@ export const revalidate = 3600
 export default async function IntelligencePage() {
   const supabase = await createClient()
 
-  const [{ data: articles }, intel] = await Promise.all([
-    supabase.from('articles').select('impact_score, published_at'),
+  const now = new Date()
+  const monthStart = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1)).toISOString()
+  const nextMonthStart = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() + 1, 1)).toISOString()
+
+  const [{ count: totalArticles }, { count: highImpact }, { count: thisMonth }, intel] = await Promise.all([
+    supabase.from('articles').select('id', { count: 'exact', head: true }),
+    supabase.from('articles').select('id', { count: 'exact', head: true }).gte('impact_score', 4),
+    supabase.from('articles').select('id', { count: 'exact', head: true }).gte('published_at', monthStart).lt('published_at', nextMonthStart),
     getIntelligenceData(supabase),
   ])
-
-  const totalArticles = articles?.length ?? 0
-  const highImpact = (articles ?? []).filter(a => (a.impact_score ?? 0) >= 4).length
-  const nowMonth = new Date().toISOString().slice(0, 7)
-  const thisMonth = (articles ?? []).filter(a => a.published_at?.slice(0, 7) === nowMonth).length
 
   const seriesById = new Map(intel.signalSeries.map(s => [s.signalId, s]))
   const momentumPanels = intel.topSignalIds.map(id => {
@@ -49,11 +50,11 @@ export default async function IntelligencePage() {
 
       <section className="intel-stats-grid" aria-label="Intelligence overview statistics">
         <div className="intel-stat-card">
-          <span className="intel-stat-number">{totalArticles.toLocaleString()}</span>
+          <span className="intel-stat-number">{(totalArticles ?? 0).toLocaleString()}</span>
           <span className="intel-stat-label">Articles Tracked</span>
         </div>
         <div className="intel-stat-card">
-          <span className="intel-stat-number">{highImpact}</span>
+          <span className="intel-stat-number">{highImpact ?? 0}</span>
           <span className="intel-stat-label">High Impact (4–5)</span>
         </div>
         <div className="intel-stat-card">
@@ -61,7 +62,7 @@ export default async function IntelligencePage() {
           <span className="intel-stat-label">Active Signals</span>
         </div>
         <div className="intel-stat-card">
-          <span className="intel-stat-number">{thisMonth}</span>
+          <span className="intel-stat-number">{thisMonth ?? 0}</span>
           <span className="intel-stat-label">This Month</span>
         </div>
       </section>
