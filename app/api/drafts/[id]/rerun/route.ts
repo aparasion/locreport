@@ -37,6 +37,13 @@ export async function POST(req: NextRequest, { params }: Params) {
     return NextResponse.json({ error: 'Draft has no content to re-run' }, { status: 400 })
   }
 
+  let sourceName: string | null = null
+  if (draft.source_feed_id) {
+    const { data: feed } = await service
+      .from('rss_sources').select('name').eq('id', draft.source_feed_id).single()
+    sourceName = feed?.name ?? null
+  }
+
   // Mark as rerunning
   await service.from('drafts').update({ status: 'rerunning' }).eq('id', id)
 
@@ -63,6 +70,7 @@ export async function POST(req: NextRequest, { params }: Params) {
 
     const generateInput = [
       draft.source_url ? `Source URL: ${draft.source_url}` : '',
+      sourceName ? `Source name: ${sourceName}` : '',
       `Suggested title: ${draft.title}`,
       `Extracted facts:\n${facts}`,
     ].filter(Boolean).join('\n\n')

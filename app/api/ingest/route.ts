@@ -137,6 +137,7 @@ export async function POST(req: NextRequest) {
         // Stage 2: generate article
         const generateInput = [
           item.link ? `Source URL: ${item.link}` : '',
+          source.name ? `Source name: ${source.name}` : '',
           `Suggested title: ${item.title}`,
           `Extracted facts:\n${facts}`,
         ].filter(Boolean).join('\n\n')
