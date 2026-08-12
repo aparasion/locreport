@@ -1368,4 +1368,17 @@ export const DIRECTORY: DirectoryEntry[] = [
     type: `LSP`,
     tags: ['lsp'],
   },
+  {
+    name: `GLOBO`,
+    slug: `globo`,
+    category: `interpreting`,
+    website: `https://www.helloglobo.com`,
+    description: `Tech-enabled language services provider offering on-demand phone and video interpreting alongside translation and localization.`,
+    long_description: `GLOBO (GLOBO Language Solutions) is a B2B language services provider combining a technology platform with human-delivered interpreting and translation, giving organizations the ability to communicate with limited-English-proficient audiences in any language, 24/7. Founded in 2009 by Gene Schriver and headquartered in Wyncote, Pennsylvania, GLOBO built its business on on-demand telephone interpreting and video remote interpreting (VRI), later extending into email and chat translation, project-based marketing transcreation, text translation, localization, and on-site interpreting. Its proprietary GLOBO HQ platform powers these omni-channel services while also surfacing real-time data and analytics that help clients understand and serve their linguistically diverse customer bases. The company has a particularly strong presence in healthcare, where its HIPAA-compliant interpreting is embedded in telemedicine kiosks and remote clinical workflows, alongside public sector and enterprise customers that need immediate, compliant language access rather than project-based translation alone.`,
+    founded: 2009,
+    hq: `Wyncote, USA`,
+    address: `145 Greenwood Ave, Wyncote, PA 19095, USA`,
+    type: `LSP / Tech`,
+    tags: ['interpreting', 'lsp'],
+  },
 ]
