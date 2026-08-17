@@ -30,16 +30,26 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
               </a>
             </div>
             <div className="footer-nav-col">
-              <h4 className="footer-nav-title">Navigate</h4>
-              <ul className="footer-links" aria-label="Footer navigation">
+              <h4 className="footer-nav-title">Coverage</h4>
+              <ul className="footer-links" aria-label="Footer coverage links">
                 <li><Link href="/articles">All articles</Link></li>
+                <li><Link href="/fact-flow">Fact Flow</Link></li>
                 <li><Link href="/intelligence">Intelligence</Link></li>
+                <li><Link href="/intelligence/signals">Signals tracker</Link></li>
                 <li><Link href="/reports/monthly">Monthly reports</Link></li>
-                <li><Link href="/compass">Compass</Link></li>
               </ul>
             </div>
             <div className="footer-nav-col">
-              <h4 className="footer-nav-title">Information</h4>
+              <h4 className="footer-nav-title">Compass</h4>
+              <ul className="footer-links" aria-label="Footer tools links">
+                <li><Link href="/compass/locstock">LocStock</Link></li>
+                <li><Link href="/compass/events">Industry events</Link></li>
+                <li><Link href="/compass/llm-pricing">AI cost simulator</Link></li>
+                <li><Link href="/compass/directory">Tech directory</Link></li>
+              </ul>
+            </div>
+            <div className="footer-nav-col">
+              <h4 className="footer-nav-title">Company</h4>
               <ul className="footer-links" aria-label="Footer information links">
                 <li><Link href="/about">About</Link></li>
                 <li><Link href="/contact">Contact</Link></li>
