@@ -32,7 +32,7 @@ export function BackToTop() {
         color: '#fff',
         border: '1.5px solid var(--accent)',
         cursor: 'pointer',
-        boxShadow: '0 4px 20px rgba(53,80,245,0.30), 0 1px 4px rgba(0,0,0,0.10)',
+        boxShadow: '0 1px 4px rgba(0,0,0,0.12)',
         opacity: visible ? 1 : 0,
         pointerEvents: visible ? 'auto' : 'none',
         transform: visible ? 'translateY(0)' : 'translateY(0.5rem)',
@@ -41,12 +41,10 @@ export function BackToTop() {
       onMouseEnter={e => {
         e.currentTarget.style.background = 'var(--accent-hover)'
         e.currentTarget.style.borderColor = 'var(--accent-hover)'
-        e.currentTarget.style.boxShadow = '0 6px 24px rgba(53,80,245,0.40), 0 1px 4px rgba(0,0,0,0.12)'
       }}
       onMouseLeave={e => {
         e.currentTarget.style.background = 'var(--accent)'
         e.currentTarget.style.borderColor = 'var(--accent)'
-        e.currentTarget.style.boxShadow = '0 4px 20px rgba(53,80,245,0.30), 0 1px 4px rgba(0,0,0,0.10)'
       }}
     >
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">

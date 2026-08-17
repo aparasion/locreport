@@ -44,11 +44,10 @@ components/
   ui/                    — Primitive UI components (Button, Card, Input, Badge, Textarea, Label)
   Nav.tsx                — Site header with dropdown nav + search + theme toggle
   SubscribeForm.tsx      — Digest email capture (homepage, article footer, /intelligence)
-  MomentumStrip.tsx      — Homepage signal-momentum strip (lazy-loads sparklines)
-  SignalSparkline.tsx    — Tiny weekly-volume area chart (signals index/detail, homepage)
+  SignalSparkline.tsx    — Tiny weekly-volume area chart (signals index/detail)
   BackfillEmbeddingsButton.tsx — Admin one-click embeddings backfill loop
   AdminNav.tsx           — Admin section sidebar
-  ArticleCard.tsx        — Article preview card used across listing pages
+  ArticleCard.tsx        — Article preview row, used in the homepage article stream
   ArticleEditor.tsx      — Markdown editor (admin only)
   DraftCard.tsx          — Draft management card
   ShareButton.tsx        — Social share button on article pages
@@ -100,7 +99,7 @@ vercel.json              — Build config, 301 redirects (no active cron jobs)
 
 | Path | File | Notes |
 |---|---|---|
-| `/` | `page.tsx` | Hero + featured articles grouped by day + hero tools panel |
+| `/` | `page.tsx` | Quiet masthead + a lead story integrated into a day-grouped article stream; a slim sticky sidebar (Fact Flow + signals); other sections reachable via an "Also from LocReport" strip, not surfaced as homepage widgets |
 | `/articles` | `articles/page.tsx` | All articles — server-side filters + pagination via URL params (`topic`, `impact`, `category`, `from`, `to`, `sort`, `page`) |
 | `/articles/[slug]` | `articles/[...slug]/page.tsx` | Article detail, 24h ISR revalidation |
 | `/intelligence` | `intelligence/page.tsx` | Signals dashboard + stats |
@@ -368,21 +367,28 @@ To add a new signal: edit `lib/signals.ts`. No DB migration needed — signals a
 
 ```
 --accent / --accent-hover / --accent-soft / --accent-light
-                     Primary brand — indigo-blue (#3550F5 light, #6B83FF dark)
---gold / --warm      Secondary micro-accent — warm amber (#B5740F light)
+                     Primary brand — indigo-blue (#2C3CB8 light, #6E7FE8 dark), spent with restraint
+--gold / --warm      Secondary micro-accent — reserved for one rare highlight, not decoration (#93650F light)
 --bg / --bg-secondary / --surface
-                     Surfaces — white/#F5F5F7 (light), #0B0B0D/#161618 (dark)
---text / --muted     Ink tones (#1D1D1F / #6E6E73 light; #F5F5F7 / #98989D dark)
---border / --hairline Subtle separators
+                     Surfaces — flat paper, no gradients/glass (white/#F5F5F4 light, #0B0C0E/#151619 dark)
+--text / --muted     Ink tones (#17181C / #62636B light; #F2F2F0 / #9A9CA3 dark)
+--border / --hairline Subtle separators — hairlines over shadows for elevation
 --font-display       Space Grotesk (headings, Google Fonts)
 --font-body          Inter (body, system font stack)
---font-mono          JetBrains Mono (code)
+--font-mono          JetBrains Mono (code + micro-labels/eyebrows)
 --site-max-width     1200px
 --content-width      760px
 --page-gutter        Responsive padding (0.75rem mobile → 1.5rem desktop)
---radius-sm/md/lg/xl Border-radius scale (6px → 20px)
+--radius-sm/md/lg/xl Border-radius scale (4px → 14px) — tightened, institutional rather than bouncy
 --space-1 … --space-16  Spacing scale (0.25rem → 8rem)
 ```
+
+Design direction: institutional-editorial — near-monochrome ink/paper, the single indigo accent used
+sparingly (links, active states, one eyebrow per page), no decorative gradients/orbs/glassmorphism/marquees.
+The homepage leads with a quiet masthead and a content-first article stream; secondary features (Compass
+tools, signals, reports) are reachable via nav/footer/a bottom "explore" strip rather than surfaced as
+homepage widgets. Prefer flat surfaces + hairline borders over shadows; reserve `--gold`/`--warm` for a
+single deliberate highlight, not broad theming.
 
 **Theme:** `data-theme="dark"` on `<html>` activates dark mode via CSS variable overrides.
 
