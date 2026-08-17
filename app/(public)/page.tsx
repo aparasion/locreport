@@ -109,22 +109,11 @@ export default async function HomePage() {
 
   return (
     <>
-      {/* ── Masthead: a statement, not a landing page — but the signal
-          pulse panel is real product, not decoration ── */}
-      <section className="masthead">
-        <div className="masthead__inner container">
-          <div className="masthead__head">
-            <p className="masthead__eyebrow">Language services intelligence · {todayLabel}</p>
-            <h1 className="masthead__title">The pulse of the language services industry</h1>
-            <p className="masthead__subtitle">Daily coverage of translation, localization, and AI — curated, analyzed, and tracked through the signals that matter.</p>
-          </div>
-          <SignalPulse items={pulseItems} />
-        </div>
-      </section>
-
-      <div className="home-layout container">
-        <main className="home-main">
-          {lead && (
+      {/* ── The top story opens the page — no separate hero/masthead.
+          Signal pulse rides alongside it: real product, not decoration. ── */}
+      {lead && (
+        <section className="home-top">
+          <div className="home-top__inner container">
             <article className="lead-story">
               <div className="lead-story__meta">
                 <span className="lead-story__eyebrow">Top story</span>
@@ -135,7 +124,7 @@ export default async function HomePage() {
                   <span className="lead-story__impact">{IMPACT_LABEL[lead.impact_score]}</span>
                 )}
               </div>
-              <h2 className="lead-story__title"><Link href={articleHref(lead.slug)}>{lead.title}</Link></h2>
+              <h1 className="lead-story__title"><Link href={articleHref(lead.slug)}>{lead.title}</Link></h1>
               <p className="lead-story__excerpt">{lead.excerpt || extractTeaser(lead.content)}</p>
               {leadSignals.length > 0 && (
                 <div className="lead-story__signals">
@@ -148,8 +137,23 @@ export default async function HomePage() {
               )}
               <Link className="article-row__read-more" href={articleHref(lead.slug)}>Read the story →</Link>
             </article>
-          )}
+            <SignalPulse items={pulseItems} />
+          </div>
+        </section>
+      )}
 
+      {/* ── The old hero's message, compressed into one quiet, thin bar ── */}
+      <section className="brand-bar">
+        <div className="brand-bar__inner container">
+          <p className="brand-bar__message">
+            <strong>The pulse of the language services industry.</strong> Daily coverage of translation, localization, and AI — tracked through the signals that matter.
+          </p>
+          <p className="brand-bar__date">{todayLabel}</p>
+        </div>
+      </section>
+
+      <div className="home-layout container">
+        <main className="home-main">
           {[...byDay.entries()].map(([, allDayArticles], dayIndex) => {
             const dayArticles = allDayArticles.filter(a => a.id !== lead?.id)
             if (dayArticles.length === 0) return null

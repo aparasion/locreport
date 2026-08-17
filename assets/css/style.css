@@ -4432,49 +4432,60 @@ article.page > h1 {
    Post Article Sidebar · Magazine Grid
    ============================================================ */
 
-/* ── Split Hero ─────────────────────────────────────────────── */
-/* ── Masthead ─────────────────────────────────────────────
-   A statement, not a landing page: no orbs, no gradient text,
-   no stacked CTAs. One headline, one line of context, then the
-   content stream starts immediately below. ── */
-.masthead {
-  padding: var(--space-8) 0 var(--space-7);
-  border-bottom: 1px solid var(--border);
+/* ── Home opener ────────────────────────────────────────────
+   No separate hero/masthead — the top story opens the page.
+   Signal pulse rides alongside it on desktop. ── */
+.home-top {
+  padding: var(--space-7) 0 0;
 }
-.masthead__inner {
+.home-top__inner {
   display: grid;
   grid-template-columns: 1fr 330px;
   gap: var(--space-10);
   align-items: start;
 }
 @media (max-width: 1024px) {
-  .masthead__inner { grid-template-columns: 1fr; gap: var(--space-6); }
+  .home-top__inner { grid-template-columns: 1fr; gap: var(--space-6); }
 }
-.masthead__eyebrow {
+
+/* ── Brand bar ──────────────────────────────────────────────
+   The old hero's headline + subhead, compressed into one quiet,
+   thin strip between the top story and the rest of the stream —
+   present, not shouting. ── */
+.brand-bar {
+  margin-top: var(--space-6);
+  padding: 11px 0;
+  background: var(--bg-secondary);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.brand-bar__inner {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+.brand-bar__message {
+  font-size: 0.86rem;
+  color: var(--muted);
+  line-height: 1.5;
+  margin: 0;
+}
+.brand-bar__message strong {
+  color: var(--text);
+  font-weight: 600;
+}
+.brand-bar__date {
   font-family: var(--font-mono);
   font-size: 0.72rem;
-  font-weight: 500;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
   color: var(--muted);
-  margin: 0 0 var(--space-4);
-}
-.masthead__title {
-  font-size: clamp(2rem, 4vw, 2.9rem);
-  font-weight: 600;
-  letter-spacing: -0.022em;
-  line-height: 1.1;
-  margin: 0 0 var(--space-4);
-  max-width: 17ch;
-  color: var(--text);
-}
-.masthead__subtitle {
-  font-size: 1.05rem;
-  color: var(--muted);
-  line-height: 1.6;
-  max-width: 540px;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
   margin: 0;
-  font-weight: 400;
+  flex-shrink: 0;
+}
+@media (max-width: 700px) {
+  .brand-bar__date { display: none; }
 }
 
 /* ── Signal Pulse — the homepage's data-forward signature: real
@@ -4675,12 +4686,11 @@ article.page > h1 {
   margin-bottom: var(--space-4);
 }
 
-/* ── Lead story — the day's top pick, integrated into the stream
-   rather than boxed off as a separate dashboard module ──────── */
+/* ── Lead story — opens the page in place of a hero, so it carries
+   real typographic weight; the brand bar below it is the separator,
+   so no border/margin is needed on the story itself ──────── */
 .lead-story {
-  padding-bottom: var(--space-6);
-  margin-bottom: var(--space-6);
-  border-bottom: 1px solid var(--border);
+  min-width: 0;
 }
 .lead-story__meta {
   display: flex;
@@ -4709,11 +4719,11 @@ article.page > h1 {
 .lead-story__title {
   font-family: var(--font-display);
   font-optical-sizing: auto;
-  font-size: clamp(1.5rem, 2.8vw, 1.95rem);
+  font-size: clamp(1.9rem, 3.6vw, 2.6rem);
   font-weight: 600;
-  letter-spacing: -0.018em;
-  line-height: 1.2;
-  margin: 0 0 var(--space-3);
+  letter-spacing: -0.02em;
+  line-height: 1.14;
+  margin: 0 0 var(--space-4);
 }
 .lead-story__title a { color: var(--text); }
 .lead-story__title a:hover { color: var(--accent); }
