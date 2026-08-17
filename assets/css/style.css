@@ -4929,14 +4929,11 @@ a.sidebar-factflow__content:hover {
   margin: 0 0 var(--space-3);
 }
 
-/* ── Post below: Intelligence + Related Reading ──────────────
-   No sidebar running alongside the reading experience — this lives
-   beneath the newsletter and support box, once reading is done, and
-   opens slightly wider than the article column. ── */
-.post-below {
-  max-width: 900px;
-  margin: var(--space-10) auto 0;
-}
+/* ── Intelligence + Related Reading ──────────────────────────
+   No sidebar running alongside the reading experience — these are
+   plain sections in the article's own flow, at the article's own
+   width: Intelligence right after the content, Related Reading after
+   the newsletter signup, support box last. ── */
 .post-section-label {
   font-size: 0.78rem;
   font-weight: 700;
@@ -4947,6 +4944,7 @@ a.sidebar-factflow__content:hover {
 }
 
 .post-intel {
+  margin-top: var(--space-8);
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
