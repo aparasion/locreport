@@ -6,6 +6,8 @@ import { articleHref, extractTeaser } from '@/lib/utils'
 import { SIGNALS, SIGNAL_MAP } from '@/lib/signals'
 import { SubscribeForm } from '@/components/SubscribeForm'
 import { ArticleCard } from '@/components/ArticleCard'
+import { SignalPulse } from '@/components/SignalPulse'
+import { getIntelligenceData, signalShortLabel } from '@/lib/intelligence'
 
 export const metadata: Metadata = {
   alternates: { canonical: '/' },
@@ -87,20 +89,31 @@ export default async function HomePage() {
     weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
   })
 
+  // Signal pulse: the homepage's one data-forward signature. Rising signals
+  // lead, busiest coverage fills the rest — real coverage-momentum, not decoration.
+  const intel = await getIntelligenceData(supabase)
+  const rising = intel.signalSeries.filter(s => s.observedMomentum === 'rising')
+  const filler = intel.signalSeries
+    .filter(s => s.observedMomentum !== 'rising')
+    .sort((a, b) => b.recentCount - a.recentCount)
+  const pulseItems = [...rising.sort((a, b) => b.recentCount - a.recentCount), ...filler]
+    .slice(0, 4)
+    .filter(s => s.recentCount > 0)
+    .map(s => ({
+      id: s.signalId,
+      label: signalShortLabel(s.signalId),
+      momentum: s.observedMomentum,
+      recentCount: s.recentCount,
+      weekly: s.weekly,
+    }))
+
   return (
     <>
-      {/* ── Masthead: a statement, not a landing page ── */}
-      <section className="masthead">
-        <div className="masthead__inner container">
-          <p className="masthead__eyebrow">Language services intelligence · {todayLabel}</p>
-          <h1 className="masthead__title">The pulse of the language services industry</h1>
-          <p className="masthead__subtitle">Daily coverage of translation, localization, and AI — curated, analyzed, and tracked through the signals that matter.</p>
-        </div>
-      </section>
-
-      <div className="home-layout container">
-        <main className="home-main">
-          {lead && (
+      {/* ── The top story opens the page — no separate hero/masthead.
+          Signal pulse rides alongside it: real product, not decoration. ── */}
+      {lead && (
+        <section className="home-top">
+          <div className="home-top__inner container">
             <article className="lead-story">
               <div className="lead-story__meta">
                 <span className="lead-story__eyebrow">Top story</span>
@@ -111,7 +124,7 @@ export default async function HomePage() {
                   <span className="lead-story__impact">{IMPACT_LABEL[lead.impact_score]}</span>
                 )}
               </div>
-              <h2 className="lead-story__title"><Link href={articleHref(lead.slug)}>{lead.title}</Link></h2>
+              <h1 className="lead-story__title"><Link href={articleHref(lead.slug)}>{lead.title}</Link></h1>
               <p className="lead-story__excerpt">{lead.excerpt || extractTeaser(lead.content)}</p>
               {leadSignals.length > 0 && (
                 <div className="lead-story__signals">
@@ -124,8 +137,23 @@ export default async function HomePage() {
               )}
               <Link className="article-row__read-more" href={articleHref(lead.slug)}>Read the story →</Link>
             </article>
-          )}
+            <SignalPulse items={pulseItems} />
+          </div>
+        </section>
+      )}
 
+      {/* ── The old hero's message, compressed into one quiet, thin bar ── */}
+      <section className="brand-bar">
+        <div className="brand-bar__inner container">
+          <p className="brand-bar__message">
+            <strong>The pulse of the language services industry.</strong> Daily coverage of translation, localization, and AI — tracked through the signals that matter.
+          </p>
+          <p className="brand-bar__date">{todayLabel}</p>
+        </div>
+      </section>
+
+      <div className="home-layout container">
+        <main className="home-main">
           {[...byDay.entries()].map(([, allDayArticles], dayIndex) => {
             const dayArticles = allDayArticles.filter(a => a.id !== lead?.id)
             if (dayArticles.length === 0) return null
