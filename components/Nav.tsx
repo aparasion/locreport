@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { useEffect, useState, useRef } from 'react'
 import { ReadingProgress } from '@/components/ReadingProgress'
+import { ADMIN_LINKS } from '@/lib/adminNav'
 
 const NAV_LINKS = [
   { href: '/articles', label: 'All articles' },
@@ -37,6 +38,7 @@ export function Nav() {
   const [email, setEmail] = useState<string | null>(null)
   const [menuOpen, setMenuOpen] = useState(false)
   const [openDropdown, setOpenDropdown] = useState<string | null>(null)
+  const [adminMenuOpen, setAdminMenuOpen] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
@@ -45,6 +47,7 @@ export function Nav() {
   })
   const searchRef = useRef<HTMLInputElement>(null)
   const navRef = useRef<HTMLElement>(null)
+  const adminMenuRef = useRef<HTMLDivElement>(null)
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   function openMenu(href: string) {
@@ -61,6 +64,9 @@ export function Nav() {
       if (navRef.current && !navRef.current.contains(e.target as Node)) {
         setOpenDropdown(null)
         setMenuOpen(false)
+      }
+      if (adminMenuRef.current && !adminMenuRef.current.contains(e.target as Node)) {
+        setAdminMenuOpen(false)
       }
     }
     document.addEventListener('mousedown', handleClick)
@@ -219,12 +225,47 @@ export function Nav() {
           {email ? (
             <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
               {isAdmin && (
-                <Link
-                  href="/admin"
-                  style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--muted)', padding: '6px 10px', textDecoration: 'none' }}
-                >
-                  Admin
-                </Link>
+                <div ref={adminMenuRef} style={{ position: 'relative' }}>
+                  <button
+                    onClick={() => setAdminMenuOpen(v => !v)}
+                    aria-haspopup="true"
+                    aria-expanded={adminMenuOpen}
+                    aria-label="Toggle admin menu"
+                    style={{ display: 'inline-flex', alignItems: 'center', gap: '3px', fontSize: '0.8rem', fontWeight: 600, color: 'var(--muted)', background: 'none', border: 'none', cursor: 'pointer', padding: '6px 10px' }}
+                  >
+                    Admin
+                    <svg
+                      width="10"
+                      height="10"
+                      viewBox="0 0 12 12"
+                      fill="none"
+                      aria-hidden="true"
+                      style={{ transition: 'transform 0.2s ease', transform: adminMenuOpen ? 'rotate(180deg)' : 'none' }}
+                    >
+                      <path d="M2 4l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </button>
+                  {adminMenuOpen && (
+                    <div
+                      className="absolute right-0 top-full mt-1 rounded-lg shadow-lg overflow-hidden z-50"
+                      style={{ background: 'var(--surface)', borderWidth: 1, borderStyle: 'solid', borderColor: 'var(--border)', minWidth: '180px' }}
+                      role="menu"
+                    >
+                      {ADMIN_LINKS.map(({ href, label }) => (
+                        <Link
+                          key={href}
+                          href={href}
+                          role="menuitem"
+                          onClick={() => setAdminMenuOpen(false)}
+                          className="block px-4 py-2.5 text-sm font-medium transition-colors"
+                          style={{ color: 'var(--muted)' }}
+                        >
+                          {label}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
               )}
               <button
                 onClick={signOut}
