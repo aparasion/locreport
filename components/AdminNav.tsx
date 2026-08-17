@@ -2,19 +2,7 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useState } from 'react'
-
-const links = [
-  { href: '/admin', label: 'Dashboard' },
-  { href: '/admin/drafts', label: 'Drafts' },
-  { href: '/admin/articles', label: 'Articles' },
-  { href: '/admin/sources', label: 'Sources' },
-  { href: '/admin/fact-flow', label: 'Fact Flow' },
-  { href: '/admin/events', label: 'Events' },
-  { href: '/admin/directory', label: 'Directory' },
-  { href: '/admin/compose', label: 'Compose' },
-  { href: '/admin/direct', label: 'Direct' },
-  { href: '/admin/prompts', label: 'Prompts' },
-]
+import { ADMIN_LINKS as links } from '@/lib/adminNav'
 
 export function AdminNav() {
   const pathname = usePathname()
@@ -22,7 +10,10 @@ export function AdminNav() {
   const current = links.find(l => l.href === pathname) ?? links[0]
 
   return (
-    <nav className="mb-6">
+    <nav
+      className="mb-6 sticky top-14 sm:top-16 z-30 pt-3 -mt-3"
+      style={{ background: 'var(--bg)' }}
+    >
       {/* Mobile dropdown */}
       <div className="sm:hidden relative">
         <button
