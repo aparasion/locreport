@@ -6,6 +6,8 @@ import { articleHref, extractTeaser } from '@/lib/utils'
 import { SIGNALS, SIGNAL_MAP } from '@/lib/signals'
 import { SubscribeForm } from '@/components/SubscribeForm'
 import { ArticleCard } from '@/components/ArticleCard'
+import { SignalPulse } from '@/components/SignalPulse'
+import { getIntelligenceData, signalShortLabel } from '@/lib/intelligence'
 
 export const metadata: Metadata = {
   alternates: { canonical: '/' },
@@ -87,14 +89,36 @@ export default async function HomePage() {
     weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
   })
 
+  // Signal pulse: the homepage's one data-forward signature. Rising signals
+  // lead, busiest coverage fills the rest — real coverage-momentum, not decoration.
+  const intel = await getIntelligenceData(supabase)
+  const rising = intel.signalSeries.filter(s => s.observedMomentum === 'rising')
+  const filler = intel.signalSeries
+    .filter(s => s.observedMomentum !== 'rising')
+    .sort((a, b) => b.recentCount - a.recentCount)
+  const pulseItems = [...rising.sort((a, b) => b.recentCount - a.recentCount), ...filler]
+    .slice(0, 4)
+    .filter(s => s.recentCount > 0)
+    .map(s => ({
+      id: s.signalId,
+      label: signalShortLabel(s.signalId),
+      momentum: s.observedMomentum,
+      recentCount: s.recentCount,
+      weekly: s.weekly,
+    }))
+
   return (
     <>
-      {/* ── Masthead: a statement, not a landing page ── */}
+      {/* ── Masthead: a statement, not a landing page — but the signal
+          pulse panel is real product, not decoration ── */}
       <section className="masthead">
         <div className="masthead__inner container">
-          <p className="masthead__eyebrow">Language services intelligence · {todayLabel}</p>
-          <h1 className="masthead__title">The pulse of the language services industry</h1>
-          <p className="masthead__subtitle">Daily coverage of translation, localization, and AI — curated, analyzed, and tracked through the signals that matter.</p>
+          <div className="masthead__head">
+            <p className="masthead__eyebrow">Language services intelligence · {todayLabel}</p>
+            <h1 className="masthead__title">The pulse of the language services industry</h1>
+            <p className="masthead__subtitle">Daily coverage of translation, localization, and AI — curated, analyzed, and tracked through the signals that matter.</p>
+          </div>
+          <SignalPulse items={pulseItems} />
         </div>
       </section>
 

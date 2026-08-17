@@ -20,7 +20,10 @@ export function ArticleCard({ article, featured }: { article: Article; featured?
       <div className="article-row__header">
         <span className="article-row__date">{date}</span>
         {article.impact_score && article.impact_score >= 4 && (
-          <span className="article-row__impact">{IMPACT_LABEL[article.impact_score]}</span>
+          <span className="article-row__impact">
+            <span className="article-row__impact-dot" aria-hidden="true" />
+            {IMPACT_LABEL[article.impact_score]}
+          </span>
         )}
         {categoryLabel && <span className="article-row__impact">{categoryLabel}</span>}
       </div>
