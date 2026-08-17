@@ -120,7 +120,9 @@ export default async function ArticlePage({ params }: Props) {
     relatedArticles = [...relatedArticles, ...extra]
   }
 
-  const hasSidebar = !!a.impact_score || articleSignals.length > 0 || relatedArticles.length > 0
+  const hasIntel = !!a.impact_score || articleSignals.length > 0
+    || a.business_implications?.length > 0 || a.affected_segments?.length > 0
+  const hasRelated = relatedArticles.length > 0
 
   const { data: { user } } = await supabase.auth.getUser()
   const isAdmin = !!user
@@ -146,128 +148,121 @@ export default async function ArticlePage({ params }: Props) {
     mainEntityOfPage: { '@type': 'WebPage', '@id': articleUrl },
   }
 
-  const articleEl = (
-    <>
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-    />
-    <article className="post">
-      <nav className="breadcrumb" aria-label="Breadcrumb">
-        <ol>
-          <li><Link href="/">Home</Link></li>
-          <li><Link href="/articles">Articles</Link></li>
-          <li aria-current="page">{a.title}</li>
-        </ol>
-      </nav>
+  return (
+    <div className="container">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <article className="post">
+        <nav className="breadcrumb" aria-label="Breadcrumb">
+          <ol>
+            <li><Link href="/">Home</Link></li>
+            <li><Link href="/articles">Articles</Link></li>
+            <li aria-current="page">{a.title}</li>
+          </ol>
+        </nav>
 
-      <header className="post-header">
-        <h1>{a.title}</h1>
+        <header className="post-header">
+          <h1>{a.title}</h1>
 
-        <div className="post-meta-row">
-          <p className="post-meta">
-            {a.author && <><span className="post-author">{a.author}</span> · </>}
-            {date}<span className="read-time"> · {readMinutes} min read</span>
-          </p>
-          <div className="post-meta-actions">
-            {isAdmin && (
-              <Link href={`/admin/articles/${a.id}`} className="admin-edit-btn">
-                Edit
-              </Link>
-            )}
-            <ShareButton title={a.title} url={articleUrl} />
+          <div className="post-meta-row">
+            <p className="post-meta">
+              {a.author && <><span className="post-author">{a.author}</span> · </>}
+              {date}<span className="read-time"> · {readMinutes} min read</span>
+            </p>
+            <div className="post-meta-actions">
+              {isAdmin && (
+                <Link href={`/admin/articles/${a.id}`} className="admin-edit-btn">
+                  Edit
+                </Link>
+              )}
+              <ShareButton title={a.title} url={articleUrl} />
+            </div>
           </div>
-        </div>
-      </header>
+        </header>
 
-      <div className="post-content" dangerouslySetInnerHTML={{ __html: html }} />
+        <div className="post-content" dangerouslySetInnerHTML={{ __html: html }} />
 
-      <div className="post-subscribe">
-        <p className="post-subscribe__title">Get stories like this in your inbox</p>
-        <SubscribeForm compact />
-      </div>
-
-      <div className="support-box">
-        <div className="support-box__inner">
-          <div className="support-box__copy">
-            <p className="support-box__headline">Keep independent coverage alive.</p>
-            <p className="support-box__text">No ads. No paywall. No corporate backing. Just sharp, weekly intelligence on the language industry — free, because it should be.</p>
-          </div>
-          <div className="support-box__actions">
-            <a href="https://buymeacoffee.com/locreport" target="_blank" rel="noopener" className="support-box__btn">
-              Support LocReport →
-            </a>
-            <a href={`https://twitter.com/intent/tweet?url=https://locreport.com${articleHref(a.slug)}&text=${encodeURIComponent(a.title)}`} target="_blank" rel="noopener" className="support-box__share">
-              Share this article
-            </a>
-          </div>
-        </div>
-      </div>
-    </article>
-    </>
-  )
-
-  if (hasSidebar) {
-    return (
-      <div className="post-layout">
-        {articleEl}
-        <aside className="post-sidebar" aria-label="Article context">
-          {a.impact_score && (
-            <div className="post-sidebar-widget">
-              <p className="post-sidebar-widget__title">Intelligence</p>
-              <div className="post-sidebar-badges">
+        {/* ── Below the article, in order: Intelligence, newsletter,
+            Related Reading, support. No sidebar — everything shares the
+            article's own reading width. ── */}
+        {hasIntel && (
+          <section className="post-intel" aria-label="Article intelligence">
+            <h2 className="post-section-label">Intelligence</h2>
+            <div className="post-intel__badges">
+              {a.impact_score && (
                 <span className={`impact-badge impact-badge--${a.impact_score}`}>
                   {IMPACT_LABEL[a.impact_score]}
                 </span>
-                {a.time_horizon && (
-                  <span className={`time-horizon-badge time-horizon-badge--${a.time_horizon}`}>
-                    {a.time_horizon === 'now' ? 'Immediate' : a.time_horizon === '6months' ? '6-Month Horizon' : 'Long-Term'}
-                  </span>
-                )}
+              )}
+              {a.time_horizon && (
+                <span className={`time-horizon-badge time-horizon-badge--${a.time_horizon}`}>
+                  {a.time_horizon === 'now' ? 'Immediate' : a.time_horizon === '6months' ? '6-Month Horizon' : 'Long-Term'}
+                </span>
+              )}
+              {articleSignals.map(s => (
+                <Link key={s.id} href={`/intelligence/signals/${s.id}`} className="post-intel__signal">
+                  {s.title}
+                </Link>
+              ))}
+            </div>
+            {a.business_implications?.length > 0 && (
+              <div className="post-intel__implications">
+                <p className="post-intel__sublabel">Why this matters</p>
+                <ul className="post-intel__list">
+                  {a.business_implications.map((imp, i) => <li key={i}>{imp}</li>)}
+                </ul>
               </div>
-              {a.business_implications?.length > 0 && (
-                <div className="post-sidebar-section">
-                  <p className="post-sidebar-section__label">Why this matters</p>
-                  <ul className="post-sidebar-list">
-                    {a.business_implications.map((imp, i) => <li key={i}>{imp}</li>)}
-                  </ul>
-                </div>
-              )}
-              {a.affected_segments?.length > 0 && (
-                <div className="intelligence-segments post-sidebar-segments">
-                  {a.affected_segments.map(seg => (
-                    <span key={seg} className="segment-tag" data-segment={seg}>{seg}</span>
-                  ))}
-                </div>
-              )}
-            </div>
-          )}
-
-          {relatedArticles.length > 0 && (
-            <div className="post-sidebar-widget">
-              <p className="post-sidebar-widget__title">Related Reading</p>
-              <ul className="post-sidebar-related">
-                {relatedArticles.map(r => (
-                  <li key={r.id}>
-                    <Link href={articleHref(r.slug)} className="related-reading-link">
-                      <span className="related-reading-title">{r.title}</span>
-                      <span className="related-date">
-                        {new Date(r.published_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
-                      </span>
-                    </Link>
-                  </li>
+            )}
+            {a.affected_segments?.length > 0 && (
+              <div className="intelligence-segments post-intel__segments">
+                {a.affected_segments.map(seg => (
+                  <span key={seg} className="segment-tag" data-segment={seg}>{seg}</span>
                 ))}
-              </ul>
-            </div>
-          )}
-        </aside>
-      </div>
-    )
-  }
+              </div>
+            )}
+          </section>
+        )}
 
-  return (
-    <div className="container">
-      {articleEl}
+        <div className="post-subscribe">
+          <p className="post-subscribe__title">Get stories like this in your inbox</p>
+          <SubscribeForm compact />
+        </div>
+
+        {hasRelated && (
+          <section className="post-related" aria-label="Related reading">
+            <h2 className="post-section-label">Related Reading</h2>
+            <div className="post-related__grid">
+              {relatedArticles.map(r => (
+                <Link key={r.id} href={articleHref(r.slug)} className="post-related__card">
+                  <span className="post-related__card-title">{r.title}</span>
+                  <span className="post-related__card-date">
+                    {new Date(r.published_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                  </span>
+                </Link>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div className="support-box">
+          <div className="support-box__inner">
+            <div className="support-box__copy">
+              <p className="support-box__headline">Keep independent coverage alive.</p>
+              <p className="support-box__text">No ads. No paywall. No corporate backing. Just sharp, weekly intelligence on the language industry — free, because it should be.</p>
+            </div>
+            <div className="support-box__actions">
+              <a href="https://buymeacoffee.com/locreport" target="_blank" rel="noopener" className="support-box__btn">
+                Support LocReport →
+              </a>
+              <a href={`https://twitter.com/intent/tweet?url=https://locreport.com${articleHref(a.slug)}&text=${encodeURIComponent(a.title)}`} target="_blank" rel="noopener" className="support-box__share">
+                Share this article
+              </a>
+            </div>
+          </div>
+        </div>
+      </article>
     </div>
   )
 }
