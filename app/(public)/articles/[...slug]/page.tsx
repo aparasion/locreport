@@ -120,7 +120,9 @@ export default async function ArticlePage({ params }: Props) {
     relatedArticles = [...relatedArticles, ...extra]
   }
 
-  const hasSidebar = !!a.impact_score || articleSignals.length > 0 || relatedArticles.length > 0
+  const hasIntel = !!a.impact_score || articleSignals.length > 0
+    || a.business_implications?.length > 0 || a.affected_segments?.length > 0
+  const hasRelated = relatedArticles.length > 0
 
   const { data: { user } } = await supabase.auth.getUser()
   const isAdmin = !!user
@@ -207,67 +209,69 @@ export default async function ArticlePage({ params }: Props) {
     </>
   )
 
-  if (hasSidebar) {
-    return (
-      <div className="post-layout">
-        {articleEl}
-        <aside className="post-sidebar" aria-label="Article context">
-          {a.impact_score && (
-            <div className="post-sidebar-widget">
-              <p className="post-sidebar-widget__title">Intelligence</p>
-              <div className="post-sidebar-badges">
-                <span className={`impact-badge impact-badge--${a.impact_score}`}>
-                  {IMPACT_LABEL[a.impact_score]}
-                </span>
+  return (
+    <div className="container">
+      {articleEl}
+
+      {/* ── Intelligence + Related Reading — beneath the newsletter and
+          support box, not alongside the reading experience. No sidebar. ── */}
+      {(hasIntel || hasRelated) && (
+        <div className="post-below">
+          {hasIntel && (
+            <section className="post-intel" aria-label="Article intelligence">
+              <h2 className="post-section-label">Intelligence</h2>
+              <div className="post-intel__badges">
+                {a.impact_score && (
+                  <span className={`impact-badge impact-badge--${a.impact_score}`}>
+                    {IMPACT_LABEL[a.impact_score]}
+                  </span>
+                )}
                 {a.time_horizon && (
                   <span className={`time-horizon-badge time-horizon-badge--${a.time_horizon}`}>
                     {a.time_horizon === 'now' ? 'Immediate' : a.time_horizon === '6months' ? '6-Month Horizon' : 'Long-Term'}
                   </span>
                 )}
+                {articleSignals.map(s => (
+                  <Link key={s.id} href={`/intelligence/signals/${s.id}`} className="post-intel__signal">
+                    {s.title}
+                  </Link>
+                ))}
               </div>
               {a.business_implications?.length > 0 && (
-                <div className="post-sidebar-section">
-                  <p className="post-sidebar-section__label">Why this matters</p>
-                  <ul className="post-sidebar-list">
+                <div className="post-intel__implications">
+                  <p className="post-intel__sublabel">Why this matters</p>
+                  <ul className="post-intel__list">
                     {a.business_implications.map((imp, i) => <li key={i}>{imp}</li>)}
                   </ul>
                 </div>
               )}
               {a.affected_segments?.length > 0 && (
-                <div className="intelligence-segments post-sidebar-segments">
+                <div className="intelligence-segments post-intel__segments">
                   {a.affected_segments.map(seg => (
                     <span key={seg} className="segment-tag" data-segment={seg}>{seg}</span>
                   ))}
                 </div>
               )}
-            </div>
+            </section>
           )}
 
-          {relatedArticles.length > 0 && (
-            <div className="post-sidebar-widget">
-              <p className="post-sidebar-widget__title">Related Reading</p>
-              <ul className="post-sidebar-related">
+          {hasRelated && (
+            <section className="post-related" aria-label="Related reading">
+              <h2 className="post-section-label">Related Reading</h2>
+              <div className="post-related__grid">
                 {relatedArticles.map(r => (
-                  <li key={r.id}>
-                    <Link href={articleHref(r.slug)} className="related-reading-link">
-                      <span className="related-reading-title">{r.title}</span>
-                      <span className="related-date">
-                        {new Date(r.published_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
-                      </span>
-                    </Link>
-                  </li>
+                  <Link key={r.id} href={articleHref(r.slug)} className="post-related__card">
+                    <span className="post-related__card-title">{r.title}</span>
+                    <span className="post-related__card-date">
+                      {new Date(r.published_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                    </span>
+                  </Link>
                 ))}
-              </ul>
-            </div>
+              </div>
+            </section>
           )}
-        </aside>
-      </div>
-    )
-  }
-
-  return (
-    <div className="container">
-      {articleEl}
+        </div>
+      )}
     </div>
   )
 }
