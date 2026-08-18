@@ -112,9 +112,9 @@ export default function AdminDashboard() {
 
       <div className="admin-stats-banner">
         {[
-          { label: 'Published articles', value: stats?.articles },
-          { label: 'Pending drafts', value: stats?.drafts },
-          { label: 'RSS sources', value: stats?.sources },
+          { label: 'Published', value: stats?.articles },
+          { label: 'Drafts', value: stats?.drafts },
+          { label: 'Sources', value: stats?.sources },
         ].map(({ label, value }) => (
           <span key={label} className="admin-stats-banner__item">
             <span className="admin-stats-banner__value">{value ?? '—'}</span>
