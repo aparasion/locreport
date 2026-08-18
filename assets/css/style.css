@@ -529,6 +529,8 @@ ul.nav-dropdown-menu {
   color: var(--text);
   font-family: var(--font-mono);
 }
+.admin-stats-banner__value--danger { color: #dc2626; }
+[data-theme="dark"] .admin-stats-banner__value--danger { color: #f87171; }
 .admin-stats-banner__label {
   color: var(--muted);
   font-size: 0.72rem;
