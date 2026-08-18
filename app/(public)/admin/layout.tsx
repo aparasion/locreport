@@ -12,7 +12,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   }
 
   return (
-    <div className="container" style={{ paddingTop: 'var(--space-8)', paddingBottom: 'var(--space-12)' }}>
+    <div className="container" style={{ paddingTop: 'var(--space-4)', paddingBottom: 'var(--space-12)' }}>
       {children}
     </div>
   )

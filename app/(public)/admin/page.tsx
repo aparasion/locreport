@@ -1,6 +1,5 @@
 'use client'
 import { useEffect, useState } from 'react'
-import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { IngestButton, type IngestResult } from '@/components/IngestButton'
 import { BackfillEmbeddingsButton } from '@/components/BackfillEmbeddingsButton'
@@ -111,16 +110,16 @@ export default function AdminDashboard() {
     <div>
       <h1 className="text-2xl font-bold mb-6" style={{ color: 'var(--text)' }}>Dashboard</h1>
 
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+      <div className="admin-stats-banner">
         {[
           { label: 'Published articles', value: stats?.articles },
           { label: 'Pending drafts', value: stats?.drafts },
           { label: 'RSS sources', value: stats?.sources },
         ].map(({ label, value }) => (
-          <Card key={label}>
-            <p className="text-sm" style={{ color: 'var(--muted)' }}>{label}</p>
-            <p className="text-3xl font-bold mt-1" style={{ color: 'var(--text)' }}>{value ?? '—'}</p>
-          </Card>
+          <span key={label} className="admin-stats-banner__item">
+            <span className="admin-stats-banner__value">{value ?? '—'}</span>
+            <span className="admin-stats-banner__label">{label}</span>
+          </span>
         ))}
       </div>
 
