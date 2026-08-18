@@ -46,7 +46,6 @@ components/
   SubscribeForm.tsx      — Digest email capture (homepage, article footer, /intelligence)
   SignalSparkline.tsx    — Tiny weekly-volume area chart (signals index/detail)
   BackfillEmbeddingsButton.tsx — Admin one-click embeddings backfill loop
-  AdminNav.tsx           — Admin section sidebar
   ArticleCard.tsx        — Article preview row, used in the homepage article stream
   ArticleEditor.tsx      — Markdown editor (admin only)
   DraftCard.tsx          — Draft management card

@@ -1,7 +1,8 @@
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
-import { AdminNav } from '@/components/AdminNav'
 
+// Admin section navigation lives solely in the header's "Admin" dropdown
+// (components/Nav.tsx) — no separate in-page tab bar.
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
@@ -12,7 +13,6 @@ export default async function AdminLayout({ children }: { children: React.ReactN
 
   return (
     <div className="container" style={{ paddingTop: 'var(--space-8)', paddingBottom: 'var(--space-12)' }}>
-      <AdminNav />
       {children}
     </div>
   )
