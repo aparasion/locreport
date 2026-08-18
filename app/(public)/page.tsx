@@ -2,8 +2,9 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 import { createClient } from '@/lib/supabase/server'
 import { Article } from '@/lib/types'
-import { articleHref, extractTeaser } from '@/lib/utils'
+import { articleHref, estimateReadMinutes, extractTeaser } from '@/lib/utils'
 import { SIGNALS, SIGNAL_MAP } from '@/lib/signals'
+import { TOPIC_DEFS } from '@/lib/topics'
 import { SubscribeForm } from '@/components/SubscribeForm'
 import { ArticleCard } from '@/components/ArticleCard'
 import { SignalPulse } from '@/components/SignalPulse'
@@ -14,6 +15,12 @@ export const metadata: Metadata = {
 }
 
 const IMPACT_LABEL: Record<number, string> = { 1: 'Routine', 2: 'Notable', 3: 'Significant', 4: 'Major', 5: 'Disruptive' }
+const DAY_KEY_OPTS: Intl.DateTimeFormatOptions = { year: 'numeric', month: '2-digit', day: '2-digit' }
+
+// Canonical per-day grouping key — also used to detect "today"/"yesterday".
+function dayKeyOf(d: Date): string {
+  return d.toLocaleDateString('en-US', DAY_KEY_OPTS)
+}
 
 function timeAgo(iso: string): string {
   const diff = Date.now() - new Date(iso).getTime()
@@ -52,29 +59,36 @@ export default async function HomePage() {
 
   const allArticles = (articles as Article[]) ?? []
 
-  // Lead story: impact-ranked pick from the latest 10 articles. Presented as
-  // the first, larger item in the stream rather than a separate dashboard module.
+  // Top cluster: the lead plus up to 2 more high-impact recent stories,
+  // ranked from the latest 10 and pulled out of the day stream below so
+  // nothing repeats. More entry points for a first-time visitor to land
+  // on — still every one a real, dated story, not a promo tile.
   const leadPool = allArticles.slice(0, 10)
-  const lead = [...leadPool].sort(
+  const rankedPool = [...leadPool].sort(
     (a, b) => (b.impact_score ?? 0) - (a.impact_score ?? 0) || b.published_at.localeCompare(a.published_at)
-  )[0]
+  )
+  const lead = rankedPool[0]
+  const secondaries = rankedPool.slice(1, 3)
+  const topClusterIds = new Set(rankedPool.slice(0, 3).map(a => a.id))
   const leadSignals = (lead?.signal_ids ?? [])
     .map(id => SIGNAL_MAP.get(id))
     .filter((s): s is NonNullable<typeof s> => Boolean(s))
     .slice(0, 3)
+  const leadReadMinutes = lead ? estimateReadMinutes(lead.content) : 0
 
-  // Group by day (up to 3 days)
+  // Group by day (up to 3 days); each section below excludes whatever's
+  // already surfaced in the top cluster so no story appears twice.
   const byDay = new Map<string, Article[]>()
   for (const a of allArticles) {
-    const day = new Date(a.published_at).toLocaleDateString('en-US', {
-      year: 'numeric', month: '2-digit', day: '2-digit',
-    })
+    const day = dayKeyOf(new Date(a.published_at))
     if (!byDay.has(day)) {
       if (byDay.size >= 3) break
       byDay.set(day, [])
     }
     byDay.get(day)!.push(a)
   }
+  const todayKey = dayKeyOf(new Date())
+  const yesterdayKey = dayKeyOf(new Date(Date.now() - 86400000))
 
   // Latest monthly report — surfaced as a single quiet line, not a promo card
   const { data: latestReport } = await supabase
@@ -109,35 +123,77 @@ export default async function HomePage() {
 
   return (
     <>
-      {/* ── The top story opens the page — no separate hero/masthead.
-          Signal pulse rides alongside it: real product, not decoration. ── */}
+      {/* ── The top story opens the page — no separate hero/masthead. A
+          few more high-impact picks and the signal pulse ride alongside
+          it: more doors in for a new visitor, still real product. ── */}
       {lead && (
         <section className="home-top">
           <div className="home-top__inner container">
-            <article className="lead-story">
-              <div className="lead-story__meta">
-                <span className="lead-story__eyebrow">Top story</span>
-                <span className="lead-story__date">
-                  {new Date(lead.published_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
-                </span>
-                {lead.impact_score && lead.impact_score >= 4 && (
-                  <span className="lead-story__impact">{IMPACT_LABEL[lead.impact_score]}</span>
+            <div className="home-top__main">
+              <article className="lead-story">
+                <div className="lead-story__meta">
+                  <span className="lead-story__eyebrow">Top story</span>
+                  <span className="lead-story__date">
+                    {new Date(lead.published_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                    <span className="read-time"> · {leadReadMinutes} min read</span>
+                  </span>
+                  {lead.impact_score && lead.impact_score >= 4 && (
+                    <span className="lead-story__impact">{IMPACT_LABEL[lead.impact_score]}</span>
+                  )}
+                </div>
+                <h1 className="lead-story__title"><Link href={articleHref(lead.slug)}>{lead.title}</Link></h1>
+                <p className="lead-story__excerpt">{lead.excerpt || extractTeaser(lead.content)}</p>
+                {leadSignals.length > 0 && (
+                  <div className="lead-story__signals">
+                    {leadSignals.map(s => (
+                      <Link key={s.id} href={`/intelligence/signals/${s.id}`} className="lead-story__signal">
+                        {s.title.length > 42 ? s.title.slice(0, 42) + '…' : s.title}
+                      </Link>
+                    ))}
+                  </div>
                 )}
-              </div>
-              <h1 className="lead-story__title"><Link href={articleHref(lead.slug)}>{lead.title}</Link></h1>
-              <p className="lead-story__excerpt">{lead.excerpt || extractTeaser(lead.content)}</p>
-              {leadSignals.length > 0 && (
-                <div className="lead-story__signals">
-                  {leadSignals.map(s => (
-                    <Link key={s.id} href={`/intelligence/signals/${s.id}`} className="lead-story__signal">
-                      {s.title.length > 42 ? s.title.slice(0, 42) + '…' : s.title}
-                    </Link>
-                  ))}
+                <Link className="article-row__read-more" href={articleHref(lead.slug)}>Read the story →</Link>
+              </article>
+
+              {secondaries.length > 0 && (
+                <div className="top-secondary" aria-label="More top stories">
+                  <p className="top-secondary__label">More top stories</p>
+                  {secondaries.map(article => {
+                    const readMinutes = estimateReadMinutes(article.content)
+                    return (
+                      <article key={article.id} className="top-secondary__item">
+                        <div className="top-secondary__meta">
+                          <span className="article-row__date">
+                            {new Date(article.published_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                            <span className="read-time"> · {readMinutes} min read</span>
+                          </span>
+                          {article.impact_score && article.impact_score >= 4 && (
+                            <span className="article-row__impact">
+                              <span className="article-row__impact-dot" aria-hidden="true" />
+                              {IMPACT_LABEL[article.impact_score]}
+                            </span>
+                          )}
+                        </div>
+                        <h3 className="top-secondary__title"><Link href={articleHref(article.slug)}>{article.title}</Link></h3>
+                        <p className="top-secondary__excerpt">{article.excerpt || extractTeaser(article.content)}</p>
+                      </article>
+                    )
+                  })}
                 </div>
               )}
-              <Link className="article-row__read-more" href={articleHref(lead.slug)}>Read the story →</Link>
-            </article>
-            <SignalPulse items={pulseItems} />
+            </div>
+
+            <div className="home-top__aside">
+              <SignalPulse items={pulseItems} />
+              <div className="home-topics" aria-label="Browse by topic">
+                <p className="home-topics__label">Browse by topic</p>
+                <div className="home-topics__pills">
+                  {Object.entries(TOPIC_DEFS).map(([id, def]) => (
+                    <Link key={id} href={`/articles?topic=${id}`} className="topic-pill">{def.label}</Link>
+                  ))}
+                </div>
+              </div>
+            </div>
           </div>
         </section>
       )}
@@ -154,15 +210,22 @@ export default async function HomePage() {
 
       <div className="home-layout container">
         <main className="home-main">
-          {[...byDay.entries()].map(([, allDayArticles], dayIndex) => {
-            const dayArticles = allDayArticles.filter(a => a.id !== lead?.id)
+          {[...byDay.entries()].map(([key, allDayArticles], dayIndex) => {
+            const dayArticles = allDayArticles.filter(a => !topClusterIds.has(a.id))
             if (dayArticles.length === 0) return null
             const displayDate = new Date(allDayArticles[0].published_at).toLocaleDateString('en-US', {
               year: 'numeric', month: 'long', day: 'numeric',
             })
+            const isToday = key === todayKey
+            const label = isToday ? 'Today' : key === yesterdayKey ? 'Yesterday' : displayDate
+            const storyWord = dayArticles.length === 1 ? 'story' : 'stories'
             return (
               <section key={dayIndex} className="day-section">
-                <h2 className="day-header">{displayDate}</h2>
+                <h2 className="day-header">
+                  <span>
+                    {isToday ? <span className="day-header__today">{label}</span> : label} · {dayArticles.length} {storyWord}
+                  </span>
+                </h2>
                 <div className="article-list">
                   {dayArticles.map(article => (
                     <ArticleCard key={article.id} article={article} />
@@ -172,16 +235,24 @@ export default async function HomePage() {
             )
           })}
 
+          <div className="home-view-all">
+            <Link href="/articles" className="btn btn--secondary">Browse the full archive →</Link>
+          </div>
+
           {/* Digest subscription */}
           <section className="subscribe-band" aria-label="Subscribe to the digest">
             <div className="subscribe-band__copy">
               <h2 className="subscribe-band__title">The industry, digested</h2>
-              <p className="subscribe-band__text">
-                One weekly email: impact-ranked stories, mapped to the signals
-                shaping language services. No noise.
-              </p>
+              <ul className="subscribe-band__list">
+                <li>Impact-ranked stories, not just aggregated headlines</li>
+                <li>Signals tracked over time — momentum, not one-off news</li>
+                <li>One email. No noise. Unsubscribe anytime.</li>
+              </ul>
             </div>
-            <SubscribeForm />
+            <div className="subscribe-band__form">
+              <SubscribeForm compact />
+              <Link href="/feed.xml" className="subscribe-band__rss">Prefer RSS? Subscribe to the feed →</Link>
+            </div>
           </section>
         </main>
 
@@ -231,6 +302,7 @@ export default async function HomePage() {
         <div className="explore-strip__inner container">
           <span className="explore-strip__label">Also from LocReport</span>
           <nav className="explore-strip__links" aria-label="More from LocReport">
+            <Link href="/articles">All Articles</Link>
             <Link href="/intelligence">Intelligence Dashboard</Link>
             <Link href="/compass">Compass Tools</Link>
             {latestReport ? (
