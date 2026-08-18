@@ -75,7 +75,7 @@ lib/
   data/
     events.ts            — 2026 industry calendar (11 events, hardcoded)
     directory.ts         — 31 localization tech vendors (hardcoded)
-    llm-pricing.ts       — LLM provider pricing (12 models tracked); static values are the seed/fallback, overlaid at render time with live data from `llm_pricing_quotes`/`llm_pricing_history` (see `/api/llm-pricing`)
+    llm-pricing.ts       — LLM provider pricing (22 models tracked across 9 providers incl. OpenAI, Anthropic, Google, Meta, DeepSeek, Moonshot AI/Kimi, xAI, Alibaba/Qwen, Mistral); static values are the seed/fallback, overlaid at render time with live data from `llm_pricing_quotes`/`llm_pricing_history` (see `/api/llm-pricing`)
 
 assets/
   css/style.css          — Design system: indigo-blue palette, Space Grotesk + Inter fonts

@@ -57,7 +57,7 @@ export default function CompassPage() {
           <span className="compass-card__badge">Interactive</span>
           <p className="compass-card__title">AI Translation Cost Simulator</p>
           <p className="compass-card__subtitle">LLM Pricing Tool</p>
-          <p className="compass-card__desc">Build your language programme pair by pair, set word volumes, and compare monthly API costs across GPT-4o, Claude, Gemini, DeepSeek, and more.</p>
+          <p className="compass-card__desc">Build your language programme pair by pair, set word volumes, and compare monthly API costs across GPT-5.5, Claude, Gemini, DeepSeek, Kimi, and more.</p>
           <span className="compass-card__arrow">Simulate →</span>
         </Link>
 
