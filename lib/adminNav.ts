@@ -1,6 +1,5 @@
-// Single source of truth for the admin section's tabs — used by the AdminNav
-// tab bar (app/(public)/admin/*) and by the "Admin" dropdown in the main
-// site header (components/Nav.tsx) so the two stay in sync.
+// Single source of truth for the admin section's links — used by the
+// "Admin" dropdown in the main site header (components/Nav.tsx).
 export interface AdminLink {
   href: string
   label: string
