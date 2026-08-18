@@ -3,11 +3,12 @@ import type { Metadata } from 'next'
 import { createClient } from '@/lib/supabase/server'
 import { Article } from '@/lib/types'
 import { articleHref, estimateReadMinutes, extractTeaser } from '@/lib/utils'
-import { SIGNALS, SIGNAL_MAP } from '@/lib/signals'
-import { TOPIC_DEFS } from '@/lib/topics'
+import { SIGNAL_MAP } from '@/lib/signals'
 import { SubscribeForm } from '@/components/SubscribeForm'
 import { ArticleCard } from '@/components/ArticleCard'
 import { SignalPulse } from '@/components/SignalPulse'
+import { ImpactMeter } from '@/components/ImpactMeter'
+import { CoverageSpark } from '@/components/CoverageSpark'
 import { getIntelligenceData, signalShortLabel } from '@/lib/intelligence'
 
 export const metadata: Metadata = {
@@ -15,7 +16,16 @@ export const metadata: Metadata = {
 }
 
 const IMPACT_LABEL: Record<number, string> = { 1: 'Routine', 2: 'Notable', 3: 'Significant', 4: 'Major', 5: 'Disruptive' }
+const MOMENTUM_GLYPH: Record<string, string> = { rising: '↑', stable: '→', declining: '↓' }
+// Same wording the article page uses for the horizon badge.
+const HORIZON_LABEL: Record<string, string> = { now: 'Immediate', '6months': '6-month horizon', 'long-term': 'Long-term' }
 const DAY_KEY_OPTS: Intl.DateTimeFormatOptions = { year: 'numeric', month: '2-digit', day: '2-digit' }
+
+// How much of the stream the homepage carries: the last two publishing days,
+// stretched to a third only when those two are thin.
+const STREAM_DAYS = 2
+const STREAM_DAYS_MAX = 3
+const STREAM_MIN_STORIES = 6
 
 // Canonical per-day grouping key — also used to detect "today"/"yesterday".
 function dayKeyOf(d: Date): string {
@@ -59,58 +69,68 @@ export default async function HomePage() {
 
   const allArticles = (articles as Article[]) ?? []
 
-  // Top cluster: the lead plus up to 2 more high-impact recent stories,
-  // ranked from the latest 10 and pulled out of the day stream below so
-  // nothing repeats. More entry points for a first-time visitor to land
-  // on — still every one a real, dated story, not a promo tile.
-  const leadPool = allArticles.slice(0, 10)
-  const rankedPool = [...leadPool].sort(
+  // Signal coverage momentum — powers both the lead story's chart and the rail.
+  const intel = await getIntelligenceData(supabase)
+
+  // ── The lead: highest impact among the ten most recent stories, most
+  // recent breaking the tie. It is pulled out of the day stream below so
+  // nothing appears twice. ──
+  const lead = [...allArticles.slice(0, 10)].sort(
     (a, b) => (b.impact_score ?? 0) - (a.impact_score ?? 0) || b.published_at.localeCompare(a.published_at)
-  )
-  const lead = rankedPool[0]
-  const secondaries = rankedPool.slice(1, 3)
-  const topClusterIds = new Set(rankedPool.slice(0, 3).map(a => a.id))
+  )[0]
+
   const leadSignals = (lead?.signal_ids ?? [])
     .map(id => SIGNAL_MAP.get(id))
     .filter((s): s is NonNullable<typeof s> => Boolean(s))
     .slice(0, 3)
-  const leadReadMinutes = lead ? estimateReadMinutes(lead.content) : 0
+  const leadImpact = lead?.impact_score ?? 0
+  // A 5/5 story is rare enough to earn the reserved warm accent.
+  const leadTone = leadImpact >= 5 ? 'gold' : 'accent'
+  // Of the lead's own signals, chart the one we've covered most lately.
+  const leadSeries = (lead?.signal_ids ?? [])
+    .map(id => intel.signalSeries.find(s => s.signalId === id))
+    .filter((s): s is NonNullable<typeof s> => Boolean(s))
+    .sort((a, b) => b.recentCount - a.recentCount)[0]
+  const leadHorizon = lead?.time_horizon ? HORIZON_LABEL[lead.time_horizon] ?? lead.time_horizon : null
+  const leadSegments = (lead?.affected_segments ?? []).slice(0, 2)
+  const hasLeadGraphic = Boolean(leadImpact || leadSeries || leadHorizon || leadSegments.length)
 
-  // Group by day (up to 3 days); each section below excludes whatever's
-  // already surfaced in the top cluster so no story appears twice.
+  // ── The stream, grouped by publishing day ──
   const byDay = new Map<string, Article[]>()
   for (const a of allArticles) {
     const day = dayKeyOf(new Date(a.published_at))
     if (!byDay.has(day)) {
-      if (byDay.size >= 3) break
+      if (byDay.size >= STREAM_DAYS_MAX) break
       byDay.set(day, [])
     }
     byDay.get(day)!.push(a)
   }
+  const dayGroups = [...byDay.entries()]
+    .map(([key, list]) => ({ key, list: list.filter(a => a.id !== lead?.id) }))
+    .filter(g => g.list.length > 0)
+  const streamDays = dayGroups.slice(0, STREAM_DAYS)
+  if (streamDays.reduce((n, g) => n + g.list.length, 0) < STREAM_MIN_STORIES && dayGroups[STREAM_DAYS]) {
+    streamDays.push(dayGroups[STREAM_DAYS])
+  }
+
   const todayKey = dayKeyOf(new Date())
   const yesterdayKey = dayKeyOf(new Date(Date.now() - 86400000))
-
-  // Latest monthly report — surfaced as a single quiet line, not a promo card
-  const { data: latestReport } = await supabase
-    .from('articles')
-    .select('id, title, slug, published_at')
-    .eq('article_type', 'monthly-summary')
-    .order('published_at', { ascending: false })
-    .limit(1)
-    .maybeSingle()
-
   const todayLabel = new Date().toLocaleDateString('en-US', {
-    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
+    weekday: 'long', month: 'long', day: 'numeric', year: 'numeric',
   })
 
-  // Signal pulse: the homepage's one data-forward signature. Rising signals
-  // lead, busiest coverage fills the rest — real coverage-momentum, not decoration.
-  const intel = await getIntelligenceData(supabase)
-  const rising = intel.signalSeries.filter(s => s.observedMomentum === 'rising')
-  const filler = intel.signalSeries
-    .filter(s => s.observedMomentum !== 'rising')
-    .sort((a, b) => b.recentCount - a.recentCount)
-  const pulseItems = [...rising.sort((a, b) => b.recentCount - a.recentCount), ...filler]
+  // ── Dateline counters: the date only earns its place next to live numbers ──
+  const weekCutoff = Date.now() - 7 * 86400000
+  const thisWeek = allArticles.filter(a => new Date(a.published_at).getTime() >= weekCutoff)
+  const publishedToday = allArticles.filter(a => dayKeyOf(new Date(a.published_at)) === todayKey).length
+  const highImpactWeek = thisWeek.filter(a => (a.impact_score ?? 0) >= 4).length
+  const risingSignals = intel.signalSeries.filter(s => s.observedMomentum === 'rising')
+
+  // Signal pulse: rising signals lead, busiest coverage fills the rest.
+  const pulseItems = [
+    ...risingSignals.sort((a, b) => b.recentCount - a.recentCount),
+    ...intel.signalSeries.filter(s => s.observedMomentum !== 'rising').sort((a, b) => b.recentCount - a.recentCount),
+  ]
     .slice(0, 4)
     .filter(s => s.recentCount > 0)
     .map(s => ({
@@ -123,121 +143,125 @@ export default async function HomePage() {
 
   return (
     <>
-      {/* ── The top story opens the page — no separate hero/masthead. A
-          few more high-impact picks and the signal pulse ride alongside
-          it: more doors in for a new visitor, still real product. ── */}
-      {lead && (
-        <section className="home-top">
-          <div className="home-top__inner container">
-            <div className="home-top__main">
-              <article className="lead-story">
-                <div className="lead-story__meta">
-                  <span className="lead-story__eyebrow">Top story</span>
-                  <span className="lead-story__date">
+      {/* ── Dateline: today's date paired with today's actual numbers ── */}
+      <section className="dateline" aria-label="Today at a glance">
+        <div className="dateline__inner container">
+          <p className="dateline__date">{todayLabel}</p>
+          <div className="dateline__stats">
+            <Link href="/articles" className="dateline__stat">
+              <b>{publishedToday || thisWeek.length}</b>
+              {publishedToday ? 'stories today' : 'stories this week'}
+            </Link>
+            <Link href="/intelligence/high-impact" className="dateline__stat">
+              <b>{highImpactWeek}</b>
+              high-impact this week
+            </Link>
+            <Link href="/intelligence/signals" className="dateline__stat">
+              <b>{risingSignals.length}</b>
+              signals rising
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <div className="home-grid container">
+        <main className="home-main">
+          {/* ── Top story: one panel, accent-ruled, with the impact and
+              coverage graphics that make it read as the main thing. ── */}
+          {lead && (
+            <article className={`lead${leadTone === 'gold' ? ' lead--peak' : ''}`}>
+              <div className="lead__body">
+                <div className="lead__meta">
+                  <span className="lead__eyebrow">Top story</span>
+                  <span className="lead__date">
                     {new Date(lead.published_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
-                    <span className="read-time"> · {leadReadMinutes} min read</span>
+                    {' · '}{estimateReadMinutes(lead.content)} min read
                   </span>
-                  {lead.impact_score && lead.impact_score >= 4 && (
-                    <span className="lead-story__impact">{IMPACT_LABEL[lead.impact_score]}</span>
-                  )}
                 </div>
-                <h1 className="lead-story__title"><Link href={articleHref(lead.slug)}>{lead.title}</Link></h1>
-                <p className="lead-story__excerpt">{lead.excerpt || extractTeaser(lead.content)}</p>
+                <h1 className="lead__title"><Link href={articleHref(lead.slug)}>{lead.title}</Link></h1>
+                <p className="lead__excerpt">{lead.excerpt || extractTeaser(lead.content)}</p>
                 {leadSignals.length > 0 && (
-                  <div className="lead-story__signals">
+                  <div className="lead__signals">
                     {leadSignals.map(s => (
-                      <Link key={s.id} href={`/intelligence/signals/${s.id}`} className="lead-story__signal">
-                        {s.title.length > 42 ? s.title.slice(0, 42) + '…' : s.title}
+                      <Link key={s.id} href={`/intelligence/signals/${s.id}`} className="lead__signal">
+                        {signalShortLabel(s.id)}
                       </Link>
                     ))}
                   </div>
                 )}
-                <Link className="article-row__read-more" href={articleHref(lead.slug)}>Read the story →</Link>
-              </article>
-
-              {secondaries.length > 0 && (
-                <div className="top-secondary" aria-label="More top stories">
-                  <p className="top-secondary__label">More top stories</p>
-                  {secondaries.map(article => {
-                    const readMinutes = estimateReadMinutes(article.content)
-                    return (
-                      <article key={article.id} className="top-secondary__item">
-                        <div className="top-secondary__meta">
-                          <span className="article-row__date">
-                            {new Date(article.published_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
-                            <span className="read-time"> · {readMinutes} min read</span>
-                          </span>
-                          {article.impact_score && article.impact_score >= 4 && (
-                            <span className="article-row__impact">
-                              <span className="article-row__impact-dot" aria-hidden="true" />
-                              {IMPACT_LABEL[article.impact_score]}
-                            </span>
-                          )}
-                        </div>
-                        <h3 className="top-secondary__title"><Link href={articleHref(article.slug)}>{article.title}</Link></h3>
-                        <p className="top-secondary__excerpt">{article.excerpt || extractTeaser(article.content)}</p>
-                      </article>
-                    )
-                  })}
-                </div>
-              )}
-            </div>
-
-            <div className="home-top__aside">
-              <SignalPulse items={pulseItems} />
-              <div className="home-topics" aria-label="Browse by topic">
-                <p className="home-topics__label">Browse by topic</p>
-                <div className="home-topics__pills">
-                  {Object.entries(TOPIC_DEFS).map(([id, def]) => (
-                    <Link key={id} href={`/articles?topic=${id}`} className="topic-pill">{def.label}</Link>
-                  ))}
-                </div>
+                <Link className="lead__cta" href={articleHref(lead.slug)}>Read the story →</Link>
               </div>
+
+              {hasLeadGraphic && (
+                <aside className="graphic-panel" aria-label="Why this story leads">
+                  {leadImpact > 0 && (
+                    <ImpactMeter score={leadImpact} label={IMPACT_LABEL[leadImpact]} tone={leadTone} />
+                  )}
+                  {leadSeries && (
+                    <div className="graphic-panel__block">
+                      <p className="graphic-panel__label">Coverage momentum</p>
+                      <p className="graphic-panel__signal">{signalShortLabel(leadSeries.signalId)}</p>
+                      <CoverageSpark data={leadSeries.weekly} tone={leadTone} />
+                      <p className={`graphic-panel__trend graphic-panel__trend--${leadSeries.observedMomentum}`}>
+                        {MOMENTUM_GLYPH[leadSeries.observedMomentum]} {leadSeries.observedMomentum}
+                        <span className="graphic-panel__trend-sub">{leadSeries.recentCount} stories · 8 weeks</span>
+                      </p>
+                    </div>
+                  )}
+                  {leadHorizon && (
+                    <div className="graphic-panel__block">
+                      <p className="graphic-panel__label">Horizon</p>
+                      <p className="graphic-panel__value">{leadHorizon}</p>
+                    </div>
+                  )}
+                  {leadSegments.length > 0 && (
+                    <div className="graphic-panel__block">
+                      <p className="graphic-panel__label">Affected</p>
+                      <p className="graphic-panel__value">{leadSegments.join(' · ')}</p>
+                    </div>
+                  )}
+                </aside>
+              )}
+            </article>
+          )}
+
+          {/* ── The stream: the last two publishing days, newest first ── */}
+          <section className="feed" aria-label="Latest coverage">
+            <div className="feed__head">
+              <h2 className="feed__head-title">Latest coverage</h2>
+              <Link href="/articles" className="feed__head-link">All articles →</Link>
             </div>
-          </div>
-        </section>
-      )}
 
-      {/* ── The old hero's message, compressed into one quiet, thin bar ── */}
-      <section className="brand-bar">
-        <div className="brand-bar__inner container">
-          <p className="brand-bar__message">
-            <strong>The pulse of the language services industry.</strong> Daily coverage of translation, localization, and AI — tracked through the signals that matter.
-          </p>
-          <p className="brand-bar__date">{todayLabel}</p>
-        </div>
-      </section>
+            {streamDays.map(({ key, list }) => {
+              const isToday = key === todayKey
+              const label = isToday
+                ? 'Today'
+                : key === yesterdayKey
+                  ? 'Yesterday'
+                  : new Date(list[0].published_at).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
+              return (
+                <section key={key} className="day-group">
+                  <div className="day-group__head">
+                    <h3 className={`day-group__label${isToday ? ' day-group__label--today' : ''}`}>
+                      {isToday && <span className="day-group__live" aria-hidden="true" />}
+                      {label}
+                    </h3>
+                    <span className="day-group__rule" aria-hidden="true" />
+                    <span className="day-group__count">{list.length} {list.length === 1 ? 'story' : 'stories'}</span>
+                  </div>
+                  <div className="article-list">
+                    {list.map(article => (
+                      <ArticleCard key={article.id} article={article} />
+                    ))}
+                  </div>
+                </section>
+              )
+            })}
 
-      <div className="home-layout container">
-        <main className="home-main">
-          {[...byDay.entries()].map(([key, allDayArticles], dayIndex) => {
-            const dayArticles = allDayArticles.filter(a => !topClusterIds.has(a.id))
-            if (dayArticles.length === 0) return null
-            const displayDate = new Date(allDayArticles[0].published_at).toLocaleDateString('en-US', {
-              year: 'numeric', month: 'long', day: 'numeric',
-            })
-            const isToday = key === todayKey
-            const label = isToday ? 'Today' : key === yesterdayKey ? 'Yesterday' : displayDate
-            const storyWord = dayArticles.length === 1 ? 'story' : 'stories'
-            return (
-              <section key={dayIndex} className="day-section">
-                <h2 className="day-header">
-                  <span>
-                    {isToday ? <span className="day-header__today">{label}</span> : label} · {dayArticles.length} {storyWord}
-                  </span>
-                </h2>
-                <div className="article-list">
-                  {dayArticles.map(article => (
-                    <ArticleCard key={article.id} article={article} />
-                  ))}
-                </div>
-              </section>
-            )
-          })}
-
-          <div className="home-view-all">
-            <Link href="/articles" className="btn btn--secondary">Browse the full archive →</Link>
-          </div>
+            <div className="home-view-all">
+              <Link href="/articles" className="btn btn--secondary">Browse the full archive →</Link>
+            </div>
+          </section>
 
           {/* Digest subscription */}
           <section className="subscribe-band" aria-label="Subscribe to the digest">
@@ -256,65 +280,35 @@ export default async function HomePage() {
           </section>
         </main>
 
-        <aside className="home-sidebar" aria-label="Sidebar">
-          <div className="intel-rail">
-            {latestFacts && latestFacts.length > 0 && (
-              <div className="intel-rail__group">
-                <p className="intel-rail__label">
-                  <span className="sidebar-factflow__dot" aria-hidden="true" />
-                  Fact Flow
-                </p>
-                {latestFacts.map(fact => {
-                  const slug = fact.article_id ? factSlugMap.get(fact.article_id) : undefined
-                  return (
-                    <div key={fact.id} className="sidebar-factflow__item">
-                      <span className="sidebar-factflow__time">{timeAgo(fact.created_at)}</span>
-                      {slug ? (
-                        <Link href={articleHref(slug)} className="sidebar-factflow__content">{fact.content}</Link>
-                      ) : (
-                        <span className="sidebar-factflow__content">{fact.content}</span>
-                      )}
-                    </div>
-                  )
-                })}
-                <Link href="/fact-flow" className="sidebar-widget__more">Follow the live feed →</Link>
-              </div>
-            )}
+        {/* ── One rail, two live panels: what's moving, and what just landed ── */}
+        <aside className="rail" aria-label="Live intelligence">
+          <SignalPulse items={pulseItems} />
 
-            <div className="intel-rail__group">
-              <p className="intel-rail__label">Signals to watch</p>
-              <div className="sidebar-signal-list">
-                {SIGNALS.slice(0, 5).map(signal => (
-                  <Link key={signal.id} href={`/intelligence/signals/${signal.id}`} className="sidebar-signal">
-                    <span className={`sidebar-signal__status sidebar-signal__status--${signal.current_status}`} aria-label={signal.current_status} />
-                    <span className="sidebar-signal__title">{signal.title.length > 58 ? signal.title.slice(0, 58) + '…' : signal.title}</span>
-                  </Link>
-                ))}
+          {latestFacts && latestFacts.length > 0 && (
+            <div className="rail-card">
+              <div className="rail-card__head">
+                <span className="rail-card__live" aria-hidden="true" />
+                <span className="rail-card__title">Fact Flow</span>
+                <span className="rail-card__sub">as it lands</span>
               </div>
-              <Link href="/intelligence/signals" className="sidebar-widget__more">All {SIGNALS.length} signals →</Link>
+              {latestFacts.map(fact => {
+                const slug = fact.article_id ? factSlugMap.get(fact.article_id) : undefined
+                return (
+                  <div key={fact.id} className="rail-fact">
+                    <span className="rail-fact__time">{timeAgo(fact.created_at)}</span>
+                    {slug ? (
+                      <Link href={articleHref(slug)} className="rail-fact__content">{fact.content}</Link>
+                    ) : (
+                      <span className="rail-fact__content">{fact.content}</span>
+                    )}
+                  </div>
+                )
+              })}
+              <Link href="/fact-flow" className="rail-card__more">Follow the live feed →</Link>
             </div>
-          </div>
+          )}
         </aside>
       </div>
-
-      {/* ── Explore: everything else, reachable without competing for attention ── */}
-      <section className="explore-strip">
-        <div className="explore-strip__inner container">
-          <span className="explore-strip__label">Also from LocReport</span>
-          <nav className="explore-strip__links" aria-label="More from LocReport">
-            <Link href="/articles">All Articles</Link>
-            <Link href="/intelligence">Intelligence Dashboard</Link>
-            <Link href="/compass">Compass Tools</Link>
-            {latestReport ? (
-              <Link href={articleHref(latestReport.slug)}>Latest Monthly Report</Link>
-            ) : (
-              <Link href="/reports/monthly">Monthly Reports</Link>
-            )}
-            <Link href="/fact-flow">Fact Flow</Link>
-            <Link href="/reports/2026-annual-global-market-report">2026 Annual Report</Link>
-          </nav>
-        </div>
-      </section>
     </>
   )
 }

@@ -44,9 +44,12 @@ components/
   ui/                    — Primitive UI components (Button, Card, Input, Badge, Textarea, Label)
   Nav.tsx                — Site header with dropdown nav + search + theme toggle
   SubscribeForm.tsx      — Digest email capture (homepage, article footer, /intelligence)
-  SignalSparkline.tsx    — Tiny weekly-volume area chart (signals index/detail)
+  SignalSparkline.tsx    — Tiny weekly-volume area chart (signals index/detail; Recharts, client)
+  SignalPulse.tsx        — Homepage rail panel: 4 signals by coverage momentum + sparklines
+  CoverageSpark.tsx      — Server-rendered inline-SVG area chart (lead story panel; no Recharts, no hydration)
+  ImpactMeter.tsx        — Five-step impact score meter (lead story panel)
   BackfillEmbeddingsButton.tsx — Admin one-click embeddings backfill loop
-  ArticleCard.tsx        — Article preview row, used in the homepage article stream
+  ArticleCard.tsx        — Article preview row (date, impact, signal chip), used in the homepage stream
   ArticleEditor.tsx      — Markdown editor (admin only)
   DraftCard.tsx          — Draft management card
   ShareButton.tsx        — Social share button on article pages
@@ -98,7 +101,7 @@ vercel.json              — Build config, 301 redirects (no active cron jobs)
 
 | Path | File | Notes |
 |---|---|---|
-| `/` | `page.tsx` | Quiet masthead + a lead story integrated into a day-grouped article stream; a slim sticky sidebar (Fact Flow + signals); other sections reachable via an "Also from LocReport" strip, not surfaced as homepage widgets |
+| `/` | `page.tsx` | Dateline strip (date + live counts) → lead "Top story" panel with impact/coverage graphics → day-grouped stream (last 2 publishing days) → digest band; one sticky rail carries Signal Pulse + Fact Flow |
 | `/articles` | `articles/page.tsx` | All articles — server-side filters + pagination via URL params (`topic`, `impact`, `category`, `from`, `to`, `sort`, `page`) |
 | `/articles/[slug]` | `articles/[...slug]/page.tsx` | Article detail, 24h ISR revalidation |
 | `/intelligence` | `intelligence/page.tsx` | Signals dashboard + stats |
@@ -384,10 +387,13 @@ To add a new signal: edit `lib/signals.ts`. No DB migration needed — signals a
 
 Design direction: institutional-editorial — near-monochrome ink/paper, the single indigo accent used
 sparingly (links, active states, one eyebrow per page), no decorative gradients/orbs/glassmorphism/marquees.
-The homepage leads with a quiet masthead and a content-first article stream; secondary features (Compass
-tools, signals, reports) are reachable via nav/footer/a bottom "explore" strip rather than surfaced as
-homepage widgets. Prefer flat surfaces + hairline borders over shadows; reserve `--gold`/`--warm` for a
-single deliberate highlight, not broad theming.
+The homepage runs on one grid top to bottom: a dateline, the lead story panel, the day-grouped stream, and a
+slim sticky rail. Colour appears in exactly three places and always carries data — the lead panel's accent
+rule + tinted graphic column (impact meter, coverage sparkline, horizon, affected segments), the dateline
+counters, and momentum direction in the Signal Pulse. Secondary features (Compass tools, signals, reports)
+live in the nav and footer, never as homepage promo widgets. Prefer flat surfaces + hairline borders over
+shadows; reserve `--gold`/`--warm` for a single deliberate highlight — on the homepage that is a 5/5
+"Disruptive" lead story, nothing else.
 
 **Theme:** `data-theme="dark"` on `<html>` activates dark mode via CSS variable overrides.
 
