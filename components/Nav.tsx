@@ -42,6 +42,14 @@ export function Nav() {
   const [email, setEmail] = useState<string | null>(null)
   const [menuOpen, setMenuOpen] = useState(false)
   const [openDropdown, setOpenDropdown] = useState<string | null>(null)
+  // Whether the primary input can hover (mouse/trackpad) vs. touch-only.
+  // Drives the Admin menu: hover-intent open/close on desktop, tap-to-toggle
+  // on touch — checked by input capability, not viewport width, so it holds
+  // up on touch tablets/hybrids too.
+  const [canHover, setCanHover] = useState(() => {
+    if (typeof window === 'undefined') return true
+    return window.matchMedia('(hover: hover)').matches
+  })
   const [searchOpen, setSearchOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
@@ -74,6 +82,13 @@ export function Nav() {
     }
     document.addEventListener('mousedown', handleClick)
     return () => document.removeEventListener('mousedown', handleClick)
+  }, [])
+
+  useEffect(() => {
+    const mql = window.matchMedia('(hover: hover)')
+    const handleChange = () => setCanHover(mql.matches)
+    mql.addEventListener('change', handleChange)
+    return () => mql.removeEventListener('change', handleChange)
   }, [])
 
   useEffect(() => {
@@ -231,8 +246,8 @@ export function Nav() {
                 <div
                   ref={adminMenuRef}
                   className="nav-has-dropdown admin-menu"
-                  onMouseEnter={() => openMenu(ADMIN_MENU_KEY)}
-                  onMouseLeave={scheduleClose}
+                  onMouseEnter={canHover ? () => openMenu(ADMIN_MENU_KEY) : undefined}
+                  onMouseLeave={canHover ? scheduleClose : undefined}
                 >
                   <button
                     onClick={() => setOpenDropdown(v => v === ADMIN_MENU_KEY ? null : ADMIN_MENU_KEY)}
@@ -255,8 +270,8 @@ export function Nav() {
                   <ul
                     className={`admin-menu-dropdown${openDropdown === ADMIN_MENU_KEY ? ' is-open' : ''}`}
                     role="menu"
-                    onMouseEnter={() => openMenu(ADMIN_MENU_KEY)}
-                    onMouseLeave={scheduleClose}
+                    onMouseEnter={canHover ? () => openMenu(ADMIN_MENU_KEY) : undefined}
+                    onMouseLeave={canHover ? scheduleClose : undefined}
                   >
                     {ADMIN_LINKS.map(({ href, label }) => (
                       <li key={href} role="none">
