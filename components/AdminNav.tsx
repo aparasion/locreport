@@ -9,22 +9,27 @@ export function AdminNav() {
   const [open, setOpen] = useState(false)
   const current = links.find(l => l.href === pathname) ?? links[0]
 
+  // Gentle dark-orange (the design system's --gold token) identifies the
+  // admin tab bar as distinct from the public site's indigo nav. Inactive
+  // tabs get a softened mix of it, same recipe .site-nav uses for --text.
+  const INACTIVE_COLOR = 'color-mix(in srgb, var(--gold) 72%, var(--muted))'
+
   return (
     <nav
-      className="mb-6 sticky top-14 sm:top-16 z-30 pt-3 -mt-3"
-      style={{ background: 'var(--bg)' }}
+      className="mb-6 sticky top-16 sm:top-[72px] z-30 pt-2"
+      style={{ background: 'var(--bg)', borderTop: '1px solid var(--border)' }}
     >
       {/* Mobile dropdown */}
       <div className="sm:hidden relative">
         <button
           onClick={() => setOpen(o => !o)}
-          className="flex items-center justify-between w-full px-4 py-2.5 rounded-lg text-sm font-medium transition-colors"
-          style={{ background: 'var(--surface)', borderWidth: 1, borderStyle: 'solid', borderColor: 'var(--border)', color: 'var(--text)' }}
+          className="flex items-center justify-between w-full px-3 py-2 rounded-lg text-xs font-semibold transition-colors"
+          style={{ background: 'var(--surface)', borderWidth: 1, borderStyle: 'solid', borderColor: 'var(--border)', color: 'var(--gold)' }}
           aria-expanded={open}
         >
           <span>{current.label}</span>
           <svg
-            className={`w-4 h-4 transition-transform ${open ? 'rotate-180' : ''}`}
+            className={`w-3.5 h-3.5 transition-transform ${open ? 'rotate-180' : ''}`}
             style={{ color: 'var(--muted)' }}
             fill="none"
             stroke="currentColor"
@@ -41,10 +46,10 @@ export function AdminNav() {
                 key={href}
                 href={href}
                 onClick={() => setOpen(false)}
-                className="block px-4 py-2.5 text-sm font-medium transition-colors"
+                className="block px-3 py-2 text-xs font-medium transition-colors"
                 style={pathname === href
-                  ? { background: 'var(--accent-soft)', color: 'var(--accent)' }
-                  : { color: 'var(--muted)' }}
+                  ? { background: 'var(--gold-soft)', color: 'var(--gold)', fontWeight: 600 }
+                  : { color: INACTIVE_COLOR }}
               >
                 {label}
               </Link>
@@ -59,10 +64,10 @@ export function AdminNav() {
           <Link
             key={href}
             href={href}
-            className="px-4 py-2 text-sm font-medium rounded-t-lg transition-colors"
+            className="px-3 py-1.5 text-xs font-medium rounded-t-lg transition-colors"
             style={pathname === href
-              ? { borderBottom: '2px solid var(--accent)', color: 'var(--accent)', marginBottom: -1 }
-              : { color: 'var(--muted)' }}
+              ? { borderBottom: '2px solid var(--gold)', color: 'var(--gold)', fontWeight: 600, marginBottom: -1 }
+              : { color: INACTIVE_COLOR }}
           >
             {label}
           </Link>
