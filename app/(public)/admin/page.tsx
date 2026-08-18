@@ -113,11 +113,11 @@ export default function AdminDashboard() {
       <div className="admin-stats-banner">
         {[
           { label: 'Published', value: stats?.articles },
-          { label: 'Drafts', value: stats?.drafts },
+          { label: 'Drafts', value: stats?.drafts, danger: true },
           { label: 'Sources', value: stats?.sources },
-        ].map(({ label, value }) => (
+        ].map(({ label, value, danger }) => (
           <span key={label} className="admin-stats-banner__item">
-            <span className="admin-stats-banner__value">{value ?? '—'}</span>
+            <span className={`admin-stats-banner__value${danger ? ' admin-stats-banner__value--danger' : ''}`}>{value ?? '—'}</span>
             <span className="admin-stats-banner__label">{label}</span>
           </span>
         ))}
