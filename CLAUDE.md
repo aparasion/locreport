@@ -44,12 +44,10 @@ components/
   ui/                    — Primitive UI components (Button, Card, Input, Badge, Textarea, Label)
   Nav.tsx                — Site header with dropdown nav + search + theme toggle
   SubscribeForm.tsx      — Digest email capture (homepage, article footer, /intelligence)
-  SignalSparkline.tsx    — Tiny weekly-volume area chart (signals index/detail; Recharts, client)
-  SignalPulse.tsx        — Homepage rail panel: 4 signals by coverage momentum + sparklines
-  CoverageSpark.tsx      — Server-rendered inline-SVG area chart (lead story panel; no Recharts, no hydration)
-  ImpactMeter.tsx        — Five-step impact score meter (lead story panel)
+  SignalSparkline.tsx    — Tiny weekly-volume area chart (signals index/detail + MomentumStrip; Recharts, client)
+  MomentumStrip.tsx      — Homepage strip: 4 signals by coverage momentum + sparklines
   BackfillEmbeddingsButton.tsx — Admin one-click embeddings backfill loop
-  ArticleCard.tsx        — Article preview row (date, impact, signal chip), used in the homepage stream
+  ArticleCard.tsx        — Article preview row; currently unrendered (the homepage inlines its own rows)
   ArticleEditor.tsx      — Markdown editor (admin only)
   DraftCard.tsx          — Draft management card
   ShareButton.tsx        — Social share button on article pages
@@ -101,7 +99,7 @@ vercel.json              — Build config, 301 redirects (no active cron jobs)
 
 | Path | File | Notes |
 |---|---|---|
-| `/` | `page.tsx` | Dateline strip (date + live counts) → lead "Top story" panel with impact/coverage graphics → day-grouped stream (last 2 publishing days) → digest band; one sticky rail carries Signal Pulse + Fact Flow |
+| `/` | `page.tsx` | Split hero (gradient wash + orbs, Explore-tools panel) → sources marquee → "Highlighted story" briefing + high-impact rail → momentum strip → day-grouped stream (3 days) → digest band → CTA; sidebar carries Fact Flow, reports, active signals. **Runs the pre-2026-08-17 visual system — see Design System below.** |
 | `/articles` | `articles/page.tsx` | All articles — server-side filters + pagination via URL params (`topic`, `impact`, `category`, `from`, `to`, `sort`, `page`) |
 | `/articles/[slug]` | `articles/[...slug]/page.tsx` | Article detail, 24h ISR revalidation |
 | `/intelligence` | `intelligence/page.tsx` | Signals dashboard + stats |
@@ -385,15 +383,24 @@ To add a new signal: edit `lib/signals.ts`. No DB migration needed — signals a
 --space-1 … --space-16  Spacing scale (0.25rem → 8rem)
 ```
 
-Design direction: institutional-editorial — near-monochrome ink/paper, the single indigo accent used
-sparingly (links, active states, one eyebrow per page), no decorative gradients/orbs/glassmorphism/marquees.
-The homepage runs on one grid top to bottom: a dateline, the lead story panel, the day-grouped stream, and a
-slim sticky rail. Colour appears in exactly three places and always carries data — the lead panel's accent
-rule + tinted graphic column (impact meter, coverage sparkline, horizon, affected segments), the dateline
-counters, and momentum direction in the Signal Pulse. Secondary features (Compass tools, signals, reports)
-live in the nav and footer, never as homepage promo widgets. Prefer flat surfaces + hairline borders over
-shadows; reserve `--gold`/`--warm` for a single deliberate highlight — on the homepage that is a 5/5
-"Disruptive" lead story, nothing else.
+Design direction (everything except the homepage): institutional-editorial — near-monochrome ink/paper,
+the single indigo accent used sparingly (links, active states, one eyebrow per page), no decorative
+gradients/orbs/glassmorphism/marquees. Prefer flat surfaces + hairline borders over shadows; reserve
+`--gold`/`--warm` for a single deliberate highlight, not broad theming.
+
+**The homepage is a deliberate exception.** It runs the visual system the site had on 2026-08-16 — split
+hero with gradient wash and drifting orbs, a sources marquee, card shadows, the brighter `#3550F5` accent,
+and the softer radius scale. That system lives entirely inside `assets/css/style.css` under the `.home-v1`
+scope, matched by the wrapper `<div className="home-v1">` in `app/(public)/page.tsx`.
+
+Working on it:
+- The `.home-v1` rule redeclares the **full** Aug 16 token set, not just the values that differ, because it
+  sits later in the file than the global `[data-theme="dark"]` block at equal specificity — a partial
+  light-mode set leaks into dark mode.
+- It also redeclares `color`, because `<body>` resolved that from the global `--text` before the scope
+  existed and inheritance carries the computed colour, not the variable.
+- Keep new homepage rules inside the scope. Do not re-point them at the global tokens, and do not lift them
+  out to global selectors — that is what would bleed this palette onto the rest of the site.
 
 **Theme:** `data-theme="dark"` on `<html>` activates dark mode via CSS variable overrides.
 
