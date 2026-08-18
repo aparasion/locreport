@@ -2,7 +2,7 @@ import { notFound, redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { marked } from 'marked'
 import { Article } from '@/lib/types'
-import { articleHref } from '@/lib/utils'
+import { articleHref, estimateReadMinutes } from '@/lib/utils'
 import { SIGNAL_MAP } from '@/lib/signals'
 import { ShareButton } from '@/components/ShareButton'
 import { SubscribeForm } from '@/components/SubscribeForm'
@@ -78,8 +78,7 @@ export default async function ArticlePage({ params }: Props) {
   })
 
   // Read time
-  const words = content.trim().split(/\s+/).length
-  const readMinutes = Math.max(1, Math.round(words / 200))
+  const readMinutes = estimateReadMinutes(content)
 
   // Resolve signal metadata
   const articleSignals = (a.signal_ids ?? [])

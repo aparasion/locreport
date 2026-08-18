@@ -4907,6 +4907,157 @@ a.sidebar-factflow__content:hover {
   .explore-strip__inner { flex-direction: column; gap: var(--space-3); }
 }
 
+/* ── Top cluster: lead story + a few more picks + aside stack ──
+   Same data-driven, no-stock-photography language as the rest of
+   the homepage — more entry points for a first visit, not more
+   decoration. ── */
+.home-top__main { min-width: 0; }
+.home-top__aside {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+/* Secondary top stories — compact, headline-led, no dek */
+.top-secondary {
+  margin-top: var(--space-6);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--border);
+}
+.top-secondary__label {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  margin: 0 0 var(--space-2);
+}
+.top-secondary__item {
+  padding: var(--space-3) 0;
+  border-top: 1px solid var(--hairline);
+  border-radius: var(--radius-sm);
+  transition: background-color 0.15s ease;
+}
+.top-secondary__item:first-child { border-top: none; padding-top: 0; }
+.top-secondary__item:hover,
+.top-secondary__item:focus-within {
+  background: var(--accent-soft);
+}
+.top-secondary__meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  margin-bottom: 4px;
+}
+.top-secondary__title {
+  font-family: var(--font-display);
+  font-size: 1.04rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.35;
+  margin: 0 0 4px;
+}
+.top-secondary__title a { color: var(--text); text-decoration: none; transition: color 0.15s ease; }
+.top-secondary__item:hover .top-secondary__title a,
+.top-secondary__item:focus-within .top-secondary__title a { color: var(--accent); }
+.top-secondary__excerpt {
+  font-size: 0.82rem;
+  color: var(--muted);
+  line-height: 1.5;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Topic quick-nav — one card, matching the signal pulse's card language */
+.home-topics {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4) var(--space-5);
+}
+.home-topics__label {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  margin: 0 0 var(--space-3);
+}
+.home-topics__pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+.home-topics__pills .topic-pill {
+  padding: 6px 14px;
+  font-size: 0.78rem;
+}
+
+/* Freshness cue on day headers — "Today"/"Yesterday" pop against the
+   muted date line; the count keeps returning readers oriented. */
+.day-header__today { color: var(--text); }
+
+/* Full-row hover — the same tint used by the signal pulse and sidebar rails */
+.article-row { transition: background-color 0.15s ease; }
+.article-row:hover, .article-row:focus-within { background: var(--accent-soft); }
+
+/* End-of-stream CTA into the full archive */
+.home-view-all {
+  display: flex;
+  justify-content: center;
+  margin: var(--space-2) 0 var(--space-6);
+}
+
+/* Subscribe band — value props + an RSS alternative for the email-averse */
+.subscribe-band__list {
+  list-style: none;
+  margin: var(--space-3) 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.subscribe-band__list li {
+  position: relative;
+  padding-left: var(--space-4);
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--muted);
+}
+.subscribe-band__list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.6em;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+.subscribe-band__form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.subscribe-band__rss {
+  font-size: 0.76rem;
+  color: var(--muted);
+  text-decoration: none;
+  align-self: flex-start;
+}
+.subscribe-band__rss:hover { color: var(--accent); text-decoration: underline; }
+
+@media (max-width: 560px) {
+  .day-header { white-space: normal; }
+  .day-header::after { display: none; }
+}
+
 /* ── Article sidebar (shared with /search — do not remove) ──── */
 .post-sidebar {
   display: flex;
@@ -5675,7 +5826,6 @@ kbd, code {
 /* ── Digest subscription ── */
 .subscribe-band { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: var(--space-5); align-items: center; margin: var(--space-8) 0; padding: var(--space-6); background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-xl); }
 .subscribe-band__title { font-family: var(--font-display); font-size: 1.3rem; font-weight: 600; letter-spacing: -0.01em; margin: 0 0 var(--space-2); }
-.subscribe-band__text { font-size: 0.9rem; line-height: 1.55; color: var(--muted); margin: 0; }
 @media (max-width: 760px) { .subscribe-band { grid-template-columns: 1fr; } }
 .subscribe-form { width: 100%; }
 .subscribe-form__row { display: flex; gap: var(--space-2); flex-wrap: wrap; }

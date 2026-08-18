@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { Article } from '@/lib/types'
-import { articleHref, extractTeaser } from '@/lib/utils'
+import { articleHref, estimateReadMinutes, extractTeaser } from '@/lib/utils'
 
 const IMPACT_LABEL: Record<number, string> = { 1: 'Routine', 2: 'Notable', 3: 'Significant', 4: 'Major', 5: 'Disruptive' }
 // Only the 'monthly-summary' type is worth flagging — 'industry' is the norm
@@ -13,12 +13,13 @@ export function ArticleCard({ article, featured }: { article: Article; featured?
   const date = new Date(article.published_at).toLocaleDateString('en-US', {
     month: 'short', day: 'numeric', year: 'numeric',
   })
+  const readMinutes = estimateReadMinutes(article.content)
   const categoryLabel = article.article_type ? CATEGORY_LABEL[article.article_type] : undefined
 
   return (
     <article className={`article-row${featured ? ' article-row--featured' : ''}`}>
       <div className="article-row__header">
-        <span className="article-row__date">{date}</span>
+        <span className="article-row__date">{date}<span className="read-time"> · {readMinutes} min read</span></span>
         {article.impact_score && article.impact_score >= 4 && (
           <span className="article-row__impact">
             <span className="article-row__impact-dot" aria-hidden="true" />

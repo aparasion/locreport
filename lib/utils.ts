@@ -63,6 +63,12 @@ export function cn(...classes: (string | undefined | null | false)[]): string {
   return classes.filter(Boolean).join(' ')
 }
 
+// Estimated reading time from markdown content, ~200 words/minute.
+export function estimateReadMinutes(content: string): number {
+  const words = content.trim().split(/\s+/).length
+  return Math.max(1, Math.round(words / 200))
+}
+
 // Returns the bare slug (last segment only) for use in article URLs.
 // DB slugs are stored as "2026/06/04/article-name"; URLs use "/articles/article-name".
 export function articleHref(slug: string): string {
