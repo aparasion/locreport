@@ -32,13 +32,16 @@ const NAV_LINKS = [
   },
 ]
 
+// Sentinel key for openDropdown — keeps the Admin menu on the exact same
+// hover-intent open/close state machine as the main nav dropdowns below.
+const ADMIN_MENU_KEY = '__admin-menu__'
+
 export function Nav() {
   const router = useRouter()
   const [isAdmin, setIsAdmin] = useState(false)
   const [email, setEmail] = useState<string | null>(null)
   const [menuOpen, setMenuOpen] = useState(false)
   const [openDropdown, setOpenDropdown] = useState<string | null>(null)
-  const [adminMenuOpen, setAdminMenuOpen] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
@@ -61,12 +64,12 @@ export function Nav() {
 
   useEffect(() => {
     function handleClick(e: MouseEvent) {
-      if (navRef.current && !navRef.current.contains(e.target as Node)) {
+      const target = e.target as Node
+      const insideNav = navRef.current?.contains(target)
+      const insideAdminMenu = adminMenuRef.current?.contains(target)
+      if (!insideNav && !insideAdminMenu) {
         setOpenDropdown(null)
         setMenuOpen(false)
-      }
-      if (adminMenuRef.current && !adminMenuRef.current.contains(e.target as Node)) {
-        setAdminMenuOpen(false)
       }
     }
     document.addEventListener('mousedown', handleClick)
@@ -225,46 +228,42 @@ export function Nav() {
           {email ? (
             <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
               {isAdmin && (
-                <div ref={adminMenuRef} style={{ position: 'relative' }}>
+                <div
+                  ref={adminMenuRef}
+                  className="nav-has-dropdown admin-menu"
+                  onMouseEnter={() => openMenu(ADMIN_MENU_KEY)}
+                  onMouseLeave={scheduleClose}
+                >
                   <button
-                    onClick={() => setAdminMenuOpen(v => !v)}
+                    onClick={() => setOpenDropdown(v => v === ADMIN_MENU_KEY ? null : ADMIN_MENU_KEY)}
                     aria-haspopup="true"
-                    aria-expanded={adminMenuOpen}
+                    aria-expanded={openDropdown === ADMIN_MENU_KEY}
                     aria-label="Toggle admin menu"
-                    style={{ display: 'inline-flex', alignItems: 'center', gap: '3px', fontSize: '0.8rem', fontWeight: 600, color: 'var(--muted)', background: 'none', border: 'none', cursor: 'pointer', padding: '6px 10px' }}
                   >
                     Admin
                     <svg
+                      className="nav-dropdown-chevron"
                       width="10"
                       height="10"
                       viewBox="0 0 12 12"
                       fill="none"
                       aria-hidden="true"
-                      style={{ transition: 'transform 0.2s ease', transform: adminMenuOpen ? 'rotate(180deg)' : 'none' }}
                     >
                       <path d="M2 4l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                     </svg>
                   </button>
-                  {adminMenuOpen && (
-                    <div
-                      className="absolute right-0 top-full mt-1 rounded-lg shadow-lg overflow-hidden z-50"
-                      style={{ background: 'var(--surface)', borderWidth: 1, borderStyle: 'solid', borderColor: 'var(--border)', minWidth: '180px' }}
-                      role="menu"
-                    >
-                      {ADMIN_LINKS.map(({ href, label }) => (
-                        <Link
-                          key={href}
-                          href={href}
-                          role="menuitem"
-                          onClick={() => setAdminMenuOpen(false)}
-                          className="block px-4 py-2.5 text-sm font-medium transition-colors"
-                          style={{ color: 'var(--muted)' }}
-                        >
-                          {label}
-                        </Link>
-                      ))}
-                    </div>
-                  )}
+                  <ul
+                    className={`admin-menu-dropdown${openDropdown === ADMIN_MENU_KEY ? ' is-open' : ''}`}
+                    role="menu"
+                    onMouseEnter={() => openMenu(ADMIN_MENU_KEY)}
+                    onMouseLeave={scheduleClose}
+                  >
+                    {ADMIN_LINKS.map(({ href, label }) => (
+                      <li key={href} role="none">
+                        <Link href={href} role="menuitem" onClick={() => setOpenDropdown(null)}>{label}</Link>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               )}
               <button
