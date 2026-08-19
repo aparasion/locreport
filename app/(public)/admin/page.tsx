@@ -1,5 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react'
+import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { IngestButton, type IngestResult } from '@/components/IngestButton'
 import { BackfillEmbeddingsButton } from '@/components/BackfillEmbeddingsButton'
@@ -112,12 +113,17 @@ export default function AdminDashboard() {
 
       <div className="admin-stats-banner">
         {[
-          { label: 'Published', value: stats?.articles },
-          { label: 'Drafts', value: stats?.drafts, danger: true },
-          { label: 'Sources', value: stats?.sources },
-        ].map(({ label, value, danger }) => (
+          { label: 'Published', value: stats?.articles, href: '/admin/articles' },
+          { label: 'Drafts', value: stats?.drafts, href: '/admin/drafts', danger: true },
+          { label: 'Sources', value: stats?.sources, href: '/admin/sources' },
+        ].map(({ label, value, href, danger }) => (
           <span key={label} className="admin-stats-banner__item">
-            <span className={`admin-stats-banner__value${danger ? ' admin-stats-banner__value--danger' : ''}`}>{value ?? '—'}</span>
+            <Link
+              href={href}
+              className={`admin-stats-banner__value${danger ? ' admin-stats-banner__value--danger' : ''}`}
+            >
+              {value ?? '—'}
+            </Link>
             <span className="admin-stats-banner__label">{label}</span>
           </span>
         ))}
