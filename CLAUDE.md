@@ -139,7 +139,7 @@ Several Compass and other sections use co-located client components:
 
 | Path | Purpose |
 |---|---|
-| `/admin` | Dashboard: stats, manual ingest trigger, monthly report, digest send (daily/weekly) |
+| `/admin` | Dashboard: stats banner + a compact action list (`.admin-actions` in `style.css`). Each row is title + controls; the long description collapses behind the title toggle, while confirmation panels and result messages always render inline. Actions: ingest, embeddings backfill, monthly report, digest send (daily/weekly), Fact Flow backfill, market quotes, LLM pricing |
 | `/admin/articles` | Article list management |
 | `/admin/articles/[id]` | Edit individual article |
 | `/admin/drafts` | Draft review queue (pending/approved/rejected) |

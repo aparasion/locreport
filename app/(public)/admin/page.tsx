@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, type ReactNode } from 'react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { IngestButton, type IngestResult } from '@/components/IngestButton'
@@ -8,6 +8,52 @@ import { BackfillEmbeddingsButton } from '@/components/BackfillEmbeddingsButton'
 type Confirm = 'ingest' | 'monthly' | 'monthly-force' | null
 type Frequency = 'daily' | 'weekly'
 type DigestPreview = { frequency: Frequency; recipients: number; skipped: number; articles: number }
+type RowKey = 'ingest' | 'monthly' | 'digest' | 'facts' | 'quotes' | 'pricing'
+
+// One row of the action list. The title doubles as the toggle for its
+// explanation, so the resting state is just a title and its controls;
+// anything passed as children (confirmation panels, result messages)
+// renders below the head and is never hidden behind the toggle.
+function ActionRow({ title, description, controls, controlsClass, children }: {
+  title: string
+  description: string
+  controls: ReactNode
+  controlsClass?: string
+  children?: ReactNode
+}) {
+  const [open, setOpen] = useState(false)
+  return (
+    <div className="admin-action">
+      <div className="admin-action__head">
+        <button
+          type="button"
+          className="admin-action__title"
+          onClick={() => setOpen(o => !o)}
+          aria-expanded={open}
+        >
+          <span className="admin-action__chevron" aria-hidden="true">›</span>
+          {title}
+        </button>
+        <div className={`admin-action__controls${controlsClass ? ` ${controlsClass}` : ''}`}>{controls}</div>
+      </div>
+      {open && <p className="admin-action__desc">{description}</p>}
+      {children}
+    </div>
+  )
+}
+
+function ActionPanel({ tone = 'info', text, actions }: {
+  tone?: 'info' | 'warn'
+  text: ReactNode
+  actions: ReactNode
+}) {
+  return (
+    <div className={`admin-action__panel${tone === 'warn' ? ' admin-action__panel--warn' : ''}`}>
+      <p className="admin-action__panel-text">{text}</p>
+      <div className="admin-action__panel-actions">{actions}</div>
+    </div>
+  )
+}
 
 export default function AdminDashboard() {
   const [stats, setStats] = useState<{ articles: number; drafts: number; sources: number } | null>(null)
@@ -22,14 +68,32 @@ export default function AdminDashboard() {
   const [confirm, setConfirm] = useState<Confirm>(null)
   const [message, setMessage] = useState('')
   const [messageType, setMessageType] = useState<'ok' | 'error'>('ok')
+  const [messageFor, setMessageFor] = useState<RowKey | null>(null)
 
   useEffect(() => {
     fetch('/api/stats').then(r => r.json()).then(setStats)
   }, [])
 
-  function flash(text: string, type: 'ok' | 'error' = 'ok') {
+  // Results land in the row that produced them — in a compact list a single
+  // shared status line would sit too far from the button that was clicked.
+  function flash(row: RowKey, text: string, type: 'ok' | 'error' = 'ok') {
     setMessage(text)
     setMessageType(type)
+    setMessageFor(text ? row : null)
+  }
+
+  function clearFlash() {
+    setMessage('')
+    setMessageFor(null)
+  }
+
+  function status(row: RowKey) {
+    if (!message || messageFor !== row) return null
+    return (
+      <p className={`admin-action__status${messageType === 'error' ? ' admin-action__status--error' : ''}`}>
+        {message}
+      </p>
+    )
   }
 
   function refreshStats() {
@@ -39,7 +103,7 @@ export default function AdminDashboard() {
   async function runMonthly(force = false) {
     setConfirm(null)
     setMonthlyRunning(true)
-    flash('')
+    clearFlash()
     const res = await fetch('/api/monthly-report', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -49,25 +113,26 @@ export default function AdminDashboard() {
     if (res.status === 409 && !force) {
       // Report already exists — ask to force
       setMonthlyRunning(false)
-      setConfirm('monthly-force' as Confirm)
-      flash(`A monthly report for this period already exists (${data.existing_id ? `ID: ${data.existing_id}` : ''}). Confirm below to regenerate.`, 'error')
+      setConfirm('monthly-force')
+      flash('monthly', `A monthly report for this period already exists${data.existing_id ? ` (ID: ${data.existing_id})` : ''}.`, 'error')
       return
     }
     flash(
+      'monthly',
       res.ok
         ? `Monthly report generated: "${data.title}" — ${data.article_count} articles summarised.`
         : (data.error ?? 'Generation failed.'),
       res.ok ? 'ok' : 'error',
     )
     setMonthlyRunning(false)
-    if (res.ok) fetch('/api/stats').then(r => r.json()).then(setStats)
+    if (res.ok) refreshStats()
   }
 
   async function backfillFacts() {
     const slug = backfillSlug.trim()
     if (!slug) return
     setBackfillRunning(true)
-    flash('')
+    clearFlash()
     const res = await fetch('/api/admin/backfill-facts', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -75,6 +140,7 @@ export default function AdminDashboard() {
     })
     const data = await res.json()
     flash(
+      'facts',
       res.ok
         ? `Backfilled ${data.facts_saved} facts for "${slug}".`
         : (data.error ?? data.message ?? 'Backfill failed.'),
@@ -86,10 +152,11 @@ export default function AdminDashboard() {
 
   async function refreshQuotes() {
     setQuotesRunning(true)
-    flash('')
+    clearFlash()
     const res = await fetch('/api/market-quotes', { method: 'POST' })
     const data = await res.json()
     flash(
+      'quotes',
       res.ok ? `Market quotes updated: ${data.updated} tickers (${data.failed} failed).` : (data.error ?? 'Update failed.'),
       res.ok ? 'ok' : 'error',
     )
@@ -98,10 +165,11 @@ export default function AdminDashboard() {
 
   async function refreshPricing() {
     setPricingRunning(true)
-    flash('')
+    clearFlash()
     const res = await fetch('/api/llm-pricing', { method: 'POST' })
     const data = await res.json()
     flash(
+      'pricing',
       res.ok ? `LLM pricing updated: ${data.updated} models (${data.failed} failed).` : (data.error ?? 'Update failed.'),
       res.ok ? 'ok' : 'error',
     )
@@ -114,12 +182,12 @@ export default function AdminDashboard() {
   async function previewDigest(frequency: Frequency) {
     setDigestPreviewing(frequency)
     setDigestPreview(null)
-    flash('')
+    clearFlash()
     try {
       const res = await fetch(`/api/digest/send?frequency=${frequency}&dry=1`, { method: 'POST' })
       const data = await res.json()
       if (!res.ok) {
-        flash(data.error ?? 'Digest preview failed.', 'error')
+        flash('digest', data.error ?? 'Digest preview failed.', 'error')
         return
       }
       setDigestPreview({
@@ -129,7 +197,7 @@ export default function AdminDashboard() {
         articles: data.articles ?? 0,
       })
     } catch {
-      flash('Digest preview failed.', 'error')
+      flash('digest', 'Digest preview failed.', 'error')
     } finally {
       setDigestPreviewing(null)
     }
@@ -137,16 +205,17 @@ export default function AdminDashboard() {
 
   async function sendDigest(frequency: Frequency) {
     setDigestSending(true)
-    flash('')
+    clearFlash()
     try {
       const res = await fetch(`/api/digest/send?frequency=${frequency}`, { method: 'POST' })
       const data = await res.json()
       if (!res.ok) {
-        flash(data.error ?? 'Digest send failed.', 'error')
+        flash('digest', data.error ?? 'Digest send failed.', 'error')
         return
       }
       const errors: string[] = data.errors ?? []
       flash(
+        'digest',
         `${frequency === 'daily' ? 'Daily' : 'Weekly'} digest sent to ${data.sent} subscriber${data.sent !== 1 ? 's' : ''}` +
           ` — ${data.skipped} skipped, ${data.articles} article${data.articles !== 1 ? 's' : ''} in period.` +
           (errors.length ? ` ${errors.length} error${errors.length !== 1 ? 's' : ''}: ${errors.join('; ')}` : ''),
@@ -154,7 +223,7 @@ export default function AdminDashboard() {
       )
       setDigestPreview(null)
     } catch {
-      flash('Digest send failed — it may still have gone out. Check Resend before retrying.', 'error')
+      flash('digest', 'Digest send failed — it may still have gone out. Check Resend before retrying.', 'error')
     } finally {
       setDigestSending(false)
     }
@@ -186,205 +255,192 @@ export default function AdminDashboard() {
         ))}
       </div>
 
-      <div className="flex flex-col gap-6 max-w-[640px]">
+      <div className="admin-actions">
 
-        {/* Ingest */}
-        <div className="p-4 rounded-lg border" style={{ background: 'var(--surface)', borderColor: 'var(--border)' }}>
-          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
-            <div>
-              <p className="font-medium" style={{ color: 'var(--text)' }}>Run ingest</p>
-              <p className="text-sm mt-0.5" style={{ color: 'var(--muted)' }}>
-                Fetch all active RSS sources and create new pending drafts.
-                Runs automatically via GitHub Actions at 10:30 UTC daily.
-              </p>
-            </div>
+        <ActionRow
+          title="Run ingest"
+          description="Fetches every active RSS source, drops anything already seen, then runs each new item through the extractor and classifier prompts to build a draft with its title, excerpt, signals, impact score and business implications. Nothing is published — new items land in Drafts as pending and wait for review. Also runs automatically via GitHub Actions daily at 10:30 UTC."
+          controls={
             <Button
+              size="sm"
               variant="secondary"
-              onClick={() => { setConfirm('ingest' as Confirm); flash('') }}
+              onClick={() => { setConfirm('ingest'); clearFlash() }}
               disabled={confirm === 'ingest'}
-              className="shrink-0 self-start"
             >
-              Run now
+              Run
             </Button>
-          </div>
+          }
+        >
           {confirm === 'ingest' && (
-            <div className="mt-3 pt-3 flex flex-wrap items-center gap-3 text-sm" style={{ borderTop: '1px solid var(--border)', color: 'var(--muted)' }}>
-              <span>Fetch all active RSS sources and create new pending drafts. Continue?</span>
-              <IngestButton
-                label="Confirm"
-                onDone={(result: IngestResult) => { setConfirm(null); refreshStats(); flash(`+${result.processed} draft${result.processed !== 1 ? 's' : ''} created, ${result.skipped} skipped.`) }}
-              />
-              <Button variant="ghost" onClick={() => setConfirm(null)}>Cancel</Button>
-            </div>
-          )}
-        </div>
-
-        {/* Embeddings backfill */}
-        <div className="p-4 rounded-lg border" style={{ background: 'var(--surface)', borderColor: 'var(--border)' }}>
-          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
-            <div>
-              <p className="font-medium" style={{ color: 'var(--text)' }}>Backfill embeddings</p>
-              <p className="text-sm mt-0.5" style={{ color: 'var(--muted)' }}>
-                Generate semantic-search vectors for articles that don&apos;t have one yet.
-                New articles are embedded automatically on publish.
-              </p>
-            </div>
-            <div className="shrink-0 self-start">
-              <BackfillEmbeddingsButton />
-            </div>
-          </div>
-        </div>
-
-        {/* Monthly report */}
-        <div className="p-4 rounded-lg border" style={{ background: 'var(--surface)', borderColor: 'var(--border)' }}>
-          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
-            <div>
-              <p className="font-medium" style={{ color: 'var(--text)' }}>Generate monthly report</p>
-              <p className="text-sm mt-0.5" style={{ color: 'var(--muted)' }}>
-                Synthesise all {prevMonth} industry articles into a full monthly report.
-                Trigger manually or add a scheduled workflow to GitHub Actions for the 1st of each month.
-              </p>
-            </div>
-            <Button
-              variant="secondary"
-              onClick={() => { setConfirm('monthly' as Confirm); flash('') }}
-              disabled={monthlyRunning || confirm === 'monthly' || (confirm as string) === 'monthly-force'}
-              className="shrink-0 self-start"
-            >
-              {monthlyRunning ? 'Generating…' : 'Run now'}
-            </Button>
-          </div>
-          {confirm === 'monthly' && (
-            <div className="mt-3 pt-3 flex flex-wrap items-center gap-3 text-sm" style={{ borderTop: '1px solid var(--border)', color: 'var(--muted)' }}>
-              <span>This will generate and publish a monthly report for <strong>{prevMonth}</strong> using all industry articles from that period. Continue?</span>
-              <Button onClick={() => runMonthly(false)} disabled={monthlyRunning}>Confirm</Button>
-              <Button variant="ghost" onClick={() => setConfirm(null)}>Cancel</Button>
-            </div>
-          )}
-          {(confirm as string) === 'monthly-force' && (
-            <div className="mt-3 pt-3 flex flex-wrap items-center gap-3 text-sm text-yellow-700" style={{ borderTop: '1px solid var(--border)' }}>
-              <span>A report for this period already exists. Generate a new one anyway?</span>
-              <Button onClick={() => runMonthly(true)} disabled={monthlyRunning}>Yes, regenerate</Button>
-              <Button variant="ghost" onClick={() => { setConfirm(null); flash('') }}>Cancel</Button>
-            </div>
-          )}
-        </div>
-
-        {/* Digest send */}
-        <div className="p-4 rounded-lg border" style={{ background: 'var(--surface)', borderColor: 'var(--border)' }}>
-          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
-            <div>
-              <p className="font-medium" style={{ color: 'var(--text)' }}>Send digest</p>
-              <p className="text-sm mt-0.5" style={{ color: 'var(--muted)' }}>
-                Email the digest to active subscribers on that frequency.
-                Runs automatically via GitHub Actions — weekly Fridays 1pm, daily workdays 4pm (Central European time).
-                Subscribers already sent this period are skipped, so a manual run is safe to repeat.
-              </p>
-            </div>
-            <div className="flex gap-2 shrink-0 self-start">
-              {(['daily', 'weekly'] as Frequency[]).map(frequency => (
-                <Button
-                  key={frequency}
-                  variant="secondary"
-                  onClick={() => previewDigest(frequency)}
-                  disabled={!!digestPreviewing || digestSending}
-                >
-                  {digestPreviewing === frequency
-                    ? 'Checking…'
-                    : frequency === 'daily' ? 'Daily' : 'Weekly'}
-                </Button>
-              ))}
-            </div>
-          </div>
-          {digestPreview && (
-            <div className="mt-3 pt-3 flex flex-wrap items-center gap-3 text-sm" style={{ borderTop: '1px solid var(--border)', color: 'var(--muted)' }}>
-              {digestPreview.recipients === 0 ? (
+            <ActionPanel
+              text="Fetch all active RSS sources and create new pending drafts?"
+              actions={
                 <>
-                  <span>
-                    Nobody would receive the <strong>{digestPreview.frequency}</strong> digest right now
-                    ({digestPreview.articles} article{digestPreview.articles !== 1 ? 's' : ''} in period,
-                    {' '}{digestPreview.skipped} subscriber{digestPreview.skipped !== 1 ? 's' : ''} skipped).
-                  </span>
-                  <Button variant="ghost" onClick={() => setDigestPreview(null)}>Close</Button>
+                  <IngestButton
+                    label="Confirm"
+                    onDone={(result: IngestResult) => {
+                      setConfirm(null)
+                      refreshStats()
+                      flash('ingest', `+${result.processed} draft${result.processed !== 1 ? 's' : ''} created, ${result.skipped} skipped.`)
+                    }}
+                  />
+                  <Button size="sm" variant="ghost" onClick={() => setConfirm(null)}>Cancel</Button>
                 </>
-              ) : (
+              }
+            />
+          )}
+          {status('ingest')}
+        </ActionRow>
+
+        <ActionRow
+          title="Backfill embeddings"
+          description="Generates a semantic-search vector for every published article that doesn’t have one, batching until none are left. Without a vector an article is invisible to /search ranking and to related-reading suggestions. New articles are embedded automatically on publish, so this is only needed after a bulk import or a failed embed."
+          controls={<BackfillEmbeddingsButton />}
+        />
+
+        <ActionRow
+          title="Generate monthly report"
+          description={`Sends every industry article published in ${prevMonth} to the model for synthesis and publishes the result as a monthly-summary article, listed under Reports → Monthly. It goes live immediately — there is no draft step. If a report already exists for the period you’ll be asked before a second one is created.`}
+          controls={
+            <Button
+              size="sm"
+              variant="secondary"
+              onClick={() => { setConfirm('monthly'); clearFlash() }}
+              disabled={monthlyRunning || confirm === 'monthly' || confirm === 'monthly-force'}
+            >
+              {monthlyRunning ? 'Generating…' : 'Run'}
+            </Button>
+          }
+        >
+          {confirm === 'monthly' && (
+            <ActionPanel
+              text={<>Generate and publish a monthly report for <strong>{prevMonth}</strong> from all industry articles in that period?</>}
+              actions={
                 <>
-                  <span>
-                    The <strong>{digestPreview.frequency}</strong> digest will go to{' '}
-                    <strong>{digestPreview.recipients} subscriber{digestPreview.recipients !== 1 ? 's' : ''}</strong>
-                    {' '}({digestPreview.skipped} skipped, {digestPreview.articles} article{digestPreview.articles !== 1 ? 's' : ''} in period).
-                    This sends real email. Continue?
-                  </span>
-                  <Button onClick={() => sendDigest(digestPreview.frequency)} disabled={digestSending}>
+                  <Button size="sm" onClick={() => runMonthly(false)} disabled={monthlyRunning}>Confirm</Button>
+                  <Button size="sm" variant="ghost" onClick={() => setConfirm(null)}>Cancel</Button>
+                </>
+              }
+            />
+          )}
+          {confirm === 'monthly-force' && (
+            <ActionPanel
+              tone="warn"
+              text={<>A report for <strong>{prevMonth}</strong> already exists. Generate a second one anyway?</>}
+              actions={
+                <>
+                  <Button size="sm" onClick={() => runMonthly(true)} disabled={monthlyRunning}>Yes, regenerate</Button>
+                  <Button size="sm" variant="ghost" onClick={() => { setConfirm(null); clearFlash() }}>Cancel</Button>
+                </>
+              }
+            />
+          )}
+          {status('monthly')}
+        </ActionRow>
+
+        <ActionRow
+          title="Send digest"
+          description="Composes a personalised email for every confirmed subscriber on that frequency — top story, the busiest signals, then a radar list — filtered by each subscriber’s signal preferences and minimum impact score, and sends it through Resend. Clicking Daily or Weekly only counts recipients; nothing is sent until you confirm. Anyone already sent within the period is skipped, so a manual run is safe to repeat. Scheduled automatically: weekly Fridays 1pm, daily workdays 4pm (Central European time)."
+          controls={(['daily', 'weekly'] as Frequency[]).map(frequency => (
+            <Button
+              key={frequency}
+              size="sm"
+              variant="secondary"
+              onClick={() => previewDigest(frequency)}
+              disabled={!!digestPreviewing || digestSending}
+            >
+              {digestPreviewing === frequency ? 'Checking…' : frequency === 'daily' ? 'Daily' : 'Weekly'}
+            </Button>
+          ))}
+        >
+          {digestPreview && (digestPreview.recipients === 0 ? (
+            <ActionPanel
+              text={
+                <>
+                  Nobody would receive the <strong>{digestPreview.frequency}</strong> digest right now
+                  {' '}({digestPreview.articles} article{digestPreview.articles !== 1 ? 's' : ''} in period,
+                  {' '}{digestPreview.skipped} subscriber{digestPreview.skipped !== 1 ? 's' : ''} skipped).
+                </>
+              }
+              actions={<Button size="sm" variant="ghost" onClick={() => setDigestPreview(null)}>Close</Button>}
+            />
+          ) : (
+            <ActionPanel
+              tone="warn"
+              text={
+                <>
+                  This sends real email. The <strong>{digestPreview.frequency}</strong> digest will go to{' '}
+                  <strong>{digestPreview.recipients} subscriber{digestPreview.recipients !== 1 ? 's' : ''}</strong>
+                  {' '}({digestPreview.skipped} skipped, {digestPreview.articles} article{digestPreview.articles !== 1 ? 's' : ''} in period).
+                </>
+              }
+              actions={
+                <>
+                  <Button size="sm" onClick={() => sendDigest(digestPreview.frequency)} disabled={digestSending}>
                     {digestSending ? 'Sending…' : `Send to ${digestPreview.recipients}`}
                   </Button>
-                  <Button variant="ghost" onClick={() => setDigestPreview(null)} disabled={digestSending}>Cancel</Button>
+                  <Button size="sm" variant="ghost" onClick={() => setDigestPreview(null)} disabled={digestSending}>Cancel</Button>
                 </>
-              )}
-            </div>
-          )}
-        </div>
-
-        {/* Backfill facts */}
-        <div className="p-4 rounded-lg border" style={{ background: 'var(--surface)', borderColor: 'var(--border)' }}>
-          <p className="font-medium mb-0.5" style={{ color: 'var(--text)' }}>Backfill Fact Flow</p>
-          <p className="text-sm mb-3" style={{ color: 'var(--muted)' }}>
-            Re-fetch and extract facts from an article&apos;s source URL. Use for articles ingested before Fact Flow was enabled.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-2">
-            <input
-              type="text"
-              value={backfillSlug}
-              onChange={e => setBackfillSlug(e.target.value)}
-              placeholder="article-slug"
-              className="flex-1 text-sm px-3 py-2 rounded-md border"
-              style={{ background: 'var(--bg)', borderColor: 'var(--border)', color: 'var(--text)' }}
-              onKeyDown={e => { if (e.key === 'Enter') backfillFacts() }}
-              disabled={backfillRunning}
+              }
             />
-            <Button variant="secondary" onClick={backfillFacts} disabled={backfillRunning || !backfillSlug.trim()} className="shrink-0">
-              {backfillRunning ? 'Extracting…' : 'Backfill facts'}
-            </Button>
-          </div>
-        </div>
+          ))}
+          {status('digest')}
+        </ActionRow>
 
-        {/* Market quotes */}
-        <div className="p-4 rounded-lg border" style={{ background: 'var(--surface)', borderColor: 'var(--border)' }}>
-          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
-            <div>
-              <p className="font-medium" style={{ color: 'var(--text)' }}>Refresh market quotes</p>
-              <p className="text-sm mt-0.5" style={{ color: 'var(--muted)' }}>
-                Fetch latest prices and 30-day history for all LocStock tickers.
-                Set a daily cron-job.org job to POST /api/market-quotes.
-              </p>
-            </div>
-            <Button variant="secondary" onClick={refreshQuotes} disabled={quotesRunning} className="shrink-0 self-start">
-              {quotesRunning ? 'Refreshing…' : 'Refresh now'}
-            </Button>
-          </div>
-        </div>
+        <ActionRow
+          title="Backfill Fact Flow"
+          controlsClass="admin-action__controls--input"
+          description="Re-fetches one article’s source URL and re-extracts its facts, replacing whatever Fact Flow holds for it. Use it for articles ingested before Fact Flow existed, or when extraction came back empty. Enter the article’s slug — the part of its URL after /articles/."
+          controls={
+            <>
+              <input
+                type="text"
+                value={backfillSlug}
+                onChange={e => setBackfillSlug(e.target.value)}
+                placeholder="article-slug"
+                aria-label="Article slug"
+                className="admin-action__input"
+                onKeyDown={e => { if (e.key === 'Enter') backfillFacts() }}
+                disabled={backfillRunning}
+              />
+              <Button
+                size="sm"
+                variant="secondary"
+                onClick={backfillFacts}
+                disabled={backfillRunning || !backfillSlug.trim()}
+              >
+                {backfillRunning ? 'Extracting…' : 'Backfill'}
+              </Button>
+            </>
+          }
+        >
+          {status('facts')}
+        </ActionRow>
 
-        {/* LLM pricing */}
-        <div className="p-4 rounded-lg border" style={{ background: 'var(--surface)', borderColor: 'var(--border)' }}>
-          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
-            <div>
-              <p className="font-medium" style={{ color: 'var(--text)' }}>Refresh LLM pricing</p>
-              <p className="text-sm mt-0.5" style={{ color: 'var(--muted)' }}>
-                Fetch current per-token pricing for tracked models from OpenRouter and log any price changes.
-                Set a daily cron-job.org job to POST /api/llm-pricing.
-              </p>
-            </div>
-            <Button variant="secondary" onClick={refreshPricing} disabled={pricingRunning} className="shrink-0 self-start">
-              {pricingRunning ? 'Refreshing…' : 'Refresh now'}
+        <ActionRow
+          title="Refresh market quotes"
+          description="Pulls the latest price and 30-day history for every LocStock ticker from Yahoo Finance and caches them for /compass/locstock. Nothing schedules this — point a daily cron-job.org job at POST /api/market-quotes to automate it."
+          controls={
+            <Button size="sm" variant="secondary" onClick={refreshQuotes} disabled={quotesRunning}>
+              {quotesRunning ? 'Refreshing…' : 'Refresh'}
             </Button>
-          </div>
-        </div>
+          }
+        >
+          {status('quotes')}
+        </ActionRow>
 
-        {message && (
-          <p className={`text-sm ${messageType === 'error' ? 'text-red-600' : ''}`} style={messageType !== 'error' ? { color: 'var(--muted)' } : {}}>
-            {message}
-          </p>
-        )}
+        <ActionRow
+          title="Refresh LLM pricing"
+          description="Pulls current per-token pricing for every tracked model from OpenRouter, updates the /compass/llm-pricing simulator, and writes a history row for any model whose price moved. Nothing schedules this — point a daily cron-job.org job at POST /api/llm-pricing to automate it."
+          controls={
+            <Button size="sm" variant="secondary" onClick={refreshPricing} disabled={pricingRunning}>
+              {pricingRunning ? 'Refreshing…' : 'Refresh'}
+            </Button>
+          }
+        >
+          {status('pricing')}
+        </ActionRow>
+
       </div>
     </div>
   )
