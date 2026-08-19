@@ -80,6 +80,10 @@ export async function POST(req: NextRequest) {
   }
 
   const frequency = req.nextUrl.searchParams.get('frequency') === 'daily' ? 'daily' : 'weekly'
+  // Dry run resolves recipients exactly as a real send would but stops before
+  // Resend, so the admin dashboard can preview a send before committing to it.
+  // Nothing is emailed and no send is recorded.
+  const dryRun = req.nextUrl.searchParams.get('dry') === '1'
   const days = frequency === 'daily' ? 1 : 7
   const periodEnd = new Date()
   const periodStart = new Date(periodEnd.getTime() - days * 24 * 60 * 60 * 1000)
@@ -95,7 +99,16 @@ export async function POST(req: NextRequest) {
 
   if (articlesError) return NextResponse.json({ error: articlesError.message }, { status: 500 })
   if (!articles || articles.length === 0) {
-    return NextResponse.json({ ok: true, sent: 0, skipped: 0, reason: 'no articles in period' })
+    return NextResponse.json({
+      ok: true,
+      dryRun,
+      frequency,
+      recipients: 0,
+      sent: 0,
+      skipped: 0,
+      articles: 0,
+      reason: 'no articles in period',
+    })
   }
 
   const { data: subscribers, error: subsError } = await service
@@ -160,6 +173,19 @@ export async function POST(req: NextRequest) {
     })
   }
 
+  if (dryRun) {
+    return NextResponse.json({
+      ok: true,
+      dryRun: true,
+      frequency,
+      recipients: payloads.length,
+      sent: 0,
+      skipped,
+      articles: articles.length,
+      errors: [],
+    })
+  }
+
   const resend = getResend()
   let sent = 0
   const errors: string[] = []
@@ -188,5 +214,14 @@ export async function POST(req: NextRequest) {
     }
   }
 
-  return NextResponse.json({ ok: true, frequency, sent, skipped, articles: articles.length, errors })
+  return NextResponse.json({
+    ok: true,
+    dryRun: false,
+    frequency,
+    recipients: payloads.length,
+    sent,
+    skipped,
+    articles: articles.length,
+    errors,
+  })
 }

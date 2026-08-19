@@ -139,7 +139,7 @@ Several Compass and other sections use co-located client components:
 
 | Path | Purpose |
 |---|---|
-| `/admin` | Dashboard: stats, manual ingest trigger, monthly report |
+| `/admin` | Dashboard: stats, manual ingest trigger, monthly report, digest send (daily/weekly) |
 | `/admin/articles` | Article list management |
 | `/admin/articles/[id]` | Edit individual article |
 | `/admin/drafts` | Draft review queue (pending/approved/rejected) |
@@ -180,7 +180,7 @@ Several Compass and other sections use co-located client components:
 | `/api/subscribe` | POST | Digest signup → pending subscriber + Resend confirm email (double opt-in) |
 | `/api/subscribe/preferences` | POST | Token-authenticated preference updates / unsubscribe |
 | `/api/subscribe/unsubscribe` | GET/POST | One-click unsubscribe (`?token=`); POST is the RFC 8058 List-Unsubscribe target |
-| `/api/digest/send` | POST | Compose + send personalized digest via Resend batch (`?frequency=weekly\|daily`, CRON_SECRET or admin) |
+| `/api/digest/send` | POST | Compose + send personalized digest via Resend batch (`?frequency=weekly\|daily`, CRON_SECRET or admin). `?dry=1` resolves the recipient list without emailing or recording a send — powers the admin dashboard's preview-then-confirm buttons |
 
 ---
 
@@ -467,6 +467,7 @@ Scheduled work runs via **GitHub Actions**, not Vercel cron:
 | Fridays 1pm Central European time | `digest.yml` | POST `/api/digest/send?frequency=weekly` |
 | Workdays (Mon–Fri) 4pm Central European time | `digest.yml` | POST `/api/digest/send?frequency=daily` (only reaches daily-frequency subscribers) |
 | On-demand | `workflow_dispatch` on both | Manual trigger from GitHub Actions UI (digest has a frequency picker) |
+| On-demand | `/admin` dashboard | Daily/Weekly digest buttons — dry-run preview, then confirm to send |
 
 GitHub Actions cron is UTC-only and ignores DST, so `digest.yml` schedules **both** possible UTC offsets for each target local time (e.g. `0 11 * * 5` and `0 12 * * 5` for 1pm Friday) and a runtime guard checks the actual `Europe/Berlin` clock to decide which firing should actually send — the other is a no-op. This keeps the send time pinned to 1pm/4pm local wall-clock time year-round instead of drifting an hour across the DST boundary.
 

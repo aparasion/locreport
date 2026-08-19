@@ -6,12 +6,17 @@ import { IngestButton, type IngestResult } from '@/components/IngestButton'
 import { BackfillEmbeddingsButton } from '@/components/BackfillEmbeddingsButton'
 
 type Confirm = 'ingest' | 'monthly' | 'monthly-force' | null
+type Frequency = 'daily' | 'weekly'
+type DigestPreview = { frequency: Frequency; recipients: number; skipped: number; articles: number }
 
 export default function AdminDashboard() {
   const [stats, setStats] = useState<{ articles: number; drafts: number; sources: number } | null>(null)
   const [monthlyRunning, setMonthlyRunning] = useState(false)
   const [quotesRunning, setQuotesRunning] = useState(false)
   const [pricingRunning, setPricingRunning] = useState(false)
+  const [digestPreviewing, setDigestPreviewing] = useState<Frequency | null>(null)
+  const [digestSending, setDigestSending] = useState(false)
+  const [digestPreview, setDigestPreview] = useState<DigestPreview | null>(null)
   const [backfillRunning, setBackfillRunning] = useState(false)
   const [backfillSlug, setBackfillSlug] = useState('')
   const [confirm, setConfirm] = useState<Confirm>(null)
@@ -101,6 +106,58 @@ export default function AdminDashboard() {
       res.ok ? 'ok' : 'error',
     )
     setPricingRunning(false)
+  }
+
+  // Sending a digest emails real subscribers and can't be undone, so the
+  // buttons resolve the recipient list first (dry run) and only send once the
+  // admin confirms against those numbers.
+  async function previewDigest(frequency: Frequency) {
+    setDigestPreviewing(frequency)
+    setDigestPreview(null)
+    flash('')
+    try {
+      const res = await fetch(`/api/digest/send?frequency=${frequency}&dry=1`, { method: 'POST' })
+      const data = await res.json()
+      if (!res.ok) {
+        flash(data.error ?? 'Digest preview failed.', 'error')
+        return
+      }
+      setDigestPreview({
+        frequency,
+        recipients: data.recipients ?? 0,
+        skipped: data.skipped ?? 0,
+        articles: data.articles ?? 0,
+      })
+    } catch {
+      flash('Digest preview failed.', 'error')
+    } finally {
+      setDigestPreviewing(null)
+    }
+  }
+
+  async function sendDigest(frequency: Frequency) {
+    setDigestSending(true)
+    flash('')
+    try {
+      const res = await fetch(`/api/digest/send?frequency=${frequency}`, { method: 'POST' })
+      const data = await res.json()
+      if (!res.ok) {
+        flash(data.error ?? 'Digest send failed.', 'error')
+        return
+      }
+      const errors: string[] = data.errors ?? []
+      flash(
+        `${frequency === 'daily' ? 'Daily' : 'Weekly'} digest sent to ${data.sent} subscriber${data.sent !== 1 ? 's' : ''}` +
+          ` — ${data.skipped} skipped, ${data.articles} article${data.articles !== 1 ? 's' : ''} in period.` +
+          (errors.length ? ` ${errors.length} error${errors.length !== 1 ? 's' : ''}: ${errors.join('; ')}` : ''),
+        errors.length ? 'error' : 'ok',
+      )
+      setDigestPreview(null)
+    } catch {
+      flash('Digest send failed — it may still have gone out. Check Resend before retrying.', 'error')
+    } finally {
+      setDigestSending(false)
+    }
   }
 
   const now = new Date()
@@ -209,6 +266,61 @@ export default function AdminDashboard() {
               <span>A report for this period already exists. Generate a new one anyway?</span>
               <Button onClick={() => runMonthly(true)} disabled={monthlyRunning}>Yes, regenerate</Button>
               <Button variant="ghost" onClick={() => { setConfirm(null); flash('') }}>Cancel</Button>
+            </div>
+          )}
+        </div>
+
+        {/* Digest send */}
+        <div className="p-4 rounded-lg border" style={{ background: 'var(--surface)', borderColor: 'var(--border)' }}>
+          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
+            <div>
+              <p className="font-medium" style={{ color: 'var(--text)' }}>Send digest</p>
+              <p className="text-sm mt-0.5" style={{ color: 'var(--muted)' }}>
+                Email the digest to active subscribers on that frequency.
+                Runs automatically via GitHub Actions — weekly Fridays 1pm, daily workdays 4pm (Central European time).
+                Subscribers already sent this period are skipped, so a manual run is safe to repeat.
+              </p>
+            </div>
+            <div className="flex gap-2 shrink-0 self-start">
+              {(['daily', 'weekly'] as Frequency[]).map(frequency => (
+                <Button
+                  key={frequency}
+                  variant="secondary"
+                  onClick={() => previewDigest(frequency)}
+                  disabled={!!digestPreviewing || digestSending}
+                >
+                  {digestPreviewing === frequency
+                    ? 'Checking…'
+                    : frequency === 'daily' ? 'Daily' : 'Weekly'}
+                </Button>
+              ))}
+            </div>
+          </div>
+          {digestPreview && (
+            <div className="mt-3 pt-3 flex flex-wrap items-center gap-3 text-sm" style={{ borderTop: '1px solid var(--border)', color: 'var(--muted)' }}>
+              {digestPreview.recipients === 0 ? (
+                <>
+                  <span>
+                    Nobody would receive the <strong>{digestPreview.frequency}</strong> digest right now
+                    ({digestPreview.articles} article{digestPreview.articles !== 1 ? 's' : ''} in period,
+                    {' '}{digestPreview.skipped} subscriber{digestPreview.skipped !== 1 ? 's' : ''} skipped).
+                  </span>
+                  <Button variant="ghost" onClick={() => setDigestPreview(null)}>Close</Button>
+                </>
+              ) : (
+                <>
+                  <span>
+                    The <strong>{digestPreview.frequency}</strong> digest will go to{' '}
+                    <strong>{digestPreview.recipients} subscriber{digestPreview.recipients !== 1 ? 's' : ''}</strong>
+                    {' '}({digestPreview.skipped} skipped, {digestPreview.articles} article{digestPreview.articles !== 1 ? 's' : ''} in period).
+                    This sends real email. Continue?
+                  </span>
+                  <Button onClick={() => sendDigest(digestPreview.frequency)} disabled={digestSending}>
+                    {digestSending ? 'Sending…' : `Send to ${digestPreview.recipients}`}
+                  </Button>
+                  <Button variant="ghost" onClick={() => setDigestPreview(null)} disabled={digestSending}>Cancel</Button>
+                </>
+              )}
             </div>
           )}
         </div>
