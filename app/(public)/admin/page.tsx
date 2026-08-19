@@ -56,7 +56,8 @@ function ActionPanel({ tone = 'info', text, actions }: {
 }
 
 export default function AdminDashboard() {
-  const [stats, setStats] = useState<{ articles: number; drafts: number; sources: number } | null>(null)
+  const [stats, setStats] = useState<{ articles: number; drafts: number; sources: number; unembedded: number } | null>(null)
+  const [embeddingsRan, setEmbeddingsRan] = useState(false)
   const [monthlyRunning, setMonthlyRunning] = useState(false)
   const [quotesRunning, setQuotesRunning] = useState(false)
   const [pricingRunning, setPricingRunning] = useState(false)
@@ -229,6 +230,8 @@ export default function AdminDashboard() {
     }
   }
 
+  const unembedded = stats?.unembedded ?? 0
+
   const now = new Date()
   const prevMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1)
     .toLocaleString('en-US', { month: 'long', year: 'numeric' })
@@ -292,11 +295,18 @@ export default function AdminDashboard() {
           {status('ingest')}
         </ActionRow>
 
-        <ActionRow
-          title="Backfill embeddings"
-          description="Generates a semantic-search vector for every published article that doesn’t have one, batching until none are left. Without a vector an article is invisible to /search ranking and to related-reading suggestions. New articles are embedded automatically on publish, so this is only needed after a bulk import or a failed embed."
-          controls={<BackfillEmbeddingsButton />}
-        />
+        {/* Publishing embeds automatically, and embedAndStoreArticle swallows
+            its errors so a failed embed never blocks a publish — which means
+            articles can end up with a null vector silently. This row is the
+            only way to fix that, so it appears exactly when there is
+            something to fix and stays out of the way otherwise. */}
+        {(unembedded > 0 || embeddingsRan) && (
+          <ActionRow
+            title={`Backfill embeddings (${unembedded})`}
+            description="Generates a semantic-search vector for every published article that doesn’t have one, batching until none are left. Without a vector an article is invisible to /search ranking and to related-reading suggestions. Publishing embeds automatically, but a failed embed is logged rather than raised so it can’t block a publish — this is how those articles get picked up."
+            controls={<BackfillEmbeddingsButton onDone={() => { setEmbeddingsRan(true); refreshStats() }} />}
+          />
+        )}
 
         <ActionRow
           title="Generate monthly report"

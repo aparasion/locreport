@@ -6,7 +6,7 @@ type State = 'idle' | 'running' | 'done' | 'error'
 
 // Runs /api/admin/backfill-embeddings in a loop until every article has a
 // vector, so one click completes the whole backfill.
-export function BackfillEmbeddingsButton() {
+export function BackfillEmbeddingsButton({ onDone }: { onDone?: () => void } = {}) {
   const [state, setState] = useState<State>('idle')
   const [progress, setProgress] = useState<{ embedded: number; remaining: number } | null>(null)
 
@@ -25,6 +25,7 @@ export function BackfillEmbeddingsButton() {
         if (data.embedded === 0) throw new Error('No progress — check server logs')
       }
       setState('done')
+      onDone?.()
     } catch {
       setState('error')
     }
