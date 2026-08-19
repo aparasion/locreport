@@ -64,7 +64,7 @@ export function BackfillEmbeddingsButton() {
 
   return (
     <Button size="sm" variant="secondary" onClick={run}>
-      Backfill embeddings
+      Run
     </Button>
   )
 }

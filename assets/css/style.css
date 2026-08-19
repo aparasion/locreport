@@ -547,6 +547,152 @@ a.admin-stats-banner__value--danger:hover { color: #dc2626; }
   font-size: 0.72rem;
 }
 
+/* ── Admin Dashboard action list ────────────────────────────
+   One hairline-divided list instead of a stack of cards, so every
+   action is reachable without scrolling. The long explanation of what
+   each one does sits behind a per-row toggle — the resting state is
+   just titles and controls. Confirmation panels are never collapsed:
+   they render inline, tinted, and stay put on narrow screens. */
+.admin-actions {
+  max-width: 680px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+.admin-action {
+  padding: 9px var(--space-4);
+  border-bottom: 1px solid var(--hairline);
+}
+.admin-action:last-child { border-bottom: none; }
+
+.admin-action__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2) var(--space-3);
+}
+.admin-action__title {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 3px 0;
+  background: none;
+  border: none;
+  font-family: inherit;
+  font-size: 0.88rem;
+  font-weight: 600;
+  text-align: left;
+  color: var(--text);
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+.admin-action__title:hover { color: var(--accent); }
+.admin-action__chevron {
+  flex-shrink: 0;
+  width: 9px;
+  font-size: 1rem;
+  line-height: 0.7;
+  color: var(--muted);
+  transition: transform 0.2s ease, color 0.15s ease;
+}
+.admin-action__title[aria-expanded="true"] .admin-action__chevron {
+  transform: rotate(90deg);
+  color: var(--accent);
+}
+.admin-action__controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  flex: 0 0 auto;
+}
+.admin-action__desc {
+  margin: 4px 0 6px;
+  padding-left: 17px;
+  max-width: 62ch;
+  font-size: 0.8rem;
+  line-height: 1.55;
+  color: var(--muted);
+}
+
+/* Confirmation + preview panels — loud enough to read as a stop,
+   and deliberately outside the collapsible explanation. */
+.admin-action__panel {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-3);
+  margin: 8px 0 2px;
+  padding: 9px 11px;
+  background: var(--accent-soft);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius-sm);
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: var(--text);
+}
+.admin-action__panel--warn {
+  background: var(--warm-soft);
+  border-left-color: var(--warm);
+}
+.admin-action__panel-text { flex: 1 1 240px; margin: 0; }
+.admin-action__panel-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  flex: 0 0 auto;
+}
+
+/* The slug input needs room the plain button rows don't, so its controls
+   box opts out of wrapping instead of every row paying for the width. */
+.admin-action__controls--input {
+  flex: 0 1 auto;
+  flex-wrap: nowrap;
+}
+.admin-action__input {
+  flex: 1 1 190px;
+  min-width: 0;
+  padding: 5px 9px;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--text);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+}
+.admin-action__input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.admin-action__status {
+  margin: 7px 0 2px;
+  padding-left: 17px;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--muted);
+}
+.admin-action__status--error { color: #dc2626; }
+[data-theme="dark"] .admin-action__status--error { color: #f87171; }
+
+/* Below 640px a title and its button still share a line where they fit —
+   only the parts that genuinely need the width take a line of their own:
+   the slug input, and every confirmation panel, which must stay legible
+   and comfortably tappable rather than compress into a corner. */
+@media (max-width: 640px) {
+  .admin-action { padding: 10px var(--space-3); }
+  .admin-action__controls--input,
+  .admin-action__panel-text,
+  .admin-action__panel-actions { flex: 1 1 100%; }
+  .admin-action__panel-actions > * { flex: 1 1 auto; justify-content: center; min-height: 36px; }
+}
+
 /* ── Hamburger Toggle ───────────────────────────────────── */
 .nav-toggle {
   display: none;
