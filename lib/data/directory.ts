@@ -1381,4 +1381,17 @@ export const DIRECTORY: DirectoryEntry[] = [
     type: `LSP / Tech`,
     tags: ['interpreting', 'lsp'],
   },
+  {
+    name: `Ollang`,
+    slug: `ollang`,
+    category: `av-localization`,
+    website: `https://ollang.com`,
+    description: `Hybrid AI-and-human media localization platform for dubbing, subtitling, and captioning at streaming scale.`,
+    long_description: `Ollang is a media localization company built around hybrid dubbing — pairing AI voice synthesis and automated workflow steps with professional studio dubbing artists and human reviewers rather than choosing between them. Founded in 2019 by Ebru Yıldırım and Muhammed Aziz Ulak, Delaware-incorporated with deep Turkish roots, it serves TV channels, production houses, streaming platforms, e-learning providers, and content creators localizing video and audio at volume. Its OLabs platform combines multi-agent AI pipelines and APIs with a distributed network of more than 2,000 translators across 75 countries, covering AI and studio dubbing, subtitling, closed captioning, and document localization in 60+ languages. Backed by a USD 1.5m seed round in 2023, it runs offices across France, South Korea, Turkey, Dubai, and Jakarta, the last from acquiring Southeast Asian subtitling and dubbing provider TUJJU Media. The company has since repositioned around Ollang DX, an AI language execution layer that exposes localization to engineering teams through an SDK, API, MCP server, and reusable agent skills.`,
+    founded: 2019,
+    hq: `Wilmington, USA`,
+    address: `1401 Pennsylvania Ave, Unit 105, Wilmington, DE 19806, USA`,
+    type: `SaaS / Studio`,
+    tags: ['av-localization', 'ai', 'api'],
+  },
 ]
