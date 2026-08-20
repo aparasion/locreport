@@ -3,9 +3,18 @@
 --
 -- Paste into the Supabase SQL Editor and Run. Safe to run more than once.
 --
--- Self-contained: creates the directory table, its RLS policies and its
--- updated_at trigger if they are not there yet, then upserts the single Ollang
--- row. Nothing else in the table is touched.
+-- Purely additive. Every statement either creates something that is missing or
+-- inserts the one Ollang row. Nothing is dropped, replaced or overwritten:
+--   * the table, its RLS flag, its policies and its updated_at trigger are each
+--     created only when absent, so an existing setup is left exactly as it is;
+--   * set_updated_at() is created only if no function of that name exists — it
+--     is a shared, generically named helper, so this never replaces a version
+--     another table may depend on;
+--   * the insert is ON CONFLICT DO NOTHING, so re-running cannot revert edits
+--     you have since made to Ollang in /admin/directory.
+--
+-- To overwrite the row from lib/data/directory.ts instead of preserving edits,
+-- remove the existing Ollang row first, then run this again.
 --
 -- ORDER MATTERS. Run this only once the merge-directory fix is deployed. Before
 -- that fix, the site returns the directory table whenever it holds any rows at
@@ -14,7 +23,7 @@
 -- a single row is safe.
 -- ---------------------------------------------------------------------------
 
--- 1. Table (no-op when it already exists) ------------------------------------
+-- 1. Table — created only when missing --------------------------------------
 create table if not exists public.directory (
   id               uuid primary key default gen_random_uuid(),
   name             text not null,
@@ -33,11 +42,18 @@ create table if not exists public.directory (
   updated_at       timestamptz not null default now()
 );
 
-alter table public.directory enable row level security;
-
--- 2. Policies (created only if absent; CREATE POLICY has no IF NOT EXISTS) ----
-do $policies$
+-- 2. RLS, policies, trigger — each created only when absent ------------------
+do $guard$
 begin
+  -- Row level security: skip if already enabled.
+  if not exists (
+    select 1 from pg_class c
+    join pg_namespace n on n.oid = c.relnamespace
+    where n.nspname = 'public' and c.relname = 'directory' and c.relrowsecurity
+  ) then
+    execute 'alter table public.directory enable row level security';
+  end if;
+
   if not exists (
     select 1 from pg_policies
     where schemaname = 'public' and tablename = 'directory'
@@ -57,24 +73,33 @@ begin
       on public.directory for select
       using (true);
   end if;
+
+  -- Shared helper: create only if nothing of this name exists, never replace.
+  if to_regprocedure('public.set_updated_at()') is null then
+    create function public.set_updated_at()
+    returns trigger language plpgsql as $fn$
+    begin
+      new.updated_at = now();
+      return new;
+    end;
+    $fn$;
+  end if;
+
+  if not exists (
+    select 1 from pg_trigger t
+    join pg_class c on c.oid = t.tgrelid
+    join pg_namespace n on n.oid = c.relnamespace
+    where n.nspname = 'public' and c.relname = 'directory'
+      and t.tgname = 'directory_updated_at' and not t.tgisinternal
+  ) then
+    create trigger directory_updated_at
+      before update on public.directory
+      for each row execute function public.set_updated_at();
+  end if;
 end
-$policies$;
+$guard$;
 
--- 3. updated_at trigger ------------------------------------------------------
-create or replace function public.set_updated_at()
-returns trigger language plpgsql as $fn$
-begin
-  new.updated_at = now();
-  return new;
-end;
-$fn$;
-
-drop trigger if exists directory_updated_at on public.directory;
-create trigger directory_updated_at
-  before update on public.directory
-  for each row execute function public.set_updated_at();
-
--- 4. The Ollang row ----------------------------------------------------------
+-- 3. The Ollang row — inserted only if the slug is not already present -------
 insert into public.directory (
   name, slug, category, website, description, long_description,
   founded, hq, address, type, tags, logo_url
@@ -93,20 +118,9 @@ values (
   array['av-localization', 'ai', 'api']::text[],
   null
 )
-on conflict (slug) do update set
-  name             = excluded.name,
-  category         = excluded.category,
-  website          = excluded.website,
-  description      = excluded.description,
-  long_description = excluded.long_description,
-  founded          = excluded.founded,
-  hq               = excluded.hq,
-  address          = excluded.address,
-  type             = excluded.type,
-  tags             = excluded.tags,
-  logo_url         = excluded.logo_url;
+on conflict (slug) do nothing;
 
--- 5. Verify ------------------------------------------------------------------
+-- 4. Verify ------------------------------------------------------------------
 select id, slug, name, category, type, founded, hq, tags
 from public.directory
 where slug = $t$ollang$t$;
