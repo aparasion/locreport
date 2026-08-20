@@ -5,7 +5,7 @@ import { createServiceClient } from '@/lib/supabase/server'
 export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
-  title: 'Confirm subscription — LocReport',
+  title: 'Confirm subscription',
   robots: { index: false, follow: false },
 }
 

@@ -29,7 +29,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const signal = SIGNAL_MAP.get(id)
   if (!signal) return {}
   return {
-    title: `${signal.title} — LocReport Intelligence`,
+    title: `${signal.title} — Intelligence`,
     description: signal.description,
     alternates: { canonical: `/intelligence/signals/${id}` },
   }

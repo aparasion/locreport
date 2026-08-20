@@ -6,7 +6,7 @@ import ManageForm from './ManageForm'
 export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
-  title: 'Manage digest preferences — LocReport',
+  title: 'Manage digest preferences',
   robots: { index: false, follow: false },
 }
 

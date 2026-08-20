@@ -46,7 +46,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const ev = await getEvent(slug)
   if (!ev) return {}
   return {
-    title: `${ev.name} | Industry Events — LocReport`,
+    title: `${ev.name} | Industry Events`,
     description: ev.description,
     alternates: { canonical: `/compass/events/${slug}` },
   }

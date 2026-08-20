@@ -9,7 +9,7 @@ import { SearchRefine } from './SearchRefine'
 export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
-  title: 'Search — LocReport',
+  title: 'Search',
   robots: {
     index: false,
     follow: true,

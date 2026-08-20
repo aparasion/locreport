@@ -8,7 +8,7 @@ import { getTopics, topicOrFilter, TOPIC_IDS } from '@/lib/topics'
 import ArticlesFilter, { FilterState } from './ArticlesFilter'
 
 export const metadata: Metadata = {
-  title: 'All Articles — LocReport',
+  title: 'All Articles',
   description: 'Browse all localization industry articles by topic — quality, operations, governance, market dynamics, and strategy.',
   alternates: { canonical: '/articles' },
 }

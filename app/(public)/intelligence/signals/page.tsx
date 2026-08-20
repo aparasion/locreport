@@ -6,7 +6,7 @@ import { getIntelligenceData } from '@/lib/intelligence'
 import { SignalSparkline } from '@/components/SignalSparkline'
 
 export const metadata: Metadata = {
-  title: 'Signal Tracker — LocReport Intelligence',
+  title: 'Signal Tracker — Intelligence',
   description: 'Track high-impact localization industry signals with linked evidence from published coverage on LocReport.',
   alternates: { canonical: '/intelligence/signals' },
 }

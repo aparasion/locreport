@@ -8,7 +8,7 @@ import { SignalMomentumChart } from './SignalMomentumChart'
 import { ImpactDistributionChart } from './ImpactDistributionChart'
 
 export const metadata: Metadata = {
-  title: 'Intelligence — LocReport',
+  title: 'Intelligence',
   description: 'Actionable localization intelligence — trend signals, impact scoring, and strategic decision-making.',
   alternates: { canonical: '/intelligence' },
 }

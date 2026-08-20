@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Privacy Policy — LocReport',
+  title: 'Privacy Policy',
   description: 'LocReport privacy policy — how we collect, use, and protect your data on locreport.com.',
   alternates: { canonical: '/privacy' },
 }

@@ -2,7 +2,7 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Reports — LocReport',
+  title: 'Reports',
   description: 'Periodic synthesis reports on the language services industry — monthly roundups and annual global market analysis.',
   alternates: { canonical: '/reports' },
 }

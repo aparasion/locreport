@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Script from 'next/script'
 import { Inter, Space_Grotesk, JetBrains_Mono } from 'next/font/google'
+import { siteJsonLd, SITE_DESCRIPTION, SITE_URL } from '@/lib/seo'
 import './globals.css'
 
 const inter = Inter({
@@ -25,9 +26,15 @@ const jetbrainsMono = JetBrains_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'LocReport — The pulse of the language services industry',
-  description: 'Daily translation and localization news capturing the trends, innovations, and movements shaping the language services industry.',
-  metadataBase: new URL('https://locreport.com'),
+  title: {
+    default: 'LocReport — The pulse of the language services industry',
+    // Guarantees the brand token is present in every page title, so no future
+    // page can ship brandless. Pages set only their own part of the title.
+    template: '%s — LocReport',
+  },
+  description: SITE_DESCRIPTION,
+  metadataBase: new URL(SITE_URL),
+  applicationName: 'LocReport',
   icons: {
     icon: '/icon.png',
     shortcut: '/favicon.ico',
@@ -60,6 +67,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" suppressHydrationWarning className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable}`}>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(siteJsonLd) }}
+        />
       </head>
       <body>
         <Script
