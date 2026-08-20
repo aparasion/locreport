@@ -3,18 +3,23 @@
 --
 -- Paste into the Supabase SQL Editor and Run. Safe to run more than once.
 --
--- Purely additive. Every statement either creates something that is missing or
--- inserts the one Ollang row. Nothing is dropped, replaced or overwritten:
---   * the table, its RLS flag, its policies and its updated_at trigger are each
---     created only when absent, so an existing setup is left exactly as it is;
+-- Purely additive. Every statement either creates something missing or inserts
+-- the one Ollang row. Nothing is dropped, replaced or overwritten:
+--   * the table and any columns it is missing are added, so a table created by
+--     hand with only some of these columns is brought up to spec rather than
+--     left broken;
+--   * RLS, the policies, the unique index on slug and the updated_at trigger
+--     are each created only when absent;
 --   * set_updated_at() is created only if no function of that name exists — it
 --     is a shared, generically named helper, so this never replaces a version
 --     another table may depend on;
 --   * the insert is ON CONFLICT DO NOTHING, so re-running cannot revert edits
---     you have since made to Ollang in /admin/directory.
+--     made to Ollang in /admin/directory.
 --
--- To overwrite the row from lib/data/directory.ts instead of preserving edits,
--- remove the existing Ollang row first, then run this again.
+-- The column reconciliation in step 2 matters: the updated_at trigger assigns
+-- new.updated_at, and attaching it to a table without that column makes every
+-- UPDATE fail with 'record "new" has no field "updated_at"'. Running this
+-- script again repairs a table already in that state.
 --
 -- ORDER MATTERS. Run this only once the merge-directory fix is deployed. Before
 -- that fix, the site returns the directory table whenever it holds any rows at
@@ -42,10 +47,39 @@ create table if not exists public.directory (
   updated_at       timestamptz not null default now()
 );
 
--- 2. RLS, policies, trigger — each created only when absent ------------------
+-- 2. Columns — added only when missing ---------------------------------------
+alter table public.directory add column if not exists id               uuid default gen_random_uuid();
+alter table public.directory add column if not exists name             text;
+alter table public.directory add column if not exists slug             text;
+alter table public.directory add column if not exists category         text;
+alter table public.directory add column if not exists website          text default '';
+alter table public.directory add column if not exists description      text default '';
+alter table public.directory add column if not exists long_description text default '';
+alter table public.directory add column if not exists founded          int  default 0;
+alter table public.directory add column if not exists hq               text default '';
+alter table public.directory add column if not exists address          text default '';
+alter table public.directory add column if not exists type             text default '';
+alter table public.directory add column if not exists tags             text[] default '{}';
+alter table public.directory add column if not exists logo_url         text;
+alter table public.directory add column if not exists created_at       timestamptz not null default now();
+alter table public.directory add column if not exists updated_at       timestamptz not null default now();
+
+-- 3. Unique slug, RLS, policies, trigger — each created only when absent ------
 do $guard$
 begin
-  -- Row level security: skip if already enabled.
+  -- ON CONFLICT (slug) below needs a unique index on slug.
+  if not exists (
+    select 1 from pg_index i
+    join pg_class c on c.oid = i.indrelid
+    join pg_namespace n on n.oid = c.relnamespace
+    where n.nspname = 'public' and c.relname = 'directory'
+      and i.indisunique and i.indnkeyatts = 1
+      and (select attname from pg_attribute
+           where attrelid = c.oid and attnum = i.indkey[0]) = 'slug'
+  ) then
+    execute 'create unique index directory_slug_key on public.directory (slug)';
+  end if;
+
   if not exists (
     select 1 from pg_class c
     join pg_namespace n on n.oid = c.relnamespace
@@ -99,7 +133,7 @@ begin
 end
 $guard$;
 
--- 3. The Ollang row — inserted only if the slug is not already present -------
+-- 4. The Ollang row — inserted only if the slug is not already present -------
 insert into public.directory (
   name, slug, category, website, description, long_description,
   founded, hq, address, type, tags, logo_url
@@ -120,7 +154,7 @@ values (
 )
 on conflict (slug) do nothing;
 
--- 4. Verify ------------------------------------------------------------------
-select id, slug, name, category, type, founded, hq, tags
+-- 5. Verify ------------------------------------------------------------------
+select id, slug, name, category, type, founded, hq, updated_at
 from public.directory
 where slug = $t$ollang$t$;
