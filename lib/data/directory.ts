@@ -14,6 +14,31 @@ export interface DirectoryEntry {
   logo_url?: string
 }
 
+// Every category used below. Single source of truth for the public filter bar,
+// the admin edit form's dropdown, and the detail-page badge — when these drifted
+// apart, editing an entry whose category the form omitted silently rewrote it to
+// the first option in the list.
+export const DIRECTORY_CATEGORIES: { value: string; label: string; short: string }[] = [
+  { value: 'tms',                label: 'TMS',              short: 'TMS' },
+  { value: 'cat',                label: 'CAT Tools',        short: 'CAT' },
+  { value: 'ai-mt',              label: 'AI / MT',          short: 'AI/MT' },
+  { value: 'lsp',                label: 'LSPs',             short: 'LSP' },
+  { value: 'av-localization',    label: 'AV Localization',  short: 'AV' },
+  { value: 'interpreting',       label: 'Interpreting',     short: 'Interpreting' },
+  { value: 'voice-ai',           label: 'Voice AI',         short: 'Voice AI' },
+  { value: 'data-ai',            label: 'Data & AI',        short: 'Data & AI' },
+  { value: 'terminology',        label: 'Terminology',      short: 'Terminology' },
+  { value: 'transcription',      label: 'Transcription',    short: 'Transcription' },
+  { value: 'live-communication', label: 'Live Comms',       short: 'Live Comms' },
+  { value: 'ai-sign',            label: 'Sign Language AI', short: 'Sign AI' },
+  { value: 'research',           label: 'Research',         short: 'Research' },
+  { value: 'community',          label: 'Community',        short: 'Community' },
+]
+
+export const CATEGORY_SHORT: Record<string, string> = Object.fromEntries(
+  DIRECTORY_CATEGORIES.map(c => [c.value, c.short])
+)
+
 export const DIRECTORY: DirectoryEntry[] = [
   {
     name: `Phrase`,

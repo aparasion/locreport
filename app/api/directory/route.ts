@@ -1,19 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
-import { DIRECTORY } from '@/lib/data/directory'
+import { fetchDirectoryEntries } from '@/lib/directory'
 
 export async function GET() {
   const supabase = await createClient()
-  const { data, error } = await supabase
-    .from('directory')
-    .select('*')
-    .order('name', { ascending: true })
-
-  if (error || !data || data.length === 0) {
-    return NextResponse.json(DIRECTORY)
-  }
-
-  return NextResponse.json(data)
+  return NextResponse.json(await fetchDirectoryEntries(supabase))
 }
 
 export async function POST(req: NextRequest) {
