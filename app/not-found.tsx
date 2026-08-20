@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { Nav } from '@/components/Nav'
 
 export const metadata: Metadata = {
-  title: 'Page Not Found — LocReport',
+  title: 'Page Not Found',
   description: 'The page you are looking for does not exist. Explore LocReport for the latest in translation, localization, and language technology.',
   robots: { index: false, follow: true },
 }

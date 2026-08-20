@@ -138,7 +138,7 @@ export default async function HomePage() {
               <Image className="hero-eyebrow-icon" src="/icon.png" alt="" width={18} height={18} aria-hidden="true" />
               Language services intelligence
             </span>
-            <h1>The pulse of the language services industry</h1>
+            <h1>LocReport — the pulse of the language services industry</h1>
             <p className="hero-subtitle">Daily coverage of translation, localization, and AI — curated, analyzed, and tracked through the signals that matter.</p>
             <div className="hero-actions">
               <Link href="/articles" className="btn btn--hero-articles">Browse articles</Link>

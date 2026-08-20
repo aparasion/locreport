@@ -3,7 +3,7 @@ import Link from 'next/link'
 import Script from 'next/script'
 
 export const metadata: Metadata = {
-  title: '2026 Annual Global Market Report — LocReport',
+  title: '2026 Annual Global Market Report',
   description: "LocReport's 2026 annual report on the localization and translation industry: market size, AI impact, competitive landscape, regional analysis, and outlook through 2030+.",
   alternates: { canonical: '/reports/2026-annual-global-market-report' },
 }

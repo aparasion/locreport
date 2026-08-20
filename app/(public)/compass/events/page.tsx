@@ -6,7 +6,7 @@ import { EventsClient } from './EventsClient'
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: 'Industry Events 2026 | LocReport Compass',
+  title: 'Industry Events 2026 | Compass',
   description: 'Upcoming localization, machine translation, and AI language conferences — from SlatorCon and LocWorld to ACL and NeurIPS.',
   alternates: { canonical: '/compass/events' },
 }

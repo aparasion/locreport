@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Terms of Service — LocReport',
+  title: 'Terms of Service',
   description: 'LocReport terms of service — usage rights, content permissions, and AI training policies for locreport.com.',
   alternates: { canonical: '/terms' },
 }

@@ -42,7 +42,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const entry = await getEntry(slug)
   if (!entry) return {}
   return {
-    title: `${entry.name} | Language Technology Directory — LocReport`,
+    title: `${entry.name} | Language Technology Directory`,
     description: entry.description,
     alternates: { canonical: `/compass/directory/${slug}` },
   }

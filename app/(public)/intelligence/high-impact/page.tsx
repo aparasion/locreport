@@ -5,7 +5,7 @@ import { Article } from '@/lib/types'
 import { articleHref } from '@/lib/utils'
 
 export const metadata: Metadata = {
-  title: 'High Impact Articles — LocReport Intelligence',
+  title: 'High Impact Articles — Intelligence',
   description: 'Recent high-impact localization industry articles scoring 3 or above on the Localization Impact Scale.',
   alternates: { canonical: '/intelligence/high-impact' },
 }

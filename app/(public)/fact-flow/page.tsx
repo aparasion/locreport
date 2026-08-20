@@ -7,10 +7,10 @@ export const revalidate = 3600
 
 export function generateMetadata(): Metadata {
   return {
-    title: 'Fact Flow — LocReport',
+    title: 'Fact Flow',
     description: 'A real-time stream of verified facts, data points, and key developments from the localization and language technology industry — distilled from primary sources as they are published.',
     openGraph: {
-      title: 'Fact Flow by LocReport',
+      title: { absolute: 'Fact Flow by LocReport' },
       description: "What's happening in localization and language tech right now — bare facts, no editorial delay. Updated daily from primary industry sources.",
       url: 'https://locreport.com/fact-flow',
       type: 'website',
@@ -18,7 +18,7 @@ export function generateMetadata(): Metadata {
     },
     twitter: {
       card: 'summary_large_image',
-      title: 'Fact Flow by LocReport',
+      title: { absolute: 'Fact Flow by LocReport' },
       description: "What's happening in localization and language tech right now — bare facts, no editorial delay.",
       images: ['https://locreport.com/og-factflow.png'],
     },

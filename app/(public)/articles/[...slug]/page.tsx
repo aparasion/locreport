@@ -1,5 +1,6 @@
 import { notFound, redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
+import { SITE_URL, ORG_ID, WEBSITE_ID, breadcrumbJsonLd } from '@/lib/seo'
 import { marked } from 'marked'
 import { Article } from '@/lib/types'
 import { articleHref, estimateReadMinutes } from '@/lib/utils'
@@ -46,7 +47,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { article: a } = result
   const canonicalSlug = a.slug.split('/').pop()
   return {
-    title: `${a.title} — LocReport`,
+    title: a.title,
     description: a.excerpt ?? undefined,
     alternates: { canonical: `/articles/${canonicalSlug}` },
   }
@@ -137,21 +138,27 @@ export default async function ArticlePage({ params }: Props) {
     datePublished: a.published_at,
     dateModified: a.updated_at ?? a.published_at,
     author: a.author ? { '@type': 'Person', name: a.author } : { '@type': 'Organization', name: 'LocReport' },
-    publisher: {
-      '@type': 'Organization',
-      name: 'LocReport',
-      url: 'https://locreport.com',
-      logo: { '@type': 'ImageObject', url: 'https://locreport.com/icon.png' },
-    },
+    publisher: { '@id': ORG_ID },
+    isPartOf: { '@id': WEBSITE_ID },
     image: 'https://locreport.com/og-image.jpg',
     mainEntityOfPage: { '@type': 'WebPage', '@id': articleUrl },
   }
+
+  const breadcrumbLd = breadcrumbJsonLd([
+    { name: 'Home', url: `${SITE_URL}/` },
+    { name: 'Articles', url: `${SITE_URL}/articles` },
+    { name: a.title },
+  ])
 
   return (
     <div className="container">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
       />
       <article className="post">
         <nav className="breadcrumb" aria-label="Breadcrumb">

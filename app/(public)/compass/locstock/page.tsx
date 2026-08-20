@@ -6,7 +6,7 @@ export const dynamic = 'force-dynamic'
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: 'LocStock — Localization Market Index | LocReport',
+  title: 'LocStock — Localization Market Index',
   description: 'Live equity overview of 38 publicly traded companies with exposure to language services, AI translation, and localization technology.',
   alternates: { canonical: '/compass/locstock' },
 }

@@ -4,7 +4,7 @@ import { createClient } from '@/lib/supabase/server'
 import { articleHref } from '@/lib/utils'
 
 export const metadata: Metadata = {
-  title: 'Monthly Reports — LocReport',
+  title: 'Monthly Reports',
   description: 'Monthly localization industry reports — curated summaries of translation, AI, and language technology trends.',
   alternates: { canonical: '/reports/monthly' },
 }
