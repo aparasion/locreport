@@ -1,5 +1,6 @@
 import { notFound, redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
+import { resolveArticleBySlug } from '@/lib/article-slug'
 import { SITE_URL, ORG_ID, WEBSITE_ID, breadcrumbJsonLd } from '@/lib/seo'
 import { marked } from 'marked'
 import { Article } from '@/lib/types'
@@ -18,38 +19,18 @@ const IMPACT_LABEL: Record<number, string> = { 1: 'Routine', 2: 'Notable', 3: 'S
 
 async function fetchArticle(slugParts: string[]) {
   const supabase = await createClient()
-  const joined = slugParts.join('/')
-  const bare = slugParts[slugParts.length - 1]
-
-  const { data: exact } = await supabase
-    .from('articles').select('*').eq('slug', joined).maybeSingle()
-  if (exact) return { article: exact as Article, shouldRedirect: slugParts.length > 1 }
-
-  const { data: bySuffix } = await supabase
-    .from('articles').select('*').ilike('slug', `%/${bare}`).maybeSingle()
-  if (bySuffix) return { article: bySuffix as Article, shouldRedirect: false }
-
-  // Legacy URLs (pre-migration Jekyll permalinks, RSS-title truncation) sometimes carry a
-  // slug that's a truncated/un-deduped prefix of the current one (slugify() cuts titles to
-  // 80 chars and appends "-2", "-3", ... on collision). Redirect to the unique DB slug this
-  // one is a prefix of, rather than 404ing on every retitle/dedup drift.
-  const { data: byPrefix } = await supabase
-    .from('articles').select('*').ilike('slug', `${bare}%`).limit(2)
-  if (byPrefix?.length === 1) return { article: byPrefix[0] as Article, shouldRedirect: true }
-
-  return null
+  return resolveArticleBySlug(supabase, slugParts)
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
   const result = await fetchArticle(slug)
   if (!result) return {}
-  const { article: a } = result
-  const canonicalSlug = a.slug.split('/').pop()
+  const { article: a, canonical } = result
   return {
     title: a.title,
     description: a.excerpt ?? undefined,
-    alternates: { canonical: `/articles/${canonicalSlug}` },
+    alternates: { canonical },
   }
 }
 
@@ -58,10 +39,10 @@ export default async function ArticlePage({ params }: Props) {
   const result = await fetchArticle(slug)
   if (!result) notFound()
 
-  const { article, shouldRedirect } = result!
+  const { article, canonical, shouldRedirect } = result
 
   if (shouldRedirect) {
-    redirect(articleHref(article.slug))
+    redirect(canonical)
   }
 
   const a = article as Article
@@ -127,7 +108,7 @@ export default async function ArticlePage({ params }: Props) {
   const { data: { user } } = await supabase.auth.getUser()
   const isAdmin = !!user
 
-  const articleUrl = `https://locreport.com/articles/${a.slug.split('/').pop()}`
+  const articleUrl = `${SITE_URL}${canonical}`
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -262,7 +243,7 @@ export default async function ArticlePage({ params }: Props) {
               <a href="https://buymeacoffee.com/locreport" target="_blank" rel="noopener" className="support-box__btn">
                 Support LocReport →
               </a>
-              <a href={`https://twitter.com/intent/tweet?url=https://locreport.com${articleHref(a.slug)}&text=${encodeURIComponent(a.title)}`} target="_blank" rel="noopener" className="support-box__share">
+              <a href={`https://twitter.com/intent/tweet?url=${articleUrl}&text=${encodeURIComponent(a.title)}`} target="_blank" rel="noopener" className="support-box__share">
                 Share this article
               </a>
             </div>

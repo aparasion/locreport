@@ -4,6 +4,7 @@ import { getOpenAI } from '@/lib/openai'
 import { slugify, uniqueSlug } from '@/lib/slugify'
 import { DEFAULT_MONTHLY_PROMPT } from '@/lib/prompts'
 import { embedAndStoreArticle } from '@/lib/embeddings'
+import { articleHref } from '@/lib/utils'
 
 async function getPrompt(): Promise<string> {
   try {
@@ -83,7 +84,7 @@ export async function POST(req: NextRequest) {
 
   // Build article summaries for the prompt
   const articleSummaries = articles.map((a, i) => {
-    const internalUrl = `/articles/${a.slug}`
+    const internalUrl = articleHref(a.slug)
     const summary = a.excerpt || a.content?.slice(0, 500) || ''
     return [
       `${i + 1}. Title: ${a.title}`,

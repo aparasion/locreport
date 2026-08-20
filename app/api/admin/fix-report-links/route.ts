@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient, createServiceClient } from '@/lib/supabase/server'
 import { getOpenAI } from '@/lib/openai'
+import { articleHref } from '@/lib/utils'
 
 const BROKEN_LINK_PATTERN = /internal_article_url/i
 
@@ -56,7 +57,7 @@ export async function POST(req: NextRequest) {
   }
 
   const linkList = sourceArticles.map((a, i) => (
-    `${i + 1}. Title: ${a.title}\n   Publisher: ${a.publisher || 'Unknown'}\n   Internal Link: /articles/${a.slug}\n   Summary: ${a.excerpt || ''}`
+    `${i + 1}. Title: ${a.title}\n   Publisher: ${a.publisher || 'Unknown'}\n   Internal Link: ${articleHref(a.slug)}\n   Summary: ${a.excerpt || ''}`
   )).join('\n\n')
 
   const systemPrompt = `You are a precise text-editing tool. You will be given a markdown article and a list of valid internal links. Your ONLY job is to fix broken internal hyperlink targets — do not change anything else.

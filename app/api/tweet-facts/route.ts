@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServiceClient } from '@/lib/supabase/server'
+import { articleHref } from '@/lib/utils'
 
 const BASE_URL = 'https://locreport.com'
 const TWEET_LIMIT = 3
@@ -47,7 +48,7 @@ async function postTweet(text: string): Promise<string> {
 }
 
 function buildTweetText(factContent: string, articleSlug: string): string {
-  const url = `${BASE_URL}/articles/${articleSlug}`
+  const url = `${BASE_URL}${articleHref(articleSlug)}`
   // X limit is 280 chars; URL counts as 23 chars (t.co wrapping)
   const maxContent = 280 - 24 - 1 // 24 for URL + space
   const content = factContent.length > maxContent

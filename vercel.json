@@ -114,6 +114,11 @@
     { "source": "/articles/broadcasting-ai-dubbing-for-broadcasters-what-teams-need-now", "destination": "/articles/ai-dubbing-for-broadcasters-what-teams-need-now", "permanent": true },
     { "source": "/articles/mastering-social-media-moves", "destination": "/articles/mastering-social-media-moves-1", "permanent": true },
     { "source": "/articles/how-to-turn-technical-documentation-into-multilingual-videos", "destination": "/articles/how-to-turn-technical-documentation-into-multilingual-videos-1", "permanent": true },
-    { "source": "/articles/finalmente-facebook-makes-it-easier-to-post-status-updates-i", "destination": "/articles/finalmente-facebook-makes-it-easier-to-post-status-updates-i-1", "permanent": true }
+    { "source": "/articles/finalmente-facebook-makes-it-easier-to-post-status-updates-i", "destination": "/articles/finalmente-facebook-makes-it-easier-to-post-status-updates-i-1", "permanent": true },
+    { "source": "/reports/Monthly-Report-:name", "destination": "/reports/monthly", "permanent": true },
+    { "source": "/thank-you", "destination": "/", "permanent": true },
+    { "source": "/CLAUDE", "destination": "/", "permanent": true },
+    { "source": "/$", "destination": "/", "permanent": true },
+    { "source": "/&", "destination": "/", "permanent": true }
   ]
 }

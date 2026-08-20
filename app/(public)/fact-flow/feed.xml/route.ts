@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { CATEGORY_LABELS, type FactCategory } from '@/lib/facts'
+import { articleHref } from '@/lib/utils'
 
 export const dynamic = 'force-dynamic'
 
@@ -40,7 +41,7 @@ export async function GET() {
     .filter(f => f.article_id && slugMap.has(f.article_id))
     .map(f => {
       const slug = slugMap.get(f.article_id!)!
-      const link = `${BASE_URL}/articles/${slug}`
+      const link = `${BASE_URL}${articleHref(slug)}`
       const title = f.content.slice(0, 100) + (f.content.length > 100 ? '…' : '')
       const pubDate = new Date(f.created_at).toUTCString()
       const guid = `${BASE_URL}/fact-flow#${f.id}`

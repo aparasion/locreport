@@ -1,13 +1,30 @@
 import { SupabaseClient } from '@supabase/supabase-js'
 
-export function slugify(text: string): string {
+// Latin letters that survive NFKD intact because they are not composed of a base
+// letter plus a combining mark. Without these they'd be deleted outright below.
+const ASCII_FALLBACKS: Record<string, string> = {
+  ß: 'ss', æ: 'ae', œ: 'oe', ø: 'o', đ: 'd', ð: 'd',
+  þ: 'th', ł: 'l', ħ: 'h', ı: 'i', ŧ: 't', ŉ: 'n',
+}
+
+// Rewrites accented letters to their ASCII base ("māori" → "maori", "lönnrot" → "lonnrot").
+// slugify() strips anything outside [A-Za-z0-9_\s-], so without this step accented letters
+// are deleted rather than transliterated and the slug reads "mori" / "lnnrot".
+export function foldToAscii(text: string): string {
   return text
-    .toLowerCase()
+    .normalize('NFKD')                // "ā" → "a" + combining macron
+    .replace(/[\u0300-\u036f]/g, '') // drop the combining marks
+    .replace(/[ßæœøđðþłħıŧŉ]/g, c => ASCII_FALLBACKS[c] ?? c)
+}
+
+export function slugify(text: string): string {
+  return foldToAscii(text.toLowerCase())
     .replace(/[^\w\s-]/g, '')
     .replace(/\s+/g, '-')
     .replace(/-+/g, '-')
-    .replace(/^-|-$/g, '')
+    .replace(/^-+|-+$/g, '')
     .slice(0, 80)
+    .replace(/-+$/, '')   // the 80-char cut can land mid-word: don't keep a dangling hyphen
 }
 
 export async function uniqueSlug(

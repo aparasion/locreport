@@ -2,6 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import { ShareButton } from '@/components/ShareButton'
+import { articleHref } from '@/lib/utils'
 
 export const revalidate = 3600
 
@@ -178,7 +179,7 @@ export default async function FactFlowPage() {
                             {timeAgo(fact.created_at)}
                           </time>
                           {slug ? (
-                            <Link href={`/articles/${slug}`} className="ff-content-link">{fact.content}</Link>
+                            <Link href={articleHref(slug)} className="ff-content-link">{fact.content}</Link>
                           ) : (
                             <span className="ff-content">{fact.content}</span>
                           )}
