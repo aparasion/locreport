@@ -1,24 +1,14 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { DIRECTORY } from '@/lib/data/directory'
+import { CATEGORY_SHORT, DIRECTORY } from '@/lib/data/directory'
 import { createClient } from '@/lib/supabase/server'
 import { DirectoryLogo } from './DirectoryLogo'
 import { AdminEditButton } from './AdminEditButton'
 
 export const revalidate = 3600
 
-const CAT_DISPLAY: Record<string, string> = {
-  tms: 'TMS',
-  cat: 'CAT Tool',
-  'ai-mt': 'AI / MT',
-  lsp: 'LSP',
-  'av-localization': 'AV Localization',
-  interpreting: 'Interpreting',
-  terminology: 'Terminology',
-  research: 'Research',
-  community: 'Community',
-}
+const CAT_DISPLAY = CATEGORY_SHORT
 
 async function getEntry(slug: string) {
   try {

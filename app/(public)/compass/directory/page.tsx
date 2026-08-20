@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { DIRECTORY } from '@/lib/data/directory'
+import { fetchDirectoryEntries } from '@/lib/directory'
 import { createClient } from '@/lib/supabase/server'
 import { DirectoryClient } from './DirectoryClient'
 
@@ -12,15 +12,8 @@ export const metadata: Metadata = {
 }
 
 async function getEntries() {
-  try {
-    const supabase = await createClient()
-    const { data, error } = await supabase
-      .from('directory')
-      .select('*')
-      .order('name', { ascending: true })
-    if (!error && data && data.length > 0) return data
-  } catch {}
-  return DIRECTORY
+  const supabase = await createClient()
+  return fetchDirectoryEntries(supabase)
 }
 
 export default async function DirectoryPage() {

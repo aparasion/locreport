@@ -25,15 +25,39 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ sl
   const supabase = await createClient()
   const body = await req.json()
 
-  const { data, error } = await supabase
+  // Drop unset fields so a blank form input can't null a NOT NULL column.
+  const patch = Object.fromEntries(
+    Object.entries(body).filter(([, v]) => v !== null && v !== undefined)
+  )
+
+  // Try the override row first. maybeSingle() so "no such row" is an empty
+  // result rather than an error — that is the normal case for an entry that
+  // still lives only in lib/data/directory.ts.
+  const { data: updated, error: updateError } = await supabase
     .from('directory')
-    .update(body)
+    .update(patch)
     .eq('slug', slug)
+    .select()
+    .maybeSingle()
+
+  if (updateError) return NextResponse.json({ error: updateError.message }, { status: 500 })
+  if (updated) return NextResponse.json(updated)
+
+  // No override row yet: materialize one from the static entry with the
+  // submitted fields applied on top, so editing a curated company works
+  // without seeding the whole table first.
+  const base = DIRECTORY.find(e => e.slug === slug)
+  if (!base) return NextResponse.json({ error: 'Not found' }, { status: 404 })
+
+  const { id: _ignored, ...seed } = base
+  const { data: inserted, error: insertError } = await supabase
+    .from('directory')
+    .insert([{ ...seed, ...patch, slug }])
     .select()
     .single()
 
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 })
-  return NextResponse.json(data)
+  if (insertError) return NextResponse.json({ error: insertError.message }, { status: 500 })
+  return NextResponse.json(inserted)
 }
 
 export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ slug: string }> }) {

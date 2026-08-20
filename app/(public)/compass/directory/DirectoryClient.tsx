@@ -1,29 +1,13 @@
 'use client'
 import { useState, useMemo } from 'react'
 import Link from 'next/link'
-import type { DirectoryEntry } from '@/lib/data/directory'
+import { CATEGORY_SHORT, DIRECTORY_CATEGORIES, type DirectoryEntry } from '@/lib/data/directory'
 
 interface Props {
   entries: DirectoryEntry[]
 }
 
-const CATEGORIES = [
-  { value: 'all',              label: 'All' },
-  { value: 'tms',              label: 'TMS' },
-  { value: 'cat',              label: 'CAT Tools' },
-  { value: 'ai-mt',            label: 'AI / MT' },
-  { value: 'lsp',              label: 'LSPs' },
-  { value: 'av-localization',  label: 'AV Localization' },
-  { value: 'interpreting',     label: 'Interpreting' },
-  { value: 'voice-ai',         label: 'Voice AI' },
-  { value: 'data-ai',          label: 'Data & AI' },
-  { value: 'terminology',      label: 'Terminology' },
-  { value: 'transcription',    label: 'Transcription' },
-  { value: 'live-communication', label: 'Live Comms' },
-  { value: 'ai-sign',          label: 'Sign Language AI' },
-  { value: 'research',         label: 'Research' },
-  { value: 'community',        label: 'Community' },
-]
+const CATEGORIES = [{ value: 'all', label: 'All' }, ...DIRECTORY_CATEGORIES]
 
 const SORT_OPTIONS = [
   { value: 'az',      label: 'A – Z' },
@@ -32,14 +16,7 @@ const SORT_OPTIONS = [
   { value: 'oldest',  label: 'Oldest first' },
 ]
 
-const CAT_DISPLAY: Record<string, string> = {
-  tms: 'TMS', cat: 'CAT', 'ai-mt': 'AI/MT', lsp: 'LSP',
-  'av-localization': 'AV', interpreting: 'Interpreting',
-  'voice-ai': 'Voice AI', 'data-ai': 'Data & AI',
-  terminology: 'Terminology', transcription: 'Transcription',
-  'live-communication': 'Live Comms', 'ai-sign': 'Sign AI',
-  research: 'Research', community: 'Community',
-}
+const CAT_DISPLAY = CATEGORY_SHORT
 
 function CardLogo({ entry }: { entry: DirectoryEntry }) {
   const domain = entry.website.replace(/^https?:\/\//, '').replace(/\/.*$/, '')

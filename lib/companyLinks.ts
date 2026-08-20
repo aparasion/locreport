@@ -1,18 +1,12 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
-import { DIRECTORY, type DirectoryEntry } from '@/lib/data/directory'
+import { type DirectoryEntry } from '@/lib/data/directory'
+import { fetchDirectoryEntries } from '@/lib/directory'
 
-// Directory entries are seeded from lib/data/directory.ts but can be edited/extended
-// in Supabase — mirrors the same DB-first, static-fallback pattern used by the
-// /compass/directory pages and the /api/directory route.
+// Directory entries are seeded from lib/data/directory.ts and overridden by the
+// Supabase directory table — same merge used by /compass/directory and
+// /api/directory, so linkified mentions cover every company either layer knows.
 export async function getDirectoryEntries(supabase: SupabaseClient): Promise<DirectoryEntry[]> {
-  try {
-    const { data, error } = await supabase
-      .from('directory')
-      .select('*')
-      .order('name', { ascending: true })
-    if (!error && data && data.length > 0) return data as DirectoryEntry[]
-  } catch {}
-  return DIRECTORY
+  return fetchDirectoryEntries(supabase)
 }
 
 function escapeRegExp(text: string): string {

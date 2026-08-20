@@ -5,26 +5,12 @@ import { useSearchParams } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card } from '@/components/ui/card'
-import type { DirectoryEntry } from '@/lib/data/directory'
+import { CATEGORY_SHORT, DIRECTORY_CATEGORIES, type DirectoryEntry } from '@/lib/data/directory'
 import { LogoUpload } from './LogoUpload'
 
-const CATEGORIES = [
-  { value: 'tms', label: 'TMS' },
-  { value: 'cat', label: 'CAT Tool' },
-  { value: 'ai-mt', label: 'AI / MT' },
-  { value: 'lsp', label: 'LSP' },
-  { value: 'av-localization', label: 'AV Localization' },
-  { value: 'interpreting', label: 'Interpreting' },
-  { value: 'terminology', label: 'Terminology' },
-  { value: 'research', label: 'Research' },
-  { value: 'community', label: 'Community' },
-]
+const CATEGORIES = DIRECTORY_CATEGORIES
 
-const CAT_DISPLAY: Record<string, string> = {
-  tms: 'TMS', cat: 'CAT', 'ai-mt': 'AI/MT', lsp: 'LSP',
-  'av-localization': 'AV', interpreting: 'Interpreting',
-  terminology: 'Terminology', research: 'Research', community: 'Community',
-}
+const CAT_DISPLAY = CATEGORY_SHORT
 
 const EMPTY_FORM = {
   name: '',
